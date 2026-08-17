@@ -1,0 +1,19 @@
+{
+  "Rules": [
+    {
+      "ID": "expire-incomplete-multipart-uploads",
+      "Status": "Enabled",
+      "Filter": {},
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 1
+      }
+    },
+    {
+      "ID": "expire-unsubmitted-resumes",
+      "Status": "Enabled",
+      "Filter": { "Prefix": "resumes/" },
+      "Expiration": { "Days": 90 },
+      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 }
+    }
+  ]
+}

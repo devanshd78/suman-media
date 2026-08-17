@@ -1,0 +1,9 @@
+[
+  {
+    "AllowedHeaders": ["content-type"],
+    "AllowedMethods": ["PUT"],
+    "AllowedOrigins": ["https://your-domain.example"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 300
+  }
+]

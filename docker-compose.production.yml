@@ -1,0 +1,113 @@
+name: suman-media-production
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: always
+    logging: *default-logging
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB}
+    shm_size: 256mb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [backend]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+
+  migrate:
+    build:
+      context: .
+      target: migrator
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL}
+      DATABASE_POOL_MAX: ${DATABASE_POOL_MAX:-5}
+    networks: [backend]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    logging: *default-logging
+    security_opt:
+      - no-new-privileges:true
+
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?Set NEXT_PUBLIC_SITE_URL}
+        NEXT_PUBLIC_SITE_NAME: ${NEXT_PUBLIC_SITE_NAME:-Suman Media & Entertainment}
+        NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:?Set NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+        NEXT_PUBLIC_MEDIA_BASE_URL: ${NEXT_PUBLIC_MEDIA_BASE_URL:-}
+    restart: always
+    logging: *default-logging
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL}
+      DATABASE_POOL_MAX: ${DATABASE_POOL_MAX:-5}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      NEXT_PUBLIC_SITE_NAME: ${NEXT_PUBLIC_SITE_NAME:-Suman Media & Entertainment}
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY:?Set NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+      NEXT_PUBLIC_MEDIA_BASE_URL: ${NEXT_PUBLIC_MEDIA_BASE_URL:-}
+      ENFORCE_PRODUCTION_ENV: "true"
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:?Set TURNSTILE_SECRET_KEY}
+      TURNSTILE_ALLOWED_HOSTNAMES: ${TURNSTILE_ALLOWED_HOSTNAMES:?Set TURNSTILE_ALLOWED_HOSTNAMES}
+      AWS_REGION: ${AWS_REGION:?Set AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:?Set AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:?Set AWS_SECRET_ACCESS_KEY}
+      AWS_S3_PRIVATE_BUCKET: ${AWS_S3_PRIVATE_BUCKET:?Set AWS_S3_PRIVATE_BUCKET}
+      SANITY_REVALIDATE_SECRET: ${SANITY_REVALIDATE_SECRET:?Set SANITY_REVALIDATE_SECRET}
+      IP_HASH_SECRET: ${IP_HASH_SECRET:?Set IP_HASH_SECRET}
+    networks: [backend, edge]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    volumes:
+      - next_cache:/app/.next/cache
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+
+  nginx:
+    image: nginx:1.29-alpine
+    restart: always
+    logging: *default-logging
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./infrastructure/nginx/certs:/etc/nginx/certs:ro
+    networks: [edge]
+    depends_on:
+      app:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  backend:
+    internal: true
+  edge:
+
+volumes:
+  postgres_data:
+  next_cache:
