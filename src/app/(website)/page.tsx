@@ -1,10 +1,5 @@
-import { PagePlaceholder } from "@/components/layout/page-placeholder";
+import { LandingPage } from "@/components/landing/landing-page";
 
 export default function HomePage() {
-  return (
-    <PagePlaceholder
-      title="Suman Media & Entertainment"
-      description="Replace this placeholder with the homepage components. Backend, API, database, and Docker foundations are already separated."
-    />
-  );
+  return <LandingPage />;
 }
