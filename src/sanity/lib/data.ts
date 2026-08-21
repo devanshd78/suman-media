@@ -1,0 +1,54 @@
+import type { CmsDetailDocument, CmsHeroSlide, CmsSitemapDocument } from "@/types/cms";
+import { sanityFetch } from "@/sanity/lib/client";
+import {
+  COMPANY_BY_SLUG_QUERY,
+  HOME_PAGE_HERO_QUERY,
+  INSIGHT_BY_SLUG_QUERY,
+  SERVICE_BY_SLUG_QUERY,
+  SITEMAP_DOCUMENTS_QUERY,
+} from "@/sanity/queries/content";
+
+export async function getHomeHeroSlides(): Promise<CmsHeroSlide[]> {
+  try {
+    const result = await sanityFetch<{ heroSlides?: CmsHeroSlide[] | null }>({
+      query: HOME_PAGE_HERO_QUERY,
+      revalidate: process.env.NODE_ENV === "development" ? 0 : 3600,
+    });
+
+    return result?.heroSlides?.filter((slide) => Boolean(slide?.imageUrl && slide?.heading)) ?? [];
+  } catch (error) {
+    console.error("Failed to load homepage hero slides from Sanity", error);
+    return [];
+  }
+}
+
+async function getDetailDocument(query: string, slug: string, metadata = false) {
+  return sanityFetch<CmsDetailDocument>({
+    query,
+    params: { slug },
+    revalidate: 3600,
+    metadata,
+  });
+}
+
+export function getServiceBySlug(slug: string, metadata = false) {
+  return getDetailDocument(SERVICE_BY_SLUG_QUERY, slug, metadata);
+}
+
+export function getCompanyBySlug(slug: string, metadata = false) {
+  return getDetailDocument(COMPANY_BY_SLUG_QUERY, slug, metadata);
+}
+
+export function getInsightBySlug(slug: string, metadata = false) {
+  return getDetailDocument(INSIGHT_BY_SLUG_QUERY, slug, metadata);
+}
+
+export async function getSitemapDocuments(): Promise<CmsSitemapDocument[]> {
+  return (
+    (await sanityFetch<CmsSitemapDocument[]>({
+      query: SITEMAP_DOCUMENTS_QUERY,
+      revalidate: 3600,
+      metadata: true,
+    })) ?? []
+  );
+}

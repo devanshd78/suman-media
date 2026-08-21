@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+!.env.example
+
+# Sanity generated schema snapshot (regenerate with npm run sanity:schema)
+/schema.json
+
+# Local Sanity CLI state
+/.sanity/

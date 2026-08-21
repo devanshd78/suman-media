@@ -1,3 +1,4 @@
+import { getHomeHeroSlides } from "@/sanity/lib/data";
 import { Header } from "./header";
 import { HeroSection } from "./hero-section";
 import { AboutSection } from "./about-section";
@@ -8,11 +9,13 @@ import { IndustriesSection } from "./industries-section";
 import { StatsSection } from "./stats-section";
 import { PartnerSection } from "./partner-section";
 
-export function LandingPage() {
+export async function LandingPage() {
+    const heroSlides = await getHomeHeroSlides();
+
     return (
         <main className="relative mx-auto w-full max-w-[90rem] overflow-x-hidden bg-black">
             <Header />
-            <HeroSection />
+            <HeroSection slides={heroSlides} />
             <AboutSection />
             <ClientsSection />
             <ServicesSection />

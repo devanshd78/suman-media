@@ -1,21 +1,32 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/layout/page-placeholder";
-import { createPageMetadata, titleFromSlug } from "@/lib/seo/metadata";
+import { notFound } from "next/navigation";
+import { ContentDetailPage } from "@/components/layout/content-detail-page";
+import { createCmsMetadata, createNotFoundMetadata } from "@/lib/seo/metadata";
+import { getCompanyBySlug } from "@/sanity/lib/data";
 
 type CompanyPageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: CompanyPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const title = titleFromSlug(slug);
-  return createPageMetadata(title, `Learn more about ${title}.`, `/companies/${slug}`);
+  const company = await getCompanyBySlug(slug, true);
+
+  if (!company) return createNotFoundMetadata("Company not found");
+  return createCmsMetadata(company, `/companies/${slug}`);
 }
 
 export default async function CompanyPage({ params }: CompanyPageProps) {
   const { slug } = await params;
+  const company = await getCompanyBySlug(slug);
+
+  if (!company) notFound();
+
   return (
-    <PagePlaceholder
-      title={`Company: ${titleFromSlug(slug)}`}
-      description="Fetch this company from Sanity in this Server Component and pass it to the final company components."
+    <ContentDetailPage
+      eyebrow="Company"
+      title={company.title}
+      description={company.description}
+      backHref="/companies"
+      backLabel="View all companies"
     />
   );
 }

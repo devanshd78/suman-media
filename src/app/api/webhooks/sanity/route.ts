@@ -1,10 +1,9 @@
-import { timingSafeEqual } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { parseBody } from "next-sanity/webhook";
 import { z } from "zod";
 import { ApiError } from "@/lib/http/api-error";
 import { withApiHandler } from "@/lib/http/handler";
 import { methodNotAllowed } from "@/lib/http/method-not-allowed";
-import { parseJsonBody } from "@/lib/http/parse-body";
 import { apiSuccess } from "@/lib/http/responses";
 
 export const runtime = "nodejs";
@@ -21,29 +20,39 @@ const webhookSchema = z.object({
     .max(25),
 });
 
-function secretsMatch(received: string | null, expected: string | undefined) {
-  if (!received || !expected) return false;
-  const left = Buffer.from(received);
-  const right = Buffer.from(expected);
-  return left.length === right.length && timingSafeEqual(left, right);
-}
-
 export const POST = withApiHandler(async (request, { requestId }) => {
-  if (!secretsMatch(request.headers.get("x-sanity-secret"), process.env.SANITY_REVALIDATE_SECRET)) {
+  const secret = process.env.SANITY_REVALIDATE_SECRET;
+  if (!secret) {
     throw new ApiError({
-      status: 401,
-      code: "UNAUTHORIZED",
-      message: "Invalid webhook credentials",
+      status: 500,
+      code: "INTERNAL_ERROR",
+      message: "Sanity webhook secret is not configured",
     });
   }
 
-  const input = await parseJsonBody<{ paths: string[] }>(request, webhookSchema);
-  for (const path of [...new Set(input.paths)]) revalidatePath(path);
+  const { isValidSignature, body } = await parseBody<unknown>(
+    request,
+    secret,
+    true,
+  );
+
+  if (!isValidSignature) {
+    throw new ApiError({
+      status: 401,
+      code: "UNAUTHORIZED",
+      message: "Invalid Sanity webhook signature",
+    });
+  }
+
+  const input = webhookSchema.parse(body);
+  const paths = [...new Set(input.paths)];
+
+  for (const path of paths) revalidatePath(path);
 
   return apiSuccess({
     requestId,
     message: "Content cache revalidated",
-    data: { revalidated: [...new Set(input.paths)] },
+    data: { revalidated: paths },
   });
 });
 
