@@ -4,6 +4,9 @@ import { AboutSection } from "./about-section";
 import { ClientsSection } from "./client-section";
 import { ServicesSection } from "./services-section";
 import { AchievementRevealGrid } from "./achievement-reveal-grid";
+import { IndustriesSection } from "./industries-section";
+import { StatsSection } from "./stats-section";
+import { PartnerSection } from "./partner-section";
 
 export function LandingPage() {
     return (
@@ -14,6 +17,9 @@ export function LandingPage() {
             <ClientsSection />
             <ServicesSection />
             <AchievementRevealGrid />
+            <IndustriesSection />
+            <StatsSection />
+            <PartnerSection />
         </main>
     );
 }
