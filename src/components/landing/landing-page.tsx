@@ -21,10 +21,9 @@ export async function LandingPage() {
     // section constrains its own content to max-w-[90rem].
     return (
       <>
-        <main className="relative mx-auto w-full max-w-[90rem] overflow-x-hidden bg-black">
+        <main className="relative mx-auto w-full max-w-[90rem] overflow-x-clip bg-black">
             <HeroSection slides={heroSlides} />
             <AboutSection />
-            <CompaniesSection />
             <ClientsSection />
             <ServicesSection />
             <AchievementRevealGrid />
