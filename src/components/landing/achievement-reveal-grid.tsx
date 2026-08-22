@@ -1,16 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const BOX_COUNT = 20;
+const GRID_COLUMNS = 5;
+const STAGGER_DELAY_MS = 70;
 
 export function AchievementRevealGrid() {
-  const boxes = Array.from({ length: 20 });
+  const boxes = Array.from({ length: BOX_COUNT });
+
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   const [revealedBoxes, setRevealedBoxes] = useState<Set<number>>(
     () => new Set(),
   );
 
-  const revealBox = (index: number) => {
+  const revealBox = useCallback((index: number) => {
     setRevealedBoxes((current) => {
       if (current.has(index)) {
         return current;
@@ -21,19 +27,101 @@ export function AchievementRevealGrid() {
 
       return updated;
     });
-  };
+  }, []);
+
+  /*
+    Touch / non-hover devices can never trigger onMouseEnter,
+    so the image (and the "View more" link gated on box 15)
+    would stay hidden forever.
+
+    On mount: if the device cannot hover, watch the section
+    and reveal every box in a diagonal cascade once it
+    scrolls into view. Hover-capable devices keep the
+    hover-to-wipe behavior unchanged.
+  */
+  useEffect(() => {
+    const canHover = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+
+    if (canHover) {
+      return;
+    }
+
+    const section = sectionRef.current;
+
+    if (!section) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const timeoutIds: number[] = [];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) {
+          return;
+        }
+
+        observer.disconnect();
+
+        if (prefersReducedMotion) {
+          // Reveal everything at once — no stagger.
+          setRevealedBoxes(
+            new Set(Array.from({ length: BOX_COUNT }, (_, index) => index)),
+          );
+
+          return;
+        }
+
+        // Diagonal cascade: boxes sharing (row + col) reveal together-ish.
+        const order = Array.from(
+          { length: BOX_COUNT },
+          (_, index) => index,
+        ).sort((a, b) => {
+          const diagonalA = Math.floor(a / GRID_COLUMNS) + (a % GRID_COLUMNS);
+          const diagonalB = Math.floor(b / GRID_COLUMNS) + (b % GRID_COLUMNS);
+
+          return diagonalA - diagonalB;
+        });
+
+        order.forEach((boxIndex, position) => {
+          timeoutIds.push(
+            window.setTimeout(
+              () => revealBox(boxIndex),
+              position * STAGGER_DELAY_MS,
+            ),
+          );
+        });
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    };
+  }, [revealBox]);
 
   return (
     <section
+      ref={sectionRef}
       aria-label="Achievement"
       className="
         relative
         mx-auto
-        h-[55rem]
+        aspect-[18/11]
+        min-h-[24rem]
         w-full
         max-w-[90rem]
         overflow-hidden
         bg-white
+        lg:max-h-[55rem]
       "
     >
       {/* Background Image */}
@@ -65,9 +153,11 @@ export function AchievementRevealGrid() {
             href="/about"
             className="
               absolute
-              bottom-[3rem]
-              left-[3.5rem]
+              bottom-6
+              left-6
               z-30
+              lg:bottom-[3rem]
+              lg:left-[3.5rem]
 
               inline-flex
               items-center
@@ -130,13 +220,6 @@ export function AchievementRevealGrid() {
               onMouseEnter={() => revealBox(index)}
               className={`
                 relative
-                flex
-                h-[13.75rem]
-                w-[18rem]
-
-                items-center
-                justify-center
-                justify-self-stretch
 
                 ${isRevealed ? "pointer-events-none" : ""}
               `}

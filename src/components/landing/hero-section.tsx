@@ -14,7 +14,7 @@ const FALLBACK_HERO_SLIDES: CmsHeroSlide[] = [
     imageUrl: "/images/landing/hero/Image1.png",
     cta: {
       label: "Explore Abhijat Marathi",
-      href: "#abhijat-marathi",
+      href: "/companies",
     },
   },
   {
@@ -132,8 +132,16 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
   const heroSlides =
     slides.length > 0 ? slides : FALLBACK_HERO_SLIDES;
 
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [rawActiveSlide, setActiveSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+
+  /*
+   * Derived clamp instead of a corrective effect: if the
+   * slides array shrinks (CMS edit), an out-of-range index
+   * simply renders as slide 0.
+   */
+  const activeSlide =
+    rawActiveSlide < heroSlides.length ? rawActiveSlide : 0;
 
   const currentSlide =
     heroSlides[activeSlide] ?? heroSlides[0];
@@ -152,12 +160,6 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
 
     return () => window.clearInterval(intervalId);
   }, [isPlaying, heroSlides.length]);
-
-  useEffect(() => {
-    if (activeSlide >= heroSlides.length) {
-      setActiveSlide(0);
-    }
-  }, [activeSlide, heroSlides.length]);
 
   return (
     <section
@@ -262,8 +264,10 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
         className="
           relative
           z-20
+          mx-auto
           flex
           w-full
+          max-w-[90rem]
           flex-col
           items-start
           justify-end
@@ -346,10 +350,11 @@ export function HeroSection({ slides = [] }: HeroSectionProps) {
           flex-col
           items-start
         "
+        role="group"
         aria-label="Hero slides"
       >
         <div
-          className="grid w-full"
+          className="mx-auto grid w-full max-w-[90rem]"
           style={{
             gridTemplateColumns: `repeat(${heroSlides.length}, minmax(0, 1fr))`,
           }}
