@@ -1,23 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-/* =========================================================
-   NAV DATA
-
-   Edit dropdown contents and link targets here. Sub-lines
-   render as plain text (they describe offerings that do not
-   have dedicated pages yet); give an entry a real href when
-   its page exists.
-   ========================================================= */
 
 type MenuEntry = {
   label: string;
   href: string;
-  /** short gray lines listed under the gold link */
   sublines?: string[];
-  /** gray paragraph under the gold link */
   subtext?: string;
 };
 
@@ -186,7 +176,7 @@ const NAV_LINKS = [
    ICONS + LOGO
    ========================================================= */
 
-function SumanLogo() {
+function SumanLogo({ isLandingPage }: { isLandingPage: boolean }) {
   return (
     <span
       className={`inline-flex shrink-0 ${
@@ -372,6 +362,8 @@ function DropdownPanel({
    ========================================================= */
 
 export function Header() {
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -396,17 +388,27 @@ export function Header() {
 
   return (
     <header
-      className="absolute left-1/2 top-0 z-50 w-full max-w-[90rem] -translate-x-1/2"
+      className={`z-50 w-full max-w-[90rem] ${
+        isLandingPage
+          ? "absolute left-1/2 top-0 -translate-x-1/2"
+          : "relative mx-auto border-b border-[#E6E6E6] bg-white"
+      }`}
       onMouseLeave={closeDropdown}
     >
-      <div className="flex w-full items-center justify-between px-4 py-3 sm:px-8">
+      <div
+        className={`flex w-full items-center justify-between ${
+          isLandingPage
+            ? "px-4 py-3 sm:px-8"
+            : "min-h-[5.625rem] px-5 py-4 sm:px-8 lg:px-12"
+        }`}
+      >
         <Link
           href="/"
           aria-label="Suman home"
           className="inline-flex shrink-0 items-center"
           onMouseEnter={closeDropdown}
         >
-          <SumanLogo />
+          <SumanLogo isLandingPage={isLandingPage} />
         </Link>
 
         <div className="flex items-center gap-3 lg:gap-5">
@@ -423,10 +425,18 @@ export function Header() {
                     current === menu.id ? null : menu.id,
                   )
                 }
-                className={`inline-flex items-center gap-1 text-[0.6875rem] font-medium transition-colors ${
-                  openDropdown === menu.id
-                    ? "text-white"
-                    : "text-white/80 hover:text-white"
+                className={`inline-flex items-center gap-1 font-medium transition-colors ${
+                  isLandingPage
+                    ? `text-[0.6875rem] ${
+                        openDropdown === menu.id
+                          ? "text-white"
+                          : "text-white/80 hover:text-white"
+                      }`
+                    : `text-base ${
+                        openDropdown === menu.id
+                          ? "text-black"
+                          : "text-[#929292] hover:text-black"
+                      }`
                 }`}
               >
                 <span>{menu.label}</span>
@@ -441,7 +451,13 @@ export function Header() {
                 key={item.label}
                 href={item.href}
                 onMouseEnter={closeDropdown}
-                className="text-[0.6875rem] font-medium text-white/80 transition-colors hover:text-white"
+                className={`font-medium transition-colors ${
+                  isLandingPage
+                    ? "text-[0.6875rem] text-white/80 hover:text-white"
+                    : pathname === item.href || pathname.startsWith(`${item.href}/`)
+                      ? "text-base font-semibold text-black"
+                      : "text-base text-[#929292] hover:text-black"
+                }`}
               >
                 {item.label}
               </Link>
@@ -462,7 +478,11 @@ export function Header() {
             onClick={() => setMenuOpen(true)}
             aria-label="Open navigation menu"
             aria-expanded={menuOpen}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:text-white lg:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors lg:hidden ${
+              isLandingPage
+                ? "text-white/90 hover:text-white"
+                : "text-black/70 hover:text-black"
+            }`}
           >
             <MenuIcon />
           </button>
@@ -484,7 +504,7 @@ export function Header() {
               className="inline-flex shrink-0 items-center"
               onClick={() => setMenuOpen(false)}
             >
-              <SumanLogo />
+              <SumanLogo isLandingPage />
             </Link>
 
             <button

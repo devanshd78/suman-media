@@ -1,17 +1,12 @@
 import type {
-  CmsCareerOpening,
-  CmsCareersCulture,
-  CmsDetailDocument,
-  CmsHeroSlide,
-  CmsSitemapDocument,
-} from "@/types/cms";
-import type {
   CmsDetailDocument,
   CmsFeaturedCompany,
   CmsFeaturedInsight,
   CmsFeaturedProject,
   CmsHeroSlide,
   CmsSitemapDocument,
+  CmsCareerOpening,
+  CmsCareersCulture,
 } from "@/types/cms";
 import { sanityFetch } from "@/sanity/lib/client";
 import {

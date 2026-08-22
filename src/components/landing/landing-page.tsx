@@ -20,6 +20,7 @@ export async function LandingPage() {
     // Full-width shell: section backgrounds bleed edge-to-edge while each
     // section constrains its own content to max-w-[90rem].
     return (
+      <>
         <main className="relative mx-auto w-full max-w-[90rem] overflow-x-hidden bg-black">
             <HeroSection slides={heroSlides} />
             <AboutSection />
@@ -34,6 +35,6 @@ export async function LandingPage() {
             <PartnerSection />
         </main>
         <Footer />
-        </>
+      </>
     );
 }
