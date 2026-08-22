@@ -7,9 +7,11 @@ const exo2 = Exo_2({
   weight: ["600"],
 });
 
+// 400 must be loaded too: this font wraps the whole gallery, and with only
+// the 600 face available the cards' body copy renders semibold
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["600"],
+  weight: ["400", "600"],
 });
 
 export function ServicesSection() {

@@ -23,7 +23,7 @@ export function ClientsSection() {
         <p
           className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}
         >
-          Our Services
+          Our Clients
         </p>
 
         <h2

@@ -136,14 +136,21 @@ function CannesMark() {
   );
 }
 
+/*
+ * Desktop (>= 1024px) values are container query units (cqw) relative to the
+ * stage, which is a size container. The reference design is an 83rem-wide
+ * stage (section max-w 90rem minus lg:px-[3.5rem] per side), so
+ * 1rem -> 100/83 = 1.2048cqw. mobileSize stays in rem for the <1024px
+ * flex-wrap fallback.
+ */
 const bubbles: Bubble[] = [
   {
     id: "aws",
     name: "AWS",
-    size: "25rem",
+    size: "30.12cqw",
     mobileSize: "10rem",
-    left: "0.4rem",
-    bottom: "0.2rem",
+    left: "0.48cqw",
+    bottom: "0.24cqw",
     rotation: "-2deg",
     delay: "0ms",
     duration: "1800ms",
@@ -152,10 +159,10 @@ const bubbles: Bubble[] = [
   {
     id: "maharashtra",
     name: "Government of Maharashtra",
-    size: "17.5rem",
+    size: "21.08cqw",
     mobileSize: "8.5rem",
-    left: "18.2rem",
-    bottom: "14.4rem",
+    left: "21.93cqw",
+    bottom: "17.35cqw",
     rotation: "-2deg",
     delay: "110ms",
     duration: "1880ms",
@@ -164,10 +171,10 @@ const bubbles: Bubble[] = [
   {
     id: "z-news-main",
     name: "Z News",
-    size: "18.5rem",
+    size: "22.29cqw",
     mobileSize: "9rem",
-    left: "24.8rem",
-    bottom: "-0.1rem",
+    left: "29.88cqw",
+    bottom: "-0.12cqw",
     rotation: "0deg",
     delay: "210ms",
     duration: "1940ms",
@@ -176,10 +183,10 @@ const bubbles: Bubble[] = [
   {
     id: "laminar",
     name: "Laminar",
-    size: "19.25rem",
+    size: "23.19cqw",
     mobileSize: "9.25rem",
-    left: "39.3rem",
-    bottom: "6.45rem",
+    left: "47.35cqw",
+    bottom: "7.77cqw",
     rotation: "0deg",
     delay: "320ms",
     duration: "2020ms",
@@ -188,10 +195,10 @@ const bubbles: Bubble[] = [
   {
     id: "reverie",
     name: "Reverie",
-    size: "8.25rem",
+    size: "9.94cqw",
     mobileSize: "6rem",
-    left: "40.4rem",
-    bottom: "0.1rem",
+    left: "48.67cqw",
+    bottom: "0.12cqw",
     rotation: "-6deg",
     delay: "430ms",
     duration: "1660ms",
@@ -200,10 +207,10 @@ const bubbles: Bubble[] = [
   {
     id: "supercell",
     name: "Supercell",
-    size: "8.25rem",
+    size: "9.94cqw",
     mobileSize: "6rem",
-    left: "47.2rem",
-    bottom: "0.15rem",
+    left: "56.87cqw",
+    bottom: "0.18cqw",
     rotation: "2deg",
     delay: "520ms",
     duration: "1700ms",
@@ -212,10 +219,10 @@ const bubbles: Bubble[] = [
   {
     id: "z-news-top",
     name: "Z News",
-    size: "14.25rem",
+    size: "17.17cqw",
     mobileSize: "7.5rem",
-    right: "0.45rem",
-    bottom: "14.75rem",
+    right: "0.54cqw",
+    bottom: "17.77cqw",
     rotation: "12deg",
     delay: "620ms",
     duration: "1840ms",
@@ -224,10 +231,10 @@ const bubbles: Bubble[] = [
   {
     id: "cannes",
     name: "Festival de Cannes",
-    size: "18.25rem",
+    size: "21.99cqw",
     mobileSize: "8.75rem",
-    right: "0rem",
-    bottom: "0rem",
+    right: "0cqw",
+    bottom: "0cqw",
     rotation: "2deg",
     delay: "720ms",
     duration: "1980ms",
@@ -247,6 +254,9 @@ export function ClientsBubbles() {
     }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // Intentional one-shot reveal on mount: reduced-motion users get the
+      // settled composition immediately instead of the entrance animation.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHasEntered(true);
       return;
     }
@@ -302,8 +312,18 @@ export function ClientsBubbles() {
       })}
 
       <style>{`
-        .clients-stage {
-          height: 50.4375rem;
+        @media (min-width: 1024px) {
+          .clients-stage {
+            /*
+             * The stage is the query container the bubbles' cqw values resolve
+             * against. cqw cannot resolve against the element itself, so the
+             * stage height (50.4375rem on the 83rem reference design ->
+             * 60.77cqw) is expressed as the equivalent aspect ratio of its own
+             * width.
+             */
+            container-type: inline-size;
+            aspect-ratio: 100 / 60.77;
+          }
         }
 
         .client-bubble {
@@ -314,7 +334,7 @@ export function ClientsBubbles() {
           right: var(--bubble-right, auto);
           bottom: var(--bubble-bottom);
           opacity: 0;
-          transform: translate3d(0, -64rem, 0) rotate(calc(var(--bubble-rotation) - 34deg));
+          transform: translate3d(0, -77.11cqw, 0) rotate(calc(var(--bubble-rotation) - 34deg));
           transform-origin: 50% 50%;
           will-change: transform, opacity;
         }
@@ -326,7 +346,7 @@ export function ClientsBubbles() {
         @keyframes client-bubble-fall {
           0% {
             opacity: 0;
-            transform: translate3d(0, -64rem, 0) rotate(calc(var(--bubble-rotation) - 34deg));
+            transform: translate3d(0, -77.11cqw, 0) rotate(calc(var(--bubble-rotation) - 34deg));
           }
           44% {
             opacity: 1;

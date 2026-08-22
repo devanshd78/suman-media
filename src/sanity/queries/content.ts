@@ -20,6 +20,91 @@ export const HOME_PAGE_HERO_QUERY = defineQuery(`
   }
 `);
 
+export const HOME_FEATURED_COMPANIES_QUERY = defineQuery(`
+  *[_type == "homePage" && _id == "homePage"][0].featuredCompanies[]->{
+    _id,
+    name,
+    "slug": slug.current,
+    shortDescription,
+    "logoUrl": logo.asset->url,
+    "logoAlt": logo.alt,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    websiteUrl
+  }
+`);
+
+export const COMPANIES_LIST_QUERY = defineQuery(`
+  *[_type == "company" && defined(slug.current)]
+    | order(coalesce(featured, false) desc, name asc)[0...8]{
+    _id,
+    name,
+    "slug": slug.current,
+    shortDescription,
+    "logoUrl": logo.asset->url,
+    "logoAlt": logo.alt,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    websiteUrl
+  }
+`);
+
+export const HOME_FEATURED_PROJECTS_QUERY = defineQuery(`
+  *[_type == "homePage" && _id == "homePage"][0].featuredProjects[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    client,
+    shortDescription,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    projectDate
+  }
+`);
+
+export const PROJECTS_LIST_QUERY = defineQuery(`
+  *[_type == "project" && defined(slug.current)]
+    | order(coalesce(featured, false) desc, projectDate desc)[0...6]{
+    _id,
+    title,
+    "slug": slug.current,
+    client,
+    shortDescription,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    projectDate
+  }
+`);
+
+export const HOME_FEATURED_INSIGHTS_QUERY = defineQuery(`
+  *[_type == "homePage" && _id == "homePage"][0].featuredInsights[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    publishedAt,
+    "authorName": author->name,
+    "category": categories[0]->title
+  }
+`);
+
+export const INSIGHTS_LIST_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current) && defined(publishedAt)]
+    | order(publishedAt desc)[0...3]{
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    "imageUrl": featuredImage.asset->url,
+    "imageAlt": featuredImage.alt,
+    publishedAt,
+    "authorName": author->name,
+    "category": categories[0]->title
+  }
+`);
+
 export const SERVICE_BY_SLUG_QUERY = defineQuery(`
   *[_type == "service" && slug.current == $slug][0]{
     _id,

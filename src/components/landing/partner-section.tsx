@@ -234,6 +234,8 @@ export function PartnerSection() {
 
       <div
         className="
+          partner-cannes-banner
+
           relative
 
           flex
@@ -251,7 +253,7 @@ export function PartnerSection() {
           sm:p-8
 
           lg:h-[48.875rem]
-          lg:w-[90rem]
+          lg:w-[calc(100%+7rem)]
           lg:p-8
         "
         style={{
@@ -264,12 +266,6 @@ export function PartnerSection() {
             ),
             url("/images/landing/background2.png")
           `,
-          backgroundPosition:
-            "center, 0.322px -103.596px",
-          backgroundSize:
-            "100% 100%, 100% 184.143%",
-          backgroundRepeat:
-            "no-repeat, no-repeat",
           borderRadius: 0,
         }}
       >
@@ -405,6 +401,25 @@ export function PartnerSection() {
             "
           />
         </div>
+
+        <style>{`
+          /* The photo layer's crop was pixel-tuned against the
+             1440px design export; at fluid mobile heights that
+             crop lands arbitrarily, so smaller screens fall back
+             to cover/center. */
+          .partner-cannes-banner {
+            background-position: center, center;
+            background-size: 100% 100%, cover;
+            background-repeat: no-repeat, no-repeat;
+          }
+
+          @media (min-width: 1024px) {
+            .partner-cannes-banner {
+              background-position: center, 0.322px -103.596px;
+              background-size: 100% 100%, 100% 184.143%;
+            }
+          }
+        `}</style>
       </div>
     </section>
   );

@@ -1,11 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { Exo_2 } from "next/font/google";
 import {
+  useEffect,
   useRef,
   type ReactNode,
-  type WheelEvent,
 } from "react";
+
+const exo2 = Exo_2({
+  subsets: ["latin"],
+  weight: ["600"],
+});
 
 const CARD_WIDTH = 27.625 * 16;
 
@@ -435,7 +441,7 @@ function IndustryCard({
   return (
     <article
       className="
-        w-[27.625rem]
+        w-[min(27.625rem,85vw)]
         shrink-0
         bg-white
       "
@@ -446,8 +452,8 @@ function IndustryCard({
           group
           relative
           flex
-          h-[27.625rem]
-          w-[27.625rem]
+          aspect-square
+          w-full
           items-center
           justify-center
           overflow-hidden
@@ -557,57 +563,58 @@ export function IndustriesSection() {
   };
 
   /*
-   * On narrower displays:
-   * mouse wheel moves horizontally through cards.
+   * Mouse wheel moves horizontally through the cards; once
+   * the track reaches either end, normal vertical page
+   * scrolling continues.
    *
-   * Once horizontal scrolling reaches the end,
-   * normal vertical page scrolling continues.
+   * Attached natively (not via React's onWheel) because
+   * React registers wheel listeners as passive, which makes
+   * preventDefault a silent no-op — the page would scroll
+   * vertically at the same time.
    */
-  const handleWheel = (
-    event: WheelEvent<HTMLDivElement>,
-  ) => {
+  useEffect(() => {
     const element = cardsRef.current;
 
     if (!element) {
       return;
     }
 
-    const maximumScroll =
-      element.scrollWidth -
-      element.clientWidth;
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      const maximumScroll =
+        element.scrollWidth - element.clientWidth;
 
-    if (maximumScroll <= 2) {
-      return;
-    }
+      if (maximumScroll <= 2) {
+        return;
+      }
 
-    const scrollingForward =
-      event.deltaY > 0;
+      const scrollingForward = event.deltaY > 0;
+      const scrollingBackward = event.deltaY < 0;
 
-    const scrollingBackward =
-      event.deltaY < 0;
+      const canMoveForward =
+        element.scrollLeft < maximumScroll - 2;
 
-    const canMoveForward =
-      element.scrollLeft <
-      maximumScroll - 2;
+      const canMoveBackward = element.scrollLeft > 2;
 
-    const canMoveBackward =
-      element.scrollLeft > 2;
+      const shouldCapture =
+        (scrollingForward && canMoveForward) ||
+        (scrollingBackward && canMoveBackward);
 
-    const shouldCapture =
-      (scrollingForward &&
-        canMoveForward) ||
-      (scrollingBackward &&
-        canMoveBackward);
+      if (!shouldCapture) {
+        return;
+      }
 
-    if (!shouldCapture) {
-      return;
-    }
+      event.preventDefault();
 
-    event.preventDefault();
+      element.scrollLeft += event.deltaY;
+    };
 
-    element.scrollLeft +=
-      event.deltaY;
-  };
+    element.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+
+    return () =>
+      element.removeEventListener("wheel", handleWheel);
+  }, []);
 
   return (
     <section
@@ -682,8 +689,8 @@ export function IndustriesSection() {
 
           <h2
             id="industries-heading"
-            className="
-              font-['Exo_2']
+            className={`
+              ${exo2.className}
 
               text-[2rem]
               font-semibold
@@ -694,7 +701,7 @@ export function IndustriesSection() {
 
               lg:text-[2.5rem]
               lg:leading-[3rem]
-            "
+            `}
             style={{
               fontFeatureSettings:
                 '"liga" off, "clig" off',
@@ -731,12 +738,12 @@ export function IndustriesSection() {
                 '"liga" off, "clig" off',
             }}
           >
-            From creating original content and
-            building digital platforms to strategic
-            communications and global distribution,
-            our integrated capabilities help
-            businesses, creators, governments, and
-            brands grow through media and technology.
+            Entertainment, culture, public service and
+            enterprise each connect with audiences in
+            their own way. We bring the same integrated
+            media capabilities to every one of them,
+            shaped to the formats, platforms and
+            partnerships each industry runs on.
           </p>
 
           <Link
@@ -787,7 +794,6 @@ export function IndustriesSection() {
       >
         <div
           ref={cardsRef}
-          onWheel={handleWheel}
           className="
             industries-track
 
@@ -934,8 +940,8 @@ export function IndustriesSection() {
          * should not get large rotations.
          */
         @media (prefers-reduced-motion: reduce) {
-          .group > div,
-          .group svg {
+          #industries .group > div,
+          #industries .group svg {
             transition-duration: 0.01ms !important;
           }
         }

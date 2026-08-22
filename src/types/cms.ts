@@ -23,6 +23,41 @@ export type CmsHeroSlide = {
   } | null;
 };
 
+export type CmsFeaturedCompany = {
+  _id: string;
+  name: string;
+  slug?: string | null;
+  shortDescription: string;
+  logoUrl?: string | null;
+  logoAlt?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  websiteUrl?: string | null;
+};
+
+export type CmsFeaturedProject = {
+  _id: string;
+  title: string;
+  slug?: string | null;
+  client?: string | null;
+  shortDescription: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+  projectDate?: string | null;
+};
+
+export type CmsFeaturedInsight = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+  publishedAt: string;
+  authorName?: string | null;
+  category?: string | null;
+};
+
 export type CmsDetailDocument = {
   _id: string;
   _type: "service" | "company" | "post";

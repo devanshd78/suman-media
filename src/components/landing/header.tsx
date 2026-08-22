@@ -1,18 +1,190 @@
-import Link from "next/link";
+"use client";
 
-type NavItem = {
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+/* =========================================================
+   NAV DATA
+
+   Edit dropdown contents and link targets here. Sub-lines
+   render as plain text (they describe offerings that do not
+   have dedicated pages yet); give an entry a real href when
+   its page exists.
+   ========================================================= */
+
+type MenuEntry = {
   label: string;
   href: string;
-  hasDropdown?: boolean;
+  /** short gray lines listed under the gold link */
+  sublines?: string[];
+  /** gray paragraph under the gold link */
+  subtext?: string;
 };
 
-const navItems: NavItem[] = [
-  { label: "Product", href: "#product", hasDropdown: true },
-  { label: "Services", href: "/services", hasDropdown: true },
-  { label: "Solutions", href: "#solutions", hasDropdown: true },
-  { label: "Investors Relations", href: "#investors" },
+type MenuColumn = {
+  heading: string;
+  entries: MenuEntry[];
+  image?: { src: string; alt: string };
+};
+
+type NavMenu = {
+  id: string;
+  label: string;
+  columns: MenuColumn[];
+  featured?: {
+    href: string;
+    imageSrc: string;
+    imageAlt: string;
+    tag: string;
+    title: string;
+  };
+  /** CSS grid-template-columns for the panel */
+  gridColumns: string;
+};
+
+const NAV_MENUS: NavMenu[] = [
+  {
+    id: "product",
+    label: "Product",
+    gridColumns: "1fr 1fr 1.5fr",
+    columns: [
+      {
+        heading: "Digital Platforms",
+        entries: [
+          { label: "OTT, Digital Platforms & Streaming", href: "/companies" },
+          { label: "Monetization Model", href: "/companies" },
+          { label: "Fast Channel", href: "/companies" },
+          { label: "AI & Emerging Technology", href: "/companies" },
+          { label: "Tech & Digital Transformation", href: "/companies" },
+        ],
+      },
+      {
+        heading: "Content Assets",
+        entries: [
+          { label: "Content and Music Library Management", href: "/services" },
+          { label: "Publication & Knowledge Platforms", href: "/services" },
+          { label: "Intellectual Property Development", href: "/services" },
+        ],
+      },
+    ],
+    featured: {
+      href: "/companies",
+      imageSrc: "/images/landing/hero/Image1.png",
+      imageAlt: "Raja Shivchhatrapati on Abhijat Marathi OTT",
+      tag: "OTT",
+      title: "Abhijat Marathi OTT",
+    },
+  },
+  {
+    id: "services",
+    label: "Services",
+    gridColumns: "1fr 1fr 1.1fr 0.7fr",
+    columns: [
+      {
+        heading: "Media and Production",
+        entries: [
+          { label: "Media & Content Syndication", href: "/services" },
+          { label: "Music & Audio Division", href: "/services" },
+          { label: "Events and Experiences", href: "/services" },
+          { label: "AI & Emerging Technology", href: "/services" },
+          { label: "Tech & Digital Transformation", href: "/services" },
+        ],
+      },
+      {
+        heading: "Marketing and Brand Services",
+        entries: [
+          { label: "Content and Music Library Management", href: "/services" },
+          { label: "Publication & Knowledge Platforms", href: "/services" },
+          { label: "Intellectual Property Development", href: "/services" },
+        ],
+      },
+      {
+        heading: "Creator Services",
+        entries: [
+          {
+            label: "Talent and Creator Ecosystem",
+            href: "/services",
+            sublines: [
+              "Artist, Celebrity, Influencer Management",
+              "Speaker Bureau",
+              "Brand Endorsements",
+              "Content Creator Network",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Any Specific Need?",
+        entries: [{ label: "Call now?", href: "/contact" }],
+      },
+    ],
+  },
+  {
+    id: "solutions",
+    label: "Solutions",
+    gridColumns: "1.1fr 1.1fr 1fr",
+    columns: [
+      {
+        heading: "Government & Institutional",
+        entries: [
+          {
+            label: "Govt, PSU & Institutional Solutions",
+            href: "/services",
+            sublines: [
+              "State/Central Government Empanelment",
+              "Citizen Engagement Programs",
+              "Tourism Promotion",
+              "Heritage Promotion",
+              "IEC & Public Awareness Campaigns",
+              "Event Management",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Capital & Business Growth",
+        entries: [
+          {
+            label: "IPO & Investor Ecosystem",
+            href: "/about",
+            subtext:
+              "Investor Relations, Shareholder Communications, Digital Roadshow, Financial PR, Listed Company Communication",
+          },
+          {
+            label: "International Business & Global Partnership",
+            href: "/services",
+            subtext:
+              "Co-Productions, Film Festivals, International Markets, Global Distribution, Strategic Alliances, Market Representation",
+          },
+        ],
+      },
+      {
+        heading: "Distribution & Licensing",
+        entries: [
+          {
+            label: "Content Acquisition & Distribution",
+            href: "/services",
+            subtext:
+              "Film & Music Rights Acquisition, OTT Rights, Satellite Rights, FAST Channel Content Acquisition, International Distribution, Syndication",
+          },
+        ],
+        image: {
+          src: "/images/landing/hero/Image2.jpg",
+          alt: "Live concert audience",
+        },
+      },
+    ],
+  },
+];
+
+const NAV_LINKS = [
+  { label: "Investor Relations", href: "/about" },
   { label: "Careers", href: "/careers" },
 ];
+
+/* =========================================================
+   ICONS + LOGO
+   ========================================================= */
 
 function SumanLogo() {
   return (
@@ -35,9 +207,14 @@ function SumanLogo() {
   );
 }
 
-function ChevronDownIcon() {
+function ChevronDownIcon({ className = "" }: { className?: string }) {
   return (
-    <svg aria-hidden="true" viewBox="0 0 12 12" className="h-3 w-3" fill="none">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 12 12"
+      className={`h-3 w-3 transition-transform duration-200 ${className}`}
+      fill="none"
+    >
       <path d="M3 4.5 6 7.5l3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -51,35 +228,313 @@ function ArrowUpRightIcon() {
   );
 }
 
-export function Header() {
+function MenuIcon() {
   return (
-    <header className="absolute left-1/2 top-0 z-50 flex w-full max-w-[90rem] -translate-x-1/2 items-center justify-between rounded-none px-4 py-3 sm:px-8">
-      <Link href="/" aria-label="Suman home" className="inline-flex shrink-0 items-center">
-        <SumanLogo />
-      </Link>
+    <svg aria-hidden="true" viewBox="0 0 20 20" className="h-5 w-5" fill="none">
+      <path d="M3 5.5h14M3 10h14M3 14.5h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-      <div className="flex items-center gap-3 lg:gap-5">
-        <nav aria-label="Primary navigation" className="hidden items-center gap-5 lg:flex xl:gap-7">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="inline-flex items-center gap-1 text-[0.6875rem] font-medium text-white/80 transition-colors hover:text-white"
-            >
-              <span>{item.label}</span>
-              {item.hasDropdown ? <ChevronDownIcon /> : null}
-            </Link>
-          ))}
-        </nav>
+function CloseIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 20 20" className="h-5 w-5" fill="none">
+      <path d="m5 5 10 10M15 5 5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-        <Link
-          href="/contact"
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[2rem] bg-[#8a6a0a]/85 px-4 py-2 text-xs font-semibold text-white backdrop-blur-sm transition-colors hover:bg-[#9a7810] sm:px-5"
-        >
-          <span>Contact us</span>
-          <ArrowUpRightIcon />
-        </Link>
+/* =========================================================
+   DROPDOWN PANEL (desktop)
+   ========================================================= */
+
+function DropdownPanel({
+  menu,
+  onNavigate,
+}: {
+  menu: NavMenu;
+  onNavigate: () => void;
+}) {
+  return (
+    <div
+      id={`nav-menu-${menu.id}`}
+      aria-label={`${menu.label} menu`}
+      className="absolute inset-x-0 top-full z-40 hidden bg-white shadow-[0_2.5rem_5rem_rgba(0,0,0,0.28)] lg:block"
+    >
+      <div
+        className="grid w-full divide-x divide-[rgba(0,17,102,0.08)]"
+        style={{ gridTemplateColumns: menu.gridColumns }}
+      >
+        {menu.columns.map((column) => (
+          <div key={column.heading} className="flex min-w-0 flex-col px-9 py-8">
+            <p className="text-sm font-semibold leading-5 text-black">
+              {column.heading}
+            </p>
+
+            <div className="mt-9 flex flex-col gap-9">
+              {column.entries.map((entry) => (
+                <div key={entry.label} className="flex flex-col">
+                  <Link
+                    href={entry.href}
+                    onClick={onNavigate}
+                    className="w-fit text-[0.9375rem] font-normal leading-6 text-[#8F6C1A] transition-opacity hover:opacity-70"
+                  >
+                    {entry.label}
+                  </Link>
+
+                  {entry.sublines ? (
+                    <ul className="mt-4 flex flex-col gap-3.5">
+                      {entry.sublines.map((line) => (
+                        <li
+                          key={line}
+                          className="text-sm font-medium leading-5 text-[rgba(0,9,51,0.65)]"
+                        >
+                          {line}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+
+                  {entry.subtext ? (
+                    <p className="mt-3 text-sm font-normal leading-6 text-[rgba(0,9,51,0.65)]">
+                      {entry.subtext}
+                    </p>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+
+            {column.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={column.image.src}
+                alt={column.image.alt}
+                draggable={false}
+                className="mt-8 aspect-[3/1] w-full select-none object-cover"
+              />
+            ) : null}
+          </div>
+        ))}
+
+        {menu.featured ? (
+          <div className="flex min-w-0 items-start p-8">
+            <div className="relative w-full overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={menu.featured.imageSrc}
+                alt={menu.featured.imageAlt}
+                draggable={false}
+                className="aspect-[21/9] w-full select-none object-cover"
+              />
+
+              <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 bg-gradient-to-t from-black/75 to-transparent p-4">
+                <Link
+                  href={menu.featured.href}
+                  onClick={onNavigate}
+                  className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition-opacity hover:opacity-85"
+                >
+                  Explore
+                </Link>
+
+                <p className="text-sm text-white">
+                  <span className="font-semibold">{menu.featured.tag}</span>
+                  <span className="text-white/80"> • {menu.featured.title}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+export function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!openDropdown) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpenDropdown(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [openDropdown]);
+
+  const closeDropdown = () => setOpenDropdown(null);
+
+  const activeMenu = NAV_MENUS.find((menu) => menu.id === openDropdown);
+
+  return (
+    <header
+      className="absolute left-1/2 top-0 z-50 w-full max-w-[90rem] -translate-x-1/2"
+      onMouseLeave={closeDropdown}
+    >
+      <div className="flex w-full items-center justify-between px-4 py-3 sm:px-8">
+        <Link
+          href="/"
+          aria-label="Suman home"
+          className="inline-flex shrink-0 items-center"
+          onMouseEnter={closeDropdown}
+        >
+          <SumanLogo />
+        </Link>
+
+        <div className="flex items-center gap-3 lg:gap-5">
+          <nav aria-label="Primary navigation" className="hidden items-center gap-5 lg:flex xl:gap-7">
+            {NAV_MENUS.map((menu) => (
+              <button
+                key={menu.id}
+                type="button"
+                aria-expanded={openDropdown === menu.id}
+                aria-controls={`nav-menu-${menu.id}`}
+                onMouseEnter={() => setOpenDropdown(menu.id)}
+                onClick={() =>
+                  setOpenDropdown((current) =>
+                    current === menu.id ? null : menu.id,
+                  )
+                }
+                className={`inline-flex items-center gap-1 text-[0.6875rem] font-medium transition-colors ${
+                  openDropdown === menu.id
+                    ? "text-white"
+                    : "text-white/80 hover:text-white"
+                }`}
+              >
+                <span>{menu.label}</span>
+                <ChevronDownIcon
+                  className={openDropdown === menu.id ? "rotate-180" : ""}
+                />
+              </button>
+            ))}
+
+            {NAV_LINKS.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onMouseEnter={closeDropdown}
+                className="text-[0.6875rem] font-medium text-white/80 transition-colors hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <Link
+            href="/contact"
+            onMouseEnter={closeDropdown}
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#9a7810] sm:px-5"
+          >
+            <span>Contact us</span>
+            <ArrowUpRightIcon />
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open navigation menu"
+            aria-expanded={menuOpen}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:text-white lg:hidden"
+          >
+            <MenuIcon />
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop mega menu */}
+      {activeMenu ? (
+        <DropdownPanel menu={activeMenu} onNavigate={closeDropdown} />
+      ) : null}
+
+      {/* Mobile navigation overlay */}
+      {menuOpen ? (
+        <div className="fixed inset-0 z-[60] flex flex-col bg-black/95 backdrop-blur-sm lg:hidden">
+          <div className="flex items-center justify-between px-4 py-3 sm:px-8">
+            <Link
+              href="/"
+              aria-label="Suman home"
+              className="inline-flex shrink-0 items-center"
+              onClick={() => setMenuOpen(false)}
+            >
+              <SumanLogo />
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close navigation menu"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors hover:text-white"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+
+          <nav
+            aria-label="Primary navigation"
+            className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 pb-10 pt-6 sm:px-8"
+          >
+            {NAV_MENUS.map((menu) => (
+              <details key={menu.id} className="group border-b border-white/10">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-lg font-medium text-white/85 transition-colors hover:text-white [&::-webkit-details-marker]:hidden">
+                  <span>{menu.label}</span>
+                  <ChevronDownIcon className="group-open:rotate-180" />
+                </summary>
+
+                <div className="flex flex-col pb-4">
+                  {menu.columns.map((column) => (
+                    <div key={column.heading} className="flex flex-col">
+                      <p className="pb-2 pt-3 text-[0.625rem] font-semibold uppercase tracking-[0.06em] text-white/45">
+                        {column.heading}
+                      </p>
+
+                      {column.entries.map((entry) => (
+                        <Link
+                          key={entry.label}
+                          href={entry.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="py-2 text-base text-white/75 transition-colors hover:text-white"
+                        >
+                          {entry.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </details>
+            ))}
+
+            {NAV_LINKS.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="border-b border-white/10 py-4 text-lg font-medium text-white/85 transition-colors hover:text-white"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <Link
+              href="/contact"
+              onClick={() => setMenuOpen(false)}
+              className="mt-6 inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#9a7810]"
+            >
+              <span>Contact us</span>
+              <ArrowUpRightIcon />
+            </Link>
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }
