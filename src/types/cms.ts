@@ -23,6 +23,31 @@ export type CmsHeroSlide = {
   } | null;
 };
 
+export type CmsCareersCultureSlide = {
+  _key: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+};
+
+export type CmsCareersCulture = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  description?: string | null;
+  slides?: CmsCareersCultureSlide[] | null;
+};
+
+export type CmsCareerOpening = {
+  _key: string;
+  title: string;
+  location: string;
+  description: string;
+  responsibilities?: string[] | null;
+  requirements?: string[] | null;
+  applyUrl?: string | null;
+};
+
 export type CmsDetailDocument = {
   _id: string;
   _type: "service" | "company" | "post";

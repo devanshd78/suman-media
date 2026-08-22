@@ -1,10 +1,11 @@
+import type { NextRequest } from "next/server";
 import { ZodError } from "zod";
 import { ApiError } from "@/lib/http/api-error";
 import { getRequestId } from "@/lib/http/request-context";
 import { apiFailure } from "@/lib/http/responses";
 
 export type ApiHandler = (
-  request: Request,
+  request: NextRequest,
   context: { requestId: string },
 ) => Promise<Response>;
 
@@ -27,8 +28,8 @@ function logError(requestId: string, request: Request, error: unknown) {
   );
 }
 
-export function withApiHandler(handler: ApiHandler): (request: Request) => Promise<Response> {
-  return async (request: Request) => {
+export function withApiHandler(handler: ApiHandler): (request: NextRequest) => Promise<Response> {
+  return async (request: NextRequest) => {
     const requestId = getRequestId(request);
 
     try {

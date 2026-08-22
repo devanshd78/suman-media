@@ -1,12 +1,53 @@
-import type { CmsDetailDocument, CmsHeroSlide, CmsSitemapDocument } from "@/types/cms";
+import type {
+  CmsCareerOpening,
+  CmsCareersCulture,
+  CmsDetailDocument,
+  CmsHeroSlide,
+  CmsSitemapDocument,
+} from "@/types/cms";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
+  CAREERS_CULTURE_QUERY,
+  CAREERS_OPENINGS_QUERY,
   COMPANY_BY_SLUG_QUERY,
   HOME_PAGE_HERO_QUERY,
   INSIGHT_BY_SLUG_QUERY,
   SERVICE_BY_SLUG_QUERY,
   SITEMAP_DOCUMENTS_QUERY,
 } from "@/sanity/queries/content";
+
+export async function getCareerOpenings(): Promise<CmsCareerOpening[]> {
+  try {
+    const result = await sanityFetch<{
+      openings?: CmsCareerOpening[] | null;
+    }>({
+      query: CAREERS_OPENINGS_QUERY,
+      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+    });
+
+    return (
+      result?.openings?.filter(
+        (opening) =>
+          Boolean(opening?.title && opening?.location && opening?.description),
+      ) ?? []
+    );
+  } catch (error) {
+    console.error("Failed to load career openings from Sanity", error);
+    return [];
+  }
+}
+
+export async function getCareersCulture(): Promise<CmsCareersCulture | null> {
+  try {
+    return await sanityFetch<CmsCareersCulture>({
+      query: CAREERS_CULTURE_QUERY,
+      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+    });
+  } catch (error) {
+    console.error("Failed to load Careers culture content from Sanity", error);
+    return null;
+  }
+}
 
 export async function getHomeHeroSlides(): Promise<CmsHeroSlide[]> {
   try {

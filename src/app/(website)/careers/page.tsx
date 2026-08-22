@@ -1,5 +1,8 @@
-import { PagePlaceholder } from "@/components/layout/page-placeholder";
+import { CareersSection } from "@/components/careers/careers-section";
+import { CareersValuesSection } from "@/components/careers/careers-values-section";
+import { CareerOpenings } from "@/components/careers/career-openings";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { getCareerOpenings, getCareersCulture } from "@/sanity/lib/data";
 
 export const metadata = createPageMetadata(
   "Careers",
@@ -7,11 +10,17 @@ export const metadata = createPageMetadata(
   "/careers",
 );
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const [cmsCulture, openings] = await Promise.all([
+    getCareersCulture(),
+    getCareerOpenings(),
+  ]);
+
   return (
-    <PagePlaceholder
-      title="Careers"
-      description="Developers should build vacancies and the application form here."
-    />
+    <main className="relative mx-auto w-full max-w-[90rem] overflow-x-hidden bg-white">
+      <CareersSection />
+      <CareersValuesSection cmsCulture={cmsCulture} />
+      <CareerOpenings openings={openings} />
+    </main>
   );
 }

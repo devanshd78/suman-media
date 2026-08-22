@@ -42,10 +42,14 @@ export const locations = {
     message: "This document controls future CMS-driven homepage content.",
     tone: "positive",
   }),
+  careersPage: defineLocations({
+    locations: [{ title: "Careers", href: "/careers" }],
+  }),
 };
 
 export const mainDocuments = defineDocuments([
   { route: "/", filter: `_type == "homePage" && _id == "homePage"` },
+  { route: "/careers", filter: `_type == "careersPage"` },
   { route: "/services/:slug", filter: `_type == "service" && slug.current == $slug` },
   { route: "/companies/:slug", filter: `_type == "company" && slug.current == $slug` },
   { route: "/insights/:slug", filter: `_type == "post" && slug.current == $slug` },
