@@ -1,8 +1,13 @@
 import { CareersSection } from "@/components/careers/careers-section";
 import { CareersValuesSection } from "@/components/careers/careers-values-section";
 import { CareerOpenings } from "@/components/careers/career-openings";
+import { CareersPartnerCta } from "@/components/careers/careers-partner-cta";
 import { createPageMetadata } from "@/lib/seo/metadata";
-import { getCareerOpenings, getCareersCulture } from "@/sanity/lib/data";
+import {
+  getCareerOpenings,
+  getCareersCulture,
+  getCareersPartnerCta,
+} from "@/sanity/lib/data";
 
 export const metadata = createPageMetadata(
   "Careers",
@@ -11,9 +16,10 @@ export const metadata = createPageMetadata(
 );
 
 export default async function CareersPage() {
-  const [cmsCulture, openings] = await Promise.all([
+  const [cmsCulture, openings, partnerCta] = await Promise.all([
     getCareersCulture(),
     getCareerOpenings(),
+    getCareersPartnerCta(),
   ]);
 
   return (
@@ -21,6 +27,7 @@ export default async function CareersPage() {
       <CareersSection />
       <CareersValuesSection cmsCulture={cmsCulture} />
       <CareerOpenings openings={openings} />
+      <CareersPartnerCta content={partnerCta} />
     </main>
   );
 }

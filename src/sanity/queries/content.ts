@@ -53,6 +53,14 @@ export const CAREERS_OPENINGS_QUERY = defineQuery(`
   }
 `);
 
+export const CAREERS_PARTNER_CTA_QUERY = defineQuery(`
+  *[_type == "careersPage"][0]{
+    "heading": partnerCtaHeading,
+    "imageUrl": partnerCtaImage.asset->url,
+    "imageAlt": partnerCtaImage.alt
+  }
+`);
+
 export const HOME_FEATURED_COMPANIES_QUERY = defineQuery(`
   *[_type == "homePage" && _id == "homePage"][0].featuredCompanies[]->{
     _id,

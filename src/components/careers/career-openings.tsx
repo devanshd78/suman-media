@@ -149,8 +149,6 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
               <article
                 key={job._key || `${job.title}-${index}`}
                 className="w-full border-y border-[#E6E6E6]"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
               >
                 <div className="flex min-h-[7.5rem] w-full flex-col items-start justify-center gap-6 p-5 md:flex-row md:items-center md:justify-between md:gap-[6.25rem]">
                   <div className="min-w-0 flex-1">
@@ -181,12 +179,18 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                       className={`${inter.className} inline-flex h-12 items-center justify-center gap-2 px-1 text-sm font-semibold text-black`}
                     >
                       <span>View details</span>
-                      <CaretDownIcon
-                        aria-hidden="true"
-                        size={18}
-                        weight="bold"
-                        className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                      />
+                      <span
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                        className="inline-flex"
+                      >
+                        <CaretDownIcon
+                          aria-hidden="true"
+                          size={18}
+                          weight="bold"
+                          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </span>
                     </button>
 
                     <Link
@@ -228,15 +232,18 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
         </div>
       </div>
 
-      <div className={`${inter.className} text-center text-base leading-6 text-black`}>
-        <p>Didn&apos;t find the right fit?</p>
+      <p
+        className={`${inter.className} w-full max-w-[16.375rem] text-center text-2xl font-semibold leading-8 text-black`}
+        style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+      >
+        Didn&apos;t find a good fit? Share your CV{" "}
         <Link
           href="/contact"
-          className="font-semibold text-[#8F6C1A] underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current"
+          className="text-[#8F6C1A] underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current"
         >
-          Share your CV here
+          here
         </Link>
-      </div>
+      </p>
     </section>
   );
 }

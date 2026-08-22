@@ -48,6 +48,12 @@ export type CmsCareerOpening = {
   applyUrl?: string | null;
 };
 
+export type CmsCareersPartnerCta = {
+  heading?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+};
+
 export type CmsFeaturedCompany = {
   _id: string;
   name: string;

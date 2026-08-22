@@ -9,6 +9,7 @@ export const careersPageType = defineType({
     { name: "gallery", title: "Life at Suman gallery" },
     { name: "culture", title: "Culture carousel" },
     { name: "openings", title: "Open positions" },
+    { name: "partnerCta", title: "Partner CTA" },
   ],
   fields: [
     defineField({
@@ -169,6 +170,25 @@ export const careersPageType = defineType({
           },
         }),
       ],
+    }),
+    defineField({
+      name: "partnerCtaHeading",
+      title: "Partner CTA heading",
+      type: "string",
+      group: "partnerCta",
+      description:
+        "If empty, the website uses the default careers partnership headline.",
+      initialValue:
+        "Have a story worth telling? Let's bring it to the world.",
+      validation: (rule) => rule.max(140),
+    }),
+    defineField({
+      name: "partnerCtaImage",
+      title: "Partner CTA background image",
+      type: "mediaImage",
+      group: "partnerCta",
+      description:
+        "If empty, the website uses the local background3.png image.",
     }),
   ],
   preview: {

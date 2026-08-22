@@ -1,7 +1,6 @@
 import { getHomeHeroSlides } from "@/sanity/lib/data";
 import { HeroSection } from "./hero-section";
 import { AboutSection } from "./about-section";
-import { CompaniesSection } from "./companies-section";
 import { ClientsSection } from "./client-section";
 import { ProjectsSection } from "./projects-section";
 import { InsightsSection } from "./insights-section";
@@ -10,7 +9,7 @@ import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { IndustriesSection } from "./industries-section";
 import { StatsSection } from "./stats-section";
 import { PartnerSection } from "./partner-section";
-import { Footer } from "./footer";
+import { TestimonialSection } from "./testimonial-section";
 
 export async function LandingPage() {
     const heroSlides = await getHomeHeroSlides();
@@ -20,7 +19,6 @@ export async function LandingPage() {
     // Full-width shell: section backgrounds bleed edge-to-edge while each
     // section constrains its own content to max-w-[90rem].
     return (
-      <>
         <main className="relative mx-auto w-full max-w-[90rem] overflow-x-clip bg-black">
             <HeroSection slides={heroSlides} />
             <AboutSection />
@@ -32,8 +30,7 @@ export async function LandingPage() {
             <StatsSection />
             <InsightsSection />
             <PartnerSection />
+            <TestimonialSection />
         </main>
-        <Footer />
-      </>
     );
 }
