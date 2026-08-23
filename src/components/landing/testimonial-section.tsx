@@ -1,154 +1,517 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
-import type { CmsStoryBanner, CmsTestimonialSection } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
+import type {
+  CmsStoryBanner,
+  CmsTestimonialSection,
+} from "@/types/cms";
+
+const exo2 = Exo_2({
+  subsets: ["latin"],
+  weight: ["600"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+});
 
 function ArrowRightIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 16 16" className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none">
-      <path d="M3.5 8h9M9 4.5 12.5 8 9 11.5" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 20 20"
+      className="h-3.5 w-3.5"
+      fill="none"
+    >
+      <path
+        d="M4 10h11M11 6l4 4-4 4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function Testimonial({ content }: { content: CmsTestimonialSection }) {
-  const logos = content.partnerLogos?.filter((logo) => Boolean(logo?.imageUrl)) ?? [];
-  const hasQuote = Boolean(content.quote?.trim());
-
-  if (!hasQuote && logos.length === 0) return null;
-
-  return (
-    <section
-      aria-label="Partner testimonial and clients"
-      className="landing-section-transition mx-auto flex w-full max-w-[90rem] flex-col items-center gap-[6.25rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
-    >
-      {hasQuote ? (
-        <figure className="flex w-full max-w-[45rem] flex-col items-center gap-9 text-center">
-          {content.companyLogoUrl ? (
-            <div className="relative h-12 w-52">
-              <Image
-                src={content.companyLogoUrl}
-                alt={content.companyLogoAlt?.trim() || content.companyName || "Company logo"}
-                fill
-                sizes="208px"
-                className="object-contain"
-              />
-            </div>
-          ) : content.companyName ? (
-            <p className={`${inter.className} text-lg font-semibold text-black`}>{content.companyName}</p>
-          ) : null}
-
-          <figcaption className="flex flex-col items-center gap-5">
-            <blockquote className={`${inter.className} text-base font-normal leading-7 text-[rgba(0,9,51,0.65)] sm:text-lg`}>
-              “{content.quote}”
-            </blockquote>
-            {content.personName || content.personRole ? (
-              <p className={`${inter.className} text-sm font-semibold leading-6 text-[rgba(0,6,38,0.9)] sm:text-base`}>
-                {[content.personName, content.personRole].filter(Boolean).join(" · ")}
-              </p>
-            ) : null}
-          </figcaption>
-        </figure>
-      ) : null}
-
-      {logos.length > 0 ? (
-        <div className="flex w-full flex-wrap items-center justify-center gap-x-10 gap-y-8 border-t border-black/[0.05] pt-10">
-          {logos.map((logo) => (
-            <div key={logo._key} className="relative h-11 w-36 sm:w-44">
-              <Image
-                src={logo.imageUrl}
-                alt={logo.imageAlt?.trim() || logo.label}
-                fill
-                sizes="176px"
-                className="object-contain grayscale"
-              />
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </section>
-  );
-}
-
-function StoryBannerSection({ story }: { story: CmsStoryBanner }) {
-  if (!story.imageUrl && !story.heading?.trim()) return null;
-
-  return (
-    <section
-      aria-labelledby="landing-story-heading"
-      className="landing-section-transition relative mx-auto flex min-h-[30rem] w-full max-w-[90rem] flex-col items-end justify-between overflow-hidden p-8"
-    >
-      {story.imageUrl ? (
-        <Image
-          src={story.imageUrl}
-          alt={story.imageAlt?.trim() || ""}
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-[#0c1421]" aria-hidden="true" />
-      )}
-      <div className="absolute inset-0 bg-[radial-gradient(118.01%_73.86%_at_57.53%_72.82%,rgba(0,0,0,0)_42.15%,rgba(0,0,0,0.76)_85.74%)]" />
-
-      <div className="relative z-10 flex w-full flex-col items-start gap-2">
-        {story.eyebrow?.trim() ? (
-          <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] text-white`}>
-            {story.eyebrow}
-          </p>
-        ) : null}
-
-        {story.heading?.trim() ? (
-          <h2
-            id="landing-story-heading"
-            className={`${exo2.className} w-full max-w-[30.5rem] text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem]`}
-          >
-            {story.heading}
-          </h2>
-        ) : null}
-
-        {story.cta?.label && story.cta.href ? (
-          <Link
-            href={story.cta.href}
-            className={`${inter.className} group mt-1 inline-flex items-center justify-center gap-1 rounded-lg p-4 text-sm font-semibold leading-5 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
-          >
-            <span>{story.cta.label}</span>
-            <ArrowRightIcon />
-          </Link>
-        ) : null}
-      </div>
-
-      {story.badgeUrl ? (
-        <div className="relative z-10 h-[3.8125rem] w-[7.5625rem] shrink-0">
-          <Image
-            src={story.badgeUrl}
-            alt={story.badgeAlt?.trim() || "Story badge"}
-            fill
-            sizes="122px"
-            className="object-contain"
-          />
-        </div>
-      ) : null}
-    </section>
-  );
-}
+type TestimonialSectionProps = {
+  testimonial?: CmsTestimonialSection | null;
+  story?: CmsStoryBanner | null;
+};
 
 export function TestimonialSection({
   testimonial,
   story,
-}: {
-  testimonial?: CmsTestimonialSection | null;
-  story?: CmsStoryBanner | null;
-}) {
-  if (!testimonial && !story) return null;
+}: TestimonialSectionProps) {
+  const quote =
+    testimonial?.quote?.trim() || null;
+
+  const personName =
+    testimonial?.personName?.trim() || null;
+
+  const personRole =
+    testimonial?.personRole?.trim() || null;
+
+  const companyName =
+    testimonial?.companyName?.trim() || null;
+
+  const partnerLogos =
+    testimonial?.partnerLogos?.filter(
+      (item) => Boolean(item?.imageUrl),
+    ) ?? [];
+
+  const hasTestimonial = Boolean(
+    quote ||
+      testimonial?.companyLogoUrl ||
+      partnerLogos.length,
+  );
+
+  const storyEyebrow =
+    story?.eyebrow?.trim() || null;
+
+  const storyHeading =
+    story?.heading?.trim() || null;
+
+  const storyCtaLabel =
+    story?.cta?.label?.trim() || null;
+
+  const storyCtaHref =
+    story?.cta?.href?.trim() || null;
+
+  const hasStory = Boolean(
+    storyHeading || story?.imageUrl,
+  );
+
+  if (!hasTestimonial && !hasStory) {
+    return null;
+  }
 
   return (
     <>
-      {testimonial ? <Testimonial content={testimonial} /> : null}
-      {story ? <StoryBannerSection story={story} /> : null}
+      {/* =====================================================
+          TESTIMONIAL
+          ===================================================== */}
+
+      {hasTestimonial ? (
+        <section
+          aria-label="Client testimonial"
+          className="
+            landing-section-transition
+            mx-auto
+            w-full
+            max-w-[90rem]
+            bg-white
+          "
+        >
+          {/* MAIN TESTIMONIAL */}
+
+          <div
+            className="
+              flex
+              flex-col
+              items-center
+              px-5
+              pb-14
+              pt-16
+              text-center
+
+              sm:px-8
+              sm:pb-16
+              sm:pt-20
+
+              lg:px-[3.5rem]
+              lg:pb-[5rem]
+              lg:pt-[6rem]
+            "
+          >
+            {/* COMPANY LOGO */}
+
+            {testimonial?.companyLogoUrl ? (
+              <div
+                className="
+                  relative
+                  h-[2.6rem]
+                  w-[8rem]
+
+                  sm:h-[3rem]
+                  sm:w-[9.5rem]
+                "
+              >
+                <Image
+                  src={testimonial.companyLogoUrl}
+                  alt={
+                    testimonial.companyLogoAlt?.trim() ||
+                    companyName ||
+                    ""
+                  }
+                  fill
+                  sizes="152px"
+                  className="object-contain"
+                />
+              </div>
+            ) : null}
+
+            {/* TESTIMONIAL COPY */}
+
+            {quote ? (
+              <blockquote
+                className="
+                  mt-9
+                  max-w-[39rem]
+
+                  sm:mt-10
+                "
+              >
+                <p
+                  className={`
+                    ${inter.className}
+
+                    text-center
+                    text-[0.875rem]
+                    font-normal
+                    leading-[1.55rem]
+                    text-[rgba(0,6,38,0.62)]
+
+                    sm:text-[0.9375rem]
+                    sm:leading-[1.65rem]
+                  `}
+                  style={{
+                    fontFeatureSettings:
+                      '"liga" off, "clig" off',
+                  }}
+                >
+                  {quote}
+                </p>
+              </blockquote>
+            ) : null}
+
+            {/* PERSON / ROLE */}
+
+            {personName ||
+            personRole ||
+            companyName ? (
+              <div className="mt-5">
+                {personName ? (
+                  <p
+                    className={`
+                      ${inter.className}
+                      text-sm
+                      font-semibold
+                      text-[rgba(0,6,38,0.90)]
+                    `}
+                  >
+                    {personName}
+                  </p>
+                ) : null}
+
+                <p
+                  className={`
+                    ${inter.className}
+
+                    text-[0.75rem]
+                    font-semibold
+                    leading-5
+                    text-[rgba(0,6,38,0.90)]
+                  `}
+                >
+                  {personRole}
+
+                  {personRole &&
+                  companyName
+                    ? " at "
+                    : null}
+
+                  {companyName}
+                </p>
+              </div>
+            ) : null}
+          </div>
+
+          {/* PARTNER LOGOS */}
+
+          {partnerLogos.length > 0 ? (
+            <div
+              className="
+                border-t
+                border-[rgba(0,6,38,0.10)]
+                px-5
+
+                sm:px-8
+
+                lg:px-[3.5rem]
+              "
+            >
+              <div
+                className="
+                  mx-auto
+                  flex
+                  min-h-[7rem]
+                  max-w-[70rem]
+                  flex-wrap
+                  items-center
+                  justify-center
+                  gap-x-10
+                  gap-y-7
+                  py-7
+
+                  sm:gap-x-14
+
+                  lg:min-h-[8rem]
+                  lg:flex-nowrap
+                  lg:justify-between
+                  lg:gap-x-12
+                "
+              >
+                {partnerLogos.map(
+                  (logo, index) => (
+                    <div
+                      key={
+                        logo._key ??
+                        `${logo.label}-${index}`
+                      }
+                      className="
+                        relative
+                        h-[2.25rem]
+                        w-[7.5rem]
+
+                        opacity-90
+                        grayscale
+
+                        transition-all
+                        duration-300
+
+                        hover:opacity-100
+                        hover:grayscale-0
+
+                        sm:w-[8.5rem]
+                      "
+                    >
+                      <Image
+                        src={logo.imageUrl!}
+                        alt={
+                          logo.imageAlt?.trim() ||
+                          `${logo.label ?? ""} logo`
+                        }
+                        fill
+                        sizes="136px"
+                        className="object-contain"
+                      />
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
+      {/* =====================================================
+          JOIN ABHIJAT MARATHI
+          ===================================================== */}
+
+      {hasStory ? (
+        <section
+          aria-labelledby="join-abhijat-heading"
+          className="
+            landing-section-transition
+            relative
+            mx-auto
+            min-h-[28rem]
+            w-full
+            max-w-[90rem]
+            overflow-hidden
+            bg-[#111]
+
+            sm:min-h-[32rem]
+
+            lg:min-h-[34rem]
+          "
+        >
+          {/* IMAGE */}
+
+          {story?.imageUrl ? (
+            <Image
+              src={story.imageUrl}
+              alt={story.imageAlt?.trim() || ""}
+              fill
+              sizes="100vw"
+              className="
+                object-cover
+                object-center
+                transition-transform
+                duration-[1600ms]
+                ease-out
+
+                hover:scale-[1.015]
+              "
+            />
+          ) : null}
+
+          {/* LEFT-SIDE DARKENING */}
+
+          <div
+            aria-hidden="true"
+            className="
+              absolute
+              inset-0
+              bg-[linear-gradient(90deg,rgba(0,0,0,0.76)_0%,rgba(0,0,0,0.48)_30%,rgba(0,0,0,0.08)_68%,rgba(0,0,0,0.05)_100%)]
+            "
+          />
+
+          <div
+            aria-hidden="true"
+            className="
+              absolute
+              inset-0
+              bg-[linear-gradient(0deg,rgba(0,0,0,0.28),transparent_40%)]
+            "
+          />
+
+          {/* CONTENT */}
+
+          <div
+            className="
+              relative
+              z-10
+              flex
+              min-h-[28rem]
+              w-full
+              flex-col
+              justify-between
+
+              px-5
+              py-8
+
+              sm:min-h-[32rem]
+              sm:px-8
+              sm:py-10
+
+              lg:min-h-[34rem]
+              lg:px-[3.5rem]
+              lg:py-12
+            "
+          >
+            <div className="max-w-[34rem]">
+              {storyEyebrow ? (
+                <p
+                  className={`
+                    ${inter.className}
+
+                    text-[0.625rem]
+                    font-semibold
+                    uppercase
+                    leading-4
+                    tracking-[0.04em]
+                    text-white
+                  `}
+                >
+                  {storyEyebrow}
+                </p>
+              ) : null}
+
+              {storyHeading ? (
+                <h2
+                  id="join-abhijat-heading"
+                  className={`
+                    ${exo2.className}
+
+                    mt-3
+                    max-w-[33rem]
+
+                    text-[2rem]
+                    font-semibold
+                    leading-[2.35rem]
+                    tracking-[-0.035rem]
+                    text-white
+
+                    sm:text-[2.5rem]
+                    sm:leading-[2.9rem]
+
+                    lg:text-[3rem]
+                    lg:leading-[3.4rem]
+                    lg:tracking-[-0.05rem]
+                  `}
+                  style={{
+                    fontFeatureSettings:
+                      '"liga" off, "clig" off',
+                  }}
+                >
+                  {storyHeading}
+                </h2>
+              ) : null}
+
+              {storyCtaLabel &&
+              storyCtaHref ? (
+                <Link
+                  href={storyCtaHref}
+                  className={`
+                    ${inter.className}
+
+                    group
+                    mt-8
+                    inline-flex
+                    items-center
+                    gap-2
+                    py-2
+
+                    text-xs
+                    font-semibold
+                    text-white
+
+                    transition-opacity
+                    duration-300
+
+                    hover:opacity-70
+                  `}
+                >
+                  <span>
+                    {storyCtaLabel}
+                  </span>
+
+                  <span
+                    className="
+                      transition-transform
+                      duration-300
+                      group-hover:translate-x-1
+                    "
+                  >
+                    <ArrowRightIcon />
+                  </span>
+                </Link>
+              ) : null}
+            </div>
+
+            {/* ABHIJAT BADGE — bottom right */}
+
+            {story?.badgeUrl ? (
+              <div
+                className="
+                  relative
+                  ml-auto
+                  h-[3.75rem]
+                  w-[3.75rem]
+
+                  sm:h-[4.5rem]
+                  sm:w-[4.5rem]
+                "
+              >
+                <Image
+                  src={story.badgeUrl}
+                  alt={
+                    story.badgeAlt?.trim() ||
+                    "Abhijat Marathi logo"
+                  }
+                  fill
+                  sizes="72px"
+                  className="object-contain"
+                />
+              </div>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }
