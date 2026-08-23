@@ -1,5 +1,239 @@
 import { defineQuery } from "next-sanity";
 
+export const HOME_PAGE_QUERY = defineQuery(`
+  *[_type == "homePage" && _id == "homePage"][0]{
+    _id,
+    _updatedAt,
+    "heroSlides": heroSlides[coalesce(enabled, true) == true]{
+      _key,
+      internalName,
+      eyebrow,
+      heading,
+      description,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt,
+      "mobileImageUrl": mobileImage.asset->url,
+      "mobileImageAlt": mobileImage.alt,
+      cta{label, href, style}
+    },
+    aboutEyebrow,
+    aboutHeading,
+    aboutDescription,
+    aboutCta{label, href, style},
+    clientsEyebrow,
+    clientsHeading,
+    servicesEyebrow,
+    servicesHeading,
+    industriesEyebrow,
+    industriesHeading,
+    industriesDescription,
+    industriesCta{label, href, style},
+    insightsEyebrow,
+    insightsHeading,
+    insightsCta{label, href, style},
+    stats[]{_key, value, prefix, suffix, label},
+    "featuredCompanies": select(
+      count(coalesce(featuredCompanies, [])) > 0 => featuredCompanies[]->{
+        _id, name, "slug": slug.current, shortDescription,
+        "logoUrl": logo.asset->url, "logoAlt": logo.alt,
+        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,
+        websiteUrl,
+        "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0
+      },
+      *[_type == "company" && coalesce(featured, false) == true && defined(logo.asset)]
+        | order(name asc)[0...8]{
+          _id, name, "slug": slug.current, shortDescription,
+          "logoUrl": logo.asset->url, "logoAlt": logo.alt,
+          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,
+          websiteUrl,
+          "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0
+        }
+    ),
+    "featuredServices": select(
+      count(coalesce(featuredServices, [])) > 0 => featuredServices[]->{
+        _id, title, "slug": slug.current, shortDescription,
+        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt
+      },
+      *[_type == "service" && coalesce(featured, false) == true && defined(featuredImage.asset)]
+        | order(title asc)[0...8]{
+          _id, title, "slug": slug.current, shortDescription,
+          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt
+        }
+    ),
+    "featuredIndustries": select(
+      count(coalesce(featuredIndustries, [])) > 0 => featuredIndustries[]->{
+        _id, title, "slug": slug.current, shortDescription,
+        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt
+      },
+      *[_type == "industry" && coalesce(featured, false) == true && defined(featuredImage.asset)]
+        | order(title asc)[0...12]{
+          _id, title, "slug": slug.current, shortDescription,
+          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt
+        }
+    ),
+    "featuredProjects": select(
+      count(coalesce(featuredProjects, [])) > 0 => featuredProjects[]->{
+        _id, title, "slug": slug.current, client, shortDescription,
+        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate
+      },
+      *[_type == "project" && coalesce(featured, false) == true && defined(featuredImage.asset)]
+        | order(projectDate desc)[0...8]{
+          _id, title, "slug": slug.current, client, shortDescription,
+          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate
+        }
+    ),
+    "featuredInsights": select(
+      count(coalesce(featuredInsights, [])) > 0 => featuredInsights[]->{
+        _id, title, "slug": slug.current, excerpt,
+        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,
+        publishedAt, "authorName": author->name, "category": categories[0]->title
+      },
+      *[_type == "post" && coalesce(featured, false) == true && defined(slug.current) && defined(publishedAt) && defined(featuredImage.asset)]
+        | order(publishedAt desc)[0...6]{
+          _id, title, "slug": slug.current, excerpt,
+          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,
+          publishedAt, "authorName": author->name, "category": categories[0]->title
+        }
+    ),
+"achievement": {
+  "eyebrow": achievementEyebrow,
+  "heading": achievementHeading,
+  "description": achievementDescription,
+
+  "departmentEmblemUrl":
+    achievementDepartmentEmblem.asset->url,
+  "departmentEmblemAlt":
+    select(
+      achievementDepartmentEmblem.decorative == true => "",
+      achievementDepartmentEmblem.alt
+    ),
+
+  "governmentSealUrl":
+    achievementGovernmentSeal.asset->url,
+  "governmentSealAlt":
+    select(
+      achievementGovernmentSeal.decorative == true => "",
+      achievementGovernmentSeal.alt
+    ),
+
+  "bottomArtworkUrl":
+    achievementBottomArtwork.asset->url,
+  "bottomArtworkAlt":
+    select(
+      achievementBottomArtwork.decorative == true => "",
+      achievementBottomArtwork.alt
+    ),
+
+  "cta": {
+    "label": achievementCta.label,
+    "href": achievementCta.href,
+    "style": achievementCta.style
+  }
+},
+    "partnerSection": partnerSection{
+      heading,
+      description,
+      benefits[]{_key, title, href},
+      eventHeading,
+      "eventImageUrl": eventImage.asset->url,
+      "eventImageAlt": eventImage.alt,
+      "eventBadgeUrl": eventBadge.asset->url,
+      "eventBadgeAlt": eventBadge.alt,
+      eventCta{label, href, style}
+    },
+    "testimonialSection": testimonialSection{
+      quote,
+      personName,
+      personRole,
+      companyName,
+      "companyLogoUrl": companyLogo.asset->url,
+      "companyLogoAlt": companyLogo.alt,
+      "partnerLogos": partnerLogos[]{
+        _key,
+        label,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt
+      }
+    },
+    "storyBanner": storyBanner{
+      eyebrow,
+      heading,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt,
+      "badgeUrl": badge.asset->url,
+      "badgeAlt": badge.alt,
+      cta{label, href, style}
+    },
+    "mediaCoverage": mediaCoverage{
+      eyebrow,
+      heading,
+      "items": items[]{
+        _key,
+        title,
+        source,
+        href,
+        "imageUrl": image.asset->url,
+        "imageAlt": image.alt
+      }
+    },
+    "founderLetter": founderLetter{
+      eyebrow,
+      heading,
+      body,
+      founderName,
+      founderRole,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt
+    },
+    "faqSection": faqSection{
+      eyebrow,
+      heading,
+      contactText,
+      contactEmail,
+      items[]{_key, question, answer}
+    },
+    "careersCta": careersCta{
+      eyebrow,
+      heading,
+      description,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt,
+      cta{label, href, style}
+    },
+    "seo": {
+      "title": seo.metaTitle,
+      "description": seo.metaDescription,
+      "canonicalUrl": seo.canonicalUrl,
+      "noIndex": coalesce(seo.noIndex, false),
+      "socialImageUrl": seo.socialImage.asset->url,
+      "socialImageAlt": seo.socialImage.alt
+    }
+  }
+`);
+
+
+export const SITE_SETTINGS_QUERY = defineQuery(`
+  *[_type == "siteSettings" && _id == "siteSettings"][0]{
+    _id,
+    _updatedAt,
+    brandName,
+    legalName,
+    description,
+    "logoUrl": logo.asset->url,
+    "logoAlt": logo.alt,
+    "logoDarkUrl": logoDark.asset->url,
+    "logoDarkAlt": logoDark.alt,
+    email,
+    phone,
+    address,
+    socialLinks[]{_key, platform, url},
+    defaultMetaTitle,
+    defaultMetaDescription,
+    "defaultSocialImageUrl": defaultSocialImage.asset->url,
+    "defaultSocialImageAlt": defaultSocialImage.alt
+  }
+`);
+
 export const HOME_PAGE_HERO_QUERY = defineQuery(`
   *[_type == "homePage" && _id == "homePage"][0]{
     "heroSlides": heroSlides[coalesce(enabled, true) == true]{
@@ -14,7 +248,8 @@ export const HOME_PAGE_HERO_QUERY = defineQuery(`
       "mobileImageAlt": mobileImage.alt,
       cta{
         label,
-        href
+        href,
+        style
       }
     }
   }
@@ -113,7 +348,8 @@ export const HOME_FEATURED_COMPANIES_QUERY = defineQuery(`
     "logoAlt": logo.alt,
     "imageUrl": featuredImage.asset->url,
     "imageAlt": featuredImage.alt,
-    websiteUrl
+    websiteUrl,
+    "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0
   }
 `);
 
