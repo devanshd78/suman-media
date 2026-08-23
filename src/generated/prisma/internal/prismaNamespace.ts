@@ -399,7 +399,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   ContactSubmission: 'ContactSubmission',
   NewsletterSubscription: 'NewsletterSubscription',
-  CareerApplication: 'CareerApplication'
+  CareerApplication: 'CareerApplication',
+  CountryCallingCode: 'CountryCallingCode'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "contactSubmission" | "newsletterSubscription" | "careerApplication"
+    modelProps: "contactSubmission" | "newsletterSubscription" | "careerApplication" | "countryCallingCode"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -641,6 +642,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CountryCallingCode: {
+      payload: Prisma.$CountryCallingCodePayload<ExtArgs>
+      fields: Prisma.CountryCallingCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CountryCallingCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CountryCallingCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        findFirst: {
+          args: Prisma.CountryCallingCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CountryCallingCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        findMany: {
+          args: Prisma.CountryCallingCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>[]
+        }
+        create: {
+          args: Prisma.CountryCallingCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        createMany: {
+          args: Prisma.CountryCallingCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CountryCallingCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>[]
+        }
+        delete: {
+          args: Prisma.CountryCallingCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        update: {
+          args: Prisma.CountryCallingCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.CountryCallingCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CountryCallingCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CountryCallingCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.CountryCallingCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CountryCallingCodePayload>
+        }
+        aggregate: {
+          args: Prisma.CountryCallingCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCountryCallingCode>
+        }
+        groupBy: {
+          args: Prisma.CountryCallingCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryCallingCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CountryCallingCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CountryCallingCodeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -730,6 +805,19 @@ export const CareerApplicationScalarFieldEnum = {
 } as const
 
 export type CareerApplicationScalarFieldEnum = (typeof CareerApplicationScalarFieldEnum)[keyof typeof CareerApplicationScalarFieldEnum]
+
+
+export const CountryCallingCodeScalarFieldEnum = {
+  iso2: 'iso2',
+  name: 'name',
+  callingCode: 'callingCode',
+  flag: 'flag',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CountryCallingCodeScalarFieldEnum = (typeof CountryCallingCodeScalarFieldEnum)[keyof typeof CountryCallingCodeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -992,6 +1080,7 @@ export type GlobalOmitConfig = {
   contactSubmission?: Prisma.ContactSubmissionOmit
   newsletterSubscription?: Prisma.NewsletterSubscriptionOmit
   careerApplication?: Prisma.CareerApplicationOmit
+  countryCallingCode?: Prisma.CountryCallingCodeOmit
 }
 
 /* Types for Logging */

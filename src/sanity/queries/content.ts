@@ -344,6 +344,10 @@ export const CONTACT_PAGE_QUERY = defineQuery(`
         url
       }
     },
+    "form": *[_type == "contactPage" && _id == "contactPage"][0]{
+      "generalCategories": generalFormCategories,
+      "partnerCategories": partnerFormCategories
+    },
     "careersCta": *[_type == "contactPage" && _id == "contactPage"][0]{
       "heading": careersCtaHeading,
       "buttonLabel": careersCtaButtonLabel,

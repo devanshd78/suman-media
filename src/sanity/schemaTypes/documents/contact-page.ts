@@ -6,6 +6,7 @@ export const contactPageType = defineType({
   type: "document",
   groups: [
     { name: "cards", title: "Contact cards", default: true },
+    { name: "form", title: "Contact form" },
     { name: "connectedWorld", title: "Connected world section" },
     { name: "careersCta", title: "Careers CTA" },
   ],
@@ -47,7 +48,7 @@ export const contactPageType = defineType({
               title: "Destination",
               type: "string",
               description:
-                "Use an internal path such as /contact?type=investor or a full URL.",
+                "Use an internal path such as /contact/form?type=investor or a full URL.",
               validation: (rule) => rule.required().max(500),
             }),
             defineField({
@@ -73,6 +74,37 @@ export const contactPageType = defineType({
         }),
       ],
       validation: (rule) => rule.max(3),
+    }),
+    defineField({
+      name: "generalFormCategories",
+      title: "General enquiry categories",
+      type: "array",
+      group: "form",
+      description: "Buttons shown above the standard contact form.",
+      initialValue: ["Services", "Abhijat Marathi", "Solutions", "Products"],
+      of: [
+        defineArrayMember({
+          type: "string",
+          validation: (rule) => rule.required().max(80),
+        }),
+      ],
+      validation: (rule) => rule.unique().max(8),
+    }),
+    defineField({
+      name: "partnerFormCategories",
+      title: "Partner categories",
+      type: "array",
+      group: "form",
+      description:
+        "Buttons and dropdown options shown when a visitor chooses Join as a partner.",
+      initialValue: ["Story", "Production", "Music", "Others"],
+      of: [
+        defineArrayMember({
+          type: "string",
+          validation: (rule) => rule.required().max(80),
+        }),
+      ],
+      validation: (rule) => rule.unique().max(12),
     }),
     defineField({
       name: "connectedWorldHeading",

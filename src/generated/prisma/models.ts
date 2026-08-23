@@ -11,4 +11,5 @@
 export type * from './models/ContactSubmission'
 export type * from './models/NewsletterSubscription'
 export type * from './models/CareerApplication'
+export type * from './models/CountryCallingCode'
 export type * from './commonInputTypes'
