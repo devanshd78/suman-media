@@ -109,78 +109,78 @@ export const homePageType = defineType({
     defineField({ name: "servicesEyebrow", title: "Services eyebrow", type: "string", group: "content", initialValue: "Our Services", validation: (rule) => rule.max(80) }),
     defineField({ name: "servicesHeading", title: "Services heading", type: "string", group: "content", initialValue: "What we really do?", validation: (rule) => rule.max(120) }),
 
-// ============================================================
-// GOVERNMENT EMPANELMENT / ACHIEVEMENT
-// ============================================================
+    // ============================================================
+    // GOVERNMENT EMPANELMENT / ACHIEVEMENT
+    // ============================================================
 
-defineField({
-  name: "achievementEyebrow",
-  title: "Achievement eyebrow",
-  type: "string",
-  group: "content",
-  initialValue: "ACHIEVEMENT",
-  validation: (rule) => rule.max(80),
-}),
+    defineField({
+      name: "achievementEyebrow",
+      title: "Achievement eyebrow",
+      type: "string",
+      group: "content",
+      initialValue: "ACHIEVEMENT",
+      validation: (rule) => rule.max(80),
+    }),
 
-defineField({
-  name: "achievementHeading",
-  title: "Achievement heading",
-  type: "string",
-  group: "content",
-  initialValue:
-    "Empanelled with the Government of Maharashtra for initiatives promoting Marathi language, culture and heritage.",
-  validation: (rule) => rule.max(240),
-}),
+    defineField({
+      name: "achievementHeading",
+      title: "Achievement heading",
+      type: "string",
+      group: "content",
+      initialValue:
+        "Empanelled with the Government of Maharashtra for initiatives promoting Marathi language, culture and heritage.",
+      validation: (rule) => rule.max(240),
+    }),
 
-defineField({
-  name: "achievementDescription",
-  title: "Achievement description",
-  type: "text",
-  rows: 3,
-  group: "content",
-  description:
-    "Optional supporting copy. Leave empty if the heading already communicates the full achievement.",
-  validation: (rule) => rule.max(500),
-}),
+    defineField({
+      name: "achievementDescription",
+      title: "Achievement description",
+      type: "text",
+      rows: 3,
+      group: "content",
+      description:
+        "Optional supporting copy. Leave empty if the heading already communicates the full achievement.",
+      validation: (rule) => rule.max(500),
+    }),
 
-defineField({
-  name: "achievementDepartmentEmblem",
-  title: "Marathi Language Department Emblem",
-  type: "mediaImage",
-  group: "content",
-  description:
-    "Official Marathi Language Department emblem shown on the upper-left side of the Government empanelment section.",
-}),
+    defineField({
+      name: "achievementDepartmentEmblem",
+      title: "Marathi Language Department Emblem",
+      type: "mediaImage",
+      group: "content",
+      description:
+        "Official Marathi Language Department emblem shown on the upper-left side of the Government empanelment section.",
+    }),
 
-defineField({
-  name: "achievementGovernmentSeal",
-  title: "Government of Maharashtra Seal",
-  type: "mediaImage",
-  group: "content",
-  description:
-    "Official Government of Maharashtra seal displayed in the upper-right corner of the achievement section.",
-}),
+    defineField({
+      name: "achievementGovernmentSeal",
+      title: "Government of Maharashtra Seal",
+      type: "mediaImage",
+      group: "content",
+      description:
+        "Official Government of Maharashtra seal displayed in the upper-right corner of the achievement section.",
+    }),
 
-defineField({
-  name: "achievementBottomArtwork",
-  title: "Bottom Marathi Cultural Artwork",
-  type: "mediaImage",
-  group: "content",
-  description:
-    "Wide decorative Marathi cultural artwork displayed along the bottom edge of the achievement section. Mark this image as decorative.",
-}),
+    defineField({
+      name: "achievementBottomArtwork",
+      title: "Bottom Marathi Cultural Artwork",
+      type: "mediaImage",
+      group: "content",
+      description:
+        "Wide decorative Marathi cultural artwork displayed along the bottom edge of the achievement section. Mark this image as decorative.",
+    }),
 
-defineField({
-  name: "achievementCta",
-  title: "Achievement call to action",
-  type: "cta",
-  group: "content",
-  initialValue: {
-    label: "View more",
-    href: "/about",
-    style: "text",
-  },
-}),
+    defineField({
+      name: "achievementCta",
+      title: "Achievement call to action",
+      type: "cta",
+      group: "content",
+      initialValue: {
+        label: "View more",
+        href: "/about",
+        style: "text",
+      },
+    }),
 
     defineField({ name: "industriesEyebrow", title: "Industries eyebrow", type: "string", group: "content", initialValue: "Industries we work with", validation: (rule) => rule.max(80) }),
     defineField({ name: "industriesHeading", title: "Industries heading", type: "string", group: "content", initialValue: "The Industries we work with?", validation: (rule) => rule.max(120) }),
@@ -308,7 +308,10 @@ defineField({
                 defineField({ name: "title", title: "Title", type: "string", validation: (rule) => rule.required().max(160) }),
                 defineField({ name: "source", title: "Publication / source", type: "string", validation: (rule) => rule.max(100) }),
                 defineField({ name: "href", title: "Article URL", type: "url", validation: (rule) => rule.uri({ scheme: ["https"] }) }),
-                imageField("image", "Media image"),
+                imageField(
+                  "image",
+                  "Publication logo",
+                ),
               ],
             }),
           ],
