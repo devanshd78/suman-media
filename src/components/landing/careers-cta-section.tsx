@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
+
 import type { CmsCareersCta } from "@/types/cms";
 
 const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
@@ -16,13 +17,17 @@ function ArrowRightIcon() {
 
 export function CareersCtaSection({ content }: { content?: CmsCareersCta | null }) {
   if (!content?.heading?.trim()) return null;
-  const cta = content.cta?.label && content.cta.href ? content.cta : { label: "View Open Roles", href: "/careers" };
+
+  const cta =
+    content.cta?.label && content.cta.href
+      ? content.cta
+      : { label: "View Open Roles", href: "/careers" };
 
   return (
     <section
       id="careers"
       aria-labelledby="landing-careers-heading"
-      className="landing-section-transition relative mx-auto flex min-h-[34rem] w-full max-w-[90rem] items-end overflow-hidden bg-[#121212] px-5 py-10 text-white sm:px-8 lg:min-h-[42rem] lg:px-[3.5rem] lg:py-14"
+      className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-[90rem] overflow-hidden bg-[#121212] text-white sm:aspect-[16/9] lg:aspect-[2.65/1]"
     >
       {content.imageUrl ? (
         <Image
@@ -30,29 +35,46 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
           alt={content.imageAlt?.trim() || ""}
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
       ) : null}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_10%,rgba(0,0,0,0.78)_100%)]" />
 
-      <div className="relative z-10 max-w-3xl">
-        <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-white/70`}>
-          {content.eyebrow?.trim() || "Careers"}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.64)_0%,rgba(0,0,0,0.32)_34%,rgba(0,0,0,0.04)_70%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,transparent_55%)]"
+      />
+
+      <div className="relative z-10 flex h-full w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
+        <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.045em] text-white/90`}>
+          {content.eyebrow?.trim() || "CARRERS"}
         </p>
-        <h2 id="landing-careers-heading" className={`${exo2.className} mt-3 text-[2.4rem] font-semibold leading-[1.05] tracking-[-0.04em] sm:text-[3.4rem] lg:text-[4.5rem]`}>
+
+        <h2
+          id="landing-careers-heading"
+          className={`${exo2.className} mt-3 max-w-[41rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
+          style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+        >
           {content.heading}
         </h2>
+
         {content.description?.trim() ? (
-          <p className={`${inter.className} mt-5 max-w-2xl text-sm leading-6 text-white/72 sm:text-base`}>
+          <p className={`${inter.className} mt-4 max-w-[36rem] text-sm leading-6 text-white/72`}>
             {content.description}
           </p>
         ) : null}
+
         <Link
           href={cta.href}
-          className={`${inter.className} mt-6 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
+          className={`${inter.className} group mt-7 inline-flex items-center gap-2 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-72 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
         >
-          {cta.label}
-          <ArrowRightIcon />
+          <span>{cta.label}</span>
+          <span className="transition-transform duration-200 group-hover:translate-x-1">
+            <ArrowRightIcon />
+          </span>
         </Link>
       </div>
     </section>

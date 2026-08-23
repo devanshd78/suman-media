@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import type { CmsSiteSettings } from "@/types/cms";
 
 const exo2 = Exo_2({
   subsets: ["latin"],
@@ -542,55 +543,84 @@ function SocialLink({
   label,
   children,
 }: {
-  href: string;
+  href?: string | null;
   label: string;
   children: ReactNode;
 }) {
+  const className = `
+    group
+    inline-flex
+    h-12
+    w-12
+    shrink-0
+    items-center
+    justify-center
+    rounded-[6.25rem]
+    bg-[rgba(255,255,255,0.76)]
+    shadow-[0_0.5rem_1.5rem_rgba(255,255,255,0.14)]
+    backdrop-blur-[6px]
+    transition-all
+    duration-300
+    hover:-translate-y-1
+    hover:bg-[rgba(255,255,255,0.92)]
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-white/40
+  `;
+
+  const icon = (
+    <span
+      className="
+        flex
+        h-8
+        w-8
+        items-center
+        justify-center
+        transition-transform
+        duration-300
+        group-hover:scale-105
+      "
+    >
+      {children}
+    </span>
+  );
+
+  if (!href) {
+    return (
+      <span
+        aria-label={label}
+        className={className}
+        style={{ WebkitBackdropFilter: "blur(6px)" }}
+      >
+        {icon}
+      </span>
+    );
+  }
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
       aria-label={label}
-      className="
-        group
-        inline-flex
-        h-12
-        w-12
-        shrink-0
-        items-center
-        justify-center
-        rounded-[6.25rem]
-        bg-[rgba(255,255,255,0.10)]
-        backdrop-blur-[4px]
-        transition-all
-        duration-300
-        hover:-translate-y-1
-        hover:bg-[rgba(255,255,255,0.18)]
-        focus-visible:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-white/40
-      "
-      style={{
-        WebkitBackdropFilter:
-          "blur(4px)",
-      }}
+      className={className}
+      style={{ WebkitBackdropFilter: "blur(6px)" }}
     >
-      <span
-        className="
-          flex
-          h-8
-          w-8
-          items-center
-          justify-center
-          transition-transform
-          duration-300
-          group-hover:scale-105
-        "
-      >
-        {children}
-      </span>
+      {icon}
     </a>
+  );
+}
+
+function findSocialHref(
+  socialLinks: CmsSiteSettings["socialLinks"],
+  aliases: string[],
+) {
+  const normalizedAliases = aliases.map((alias) => alias.toLowerCase());
+
+  return (
+    socialLinks?.find((item) =>
+      normalizedAliases.includes(item.platform.trim().toLowerCase()),
+    )?.url ?? null
   );
 }
 
@@ -598,7 +628,12 @@ function SocialLink({
    FOOTER
    ========================================================= */
 
-export function Footer() {
+export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialLinks"] }) {
+  const xHref = findSocialHref(socialLinks, ["x", "twitter"]);
+  const facebookHref = findSocialHref(socialLinks, ["facebook", "fb"]);
+  const instagramHref = findSocialHref(socialLinks, ["instagram", "ig"]);
+  const youtubeHref = findSocialHref(socialLinks, ["youtube", "yt"]);
+  const linkedinHref = findSocialHref(socialLinks, ["linkedin", "linked in"]);
   return (
     <footer
       className="
@@ -973,23 +1008,23 @@ export function Footer() {
       sm:gap-3
     "
             >
-              <SocialLink href="#" label="X">
+              <SocialLink href={xHref} label="X">
                 <XIcon />
               </SocialLink>
 
-              <SocialLink href="#" label="Facebook">
+              <SocialLink href={facebookHref} label="Facebook">
                 <FacebookIcon />
               </SocialLink>
 
-              <SocialLink href="#" label="Instagram">
+              <SocialLink href={instagramHref} label="Instagram">
                 <InstagramIcon />
               </SocialLink>
 
-              <SocialLink href="#" label="YouTube">
+              <SocialLink href={youtubeHref} label="YouTube">
                 <YouTubeIcon />
               </SocialLink>
 
-              <SocialLink href="#" label="LinkedIn">
+              <SocialLink href={linkedinHref} label="LinkedIn">
                 <LinkedinIcon />
               </SocialLink>
             </div>

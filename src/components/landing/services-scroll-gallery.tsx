@@ -155,8 +155,8 @@ function StaticServices({ services }: { services: CmsFeaturedService[] }) {
           key={service._id}
           className="overflow-hidden border border-black/[0.04] bg-white shadow-[0_0.75rem_2rem_rgba(0,0,0,0.07)]"
         >
-          <div className="grid grid-cols-1">
-            <div className="flex min-h-[22rem] flex-col p-6">
+          <div className="grid grid-cols-1 md:grid-cols-[54%_46%]">
+            <div className="flex min-h-[21rem] flex-col p-6 sm:p-8 md:min-h-[28rem]">
               <span className="text-2xl font-semibold text-black">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -173,7 +173,7 @@ function StaticServices({ services }: { services: CmsFeaturedService[] }) {
               </div>
             </div>
 
-            <div className="relative min-h-[20rem] bg-[#f2eee4]">
+            <div className="relative min-h-[20rem] bg-[#f2eee4] md:min-h-[28rem]">
               {service.imageUrl ? (
                 <Image
                   src={service.imageUrl}
@@ -243,16 +243,6 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
             ))}
           </div>
 
-          {totalCards > 1 ? (
-            <div className="pointer-events-none absolute bottom-8 left-1/2 z-[200] flex -translate-x-1/2 items-center gap-4">
-              <span className="text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-black/30">
-                Scroll to explore
-              </span>
-              <span className="text-[0.625rem] font-semibold tabular-nums text-black/30">
-                {String(activeIndex + 1).padStart(2, "0")}/{String(totalCards).padStart(2, "0")}
-              </span>
-            </div>
-          ) : null}
         </div>
       </div>
 
@@ -271,8 +261,8 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
         }
 
         .service-3d-card-shell {
-          width: min(72vw, 68rem);
-          height: clamp(25rem, 53svh, 34rem);
+          width: min(84vw, 76rem);
+          height: clamp(28rem, 58svh, 38rem);
         }
 
         .service-3d-card {
@@ -290,15 +280,15 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
 
         @media (min-width: 1024px) and (max-width: 1500px) {
           .service-3d-card-shell {
-            width: min(74vw, 62rem);
-            height: clamp(23rem, 51svh, 31rem);
+            width: min(84vw, 72rem);
+            height: clamp(26rem, 57svh, 35rem);
           }
         }
 
         @media (min-width: 1024px) and (max-height: 760px) {
           .service-3d-card-shell {
-            width: min(72vw, 58rem);
-            height: clamp(21rem, 49svh, 27rem);
+            width: min(82vw, 66rem);
+            height: clamp(23rem, 53svh, 30rem);
           }
           .service-card-copy { padding: 1.75rem; }
           .service-card-title { font-size: clamp(1.35rem, 2vw, 2rem); }
@@ -307,8 +297,8 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
 
         @media (min-width: 1800px) {
           .service-3d-card-shell {
-            width: min(64vw, 72rem);
-            height: min(52svh, 36rem);
+            width: min(78vw, 78rem);
+            height: min(58svh, 39rem);
           }
         }
 

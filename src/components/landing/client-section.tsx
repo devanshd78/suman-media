@@ -23,7 +23,7 @@ export function ClientsSection({ eyebrow, heading, companies }: ClientsSectionPr
     >
       <div className="flex w-full flex-col items-center gap-2 text-center">
         <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
-          {eyebrow?.trim() || "Our Clients"}
+          {eyebrow?.trim() || "OUR SERVICES"}
         </p>
         <h2
           id="clients-heading"

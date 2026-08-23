@@ -11,9 +11,16 @@ export const HOME_PAGE_QUERY = defineQuery(`
       heading,
       description,
       "imageUrl": image.asset->url,
-      "imageAlt": image.alt,
+      "imageAlt": select(image.decorative == true => "", image.alt),
       "mobileImageUrl": mobileImage.asset->url,
-      "mobileImageAlt": mobileImage.alt,
+      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),
+      "badgeUrl": badge.asset->url,
+      "badgeAlt": select(badge.decorative == true => "", badge.alt),
+      "qrCodeUrl": qrCode.asset->url,
+      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),
+      downloadTitle,
+      downloadCaption,
+      downloadHref,
       cta{label, href, style}
     },
     aboutEyebrow,
@@ -136,9 +143,9 @@ export const HOME_PAGE_QUERY = defineQuery(`
       benefits[]{_key, title, href},
       eventHeading,
       "eventImageUrl": eventImage.asset->url,
-      "eventImageAlt": eventImage.alt,
+      "eventImageAlt": select(eventImage.decorative == true => "", eventImage.alt),
       "eventBadgeUrl": eventBadge.asset->url,
-      "eventBadgeAlt": eventBadge.alt,
+      "eventBadgeAlt": select(eventBadge.decorative == true => "", eventBadge.alt),
       eventCta{label, href, style}
     },
     "testimonialSection": testimonialSection{
@@ -147,21 +154,21 @@ export const HOME_PAGE_QUERY = defineQuery(`
       personRole,
       companyName,
       "companyLogoUrl": companyLogo.asset->url,
-      "companyLogoAlt": companyLogo.alt,
+      "companyLogoAlt": select(companyLogo.decorative == true => "", companyLogo.alt),
       "partnerLogos": partnerLogos[]{
         _key,
         label,
         "imageUrl": image.asset->url,
-        "imageAlt": image.alt
+        "imageAlt": select(image.decorative == true => "", image.alt)
       }
     },
     "storyBanner": storyBanner{
       eyebrow,
       heading,
       "imageUrl": image.asset->url,
-      "imageAlt": image.alt,
+      "imageAlt": select(image.decorative == true => "", image.alt),
       "badgeUrl": badge.asset->url,
-      "badgeAlt": badge.alt,
+      "badgeAlt": select(badge.decorative == true => "", badge.alt),
       cta{label, href, style}
     },
     "mediaCoverage": mediaCoverage{
@@ -173,7 +180,7 @@ export const HOME_PAGE_QUERY = defineQuery(`
         source,
         href,
         "imageUrl": image.asset->url,
-        "imageAlt": image.alt
+        "imageAlt": select(image.decorative == true => "", image.alt)
       }
     },
     "founderLetter": founderLetter{
@@ -183,7 +190,9 @@ export const HOME_PAGE_QUERY = defineQuery(`
       founderName,
       founderRole,
       "imageUrl": image.asset->url,
-      "imageAlt": image.alt
+      "imageAlt": select(image.decorative == true => "", image.alt),
+      "signatureUrl": signature.asset->url,
+      "signatureAlt": select(signature.decorative == true => "", signature.alt)
     },
     "faqSection": faqSection{
       eyebrow,
@@ -197,7 +206,7 @@ export const HOME_PAGE_QUERY = defineQuery(`
       heading,
       description,
       "imageUrl": image.asset->url,
-      "imageAlt": image.alt,
+      "imageAlt": select(image.decorative == true => "", image.alt),
       cta{label, href, style}
     },
     "seo": {
@@ -243,9 +252,16 @@ export const HOME_PAGE_HERO_QUERY = defineQuery(`
       heading,
       description,
       "imageUrl": image.asset->url,
-      "imageAlt": image.alt,
+      "imageAlt": select(image.decorative == true => "", image.alt),
       "mobileImageUrl": mobileImage.asset->url,
-      "mobileImageAlt": mobileImage.alt,
+      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),
+      "badgeUrl": badge.asset->url,
+      "badgeAlt": select(badge.decorative == true => "", badge.alt),
+      "qrCodeUrl": qrCode.asset->url,
+      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),
+      downloadTitle,
+      downloadCaption,
+      downloadHref,
       cta{
         label,
         href,

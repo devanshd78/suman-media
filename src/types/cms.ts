@@ -48,6 +48,13 @@ export type CmsHeroSlide = {
   imageAlt?: string | null;
   mobileImageUrl?: string | null;
   mobileImageAlt?: string | null;
+  badgeUrl?: string | null;
+  badgeAlt?: string | null;
+  qrCodeUrl?: string | null;
+  qrCodeAlt?: string | null;
+  downloadTitle?: string | null;
+  downloadCaption?: string | null;
+  downloadHref?: string | null;
   cta?: CmsCta | null;
 };
 
@@ -202,6 +209,8 @@ export type CmsFounderLetter = {
   founderRole?: string | null;
   imageUrl?: string | null;
   imageAlt?: string | null;
+  signatureUrl?: string | null;
+  signatureAlt?: string | null;
 };
 
 export type CmsFaqItem = {

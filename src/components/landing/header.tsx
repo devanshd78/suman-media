@@ -168,7 +168,7 @@ const NAV_MENUS: NavMenu[] = [
 ];
 
 const NAV_LINKS = [
-  { label: "Investor Relations", href: "/about" },
+  { label: "Investors Relations", href: "/about" },
   { label: "Careers", href: "/careers" },
 ];
 
@@ -228,10 +228,10 @@ function ChevronDownIcon({ className = "" }: { className?: string }) {
   );
 }
 
-function ArrowUpRightIcon({ className = "h-4 w-4" }: { className?: string }) {
+function ArrowRightIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 20 20" className={className} fill="none">
-      <path d="M5 15 15 5M8 5h7v7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -467,10 +467,10 @@ export function Header() {
           <Link
             href="/contact"
             onMouseEnter={closeDropdown}
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#9a7810] sm:px-5"
+            className="hidden min-h-10 items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#9a7810] sm:inline-flex"
           >
             <span>Contact us</span>
-            <ArrowUpRightIcon />
+            <ArrowRightIcon />
           </Link>
 
           <button
@@ -568,7 +568,7 @@ export function Header() {
               className="mt-6 inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#9a7810]"
             >
               <span>Contact us</span>
-              <ArrowUpRightIcon />
+              <ArrowRightIcon />
             </Link>
           </nav>
         </div>

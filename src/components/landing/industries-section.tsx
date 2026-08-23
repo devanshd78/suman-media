@@ -680,14 +680,12 @@ export function IndustriesSection({
             className={`
               ${inter.className}
 
+              group
               mt-4
               inline-flex
               items-center
-              justify-center
-              gap-2
-
-              rounded-lg
-              p-4
+              gap-1.5
+              py-2
 
               text-sm
               font-semibold
@@ -702,7 +700,9 @@ export function IndustriesSection({
           >
             <span>{ctaLabel}</span>
 
-            <ArrowIcon />
+            <span className="transition-transform duration-200 group-hover:translate-x-1">
+              <ArrowIcon />
+            </span>
           </Link>
         </div>
       </div>

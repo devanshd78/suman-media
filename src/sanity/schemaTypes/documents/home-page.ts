@@ -60,6 +60,29 @@ export const homePageType = defineType({
             }),
             imageField("image", "Desktop image", true),
             imageField("mobileImage", "Mobile image"),
+            imageField("badge", "Platform / product badge"),
+            imageField("qrCode", "Download QR code"),
+            defineField({
+              name: "downloadTitle",
+              title: "Download card title",
+              type: "string",
+              description: "Example: Abhijat Marathi OTT.",
+              validation: (rule) => rule.max(80),
+            }),
+            defineField({
+              name: "downloadCaption",
+              title: "Download card caption",
+              type: "string",
+              description: "Example: SCAN TO DOWNLOAD.",
+              validation: (rule) => rule.max(80),
+            }),
+            defineField({
+              name: "downloadHref",
+              title: "Download card link",
+              type: "string",
+              description: "Optional internal path or https:// URL opened when the QR card is selected.",
+              validation: (rule) => rule.max(500),
+            }),
             defineField({
               name: "cta",
               title: "Button",
@@ -98,12 +121,12 @@ export const homePageType = defineType({
     defineField({ name: "heroImage", title: "Hero image", type: "mediaImage", group: "hero", hidden: true }),
     defineField({ name: "heroCtas", title: "Hero calls to action", type: "array", group: "hero", hidden: true, of: [defineArrayMember({ type: "cta" })] }),
 
-    defineField({ name: "aboutEyebrow", title: "About eyebrow", type: "string", group: "content", validation: (rule) => rule.max(80) }),
-    defineField({ name: "aboutHeading", title: "About heading", type: "string", group: "content", validation: (rule) => rule.max(180) }),
-    defineField({ name: "aboutDescription", title: "About description", type: "text", rows: 6, group: "content", validation: (rule) => rule.max(900) }),
-    defineField({ name: "aboutCta", title: "About call to action", type: "cta", group: "content" }),
+    defineField({ name: "aboutEyebrow", title: "About eyebrow", type: "string", group: "content", initialValue: "ABOUT SUMAN ENTERTAINMENT", validation: (rule) => rule.max(80) }),
+    defineField({ name: "aboutHeading", title: "About heading", type: "string", group: "content", initialValue: "We're a team of creatives, music lovers and audio obsessives, developing products building India's Next Generation Media Ecosystem", validation: (rule) => rule.max(180) }),
+    defineField({ name: "aboutDescription", title: "About description", type: "text", rows: 6, group: "content", initialValue: "Suman Entertainment & Media Pvt. Ltd. brings together digital platforms, premium content, music, technology, strategic communications, and enterprise partnerships to create, distribute, and scale media experiences across industries. From one of India's dedicated Marathi OTT platforms to government communication initiatives, original content production, music publishing, AI-powered technologies, and global partnerships, we're building an integrated ecosystem designed for the future of media.", validation: (rule) => rule.max(900) }),
+    defineField({ name: "aboutCta", title: "About call to action", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
 
-    defineField({ name: "clientsEyebrow", title: "Clients eyebrow", type: "string", group: "content", initialValue: "Our Clients", validation: (rule) => rule.max(80) }),
+    defineField({ name: "clientsEyebrow", title: "Clients eyebrow", type: "string", group: "content", initialValue: "OUR SERVICES", validation: (rule) => rule.max(80) }),
     defineField({ name: "clientsHeading", title: "Clients heading", type: "string", group: "content", initialValue: "Our Clients", validation: (rule) => rule.max(100) }),
 
     defineField({ name: "servicesEyebrow", title: "Services eyebrow", type: "string", group: "content", initialValue: "Our Services", validation: (rule) => rule.max(80) }),
@@ -182,14 +205,14 @@ export const homePageType = defineType({
       },
     }),
 
-    defineField({ name: "industriesEyebrow", title: "Industries eyebrow", type: "string", group: "content", initialValue: "Industries we work with", validation: (rule) => rule.max(80) }),
+    defineField({ name: "industriesEyebrow", title: "Industries eyebrow", type: "string", group: "content", initialValue: "INDUSTRIES WE WORK WITH", validation: (rule) => rule.max(80) }),
     defineField({ name: "industriesHeading", title: "Industries heading", type: "string", group: "content", initialValue: "The Industries we work with?", validation: (rule) => rule.max(120) }),
-    defineField({ name: "industriesDescription", title: "Industries description", type: "text", rows: 4, group: "content", validation: (rule) => rule.max(500) }),
-    defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content" }),
+    defineField({ name: "industriesDescription", title: "Industries description", type: "text", rows: 4, group: "content", initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
+    defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
 
-    defineField({ name: "insightsEyebrow", title: "Insights eyebrow", type: "string", group: "content", initialValue: "Latest Announcements", validation: (rule) => rule.max(80) }),
+    defineField({ name: "insightsEyebrow", title: "Insights eyebrow", type: "string", group: "content", initialValue: "LATEST ANNOUNCEMENTS", validation: (rule) => rule.max(80) }),
     defineField({ name: "insightsHeading", title: "Insights heading", type: "string", group: "content", initialValue: "News and Blogs", validation: (rule) => rule.max(120) }),
-    defineField({ name: "insightsCta", title: "Insights button", type: "cta", group: "content", initialValue: { label: "Explore all", href: "/insights" } }),
+    defineField({ name: "insightsCta", title: "Insights button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/insights", style: "text" } }),
 
     defineField({
       name: "partnerSection",
@@ -197,12 +220,19 @@ export const homePageType = defineType({
       type: "object",
       group: "content",
       fields: [
-        defineField({ name: "heading", title: "Heading", type: "string", validation: (rule) => rule.max(120) }),
-        defineField({ name: "description", title: "Description", type: "text", rows: 4, validation: (rule) => rule.max(500) }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Why Partner With us?", validation: (rule) => rule.max(120) }),
+        defineField({ name: "description", title: "Description", type: "text", rows: 4, initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
         defineField({
           name: "benefits",
           title: "Partner benefits",
           type: "array",
+          initialValue: [
+            { _key: "future-ready-media-infrastructure", title: "Future-ready Media Infrastructure" },
+            { _key: "technology-led-innovation", title: "Technology-led Innovation" },
+            { _key: "integrated-ecosystem", title: "Integrated Ecosystem" },
+            { _key: "scalable-partnerships", title: "Scalable Partnerships" },
+            { _key: "enterprise-delivery", title: "Enterprise Delivery" },
+          ],
           of: [
             defineArrayMember({
               type: "object",
@@ -214,10 +244,10 @@ export const homePageType = defineType({
           ],
           validation: (rule) => rule.max(8),
         }),
-        defineField({ name: "eventHeading", title: "Cannes / event heading", type: "string", validation: (rule) => rule.max(220) }),
+        defineField({ name: "eventHeading", title: "Cannes / event heading", type: "string", initialValue: "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.", validation: (rule) => rule.max(220) }),
         imageField("eventImage", "Cannes / event image"),
         imageField("eventBadge", "Event badge / logo image"),
-        defineField({ name: "eventCta", title: "Event button", type: "cta" }),
+        defineField({ name: "eventCta", title: "Event button", type: "cta", initialValue: { label: "View Our Cannes Monument", href: "/portfolio", style: "text" } }),
       ],
     }),
 
@@ -252,10 +282,18 @@ export const homePageType = defineType({
       type: "object",
       group: "content",
       fields: [
-        defineField({ name: "quote", title: "Quote", type: "text", rows: 5, validation: (rule) => rule.max(700) }),
+        defineField({
+          name: "quote",
+          title: "Quote",
+          type: "text",
+          rows: 5,
+          initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.",
+          description: "Matches the Main PDF reference. Confirm testimonial/attribution approval before production publishing.",
+          validation: (rule) => rule.max(700),
+        }),
         defineField({ name: "personName", title: "Person name", type: "string", validation: (rule) => rule.max(100) }),
-        defineField({ name: "personRole", title: "Person role", type: "string", validation: (rule) => rule.max(140) }),
-        defineField({ name: "companyName", title: "Company name", type: "string", validation: (rule) => rule.max(100) }),
+        defineField({ name: "personRole", title: "Person role", type: "string", initialValue: "Founder and CEO", validation: (rule) => rule.max(140) }),
+        defineField({ name: "companyName", title: "Company name", type: "string", initialValue: "Automation Anywhere", validation: (rule) => rule.max(100) }),
         imageField("companyLogo", "Company logo"),
         defineField({
           name: "partnerLogos",
@@ -281,11 +319,11 @@ export const homePageType = defineType({
       type: "object",
       group: "content",
       fields: [
-        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", validation: (rule) => rule.max(80) }),
-        defineField({ name: "heading", title: "Heading", type: "string", validation: (rule) => rule.max(180) }),
+        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "JOIN ABHIJAT MARATHI", validation: (rule) => rule.max(80) }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Have a story worth telling? Let's bring it to the world.", validation: (rule) => rule.max(180) }),
         imageField("image", "Background image"),
         imageField("badge", "Badge / logo image"),
-        defineField({ name: "cta", title: "Button", type: "cta" }),
+        defineField({ name: "cta", title: "Button", type: "cta", initialValue: { label: "Join as Partner", href: "/contact", style: "text" } }),
       ],
     }),
 
@@ -315,7 +353,7 @@ export const homePageType = defineType({
               ],
             }),
           ],
-          validation: (rule) => rule.max(8),
+          validation: (rule) => rule.max(12),
         }),
       ],
     }),
@@ -326,12 +364,13 @@ export const homePageType = defineType({
       type: "object",
       group: "content",
       fields: [
-        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "A Letter from the founder", validation: (rule) => rule.max(100) }),
-        defineField({ name: "heading", title: "Heading", type: "string", validation: (rule) => rule.max(160) }),
-        defineField({ name: "body", title: "Letter body", type: "text", rows: 14, description: "Separate paragraphs with a blank line.", validation: (rule) => rule.max(6000) }),
-        defineField({ name: "founderName", title: "Founder name", type: "string", validation: (rule) => rule.max(100) }),
-        defineField({ name: "founderRole", title: "Founder role", type: "string", validation: (rule) => rule.max(120) }),
+        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "A Letter", validation: (rule) => rule.max(100) }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "from the founder", validation: (rule) => rule.max(160) }),
+        defineField({ name: "body", title: "Letter body", type: "text", rows: 14, description: "Separate paragraphs with a blank line.", initialValue: "We believe the stories, music, culture and talent of Maharashtra, India (Bharat) deserve a global audience.\n\nWith Abhijat Marathi, we are building more than a regional OTT platform we are creating a home for Marathi storytelling and taking it beyond geographical boundaries. Our ambition is to make Marathi content discoverable, accessible and celebrated by audiences across India and around the world.\n\nBut our vision goes beyond streaming. We are building an integrated media ecosystem that brings together content production, music, technology, intellectual property and digital distribution. As part of this journey, we are working towards expanding our production capabilities, with our next phase of production initiatives planned for 2027.\n\nWe want to create original stories, build enduring intellectual properties and give regional creators the platforms and opportunities to reach a much larger world.\n\nFrom Bharat to the world that is the journey we are building.\n\nWarmly", validation: (rule) => rule.max(6000) }),
+        defineField({ name: "founderName", title: "Founder name", type: "string", initialValue: "Kedar Joshi", validation: (rule) => rule.max(100) }),
+        defineField({ name: "founderRole", title: "Founder role", type: "string", initialValue: "Founder and CEO", validation: (rule) => rule.max(120) }),
         imageField("image", "Founder / section image"),
+        imageField("signature", "Founder signature image"),
       ],
     }),
 
@@ -343,8 +382,8 @@ export const homePageType = defineType({
       fields: [
         defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "FAQ", validation: (rule) => rule.max(80) }),
         defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Questions people asked?", validation: (rule) => rule.max(120) }),
-        defineField({ name: "contactText", title: "Contact helper text", type: "string", validation: (rule) => rule.max(140) }),
-        defineField({ name: "contactEmail", title: "Contact email", type: "string", validation: (rule) => rule.email() }),
+        defineField({ name: "contactText", title: "Contact helper text", type: "string", initialValue: "still have a quarry?", description: "Matches the approved Main PDF. Change here if you want to correct the source wording.", validation: (rule) => rule.max(140) }),
+        defineField({ name: "contactEmail", title: "Contact email", type: "string", initialValue: "Contact@sumanentertainment.com", validation: (rule) => rule.email() }),
         defineField({
           name: "items",
           title: "FAQs",
@@ -369,11 +408,11 @@ export const homePageType = defineType({
       type: "object",
       group: "content",
       fields: [
-        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "Careers", validation: (rule) => rule.max(80) }),
-        defineField({ name: "heading", title: "Heading", type: "string", validation: (rule) => rule.max(180) }),
+        defineField({ name: "eyebrow", title: "Eyebrow", type: "string", initialValue: "CARRERS", description: "Matches the Main PDF spelling. Edit to CAREERS in Sanity if you want the corrected spelling.", validation: (rule) => rule.max(80) }),
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Join us to start a New Chapter in Media and Entertainment", validation: (rule) => rule.max(180) }),
         defineField({ name: "description", title: "Description", type: "text", rows: 4, validation: (rule) => rule.max(500) }),
         imageField("image", "Background image"),
-        defineField({ name: "cta", title: "Button", type: "cta" }),
+        defineField({ name: "cta", title: "Button", type: "cta", initialValue: { label: "View Open Roles", href: "/careers", style: "text" } }),
       ],
     }),
 

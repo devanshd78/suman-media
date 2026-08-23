@@ -300,6 +300,30 @@ export type Service = {
   seo?: Seo;
 };
 
+export type ContactPage = {
+  _id: string;
+  _type: "contactPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  contactCards?: Array<{
+    title?: string;
+    description?: string;
+    image?: MediaImage;
+    href?: string;
+    enabled?: boolean;
+    _type: "contactCard";
+    _key: string;
+  }>;
+  connectedWorldHeading?: string;
+  connectedWorldDescription?: string;
+  connectedWorldImage?: MediaImage;
+  careersCtaHeading?: string;
+  careersCtaButtonLabel?: string;
+  careersCtaHref?: string;
+  careersCtaImage?: MediaImage;
+};
+
 export type CareersPage = {
   _id: string;
   _type: "careersPage";
@@ -357,6 +381,11 @@ export type HomePage = {
     description?: string;
     image?: MediaImage;
     mobileImage?: MediaImage;
+    badge?: MediaImage;
+    qrCode?: MediaImage;
+    downloadTitle?: string;
+    downloadCaption?: string;
+    downloadHref?: string;
     cta?: Cta;
     enabled?: boolean;
     _type: "heroSlide";
@@ -451,6 +480,7 @@ export type HomePage = {
     founderName?: string;
     founderRole?: string;
     image?: MediaImage;
+    signature?: MediaImage;
   };
   faqSection?: {
     eyebrow?: string;
@@ -671,6 +701,7 @@ export type AllSanitySchemaTypes =
   | Industry
   | Company
   | Service
+  | ContactPage
   | CareersPage
   | PostReference
   | HomePage
@@ -690,7 +721,7 @@ export type AllSanitySchemaTypes =
 
 // Source: src/sanity/queries/content.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_type == "homePage" && _id == "homePage"][0]{    _id,    _updatedAt,    "heroSlides": heroSlides[coalesce(enabled, true) == true]{      _key,      internalName,      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      "mobileImageUrl": mobileImage.asset->url,      "mobileImageAlt": mobileImage.alt,      cta{label, href, style}    },    aboutEyebrow,    aboutHeading,    aboutDescription,    aboutCta{label, href, style},    clientsEyebrow,    clientsHeading,    servicesEyebrow,    servicesHeading,    industriesEyebrow,    industriesHeading,    industriesDescription,    industriesCta{label, href, style},    insightsEyebrow,    insightsHeading,    insightsCta{label, href, style},    stats[]{_key, value, prefix, suffix, label},    "featuredCompanies": select(      count(coalesce(featuredCompanies, [])) > 0 => featuredCompanies[]->{        _id, name, "slug": slug.current, shortDescription,        "logoUrl": logo.asset->url, "logoAlt": logo.alt,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,        websiteUrl,        "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0      },      *[_type == "company" && coalesce(featured, false) == true && defined(logo.asset)]        | order(name asc)[0...8]{          _id, name, "slug": slug.current, shortDescription,          "logoUrl": logo.asset->url, "logoAlt": logo.alt,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,          websiteUrl,          "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0        }    ),    "featuredServices": select(      count(coalesce(featuredServices, [])) > 0 => featuredServices[]->{        _id, title, "slug": slug.current, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt      },      *[_type == "service" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(title asc)[0...8]{          _id, title, "slug": slug.current, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt        }    ),    "featuredIndustries": select(      count(coalesce(featuredIndustries, [])) > 0 => featuredIndustries[]->{        _id, title, "slug": slug.current, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt      },      *[_type == "industry" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(title asc)[0...12]{          _id, title, "slug": slug.current, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt        }    ),    "featuredProjects": select(      count(coalesce(featuredProjects, [])) > 0 => featuredProjects[]->{        _id, title, "slug": slug.current, client, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate      },      *[_type == "project" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(projectDate desc)[0...8]{          _id, title, "slug": slug.current, client, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate        }    ),    "featuredInsights": select(      count(coalesce(featuredInsights, [])) > 0 => featuredInsights[]->{        _id, title, "slug": slug.current, excerpt,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,        publishedAt, "authorName": author->name, "category": categories[0]->title      },      *[_type == "post" && coalesce(featured, false) == true && defined(slug.current) && defined(publishedAt) && defined(featuredImage.asset)]        | order(publishedAt desc)[0...6]{          _id, title, "slug": slug.current, excerpt,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,          publishedAt, "authorName": author->name, "category": categories[0]->title        }    ),    "achievement": achievement{      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      cta{label, href, style}    },    "partnerSection": partnerSection{      heading,      description,      benefits[]{_key, title, href},      eventHeading,      "eventImageUrl": eventImage.asset->url,      "eventImageAlt": eventImage.alt,      "eventBadgeUrl": eventBadge.asset->url,      "eventBadgeAlt": eventBadge.alt,      eventCta{label, href, style}    },    "testimonialSection": testimonialSection{      quote,      personName,      personRole,      companyName,      "companyLogoUrl": companyLogo.asset->url,      "companyLogoAlt": companyLogo.alt,      "partnerLogos": partnerLogos[]{        _key,        label,        "imageUrl": image.asset->url,        "imageAlt": image.alt      }    },    "storyBanner": storyBanner{      eyebrow,      heading,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      "badgeUrl": badge.asset->url,      "badgeAlt": badge.alt,      cta{label, href, style}    },    "mediaCoverage": mediaCoverage{      eyebrow,      heading,      "items": items[]{        _key,        title,        source,        href,        "imageUrl": image.asset->url,        "imageAlt": image.alt      }    },    "founderLetter": founderLetter{      eyebrow,      heading,      body,      founderName,      founderRole,      "imageUrl": image.asset->url,      "imageAlt": image.alt    },    "faqSection": faqSection{      eyebrow,      heading,      contactText,      contactEmail,      items[]{_key, question, answer}    },    "careersCta": careersCta{      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      cta{label, href, style}    },    "seo": {      "title": seo.metaTitle,      "description": seo.metaDescription,      "canonicalUrl": seo.canonicalUrl,      "noIndex": coalesce(seo.noIndex, false),      "socialImageUrl": seo.socialImage.asset->url,      "socialImageAlt": seo.socialImage.alt    }  }
+// Query: *[_type == "homePage" && _id == "homePage"][0]{    _id,    _updatedAt,    "heroSlides": heroSlides[coalesce(enabled, true) == true]{      _key,      internalName,      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": select(image.decorative == true => "", image.alt),      "mobileImageUrl": mobileImage.asset->url,      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),      "badgeUrl": badge.asset->url,      "badgeAlt": select(badge.decorative == true => "", badge.alt),      "qrCodeUrl": qrCode.asset->url,      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),      downloadTitle,      downloadCaption,      downloadHref,      cta{label, href, style}    },    aboutEyebrow,    aboutHeading,    aboutDescription,    aboutCta{label, href, style},    clientsEyebrow,    clientsHeading,    servicesEyebrow,    servicesHeading,    industriesEyebrow,    industriesHeading,    industriesDescription,    industriesCta{label, href, style},    insightsEyebrow,    insightsHeading,    insightsCta{label, href, style},    stats[]{_key, value, prefix, suffix, label},    "featuredCompanies": select(      count(coalesce(featuredCompanies, [])) > 0 => featuredCompanies[]->{        _id, name, "slug": slug.current, shortDescription,        "logoUrl": logo.asset->url, "logoAlt": logo.alt,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,        websiteUrl,        "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0      },      *[_type == "company" && coalesce(featured, false) == true && defined(logo.asset)]        | order(name asc)[0...8]{          _id, name, "slug": slug.current, shortDescription,          "logoUrl": logo.asset->url, "logoAlt": logo.alt,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,          websiteUrl,          "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0        }    ),    "featuredServices": select(      count(coalesce(featuredServices, [])) > 0 => featuredServices[]->{        _id, title, "slug": slug.current, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt      },      *[_type == "service" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(title asc)[0...8]{          _id, title, "slug": slug.current, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt        }    ),    "featuredIndustries": select(      count(coalesce(featuredIndustries, [])) > 0 => featuredIndustries[]->{        _id, title, "slug": slug.current, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt      },      *[_type == "industry" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(title asc)[0...12]{          _id, title, "slug": slug.current, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt        }    ),    "featuredProjects": select(      count(coalesce(featuredProjects, [])) > 0 => featuredProjects[]->{        _id, title, "slug": slug.current, client, shortDescription,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate      },      *[_type == "project" && coalesce(featured, false) == true && defined(featuredImage.asset)]        | order(projectDate desc)[0...8]{          _id, title, "slug": slug.current, client, shortDescription,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate        }    ),    "featuredInsights": select(      count(coalesce(featuredInsights, [])) > 0 => featuredInsights[]->{        _id, title, "slug": slug.current, excerpt,        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,        publishedAt, "authorName": author->name, "category": categories[0]->title      },      *[_type == "post" && coalesce(featured, false) == true && defined(slug.current) && defined(publishedAt) && defined(featuredImage.asset)]        | order(publishedAt desc)[0...6]{          _id, title, "slug": slug.current, excerpt,          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,          publishedAt, "authorName": author->name, "category": categories[0]->title        }    ),"achievement": {  "eyebrow": achievementEyebrow,  "heading": achievementHeading,  "description": achievementDescription,  "departmentEmblemUrl":    achievementDepartmentEmblem.asset->url,  "departmentEmblemAlt":    select(      achievementDepartmentEmblem.decorative == true => "",      achievementDepartmentEmblem.alt    ),  "governmentSealUrl":    achievementGovernmentSeal.asset->url,  "governmentSealAlt":    select(      achievementGovernmentSeal.decorative == true => "",      achievementGovernmentSeal.alt    ),  "bottomArtworkUrl":    achievementBottomArtwork.asset->url,  "bottomArtworkAlt":    select(      achievementBottomArtwork.decorative == true => "",      achievementBottomArtwork.alt    ),  "cta": {    "label": achievementCta.label,    "href": achievementCta.href,    "style": achievementCta.style  }},    "partnerSection": partnerSection{      heading,      description,      benefits[]{_key, title, href},      eventHeading,      "eventImageUrl": eventImage.asset->url,      "eventImageAlt": select(eventImage.decorative == true => "", eventImage.alt),      "eventBadgeUrl": eventBadge.asset->url,      "eventBadgeAlt": select(eventBadge.decorative == true => "", eventBadge.alt),      eventCta{label, href, style}    },    "testimonialSection": testimonialSection{      quote,      personName,      personRole,      companyName,      "companyLogoUrl": companyLogo.asset->url,      "companyLogoAlt": select(companyLogo.decorative == true => "", companyLogo.alt),      "partnerLogos": partnerLogos[]{        _key,        label,        "imageUrl": image.asset->url,        "imageAlt": select(image.decorative == true => "", image.alt)      }    },    "storyBanner": storyBanner{      eyebrow,      heading,      "imageUrl": image.asset->url,      "imageAlt": select(image.decorative == true => "", image.alt),      "badgeUrl": badge.asset->url,      "badgeAlt": select(badge.decorative == true => "", badge.alt),      cta{label, href, style}    },    "mediaCoverage": mediaCoverage{      eyebrow,      heading,      "items": items[]{        _key,        title,        source,        href,        "imageUrl": image.asset->url,        "imageAlt": select(image.decorative == true => "", image.alt)      }    },    "founderLetter": founderLetter{      eyebrow,      heading,      body,      founderName,      founderRole,      "imageUrl": image.asset->url,      "imageAlt": select(image.decorative == true => "", image.alt),      "signatureUrl": signature.asset->url,      "signatureAlt": select(signature.decorative == true => "", signature.alt)    },    "faqSection": faqSection{      eyebrow,      heading,      contactText,      contactEmail,      items[]{_key, question, answer}    },    "careersCta": careersCta{      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": select(image.decorative == true => "", image.alt),      cta{label, href, style}    },    "seo": {      "title": seo.metaTitle,      "description": seo.metaDescription,      "canonicalUrl": seo.canonicalUrl,      "noIndex": coalesce(seo.noIndex, false),      "socialImageUrl": seo.socialImage.asset->url,      "socialImageAlt": seo.socialImage.alt    }  }
 export type HOME_PAGE_QUERY_RESULT = {
   _id: "homePage";
   _updatedAt: string;
@@ -701,9 +732,16 @@ export type HOME_PAGE_QUERY_RESULT = {
     heading: string | null;
     description: string | null;
     imageUrl: string | null;
-    imageAlt: string | null;
+    imageAlt: string | "" | null;
     mobileImageUrl: string | null;
-    mobileImageAlt: string | null;
+    mobileImageAlt: string | "" | null;
+    badgeUrl: string | null;
+    badgeAlt: string | "" | null;
+    qrCodeUrl: string | null;
+    qrCodeAlt: string | "" | null;
+    downloadTitle: string | null;
+    downloadCaption: string | null;
+    downloadHref: string | null;
     cta: {
       label: string | null;
       href: string | null;
@@ -793,7 +831,22 @@ export type HOME_PAGE_QUERY_RESULT = {
     authorName: string | null;
     category: string | null;
   }> | null;
-  achievement: null;
+  achievement: {
+    eyebrow: string | null;
+    heading: string | null;
+    description: string | null;
+    departmentEmblemUrl: string | null;
+    departmentEmblemAlt: string | "" | null;
+    governmentSealUrl: string | null;
+    governmentSealAlt: string | "" | null;
+    bottomArtworkUrl: string | null;
+    bottomArtworkAlt: string | "" | null;
+    cta: {
+      label: string | null;
+      href: string | null;
+      style: "primary" | "secondary" | "text" | null;
+    };
+  };
   partnerSection: {
     heading: string | null;
     description: string | null;
@@ -804,9 +857,9 @@ export type HOME_PAGE_QUERY_RESULT = {
     }> | null;
     eventHeading: string | null;
     eventImageUrl: string | null;
-    eventImageAlt: string | null;
+    eventImageAlt: string | "" | null;
     eventBadgeUrl: string | null;
-    eventBadgeAlt: string | null;
+    eventBadgeAlt: string | "" | null;
     eventCta: {
       label: string | null;
       href: string | null;
@@ -819,21 +872,21 @@ export type HOME_PAGE_QUERY_RESULT = {
     personRole: string | null;
     companyName: string | null;
     companyLogoUrl: string | null;
-    companyLogoAlt: string | null;
+    companyLogoAlt: string | "" | null;
     partnerLogos: Array<{
       _key: string;
       label: string | null;
       imageUrl: string | null;
-      imageAlt: string | null;
+      imageAlt: string | "" | null;
     }> | null;
   } | null;
   storyBanner: {
     eyebrow: string | null;
     heading: string | null;
     imageUrl: string | null;
-    imageAlt: string | null;
+    imageAlt: string | "" | null;
     badgeUrl: string | null;
-    badgeAlt: string | null;
+    badgeAlt: string | "" | null;
     cta: {
       label: string | null;
       href: string | null;
@@ -849,7 +902,7 @@ export type HOME_PAGE_QUERY_RESULT = {
       source: string | null;
       href: string | null;
       imageUrl: string | null;
-      imageAlt: string | null;
+      imageAlt: string | "" | null;
     }> | null;
   } | null;
   founderLetter: {
@@ -859,7 +912,9 @@ export type HOME_PAGE_QUERY_RESULT = {
     founderName: string | null;
     founderRole: string | null;
     imageUrl: string | null;
-    imageAlt: string | null;
+    imageAlt: string | "" | null;
+    signatureUrl: string | null;
+    signatureAlt: string | "" | null;
   } | null;
   faqSection: {
     eyebrow: string | null;
@@ -877,7 +932,7 @@ export type HOME_PAGE_QUERY_RESULT = {
     heading: string | null;
     description: string | null;
     imageUrl: string | null;
-    imageAlt: string | null;
+    imageAlt: string | "" | null;
     cta: {
       label: string | null;
       href: string | null;
@@ -923,7 +978,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: src/sanity/queries/content.ts
 // Variable: HOME_PAGE_HERO_QUERY
-// Query: *[_type == "homePage" && _id == "homePage"][0]{    "heroSlides": heroSlides[coalesce(enabled, true) == true]{      _key,      internalName,      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      "mobileImageUrl": mobileImage.asset->url,      "mobileImageAlt": mobileImage.alt,      cta{        label,        href,        style      }    }  }
+// Query: *[_type == "homePage" && _id == "homePage"][0]{    "heroSlides": heroSlides[coalesce(enabled, true) == true]{      _key,      internalName,      eyebrow,      heading,      description,      "imageUrl": image.asset->url,      "imageAlt": select(image.decorative == true => "", image.alt),      "mobileImageUrl": mobileImage.asset->url,      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),      "badgeUrl": badge.asset->url,      "badgeAlt": select(badge.decorative == true => "", badge.alt),      "qrCodeUrl": qrCode.asset->url,      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),      downloadTitle,      downloadCaption,      downloadHref,      cta{        label,        href,        style      }    }  }
 export type HOME_PAGE_HERO_QUERY_RESULT = {
   heroSlides: Array<{
     _key: string;
@@ -932,9 +987,16 @@ export type HOME_PAGE_HERO_QUERY_RESULT = {
     heading: string | null;
     description: string | null;
     imageUrl: string | null;
-    imageAlt: string | null;
+    imageAlt: string | "" | null;
     mobileImageUrl: string | null;
-    mobileImageAlt: string | null;
+    mobileImageAlt: string | "" | null;
+    badgeUrl: string | null;
+    badgeAlt: string | "" | null;
+    qrCodeUrl: string | null;
+    qrCodeAlt: string | "" | null;
+    downloadTitle: string | null;
+    downloadCaption: string | null;
+    downloadHref: string | null;
     cta: {
       label: string | null;
       href: string | null;
@@ -982,6 +1044,43 @@ export type CAREERS_PARTNER_CTA_QUERY_RESULT = {
   imageUrl: string | null;
   imageAlt: string | null;
 } | null;
+
+// Source: src/sanity/queries/content.ts
+// Variable: CONTACT_PAGE_QUERY
+// Query: {    "cards": *[_type == "contactPage" && _id == "contactPage"][0].contactCards[      coalesce(enabled, true) == true &&      defined(title) &&      defined(description) &&      defined(image.asset) &&      defined(href)    ][0...3]{      _key,      title,      description,      "imageUrl": image.asset->url,      "imageAlt": image.alt,      href    },    "connectedWorld": *[_type == "contactPage" && _id == "contactPage"][0]{      "heading": connectedWorldHeading,      "description": connectedWorldDescription,      "imageUrl": connectedWorldImage.asset->url,      "imageAlt": connectedWorldImage.alt    },    "contactDetails": *[_type == "siteSettings" && _id == "siteSettings"][0]{      email,      phone,      address,      socialLinks[]{        _key,        platform,        url      }    },    "careersCta": *[_type == "contactPage" && _id == "contactPage"][0]{      "heading": careersCtaHeading,      "buttonLabel": careersCtaButtonLabel,      "href": careersCtaHref,      "imageUrl": careersCtaImage.asset->url,      "imageAlt": careersCtaImage.alt    }  }
+export type CONTACT_PAGE_QUERY_RESULT = {
+  cards: Array<{
+    _key: string;
+    title: string | null;
+    description: string | null;
+    imageUrl: string | null;
+    imageAlt: string | null;
+    href: string | null;
+  }> | null;
+  connectedWorld: {
+    heading: string | null;
+    description: string | null;
+    imageUrl: string | null;
+    imageAlt: string | null;
+  } | null;
+  contactDetails: {
+    email: string | null;
+    phone: string | null;
+    address: string | null;
+    socialLinks: Array<{
+      _key: string;
+      platform: string | null;
+      url: string | null;
+    }> | null;
+  } | null;
+  careersCta: {
+    heading: string | null;
+    buttonLabel: string | null;
+    href: string | null;
+    imageUrl: string | null;
+    imageAlt: string | null;
+  } | null;
+};
 
 // Source: src/sanity/queries/content.ts
 // Variable: HOME_FEATURED_COMPANIES_QUERY
@@ -1158,12 +1257,13 @@ export type SITEMAP_DOCUMENTS_QUERY_RESULT = Array<
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    _updatedAt,\n    "heroSlides": heroSlides[coalesce(enabled, true) == true]{\n      _key,\n      internalName,\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      "mobileImageUrl": mobileImage.asset->url,\n      "mobileImageAlt": mobileImage.alt,\n      cta{label, href, style}\n    },\n    aboutEyebrow,\n    aboutHeading,\n    aboutDescription,\n    aboutCta{label, href, style},\n    clientsEyebrow,\n    clientsHeading,\n    servicesEyebrow,\n    servicesHeading,\n    industriesEyebrow,\n    industriesHeading,\n    industriesDescription,\n    industriesCta{label, href, style},\n    insightsEyebrow,\n    insightsHeading,\n    insightsCta{label, href, style},\n    stats[]{_key, value, prefix, suffix, label},\n    "featuredCompanies": select(\n      count(coalesce(featuredCompanies, [])) > 0 => featuredCompanies[]->{\n        _id, name, "slug": slug.current, shortDescription,\n        "logoUrl": logo.asset->url, "logoAlt": logo.alt,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n        websiteUrl,\n        "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0\n      },\n      *[_type == "company" && coalesce(featured, false) == true && defined(logo.asset)]\n        | order(name asc)[0...8]{\n          _id, name, "slug": slug.current, shortDescription,\n          "logoUrl": logo.asset->url, "logoAlt": logo.alt,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n          websiteUrl,\n          "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0\n        }\n    ),\n    "featuredServices": select(\n      count(coalesce(featuredServices, [])) > 0 => featuredServices[]->{\n        _id, title, "slug": slug.current, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n      },\n      *[_type == "service" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(title asc)[0...8]{\n          _id, title, "slug": slug.current, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n        }\n    ),\n    "featuredIndustries": select(\n      count(coalesce(featuredIndustries, [])) > 0 => featuredIndustries[]->{\n        _id, title, "slug": slug.current, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n      },\n      *[_type == "industry" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(title asc)[0...12]{\n          _id, title, "slug": slug.current, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n        }\n    ),\n    "featuredProjects": select(\n      count(coalesce(featuredProjects, [])) > 0 => featuredProjects[]->{\n        _id, title, "slug": slug.current, client, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate\n      },\n      *[_type == "project" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(projectDate desc)[0...8]{\n          _id, title, "slug": slug.current, client, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate\n        }\n    ),\n    "featuredInsights": select(\n      count(coalesce(featuredInsights, [])) > 0 => featuredInsights[]->{\n        _id, title, "slug": slug.current, excerpt,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n        publishedAt, "authorName": author->name, "category": categories[0]->title\n      },\n      *[_type == "post" && coalesce(featured, false) == true && defined(slug.current) && defined(publishedAt) && defined(featuredImage.asset)]\n        | order(publishedAt desc)[0...6]{\n          _id, title, "slug": slug.current, excerpt,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n          publishedAt, "authorName": author->name, "category": categories[0]->title\n        }\n    ),\n    "achievement": achievement{\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      cta{label, href, style}\n    },\n    "partnerSection": partnerSection{\n      heading,\n      description,\n      benefits[]{_key, title, href},\n      eventHeading,\n      "eventImageUrl": eventImage.asset->url,\n      "eventImageAlt": eventImage.alt,\n      "eventBadgeUrl": eventBadge.asset->url,\n      "eventBadgeAlt": eventBadge.alt,\n      eventCta{label, href, style}\n    },\n    "testimonialSection": testimonialSection{\n      quote,\n      personName,\n      personRole,\n      companyName,\n      "companyLogoUrl": companyLogo.asset->url,\n      "companyLogoAlt": companyLogo.alt,\n      "partnerLogos": partnerLogos[]{\n        _key,\n        label,\n        "imageUrl": image.asset->url,\n        "imageAlt": image.alt\n      }\n    },\n    "storyBanner": storyBanner{\n      eyebrow,\n      heading,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      "badgeUrl": badge.asset->url,\n      "badgeAlt": badge.alt,\n      cta{label, href, style}\n    },\n    "mediaCoverage": mediaCoverage{\n      eyebrow,\n      heading,\n      "items": items[]{\n        _key,\n        title,\n        source,\n        href,\n        "imageUrl": image.asset->url,\n        "imageAlt": image.alt\n      }\n    },\n    "founderLetter": founderLetter{\n      eyebrow,\n      heading,\n      body,\n      founderName,\n      founderRole,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt\n    },\n    "faqSection": faqSection{\n      eyebrow,\n      heading,\n      contactText,\n      contactEmail,\n      items[]{_key, question, answer}\n    },\n    "careersCta": careersCta{\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      cta{label, href, style}\n    },\n    "seo": {\n      "title": seo.metaTitle,\n      "description": seo.metaDescription,\n      "canonicalUrl": seo.canonicalUrl,\n      "noIndex": coalesce(seo.noIndex, false),\n      "socialImageUrl": seo.socialImage.asset->url,\n      "socialImageAlt": seo.socialImage.alt\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    _id,\n    _updatedAt,\n    "heroSlides": heroSlides[coalesce(enabled, true) == true]{\n      _key,\n      internalName,\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": select(image.decorative == true => "", image.alt),\n      "mobileImageUrl": mobileImage.asset->url,\n      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),\n      "badgeUrl": badge.asset->url,\n      "badgeAlt": select(badge.decorative == true => "", badge.alt),\n      "qrCodeUrl": qrCode.asset->url,\n      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),\n      downloadTitle,\n      downloadCaption,\n      downloadHref,\n      cta{label, href, style}\n    },\n    aboutEyebrow,\n    aboutHeading,\n    aboutDescription,\n    aboutCta{label, href, style},\n    clientsEyebrow,\n    clientsHeading,\n    servicesEyebrow,\n    servicesHeading,\n    industriesEyebrow,\n    industriesHeading,\n    industriesDescription,\n    industriesCta{label, href, style},\n    insightsEyebrow,\n    insightsHeading,\n    insightsCta{label, href, style},\n    stats[]{_key, value, prefix, suffix, label},\n    "featuredCompanies": select(\n      count(coalesce(featuredCompanies, [])) > 0 => featuredCompanies[]->{\n        _id, name, "slug": slug.current, shortDescription,\n        "logoUrl": logo.asset->url, "logoAlt": logo.alt,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n        websiteUrl,\n        "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0\n      },\n      *[_type == "company" && coalesce(featured, false) == true && defined(logo.asset)]\n        | order(name asc)[0...8]{\n          _id, name, "slug": slug.current, shortDescription,\n          "logoUrl": logo.asset->url, "logoAlt": logo.alt,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n          websiteUrl,\n          "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0\n        }\n    ),\n    "featuredServices": select(\n      count(coalesce(featuredServices, [])) > 0 => featuredServices[]->{\n        _id, title, "slug": slug.current, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n      },\n      *[_type == "service" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(title asc)[0...8]{\n          _id, title, "slug": slug.current, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n        }\n    ),\n    "featuredIndustries": select(\n      count(coalesce(featuredIndustries, [])) > 0 => featuredIndustries[]->{\n        _id, title, "slug": slug.current, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n      },\n      *[_type == "industry" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(title asc)[0...12]{\n          _id, title, "slug": slug.current, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt\n        }\n    ),\n    "featuredProjects": select(\n      count(coalesce(featuredProjects, [])) > 0 => featuredProjects[]->{\n        _id, title, "slug": slug.current, client, shortDescription,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate\n      },\n      *[_type == "project" && coalesce(featured, false) == true && defined(featuredImage.asset)]\n        | order(projectDate desc)[0...8]{\n          _id, title, "slug": slug.current, client, shortDescription,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt, projectDate\n        }\n    ),\n    "featuredInsights": select(\n      count(coalesce(featuredInsights, [])) > 0 => featuredInsights[]->{\n        _id, title, "slug": slug.current, excerpt,\n        "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n        publishedAt, "authorName": author->name, "category": categories[0]->title\n      },\n      *[_type == "post" && coalesce(featured, false) == true && defined(slug.current) && defined(publishedAt) && defined(featuredImage.asset)]\n        | order(publishedAt desc)[0...6]{\n          _id, title, "slug": slug.current, excerpt,\n          "imageUrl": featuredImage.asset->url, "imageAlt": featuredImage.alt,\n          publishedAt, "authorName": author->name, "category": categories[0]->title\n        }\n    ),\n"achievement": {\n  "eyebrow": achievementEyebrow,\n  "heading": achievementHeading,\n  "description": achievementDescription,\n\n  "departmentEmblemUrl":\n    achievementDepartmentEmblem.asset->url,\n  "departmentEmblemAlt":\n    select(\n      achievementDepartmentEmblem.decorative == true => "",\n      achievementDepartmentEmblem.alt\n    ),\n\n  "governmentSealUrl":\n    achievementGovernmentSeal.asset->url,\n  "governmentSealAlt":\n    select(\n      achievementGovernmentSeal.decorative == true => "",\n      achievementGovernmentSeal.alt\n    ),\n\n  "bottomArtworkUrl":\n    achievementBottomArtwork.asset->url,\n  "bottomArtworkAlt":\n    select(\n      achievementBottomArtwork.decorative == true => "",\n      achievementBottomArtwork.alt\n    ),\n\n  "cta": {\n    "label": achievementCta.label,\n    "href": achievementCta.href,\n    "style": achievementCta.style\n  }\n},\n    "partnerSection": partnerSection{\n      heading,\n      description,\n      benefits[]{_key, title, href},\n      eventHeading,\n      "eventImageUrl": eventImage.asset->url,\n      "eventImageAlt": select(eventImage.decorative == true => "", eventImage.alt),\n      "eventBadgeUrl": eventBadge.asset->url,\n      "eventBadgeAlt": select(eventBadge.decorative == true => "", eventBadge.alt),\n      eventCta{label, href, style}\n    },\n    "testimonialSection": testimonialSection{\n      quote,\n      personName,\n      personRole,\n      companyName,\n      "companyLogoUrl": companyLogo.asset->url,\n      "companyLogoAlt": select(companyLogo.decorative == true => "", companyLogo.alt),\n      "partnerLogos": partnerLogos[]{\n        _key,\n        label,\n        "imageUrl": image.asset->url,\n        "imageAlt": select(image.decorative == true => "", image.alt)\n      }\n    },\n    "storyBanner": storyBanner{\n      eyebrow,\n      heading,\n      "imageUrl": image.asset->url,\n      "imageAlt": select(image.decorative == true => "", image.alt),\n      "badgeUrl": badge.asset->url,\n      "badgeAlt": select(badge.decorative == true => "", badge.alt),\n      cta{label, href, style}\n    },\n    "mediaCoverage": mediaCoverage{\n      eyebrow,\n      heading,\n      "items": items[]{\n        _key,\n        title,\n        source,\n        href,\n        "imageUrl": image.asset->url,\n        "imageAlt": select(image.decorative == true => "", image.alt)\n      }\n    },\n    "founderLetter": founderLetter{\n      eyebrow,\n      heading,\n      body,\n      founderName,\n      founderRole,\n      "imageUrl": image.asset->url,\n      "imageAlt": select(image.decorative == true => "", image.alt),\n      "signatureUrl": signature.asset->url,\n      "signatureAlt": select(signature.decorative == true => "", signature.alt)\n    },\n    "faqSection": faqSection{\n      eyebrow,\n      heading,\n      contactText,\n      contactEmail,\n      items[]{_key, question, answer}\n    },\n    "careersCta": careersCta{\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": select(image.decorative == true => "", image.alt),\n      cta{label, href, style}\n    },\n    "seo": {\n      "title": seo.metaTitle,\n      "description": seo.metaDescription,\n      "canonicalUrl": seo.canonicalUrl,\n      "noIndex": coalesce(seo.noIndex, false),\n      "socialImageUrl": seo.socialImage.asset->url,\n      "socialImageAlt": seo.socialImage.alt\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    _id,\n    _updatedAt,\n    brandName,\n    legalName,\n    description,\n    "logoUrl": logo.asset->url,\n    "logoAlt": logo.alt,\n    "logoDarkUrl": logoDark.asset->url,\n    "logoDarkAlt": logoDark.alt,\n    email,\n    phone,\n    address,\n    socialLinks[]{_key, platform, url},\n    defaultMetaTitle,\n    defaultMetaDescription,\n    "defaultSocialImageUrl": defaultSocialImage.asset->url,\n    "defaultSocialImageAlt": defaultSocialImage.alt\n  }\n': SITE_SETTINGS_QUERY_RESULT;
-    '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    "heroSlides": heroSlides[coalesce(enabled, true) == true]{\n      _key,\n      internalName,\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      "mobileImageUrl": mobileImage.asset->url,\n      "mobileImageAlt": mobileImage.alt,\n      cta{\n        label,\n        href,\n        style\n      }\n    }\n  }\n': HOME_PAGE_HERO_QUERY_RESULT;
+    '\n  *[_type == "homePage" && _id == "homePage"][0]{\n    "heroSlides": heroSlides[coalesce(enabled, true) == true]{\n      _key,\n      internalName,\n      eyebrow,\n      heading,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": select(image.decorative == true => "", image.alt),\n      "mobileImageUrl": mobileImage.asset->url,\n      "mobileImageAlt": select(mobileImage.decorative == true => "", mobileImage.alt),\n      "badgeUrl": badge.asset->url,\n      "badgeAlt": select(badge.decorative == true => "", badge.alt),\n      "qrCodeUrl": qrCode.asset->url,\n      "qrCodeAlt": select(qrCode.decorative == true => "", qrCode.alt),\n      downloadTitle,\n      downloadCaption,\n      downloadHref,\n      cta{\n        label,\n        href,\n        style\n      }\n    }\n  }\n': HOME_PAGE_HERO_QUERY_RESULT;
     '\n  *[_type == "careersPage"][0]{\n    "eyebrow": cultureEyebrow,\n    "heading": cultureHeading,\n    "description": cultureDescription,\n    "slides": cultureSlides[\n      defined(image.asset) &&\n      defined(title) &&\n      defined(description)\n    ][0...4]{\n      _key,\n      title,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt\n    }\n  }\n': CAREERS_CULTURE_QUERY_RESULT;
     '\n  *[_type == "careersPage"][0]{\n    "openings": openings[coalesce(enabled, true) == true]{\n      _key,\n      title,\n      location,\n      description,\n      responsibilities,\n      requirements,\n      applyUrl\n    }\n  }\n': CAREERS_OPENINGS_QUERY_RESULT;
     '\n  *[_type == "careersPage"][0]{\n    "heading": partnerCtaHeading,\n    "imageUrl": partnerCtaImage.asset->url,\n    "imageAlt": partnerCtaImage.alt\n  }\n': CAREERS_PARTNER_CTA_QUERY_RESULT;
+    '\n  {\n    "cards": *[_type == "contactPage" && _id == "contactPage"][0].contactCards[\n      coalesce(enabled, true) == true &&\n      defined(title) &&\n      defined(description) &&\n      defined(image.asset) &&\n      defined(href)\n    ][0...3]{\n      _key,\n      title,\n      description,\n      "imageUrl": image.asset->url,\n      "imageAlt": image.alt,\n      href\n    },\n    "connectedWorld": *[_type == "contactPage" && _id == "contactPage"][0]{\n      "heading": connectedWorldHeading,\n      "description": connectedWorldDescription,\n      "imageUrl": connectedWorldImage.asset->url,\n      "imageAlt": connectedWorldImage.alt\n    },\n    "contactDetails": *[_type == "siteSettings" && _id == "siteSettings"][0]{\n      email,\n      phone,\n      address,\n      socialLinks[]{\n        _key,\n        platform,\n        url\n      }\n    },\n    "careersCta": *[_type == "contactPage" && _id == "contactPage"][0]{\n      "heading": careersCtaHeading,\n      "buttonLabel": careersCtaButtonLabel,\n      "href": careersCtaHref,\n      "imageUrl": careersCtaImage.asset->url,\n      "imageAlt": careersCtaImage.alt\n    }\n  }\n': CONTACT_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0].featuredCompanies[]->{\n    _id,\n    name,\n    "slug": slug.current,\n    shortDescription,\n    "logoUrl": logo.asset->url,\n    "logoAlt": logo.alt,\n    "imageUrl": featuredImage.asset->url,\n    "imageAlt": featuredImage.alt,\n    websiteUrl,\n    "hasDetailPage": defined(description) || count(coalesce(body, [])) > 0\n  }\n': HOME_FEATURED_COMPANIES_QUERY_RESULT;
     '\n  *[_type == "company" && defined(slug.current)]\n    | order(coalesce(featured, false) desc, name asc)[0...8]{\n    _id,\n    name,\n    "slug": slug.current,\n    shortDescription,\n    "logoUrl": logo.asset->url,\n    "logoAlt": logo.alt,\n    "imageUrl": featuredImage.asset->url,\n    "imageAlt": featuredImage.alt,\n    websiteUrl\n  }\n': COMPANIES_LIST_QUERY_RESULT;
     '\n  *[_type == "homePage" && _id == "homePage"][0].featuredProjects[]->{\n    _id,\n    title,\n    "slug": slug.current,\n    client,\n    shortDescription,\n    "imageUrl": featuredImage.asset->url,\n    "imageAlt": featuredImage.alt,\n    projectDate\n  }\n': HOME_FEATURED_PROJECTS_QUERY_RESULT;

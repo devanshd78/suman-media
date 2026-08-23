@@ -6,15 +6,19 @@ import { Footer } from "@/components/landing/footer";
 import { Header } from "@/components/landing/header";
 import { SmoothScrollProvider } from "@/components/layout/smooth-scroll-provider";
 import { SanityLive } from "@/sanity/lib/live";
+import { getSiteSettings } from "@/sanity/lib/data";
 
 export default async function WebsiteLayout({ children }: { children: ReactNode }) {
-  const { isEnabled } = await draftMode();
+  const [{ isEnabled }, settings] = await Promise.all([
+    draftMode(),
+    getSiteSettings(),
+  ]);
 
   return (
     <SmoothScrollProvider>
       <Header />
       {children}
-      <Footer />
+      <Footer socialLinks={settings?.socialLinks} />
       <SanityLive />
       {isEnabled ? <VisualEditing /> : null}
     </SmoothScrollProvider>

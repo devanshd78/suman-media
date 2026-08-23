@@ -21,7 +21,7 @@ type AboutSectionProps = {
 };
 
 export function AboutSection({ eyebrow, heading, description, cta }: AboutSectionProps) {
-  const resolvedEyebrow = eyebrow?.trim() || "About Suman Entertainment";
+  const resolvedEyebrow = eyebrow?.trim() || "ABOUT SUMAN ENTERTAINMENT";
   const resolvedHeading =
     heading?.trim() ||
     "We're a team of creatives, music lovers and audio obsessives, developing products building India's Next Generation Media Ecosystem";
@@ -59,10 +59,10 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
 
           <Link
             href={resolvedCta.href}
-            className={`${inter.className} mt-8 inline-flex items-center justify-center gap-1 rounded-lg p-4 text-center text-sm font-semibold leading-5 text-[#8F6C1A] transition-colors hover:bg-[#8F6C1A]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
+            className={`${inter.className} group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] transition-opacity hover:opacity-65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
           >
             <span>{resolvedCta.label}</span>
-            <ArrowRightIcon />
+            <span className="transition-transform duration-200 group-hover:translate-x-1"><ArrowRightIcon /></span>
           </Link>
         </div>
       </div>
