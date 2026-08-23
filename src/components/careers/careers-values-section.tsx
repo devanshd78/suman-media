@@ -1,7 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowLeftIcon, ArrowRightIcon } from "@phosphor-icons/react";
+import { useEffect, useRef } from "react";
+import {
+  BooksIcon,
+  ChartLineUpIcon,
+  ClockIcon,
+  CoinsIcon,
+  HandFistIcon,
+  HeartIcon,
+  MoneyWavyIcon,
+  UsersFourIcon,
+} from "@phosphor-icons/react";
 import { Exo_2, Inter } from "next/font/google";
 import type { CmsCareersCulture } from "@/types/cms";
 
@@ -14,6 +23,17 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "600"],
 });
+
+const CAREER_BENEFITS = [
+  { label: "Competitive Compensation", Icon: CoinsIcon },
+  { label: "Learning & Development", Icon: BooksIcon },
+  { label: "Flexible Work", Icon: ClockIcon },
+  { label: "Health & Wellness", Icon: HeartIcon },
+  { label: "Paid Time Off", Icon: MoneyWavyIcon },
+  { label: "Team Experiences", Icon: UsersFourIcon },
+  { label: "Growth Opportunities", Icon: ChartLineUpIcon },
+  { label: "Creative Freedom", Icon: HandFistIcon },
+] as const;
 
 const FALLBACK_CULTURE_SLIDES = [
   {
@@ -122,10 +142,8 @@ export function CareersValuesSection({
       ? cmsCulture.slides
       : FALLBACK_CULTURE_SLIDES;
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const safeActiveIndex = activeIndex % slides.length;
-  const activeSlide = slides[safeActiveIndex];
-  const hasMultipleSlides = slides.length > 1;
+  const cultureScrollRef = useRef<HTMLDivElement>(null);
+  const cultureTrackRef = useRef<HTMLDivElement>(null);
 
   const cultureEyebrow = cmsCulture?.eyebrow?.trim() || "CULTURE";
   const cultureHeading =
@@ -134,13 +152,50 @@ export function CareersValuesSection({
     cmsCulture?.description?.trim() ||
     "We believe great work comes from curious people, open collaboration and the freedom to challenge what already exists.";
 
-  function showPreviousSlide() {
-    setActiveIndex((current) => (current - 1 + slides.length) % slides.length);
-  }
+  useEffect(() => {
+    const scrollArea = cultureScrollRef.current;
+    const track = cultureTrackRef.current;
 
-  function showNextSlide() {
-    setActiveIndex((current) => (current + 1) % slides.length);
-  }
+    if (!scrollArea || !track) return;
+
+    const scrollAreaElement = scrollArea;
+    const trackElement = track;
+    let animationFrame: number | null = null;
+
+    function updateTrackPosition() {
+      animationFrame = null;
+
+      const scrollDistance =
+        scrollAreaElement.offsetHeight - window.innerHeight;
+      const scrolledDistance = -scrollAreaElement.getBoundingClientRect().top;
+      const progress =
+        scrollDistance > 0
+          ? Math.min(Math.max(scrolledDistance / scrollDistance, 0), 1)
+          : 0;
+      const horizontalTravel = Math.max(slides.length - 1, 0) * 100;
+
+      trackElement.style.transform = `translate3d(-${progress * horizontalTravel}%, 0, 0)`;
+    }
+
+    function scheduleTrackUpdate() {
+      if (animationFrame !== null) return;
+
+      animationFrame = window.requestAnimationFrame(updateTrackPosition);
+    }
+
+    updateTrackPosition();
+    window.addEventListener("scroll", scheduleTrackUpdate, { passive: true });
+    window.addEventListener("resize", scheduleTrackUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleTrackUpdate);
+      window.removeEventListener("resize", scheduleTrackUpdate);
+
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [slides.length]);
 
   return (
     <>
@@ -175,10 +230,54 @@ export function CareersValuesSection({
       </section>
 
       <section
-        aria-labelledby="careers-culture-heading"
-        className="flex w-full flex-col items-start gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+        aria-labelledby="careers-benefits-heading"
+        className="w-full bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
       >
-        <div className="mx-auto flex w-full max-w-[83rem] flex-col items-start gap-8 lg:flex-row lg:gap-[3.5rem]">
+        <div className="mx-auto grid w-full max-w-[83rem] grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-[3.5rem]">
+          <div className="flex min-w-0 flex-col items-start gap-6 lg:pr-8">
+            <h2
+              id="careers-benefits-heading"
+              className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
+              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+            >
+              {cultureHeading}
+            </h2>
+            <p
+              className={`${inter.className} max-w-[35rem] text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
+              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+            >
+              {cultureDescription}
+            </p>
+          </div>
+
+          <ul className="m-0 w-full list-none p-0" aria-label="Employee benefits">
+            {CAREER_BENEFITS.map(({ label, Icon }) => (
+              <li
+                key={label}
+                className="flex w-full flex-col items-start gap-6 border-b border-[rgba(0,9,51,0.10)] py-6 first:pt-0"
+              >
+                <Icon
+                  aria-hidden="true"
+                  className="h-[3.75rem] w-[3.75rem] shrink-0 text-black"
+                  weight="regular"
+                />
+                <span
+                  className={`${inter.className} text-xl font-semibold leading-7 text-black`}
+                  style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+                >
+                  {label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="careers-culture-heading"
+        className="flex w-full flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
+      >
+        <div className="mx-auto flex w-full max-w-[90rem] flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
             <p
               className={`${inter.className} w-full text-sm font-semibold leading-5 text-[rgba(0,9,51,0.65)]`}
@@ -205,69 +304,70 @@ export function CareersValuesSection({
         </div>
 
         <div
-          className="mx-auto flex w-full max-w-[83rem] flex-col items-center gap-0 lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]"
-          aria-live="polite"
+          ref={cultureScrollRef}
+          className="relative w-full"
+          style={{ height: `${Math.max(slides.length, 1) * 100}vh` }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            key={activeSlide._key}
-            src={activeSlide.imageUrl}
-            alt={activeSlide.imageAlt || activeSlide.title}
-            draggable={false}
-            className="aspect-[38/38.75] w-full shrink-0 select-none object-cover object-center lg:h-[38.75rem] lg:w-[38rem]"
-          />
+          <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]">
+            <div className="mx-auto w-full max-w-[83rem] overflow-hidden">
+              <div
+                ref={cultureTrackRef}
+                className="flex w-full will-change-transform"
+                aria-label="Culture highlights"
+              >
+                {slides.map((slide, index) => (
+                  <article
+                    key={slide._key}
+                    className="w-full shrink-0"
+                    aria-label={`Culture highlight ${index + 1} of ${slides.length}`}
+                  >
+                    <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={slide.imageUrl}
+                        alt={slide.imageAlt || slide.title}
+                        draggable={false}
+                        className="aspect-[16/10] w-full shrink-0 select-none object-cover object-center lg:aspect-auto lg:h-[38.75rem] lg:w-[38rem]"
+                      />
 
-          <div
-            className="flex min-h-[24rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 transition-colors duration-300 lg:min-h-0"
-            style={{
-              backgroundColor:
-                SLIDE_PANEL_COLORS[
-                  safeActiveIndex % SLIDE_PANEL_COLORS.length
-                ],
-            }}
-          >
-            <p
-              className={`${exo2.className} text-[5rem] font-semibold leading-none tracking-[-0.0625rem] text-black sm:text-[6rem]`}
-              aria-hidden="true"
-            >
-              {String(safeActiveIndex + 1).padStart(2, "0")}
-            </p>
+                      <div
+                        className="flex min-h-[15rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 lg:min-h-0"
+                        style={{
+                          backgroundColor:
+                            SLIDE_PANEL_COLORS[
+                              index % SLIDE_PANEL_COLORS.length
+                            ],
+                        }}
+                      >
+                        <p
+                          className={`${exo2.className} text-[4rem] font-semibold leading-none tracking-[-0.0625rem] text-black sm:text-[6rem]`}
+                          aria-hidden="true"
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </p>
 
-            <div className="flex w-full flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div className="flex min-w-0 flex-col items-start gap-3">
-                <h3
-                  className={`${inter.className} text-xl font-semibold leading-7 text-black`}
-                  style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                >
-                  {activeSlide.title}
-                </h3>
-                <p
-                  className={`${inter.className} text-base font-normal leading-6 text-black`}
-                  style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                >
-                  {activeSlide.description}
-                </p>
-              </div>
-
-              <div className="flex shrink-0 items-center gap-3">
-                <button
-                  type="button"
-                  onClick={showPreviousSlide}
-                  disabled={!hasMultipleSlides}
-                  aria-label="Show previous culture slide"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <ArrowLeftIcon aria-hidden="true" size={20} weight="regular" />
-                </button>
-                <button
-                  type="button"
-                  onClick={showNextSlide}
-                  disabled={!hasMultipleSlides}
-                  aria-label="Show next culture slide"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-black text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  <ArrowRightIcon aria-hidden="true" size={20} weight="regular" />
-                </button>
+                        <div className="flex min-w-0 flex-col items-start gap-3">
+                          <h3
+                            className={`${inter.className} text-xl font-semibold leading-7 text-black`}
+                            style={{
+                              fontFeatureSettings: '"liga" off, "clig" off',
+                            }}
+                          >
+                            {slide.title}
+                          </h3>
+                          <p
+                            className={`${inter.className} text-base font-normal leading-6 text-black`}
+                            style={{
+                              fontFeatureSettings: '"liga" off, "clig" off',
+                            }}
+                          >
+                            {slide.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </div>

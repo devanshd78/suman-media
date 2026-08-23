@@ -45,11 +45,15 @@ export const locations = {
   careersPage: defineLocations({
     locations: [{ title: "Careers", href: "/careers" }],
   }),
+  contactPage: defineLocations({
+    locations: [{ title: "Contact", href: "/contact" }],
+  }),
 };
 
 export const mainDocuments = defineDocuments([
   { route: "/", filter: `_type == "homePage" && _id == "homePage"` },
   { route: "/careers", filter: `_type == "careersPage"` },
+  { route: "/contact", filter: `_type == "contactPage"` },
   { route: "/services/:slug", filter: `_type == "service" && slug.current == $slug` },
   { route: "/companies/:slug", filter: `_type == "company" && slug.current == $slug` },
   { route: "/insights/:slug", filter: `_type == "post" && slug.current == $slug` },

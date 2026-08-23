@@ -61,6 +61,48 @@ export const CAREERS_PARTNER_CTA_QUERY = defineQuery(`
   }
 `);
 
+export const CONTACT_PAGE_QUERY = defineQuery(`
+  {
+    "cards": *[_type == "contactPage" && _id == "contactPage"][0].contactCards[
+      coalesce(enabled, true) == true &&
+      defined(title) &&
+      defined(description) &&
+      defined(image.asset) &&
+      defined(href)
+    ][0...3]{
+      _key,
+      title,
+      description,
+      "imageUrl": image.asset->url,
+      "imageAlt": image.alt,
+      href
+    },
+    "connectedWorld": *[_type == "contactPage" && _id == "contactPage"][0]{
+      "heading": connectedWorldHeading,
+      "description": connectedWorldDescription,
+      "imageUrl": connectedWorldImage.asset->url,
+      "imageAlt": connectedWorldImage.alt
+    },
+    "contactDetails": *[_type == "siteSettings" && _id == "siteSettings"][0]{
+      email,
+      phone,
+      address,
+      socialLinks[]{
+        _key,
+        platform,
+        url
+      }
+    },
+    "careersCta": *[_type == "contactPage" && _id == "contactPage"][0]{
+      "heading": careersCtaHeading,
+      "buttonLabel": careersCtaButtonLabel,
+      "href": careersCtaHref,
+      "imageUrl": careersCtaImage.asset->url,
+      "imageAlt": careersCtaImage.alt
+    }
+  }
+`);
+
 export const HOME_FEATURED_COMPANIES_QUERY = defineQuery(`
   *[_type == "homePage" && _id == "homePage"][0].featuredCompanies[]->{
     _id,

@@ -8,12 +8,14 @@ import type {
   CmsCareerOpening,
   CmsCareersCulture,
   CmsCareersPartnerCta,
+  CmsContactPage,
 } from "@/types/cms";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   CAREERS_CULTURE_QUERY,
   CAREERS_OPENINGS_QUERY,
   CAREERS_PARTNER_CTA_QUERY,
+  CONTACT_PAGE_QUERY,
   COMPANIES_LIST_QUERY,
   COMPANY_BY_SLUG_QUERY,
   HOME_FEATURED_COMPANIES_QUERY,
@@ -26,6 +28,18 @@ import {
   SERVICE_BY_SLUG_QUERY,
   SITEMAP_DOCUMENTS_QUERY,
 } from "@/sanity/queries/content";
+
+export async function getContactPageContent(): Promise<CmsContactPage | null> {
+  try {
+    return await sanityFetch<CmsContactPage>({
+      query: CONTACT_PAGE_QUERY,
+      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+    });
+  } catch (error) {
+    console.error("Failed to load Contact page content from Sanity", error);
+    return null;
+  }
+}
 
 export async function getCareersPartnerCta(): Promise<CmsCareersPartnerCta | null> {
   try {

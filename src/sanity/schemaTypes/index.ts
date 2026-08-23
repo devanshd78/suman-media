@@ -2,6 +2,7 @@ import type { SchemaTypeDefinition } from "sanity";
 import { authorType } from "./documents/author";
 import { categoryType } from "./documents/category";
 import { careersPageType } from "./documents/careers-page";
+import { contactPageType } from "./documents/contact-page";
 import { companyType } from "./documents/company";
 import { homePageType } from "./documents/home-page";
 import { industryType } from "./documents/industry";
@@ -25,6 +26,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   siteSettingsType,
   homePageType,
   careersPageType,
+  contactPageType,
   serviceType,
   companyType,
   industryType,

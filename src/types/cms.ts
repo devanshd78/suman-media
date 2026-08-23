@@ -54,6 +54,42 @@ export type CmsCareersPartnerCta = {
   imageAlt?: string | null;
 };
 
+export type CmsContactCard = {
+  _key: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+  href: string;
+};
+
+export type CmsContactPage = {
+  cards?: CmsContactCard[] | null;
+  connectedWorld?: {
+    heading?: string | null;
+    description?: string | null;
+    imageUrl?: string | null;
+    imageAlt?: string | null;
+  } | null;
+  contactDetails?: {
+    email?: string | null;
+    phone?: string | null;
+    address?: string | null;
+    socialLinks?: Array<{
+      _key: string;
+      platform: string;
+      url: string;
+    }> | null;
+  } | null;
+  careersCta?: {
+    heading?: string | null;
+    buttonLabel?: string | null;
+    href?: string | null;
+    imageUrl?: string | null;
+    imageAlt?: string | null;
+  } | null;
+};
+
 export type CmsFeaturedCompany = {
   _id: string;
   name: string;

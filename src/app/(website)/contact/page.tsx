@@ -1,5 +1,6 @@
-import { PagePlaceholder } from "@/components/layout/page-placeholder";
+import { ContactPageContent } from "@/components/contactus/caotact-page";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { getContactPageContent } from "@/sanity/lib/data";
 
 export const metadata = createPageMetadata(
   "Contact Us",
@@ -7,11 +8,8 @@ export const metadata = createPageMetadata(
   "/contact",
 );
 
-export default function ContactPage() {
-  return (
-    <PagePlaceholder
-      title="Contact Us"
-      description="Developers should build the contact form using POST /api/contact."
-    />
-  );
+export default async function ContactPage() {
+  const content = await getContactPageContent();
+
+  return <ContactPageContent content={content} />;
 }
