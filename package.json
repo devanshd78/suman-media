@@ -16,6 +16,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
+    "db:seed:countries": "node --experimental-strip-types scripts/seed-country-calling-codes.ts",
     "db:studio": "prisma studio",
     "predev": "prisma generate",
     "prebuild": "prisma generate",

@@ -74,3 +74,15 @@ model CareerApplication {
   @@index([email])
   @@index([requestId])
 }
+
+model CountryCallingCode {
+  iso2        String   @id
+  name        String
+  callingCode String
+  flag        String
+  enabled     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([enabled, name])
+}

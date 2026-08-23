@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   ContactSubmission: 'ContactSubmission',
   NewsletterSubscription: 'NewsletterSubscription',
-  CareerApplication: 'CareerApplication'
+  CareerApplication: 'CareerApplication',
+  CountryCallingCode: 'CountryCallingCode'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -122,6 +123,19 @@ export const CareerApplicationScalarFieldEnum = {
 } as const
 
 export type CareerApplicationScalarFieldEnum = (typeof CareerApplicationScalarFieldEnum)[keyof typeof CareerApplicationScalarFieldEnum]
+
+
+export const CountryCallingCodeScalarFieldEnum = {
+  iso2: 'iso2',
+  name: 'name',
+  callingCode: 'callingCode',
+  flag: 'flag',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CountryCallingCodeScalarFieldEnum = (typeof CountryCallingCodeScalarFieldEnum)[keyof typeof CountryCallingCodeScalarFieldEnum]
 
 
 export const SortOrder = {

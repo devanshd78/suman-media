@@ -56,3 +56,8 @@ export type NewsletterSubscription = Prisma.NewsletterSubscriptionModel
  * 
  */
 export type CareerApplication = Prisma.CareerApplicationModel
+/**
+ * Model CountryCallingCode
+ * 
+ */
+export type CountryCallingCode = Prisma.CountryCallingCodeModel

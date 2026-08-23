@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 import type { CmsContactPage } from "@/types/cms";
+import { PartnerLogoMarquee } from "./partner-logo-marquee";
 import styles from "./contact-page.module.css";
 
 const exo2 = Exo_2({
@@ -14,44 +15,6 @@ const inter = Inter({
   weight: ["400", "600"],
 });
 
-const PARTNER_LOGOS = [
-  {
-    name: "Attentive",
-    src: "/images/partners/Frame%20156.svg",
-    width: 202,
-  },
-  {
-    name: "Calendly",
-    src: "/images/partners/Frame%20183.svg",
-    width: 224,
-  },
-  {
-    name: "Mailchimp",
-    src: "/images/partners/Frame%20170.svg",
-    width: 224,
-  },
-  {
-    name: "Automation Anywhere",
-    src: "/images/partners/Frame%20161.svg",
-    width: 224,
-  },
-  {
-    name: "Razorpay",
-    src: "/images/partners/Frame%20204.svg",
-    width: 224,
-  },
-  {
-    name: "Dropbox",
-    src: "/images/partners/dropbox-com.svg",
-    width: 122,
-  },
-  {
-    name: "Atlassian",
-    src: "/images/partners/Atlassian.png",
-    width: 224,
-  },
-] as const;
-
 const FALLBACK_CONTACT_CARDS = [
   {
     _key: "contact-general",
@@ -60,7 +23,7 @@ const FALLBACK_CONTACT_CARDS = [
       "Have a question, project or idea? Connect with the right team and let’s start a conversation.",
     imageUrl: "/images/contactus/ContactUs.png",
     imageAlt: "A business professional speaking on the phone",
-    href: "/contact?type=general",
+    href: "/contact/form?type=general",
   },
   {
     _key: "contact-investor",
@@ -69,7 +32,7 @@ const FALLBACK_CONTACT_CARDS = [
       "Explore investment opportunities and learn more about Suman Media’s growth journey.",
     imageUrl: "/images/contactus/ContactAsInvester.png",
     imageAlt: "A business professional in an investor meeting",
-    href: "/contact?type=investor",
+    href: "/contact/form?type=investor",
   },
   {
     _key: "contact-partner",
@@ -78,7 +41,7 @@ const FALLBACK_CONTACT_CARDS = [
       "Collaborate with us across media, technology and entertainment to build what’s next.",
     imageUrl: "/images/contactus/JoinAsPartner.png",
     imageAlt: "A filmmaker collaborating with a production crew",
-    href: "/contact?type=partnership",
+    href: "/contact/form?type=partnership",
   },
 ] as const;
 
@@ -136,6 +99,16 @@ function normalizePlatform(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+function resolveContactCardHref(href: string, index: number) {
+  if (href === "/contact" || href.startsWith("/contact?")) {
+    const type = new URL(href, "https://suman.local").searchParams.get("type");
+    const fallbackTypes = ["general", "investor", "partnership"] as const;
+    return `/contact/form?type=${type || fallbackTypes[index] || "general"}`;
+  }
+
+  return href;
+}
+
 function SmallArrowRightIcon() {
   return (
     <svg
@@ -184,31 +157,6 @@ function ArrowUpRightIcon() {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}
-
-function PartnerLogoRow({ duplicate = false }: { duplicate?: boolean }) {
-  return (
-    <div
-      className={styles.logoRow}
-      aria-hidden={duplicate ? "true" : undefined}
-    >
-      {PARTNER_LOGOS.map((logo) => (
-        <div
-          key={logo.name}
-          className="relative h-[3.5625rem] shrink-0"
-          style={{ width: `${logo.width}px` }}
-        >
-          <Image
-            src={logo.src}
-            alt={duplicate ? "" : logo.name}
-            fill
-            sizes={`${logo.width}px`}
-            className="pointer-events-none select-none object-contain"
-          />
-        </div>
-      ))}
-    </div>
   );
 }
 
@@ -298,12 +246,7 @@ export function ContactPageContent({
         aria-label="Our partners"
         className="flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-4 sm:px-8 lg:px-[3.5rem]"
       >
-        <div className={`${styles.marquee} h-[6.25rem] w-full`}>
-          <div className={styles.marqueeTrack}>
-            <PartnerLogoRow />
-            <PartnerLogoRow duplicate />
-          </div>
-        </div>
+        <PartnerLogoMarquee />
       </section>
 
       <section
@@ -325,10 +268,10 @@ export function ContactPageContent({
         className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
       >
         <div className="grid w-full grid-cols-1 justify-items-center gap-8 lg:grid-cols-3">
-          {contactCards.map((card) => (
+          {contactCards.map((card, index) => (
             <Link
               key={card._key}
-              href={card.href}
+              href={resolveContactCardHref(card.href, index)}
               className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] lg:h-[30.9375rem] lg:max-w-none lg:aspect-auto`}
               aria-label={`${card.title}: ${card.description}`}
             >

@@ -321,6 +321,10 @@ export type CmsContactPage = {
       url: string;
     }> | null;
   } | null;
+  form?: {
+    generalCategories?: string[] | null;
+    partnerCategories?: string[] | null;
+  } | null;
   careersCta?: {
     heading?: string | null;
     buttonLabel?: string | null;
