@@ -7,6 +7,37 @@ export type CmsSeo = {
   socialImageAlt?: string | null;
 };
 
+
+export type CmsSiteSettings = {
+  _id: string;
+  _updatedAt: string;
+  brandName?: string | null;
+  legalName?: string | null;
+  description?: string | null;
+  logoUrl?: string | null;
+  logoAlt?: string | null;
+  logoDarkUrl?: string | null;
+  logoDarkAlt?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  socialLinks?: Array<{
+    _key: string;
+    platform: string;
+    url: string;
+  }> | null;
+  defaultMetaTitle?: string | null;
+  defaultMetaDescription?: string | null;
+  defaultSocialImageUrl?: string | null;
+  defaultSocialImageAlt?: string | null;
+};
+
+export type CmsCta = {
+  label: string;
+  href: string;
+  style?: "primary" | "secondary" | "text" | null;
+};
+
 export type CmsHeroSlide = {
   _key: string;
   internalName?: string | null;
@@ -17,10 +48,219 @@ export type CmsHeroSlide = {
   imageAlt?: string | null;
   mobileImageUrl?: string | null;
   mobileImageAlt?: string | null;
+  cta?: CmsCta | null;
+};
+
+export type CmsStat = {
+  _key: string;
+  value: number;
+  prefix?: string | null;
+  suffix?: string | null;
+  label: string;
+};
+
+export type CmsFeaturedCompany = {
+  _id: string;
+  name: string;
+  slug?: string | null;
+  shortDescription?: string | null;
+  logoUrl?: string | null;
+  logoAlt?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  websiteUrl?: string | null;
+  hasDetailPage?: boolean | null;
+};
+
+export type CmsFeaturedService = {
+  _id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+};
+
+export type CmsFeaturedIndustry = {
+  _id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+};
+
+export type CmsFeaturedProject = {
+  _id: string;
+  title: string;
+  slug?: string | null;
+  client?: string | null;
+  shortDescription: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+  projectDate?: string | null;
+};
+
+export type CmsFeaturedInsight = {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+  publishedAt: string;
+  authorName?: string | null;
+  category?: string | null;
+};
+
+export type CmsAchievementSection = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  description?: string | null;
+
+  departmentEmblemUrl?: string | null;
+  departmentEmblemAlt?: string | null;
+
+  governmentSealUrl?: string | null;
+  governmentSealAlt?: string | null;
+
+  bottomArtworkUrl?: string | null;
+  bottomArtworkAlt?: string | null;
+
   cta?: {
-    label: string;
-    href: string;
+    label?: string | null;
+    href?: string | null;
+    style?: "primary" | "secondary" | "text";
   } | null;
+};
+
+export type CmsPartnerBenefit = {
+  _key: string;
+  title: string;
+  href?: string | null;
+};
+
+export type CmsPartnerSection = {
+  heading?: string | null;
+  description?: string | null;
+  benefits?: CmsPartnerBenefit[] | null;
+  eventHeading?: string | null;
+  eventImageUrl?: string | null;
+  eventImageAlt?: string | null;
+  eventBadgeUrl?: string | null;
+  eventBadgeAlt?: string | null;
+  eventCta?: CmsCta | null;
+};
+
+export type CmsLogoItem = {
+  _key: string;
+  label: string;
+  imageUrl: string;
+  imageAlt?: string | null;
+};
+
+export type CmsTestimonialSection = {
+  quote?: string | null;
+  personName?: string | null;
+  personRole?: string | null;
+  companyName?: string | null;
+  companyLogoUrl?: string | null;
+  companyLogoAlt?: string | null;
+  partnerLogos?: CmsLogoItem[] | null;
+};
+
+export type CmsStoryBanner = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  badgeUrl?: string | null;
+  badgeAlt?: string | null;
+  cta?: CmsCta | null;
+};
+
+export type CmsMediaCoverageItem = {
+  _key: string;
+  title: string;
+  source?: string | null;
+  href?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+};
+
+export type CmsMediaCoverageSection = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  items?: CmsMediaCoverageItem[] | null;
+};
+
+export type CmsFounderLetter = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  body?: string | null;
+  founderName?: string | null;
+  founderRole?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+};
+
+export type CmsFaqItem = {
+  _key: string;
+  question: string;
+  answer: string;
+};
+
+export type CmsFaqSection = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  contactText?: string | null;
+  contactEmail?: string | null;
+  items?: CmsFaqItem[] | null;
+};
+
+export type CmsCareersCta = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  cta?: CmsCta | null;
+};
+
+export type CmsHomePage = {
+  _id: string;
+  _updatedAt: string;
+  heroSlides?: CmsHeroSlide[] | null;
+  aboutEyebrow?: string | null;
+  aboutHeading?: string | null;
+  aboutDescription?: string | null;
+  aboutCta?: CmsCta | null;
+  clientsEyebrow?: string | null;
+  clientsHeading?: string | null;
+  servicesEyebrow?: string | null;
+  servicesHeading?: string | null;
+  industriesEyebrow?: string | null;
+  industriesHeading?: string | null;
+  industriesDescription?: string | null;
+  industriesCta?: CmsCta | null;
+  insightsEyebrow?: string | null;
+  insightsHeading?: string | null;
+  insightsCta?: CmsCta | null;
+  stats?: CmsStat[] | null;
+  featuredCompanies?: CmsFeaturedCompany[] | null;
+  featuredServices?: CmsFeaturedService[] | null;
+  featuredIndustries?: CmsFeaturedIndustry[] | null;
+  featuredProjects?: CmsFeaturedProject[] | null;
+  featuredInsights?: CmsFeaturedInsight[] | null;
+  achievement?: CmsAchievementSection | null;
+  partnerSection?: CmsPartnerSection | null;
+  testimonialSection?: CmsTestimonialSection | null;
+  storyBanner?: CmsStoryBanner | null;
+  mediaCoverage?: CmsMediaCoverageSection | null;
+  founderLetter?: CmsFounderLetter | null;
+  faqSection?: CmsFaqSection | null;
+  careersCta?: CmsCareersCta | null;
+  seo?: CmsSeo | null;
 };
 
 export type CmsCareersCultureSlide = {
@@ -52,41 +292,6 @@ export type CmsCareersPartnerCta = {
   heading?: string | null;
   imageUrl?: string | null;
   imageAlt?: string | null;
-};
-
-export type CmsFeaturedCompany = {
-  _id: string;
-  name: string;
-  slug?: string | null;
-  shortDescription: string;
-  logoUrl?: string | null;
-  logoAlt?: string | null;
-  imageUrl?: string | null;
-  imageAlt?: string | null;
-  websiteUrl?: string | null;
-};
-
-export type CmsFeaturedProject = {
-  _id: string;
-  title: string;
-  slug?: string | null;
-  client?: string | null;
-  shortDescription: string;
-  imageUrl: string;
-  imageAlt?: string | null;
-  projectDate?: string | null;
-};
-
-export type CmsFeaturedInsight = {
-  _id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  imageUrl: string;
-  imageAlt?: string | null;
-  publishedAt: string;
-  authorName?: string | null;
-  category?: string | null;
 };
 
 export type CmsDetailDocument = {

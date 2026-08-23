@@ -3,6 +3,8 @@ import { siteConfig } from "@/config/site";
 export type JsonLd = Record<string, unknown>;
 
 export function organizationJsonLd(input?: {
+  name?: string | null;
+  legalName?: string | null;
   logo?: string | null;
   email?: string | null;
   phone?: string | null;
@@ -11,8 +13,8 @@ export function organizationJsonLd(input?: {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: siteConfig.name,
-    legalName: siteConfig.legalName,
+    name: input?.name?.trim() || siteConfig.name,
+    legalName: input?.legalName?.trim() || siteConfig.legalName,
     url: siteConfig.url,
     ...(input?.logo ? { logo: new URL(input.logo, siteConfig.url).toString() } : {}),
     ...(input?.email ? { email: input.email } : {}),
@@ -21,11 +23,11 @@ export function organizationJsonLd(input?: {
   };
 }
 
-export function websiteJsonLd(): JsonLd {
+export function websiteJsonLd(input?: { name?: string | null }): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteConfig.name,
+    name: input?.name?.trim() || siteConfig.name,
     url: siteConfig.url,
   };
 }
@@ -108,6 +110,22 @@ export function jobPostingJsonLd(input: {
       sameAs: siteConfig.url,
     },
     url: new URL(input.path, siteConfig.url).toString(),
+  };
+}
+
+
+export function faqPageJsonLd(items: Array<{ question: string; answer: string }>): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   };
 }
 

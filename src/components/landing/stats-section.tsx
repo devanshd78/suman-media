@@ -1,5 +1,7 @@
 import { Exo_2, Inter } from "next/font/google";
 
+import { AnimatedStatNumber } from "./animated-stat-number";
+
 const exo2 = Exo_2({
   subsets: ["latin"],
   weight: ["600"],
@@ -10,136 +12,145 @@ const inter = Inter({
   weight: ["400"],
 });
 
-const STATS = [
-  {
-    value: "000+",
-    label: "Film Entertainment Content",
-  },
-  {
-    value: "00+",
-    label: "Youtube Channels",
-  },
-  {
-    value: "00mn",
-    label: "Content views",
-  },
-  {
-    value: "00+",
-    label: "Years in Business",
-  },
-] as const;
+type Stat = {
+  _key?: string;
+  value: number;
+  prefix?: string | null;
+  suffix?: string | null;
+  label: string;
+};
 
-export function StatsSection() {
+export function StatsSection({
+  stats,
+}: {
+  stats?: Stat[] | null;
+}) {
+  const validStats =
+    stats
+      ?.filter(
+        (stat) =>
+          typeof stat.value === "number" &&
+          Number.isFinite(stat.value) &&
+          Boolean(stat.label?.trim()),
+      )
+      .slice(0, 4) ?? [];
+
+  if (!validStats.length) {
+    return null;
+  }
+
   return (
     <section
-      aria-label="Suman Media statistics"
+      aria-label="Suman Entertainment statistics"
       className="
+        landing-section-transition
         mx-auto
-        flex
         w-full
         max-w-[90rem]
-        flex-col
-        items-end
-
-        gap-[6.25rem]
-
         bg-white
-
         px-5
-        py-16
-
+        py-12
         sm:px-8
-
         lg:px-[3.5rem]
-        lg:py-[6.25rem]
+        lg:py-[4.25rem]
       "
     >
-      <div
+      <dl
         className="
           grid
-          w-full
-          grid-cols-1
-
-          bg-white
-
-          sm:grid-cols-2
+          grid-cols-2
           lg:grid-cols-4
         "
       >
-        {STATS.map((stat, index) => (
+        {validStats.map((stat, index) => (
           <div
-            key={stat.label}
+            key={stat._key ?? `${stat.label}-${index}`}
             className={`
               relative
-
               flex
+              min-h-[7rem]
               flex-col
               items-center
               justify-center
-
-              gap-1
-
               px-4
-              py-6
+              text-center
 
-              lg:px-6
-              lg:py-1
+              sm:px-6
+
+              lg:min-h-[6.5rem]
+              lg:px-8
 
               ${
-                index !== STATS.length - 1
-                  ? "lg:after:absolute lg:after:right-0 lg:after:top-1/2 lg:after:h-[4.25rem] lg:after:w-px lg:after:-translate-y-1/2 lg:after:bg-[rgba(0,17,102,0.10)]"
+                index % 2 !== 0
+                  ? "border-l border-[#E7E9EF]"
                   : ""
+              }
+
+              ${
+                index > 1
+                  ? "border-t border-[#E7E9EF] lg:border-t-0"
+                  : ""
+              }
+
+              ${
+                index !== 0
+                  ? "lg:border-l lg:border-[#E7E9EF]"
+                  : "lg:border-l-0"
               }
             `}
           >
-            <p
+            <dd
               className={`
                 ${exo2.className}
 
-                w-full
-
                 text-center
-
-                text-[2.75rem]
+                text-[2.5rem]
                 font-semibold
-                leading-[3.25rem]
-                tracking-[-0.0625rem]
-
+                leading-[3rem]
+                tracking-[-0.05rem]
                 text-[rgba(0,6,38,0.90)]
+
+                sm:text-[3rem]
+                sm:leading-[3.5rem]
 
                 lg:text-[3.5rem]
                 lg:leading-[4rem]
+                lg:tracking-[-0.0625rem]
               `}
               style={{
                 fontFeatureSettings: '"liga" off, "clig" off',
               }}
             >
-              {stat.value}
-            </p>
+              <AnimatedStatNumber
+                value={stat.value}
+                prefix={stat.prefix}
+                suffix={stat.suffix}
+                delay={index * 130}
+              />
+            </dd>
 
-            <p
+            <dt
               className={`
                 ${inter.className}
 
-                w-full
-
+                mt-2
                 text-center
-
-                text-base
+                text-[0.625rem]
                 font-normal
-                leading-6
+                leading-4
+                text-[rgba(0,6,38,0.55)]
 
-                text-[rgba(0,9,51,0.65)]
+                sm:text-[0.6875rem]
               `}
               style={{
                 fontFeatureSettings: '"liga" off, "clig" off',
               }}
             >
               {stat.label}
-            </p>
+            </dt>
           </div>
         ))}
-      </div>
+      </dl>
     </section>
   );
 }

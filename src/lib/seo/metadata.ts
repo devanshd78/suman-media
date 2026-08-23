@@ -5,10 +5,12 @@ import type { CmsDetailDocument } from "@/types/cms";
 type PageMetadataOptions = {
   canonical?: string | null;
   image?: string | null;
+  imageAlt?: string | null;
   noIndex?: boolean | null;
   type?: "website" | "article";
   publishedTime?: string | null;
   modifiedTime?: string | null;
+  absoluteTitle?: boolean;
 };
 
 function absoluteUrl(value: string) {
@@ -26,7 +28,7 @@ export function createPageMetadata(
   const isArticle = options.type === "article";
 
   return {
-    title,
+    title: options.absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical },
     robots: options.noIndex
@@ -38,7 +40,9 @@ export function createPageMetadata(
       title,
       description,
       url: absoluteUrl(canonical),
-      ...(image ? { images: [{ url: image }] } : {}),
+      ...(image
+        ? { images: [{ url: image, ...(options.imageAlt ? { alt: options.imageAlt } : {}) }] }
+        : {}),
       ...(isArticle
         ? {
             publishedTime: options.publishedTime || undefined,
@@ -68,6 +72,7 @@ export function createCmsMetadata(
   return createPageMetadata(title, description, path, {
     canonical: document.seo?.canonicalUrl,
     image: document.seo?.socialImageUrl,
+    imageAlt: document.seo?.socialImageAlt,
     noIndex: document.seo?.noIndex,
     type: document._type === "post" ? "article" : "website",
     publishedTime: document.publishedAt,

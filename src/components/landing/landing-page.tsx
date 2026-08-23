@@ -1,36 +1,125 @@
-import { getHomeHeroSlides } from "@/sanity/lib/data";
-import { HeroSection } from "./hero-section";
+import type { CmsHomePage } from "@/types/cms";
+
 import { AboutSection } from "./about-section";
-import { ClientsSection } from "./client-section";
-import { ProjectsSection } from "./projects-section";
-import { InsightsSection } from "./insights-section";
-import { ServicesSection } from "./services-section";
 import { AchievementRevealGrid } from "./achievement-reveal-grid";
+import { CareersCtaSection } from "./careers-cta-section";
+import { ClientsSection } from "./client-section";
+import { FaqSection } from "./faq-section";
+import { FounderLetterSection } from "./founder-letter-section";
+import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
-import { StatsSection } from "./stats-section";
+import { InsightsSection } from "./insights-section";
+import { LandingSectionObserver } from "./landing-section-observer";
+import { MediaCoverageSection } from "./media-coverage-section";
 import { PartnerSection } from "./partner-section";
+import { ServicesSection } from "./services-section";
+import { StatsSection } from "./stats-section";
 import { TestimonialSection } from "./testimonial-section";
 
-export async function LandingPage() {
-    const heroSlides = await getHomeHeroSlides();
+type LandingPageProps = {
+  home: CmsHomePage | null;
+};
 
-    // overflow-x-clip (not -hidden): hidden would make <main> a scroll
-    // container and break position:sticky inside the services gallery.
-    // Full-width shell: section backgrounds bleed edge-to-edge while each
-    // section constrains its own content to max-w-[90rem].
-    return (
-        <main className="relative mx-auto w-full max-w-[90rem] overflow-x-clip bg-black">
-            <HeroSection slides={heroSlides} />
-            <AboutSection />
-            <ClientsSection />
-            <ServicesSection />
-            <AchievementRevealGrid />
-            <ProjectsSection />
-            <IndustriesSection />
-            <StatsSection />
-            <InsightsSection />
-            <PartnerSection />
-            <TestimonialSection />
-        </main>
-    );
+export function LandingPage({
+  home,
+}: LandingPageProps) {
+  return (
+    <main
+      className="
+        relative
+        mx-auto
+        w-full
+        max-w-[90rem]
+        overflow-x-clip
+        bg-black
+      "
+    >
+      <LandingSectionObserver />
+
+      <HeroSection
+        slides={home?.heroSlides ?? []}
+      />
+
+      <AboutSection
+        eyebrow={home?.aboutEyebrow}
+        heading={home?.aboutHeading}
+        description={home?.aboutDescription}
+        cta={home?.aboutCta}
+      />
+
+      <ClientsSection
+        eyebrow={home?.clientsEyebrow}
+        heading={home?.clientsHeading}
+        companies={
+          home?.featuredCompanies ?? []
+        }
+      />
+
+      <ServicesSection
+        eyebrow={home?.servicesEyebrow}
+        heading={home?.servicesHeading}
+        services={
+          home?.featuredServices ?? []
+        }
+      />
+
+      <AchievementRevealGrid
+        content={home?.achievement}
+      />
+
+      <IndustriesSection
+        eyebrow={home?.industriesEyebrow}
+        heading={home?.industriesHeading}
+        description={
+          home?.industriesDescription
+        }
+        cta={home?.industriesCta}
+        industries={
+          home?.featuredIndustries ?? []
+        }
+      />
+
+      {/* Thin animated statistics strip */}
+      <StatsSection
+        stats={home?.stats ?? []}
+      />
+
+      {/* Why Partner With us? + Cannes */}
+      <PartnerSection
+        content={home?.partnerSection}
+      />
+
+      <TestimonialSection
+        testimonial={
+          home?.testimonialSection
+        }
+        story={home?.storyBanner}
+      />
+
+      <MediaCoverageSection
+        content={home?.mediaCoverage}
+      />
+
+      <FounderLetterSection
+        content={home?.founderLetter}
+      />
+
+      <InsightsSection
+        eyebrow={home?.insightsEyebrow}
+        heading={home?.insightsHeading}
+        cta={home?.insightsCta}
+        posts={
+          home?.featuredInsights ?? []
+        }
+      />
+
+      <FaqSection
+        content={home?.faqSection}
+      />
+
+      <CareersCtaSection
+        content={home?.careersCta}
+      />
+    </main>
+  );
 }

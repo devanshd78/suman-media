@@ -1,15 +1,18 @@
+import { cache } from "react";
 import type {
   CmsDetailDocument,
   CmsFeaturedCompany,
   CmsFeaturedInsight,
   CmsFeaturedProject,
   CmsHeroSlide,
+  CmsHomePage,
   CmsSitemapDocument,
+  CmsSiteSettings,
   CmsCareerOpening,
   CmsCareersCulture,
   CmsCareersPartnerCta,
 } from "@/types/cms";
-import { sanityFetch } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/live";
 import {
   CAREERS_CULTURE_QUERY,
   CAREERS_OPENINGS_QUERY,
@@ -20,12 +23,43 @@ import {
   HOME_FEATURED_INSIGHTS_QUERY,
   HOME_FEATURED_PROJECTS_QUERY,
   HOME_PAGE_HERO_QUERY,
+  HOME_PAGE_QUERY,
   INSIGHT_BY_SLUG_QUERY,
   INSIGHTS_LIST_QUERY,
   PROJECTS_LIST_QUERY,
   SERVICE_BY_SLUG_QUERY,
+  SITE_SETTINGS_QUERY,
   SITEMAP_DOCUMENTS_QUERY,
 } from "@/sanity/queries/content";
+
+
+const HOME_REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 3600;
+
+export const getHomePage = cache(async (metadata = false): Promise<CmsHomePage | null> => {
+  try {
+    return await sanityFetch<CmsHomePage>({
+      query: HOME_PAGE_QUERY,
+      revalidate: HOME_REVALIDATE,
+      metadata,
+    });
+  } catch (error) {
+    console.error("Failed to load homepage from Sanity", error);
+    return null;
+  }
+});
+
+export const getSiteSettings = cache(async (): Promise<CmsSiteSettings | null> => {
+  try {
+    return await sanityFetch<CmsSiteSettings>({
+      query: SITE_SETTINGS_QUERY,
+      revalidate: HOME_REVALIDATE,
+      metadata: true,
+    });
+  } catch (error) {
+    console.error("Failed to load site settings from Sanity", error);
+    return null;
+  }
+});
 
 export async function getCareersPartnerCta(): Promise<CmsCareersPartnerCta | null> {
   try {

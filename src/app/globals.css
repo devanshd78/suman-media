@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #18181b;
+  --site-header-offset: 88px;
 }
 
 @theme inline {
@@ -18,6 +19,26 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--site-header-offset);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent],
+.lenis.lenis-smooth [data-lenis-prevent-wheel],
+.lenis.lenis-smooth [data-lenis-prevent-touch] {
+  overscroll-behavior: contain;
 }
 
 body {
@@ -41,7 +62,32 @@ select {
   color: #ffffff;
 }
 
+/*
+ * Landing-page section transitions are progressive enhancement:
+ * - server-rendered HTML is visible by default
+ * - a single IntersectionObserver adds the motion-ready state
+ * - only opacity is animated, so sticky/3D sections keep their containing blocks
+ */
+.landing-section-transition {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.landing-motion-ready .landing-section-transition {
+    transition: opacity 780ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.landing-motion-ready
+    .landing-section-transition:not([data-section-visible="true"]) {
+    opacity: 0.24;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
