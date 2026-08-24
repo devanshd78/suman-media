@@ -47,7 +47,7 @@ export function CareersPartnerCta({
   return (
     <section
       aria-label="Partner with Suman Media"
-      className="mx-auto flex h-[30rem] w-full max-w-[90rem] flex-col items-end justify-between overflow-hidden p-8"
+      className="mx-auto flex h-[30rem] w-full max-w-full flex-col items-end justify-between overflow-hidden p-5 sm:p-8"
       style={{
         backgroundImage: `radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url("${backgroundImage}")`,
         backgroundPosition: "center, center",

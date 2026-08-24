@@ -23,7 +23,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
     <section
       id="founder-letter"
       aria-labelledby="founder-letter-heading"
-      className="landing-section-transition relative mx-auto flex min-h-[42rem] w-full max-w-[90rem] items-center justify-center overflow-hidden bg-[#151515] px-5 py-10 sm:min-h-[46rem] sm:px-8 sm:py-12 lg:min-h-[52rem] lg:px-[3.5rem] lg:py-14"
+      className="landing-section-transition relative mx-auto flex min-h-[42rem] w-full max-w-full items-center justify-center overflow-hidden bg-[#151515] px-5 py-10 sm:min-h-[46rem] sm:px-8 sm:py-12 lg:min-h-[52rem] lg:px-[3.5rem] lg:py-14"
     >
       {content.imageUrl ? (
         <>

@@ -28,7 +28,7 @@ export function MediaCoverageSection({
     <section
       id="media-coverage"
       aria-labelledby="media-coverage-heading"
-      className="landing-section-transition mx-auto w-full max-w-[90rem] bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:pb-[7rem] lg:pt-[6.25rem]"
+      className="landing-section-transition mx-auto w-full max-w-full bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:pb-[7rem] lg:pt-[6.25rem]"
     >
       <div className="text-center">
         <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-4 tracking-[0.045em] text-[rgba(0,6,38,0.56)]`}>

@@ -129,7 +129,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
     <section
       id="open-roles"
       aria-labelledby="career-openings-heading"
-      className="mx-auto flex w-full max-w-[90rem] scroll-mt-24 flex-col items-center gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="mx-auto flex w-full max-w-full scroll-mt-24 flex-col items-center gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <h2
         id="career-openings-heading"

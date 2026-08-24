@@ -559,7 +559,7 @@ export function IndustriesSection({
         mx-auto
         flex
         w-full
-        max-w-[90rem]
+        max-w-full
         flex-col
         items-center
         overflow-hidden

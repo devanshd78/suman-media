@@ -313,7 +313,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
       {heroSlides.length > 1 ? (
         <div className="absolute bottom-0 left-0 z-30 w-full" role="group" aria-label="Hero slides">
           <div
-            className="mx-auto grid w-full max-w-[90rem]"
+            className="mx-auto grid w-full max-w-full"
             style={{ gridTemplateColumns: `repeat(${heroSlides.length}, minmax(0, 1fr))` }}
           >
             {heroSlides.map((slide, index) => (

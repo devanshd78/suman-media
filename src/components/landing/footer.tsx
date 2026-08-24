@@ -655,7 +655,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
           z-20
           mx-auto
           w-full
-          max-w-[90rem]
+          max-w-full
           px-5
           pt-14
           sm:px-8
@@ -684,7 +684,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
             className={`
               ${exo2.className}
               whitespace-nowrap
-              text-[clamp(4rem,8.6vw,7.75rem)]
+              text-[clamp(2.75rem,8.6vw,7.75rem)]
               font-medium
               leading-[0.92]
               tracking-[-0.065em]
@@ -933,7 +933,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
             flex
             h-full
             w-full
-            max-w-[90rem]
+            max-w-full
             flex-col
             justify-between
             px-5

@@ -899,12 +899,12 @@ export function Header() {
                 inset-x-0
                 top-0
                 mx-auto
-                max-w-[90rem]
+                max-w-full
               `
             : `
                 relative
                 mx-auto
-                max-w-[90rem]
+                max-w-full
                 border-b
                 border-[#E6E6E6]
                 bg-white

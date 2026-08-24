@@ -63,7 +63,7 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
     <section
       id="why-partner"
       aria-labelledby="why-partner-heading"
-      className="landing-section-transition mx-auto w-full max-w-[90rem] overflow-hidden bg-[#FFEABF]"
+      className="landing-section-transition mx-auto w-full max-w-full overflow-hidden bg-[#FFEABF]"
     >
       <div className="grid gap-10 px-5 py-14 sm:px-8 sm:py-16 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(32rem,1.18fr)] lg:gap-24 lg:px-[3.5rem] lg:py-[5.5rem]">
         <div className="max-w-[31rem]">

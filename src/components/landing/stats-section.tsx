@@ -29,7 +29,7 @@ export function StatsSection({ stats }: { stats?: Stat[] | null }) {
   return (
     <section
       aria-label="Suman Entertainment statistics"
-      className="landing-section-transition mx-auto w-full max-w-[90rem] bg-white px-5 py-12 sm:px-8 sm:py-14 lg:px-[3.5rem] lg:py-[4.25rem]"
+      className="landing-section-transition mx-auto w-full max-w-full bg-white px-5 py-12 sm:px-8 sm:py-14 lg:px-[3.5rem] lg:py-[4.25rem]"
     >
       <dl className="grid grid-cols-2 lg:grid-cols-4">
         {validStats.map((stat, index) => (

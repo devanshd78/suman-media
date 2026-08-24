@@ -29,7 +29,7 @@ export function LandingPage({
         relative
         mx-auto
         w-full
-        max-w-[90rem]
+        max-w-full
         overflow-x-clip
         bg-black
       "

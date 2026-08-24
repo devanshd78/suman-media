@@ -27,7 +27,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
     <section
       id="careers"
       aria-labelledby="landing-careers-heading"
-      className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-[90rem] overflow-hidden bg-[#121212] text-white sm:aspect-[16/9] lg:aspect-[2.65/1]"
+      className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-full overflow-hidden bg-[#121212] text-white sm:aspect-[16/9] lg:aspect-[2.65/1]"
     >
       {content.imageUrl ? (
         <Image

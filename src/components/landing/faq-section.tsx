@@ -33,7 +33,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="landing-section-transition mx-auto grid w-full max-w-[90rem] gap-12 bg-white px-5 py-16 sm:px-8 sm:py-20 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:gap-14 lg:gap-24 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="landing-section-transition mx-auto grid w-full max-w-full gap-12 bg-white px-5 py-16 sm:px-8 sm:py-20 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:gap-14 lg:gap-24 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <div>
         <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.055em] text-[rgba(0,9,51,0.58)]`}>

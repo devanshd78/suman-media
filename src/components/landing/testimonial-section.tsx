@@ -55,7 +55,7 @@ export function TestimonialSection({
       {hasTestimonial ? (
         <section
           aria-label="Client testimonial"
-          className="landing-section-transition mx-auto w-full max-w-[90rem] bg-white"
+          className="landing-section-transition mx-auto w-full max-w-full bg-white"
         >
           <div className="flex flex-col items-center px-5 pb-12 pt-16 text-center sm:px-8 sm:pb-14 sm:pt-20 lg:px-[3.5rem] lg:pb-[4.75rem] lg:pt-[5.5rem]">
             {testimonial?.companyLogoUrl ? (
@@ -123,7 +123,7 @@ export function TestimonialSection({
       {hasStory ? (
         <section
           aria-labelledby="join-abhijat-heading"
-          className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-[90rem] overflow-hidden bg-[#111] sm:aspect-[16/10] lg:aspect-[2.55/1]"
+          className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-full overflow-hidden bg-[#111] sm:aspect-[16/10] lg:aspect-[2.55/1]"
         >
           {story?.imageUrl ? (
             <Image

@@ -181,7 +181,7 @@ export function AchievementRevealGrid({
         relative
         mx-auto
         w-full
-        max-w-[90rem]
+        max-w-full
         overflow-hidden
         bg-[#FFEABF]
       "

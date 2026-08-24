@@ -14,7 +14,7 @@ export function LoadingState({
       aria-busy="true"
       aria-live="polite"
       aria-label={label}
-      className={`mx-auto w-full max-w-6xl px-6 ${compact ? "py-8" : "py-16"}`}
+      className={`mx-auto w-full max-w-full px-5 sm:px-8 lg:px-[3.5rem] ${compact ? "py-8" : "py-16"}`}
     >
       <span className="sr-only">{label}</span>
       <div className="animate-pulse space-y-5">

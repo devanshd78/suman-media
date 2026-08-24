@@ -16,7 +16,7 @@ export function ContentDetailPage({
   backLabel,
 }: ContentDetailPageProps) {
   return (
-    <main className="mx-auto flex min-h-[65vh] w-full max-w-6xl flex-col justify-center px-6 py-24">
+    <main className="mx-auto flex min-h-[65vh] w-full max-w-full flex-col justify-center px-5 py-16 sm:px-8 sm:py-24 lg:px-[3.5rem]">
       <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
         {eyebrow}
       </p>

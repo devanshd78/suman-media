@@ -167,7 +167,7 @@ export async function CompaniesSection() {
     <section
       id="companies"
       aria-labelledby="companies-heading"
-      className="mx-auto flex w-full max-w-[90rem] flex-col gap-10 bg-white px-5 py-16 sm:px-8 lg:gap-16 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="mx-auto flex w-full max-w-full flex-col gap-10 bg-white px-5 py-16 sm:px-8 lg:gap-16 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-[6.25rem]">
         <p

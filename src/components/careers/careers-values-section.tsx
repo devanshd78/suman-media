@@ -277,7 +277,7 @@ export function CareersValuesSection({
         aria-labelledby="careers-culture-heading"
         className="flex w-full flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
       >
-        <div className="mx-auto flex w-full max-w-[90rem] flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
+        <div className="mx-auto flex w-full max-w-full flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
             <p
               className={`${inter.className} w-full text-sm font-semibold leading-5 text-[rgba(0,9,51,0.65)]`}

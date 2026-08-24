@@ -34,7 +34,7 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
     <section
       id="about-suman-entertainment"
       aria-labelledby="about-suman-heading"
-      className="landing-section-transition mx-auto flex w-full max-w-[90rem] flex-col items-start gap-[0.625rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="landing-section-transition mx-auto flex w-full max-w-full flex-col items-start gap-[0.625rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-[6.25rem]">
         <p className={`${inter.className} pt-1 text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>

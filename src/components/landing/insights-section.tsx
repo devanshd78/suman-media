@@ -103,7 +103,7 @@ export function InsightsSection({
     <section
       id="insights"
       aria-labelledby="insights-heading"
-      className="landing-section-transition mx-auto w-full max-w-[90rem] overflow-hidden bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:py-[6rem]"
+      className="landing-section-transition mx-auto w-full max-w-full overflow-hidden bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:py-[6rem]"
     >
       <div className="flex w-full flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
         <div>

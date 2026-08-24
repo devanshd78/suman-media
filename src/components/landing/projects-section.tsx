@@ -103,7 +103,7 @@ export async function ProjectsSection() {
     <section
       id="work"
       aria-labelledby="projects-heading"
-      className="mx-auto flex w-full max-w-[90rem] flex-col bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="mx-auto flex w-full max-w-full flex-col bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       {/* Header row */}
       <div className="flex w-full flex-col items-start gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">

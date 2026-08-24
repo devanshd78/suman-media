@@ -219,7 +219,7 @@ export default function ContactFormPage({
   }
 
   return (
-    <main className="relative mx-auto w-full max-w-[90rem] overflow-x-clip bg-white">
+    <main className="relative mx-auto w-full max-w-full overflow-x-clip bg-white">
       {turnstileSiteKey ? (
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js"
@@ -250,7 +250,7 @@ export default function ContactFormPage({
         </header>
 
         <div
-          className="flex w-full gap-3 overflow-x-auto pb-1"
+          className="grid w-full grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(9.1875rem,1fr))]"
           aria-label={isPartnership ? "Partnership categories" : "Enquiry categories"}
         >
           {categories.map((category) => {
@@ -261,7 +261,7 @@ export default function ContactFormPage({
                 type="button"
                 onClick={() => setSelectedCategory(category)}
                 aria-pressed={isSelected}
-                className={`${inter.className} inline-flex h-12 w-[9.1875rem] shrink-0 items-center justify-center rounded-lg border-2 p-0 text-center text-base font-semibold leading-6 text-[#8F6C1A] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] ${
+                className={`${inter.className} inline-flex h-12 w-full min-w-0 items-center justify-center rounded-lg border-2 px-2 text-center text-sm font-semibold leading-5 text-[#8F6C1A] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:text-base sm:leading-6 ${
                   isSelected
                     ? "border-[#8F6C1A] bg-[#FFF9E8]"
                     : "border-[#D6D6D6] bg-white hover:border-[#8F6C1A]"
@@ -273,10 +273,10 @@ export default function ContactFormPage({
           })}
         </div>
 
-        <div className="flex w-full flex-col items-start gap-[3.5rem] lg:flex-row">
+        <div className="grid w-full grid-cols-1 items-start gap-[3.5rem] lg:grid-cols-[minmax(0,1.5fr)_minmax(16rem,1fr)]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full flex-col items-start gap-[3.5rem] rounded-[1.25rem] border border-[#E6E6E6] bg-white p-5 sm:p-8 lg:w-[47.1875rem] lg:flex-none"
+            className="flex w-full min-w-0 flex-col items-start gap-[3.5rem] rounded-[1.25rem] border border-[#E6E6E6] bg-white p-5 sm:p-8"
           >
             <h2
               className={`${inter.className} w-full text-xl font-normal leading-7 text-black`}

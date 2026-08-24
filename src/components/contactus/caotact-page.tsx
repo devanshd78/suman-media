@@ -208,7 +208,7 @@ export function ContactPageContent({
     content?.careersCta?.imageAlt?.trim() || FALLBACK_CAREERS_CTA.imageAlt;
 
   return (
-    <main className="relative mx-auto w-full max-w-[90rem] overflow-x-hidden bg-white">
+    <main className="relative mx-auto w-full max-w-full overflow-x-hidden bg-white">
       <section
         aria-labelledby="contact-page-heading"
         className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
@@ -257,7 +257,7 @@ export function ContactPageContent({
           src="/images/contactus/image1.png"
           alt="A business professional having a conversation in a sunlit office"
           fill
-          sizes="(max-width: 1440px) 100vw, 1440px"
+          sizes="100vw"
           className="object-cover"
           style={{ objectPosition: "center 40.16%" }}
         />
@@ -272,7 +272,7 @@ export function ContactPageContent({
             <Link
               key={card._key}
               href={resolveContactCardHref(card.href, index)}
-              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] lg:h-[30.9375rem] lg:max-w-none lg:aspect-auto`}
+              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] sm:p-8 lg:h-[30.9375rem] lg:max-w-none lg:aspect-auto`}
               aria-label={`${card.title}: ${card.description}`}
             >
               <Image
@@ -451,13 +451,13 @@ export function ContactPageContent({
 
       <section
         aria-labelledby="contact-careers-heading"
-        className="relative flex h-[30rem] w-full flex-col items-end justify-between overflow-hidden p-8"
+        className="relative flex h-[30rem] w-full flex-col items-end justify-between overflow-hidden p-5 sm:p-8"
       >
         <Image
           src={careersCtaImage}
           alt={careersCtaImageAlt}
           fill
-          sizes="(max-width: 1440px) 100vw, 1440px"
+          sizes="100vw"
           className="z-0 object-cover"
         />
         <span

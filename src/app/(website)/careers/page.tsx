@@ -23,7 +23,7 @@ export default async function CareersPage() {
   ]);
 
   return (
-    <main className="relative mx-auto w-full max-w-[90rem] overflow-x-clip bg-white">
+    <main className="relative mx-auto w-full max-w-full overflow-x-clip bg-white">
       <CareersSection />
       <CareersValuesSection cmsCulture={cmsCulture} />
       <CareerOpenings openings={openings} />
