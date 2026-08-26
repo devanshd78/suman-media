@@ -16,13 +16,11 @@ export default async function WebsiteLayout({ children }: { children: ReactNode 
 
   return (
     <SmoothScrollProvider>
-      <div className="worst-site-mode">
-        <Header />
-        {children}
-        <Footer socialLinks={settings?.socialLinks} />
-        <SanityLive />
-        {isEnabled ? <VisualEditing /> : null}
-      </div>
+      <Header />
+      {children}
+      <Footer socialLinks={settings?.socialLinks} />
+      <SanityLive />
+      {isEnabled ? <VisualEditing /> : null}
     </SmoothScrollProvider>
   );
 }
