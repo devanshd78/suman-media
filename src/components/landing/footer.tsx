@@ -889,7 +889,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 bg-black/[0.04]"
+          className="pointer-events-none absolute inset-0 z-10"
         />
 
         <div className="relative z-20 h-full w-full px-5 sm:px-8 lg:px-[3.5rem] xl:px-[4.5rem]">
