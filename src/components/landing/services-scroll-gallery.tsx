@@ -42,8 +42,8 @@ type ServiceCardProps = {
 
 function ServiceCardContent({ service, index, active = false }: ServiceCardProps) {
   return (
-    <div className="service-card-grid grid h-full w-full min-w-0 bg-[#101012] lg:grid-cols-[54%_46%]">
-      <div className="service-card-copy relative flex h-full min-w-0 flex-col overflow-hidden bg-[linear-gradient(145deg,#181317_0%,#0d0c0e_100%)]">
+    <div className="service-card-grid grid h-full w-full min-w-0 bg-[#101012] lg:grid-cols-[54%_46%] [transform-style:preserve-3d]">
+      <div className="service-card-copy relative flex h-full min-w-0 flex-col overflow-hidden bg-[linear-gradient(145deg,#181317_0%,#0d0c0e_100%)] [transform-style:preserve-3d]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rotate-45 border border-[#B68A16]/12"
@@ -53,11 +53,11 @@ function ServiceCardContent({ service, index, active = false }: ServiceCardProps
           className="pointer-events-none absolute right-6 top-6 h-8 w-8 rotate-45 border border-[#B68A16]/18"
         />
 
-        <span className="service-card-number relative z-10 block font-semibold leading-none tracking-[-0.04em] text-[#E2BB5F]">
+        <span className="service-card-number premium-3d-layer-deep relative z-10 block font-semibold leading-none tracking-[-0.04em] text-[#E2BB5F] [text-shadow:0_1rem_2.5rem_rgba(0,0,0,0.28)]">
           {String(index + 1).padStart(2, "0")}
         </span>
 
-        <div className="relative z-10 mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
+        <div className="premium-3d-layer relative z-10 mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
           <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.08] tracking-[-0.035em] text-[#FFF8EC]">
             {service.title}
           </h3>
@@ -77,15 +77,17 @@ function ServiceCardContent({ service, index, active = false }: ServiceCardProps
         </div>
       </div>
 
-      <div className="service-card-image relative h-full min-w-0 overflow-hidden bg-[#171416]">
+      <div className="service-card-image relative h-full min-w-0 overflow-hidden bg-[#171416] [transform-style:preserve-3d]">
         {service.imageUrl ? (
-          <Image
-            src={service.imageUrl}
-            alt={service.imageAlt?.trim() || service.title}
-            fill
-            sizes="(max-width: 1023px) 100vw, 42vw"
-            className={`select-none object-cover transition-transform duration-[1200ms] ease-out ${active ? "scale-100" : "scale-[1.045]"}`}
-          />
+          <div className="absolute inset-0 [transform:translateZ(36px)]">
+            <Image
+              src={service.imageUrl}
+              alt={service.imageAlt?.trim() || service.title}
+              fill
+              sizes="(max-width: 1023px) 100vw, 42vw"
+              className={`select-none object-cover transition-transform duration-[1200ms] ease-out ${active ? "scale-100" : "scale-[1.045]"}`}
+            />
+          </div>
         ) : (
           <div className="absolute inset-0 bg-[linear-gradient(135deg,#3f252c,#8f6c1a)]" aria-hidden="true" />
         )}
@@ -172,7 +174,7 @@ function Service3DCard({
     >
       <motion.article
         style={{ x, y, z, rotateX, rotateY, rotateZ, scale, opacity }}
-        className="service-3d-card h-full w-full overflow-hidden rounded-[1.35rem] border border-[#E2BB5F]/15 bg-[#101012] shadow-[0_2.5rem_8rem_rgba(0,0,0,0.48),0_0_0_1px_rgba(255,255,255,0.025)_inset]"
+        className="service-3d-card heritage-inlay h-full w-full overflow-hidden rounded-[1.35rem] border border-[#E2BB5F]/18 bg-[#101012] shadow-[0_2.8rem_8rem_rgba(0,0,0,0.52),0_5.5rem_12rem_rgba(0,0,0,0.24),0_0_0_1px_rgba(255,255,255,0.035)_inset]"
       >
         <ServiceCardContent service={service} index={index} active={isActive} />
       </motion.article>

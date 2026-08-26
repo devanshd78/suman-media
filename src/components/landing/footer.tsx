@@ -561,8 +561,10 @@ function SocialLink({
     backdrop-blur-[4px]
     transition-all
     duration-300
-    hover:-translate-y-1
+    [transform-style:preserve-3d]
     hover:bg-[rgba(255,255,255,0.18)]
+    hover:shadow-[0_1rem_2.4rem_rgba(0,0,0,0.16)]
+    hover:[transform:perspective(600px)_rotateX(-8deg)_rotateY(10deg)_translateY(-4px)_translateZ(10px)]
     focus-visible:outline-none
     focus-visible:ring-2
     focus-visible:ring-white/40
@@ -578,7 +580,8 @@ function SocialLink({
         justify-center
         transition-transform
         duration-300
-        group-hover:scale-105
+        [transform:translateZ(10px)]
+        group-hover:[transform:translateZ(24px)_scale(1.05)]
       "
     >
       {children}
@@ -879,20 +882,20 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
         "
       >
         <Image
-          src="/images/footer/footer.png"
+          src="/images/gfooter/footer.png"
           alt=""
           fill
           sizes="100vw"
-          className="z-0 object-cover object-center grayscale"
+          className="heritage-photo z-0 object-cover object-center grayscale"
         />
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-7"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-7 bg-gradient-to-b from-[#efe7db]/70 to-transparent"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10"
+          className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(100,31,46,0.02),rgba(8,8,8,0.10))]"
         />
 
         <div className="relative z-20 h-full w-full px-5 sm:px-8 lg:px-[3.5rem] xl:px-[4.5rem]">

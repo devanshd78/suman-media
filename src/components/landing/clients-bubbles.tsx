@@ -165,7 +165,7 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] shadow-[0_1rem_2.8rem_rgba(52,34,12,0.20)] transition-[box-shadow,filter,transform] duration-500 hover:-translate-y-1 hover:shadow-[0_1.5rem_3.5rem_rgba(52,34,12,0.28)]"
+              className="client-mobile-bubble client-3d-sphere relative aspect-square overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] transition-[box-shadow,filter,transform] duration-500 hover:-translate-y-1"
               style={
                 {
                   "--mobile-delay": `${index * 90}ms`,
@@ -239,14 +239,14 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] shadow-[0_1.5rem_4.5rem_rgba(45,28,10,0.20),inset_0_1px_0_rgba(255,255,255,0.16)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_2.2rem_5.5rem_rgba(45,28,10,0.30),inset_0_1px_0_rgba(255,255,255,0.2)]"
+              className="client-logo-bubble client-3d-sphere group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] transition-[box-shadow,filter,transform] duration-500 ease-out hover:[transform:perspective(900px)_rotateX(-5deg)_rotateY(7deg)_translateZ(26px)_scale(1.025)]"
             >
               <Image
                 src={company.logoUrl!}
                 alt={company.logoAlt?.trim() || company.name}
                 fill
                 sizes="17rem"
-                className="object-contain p-[22%] transition-transform duration-500 ease-out group-hover:scale-105"
+                className="object-contain p-[22%] transition-transform duration-500 ease-out [transform:translateZ(42px)] group-hover:scale-[1.06]"
               />
             </div>
           );

@@ -1,5 +1,6 @@
 import { Exo_2, Inter } from "next/font/google";
 
+import { HeritageDepthField } from "@/components/motion/premium-3d";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsFeaturedService } from "@/types/cms";
@@ -30,7 +31,10 @@ export function ServicesSection({ eyebrow, heading, services }: ServicesSectionP
       aria-labelledby="services-heading"
       className="landing-section-transition culture-thread heritage-ink paithani-edge relative flex w-full flex-col items-center justify-end gap-14 overflow-clip px-5 py-16 sm:px-8 lg:gap-[5.25rem] lg:px-[3.5rem] lg:pb-0 lg:pt-[7rem]"
     >
-      <div className="flex w-full flex-col items-center gap-2 text-center">
+      <HeritageDepthField className="z-0 opacity-30" tone="dark" />
+      <div aria-hidden="true" className="depth-horizon-grid z-0 opacity-12" />
+
+      <div className="relative z-10 flex w-full flex-col items-center gap-2 text-center">
         <Reveal delay={0.02} distance={12}>
           <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[0.08em] text-[#E2BB5F]/75`}>
             {eyebrow?.trim() || "Our Services"}
@@ -45,7 +49,7 @@ export function ServicesSection({ eyebrow, heading, services }: ServicesSectionP
         </h2>
       </div>
 
-      <div className={`${inter.className} w-full`}>
+      <div className={`${inter.className} relative z-10 w-full`}>
         <ServicesScrollGallery services={validServices} />
       </div>
     </section>

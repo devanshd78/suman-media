@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 
 import { HeritageOrnament } from "@/components/motion/heritage-ornament";
+import { HeritageDepthField, Premium3DSurface } from "@/components/motion/premium-3d";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCta } from "@/types/cms";
@@ -40,6 +41,7 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
       aria-labelledby="about-suman-heading"
       className="landing-section-transition culture-thread culture-weave heritage-surface fort-silhouette paithani-edge relative flex w-full flex-col items-start gap-[0.625rem] overflow-hidden px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[7.5rem]"
     >
+      <HeritageDepthField className="z-0 opacity-26" tone="light" />
       <div className="pointer-events-none absolute right-5 top-9 hidden lg:block lg:right-[3.5rem]">
         <HeritageOrnament tone="gold" label="महाराष्ट्र" className="text-[#7A4F18]/50" />
       </div>
@@ -54,36 +56,47 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
           </div>
         </Reveal>
 
-        <div className="flex min-w-0 flex-col items-start">
-          <h2
-            id="about-suman-heading"
-            className={`${exo2.className} premium-display w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#15110D] lg:text-[clamp(2.65rem,3.35vw,3.6rem)] lg:leading-[1.08]`}
-            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-          >
-            <TextReveal text={resolvedHeading} stagger={0.022} amount={0.2} />
-          </h2>
+        <Premium3DSurface
+          className="w-full rounded-[2rem]"
+          surfaceClassName="rounded-[2rem]"
+          intensity={2.5}
+          lift={7}
+          perspective={1500}
+          glare={false}
+        >
+          <div className="depth-paper-slab flex min-w-0 flex-col items-start overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10 [transform-style:preserve-3d]">
+            <div aria-hidden="true" className="absolute -right-12 -top-12 h-40 w-40 rotate-45 border border-[#B68A16]/12 [transform:translateZ(18px)_rotate(45deg)]" />
 
-          <Reveal delay={0.18} distance={22} className="w-full">
-            <p
-              className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(28,22,17,0.66)] lg:text-[1.04rem] lg:leading-8`}
+            <h2
+              id="about-suman-heading"
+              className={`${exo2.className} premium-display premium-3d-layer-deep w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#15110D] lg:text-[clamp(2.65rem,3.35vw,3.6rem)] lg:leading-[1.08]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
             >
-              {resolvedDescription}
-            </p>
-          </Reveal>
+              <TextReveal text={resolvedHeading} stagger={0.022} amount={0.2} />
+            </h2>
 
-          <Reveal delay={0.28} distance={14}>
-            <Link
-              href={resolvedCta.href}
-              className={`${inter.className} kinetic-link group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
-            >
-              <span>{resolvedCta.label}</span>
-              <span className="transition-transform duration-300 group-hover:translate-x-1.5">
-                <ArrowRightIcon />
-              </span>
-            </Link>
-          </Reveal>
-        </div>
+            <Reveal delay={0.18} distance={22} className="premium-3d-layer w-full">
+              <p
+                className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(28,22,17,0.66)] lg:text-[1.04rem] lg:leading-8`}
+                style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+              >
+                {resolvedDescription}
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.28} distance={14} className="premium-3d-layer-deep">
+              <Link
+                href={resolvedCta.href}
+                className={`${inter.className} kinetic-link group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
+              >
+                <span>{resolvedCta.label}</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                  <ArrowRightIcon />
+                </span>
+              </Link>
+            </Reveal>
+          </div>
+        </Premium3DSurface>
       </div>
     </section>
   );

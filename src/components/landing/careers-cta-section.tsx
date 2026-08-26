@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 
+import { HeritageDepthField, Premium3DSurface } from "@/components/motion/premium-3d";
 import { Parallax, Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCareersCta } from "@/types/cms";
@@ -46,11 +47,13 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
       ) : null}
 
       <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_18%_52%,rgba(201,155,54,0.14),transparent_28%),linear-gradient(90deg,rgba(58,13,27,0.86)_0%,rgba(18,11,13,0.52)_40%,rgba(0,0,0,0.06)_74%)]" />
+      <HeritageDepthField className="z-[3] opacity-42" tone="dark" />
+      <div aria-hidden="true" className="depth-horizon-grid z-[4] opacity-20" />
       <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,transparent_55%,rgba(0,0,0,0.16)_100%)]" />
       <div aria-hidden="true" className="absolute -bottom-28 right-[8%] h-72 w-72 rotate-45 border border-[#E2BB5F]/30 sm:h-96 sm:w-96" />
       <div aria-hidden="true" className="absolute bottom-8 right-[12%] hidden h-12 w-12 rotate-45 border border-[#E2BB5F]/35 sm:block" />
 
-      <div className="relative z-10 flex h-full w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
+      <div className="relative z-10 flex h-full w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10 [perspective:1500px] [transform-style:preserve-3d]">
         <Reveal distance={12}>
           <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.13em] text-[#F0CE82]`}>
             {content.eyebrow?.trim() || "CAREERS"}
@@ -59,7 +62,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
 
         <h2
           id="landing-careers-heading"
-          className={`${exo2.className} premium-display mt-3 max-w-[46rem] overflow-hidden text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[clamp(2.85rem,4vw,4.35rem)] lg:leading-[1.03] lg:tracking-[-0.06rem]`}
+          className={`${exo2.className} premium-display premium-3d-layer-deep mt-3 max-w-[46rem] overflow-hidden text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] [text-shadow:0_1.4rem_3rem_rgba(0,0,0,0.28)] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[clamp(2.85rem,4vw,4.35rem)] lg:leading-[1.03] lg:tracking-[-0.06rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           <TextReveal text={content.heading} stagger={0.03} amount={0.2} />
@@ -67,22 +70,30 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
 
         {content.description?.trim() ? (
           <Reveal delay={0.16} distance={18}>
-            <p className={`${inter.className} mt-4 max-w-[38rem] text-sm leading-6 text-white/72 sm:text-[0.95rem] sm:leading-7`}>
+            <p className={`${inter.className} premium-3d-layer mt-4 max-w-[38rem] text-sm leading-6 text-white/72 sm:text-[0.95rem] sm:leading-7`}>
               {content.description}
             </p>
           </Reveal>
         ) : null}
 
         <Reveal delay={0.24} distance={12}>
-          <Link
-            href={cta.href}
-            className={`${inter.className} premium-glass group mt-7 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
+          <Premium3DSurface
+            className="mt-7 rounded-full"
+            surfaceClassName="rounded-full"
+            intensity={7}
+            lift={7}
+            perspective={900}
           >
-            <span>{cta.label}</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1.5">
-              <ArrowRightIcon />
-            </span>
-          </Link>
+            <Link
+              href={cta.href}
+              className={`${inter.className} premium-glass group inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white [transform:translateZ(34px)]`}
+            >
+              <span>{cta.label}</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                <ArrowRightIcon />
+              </span>
+            </Link>
+          </Premium3DSurface>
         </Reveal>
 
         <div

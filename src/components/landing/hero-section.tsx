@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 
+import { HeritageDepthField, Premium3DSurface } from "@/components/motion/premium-3d";
 import type { CmsHeroSlide } from "@/types/cms";
 
 const exo2 = Exo_2({ subsets: ["latin"], weight: ["500", "600"] });
@@ -228,6 +229,10 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(105%_92%_at_52%_0%,rgba(0,0,0,0)_58%,rgba(0,0,0,0.62)_100%)]"
       />
 
+      {/* 3D CULTURAL DEPTH FIELD */}
+      <HeritageDepthField className="z-[7] opacity-70" tone="dark" />
+      <div aria-hidden="true" className="depth-horizon-grid z-[8]" />
+
       {/* Gold/Paithani-inspired threads: abstract cultural DNA, not literal decoration. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-[6.5rem] z-10 hidden h-px lg:block">
         <motion.span
@@ -247,21 +252,29 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
       </div>
 
       {currentSlide.badgeUrl ? (
-        <motion.div
-          key={`badge-${currentSlide._key}`}
+        <Premium3DSurface
           className="absolute left-5 top-[5.75rem] z-20 h-[4.6rem] w-[4.6rem] sm:left-8 sm:top-[6.75rem] sm:h-[5.25rem] sm:w-[5.25rem] lg:left-[3.5rem] lg:top-[7.5rem]"
-          initial={reduceMotion ? false : { opacity: 0, y: -12, scale: 0.92 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+          surfaceClassName="rounded-[1.1rem]"
+          intensity={7}
+          lift={7}
+          glare={false}
         >
-          <Image
-            src={currentSlide.badgeUrl}
-            alt={currentSlide.badgeAlt?.trim() || ""}
-            fill
-            sizes="84px"
-            className="object-contain object-left-top"
-          />
-        </motion.div>
+          <motion.div
+            key={`badge-${currentSlide._key}`}
+            className="relative h-full w-full [transform:translateZ(44px)]"
+            initial={reduceMotion ? false : { opacity: 0, y: -12, scale: 0.92 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Image
+              src={currentSlide.badgeUrl}
+              alt={currentSlide.badgeAlt?.trim() || ""}
+              fill
+              sizes="84px"
+              className="object-contain object-left-top drop-shadow-[0_1rem_2rem_rgba(0,0,0,0.24)]"
+            />
+          </motion.div>
+        </Premium3DSurface>
       ) : null}
 
       {heroSlides.length > 1 ? (
@@ -276,8 +289,8 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
         </button>
       ) : null}
 
-      {/* COPY DECK */}
-      <div className="relative z-20 flex w-full flex-col items-start justify-end">
+      {/* COPY DECK — layered in 3D without turning live text into graphics */}
+      <div className="relative z-20 flex w-full flex-col items-start justify-end [perspective:1500px] [transform-style:preserve-3d]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentSlide._key}
@@ -296,7 +309,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
             transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
           >
             <motion.p
-              className={`${inter.className} inline-flex w-fit items-center rounded-full border border-[#E2BB5F]/25 bg-black/20 px-3 py-1.5 text-[0.62rem] font-semibold uppercase leading-4 tracking-[0.09em] text-[#F2D28A] backdrop-blur-md sm:text-[0.68rem]`}
+              className={`${inter.className} premium-3d-layer inline-flex w-fit items-center rounded-full border border-[#E2BB5F]/25 bg-black/20 px-3 py-1.5 text-[0.62rem] font-semibold uppercase leading-4 tracking-[0.09em] text-[#F2D28A] backdrop-blur-md sm:text-[0.68rem]`}
               initial={reduceMotion ? false : { opacity: 0, x: -18 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.58, delay: 0.08 }}
@@ -305,7 +318,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
             </motion.p>
 
             <h1
-              className={`${exo2.className} premium-display mt-4 max-w-[74rem] overflow-hidden text-[clamp(2.6rem,5vw,5.3rem)] font-medium leading-[0.94] tracking-[-0.052em]`}
+              className={`${exo2.className} premium-display premium-3d-layer-deep mt-4 max-w-[74rem] overflow-hidden text-[clamp(2.6rem,5vw,5.3rem)] font-medium leading-[0.94] tracking-[-0.052em] [text-shadow:0_1.2rem_3.5rem_rgba(0,0,0,0.34)]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
             >
               <motion.span
@@ -319,7 +332,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
             </h1>
 
             <motion.p
-              className={`${inter.className} mt-5 max-w-[72rem] text-[clamp(0.9rem,1.05vw,1.12rem)] leading-[1.55] text-white/76 lg:pr-[17rem]`}
+              className={`${inter.className} premium-3d-layer mt-5 max-w-[72rem] text-[clamp(0.9rem,1.05vw,1.12rem)] leading-[1.55] text-white/76 lg:pr-[17rem]`}
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.72, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
@@ -349,14 +362,20 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
       </div>
 
       {promoVisible ? (
-        <motion.div
-          key={`promo-${currentSlide._key}`}
+        <Premium3DSurface
           className="absolute bottom-8 right-8 z-30 hidden md:block lg:bottom-10 lg:right-[3.5rem]"
-          initial={reduceMotion ? false : { opacity: 0, x: 24, scale: 0.96 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: reduceMotion ? 0 : 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+          surfaceClassName="rounded-[1rem]"
+          intensity={5}
+          lift={9}
+          perspective={1100}
         >
-          <div className="relative flex min-h-[6.6rem] w-[15.5rem] items-center gap-3 rounded-[1rem] border border-[#E2BB5F]/30 bg-[#F8F1E5]/95 p-3 pr-4 text-[#21170F] shadow-[0_1.25rem_3.5rem_rgba(0,0,0,0.30)] backdrop-blur-md lg:w-[16.75rem]">
+          <motion.div
+            key={`promo-${currentSlide._key}`}
+            initial={reduceMotion ? false : { opacity: 0, x: 24, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: reduceMotion ? 0 : 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+          >
+          <div className="premium-3d-shadow relative flex min-h-[6.6rem] w-[15.5rem] items-center gap-3 rounded-[1rem] border border-[#E2BB5F]/30 bg-[#F8F1E5]/95 p-3 pr-4 text-[#21170F] backdrop-blur-md lg:w-[16.75rem] [transform-style:preserve-3d]">
             <div className="relative h-[5.1rem] w-[5.1rem] shrink-0 overflow-hidden bg-white">
               <Image
                 src={currentSlide.qrCodeUrl!}
@@ -396,7 +415,8 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
               <CloseIcon />
             </button>
           </div>
-        </motion.div>
+          </motion.div>
+        </Premium3DSurface>
       ) : null}
 
       {heroSlides.length > 1 ? (

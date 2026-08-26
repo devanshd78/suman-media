@@ -1,5 +1,6 @@
 import { Exo_2, Inter } from "next/font/google";
 
+import { HeritageDepthField } from "@/components/motion/premium-3d";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsFeaturedCompany } from "@/types/cms";
@@ -27,6 +28,7 @@ export function ClientsSection({ eyebrow, heading, companies }: ClientsSectionPr
       aria-labelledby="clients-heading"
       className="landing-section-transition culture-thread heritage-surface paithani-edge relative flex w-full flex-col items-center justify-end gap-16 overflow-hidden px-5 py-16 sm:px-8 lg:gap-[5rem] lg:px-[3.5rem] lg:py-[7rem]"
     >
+      <HeritageDepthField className="z-0 opacity-38" tone="light" />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-[-6rem] h-[34rem] w-[80rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(201,155,54,0.17)_0%,rgba(100,31,46,0.04)_36%,rgba(255,255,255,0)_70%)]"

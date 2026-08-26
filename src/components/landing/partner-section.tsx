@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 
+import { HeritageDepthField, Premium3DSurface } from "@/components/motion/premium-3d";
 import { Parallax, Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsPartnerSection } from "@/types/cms";
@@ -64,7 +65,9 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
       aria-labelledby="why-partner-heading"
       className="landing-section-transition culture-thread culture-weave paithani-edge fort-silhouette relative w-full overflow-hidden bg-[radial-gradient(circle_at_12%_10%,rgba(255,255,255,0.42),transparent_26%),linear-gradient(135deg,#F3E0BC_0%,#EBCB91_46%,#DFAE5F_100%)]"
     >
-      <div className="grid gap-10 px-5 py-14 sm:px-8 sm:py-16 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(32rem,1.18fr)] lg:gap-24 lg:px-[3.5rem] lg:py-[6rem]">
+      <HeritageDepthField className="z-0 opacity-28" tone="light" />
+
+      <div className="relative z-10 grid gap-10 px-5 py-14 sm:px-8 sm:py-16 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(32rem,1.18fr)] lg:gap-24 lg:px-[3.5rem] lg:py-[6rem]">
         <div className="max-w-[31rem]">
           <h2
             id="why-partner-heading"
@@ -81,7 +84,15 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
           </Reveal>
         </div>
 
-        <div className="flex w-full flex-col border-t border-[rgba(0,17,102,0.12)]">
+        <Premium3DSurface
+          className="w-full rounded-[1.35rem]"
+          surfaceClassName="rounded-[1.35rem]"
+          intensity={2.8}
+          lift={8}
+          perspective={1400}
+          glare={false}
+        >
+        <div className="depth-paper-slab flex w-full flex-col overflow-hidden rounded-[1.35rem] border-t border-[rgba(0,17,102,0.12)] px-5 sm:px-6 [transform-style:preserve-3d]">
           {visibleBenefits.slice(0, 5).map((item, index) => {
             const row = (
               <span className="inline-flex min-w-0 items-center gap-2.5">
@@ -112,10 +123,13 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
             );
           })}
         </div>
+        </Premium3DSurface>
       </div>
 
       {hasEvent ? (
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#071021] sm:aspect-[16/10] lg:aspect-[16/8.7]">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#071021] sm:aspect-[16/10] lg:aspect-[16/8.7] [perspective:1400px] [transform-style:preserve-3d]">
+          <HeritageDepthField className="z-[3] opacity-28" tone="dark" />
+          <div aria-hidden="true" className="depth-horizon-grid z-[4] opacity-20" />
           {content.eventImageUrl ? (
             <Parallax className="absolute -inset-y-12 inset-x-0" distance={34} scaleFrom={1.08} scaleTo={1.015}>
               <div className="relative h-full min-h-[calc(100%+6rem)] w-full">
@@ -164,15 +178,23 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
 
             {content.eventBadgeUrl ? (
               <Reveal className="ml-auto" delay={0.28} distance={18}>
-                <div className="relative h-[3.25rem] w-[6.5rem] sm:h-[4rem] sm:w-[8rem] lg:h-[4.5rem] lg:w-[9rem]">
-                  <Image
-                    src={content.eventBadgeUrl}
-                    alt={content.eventBadgeAlt?.trim() || ""}
-                    fill
-                    sizes="144px"
-                    className="object-contain object-right-bottom"
-                  />
-                </div>
+                <Premium3DSurface
+                  className="h-[3.25rem] w-[6.5rem] sm:h-[4rem] sm:w-[8rem] lg:h-[4.5rem] lg:w-[9rem]"
+                  surfaceClassName="rounded-xl"
+                  intensity={6}
+                  lift={8}
+                  glare={false}
+                >
+                  <div className="relative h-full w-full [transform:translateZ(46px)]">
+                    <Image
+                      src={content.eventBadgeUrl}
+                      alt={content.eventBadgeAlt?.trim() || ""}
+                      fill
+                      sizes="144px"
+                      className="object-contain object-right-bottom drop-shadow-[0_1rem_2rem_rgba(0,0,0,0.26)]"
+                    />
+                  </div>
+                </Premium3DSurface>
               </Reveal>
             ) : null}
           </div>

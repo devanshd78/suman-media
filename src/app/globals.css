@@ -560,3 +560,226 @@ body {
     transform: none;
   }
 }
+
+/* =========================================================
+ * SUMAN CINEMATIC 3D DEPTH SYSTEM
+ * =========================================================
+ * CSS 3D + Framer Motion only. No WebGL/Three.js dependency.
+ */
+.premium-3d-stage {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.premium-3d-surface {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+.premium-3d-layer {
+  transform: translateZ(42px);
+  transform-style: preserve-3d;
+}
+
+.premium-3d-layer-deep {
+  transform: translateZ(78px);
+  transform-style: preserve-3d;
+}
+
+.premium-3d-layer-far {
+  transform: translateZ(118px);
+  transform-style: preserve-3d;
+}
+
+.premium-3d-shadow {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.08) inset,
+    0 2rem 5rem rgba(0,0,0,0.22),
+    0 4rem 9rem rgba(0,0,0,0.14);
+}
+
+.premium-3d-paper-shadow {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.72) inset,
+    0 1.6rem 3.4rem rgba(72,43,12,0.12),
+    0 4rem 8rem rgba(72,43,12,0.09);
+}
+
+/* Film-set perspective floor. Used only on major dark scenes. */
+.depth-horizon-grid {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: -34%;
+  height: 72%;
+  pointer-events: none;
+  opacity: 0.18;
+  transform: perspective(760px) rotateX(67deg);
+  transform-origin: center top;
+  background-image:
+    linear-gradient(rgba(226,187,95,0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(226,187,95,0.14) 1px, transparent 1px);
+  background-size: 68px 68px;
+  -webkit-mask-image: linear-gradient(180deg, transparent, black 18%, transparent 82%);
+  mask-image: linear-gradient(180deg, transparent, black 18%, transparent 82%);
+}
+
+/* Floating translucent slab used behind key copy decks. */
+.depth-glass-slab {
+  border: 1px solid rgba(255,255,255,0.11);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.018)),
+    rgba(13,10,11,0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(226,187,95,0.06),
+    0 2rem 7rem rgba(0,0,0,0.20);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+/* A raised ivory slab for editorial sections. */
+.depth-paper-slab {
+  position: relative;
+  border: 1px solid rgba(143,108,26,0.13);
+  background:
+    radial-gradient(circle at 18% 4%, rgba(226,187,95,0.11), transparent 34%),
+    linear-gradient(150deg, rgba(255,255,255,0.88), rgba(247,239,224,0.82));
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 2rem 5rem rgba(78,49,12,0.08),
+    0 4rem 8rem rgba(78,49,12,0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.depth-paper-slab::after {
+  content: "";
+  position: absolute;
+  inset: auto 7% -0.55rem 7%;
+  height: 0.8rem;
+  border-radius: 999px;
+  background: rgba(88,51,14,0.13);
+  filter: blur(14px);
+  pointer-events: none;
+  transform: translateZ(-50px);
+}
+
+/* Sphere lighting for partner/client bubbles. */
+.client-3d-sphere {
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow:
+    inset 0.8rem 0.9rem 1.5rem rgba(255,255,255,0.15),
+    inset -1rem -1.1rem 1.7rem rgba(0,0,0,0.24),
+    0 1.25rem 2.7rem rgba(49,30,9,0.22),
+    0 2.6rem 6rem rgba(49,30,9,0.11);
+}
+
+.client-3d-sphere::before {
+  content: "";
+  position: absolute;
+  inset: 7% 12% auto auto;
+  z-index: 2;
+  width: 38%;
+  height: 24%;
+  border-radius: 999px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.30), rgba(255,255,255,0.04) 55%, transparent 72%);
+  filter: blur(2px);
+  transform: rotate(-24deg) translateZ(38px);
+  pointer-events: none;
+}
+
+.client-3d-sphere::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: -8%;
+  height: 14%;
+  z-index: -1;
+  border-radius: 50%;
+  background: rgba(45,28,8,0.18);
+  filter: blur(12px);
+  transform: rotateX(68deg) translateZ(-26px);
+  pointer-events: none;
+}
+
+/* 3D image framing: keeps CMS imagery live while adding depth. */
+.depth-image-frame {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.depth-image-frame::before {
+  content: "";
+  position: absolute;
+  inset: 4% -2.5% -4% 2.5%;
+  z-index: -1;
+  border: 1px solid rgba(226,187,95,0.20);
+  background: rgba(100,31,46,0.10);
+  transform: translateZ(-36px);
+}
+
+.depth-image-frame::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -1.1rem;
+  height: 1.15rem;
+  z-index: -2;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.30);
+  filter: blur(18px);
+  transform: translateZ(-70px) rotateX(70deg);
+}
+
+/* Culture motif as a physical-looking inlay rather than a flat line. */
+.heritage-inlay {
+  position: relative;
+}
+
+.heritage-inlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid rgba(226,187,95,0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.025),
+    inset 0 0 3rem rgba(226,187,95,0.025);
+  transform: translateZ(22px);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .premium-3d-surface {
+    transition: box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .premium-3d-stage:hover .premium-3d-surface {
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.08) inset,
+      0 2.4rem 6rem rgba(0,0,0,0.22),
+      0 5rem 10rem rgba(0,0,0,0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-3d-stage,
+  .premium-3d-surface,
+  .premium-3d-layer,
+  .premium-3d-layer-deep,
+  .premium-3d-layer-far,
+  .client-3d-sphere,
+  .depth-image-frame {
+    transform: none !important;
+  }
+
+  .depth-horizon-grid {
+    display: none;
+  }
+}
