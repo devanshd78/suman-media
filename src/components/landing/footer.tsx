@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsSiteSettings } from "@/types/cms";
 
 const exo2 = Exo_2({
@@ -556,13 +557,12 @@ function SocialLink({
     items-center
     justify-center
     rounded-[6.25rem]
-    bg-[rgba(255,255,255,0.76)]
-    shadow-[0_0.5rem_1.5rem_rgba(255,255,255,0.14)]
-    backdrop-blur-[6px]
+    bg-[rgba(255,255,255,0.10)]
+    backdrop-blur-[4px]
     transition-all
     duration-300
     hover:-translate-y-1
-    hover:bg-[rgba(255,255,255,0.92)]
+    hover:bg-[rgba(255,255,255,0.18)]
     focus-visible:outline-none
     focus-visible:ring-2
     focus-visible:ring-white/40
@@ -590,7 +590,7 @@ function SocialLink({
       <span
         aria-label={label}
         className={className}
-        style={{ WebkitBackdropFilter: "blur(6px)" }}
+        style={{ WebkitBackdropFilter: "blur(4px)" }}
       >
         {icon}
       </span>
@@ -604,7 +604,7 @@ function SocialLink({
       rel="noreferrer"
       aria-label={label}
       className={className}
-      style={{ WebkitBackdropFilter: "blur(6px)" }}
+      style={{ WebkitBackdropFilter: "blur(4px)" }}
     >
       {icon}
     </a>
@@ -637,6 +637,8 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
   return (
     <footer
       className="
+        landing-section-transition
+        culture-thread
         relative
         isolate
         w-full
@@ -691,7 +693,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               text-black
             `}
           >
-            Get started
+            <TextReveal text="Get started" stagger={0.08} amount={0.2} />
           </h2>
 
           <div
@@ -858,131 +860,48 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
       </div>
 
       {/* ===================================================
-          IMAGE / CROWD FOOTER
+          IMAGE / CROWD FOOTER — FULL WIDTH, LAYERED
           =================================================== */}
 
       <div
         className="
           relative
           mt-0
-          h-[18rem]
+          h-[22rem]
           w-full
           overflow-hidden
-          sm:h-[21rem]
-          lg:h-[22rem]
+          sm:h-[24rem]
+          lg:h-[26rem]
+          xl:h-[27rem]
         "
       >
-        {/* BACKGROUND IMAGE */}
-
         <Image
           src="/images/footer/footer.png"
           alt=""
           fill
           sizes="100vw"
-          className="
-            z-0
-            object-cover
-            object-center
-            grayscale
-          "
+          className="z-0 object-cover object-center grayscale"
         />
-
-        {/* TOP FADE */}
 
         <div
           aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-x-0
-            top-0
-            z-10
-            h-[5rem]
-            bg-gradient-to-b
-            from-[#f3f0eb]
-            via-[#f3f0eb]/55
-            to-transparent
-          "
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-7 bg-gradient-to-b from-[#f3f0eb]/50 to-transparent"
         />
-
-        {/* BOTTOM DARKEN */}
-
         <div
           aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-0
-            z-10
-            bg-gradient-to-b
-            from-transparent
-            via-transparent
-            to-black/20
-          "
+          className="pointer-events-none absolute inset-0 z-10 bg-black/[0.04]"
         />
 
-        {/* =================================================
-            LIVE IMAGE OVERLAY
-            ================================================= */}
-
-        <div
-          className="
-            relative
-            z-20
-            mx-auto
-            flex
-            h-full
-            w-full
-            max-w-full
-            flex-col
-            justify-between
-            px-5
-            pb-6
-            pt-14
-            sm:px-8
-            lg:px-[3.5rem]
-            lg:pb-7
-            lg:pt-12
-          "
-        >
-          {/* =================================================
-              TOP ROW
-              ================================================= */}
-
-          <div
-            className="
-    flex
-    items-start
-    justify-between
-    gap-8
-  "
-          >
-            {/* LOGO */}
-
+        <div className="relative z-20 h-full w-full px-5 sm:px-8 lg:px-[3.5rem] xl:px-[4.5rem]">
+          <div className="absolute left-5 right-5 top-7 flex items-start justify-between gap-8 sm:left-8 sm:right-8 sm:top-8 lg:left-[3.5rem] lg:right-[3.5rem] xl:left-[4.5rem] xl:right-[4.5rem]">
             <Link
               href="/"
               aria-label="Suman Entertainment & Media"
-              className="
-      inline-flex
-      shrink-0
-      items-center
-      transition-opacity
-      duration-300
-      hover:opacity-80
-    "
+              className="inline-flex shrink-0 items-center transition-opacity duration-300 hover:opacity-80"
             >
               <span
                 aria-hidden="true"
-                className="
-        block
-        h-[3.25rem]
-        w-[10.5rem]
-        bg-white
-        sm:h-[3.5rem]
-        sm:w-[11.5rem]
-        lg:h-[3.75rem]
-        lg:w-[12.5rem]
-      "
+                className="block h-[1.8rem] w-[6.75rem] bg-white sm:h-[2rem] sm:w-[7.5rem] lg:h-[2.25rem] lg:w-[8.5rem]"
                 style={{
                   WebkitMaskImage: 'url("/images/logo.png")',
                   maskImage: 'url("/images/logo.png")',
@@ -996,76 +915,20 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               />
             </Link>
 
-            {/* SOCIAL ICONS */}
-
-            <div
-              className="
-      flex
-      flex-wrap
-      items-center
-      justify-end
-      gap-2
-      sm:gap-3
-    "
-            >
-              <SocialLink href={xHref} label="X">
-                <XIcon />
-              </SocialLink>
-
-              <SocialLink href={facebookHref} label="Facebook">
-                <FacebookIcon />
-              </SocialLink>
-
-              <SocialLink href={instagramHref} label="Instagram">
-                <InstagramIcon />
-              </SocialLink>
-
-              <SocialLink href={youtubeHref} label="YouTube">
-                <YouTubeIcon />
-              </SocialLink>
-
-              <SocialLink href={linkedinHref} label="LinkedIn">
-                <LinkedinIcon />
-              </SocialLink>
+            <div className="flex shrink-0 items-center justify-end gap-1.5 sm:gap-2 lg:gap-2.5">
+              <SocialLink href={xHref} label="X"><XIcon /></SocialLink>
+              <SocialLink href={facebookHref} label="Facebook"><FacebookIcon /></SocialLink>
+              <SocialLink href={instagramHref} label="Instagram"><InstagramIcon /></SocialLink>
+              <SocialLink href={youtubeHref} label="YouTube"><YouTubeIcon /></SocialLink>
+              <SocialLink href={linkedinHref} label="LinkedIn"><LinkedinIcon /></SocialLink>
             </div>
           </div>
 
-          {/* =================================================
-              LEGAL ROW
-              ================================================= */}
-
-          <div
-            className="
-              flex
-              flex-col
-              gap-3
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
-            "
-          >
-            <p
-              className={`
-                ${inter.className}
-                text-[0.58rem]
-                font-normal
-                leading-4
-                text-white/55
-              `}
-            >
-              ©2026 Suman Entertainment &amp;
-              Media PVT LTD
+          <div className="absolute left-5 right-5 top-[7.5rem] flex flex-col gap-2 sm:left-8 sm:right-8 sm:top-[8rem] sm:flex-row sm:items-center sm:justify-between lg:left-[3.5rem] lg:right-[3.5rem] lg:top-[8.25rem] xl:left-[4.5rem] xl:right-[4.5rem]">
+            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/55 lg:text-[0.58rem]`}>
+              ©2026 Suman Entertainment &amp; Media PVT LTD
             </p>
-
-            <p
-              className={`
-                ${inter.className}
-                text-[0.58rem]
-                font-normal
-                leading-4
-                text-white/55
-              `}
-            >
+            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/55 lg:text-[0.58rem]`}>
               Design Courtesy NOWT
             </p>
           </div>

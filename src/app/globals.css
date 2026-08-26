@@ -100,23 +100,157 @@ select {
 }
 
 /*
- * Landing-page section transitions are progressive enhancement:
- * - server-rendered HTML is visible by default
- * - a single IntersectionObserver adds the motion-ready state
- * - only opacity is animated, so sticky/3D sections keep their containing blocks
+ * Landing-page motion system
+ * --------------------------
+ * The DOM remains fully rendered and crawlable. JavaScript only adds
+ * `data-section-visible` to sections as they enter the viewport.
+ *
+ * Important: we never transform the section root itself. That keeps sticky
+ * galleries and position: sticky descendants reliable across browsers.
  */
 .landing-section-transition {
+  position: relative;
   opacity: 1;
+}
+
+/* A subtle contemporary Maharashtra-inspired weave. This is decorative only
+ * and deliberately abstract: stepped diamonds + fine gold threads rather than
+ * literal folk-art illustrations. Apply the class selectively to culturally
+ * relevant sections.
+ */
+.culture-weave {
+  isolation: isolate;
+}
+
+.culture-weave::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.075;
+  background-image:
+    linear-gradient(45deg, transparent 46%, #8f6c1a 47%, #8f6c1a 53%, transparent 54%),
+    linear-gradient(-45deg, transparent 46%, #8f6c1a 47%, #8f6c1a 53%, transparent 54%);
+  background-size: 34px 34px;
+  background-position: 0 0, 17px 17px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 22%, black 78%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 22%, black 78%, transparent 100%);
+}
+
+
+/* Gold thread used as a section-change cue. */
+.culture-thread::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: clamp(1.25rem, 4vw, 4.5rem);
+  right: clamp(1.25rem, 4vw, 4.5rem);
+  top: 0;
+  height: 1px;
+  z-index: 5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(143, 108, 26, 0.9) 18%,
+    rgba(226, 187, 95, 0.55) 58%,
+    transparent
+  );
+}
+
+/* Reusable editorial hover treatment. */
+.kinetic-link {
+  position: relative;
+}
+
+.kinetic-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.1em;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: right center;
+  background: currentColor;
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.kinetic-link:hover::after,
+.kinetic-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   html.landing-motion-ready .landing-section-transition {
-    transition: opacity 780ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 860ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   html.landing-motion-ready
     .landing-section-transition:not([data-section-visible="true"]) {
-    opacity: 0.24;
+    opacity: 0.68;
+  }
+
+  /* Major typography gets a masked-feeling rise + sharpen without changing
+   * its semantic markup or converting live copy into images/canvas.
+   */
+  html.landing-motion-ready
+    .landing-section-transition h2[id] {
+    transition:
+      opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      letter-spacing 900ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: 90ms;
+    transform-origin: left bottom;
+  }
+
+  html.landing-motion-ready
+    .landing-section-transition:not([data-section-visible="true"]) h2[id] {
+    opacity: 0;
+    transform: translate3d(0, 1.15rem, 0) scale(0.985);
+    filter: blur(8px);
+    letter-spacing: -0.055em;
+  }
+
+  html.landing-motion-ready
+    .landing-section-transition[data-section-visible="true"].culture-thread::after {
+    animation: cultureThreadReveal 1100ms cubic-bezier(0.22, 1, 0.36, 1) 140ms both;
+  }
+
+  .motion-float {
+    animation: motionFloat 7s ease-in-out infinite;
+  }
+
+  .motion-float-delayed {
+    animation: motionFloat 8.5s ease-in-out -2.1s infinite;
+  }
+}
+
+@keyframes cultureThreadReveal {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0.72;
+  }
+}
+
+@keyframes motionFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
   }
 }
 
@@ -132,5 +266,10 @@ select {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .culture-thread::after {
+    transform: scaleX(1);
+    opacity: 0.35;
   }
 }

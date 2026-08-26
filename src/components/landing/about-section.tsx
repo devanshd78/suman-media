@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
+
+import { Reveal } from "@/components/motion/reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCta } from "@/types/cms";
 
 const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
@@ -34,36 +37,54 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
     <section
       id="about-suman-entertainment"
       aria-labelledby="about-suman-heading"
-      className="landing-section-transition mx-auto flex w-full max-w-full flex-col items-start gap-[0.625rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="landing-section-transition culture-thread culture-weave relative flex w-full flex-col items-start gap-[0.625rem] overflow-hidden bg-[#fffdf9] px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[7rem]"
     >
+      <div
+        aria-hidden="true"
+        className={`${inter.className} pointer-events-none absolute right-5 top-10 hidden text-[0.58rem] font-semibold uppercase tracking-[0.28em] text-[#8F6C1A]/25 lg:block lg:right-[3.5rem]`}
+      >
+        महाराष्ट्र · कथा · संगीत · तंत्रज्ञान
+      </div>
+
       <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-[6.25rem]">
-        <p className={`${inter.className} pt-1 text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
-          {resolvedEyebrow}
-        </p>
+        <Reveal delay={0.05} distance={16}>
+          <div className="flex items-start gap-3 pt-1">
+            <span aria-hidden="true" className="mt-[0.3rem] h-1.5 w-1.5 rotate-45 bg-[#B68A16]" />
+            <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
+              {resolvedEyebrow}
+            </p>
+          </div>
+        </Reveal>
 
         <div className="flex min-w-0 flex-col items-start">
           <h2
             id="about-suman-heading"
-            className={`${exo2.className} w-full text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
+            className={`${exo2.className} w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black lg:text-[clamp(2.5rem,3.2vw,3.35rem)] lg:leading-[1.12]`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
           >
-            {resolvedHeading}
+            <TextReveal text={resolvedHeading} stagger={0.022} amount={0.2} />
           </h2>
 
-          <p
-            className={`${inter.className} mt-8 w-full text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
-            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-          >
-            {resolvedDescription}
-          </p>
+          <Reveal delay={0.18} distance={22} className="w-full">
+            <p
+              className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(0,9,51,0.65)] lg:text-[1.04rem] lg:leading-8`}
+              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+            >
+              {resolvedDescription}
+            </p>
+          </Reveal>
 
-          <Link
-            href={resolvedCta.href}
-            className={`${inter.className} group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] transition-opacity hover:opacity-65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
-          >
-            <span>{resolvedCta.label}</span>
-            <span className="transition-transform duration-200 group-hover:translate-x-1"><ArrowRightIcon /></span>
-          </Link>
+          <Reveal delay={0.28} distance={14}>
+            <Link
+              href={resolvedCta.href}
+              className={`${inter.className} kinetic-link group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
+            >
+              <span>{resolvedCta.label}</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                <ArrowRightIcon />
+              </span>
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>

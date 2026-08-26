@@ -1,5 +1,9 @@
 import { Exo_2, Inter } from "next/font/google";
+
+import { Reveal } from "@/components/motion/reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsFeaturedService } from "@/types/cms";
+
 import { ServicesScrollGallery } from "./services-scroll-gallery";
 
 const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
@@ -18,21 +22,26 @@ export function ServicesSection({ eyebrow, heading, services }: ServicesSectionP
 
   if (validServices.length === 0) return null;
 
+  const resolvedHeading = heading?.trim() || "What we really do?";
+
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="landing-section-transition mx-auto flex w-full max-w-full flex-col items-center justify-end gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="landing-section-transition culture-thread relative flex w-full flex-col items-center justify-end gap-14 overflow-clip bg-white px-5 py-16 sm:px-8 lg:gap-[5.25rem] lg:px-[3.5rem] lg:pb-0 lg:pt-[6.5rem]"
     >
       <div className="flex w-full flex-col items-center gap-2 text-center">
-        <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
-          {eyebrow?.trim() || "Our Services"}
-        </p>
+        <Reveal delay={0.02} distance={12}>
+          <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[0.08em] text-[rgba(0,9,51,0.58)]`}>
+            {eyebrow?.trim() || "Our Services"}
+          </p>
+        </Reveal>
+
         <h2
           id="services-heading"
-          className={`${exo2.className} w-full text-center text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.04rem] text-black sm:text-[2.25rem] lg:text-[2.5rem] lg:leading-[3rem] lg:tracking-[-0.0625rem]`}
+          className={`${exo2.className} w-full overflow-hidden text-center text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.04rem] text-black sm:text-[2.25rem] lg:text-[2.75rem] lg:leading-[3.15rem] lg:tracking-[-0.0625rem]`}
         >
-          {heading?.trim() || "What we really do?"}
+          <TextReveal text={resolvedHeading} stagger={0.055} />
         </h2>
       </div>
 

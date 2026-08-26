@@ -5,30 +5,25 @@ import Link from "next/link";
 import {
   motion,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 import { useRef, useState } from "react";
+
 import type { CmsFeaturedService } from "@/types/cms";
 
-const PERSPECTIVE_PX = 2000;
-const CARD_SPACING_PX = 470;
-const CASCADE_SLOPE = 0.34;
-const FLY_PAST_Z_PX = Math.round(PERSPECTIVE_PX * 1.05);
-const SWING_DEG = 70;
-const FADE_IN_START_STEPS = 3.8;
-const FADE_IN_END_STEPS = 2.2;
-const SCROLL_PER_CARD_VH = 60;
-const FINAL_HOLD_VH = 18;
+const SCROLL_PER_CARD_VH = 42;
+const FINAL_HOLD_VH = 12;
 
 const SCROLL_SPRING = {
-  stiffness: 500,
-  damping: 60,
-  mass: 1,
-  restDelta: 0.0001,
-  restSpeed: 0.0001,
+  stiffness: 240,
+  damping: 38,
+  mass: 0.65,
+  restDelta: 0.0005,
+  restSpeed: 0.0005,
 } as const;
 
 function ArrowRightIcon() {
@@ -42,18 +37,28 @@ function ArrowRightIcon() {
 type ServiceCardProps = {
   service: CmsFeaturedService;
   index: number;
+  active?: boolean;
 };
 
-function ServiceCardContent({ service, index }: ServiceCardProps) {
+function ServiceCardContent({ service, index, active = false }: ServiceCardProps) {
   return (
     <div className="service-card-grid grid h-full w-full min-w-0 bg-white lg:grid-cols-[54%_46%]">
-      <div className="service-card-copy flex h-full min-w-0 flex-col bg-white">
-        <span className="service-card-number block font-semibold leading-none tracking-[-0.04em] text-black">
+      <div className="service-card-copy relative flex h-full min-w-0 flex-col overflow-hidden bg-white">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rotate-45 border border-[#B68A16]/12"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-6 top-6 h-8 w-8 rotate-45 border border-[#B68A16]/18"
+        />
+
+        <span className="service-card-number relative z-10 block font-semibold leading-none tracking-[-0.04em] text-black">
           {String(index + 1).padStart(2, "0")}
         </span>
 
-        <div className="mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
-          <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.12] tracking-[-0.03em] text-black">
+        <div className="relative z-10 mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
+          <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.08] tracking-[-0.035em] text-black">
             {service.title}
           </h3>
           <p className="service-card-description max-w-[36rem] leading-[1.55] text-[rgba(0,9,51,0.65)]">
@@ -61,10 +66,13 @@ function ServiceCardContent({ service, index }: ServiceCardProps) {
           </p>
           <Link
             href={`/services/${service.slug}`}
-            className="service-card-button mt-1 inline-flex w-fit items-center gap-2 py-2 font-semibold text-[#8F6C1A] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A]"
+            tabIndex={active ? undefined : -1}
+            className="service-card-button kinetic-link group mt-1 inline-flex w-fit items-center gap-2 py-2 font-semibold text-[#8F6C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A]"
           >
             <span>Explore Capabilities</span>
-            <ArrowRightIcon />
+            <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+              <ArrowRightIcon />
+            </span>
           </Link>
         </div>
       </div>
@@ -76,11 +84,16 @@ function ServiceCardContent({ service, index }: ServiceCardProps) {
             alt={service.imageAlt?.trim() || service.title}
             fill
             sizes="(max-width: 1023px) 100vw, 42vw"
-            className="select-none object-cover"
+            className={`select-none object-cover transition-transform duration-[1200ms] ease-out ${active ? "scale-100" : "scale-[1.045]"}`}
           />
         ) : (
           <div className="absolute inset-0 bg-[linear-gradient(135deg,#e8dfc8,#b69945)]" aria-hidden="true" />
         )}
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),transparent_45%,rgba(44,30,0,0.12))]"
+        />
       </div>
     </div>
   );
@@ -89,8 +102,9 @@ function ServiceCardContent({ service, index }: ServiceCardProps) {
 type Service3DCardProps = ServiceCardProps & {
   progress: MotionValue<number>;
   isActive: boolean;
+  activeIndex: number;
   totalCards: number;
-  lastIndex: number;
+  center: number;
   step: number;
 };
 
@@ -99,64 +113,90 @@ function Service3DCard({
   index,
   progress,
   isActive,
+  activeIndex,
   totalCards,
-  lastIndex,
+  center,
   step,
 }: Service3DCardProps) {
-  const isFirst = index === 0;
-  const isLast = index === lastIndex;
-  const sliceStart = index * step;
-  const sliceEnd = (index + 1) * step;
-  const restZ = -index * CARD_SPACING_PX;
+  const direction = index % 2 === 0 ? -1 : 1;
+  const isLast = index === totalCards - 1;
+  const range = isLast
+    ? [center - step * 0.95, center - step * 0.38, center, 1, 1.001]
+    : [
+        center - step * 0.95,
+        center - step * 0.38,
+        center,
+        center + step * 0.38,
+        center + step * 0.95,
+      ];
 
-  const z = useTransform(
-    progress,
-    isFirst ? [0, sliceEnd] : isLast ? [0, sliceStart] : [0, sliceStart, sliceEnd],
-    isFirst
-      ? [0, FLY_PAST_Z_PX]
-      : isLast
-        ? [restZ, 0]
-        : [restZ, 0, FLY_PAST_Z_PX],
-  );
-
-  const rotateX = useTransform(
-    progress,
-    [sliceStart, sliceEnd],
-    isLast ? [0, 0] : [0, SWING_DEG],
-  );
-  const y = useTransform(z, (value) => value * CASCADE_SLOPE);
   const opacity = useTransform(
     progress,
-    [(index - FADE_IN_START_STEPS) * step, (index - FADE_IN_END_STEPS) * step],
-    [0, 1],
+    range,
+    isLast ? [0, 0.16, 1, 1, 1] : [0, 0.16, 1, 0.16, 0],
   );
+  const x = useTransform(
+    progress,
+    range,
+    isLast
+      ? [direction * 130, direction * 46, 0, 0, 0]
+      : [direction * 130, direction * 46, 0, direction * -46, direction * -130],
+  );
+  const y = useTransform(progress, range, isLast ? [86, 28, 0, 0, 0] : [86, 28, 0, -28, -86]);
+  const z = useTransform(progress, range, isLast ? [-720, -260, 0, 0, 0] : [-720, -260, 0, 360, 820]);
+  const rotateX = useTransform(progress, range, isLast ? [7, 3, 0, 0, 0] : [7, 3, 0, -5, -10]);
+  const rotateY = useTransform(
+    progress,
+    range,
+    isLast
+      ? [direction * -15, direction * -6, 0, 0, 0]
+      : [direction * -15, direction * -6, 0, direction * 7, direction * 14],
+  );
+  const rotateZ = useTransform(
+    progress,
+    range,
+    isLast
+      ? [direction * -1.4, direction * -0.5, 0, 0, 0]
+      : [direction * -1.4, direction * -0.5, 0, direction * 0.5, direction * 1.2],
+  );
+  const scale = useTransform(progress, range, isLast ? [0.82, 0.92, 1, 1, 1] : [0.82, 0.92, 1, 0.92, 0.82]);
+
+  const distanceFromActive = Math.abs(index - activeIndex);
+  const zIndex = isActive ? totalCards + 20 : Math.max(1, totalCards - distanceFromActive);
 
   return (
     <div
       className="service-3d-card-shell absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      style={{ zIndex: totalCards - index, pointerEvents: isActive ? "auto" : "none" }}
+      style={{ zIndex, pointerEvents: isActive ? "auto" : "none" }}
       inert={!isActive}
     >
       <motion.article
-        style={{ y, z, rotateX, opacity }}
-        className="service-3d-card h-full w-full overflow-hidden border border-black/[0.04] bg-white shadow-[0_1.5rem_5rem_rgba(0,0,0,0.14)]"
+        style={{ x, y, z, rotateX, rotateY, rotateZ, scale, opacity }}
+        className="service-3d-card h-full w-full overflow-hidden rounded-[1.35rem] border border-black/[0.05] bg-white shadow-[0_2rem_6rem_rgba(0,0,0,0.18)]"
       >
-        <ServiceCardContent service={service} index={index} />
+        <ServiceCardContent service={service} index={index} active={isActive} />
       </motion.article>
     </div>
   );
 }
 
 function StaticServices({ services }: { services: CmsFeaturedService[] }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="services-static-list flex w-full flex-col gap-5 lg:hidden">
       {services.map((service, index) => (
-        <article
+        <motion.article
           key={service._id}
-          className="overflow-hidden border border-black/[0.04] bg-white shadow-[0_0.75rem_2rem_rgba(0,0,0,0.07)]"
+          initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.985 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.16 }}
+          transition={{ duration: reduceMotion ? 0 : 0.72, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden rounded-[1.2rem] border border-black/[0.04] bg-white shadow-[0_0.75rem_2rem_rgba(0,0,0,0.07)]"
         >
           <div className="grid grid-cols-1 md:grid-cols-[54%_46%]">
-            <div className="flex min-h-[21rem] flex-col p-6 sm:p-8 md:min-h-[28rem]">
+            <div className="relative flex min-h-[21rem] flex-col overflow-hidden p-6 sm:p-8 md:min-h-[28rem]">
+              <span aria-hidden="true" className="absolute right-5 top-5 h-7 w-7 rotate-45 border border-[#B68A16]/18" />
               <span className="text-2xl font-semibold text-black">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -165,27 +205,29 @@ function StaticServices({ services }: { services: CmsFeaturedService[] }) {
                 <p className="text-sm leading-6 text-[rgba(0,9,51,0.65)]">{service.shortDescription}</p>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="inline-flex w-fit items-center gap-2 py-2 text-sm font-semibold text-[#8F6C1A]"
+                  className="kinetic-link group inline-flex w-fit items-center gap-2 py-2 text-sm font-semibold text-[#8F6C1A]"
                 >
                   <span>Explore Capabilities</span>
-                  <ArrowRightIcon />
+                  <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                    <ArrowRightIcon />
+                  </span>
                 </Link>
               </div>
             </div>
 
-            <div className="relative min-h-[20rem] bg-[#f2eee4] md:min-h-[28rem]">
+            <div className="relative min-h-[20rem] overflow-hidden bg-[#f2eee4] md:min-h-[28rem]">
               {service.imageUrl ? (
                 <Image
                   src={service.imageUrl}
                   alt={service.imageAlt?.trim() || service.title}
                   fill
                   sizes="100vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 hover:scale-[1.025]"
                 />
               ) : null}
             </div>
           </div>
-        </article>
+        </motion.article>
       ))}
     </div>
   );
@@ -227,7 +269,12 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
         className="services-3d-scroll relative hidden w-full lg:block"
         style={{ height: `${trackHeightVh}svh` }}
       >
-        <div className="services-3d-sticky sticky top-0 h-[100svh] w-full overflow-hidden">
+        <div className="services-3d-sticky sticky top-0 h-[100svh] w-full overflow-hidden bg-[#fbfaf7]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(143,108,26,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(143,108,26,0.045)_1px,transparent_1px)] [background-size:48px_48px]"
+          />
+
           <div className="services-3d-stage relative h-full w-full">
             {services.map((service, index) => (
               <Service3DCard
@@ -236,21 +283,37 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
                 index={index}
                 progress={smoothProgress}
                 isActive={activeIndex === index}
+                activeIndex={activeIndex}
                 totalCards={totalCards}
-                lastIndex={lastIndex}
+                center={index * step}
                 step={step}
               />
             ))}
           </div>
 
+          <div className="pointer-events-none absolute bottom-8 left-[3.5rem] z-[80] flex items-center gap-4 text-black/45">
+            <span className="text-[0.62rem] font-semibold tracking-[0.18em]">
+              {String(activeIndex + 1).padStart(2, "0")}
+            </span>
+            <span className="h-px w-20 bg-black/15" />
+            <span className="text-[0.62rem] font-semibold tracking-[0.18em]">
+              {String(totalCards).padStart(2, "0")}
+            </span>
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-8 right-[3.5rem] z-[80] text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-[#8F6C1A]/48"
+          >
+            कथा · ध्वनी · अनुभव · तंत्रज्ञान
+          </div>
         </div>
       </div>
 
       <style>{`
         .services-3d-sticky {
-          perspective: ${PERSPECTIVE_PX}px;
-          perspective-origin: 50% 50%;
-          background: white;
+          perspective: 2100px;
+          perspective-origin: 50% 48%;
           isolation: isolate;
         }
 
@@ -261,12 +324,12 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
         }
 
         .service-3d-card-shell {
-          width: min(84vw, 76rem);
-          height: clamp(28rem, 58svh, 38rem);
+          width: min(82vw, 74rem);
+          height: clamp(27rem, 58svh, 38rem);
         }
 
         .service-3d-card {
-          transform-origin: 50% 0%;
+          transform-origin: 50% 50%;
           will-change: transform, opacity;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
@@ -274,31 +337,31 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
 
         .service-card-copy { padding: clamp(2rem, 3vw, 3.5rem); }
         .service-card-number { font-size: clamp(1.5rem, 2vw, 2.35rem); }
-        .service-card-title { font-size: clamp(1.5rem, 2.15vw, 2.4rem); }
+        .service-card-title { font-size: clamp(1.6rem, 2.25vw, 2.55rem); }
         .service-card-description { font-size: clamp(0.8rem, 0.9vw, 0.95rem); }
         .service-card-button { font-size: clamp(0.78rem, 0.85vw, 0.875rem); }
 
         @media (min-width: 1024px) and (max-width: 1500px) {
           .service-3d-card-shell {
-            width: min(84vw, 72rem);
-            height: clamp(26rem, 57svh, 35rem);
+            width: min(84vw, 68rem);
+            height: clamp(25rem, 56svh, 33rem);
           }
         }
 
         @media (min-width: 1024px) and (max-height: 760px) {
           .service-3d-card-shell {
-            width: min(82vw, 66rem);
-            height: clamp(23rem, 53svh, 30rem);
+            width: min(80vw, 62rem);
+            height: clamp(22rem, 52svh, 29rem);
           }
-          .service-card-copy { padding: 1.75rem; }
-          .service-card-title { font-size: clamp(1.35rem, 2vw, 2rem); }
+          .service-card-copy { padding: 1.65rem; }
+          .service-card-title { font-size: clamp(1.35rem, 2vw, 1.95rem); }
           .service-card-description { font-size: 0.78rem; }
         }
 
         @media (min-width: 1800px) {
           .service-3d-card-shell {
-            width: min(78vw, 78rem);
-            height: min(58svh, 39rem);
+            width: min(76vw, 78rem);
+            height: min(60svh, 40rem);
           }
         }
 

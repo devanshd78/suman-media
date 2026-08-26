@@ -9,6 +9,7 @@ import {
   type CSSProperties,
 } from "react";
 
+import { TextReveal } from "@/components/motion/text-reveal";
 import type {
   CmsCta,
   CmsFeaturedIndustry,
@@ -556,6 +557,7 @@ export function IndustriesSection({
       aria-labelledby="industries-heading"
       className="
         landing-section-transition
+        culture-thread
         mx-auto
         flex
         w-full
@@ -642,8 +644,11 @@ export function IndustriesSection({
                 '"liga" off, "clig" off',
             }}
           >
-            {heading?.trim() ||
-              "The Industries we work with?"}
+            <TextReveal
+              text={heading?.trim() || "The Industries we work with?"}
+              stagger={0.04}
+              amount={0.25}
+            />
           </h2>
         </div>
 

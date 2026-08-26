@@ -157,7 +157,7 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full bg-[#927116] shadow-[0_1rem_2.5rem_rgba(77,58,9,0.18)]"
+              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full border border-white/20 bg-[#927116] shadow-[0_1rem_2.5rem_rgba(77,58,9,0.18)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_1.4rem_3.25rem_rgba(77,58,9,0.28)]"
               style={
                 {
                   "--mobile-delay": `${index * 90}ms`,
@@ -229,7 +229,7 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full bg-[#927116] shadow-[0_1.5rem_4rem_rgba(77,58,9,0.16)]"
+              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 bg-[#927116] shadow-[0_1.5rem_4rem_rgba(77,58,9,0.16)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_2rem_5rem_rgba(77,58,9,0.26)]"
             >
               <Image
                 src={company.logoUrl!}
@@ -335,7 +335,7 @@ export function ClientsBubbles({
           }
 
           50% {
-            transform: translate3d(0, -7px, 0);
+            transform: translate3d(0, -9px, 0);
           }
         }
 

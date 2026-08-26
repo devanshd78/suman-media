@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsAchievementSection } from "@/types/cms";
 
 const BOX_COUNT = 20;
@@ -178,6 +179,8 @@ export function AchievementRevealGrid({
       aria-labelledby="achievement-heading"
       className="
         landing-section-transition
+        culture-thread
+        culture-weave
         relative
         mx-auto
         w-full
@@ -355,7 +358,7 @@ export function AchievementRevealGrid({
               xl:text-[4rem]
             "
           >
-            {heading}
+            <TextReveal text={heading} stagger={0.022} amount={0.18} />
           </h2>
 
           {description ? (

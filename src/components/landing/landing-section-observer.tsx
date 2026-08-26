@@ -5,17 +5,29 @@ import { useEffect } from "react";
 const SELECTOR = ".landing-section-transition";
 
 /**
- * One lightweight observer drives the landing-page section fades.
- * The section markup itself remains server rendered and fully visible when
- * JavaScript is unavailable, which keeps the effect progressive and SEO-safe.
+ * Lightweight progressive-enhancement observer for the landing page.
+ *
+ * - HTML is fully visible without JavaScript.
+ * - We never apply transforms to section roots, so sticky/3D sections remain
+ *   reliable.
+ * - The observer only toggles data attributes consumed by global CSS.
  */
 export function LandingSectionObserver() {
   useEffect(() => {
     const root = document.documentElement;
-    const sections = Array.from(document.querySelectorAll<HTMLElement>(SELECTOR));
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>(SELECTOR),
+    );
+
     if (sections.length === 0) return;
 
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
+    sections.forEach((section, index) => {
+      section.dataset.sectionIndex = String(index);
+    });
 
     if (reducedMotion.matches) {
       sections.forEach((section) => {
@@ -24,9 +36,8 @@ export function LandingSectionObserver() {
       return;
     }
 
-    // Mark content that is already in the first viewport before enabling the
-    // transition class. This avoids a flash/fade on the hero during hydration.
-    const initialCutoff = window.innerHeight * 0.92;
+    /* Avoid a hydration flash for content already inside the first viewport. */
+    const initialCutoff = window.innerHeight * 0.94;
     sections.forEach((section) => {
       if (section.getBoundingClientRect().top < initialCutoff) {
         section.dataset.sectionVisible = "true";
@@ -46,13 +57,15 @@ export function LandingSectionObserver() {
         });
       },
       {
-        threshold: 0.08,
-        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.075,
+        rootMargin: "0px 0px -7% 0px",
       },
     );
 
     sections.forEach((section) => {
-      if (section.dataset.sectionVisible !== "true") observer.observe(section);
+      if (section.dataset.sectionVisible !== "true") {
+        observer.observe(section);
+      }
     });
 
     return () => {
