@@ -25,11 +25,11 @@ export function ClientsSection({ eyebrow, heading, companies }: ClientsSectionPr
     <section
       id="clients"
       aria-labelledby="clients-heading"
-      className="landing-section-transition culture-thread relative flex w-full flex-col items-center justify-end gap-16 overflow-hidden bg-white px-5 py-16 sm:px-8 lg:gap-[5rem] lg:px-[3.5rem] lg:py-[6.5rem]"
+      className="landing-section-transition culture-thread heritage-surface paithani-edge relative flex w-full flex-col items-center justify-end gap-16 overflow-hidden px-5 py-16 sm:px-8 lg:gap-[5rem] lg:px-[3.5rem] lg:py-[7rem]"
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-[28rem] w-[72rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(226,187,95,0.10)_0%,rgba(255,255,255,0)_67%)]"
+        className="pointer-events-none absolute left-1/2 top-[-6rem] h-[34rem] w-[80rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(201,155,54,0.17)_0%,rgba(100,31,46,0.04)_36%,rgba(255,255,255,0)_70%)]"
       />
 
       <div className="relative z-10 flex w-full flex-col items-center gap-2 text-center">
@@ -41,7 +41,7 @@ export function ClientsSection({ eyebrow, heading, companies }: ClientsSectionPr
 
         <h2
           id="clients-heading"
-          className={`${exo2.className} overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black lg:text-[2.75rem] lg:leading-[3.15rem]`}
+          className={`${exo2.className} premium-display overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#15110D] lg:text-[3rem] lg:leading-[3.25rem]`}
         >
           <TextReveal text={resolvedHeading} stagger={0.055} />
         </h2>

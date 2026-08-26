@@ -54,7 +54,7 @@ function InsightCard({
         href={`/insights/${post.slug}`}
         className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35"
       >
-        <div className="relative aspect-[16/8.6] w-full overflow-hidden rounded-[0.9rem] bg-[#eee9dc]">
+        <div className="premium-card relative aspect-[16/8.6] w-full overflow-hidden rounded-[1.1rem] border border-[#C99B36]/14 bg-[#e9dfcc]">
           <Image
             src={post.imageUrl}
             alt={post.imageAlt?.trim() || post.title}
@@ -67,7 +67,7 @@ function InsightCard({
         </div>
 
         <div className="pt-5">
-          <h3 className={`${inter.className} text-base font-semibold leading-6 text-black transition-colors duration-300 group-hover:text-[#8F6C1A] sm:text-lg`}>
+          <h3 className={`${inter.className} text-base font-semibold leading-6 text-black transition-colors duration-300 group-hover:text-[#8A4A24] sm:text-lg`}>
             {post.title}
           </h3>
 
@@ -124,7 +124,7 @@ export function InsightsSection({
     <section
       id="insights"
       aria-labelledby="insights-heading"
-      className="landing-section-transition culture-thread relative w-full overflow-hidden bg-[#fffdf9] px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="landing-section-transition culture-thread heritage-surface paithani-edge fort-silhouette relative w-full overflow-hidden px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:py-[6.5rem]"
     >
       <div aria-hidden="true" className="pointer-events-none absolute -right-28 top-24 h-72 w-72 rotate-45 border border-[#B68A16]/10" />
 
@@ -141,7 +141,7 @@ export function InsightsSection({
           </motion.p>
           <h2
             id="insights-heading"
-            className={`${exo2.className} mt-2.5 overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.04rem] text-black sm:text-[2.5rem] sm:leading-[2.95rem]`}
+            className={`${exo2.className} premium-display mt-2.5 overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.04rem] text-black sm:text-[2.5rem] sm:leading-[2.95rem]`}
           >
             <TextReveal text={resolvedHeading} stagger={0.055} />
           </h2>

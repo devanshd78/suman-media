@@ -457,7 +457,7 @@ function FooterGroup({
           font-semibold
           leading-none
           tracking-[-0.015em]
-          text-[#1b2233]
+          text-[#3A2415]
         `}
       >
         {title}
@@ -486,10 +486,10 @@ function FooterGroup({
                 text-[0.72rem]
                 font-normal
                 leading-[1.45]
-                text-black/38
+                text-black/48
                 transition-colors
                 duration-200
-                hover:text-black
+                hover:text-[#8A4A24]
               `}
             >
               <span>
@@ -639,11 +639,13 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
       className="
         landing-section-transition
         culture-thread
+        heritage-surface
+        paithani-edge
+        fort-silhouette
         relative
         isolate
         w-full
         overflow-hidden
-        bg-[#f3f0eb]
         text-black
       "
     >
@@ -685,12 +687,13 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
           <h2
             className={`
               ${exo2.className}
+              premium-display
               whitespace-nowrap
               text-[clamp(2.75rem,8.6vw,7.75rem)]
               font-medium
               leading-[0.92]
               tracking-[-0.065em]
-              text-black
+              text-[#18120E]
             `}
           >
             <TextReveal text="Get started" stagger={0.08} amount={0.2} />
@@ -701,7 +704,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               w-full
               max-w-[29rem]
               justify-self-start
-              text-black
+              text-[#8A4A24]
               transition-transform
               duration-500
               ease-out
@@ -725,7 +728,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
             text-[0.72rem]
             font-normal
             leading-[1.55]
-            text-black/25
+            text-black/44
             lg:mt-10
           `}
         >
@@ -742,7 +745,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
             mt-10
             h-px
             w-full
-            bg-black/[0.08]
+            bg-[#8F6C1A]/16
             lg:mt-11
           "
         />
@@ -770,7 +773,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               sm:pr-8
               lg:min-h-[31rem]
               lg:border-r
-              lg:border-black/[0.07]
+              lg:border-[#8F6C1A]/12
               lg:py-8
               lg:pr-8
             "
@@ -797,7 +800,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               sm:pl-8
               lg:min-h-[31rem]
               lg:border-r
-              lg:border-black/[0.07]
+              lg:border-[#8F6C1A]/12
               lg:px-8
               lg:py-8
             "
@@ -824,7 +827,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
               sm:pr-8
               lg:min-h-[31rem]
               lg:border-r
-              lg:border-black/[0.07]
+              lg:border-[#8F6C1A]/12
               lg:px-8
               lg:py-8
             "
@@ -885,7 +888,7 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-7 bg-gradient-to-b from-[#f3f0eb]/50 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-7"
         />
         <div
           aria-hidden="true"
@@ -925,10 +928,10 @@ export function Footer({ socialLinks }: { socialLinks?: CmsSiteSettings["socialL
           </div>
 
           <div className="absolute left-5 right-5 top-[7.5rem] flex flex-col gap-2 sm:left-8 sm:right-8 sm:top-[8rem] sm:flex-row sm:items-center sm:justify-between lg:left-[3.5rem] lg:right-[3.5rem] lg:top-[8.25rem] xl:left-[4.5rem] xl:right-[4.5rem]">
-            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/55 lg:text-[0.58rem]`}>
+            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/70 lg:text-[0.58rem]`}>
               ©2026 Suman Entertainment &amp; Media PVT LTD
             </p>
-            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/55 lg:text-[0.58rem]`}>
+            <p className={`${inter.className} text-[0.52rem] font-normal leading-4 text-white/70 lg:text-[0.58rem]`}>
               Design Courtesy NOWT
             </p>
           </div>

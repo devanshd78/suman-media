@@ -193,7 +193,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
     <section
       aria-roledescription="carousel"
       aria-label="Suman featured platforms and capabilities"
-      className="landing-section-transition relative flex min-h-[100svh] w-full flex-col items-center justify-end overflow-hidden bg-[#110d08] px-5 pb-[clamp(3.75rem,6vw,6rem)] pt-28 text-white sm:px-8 sm:pt-32 lg:px-[3.5rem]"
+      className="landing-section-transition paithani-edge relative flex min-h-[100svh] w-full flex-col items-center justify-end overflow-hidden bg-[#090708] px-5 pb-[clamp(3.75rem,6vw,6rem)] pt-28 text-white sm:px-8 sm:pt-32 lg:px-[3.5rem]"
     >
       {/* CINEMATIC IMAGE DECK */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -216,7 +216,8 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
               }}
             >
               <HeroImage slide={slide} eager={index === 0} />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.10)_0%,rgba(0,0,0,0.05)_45%,rgba(0,0,0,0.82)_100%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08)_0%,rgba(0,0,0,0.05)_42%,rgba(0,0,0,0.86)_100%)]" />
+              <div className="hero-heritage-grade absolute inset-0" />
             </motion.div>
           );
         })}
@@ -269,7 +270,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
           onClick={() => setIsPlaying((state) => !state)}
           aria-label={isPlaying ? "Pause hero slideshow" : "Play hero slideshow"}
           aria-pressed={!isPlaying}
-          className="absolute right-5 top-[5.75rem] z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-black/25 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-8 sm:top-[6.75rem] sm:h-12 sm:w-12 lg:right-[3.5rem] lg:top-[7.5rem]"
+          className="premium-glass absolute right-5 top-[5.75rem] z-30 inline-flex h-11 w-11 items-center justify-center rounded-full text-white transition-all duration-300 hover:scale-105 hover:bg-black/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:right-8 sm:top-[6.75rem] sm:h-12 sm:w-12 lg:right-[3.5rem] lg:top-[7.5rem]"
         >
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
@@ -295,7 +296,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
             transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
           >
             <motion.p
-              className={`${inter.className} text-[0.66rem] font-semibold uppercase leading-4 tracking-[0.01em] text-white/92 sm:text-[0.72rem]`}
+              className={`${inter.className} inline-flex w-fit items-center rounded-full border border-[#E2BB5F]/25 bg-black/20 px-3 py-1.5 text-[0.62rem] font-semibold uppercase leading-4 tracking-[0.09em] text-[#F2D28A] backdrop-blur-md sm:text-[0.68rem]`}
               initial={reduceMotion ? false : { opacity: 0, x: -18 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.58, delay: 0.08 }}
@@ -304,7 +305,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
             </motion.p>
 
             <h1
-              className={`${exo2.className} mt-3 max-w-[74rem] overflow-hidden text-[clamp(2.6rem,5vw,5.3rem)] font-medium leading-[0.94] tracking-[-0.052em]`}
+              className={`${exo2.className} premium-display mt-4 max-w-[74rem] overflow-hidden text-[clamp(2.6rem,5vw,5.3rem)] font-medium leading-[0.94] tracking-[-0.052em]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
             >
               <motion.span
@@ -355,7 +356,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: reduceMotion ? 0 : 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="relative flex min-h-[6.6rem] w-[15.5rem] items-center gap-3 rounded-xl border border-white/20 bg-white/94 p-3 pr-4 text-[#10182f] shadow-[0_1rem_2.5rem_rgba(0,0,0,0.22)] backdrop-blur-md lg:w-[16.75rem]">
+          <div className="relative flex min-h-[6.6rem] w-[15.5rem] items-center gap-3 rounded-[1rem] border border-[#E2BB5F]/30 bg-[#F8F1E5]/95 p-3 pr-4 text-[#21170F] shadow-[0_1.25rem_3.5rem_rgba(0,0,0,0.30)] backdrop-blur-md lg:w-[16.75rem]">
             <div className="relative h-[5.1rem] w-[5.1rem] shrink-0 overflow-hidden bg-white">
               <Image
                 src={currentSlide.qrCodeUrl!}
@@ -370,7 +371,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
               <p className="text-[0.72rem] font-semibold leading-5">
                 {currentSlide.downloadTitle?.trim() || currentSlide.heading}
               </p>
-              <p className="mt-2 text-[0.62rem] font-medium uppercase leading-[0.9rem] tracking-[0.02em] text-[#34405f]">
+              <p className="mt-2 text-[0.62rem] font-medium uppercase leading-[0.9rem] tracking-[0.02em] text-[#6D5537]">
                 {currentSlide.downloadCaption?.trim() || "SCAN TO DOWNLOAD"}
               </p>
               {downloadHref ? (
@@ -390,7 +391,7 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
                   keys.includes(currentSlide._key) ? keys : [...keys, currentSlide._key],
                 )
               }
-              className="absolute -right-2 -top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[#69728a] shadow-md transition-colors hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="absolute -right-2 -top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#F8F1E5] text-[#745637] shadow-md transition-colors hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <CloseIcon />
             </button>

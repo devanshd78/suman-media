@@ -34,7 +34,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="landing-section-transition culture-thread culture-weave relative grid w-full gap-12 overflow-hidden bg-white px-5 py-16 sm:px-8 sm:py-20 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:gap-14 lg:gap-24 lg:px-[3.5rem] lg:py-[6.5rem]"
+      className="landing-section-transition culture-thread culture-weave heritage-surface paithani-edge fort-silhouette relative grid w-full gap-12 overflow-hidden px-5 py-16 sm:px-8 sm:py-20 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:gap-14 lg:gap-24 lg:px-[3.5rem] lg:py-[7rem]"
     >
       <div className="relative z-10">
         <motion.p
@@ -48,7 +48,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
         </motion.p>
         <h2
           id="faq-heading"
-          className={`${exo2.className} mt-2.5 max-w-[28rem] overflow-hidden text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04em] text-black sm:text-[2.5rem] sm:leading-[2.95rem]`}
+          className={`${exo2.className} premium-display mt-2.5 max-w-[28rem] overflow-hidden text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04em] text-black sm:text-[2.5rem] sm:leading-[2.95rem]`}
         >
           <TextReveal text={heading} stagger={0.045} />
         </h2>
@@ -72,7 +72,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
         ) : null}
       </div>
 
-      <div className="relative z-10 border-t border-[rgba(0,17,102,0.12)]">
+      <div className="relative z-10 overflow-hidden rounded-[1.35rem] border border-[#C99B36]/18 bg-white/35 px-5 shadow-[0_1.5rem_4rem_rgba(55,35,10,0.07)] backdrop-blur-sm sm:px-7">
         {items.map((item, index) => {
           const isOpen = index === openIndex;
           const answerId = `faq-answer-${index}`;
@@ -85,7 +85,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: reduceMotion ? 0 : 0.6, delay: index * 0.035 }}
-              className="border-b border-[rgba(0,17,102,0.12)]"
+              className="border-b border-[#8F6C1A]/12 last:border-b-0"
             >
               <button
                 id={triggerId}
@@ -93,13 +93,13 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
                 aria-expanded={isOpen}
                 aria-controls={answerId}
                 onClick={() => setOpenIndex((current) => (current === index ? -1 : index))}
-                className={`${inter.className} group flex w-full items-center justify-between gap-6 py-5 text-left text-[0.92rem] font-semibold leading-6 text-[rgba(0,6,38,0.90)] transition-colors duration-300 hover:text-[#8F6C1A] sm:text-base`}
+                className={`${inter.className} group flex w-full items-center justify-between gap-6 py-5 text-left text-[0.92rem] font-semibold leading-6 text-[#201812] transition-colors duration-300 hover:text-[#8A4A24] sm:text-base`}
               >
                 <span>{item.question}</span>
                 <motion.span
                   animate={{ rotate: isOpen ? 45 : 0, scale: isOpen ? 1.05 : 1 }}
                   transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#7380aa] text-[#7380aa] transition-colors duration-300 group-hover:border-[#8F6C1A] group-hover:text-[#8F6C1A]"
+                  className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#8F6C1A]/35 text-[#8F6C1A]/70 transition-colors duration-300 group-hover:border-[#8F6C1A] group-hover:text-[#8F6C1A]"
                 >
                   <PlusIcon />
                 </motion.span>
@@ -120,7 +120,7 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
                     }}
                     className="overflow-hidden"
                   >
-                    <p className={`${inter.className} max-w-[45rem] pb-6 pr-10 text-sm leading-6 text-[rgba(0,9,51,0.60)] sm:text-[0.94rem] sm:leading-7`}>
+                    <p className={`${inter.className} max-w-[45rem] pb-6 pr-10 text-sm leading-6 text-[rgba(38,28,20,0.64)] sm:text-[0.94rem] sm:leading-7`}>
                       {item.answer}
                     </p>
                   </motion.div>

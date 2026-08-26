@@ -181,12 +181,14 @@ export function AchievementRevealGrid({
         landing-section-transition
         culture-thread
         culture-weave
+        heritage-saffron
+        paithani-edge
+        fort-silhouette
         relative
         mx-auto
         w-full
         max-w-full
         overflow-hidden
-        bg-[#FFEABF]
       "
     >
       {/* =====================================================

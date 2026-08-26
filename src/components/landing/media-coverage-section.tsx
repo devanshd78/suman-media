@@ -30,7 +30,7 @@ export function MediaCoverageSection({
     <section
       id="media-coverage"
       aria-labelledby="media-coverage-heading"
-      className="landing-section-transition culture-thread relative w-full overflow-hidden bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:pb-[7rem] lg:pt-[6.25rem]"
+      className="landing-section-transition culture-thread heritage-surface paithani-edge relative w-full overflow-hidden px-5 py-16 sm:px-8 sm:py-20 lg:px-[3.5rem] lg:pb-[7rem] lg:pt-[6.5rem]"
     >
       <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-20 h-64 w-[54rem] -translate-x-1/2 bg-[radial-gradient(circle,rgba(226,187,95,0.08),transparent_70%)]" />
 
@@ -42,7 +42,7 @@ export function MediaCoverageSection({
         </Reveal>
         <h2
           id="media-coverage-heading"
-          className={`${exo2.className} mt-2.5 overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.035rem] text-[rgba(0,6,38,0.94)] sm:text-[2.5rem] sm:leading-[2.95rem]`}
+          className={`${exo2.className} premium-display mt-2.5 overflow-hidden text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.035rem] text-[rgba(0,6,38,0.94)] sm:text-[2.5rem] sm:leading-[2.95rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           <TextReveal text={heading} stagger={0.06} />
@@ -52,7 +52,7 @@ export function MediaCoverageSection({
       <div className="relative z-10 mt-14 grid w-full grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-12 lg:mt-[5rem] lg:grid-cols-10 lg:gap-x-8 lg:gap-y-12">
         {items.map((item, index) => {
           const logo = (
-            <div className="relative h-[2.8rem] w-[7.75rem] opacity-65 grayscale transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.03] group-hover:opacity-100 group-hover:grayscale-0 sm:w-[8.5rem] lg:w-[9rem]">
+            <div className="relative h-[2.8rem] w-[7.75rem] opacity-55 grayscale transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.035] group-hover:opacity-100 group-hover:grayscale-0 sm:w-[8.5rem] lg:w-[9rem]">
               <Image
                 src={item.imageUrl!}
                 alt={item.imageAlt?.trim() || `${item.title} logo`}

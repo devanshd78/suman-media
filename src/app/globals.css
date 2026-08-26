@@ -273,3 +273,290 @@ select {
     opacity: 0.35;
   }
 }
+
+/* =========================================================
+ * SUMAN PREMIUM HERITAGE SYSTEM
+ * =========================================================
+ * Contemporary Maharashtra cultural DNA for the landing page.
+ * No raster texture is required: the richness comes from layered CSS
+ * gradients, hairlines and restrained jewel-tone accents.
+ */
+:root {
+  --suman-ink: #0b0b0c;
+  --suman-ink-soft: #141216;
+  --suman-ivory: #f6f1e8;
+  --suman-ivory-soft: #fbf8f1;
+  --suman-sand: #e8d6b2;
+  --suman-gold: #c99b36;
+  --suman-gold-bright: #e2bb5f;
+  --suman-saffron: #c96524;
+  --suman-maroon: #641f2e;
+  --suman-peacock: #0f5b5f;
+  --suman-blue-black: #0b1420;
+}
+
+body {
+  background: var(--suman-ivory-soft);
+  color: var(--suman-ink);
+}
+
+::selection {
+  background: var(--suman-gold);
+  color: #0b0b0c;
+}
+
+/* Premium paper/light surface with a low-contrast textile atmosphere. */
+.heritage-surface {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(75% 55% at 14% 0%, rgba(201, 155, 54, 0.11), transparent 67%),
+    radial-gradient(65% 50% at 92% 18%, rgba(100, 31, 46, 0.055), transparent 70%),
+    linear-gradient(180deg, #fbf8f1 0%, #f5efe5 100%);
+}
+
+.heritage-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.32;
+  background-image:
+    radial-gradient(circle at center, rgba(17, 14, 10, 0.12) 0.55px, transparent 0.7px),
+    linear-gradient(90deg, rgba(201,155,54,0.045) 1px, transparent 1px),
+    linear-gradient(rgba(201,155,54,0.035) 1px, transparent 1px);
+  background-size: 6px 6px, 72px 72px, 72px 72px;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.18) 72%, transparent);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.18) 72%, transparent);
+}
+
+/* Dark jewel surface: cinema-black with maroon and peacock undertones. */
+.heritage-ink {
+  position: relative;
+  isolation: isolate;
+  color: #fffaf1;
+  background:
+    radial-gradient(80% 65% at 15% 0%, rgba(100, 31, 46, 0.42), transparent 68%),
+    radial-gradient(70% 58% at 88% 20%, rgba(15, 91, 95, 0.22), transparent 72%),
+    linear-gradient(180deg, #111013 0%, #09090a 100%);
+}
+
+.heritage-ink::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image:
+    linear-gradient(90deg, rgba(226,187,95,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(226,187,95,0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(circle at 50% 24%, black 0%, transparent 75%);
+  mask-image: radial-gradient(circle at 50% 24%, black 0%, transparent 75%);
+}
+
+/* Warm Maharashtra saffron surface without becoming a festival poster. */
+.heritage-saffron {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(72% 70% at 12% 18%, rgba(255,255,255,0.42), transparent 68%),
+    radial-gradient(52% 62% at 88% 12%, rgba(100,31,46,0.10), transparent 72%),
+    linear-gradient(135deg, #f2d7a6 0%, #e7c27d 44%, #dca65b 100%);
+}
+
+/* Paithani-inspired micro-border. Kept thin and abstract for a luxury feel. */
+.paithani-edge {
+  position: relative;
+}
+
+.paithani-edge::after {
+  content: "";
+  position: absolute;
+  inset-inline: clamp(1.25rem, 4vw, 4.5rem);
+  bottom: 0;
+  z-index: 8;
+  height: 5px;
+  pointer-events: none;
+  opacity: 0.68;
+  background-image:
+    linear-gradient(45deg, transparent 34%, rgba(201,155,54,0.92) 35% 48%, transparent 49%),
+    linear-gradient(-45deg, transparent 34%, rgba(100,31,46,0.58) 35% 48%, transparent 49%);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+/* Subtle stepped silhouette inspired by Maharashtra hill forts. */
+.fort-silhouette {
+  position: relative;
+}
+
+.fort-silhouette::before {
+  content: "";
+  position: absolute;
+  right: clamp(1.25rem, 5vw, 5rem);
+  top: clamp(2rem, 6vw, 5rem);
+  width: clamp(8rem, 18vw, 18rem);
+  height: clamp(4rem, 9vw, 8rem);
+  pointer-events: none;
+  opacity: 0.075;
+  background:
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 0 80%/18% 1px no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 18% 62%/16% 1px no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 34% 44%/16% 1px no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 50% 62%/16% 1px no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 66% 80%/34% 1px no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 18% 62%/1px 18% no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 34% 44%/1px 18% no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 50% 44%/1px 18% no-repeat,
+    linear-gradient(var(--suman-gold), var(--suman-gold)) 66% 62%/1px 18% no-repeat;
+}
+
+/* Premium frosted treatment for utility controls. */
+.premium-glass {
+  border: 1px solid rgba(255,255,255,0.13);
+  background: rgba(13, 11, 10, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.10),
+    0 0.8rem 2.5rem rgba(0,0,0,0.16);
+  backdrop-filter: blur(14px) saturate(115%);
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+}
+
+/* More tactile card treatment without loud 3D effects. */
+.premium-card {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.6) inset,
+    0 1.4rem 4rem rgba(19, 13, 7, 0.09);
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 520ms ease;
+}
+
+@media (hover: hover) {
+  .premium-card:hover {
+    transform: translate3d(0, -6px, 0);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.72) inset,
+      0 2rem 5rem rgba(19, 13, 7, 0.14);
+  }
+}
+
+/* A small gold glow that can sit behind cultural or media highlights. */
+.heritage-aura {
+  position: relative;
+}
+
+.heritage-aura::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: -10%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 42%, rgba(226,187,95,0.18), transparent 58%);
+  filter: blur(10px);
+}
+
+/* Consistent luxury headline rendering. */
+.premium-display {
+  text-wrap: balance;
+  text-shadow: 0 0.02em 0 rgba(0,0,0,0.02);
+}
+
+/* Landing header: slightly more composed against busy hero imagery. */
+.landing-header-premium::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,6,6,0.52), rgba(6,6,6,0.14) 70%, transparent);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Hero filmic colour wash. */
+.hero-heritage-grade {
+  background:
+    radial-gradient(70% 48% at 18% 78%, rgba(201,155,54,0.15), transparent 68%),
+    radial-gradient(48% 52% at 88% 22%, rgba(100,31,46,0.16), transparent 72%),
+    linear-gradient(180deg, rgba(0,0,0,0.04), rgba(6,5,5,0.28) 60%, rgba(5,4,4,0.68));
+  mix-blend-mode: normal;
+}
+
+/* Premium horizontal label chip, used sparingly. */
+.heritage-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(201,155,54,0.25);
+  border-radius: 999px;
+  background: rgba(255,250,241,0.58);
+  padding: 0.42rem 0.72rem;
+  color: rgba(72,44,8,0.74);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-card,
+  .premium-card:hover {
+    transform: none !important;
+  }
+}
+
+.heritage-photo {
+  filter: saturate(0.78) contrast(1.06) sepia(0.055);
+}
+
+.founder-letter-paper {
+  position: relative;
+  background:
+    linear-gradient(90deg, rgba(100,31,46,0.055) 0 1px, transparent 1px),
+    linear-gradient(180deg, rgba(201,155,54,0.035), transparent 28%),
+    #f8f2e8;
+  background-size: 28px 100%, 100% 100%, auto;
+  border: 1px solid rgba(201,155,54,0.24);
+  box-shadow:
+    0 2.4rem 8rem rgba(0,0,0,0.38),
+    inset 0 0 0 5px rgba(255,255,255,0.32);
+}
+
+.founder-letter-paper::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #641f2e, #c99b36 54%, #0f5b5f);
+  opacity: 0.78;
+}
+
+@keyframes heritageRibbonScroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.heritage-ribbon-track {
+  animation: heritageRibbonScroll 34s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .heritage-ribbon-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heritage-ribbon-track {
+    animation: none;
+    transform: none;
+  }
+}

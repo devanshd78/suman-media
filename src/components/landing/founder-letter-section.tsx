@@ -25,7 +25,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
     <section
       id="founder-letter"
       aria-labelledby="founder-letter-heading"
-      className="landing-section-transition culture-thread relative flex min-h-[42rem] w-full items-center justify-center overflow-hidden bg-[#151515] px-5 py-10 sm:min-h-[46rem] sm:px-8 sm:py-12 lg:min-h-[54rem] lg:px-[3.5rem] lg:py-16"
+      className="landing-section-transition culture-thread paithani-edge relative flex min-h-[42rem] w-full items-center justify-center overflow-hidden bg-[#0C0A0B] px-5 py-10 sm:min-h-[46rem] sm:px-8 sm:py-12 lg:min-h-[54rem] lg:px-[3.5rem] lg:py-16"
     >
       {content.imageUrl ? (
         <>
@@ -36,11 +36,11 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
                 alt={content.imageAlt?.trim() || ""}
                 fill
                 sizes="100vw"
-                className="object-cover object-center grayscale"
+                className="heritage-photo object-cover object-center"
               />
             </div>
           </Parallax>
-          <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.42),rgba(0,0,0,0.14),rgba(0,0,0,0.42))]" />
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(201,155,54,0.08),transparent_38%),linear-gradient(90deg,rgba(33,9,16,0.58),rgba(0,0,0,0.12),rgba(10,24,24,0.52))]" />
         </>
       ) : null}
 
@@ -52,7 +52,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
       </div>
 
       <Reveal className="relative z-10 w-full max-w-[35rem]" distance={34} amount={0.12}>
-        <article className="relative overflow-hidden bg-[#fbfbfb] px-6 py-8 shadow-[0_2rem_7rem_rgba(0,0,0,0.34)] sm:px-9 sm:py-10 lg:px-[3rem] lg:py-[3rem]">
+        <article className="founder-letter-paper relative overflow-hidden px-6 py-8 sm:px-9 sm:py-10 lg:px-[3rem] lg:py-[3rem]">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute right-[-3.5rem] top-[-3.5rem] h-28 w-28 rotate-45 border border-[#B68A16]/16"
@@ -64,13 +64,13 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
 
           <h2
             id="founder-letter-heading"
-            className={`${exo2.className} relative z-10 text-[2.15rem] font-semibold leading-[2.5rem] tracking-[-0.045rem] text-[#121b3d] sm:text-[2.7rem] sm:leading-[3rem]`}
+            className={`${exo2.className} premium-display relative z-10 text-[2.15rem] font-semibold leading-[2.5rem] tracking-[-0.045rem] text-[#1B1510] sm:text-[2.7rem] sm:leading-[3rem]`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
           >
             <span className="block overflow-hidden">
               <TextReveal text={eyebrow} stagger={0.07} />
             </span>
-            <span className="mt-1 block overflow-hidden text-[#8F6C1A]">
+            <span className="mt-1 block overflow-hidden text-[#8A4A24]">
               <TextReveal text={heading} delay={0.12} stagger={0.055} />
             </span>
           </h2>

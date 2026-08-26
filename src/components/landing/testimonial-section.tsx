@@ -57,7 +57,7 @@ export function TestimonialSection({
       {hasTestimonial ? (
         <section
           aria-label="Client testimonial"
-          className="landing-section-transition culture-thread relative w-full overflow-hidden bg-white"
+          className="landing-section-transition culture-thread heritage-surface paithani-edge relative w-full overflow-hidden"
         >
           <div
             aria-hidden="true"
@@ -135,7 +135,7 @@ export function TestimonialSection({
       {hasStory ? (
         <section
           aria-labelledby="join-abhijat-heading"
-          className="landing-section-transition culture-thread relative aspect-[4/5] w-full overflow-hidden bg-[#111] sm:aspect-[16/10] lg:aspect-[2.55/1]"
+          className="landing-section-transition culture-thread paithani-edge relative aspect-[4/5] w-full overflow-hidden bg-[#0A0909] sm:aspect-[16/10] lg:aspect-[2.55/1]"
         >
           {story?.imageUrl ? (
             <Parallax className="absolute -inset-y-10 inset-x-0" distance={30} scaleFrom={1.08} scaleTo={1.01}>
@@ -151,7 +151,7 @@ export function TestimonialSection({
             </Parallax>
           ) : null}
 
-          <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.76)_0%,rgba(0,0,0,0.40)_35%,rgba(0,0,0,0.05)_70%)]" />
+          <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,9,16,0.84)_0%,rgba(15,10,10,0.48)_38%,rgba(0,0,0,0.08)_72%)]" />
           <div aria-hidden="true" className="absolute bottom-[-5rem] right-[8%] h-64 w-64 rotate-45 border border-[#E2BB5F]/25 sm:h-80 sm:w-80" />
 
           <div className="relative z-10 flex h-full w-full flex-col justify-between px-5 py-6 sm:px-8 sm:py-8 lg:px-[3.5rem] lg:py-9">
@@ -164,7 +164,7 @@ export function TestimonialSection({
 
               <h2
                 id="join-abhijat-heading"
-                className={`${exo2.className} mt-2.5 max-w-[36rem] overflow-hidden text-[2rem] font-semibold leading-[2.3rem] tracking-[-0.035rem] text-white sm:text-[2.35rem] sm:leading-[2.75rem] lg:text-[clamp(2.5rem,3.5vw,3.65rem)] lg:leading-[1.05] lg:tracking-[-0.055rem]`}
+                className={`${exo2.className} premium-display mt-2.5 max-w-[36rem] overflow-hidden text-[2rem] font-semibold leading-[2.3rem] tracking-[-0.035rem] text-white sm:text-[2.35rem] sm:leading-[2.75rem] lg:text-[clamp(2.5rem,3.5vw,3.65rem)] lg:leading-[1.05] lg:tracking-[-0.055rem]`}
                 style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
               >
                 <TextReveal text={storyHeading} stagger={0.03} amount={0.2} />

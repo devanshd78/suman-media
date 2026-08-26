@@ -62,13 +62,13 @@ export function PartnerSection({ content }: { content?: CmsPartnerSection | null
     <section
       id="why-partner"
       aria-labelledby="why-partner-heading"
-      className="landing-section-transition culture-thread culture-weave relative w-full overflow-hidden bg-[#FFEABF]"
+      className="landing-section-transition culture-thread culture-weave paithani-edge fort-silhouette relative w-full overflow-hidden bg-[radial-gradient(circle_at_12%_10%,rgba(255,255,255,0.42),transparent_26%),linear-gradient(135deg,#F3E0BC_0%,#EBCB91_46%,#DFAE5F_100%)]"
     >
       <div className="grid gap-10 px-5 py-14 sm:px-8 sm:py-16 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(32rem,1.18fr)] lg:gap-24 lg:px-[3.5rem] lg:py-[6rem]">
         <div className="max-w-[31rem]">
           <h2
             id="why-partner-heading"
-            className={`${exo2.className} overflow-hidden text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04rem] text-[rgba(0,6,38,0.92)] sm:text-[2.35rem] sm:leading-[2.8rem] lg:text-[2.75rem] lg:leading-[3.1rem] lg:tracking-[-0.055rem]`}
+            className={`${exo2.className} premium-display overflow-hidden text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04rem] text-[rgba(0,6,38,0.92)] sm:text-[2.35rem] sm:leading-[2.8rem] lg:text-[2.75rem] lg:leading-[3.1rem] lg:tracking-[-0.055rem]`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
           >
             <TextReveal text={heading} stagger={0.06} />

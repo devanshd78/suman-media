@@ -18,7 +18,15 @@ type BubbleStyle = CSSProperties & {
   "--bubble-delay": string;
   "--bubble-drop": string;
   "--bubble-drift": string;
+  "--bubble-bg": string;
 };
+
+const BUBBLE_TONES = [
+  "linear-gradient(145deg,#B78A24 0%,#76520E 100%)",
+  "linear-gradient(145deg,#7A2638 0%,#3A111D 100%)",
+  "linear-gradient(145deg,#17696D 0%,#0B3A3D 100%)",
+  "linear-gradient(145deg,#B16A2A 0%,#6A351A 100%)",
+] as const;
 
 const BUBBLE_LAYOUT = [
   {
@@ -157,10 +165,11 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full border border-white/20 bg-[#927116] shadow-[0_1rem_2.5rem_rgba(77,58,9,0.18)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_1.4rem_3.25rem_rgba(77,58,9,0.28)]"
+              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] shadow-[0_1rem_2.8rem_rgba(52,34,12,0.20)] transition-[box-shadow,filter,transform] duration-500 hover:-translate-y-1 hover:shadow-[0_1.5rem_3.5rem_rgba(52,34,12,0.28)]"
               style={
                 {
                   "--mobile-delay": `${index * 90}ms`,
+                  "--bubble-bg": BUBBLE_TONES[index % BUBBLE_TONES.length],
                 } as CSSProperties
               }
             >
@@ -225,11 +234,12 @@ export function ClientsBubbles({
             "--bubble-delay": layout.delay,
             "--bubble-drop": layout.drop,
             "--bubble-drift": layout.drift,
+            "--bubble-bg": BUBBLE_TONES[index % BUBBLE_TONES.length],
           };
 
           const bubble = (
             <div
-              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 bg-[#927116] shadow-[0_1.5rem_4rem_rgba(77,58,9,0.16)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_2rem_5rem_rgba(77,58,9,0.26)]"
+              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] shadow-[0_1.5rem_4.5rem_rgba(45,28,10,0.20),inset_0_1px_0_rgba(255,255,255,0.16)] transition-[box-shadow,filter] duration-500 hover:shadow-[0_2.2rem_5.5rem_rgba(45,28,10,0.30),inset_0_1px_0_rgba(255,255,255,0.2)]"
             >
               <Image
                 src={company.logoUrl!}

@@ -42,8 +42,8 @@ type ServiceCardProps = {
 
 function ServiceCardContent({ service, index, active = false }: ServiceCardProps) {
   return (
-    <div className="service-card-grid grid h-full w-full min-w-0 bg-white lg:grid-cols-[54%_46%]">
-      <div className="service-card-copy relative flex h-full min-w-0 flex-col overflow-hidden bg-white">
+    <div className="service-card-grid grid h-full w-full min-w-0 bg-[#101012] lg:grid-cols-[54%_46%]">
+      <div className="service-card-copy relative flex h-full min-w-0 flex-col overflow-hidden bg-[linear-gradient(145deg,#181317_0%,#0d0c0e_100%)]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rotate-45 border border-[#B68A16]/12"
@@ -53,21 +53,21 @@ function ServiceCardContent({ service, index, active = false }: ServiceCardProps
           className="pointer-events-none absolute right-6 top-6 h-8 w-8 rotate-45 border border-[#B68A16]/18"
         />
 
-        <span className="service-card-number relative z-10 block font-semibold leading-none tracking-[-0.04em] text-black">
+        <span className="service-card-number relative z-10 block font-semibold leading-none tracking-[-0.04em] text-[#E2BB5F]">
           {String(index + 1).padStart(2, "0")}
         </span>
 
         <div className="relative z-10 mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
-          <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.08] tracking-[-0.035em] text-black">
+          <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.08] tracking-[-0.035em] text-[#FFF8EC]">
             {service.title}
           </h3>
-          <p className="service-card-description max-w-[36rem] leading-[1.55] text-[rgba(0,9,51,0.65)]">
+          <p className="service-card-description max-w-[36rem] leading-[1.55] text-white/60">
             {service.shortDescription}
           </p>
           <Link
             href={`/services/${service.slug}`}
             tabIndex={active ? undefined : -1}
-            className="service-card-button kinetic-link group mt-1 inline-flex w-fit items-center gap-2 py-2 font-semibold text-[#8F6C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A]"
+            className="service-card-button kinetic-link group mt-1 inline-flex w-fit items-center gap-2 py-2 font-semibold text-[#E2BB5F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E2BB5F]"
           >
             <span>Explore Capabilities</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1.5">
@@ -77,7 +77,7 @@ function ServiceCardContent({ service, index, active = false }: ServiceCardProps
         </div>
       </div>
 
-      <div className="service-card-image relative h-full min-w-0 overflow-hidden bg-[#f2eee4]">
+      <div className="service-card-image relative h-full min-w-0 overflow-hidden bg-[#171416]">
         {service.imageUrl ? (
           <Image
             src={service.imageUrl}
@@ -87,12 +87,12 @@ function ServiceCardContent({ service, index, active = false }: ServiceCardProps
             className={`select-none object-cover transition-transform duration-[1200ms] ease-out ${active ? "scale-100" : "scale-[1.045]"}`}
           />
         ) : (
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#e8dfc8,#b69945)]" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,#3f252c,#8f6c1a)]" aria-hidden="true" />
         )}
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.10),transparent_45%,rgba(44,30,0,0.12))]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(226,187,95,0.11),transparent_42%,rgba(70,14,29,0.20))]"
         />
       </div>
     </div>
@@ -172,7 +172,7 @@ function Service3DCard({
     >
       <motion.article
         style={{ x, y, z, rotateX, rotateY, rotateZ, scale, opacity }}
-        className="service-3d-card h-full w-full overflow-hidden rounded-[1.35rem] border border-black/[0.05] bg-white shadow-[0_2rem_6rem_rgba(0,0,0,0.18)]"
+        className="service-3d-card h-full w-full overflow-hidden rounded-[1.35rem] border border-[#E2BB5F]/15 bg-[#101012] shadow-[0_2.5rem_8rem_rgba(0,0,0,0.48),0_0_0_1px_rgba(255,255,255,0.025)_inset]"
       >
         <ServiceCardContent service={service} index={index} active={isActive} />
       </motion.article>
@@ -192,20 +192,20 @@ function StaticServices({ services }: { services: CmsFeaturedService[] }) {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.16 }}
           transition={{ duration: reduceMotion ? 0 : 0.72, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-hidden rounded-[1.2rem] border border-black/[0.04] bg-white shadow-[0_0.75rem_2rem_rgba(0,0,0,0.07)]"
+          className="overflow-hidden rounded-[1.2rem] border border-[#E2BB5F]/12 bg-[#101012] shadow-[0_1rem_3rem_rgba(0,0,0,0.32)]"
         >
           <div className="grid grid-cols-1 md:grid-cols-[54%_46%]">
-            <div className="relative flex min-h-[21rem] flex-col overflow-hidden p-6 sm:p-8 md:min-h-[28rem]">
+            <div className="relative flex min-h-[21rem] flex-col overflow-hidden bg-[linear-gradient(145deg,#181317_0%,#0d0c0e_100%)] p-6 sm:p-8 md:min-h-[28rem]">
               <span aria-hidden="true" className="absolute right-5 top-5 h-7 w-7 rotate-45 border border-[#B68A16]/18" />
-              <span className="text-2xl font-semibold text-black">
+              <span className="text-2xl font-semibold text-[#E2BB5F]">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <div className="mt-auto flex flex-col gap-3">
-                <h3 className="text-2xl font-semibold leading-tight text-black">{service.title}</h3>
-                <p className="text-sm leading-6 text-[rgba(0,9,51,0.65)]">{service.shortDescription}</p>
+                <h3 className="text-2xl font-semibold leading-tight text-[#FFF8EC]">{service.title}</h3>
+                <p className="text-sm leading-6 text-white/60">{service.shortDescription}</p>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="kinetic-link group inline-flex w-fit items-center gap-2 py-2 text-sm font-semibold text-[#8F6C1A]"
+                  className="kinetic-link group inline-flex w-fit items-center gap-2 py-2 text-sm font-semibold text-[#E2BB5F]"
                 >
                   <span>Explore Capabilities</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-1.5">
@@ -215,7 +215,7 @@ function StaticServices({ services }: { services: CmsFeaturedService[] }) {
               </div>
             </div>
 
-            <div className="relative min-h-[20rem] overflow-hidden bg-[#f2eee4] md:min-h-[28rem]">
+            <div className="relative min-h-[20rem] overflow-hidden bg-[#171416] md:min-h-[28rem]">
               {service.imageUrl ? (
                 <Image
                   src={service.imageUrl}
@@ -269,10 +269,10 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
         className="services-3d-scroll relative hidden w-full lg:block"
         style={{ height: `${trackHeightVh}svh` }}
       >
-        <div className="services-3d-sticky sticky top-0 h-[100svh] w-full overflow-hidden bg-[#fbfaf7]">
+        <div className="services-3d-sticky sticky top-0 h-[100svh] w-full overflow-hidden bg-[#09090a]">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(143,108,26,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(143,108,26,0.045)_1px,transparent_1px)] [background-size:48px_48px]"
+            className="pointer-events-none absolute inset-0 opacity-55 [background-image:linear-gradient(rgba(226,187,95,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(226,187,95,0.035)_1px,transparent_1px)] [background-size:56px_56px]"
           />
 
           <div className="services-3d-stage relative h-full w-full">
@@ -291,11 +291,11 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
             ))}
           </div>
 
-          <div className="pointer-events-none absolute bottom-8 left-[3.5rem] z-[80] flex items-center gap-4 text-black/45">
+          <div className="pointer-events-none absolute bottom-8 left-[3.5rem] z-[80] flex items-center gap-4 text-white/45">
             <span className="text-[0.62rem] font-semibold tracking-[0.18em]">
               {String(activeIndex + 1).padStart(2, "0")}
             </span>
-            <span className="h-px w-20 bg-black/15" />
+            <span className="h-px w-20 bg-[#E2BB5F]/30" />
             <span className="text-[0.62rem] font-semibold tracking-[0.18em]">
               {String(totalCards).padStart(2, "0")}
             </span>
@@ -303,7 +303,7 @@ export function ServicesScrollGallery({ services }: { services: CmsFeaturedServi
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute bottom-8 right-[3.5rem] z-[80] text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-[#8F6C1A]/48"
+            className="pointer-events-none absolute bottom-8 right-[3.5rem] z-[80] text-[0.58rem] font-semibold uppercase tracking-[0.22em] text-[#E2BB5F]/52"
           >
             कथा · ध्वनी · अनुभव · तंत्रज्ञान
           </div>

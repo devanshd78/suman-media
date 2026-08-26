@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
 
+import { HeritageOrnament } from "@/components/motion/heritage-ornament";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCta } from "@/types/cms";
@@ -37,13 +38,10 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
     <section
       id="about-suman-entertainment"
       aria-labelledby="about-suman-heading"
-      className="landing-section-transition culture-thread culture-weave relative flex w-full flex-col items-start gap-[0.625rem] overflow-hidden bg-[#fffdf9] px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[7rem]"
+      className="landing-section-transition culture-thread culture-weave heritage-surface fort-silhouette paithani-edge relative flex w-full flex-col items-start gap-[0.625rem] overflow-hidden px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[7.5rem]"
     >
-      <div
-        aria-hidden="true"
-        className={`${inter.className} pointer-events-none absolute right-5 top-10 hidden text-[0.58rem] font-semibold uppercase tracking-[0.28em] text-[#8F6C1A]/25 lg:block lg:right-[3.5rem]`}
-      >
-        महाराष्ट्र · कथा · संगीत · तंत्रज्ञान
+      <div className="pointer-events-none absolute right-5 top-9 hidden lg:block lg:right-[3.5rem]">
+        <HeritageOrnament tone="gold" label="महाराष्ट्र" className="text-[#7A4F18]/50" />
       </div>
 
       <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-[6.25rem]">
@@ -59,7 +57,7 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
         <div className="flex min-w-0 flex-col items-start">
           <h2
             id="about-suman-heading"
-            className={`${exo2.className} w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black lg:text-[clamp(2.5rem,3.2vw,3.35rem)] lg:leading-[1.12]`}
+            className={`${exo2.className} premium-display w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#15110D] lg:text-[clamp(2.65rem,3.35vw,3.6rem)] lg:leading-[1.08]`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
           >
             <TextReveal text={resolvedHeading} stagger={0.022} amount={0.2} />
@@ -67,7 +65,7 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
 
           <Reveal delay={0.18} distance={22} className="w-full">
             <p
-              className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(0,9,51,0.65)] lg:text-[1.04rem] lg:leading-8`}
+              className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(28,22,17,0.66)] lg:text-[1.04rem] lg:leading-8`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
             >
               {resolvedDescription}
