@@ -10,7 +10,6 @@ import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
 import { InsightsSection } from "./insights-section";
-import { LandingSectionObserver } from "./landing-section-observer";
 import { MediaCoverageSection } from "./media-coverage-section";
 import { PartnerSection } from "./partner-section";
 import { ServicesSection } from "./services-section";
@@ -35,8 +34,6 @@ export function LandingPage({
         bg-black
       "
     >
-      <LandingSectionObserver />
-
       <HeroSection
         slides={home?.heroSlides ?? []}
       />
