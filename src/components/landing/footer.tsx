@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import type { CmsSiteSettings } from "@/types/cms";
 
-const exo2 = Exo_2({
+const exo2 = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["500", "600"],
 });
 
-const inter = Inter({
+const inter = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });

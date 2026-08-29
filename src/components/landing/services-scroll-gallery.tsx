@@ -5,306 +5,663 @@ import Link from "next/link";
 import {
   motion,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
+
 import type { CmsFeaturedService } from "@/types/cms";
 
-const PERSPECTIVE_PX = 2000;
-const CARD_SPACING_PX = 470;
-const CASCADE_SLOPE = 0.34;
-const FLY_PAST_Z_PX = Math.round(PERSPECTIVE_PX * 1.05);
-const SWING_DEG = 70;
-const FADE_IN_START_STEPS = 3.8;
-const FADE_IN_END_STEPS = 2.2;
-const SCROLL_PER_CARD_VH = 60;
-const FINAL_HOLD_VH = 18;
+type ServicesScrollGalleryProps = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  services: CmsFeaturedService[];
+  handoffScrollVh?: number;
+};
 
-const SCROLL_SPRING = {
-  stiffness: 500,
-  damping: 60,
-  mass: 1,
-  restDelta: 0.0001,
-  restSpeed: 0.0001,
-} as const;
+type OrderedService = {
+  service: CmsFeaturedService;
+  serviceNumber: number;
+};
 
-function ArrowRightIcon() {
+type StageMetrics = {
+  cardWidth: number;
+  cardHeight: number;
+  stackStep: number;
+  scale: number;
+  top: number;
+  measured: boolean;
+};
+
+const MAX_SERVICES = 8;
+const CARD_SCROLL_VH = 72;
+const DEFAULT_HANDOFF_SCROLL_VH = 46;
+const DEFAULT_HEADING = "What we really do?";
+
+/** Colours are stored in CMS order: service 01 through service 08. */
+const SERVICE_COLOURS = [
+  "#FF7043", // 01 Deep Orange 400
+  "#AB47BC", // 02 Purple 400
+  "#FDD835", // 03 Yellow 600
+  "#4BE887", // 04 Neon 600
+  "#1565C0", // 05 Blue 800
+  "#9CCC65", // 06 Light Green 400
+  "#00ACC1", // 07 Cyan 600
+  "#F06292", // 08 Pink 300
+] as const;
+
+/** Exact desktop widths from front card 08 to back card 01. */
+const STACK_WIDTHS_REM = [
+  78.5,
+  70.875,
+  63.375,
+  55.75,
+  48.25,
+  40.625,
+  33.125,
+  25.5,
+] as const;
+
+const FRONT_CARD_WIDTH_REM = STACK_WIDTHS_REM[0];
+const DESKTOP_CARD_WIDTH = FRONT_CARD_WIDTH_REM * 16;
+const DESKTOP_CARD_HEIGHT = 38.75 * 16;
+const DESKTOP_STACK_STEP = 4 * 16;
+
+/**
+ * Mobile keeps the desktop card proportions on a smaller logical canvas. The
+ * complete eight-card stack is then scaled as one unit, preventing cards 01
+ * and 02 from being clipped out of the layout.
+ */
+const MOBILE_CARD_WIDTH = 640;
+const MOBILE_CARD_HEIGHT = 360;
+const MOBILE_STACK_STEP = 24;
+
+function clamp(value: number, min = 0, max = 1) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function mix(from: number, to: number, progress: number) {
+  return from + (to - from) * progress;
+}
+
+function easeInOutCubic(value: number) {
+  const progress = clamp(value);
+
+  return progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+}
+
+function widthRatioAtDepth(depth: number) {
+  const safeDepth = clamp(depth, 0, STACK_WIDTHS_REM.length - 1);
+  const lowerIndex = Math.floor(safeDepth);
+  const upperIndex = Math.min(
+    STACK_WIDTHS_REM.length - 1,
+    Math.ceil(safeDepth),
+  );
+  const localProgress = safeDepth - lowerIndex;
+  const lower = STACK_WIDTHS_REM[lowerIndex] / FRONT_CARD_WIDTH_REM;
+  const upper = STACK_WIDTHS_REM[upperIndex] / FRONT_CARD_WIDTH_REM;
+
+  return mix(lower, upper, localProgress);
+}
+
+function readString(record: Record<string, unknown>, keys: string[]) {
+  for (const key of keys) {
+    const value = record[key];
+
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+function readNestedImage(
+  record: Record<string, unknown>,
+  keys: string[],
+): { url: string; alt?: string } | null {
+  for (const key of keys) {
+    const value = record[key];
+
+    if (!value || typeof value !== "object") continue;
+
+    const nested = value as Record<string, unknown>;
+    const url = readString(nested, ["url", "src", "assetUrl"]);
+
+    if (!url) continue;
+
+    return {
+      url,
+      alt: readString(nested, ["alt", "altText", "description"]) || undefined,
+    };
+  }
+
+  return null;
+}
+
+function serviceMedia(service: CmsFeaturedService) {
+  const record = service as unknown as Record<string, unknown>;
+  const fallbackTitle =
+    typeof service.title === "string" && service.title.trim()
+      ? service.title.trim()
+      : "Service";
+  const directUrl = readString(record, [
+    "imageUrl",
+    "cardImageUrl",
+    "featuredImageUrl",
+    "coverImageUrl",
+    "thumbnailUrl",
+    "heroImageUrl",
+  ]);
+  const directAlt = readString(record, [
+    "imageAlt",
+    "cardImageAlt",
+    "featuredImageAlt",
+    "coverImageAlt",
+    "thumbnailAlt",
+  ]);
+
+  if (directUrl) {
+    return { url: directUrl, alt: directAlt || fallbackTitle };
+  }
+
+  const nested = readNestedImage(record, [
+    "image",
+    "cardImage",
+    "featuredImage",
+    "coverImage",
+    "thumbnail",
+    "heroImage",
+  ]);
+
+  if (nested) {
+    return { url: nested.url, alt: nested.alt || fallbackTitle };
+  }
+
+  return null;
+}
+
+function splitHeadingIntoTwoLines(value: string) {
+  const heading = value.trim() || DEFAULT_HEADING;
+
+  if (heading.toLowerCase() === DEFAULT_HEADING.toLowerCase()) {
+    return ["What we", "really do?"];
+  }
+
+  const words = heading.split(/\s+/).filter(Boolean);
+
+  if (words.length < 2) return [heading];
+
+  const breakAt = Math.ceil(words.length / 2);
+  return [words.slice(0, breakAt).join(" "), words.slice(breakAt).join(" ")];
+}
+
+function useStageMetrics(
+  stageRef: RefObject<HTMLDivElement | null>,
+  serviceCount: number,
+) {
+  const [metrics, setMetrics] = useState<StageMetrics>({
+    cardWidth: DESKTOP_CARD_WIDTH,
+    cardHeight: DESKTOP_CARD_HEIGHT,
+    stackStep: DESKTOP_STACK_STEP,
+    scale: 0.8,
+    top: 176,
+    measured: false,
+  });
+
+  useEffect(() => {
+    const stage = stageRef.current;
+
+    if (!stage) return;
+
+    const measure = () => {
+      const rect = stage.getBoundingClientRect();
+      const isCompact = rect.width < 900;
+      const cardWidth = isCompact ? MOBILE_CARD_WIDTH : DESKTOP_CARD_WIDTH;
+      const cardHeight = isCompact ? MOBILE_CARD_HEIGHT : DESKTOP_CARD_HEIGHT;
+      const stackStep = isCompact ? MOBILE_STACK_STEP : DESKTOP_STACK_STEP;
+      const stackHeight =
+        cardHeight + Math.max(0, serviceCount - 1) * stackStep;
+      const horizontalInset = isCompact ? 16 : 32;
+      const bottomInset = isCompact ? 20 : 32;
+      const top = isCompact
+        ? Math.min(150, Math.max(96, rect.height * 0.2))
+        : Math.min(250, Math.max(144, rect.height * 0.21));
+      const widthScale = Math.max(
+        0.1,
+        (rect.width - horizontalInset) / cardWidth,
+      );
+      const heightScale = Math.max(
+        0.1,
+        (rect.height - top - bottomInset) / stackHeight,
+      );
+      const scale = Math.min(1, widthScale, heightScale);
+
+      setMetrics((current) => {
+        const next = {
+          cardWidth,
+          cardHeight,
+          stackStep,
+          scale,
+          top,
+          measured: true,
+        };
+
+        if (
+          current.cardWidth === next.cardWidth &&
+          current.cardHeight === next.cardHeight &&
+          current.stackStep === next.stackStep &&
+          Math.abs(current.scale - next.scale) < 0.001 &&
+          Math.abs(current.top - next.top) < 0.5 &&
+          current.measured
+        ) {
+          return current;
+        }
+
+        return next;
+      });
+    };
+
+    measure();
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(stage);
+    window.addEventListener("resize", measure, { passive: true });
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [serviceCount, stageRef]);
+
+  return metrics;
+}
+
+function ArrowUpRight() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 20 20" className="h-4 w-4" fill="none">
-      <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      aria-hidden="true"
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      className="h-3.5 w-3.5 shrink-0"
+    >
+      <path
+        d="M4 10L10 4M5 4H10V9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-type ServiceCardProps = {
-  service: CmsFeaturedService;
-  index: number;
-};
+function MaskedHeading({ heading }: { heading: string }) {
+  const lines = useMemo(() => splitHeadingIntoTwoLines(heading), [heading]);
 
-function ServiceCardContent({ service, index }: ServiceCardProps) {
   return (
-    <div className="service-card-grid grid h-full w-full min-w-0 bg-white lg:grid-cols-[54%_46%]">
-      <div className="service-card-copy flex h-full min-w-0 flex-col bg-white">
-        <span className="service-card-number block font-semibold leading-none tracking-[-0.04em] text-black">
-          {String(index + 1).padStart(2, "0")}
+    <h2
+      id="services-heading"
+      aria-label={heading}
+      className="pointer-events-none absolute left-1/2 top-[3.75rem] z-0 flex w-[min(65.875rem,calc(100%_-_2rem))] -translate-x-1/2 flex-col items-center text-center text-[clamp(3.5rem,10.4167vw,10rem)] font-semibold leading-[0.9] tracking-[-0.03125rem] text-white [font-feature-settings:'liga'_off,'clig'_off] sm:top-[4.75rem] lg:top-[clamp(7rem,18.85vh,12.72706rem)]"
+    >
+      {lines.map((line, lineIndex) => (
+        <span
+          key={`${line}-${lineIndex}`}
+          aria-hidden="true"
+          className="block h-[0.94em] w-full overflow-hidden"
+        >
+          <span className="block whitespace-nowrap leading-[0.9]">
+            {line}
+          </span>
         </span>
+      ))}
+    </h2>
+  );
+}
 
-        <div className="mt-auto flex min-w-0 flex-col gap-3 xl:gap-4">
-          <h3 className="service-card-title max-w-[35rem] font-semibold leading-[1.12] tracking-[-0.03em] text-black">
-            {service.title}
+function ServiceCardContent({
+  item,
+  isInteractive,
+  isPriority,
+}: {
+  item: OrderedService;
+  isInteractive: boolean;
+  isPriority: boolean;
+}) {
+  const { service, serviceNumber } = item;
+  const media = serviceMedia(service);
+  const number = String(serviceNumber).padStart(2, "0");
+  const title = service.title?.trim() || `Service ${number}`;
+  const description = service.shortDescription?.trim() || "";
+  const slug = service.slug?.trim() || "";
+
+  const actionClassName =
+    "mt-7 inline-flex items-center justify-center gap-1 rounded-[0.25rem] bg-white px-4 py-3 text-[0.75rem] font-semibold leading-4 text-[#1A1A1A] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+
+  return (
+    <div className="relative flex h-full w-full items-center gap-14 overflow-hidden rounded-[0.5rem] pb-8 pr-8 pt-8">
+      <div className="relative z-10 flex min-w-0 flex-1 self-stretch flex-col items-start pl-14">
+        <p className="text-[2.5rem] font-semibold leading-[3rem] tracking-[-0.03125rem] text-white">
+          {number}
+        </p>
+
+        <div className="mt-6 flex max-w-[35rem] flex-col items-start">
+          <h3 className="text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-white [font-feature-settings:'liga'_off,'clig'_off]">
+            {title}
           </h3>
-          <p className="service-card-description max-w-[36rem] leading-[1.55] text-[rgba(0,9,51,0.65)]">
-            {service.shortDescription}
-          </p>
-          <Link
-            href={`/services/${service.slug}`}
-            className="service-card-button mt-1 inline-flex w-fit items-center gap-2 py-2 font-semibold text-[#8F6C1A] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A]"
-          >
-            <span>Explore Capabilities</span>
-            <ArrowRightIcon />
-          </Link>
+
+          {description ? (
+            <p className="mt-5 max-w-[33rem] text-[0.875rem] font-normal leading-[1.25rem] text-white/90 [font-feature-settings:'liga'_off,'clig'_off]">
+              {description}
+            </p>
+          ) : null}
+
+          {slug ? (
+            <Link
+              href={`/services/${slug}`}
+              tabIndex={isInteractive ? 0 : -1}
+              aria-label={`Explore ${title}`}
+              className={actionClassName}
+            >
+              Explore Capabilities
+              <ArrowUpRight />
+            </Link>
+          ) : (
+            <span aria-disabled="true" className={actionClassName}>
+              Explore Capabilities
+              <ArrowUpRight />
+            </span>
+          )}
         </div>
       </div>
 
-      <div className="service-card-image relative h-full min-w-0 overflow-hidden bg-[#f2eee4]">
-        {service.imageUrl ? (
+      <div className="relative h-full w-[44%] shrink-0 overflow-hidden rounded-[0.25rem] bg-black/10">
+        {media ? (
           <Image
-            src={service.imageUrl}
-            alt={service.imageAlt?.trim() || service.title}
+            src={media.url}
+            alt={media.alt || title}
             fill
-            sizes="(max-width: 1023px) 100vw, 42vw"
-            className="select-none object-cover"
+            priority={isPriority}
+            sizes="(max-width: 899px) 45vw, 34.5rem"
+            className="object-cover"
           />
         ) : (
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,#e8dfc8,#b69945)]" aria-hidden="true" />
+          <div
+            aria-hidden="true"
+            className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(0,0,0,0.12))] text-[7rem] font-semibold leading-none text-white/65"
+          >
+            {number}
+          </div>
         )}
       </div>
     </div>
   );
 }
 
-type Service3DCardProps = ServiceCardProps & {
-  progress: MotionValue<number>;
-  isActive: boolean;
-  totalCards: number;
-  lastIndex: number;
-  step: number;
-};
-
-function Service3DCard({
-  service,
-  index,
-  progress,
-  isActive,
-  totalCards,
-  lastIndex,
+function ServiceStackCard({
+  item,
+  stackIndex,
+  serviceCount,
   step,
-}: Service3DCardProps) {
-  const isFirst = index === 0;
-  const isLast = index === lastIndex;
-  const sliceStart = index * step;
-  const sliceEnd = (index + 1) * step;
-  const restZ = -index * CARD_SPACING_PX;
+  metrics,
+  isInteractive,
+  reduceMotion,
+}: {
+  item: OrderedService;
+  stackIndex: number;
+  serviceCount: number;
+  step: MotionValue<number>;
+  metrics: StageMetrics;
+  isInteractive: boolean;
+  reduceMotion: boolean;
+}) {
+  const background =
+    SERVICE_COLOURS[(item.serviceNumber - 1) % SERVICE_COLOURS.length];
+  const strongShadow = item.serviceNumber <= 2;
 
-  const z = useTransform(
-    progress,
-    isFirst ? [0, sliceEnd] : isLast ? [0, sliceStart] : [0, sliceStart, sliceEnd],
-    isFirst
-      ? [0, FLY_PAST_Z_PX]
-      : isLast
-        ? [restZ, 0]
-        : [restZ, 0, FLY_PAST_Z_PX],
-  );
+  const scaleX = useTransform(step, (value) => {
+    const relativeDepth = stackIndex - value;
 
-  const rotateX = useTransform(
-    progress,
-    [sliceStart, sliceEnd],
-    isLast ? [0, 0] : [0, SWING_DEG],
-  );
-  const y = useTransform(z, (value) => value * CASCADE_SLOPE);
-  const opacity = useTransform(
-    progress,
-    [(index - FADE_IN_START_STEPS) * step, (index - FADE_IN_END_STEPS) * step],
-    [0, 1],
-  );
+    return relativeDepth >= 0 ? widthRatioAtDepth(relativeDepth) : 1;
+  });
+
+  const scale = useTransform(step, (value) => {
+    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
+    return 1 + exitProgress * 0.32;
+  });
+
+  const z = useTransform(step, (value) => {
+    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
+    return exitProgress * 450;
+  });
+
+  const y = useTransform(step, (value) => {
+    const relativeDepth = stackIndex - value;
+
+    if (relativeDepth >= 0) {
+      return -relativeDepth * metrics.stackStep;
+    }
+
+    const exitProgress = easeInOutCubic(clamp(-relativeDepth));
+    return exitProgress * metrics.cardHeight * 0.88;
+  });
+
+  const rotateX = useTransform(step, (value) => {
+    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
+    return exitProgress * -9;
+  });
+
+  const rotateZ = useTransform(step, (value) => {
+    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
+    const direction = stackIndex % 2 === 0 ? -1 : 1;
+    return exitProgress * direction * 1.35;
+  });
+
+  const opacity = useTransform(step, (value) => {
+    const exitProgress = clamp(value - stackIndex);
+
+    if (exitProgress <= 0.82) return 1;
+
+    return mix(1, 0, (exitProgress - 0.82) / 0.18);
+  });
+
+  const staticScaleX = widthRatioAtDepth(stackIndex);
+  const staticY = -stackIndex * metrics.stackStep;
 
   return (
-    <div
-      className="service-3d-card-shell absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      style={{ zIndex: totalCards - index, pointerEvents: isActive ? "auto" : "none" }}
-      inert={!isActive}
+    <motion.article
+      aria-hidden={!isInteractive}
+      className="absolute left-0 top-0 origin-center overflow-hidden rounded-[0.5rem] [backface-visibility:hidden] [transform-style:preserve-3d]"
+      style={{
+        width: metrics.cardWidth,
+        height: metrics.cardHeight,
+        zIndex: serviceCount - stackIndex,
+        pointerEvents: isInteractive ? "auto" : "none",
+        background,
+        boxShadow: strongShadow
+          ? "0 -16px 50px -4px rgba(0,0,0,0.16)"
+          : "0 -12px 24px -4px rgba(0,0,0,0.05)",
+        scaleX: reduceMotion ? staticScaleX : scaleX,
+        scale: reduceMotion ? 1 : scale,
+        z: reduceMotion ? 0 : z,
+        y: reduceMotion ? staticY : y,
+        rotateX: reduceMotion ? 0 : rotateX,
+        rotateZ: reduceMotion ? 0 : rotateZ,
+        opacity: reduceMotion ? 1 : opacity,
+        transformOrigin: "50% 0%",
+        willChange: reduceMotion ? undefined : "transform, opacity",
+      }}
     >
-      <motion.article
-        style={{ y, z, rotateX, opacity }}
-        className="service-3d-card h-full w-full overflow-hidden border border-black/[0.04] bg-white shadow-[0_1.5rem_5rem_rgba(0,0,0,0.14)]"
-      >
-        <ServiceCardContent service={service} index={index} />
-      </motion.article>
-    </div>
+      <ServiceCardContent
+        item={item}
+        isInteractive={isInteractive}
+        isPriority={stackIndex === 0}
+      />
+    </motion.article>
   );
 }
 
-function StaticServices({ services }: { services: CmsFeaturedService[] }) {
-  return (
-    <div className="services-static-list flex w-full flex-col gap-5 lg:hidden">
-      {services.map((service, index) => (
-        <article
-          key={service._id}
-          className="overflow-hidden border border-black/[0.04] bg-white shadow-[0_0.75rem_2rem_rgba(0,0,0,0.07)]"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-[54%_46%]">
-            <div className="flex min-h-[21rem] flex-col p-6 sm:p-8 md:min-h-[28rem]">
-              <span className="text-2xl font-semibold text-black">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div className="mt-auto flex flex-col gap-3">
-                <h3 className="text-2xl font-semibold leading-tight text-black">{service.title}</h3>
-                <p className="text-sm leading-6 text-[rgba(0,9,51,0.65)]">{service.shortDescription}</p>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="inline-flex w-fit items-center gap-2 py-2 text-sm font-semibold text-[#8F6C1A]"
-                >
-                  <span>Explore Capabilities</span>
-                  <ArrowRightIcon />
-                </Link>
-              </div>
-            </div>
+export function ServicesScrollGallery({
+  eyebrow,
+  heading,
+  services,
+  handoffScrollVh = DEFAULT_HANDOFF_SCROLL_VH,
+}: ServicesScrollGalleryProps) {
+  const scrollRootRef = useRef<HTMLDivElement>(null);
+  const stickyStageRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion() ?? false;
 
-            <div className="relative min-h-[20rem] bg-[#f2eee4] md:min-h-[28rem]">
-              {service.imageUrl ? (
-                <Image
-                  src={service.imageUrl}
-                  alt={service.imageAlt?.trim() || service.title}
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                />
-              ) : null}
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
+  const orderedServices = useMemo<OrderedService[]>(() => {
+    const numbered = services.slice(0, MAX_SERVICES).map((service, index) => ({
+      service,
+      serviceNumber: index + 1,
+    }));
 
-export function ServicesScrollGallery({ services }: { services: CmsFeaturedService[] }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+    // Service 08 starts at the front; service 01 starts at the back.
+    return numbered.reverse();
+  }, [services]);
+
+  const serviceCount = orderedServices.length;
+  const metrics = useStageMetrics(stickyStageRef, serviceCount);
   const [activeIndex, setActiveIndex] = useState(0);
-  const totalCards = services.length;
-  const lastIndex = Math.max(0, totalCards - 1);
-  const trackHeightVh = 100 + lastIndex * SCROLL_PER_CARD_VH + FINAL_HOLD_VH;
-  const travelEnd =
-    lastIndex > 0
-      ? (lastIndex * SCROLL_PER_CARD_VH) /
-        (lastIndex * SCROLL_PER_CARD_VH + FINAL_HOLD_VH)
-      : 1;
-  const step = lastIndex > 0 ? travelEnd / lastIndex : 1;
+
+  const cardScrollVh = serviceCount * CARD_SCROLL_VH;
+  const totalScrollableVh = cardScrollVh + Math.max(0, handoffScrollVh);
+  const cardPhaseEnd =
+    totalScrollableVh > 0 ? cardScrollVh / totalScrollableVh : 1;
 
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: scrollRootRef,
     offset: ["start start", "end end"],
   });
-  const smoothProgress = useSpring(scrollYProgress, SCROLL_SPRING);
 
-  useMotionValueEvent(smoothProgress, "change", (latest) => {
-    if (!Number.isFinite(latest) || lastIndex === 0) return;
-    const next = Math.min(lastIndex, Math.max(0, Math.round(latest / step)));
-    setActiveIndex((current) => (current === next ? current : next));
+  const smoothedProgress = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 30,
+    mass: 0.24,
+    restDelta: 0.0005,
   });
 
-  if (services.length === 0) return null;
+  const sourceProgress = reduceMotion ? scrollYProgress : smoothedProgress;
+
+  /**
+   * Cards finish before the root ends. The remaining hand-off distance keeps
+   * the heading pinned while the overlapping partner strip and next section
+   * rise over it, matching the final part of the supplied scroll recording.
+   */
+  const step = useTransform(sourceProgress, (latest) => {
+    if (cardPhaseEnd <= 0) return serviceCount;
+
+    return clamp(latest / cardPhaseEnd) * serviceCount;
+  });
+
+  useMotionValueEvent(step, "change", (latest) => {
+    if (reduceMotion) {
+      setActiveIndex(0);
+      return;
+    }
+
+    const nextIndex =
+      latest >= serviceCount - 0.001
+        ? -1
+        : Math.min(
+            serviceCount - 1,
+            Math.max(0, Math.floor(latest + 0.025)),
+          );
+
+    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
+  });
+
+  if (serviceCount === 0) return null;
+
+  const stackHeight =
+    metrics.cardHeight + Math.max(0, serviceCount - 1) * metrics.stackStep;
+  const frontCardTop = Math.max(0, serviceCount - 1) * metrics.stackStep;
+  const scrollHeight = reduceMotion
+    ? "100svh"
+    : `${100 + totalScrollableVh}svh`;
+  const resolvedHeading = heading?.trim() || DEFAULT_HEADING;
 
   return (
     <>
-      <StaticServices services={services} />
-
       <div
-        ref={containerRef}
-        className="services-3d-scroll relative hidden w-full lg:block"
-        style={{ height: `${trackHeightVh}svh` }}
+        ref={scrollRootRef}
+        className="relative z-0 w-full bg-black"
+        style={{ height: scrollHeight }}
       >
-        <div className="services-3d-sticky sticky top-0 h-[100svh] w-full overflow-hidden">
-          <div className="services-3d-stage relative h-full w-full">
-            {services.map((service, index) => (
-              <Service3DCard
-                key={service._id}
-                service={service}
-                index={index}
-                progress={smoothProgress}
-                isActive={activeIndex === index}
-                totalCards={totalCards}
-                lastIndex={lastIndex}
-                step={step}
-              />
-            ))}
-          </div>
+        <div
+          ref={stickyStageRef}
+          className="sticky top-0 h-[100svh] w-full overflow-hidden bg-black"
+        >
+          {eyebrow?.trim() ? (
+            <p className="sr-only">{eyebrow.trim()}</p>
+          ) : null}
 
+          <MaskedHeading heading={resolvedHeading} />
+
+          <div
+            className="absolute left-1/2 z-10 transition-opacity duration-300"
+            style={{
+              top: metrics.top,
+              width: metrics.cardWidth,
+              height: stackHeight,
+              opacity: metrics.measured ? 1 : 0,
+              transform: `translateX(-50%) scale(${metrics.scale})`,
+              transformOrigin: "50% 0%",
+              perspective: "1200px",
+            }}
+          >
+            <div
+              className="absolute left-0"
+              style={{
+                top: frontCardTop,
+                width: metrics.cardWidth,
+                height: metrics.cardHeight,
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {orderedServices.map((item, index) => (
+                <ServiceStackCard
+                  key={`${item.serviceNumber}-${item.service.slug || item.service.title || "service"}`}
+                  item={item}
+                  stackIndex={index}
+                  serviceCount={serviceCount}
+                  step={step}
+                  metrics={metrics}
+                  isInteractive={index === activeIndex}
+                  reduceMotion={reduceMotion}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <style>{`
-        .services-3d-sticky {
-          perspective: ${PERSPECTIVE_PX}px;
-          perspective-origin: 50% 50%;
-          background: white;
-          isolation: isolate;
-        }
-
-        .services-3d-stage,
-        .service-3d-card-shell,
-        .service-3d-card {
-          transform-style: preserve-3d;
-        }
-
-        .service-3d-card-shell {
-          width: min(84vw, 76rem);
-          height: clamp(28rem, 58svh, 38rem);
-        }
-
-        .service-3d-card {
-          transform-origin: 50% 0%;
-          will-change: transform, opacity;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-
-        .service-card-copy { padding: clamp(2rem, 3vw, 3.5rem); }
-        .service-card-number { font-size: clamp(1.5rem, 2vw, 2.35rem); }
-        .service-card-title { font-size: clamp(1.5rem, 2.15vw, 2.4rem); }
-        .service-card-description { font-size: clamp(0.8rem, 0.9vw, 0.95rem); }
-        .service-card-button { font-size: clamp(0.78rem, 0.85vw, 0.875rem); }
-
-        @media (min-width: 1024px) and (max-width: 1500px) {
-          .service-3d-card-shell {
-            width: min(84vw, 72rem);
-            height: clamp(26rem, 57svh, 35rem);
-          }
-        }
-
-        @media (min-width: 1024px) and (max-height: 760px) {
-          .service-3d-card-shell {
-            width: min(82vw, 66rem);
-            height: clamp(23rem, 53svh, 30rem);
-          }
-          .service-card-copy { padding: 1.75rem; }
-          .service-card-title { font-size: clamp(1.35rem, 2vw, 2rem); }
-          .service-card-description { font-size: 0.78rem; }
-        }
-
-        @media (min-width: 1800px) {
-          .service-3d-card-shell {
-            width: min(78vw, 78rem);
-            height: min(58svh, 39rem);
-          }
+      <style jsx global>{`
+        .services-partner-handoff {
+          margin-top: calc(
+            -1 * var(--services-partner-overlap, 92svh)
+          );
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .services-3d-scroll { display: none !important; }
-          .services-static-list { display: flex !important; }
+          .services-partner-handoff {
+            margin-top: 0 !important;
+          }
         }
       `}</style>
     </>

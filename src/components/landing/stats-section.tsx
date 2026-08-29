@@ -1,9 +1,9 @@
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { AnimatedStatNumber } from "./animated-stat-number";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400"] });
 
 type Stat = {
   _key?: string;

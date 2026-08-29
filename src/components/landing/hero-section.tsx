@@ -3,13 +3,13 @@
 import { getImageProps } from "next/image";
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { useEffect, useState } from "react";
 
 import type { CmsHeroSlide } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["500", "600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["500", "600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 /*
  * Development-only safety content. Sanity remains the source of truth in
@@ -193,7 +193,11 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
       aria-label="Suman featured platforms and capabilities"
       className="landing-section-transition relative flex min-h-[100svh] w-full flex-col items-center justify-end overflow-hidden bg-[#110d08] px-5 pb-[clamp(3.5rem,6vw,5.75rem)] pt-28 sm:px-8 sm:pt-32 lg:px-[3.5rem]"
     >
-      <div className="absolute inset-0" aria-hidden="true">
+      <div
+        data-landing-parallax-layer="media"
+        className="absolute inset-0"
+        aria-hidden="true"
+      >
         {heroSlides.map((slide, index) => (
           <div
             key={slide._key}

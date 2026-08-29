@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   useEffect,
   useRef,
@@ -14,12 +14,12 @@ import type {
   CmsFeaturedIndustry,
 } from "@/types/cms";
 
-const exo2 = Exo_2({
+const exo2 = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["600"],
 });
 
-const inter = Inter({
+const inter = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "600"],
 });
@@ -650,6 +650,7 @@ export function IndustriesSection({
         {/* RIGHT */}
 
         <div
+          data-landing-parallax-layer="reverse"
           className="
             flex
             w-full

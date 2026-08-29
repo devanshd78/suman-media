@@ -237,6 +237,7 @@ export function AchievementRevealGrid({
 
         {content?.departmentEmblemUrl ? (
           <div
+            data-landing-parallax-layer="reverse"
             className="
               relative
               z-[2]
@@ -279,6 +280,7 @@ export function AchievementRevealGrid({
 
         {content?.governmentSealUrl ? (
           <div
+            data-landing-parallax-layer="reverse"
             className="
               absolute
               -right-[3rem]

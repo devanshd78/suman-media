@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import type { CmsMediaCoverageItem, CmsMediaCoverageSection } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 function desktopPlacement(index: number, total: number) {
   if (total >= 10 && index === 5) return "lg:col-start-2";
@@ -43,7 +43,10 @@ export function MediaCoverageSection({
         </h2>
       </div>
 
-      <div className="mx-auto mt-14 grid max-w-[68rem] grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-12 lg:mt-[5rem] lg:grid-cols-10 lg:gap-x-8 lg:gap-y-12">
+      <div
+        data-landing-parallax-layer="reverse"
+        className="mx-auto mt-14 grid max-w-[68rem] grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-12 lg:mt-[5rem] lg:grid-cols-10 lg:gap-x-8 lg:gap-y-12"
+      >
         {items.map((item, index) => {
           const logo = (
             <div className="relative h-[2.8rem] w-[7.75rem] opacity-82 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0 sm:w-[8.5rem] lg:w-[9rem]">

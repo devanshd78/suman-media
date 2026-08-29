@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import type { CmsFounderLetter } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 export function FounderLetterSection({ content }: { content?: CmsFounderLetter | null }) {
   if (!content?.body?.trim()) return null;
@@ -27,13 +27,18 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
     >
       {content.imageUrl ? (
         <>
-          <Image
-            src={content.imageUrl}
-            alt={content.imageAlt?.trim() || ""}
-            fill
-            sizes="100vw"
-            className="object-cover object-center grayscale"
-          />
+          <div
+            data-landing-parallax-layer="media"
+            className="absolute inset-0"
+          >
+            <Image
+              src={content.imageUrl}
+              alt={content.imageAlt?.trim() || ""}
+              fill
+              sizes="100vw"
+              className="object-cover object-center grayscale"
+            />
+          </div>
           <div aria-hidden="true" className="absolute inset-0 bg-black/18" />
         </>
       ) : null}

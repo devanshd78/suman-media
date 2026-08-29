@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { useRef } from "react";
 
 import type { CmsCta, CmsFeaturedInsight } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 function ArrowIcon({ direction = "right" }: { direction?: "left" | "right" }) {
   return (
@@ -131,6 +131,7 @@ export function InsightsSection({
 
       <div
         ref={scrollerRef}
+        data-landing-parallax-layer="reverse"
         className="insights-track mt-12 flex w-full gap-6 overflow-x-auto overflow-y-hidden scroll-smooth sm:mt-14 lg:mt-16 lg:gap-8"
       >
         {visiblePosts.map((post, index) => (

@@ -1,9 +1,9 @@
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import type { CmsFaqSection } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 function PlusIcon() {
   return (
@@ -59,7 +59,10 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
         ) : null}
       </div>
 
-      <div className="border-t border-[rgba(0,17,102,0.12)]">
+      <div
+        data-landing-parallax-layer="reverse"
+        className="border-t border-[rgba(0,17,102,0.12)]"
+      >
         {items.map((item, index) => (
           <details
             key={item._key}

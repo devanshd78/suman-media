@@ -1,6 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
+import Snap from "lenis/snap";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
@@ -21,6 +22,7 @@ function getHashTarget(hash: string) {
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const lenisRef = useRef<Lenis | null>(null);
+  const snapRef = useRef<Snap | null>(null);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -115,6 +117,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       window.removeEventListener("hashchange", handleHashChange);
       window.cancelAnimationFrame(initialHashFrame);
       window.cancelAnimationFrame(animationFrame);
+      snapRef.current?.destroy();
+      snapRef.current = null;
       lenis.destroy();
       lenisRef.current = null;
     };
@@ -126,6 +130,30 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       if (!lenis) return;
 
       lenis.resize();
+
+      snapRef.current?.destroy();
+      snapRef.current = null;
+
+      const landingSections = Array.from(
+        document.querySelectorAll<HTMLElement>(".landing-section-transition"),
+      );
+
+      if (landingSections.length > 1) {
+        const snap = new Snap(lenis, {
+          type: "proximity",
+          distanceThreshold: "18%",
+          debounce: 220,
+          duration: 0.72,
+          easing: (t: number) => 1 - Math.pow(1 - t, 4),
+        });
+
+        snap.addElements(landingSections, {
+          align: "start",
+          ignoreSticky: true,
+          ignoreTransform: true,
+        });
+        snapRef.current = snap;
+      }
 
       // Next.js can navigate to /some-page#section. Once the destination route
       // has rendered, finish that navigation with the same smooth behaviour.
@@ -140,7 +168,11 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      snapRef.current?.destroy();
+      snapRef.current = null;
+    };
   }, [pathname]);
 
   return children;

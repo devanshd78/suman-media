@@ -775,8 +775,12 @@ export function Header() {
      --------------------------------------------------------- */
 
   useEffect(() => {
-    setMenuOpen(false);
-    setOpenDropdown(null);
+    const frame = window.requestAnimationFrame(() => {
+      setMenuOpen(false);
+      setOpenDropdown(null);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
 
   /* ---------------------------------------------------------
@@ -895,7 +899,7 @@ export function Header() {
         ${
           isLandingPage
             ? `
-                absolute
+                fixed
                 inset-x-0
                 top-0
                 mx-auto

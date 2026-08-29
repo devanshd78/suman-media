@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import type { CmsStoryBanner, CmsTestimonialSection } from "@/types/cms";
 
-const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
-const inter = Inter({ subsets: ["latin"], weight: ["400", "600"] });
+const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
+const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 const REFERENCE_TESTIMONIAL_COPY =
   "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
@@ -98,7 +98,10 @@ export function TestimonialSection({
           </div>
 
           {partnerLogos.length > 0 ? (
-            <div className="border-t border-[rgba(0,6,38,0.09)] px-5 sm:px-8 lg:px-[3.5rem]">
+            <div
+              data-landing-parallax-layer="reverse"
+              className="border-t border-[rgba(0,6,38,0.09)] px-5 sm:px-8 lg:px-[3.5rem]"
+            >
               <div className="mx-auto grid min-h-[7.75rem] max-w-[70rem] grid-cols-2 items-center justify-items-center gap-x-8 gap-y-7 py-7 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-12">
                 {partnerLogos.slice(0, 5).map((logo, index) => (
                   <div
@@ -126,13 +129,18 @@ export function TestimonialSection({
           className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-full overflow-hidden bg-[#111] sm:aspect-[16/10] lg:aspect-[2.55/1]"
         >
           {story?.imageUrl ? (
-            <Image
-              src={story.imageUrl}
-              alt={story.imageAlt?.trim() || ""}
-              fill
-              sizes="100vw"
-              className="object-cover object-center transition-transform duration-[1600ms] ease-out hover:scale-[1.012]"
-            />
+            <div
+              data-landing-parallax-layer="media"
+              className="absolute inset-0"
+            >
+              <Image
+                src={story.imageUrl}
+                alt={story.imageAlt?.trim() || ""}
+                fill
+                sizes="100vw"
+                className="object-cover object-center transition-transform duration-[1600ms] ease-out hover:scale-[1.012]"
+              />
+            </div>
           ) : null}
 
           <div

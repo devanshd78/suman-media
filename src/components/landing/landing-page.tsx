@@ -5,6 +5,7 @@ import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { CareersCtaSection } from "./careers-cta-section";
 import { ClientsSection } from "./client-section";
 import { FaqSection } from "./faq-section";
+import { FilmSection } from "./film-section";
 import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
@@ -47,13 +48,7 @@ export function LandingPage({
         cta={home?.aboutCta}
       />
 
-      <ClientsSection
-        eyebrow={home?.clientsEyebrow}
-        heading={home?.clientsHeading}
-        companies={
-          home?.featuredCompanies ?? []
-        }
-      />
+      <ClientsSection />
 
       <ServicesSection
         eyebrow={home?.servicesEyebrow}
@@ -88,6 +83,8 @@ export function LandingPage({
       <PartnerSection
         content={home?.partnerSection}
       />
+
+      <FilmSection />
 
       <TestimonialSection
         testimonial={

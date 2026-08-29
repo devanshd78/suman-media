@@ -9,7 +9,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-plus-jakarta-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -52,7 +52,7 @@ body {
   overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta-sans), Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
@@ -100,23 +100,82 @@ select {
 }
 
 /*
- * Landing-page section transitions are progressive enhancement:
+ * Landing-page section motion is progressive enhancement:
  * - server-rendered HTML is visible by default
- * - a single IntersectionObserver adds the motion-ready state
- * - only opacity is animated, so sticky/3D sections keep their containing blocks
+ * - a single client controller adds the motion-ready state
+ * - transforms are driven through a CSS variable and throttled to animation frames
+ * - sticky/3D sections can opt out of the parent transform
  */
 .landing-section-transition {
+  --landing-parallax-media-x: 0px;
+  --landing-parallax-media-y: 0px;
+  --landing-parallax-media-scale: 1.1;
+  --landing-parallax-foreground-x: 0px;
+  --landing-parallax-foreground-y: 0px;
+  --landing-parallax-foreground-scale: 1;
+  --landing-parallax-foreground-rotate: 0deg;
+  --landing-parallax-reverse-x: 0px;
+  --landing-parallax-reverse-y: 0px;
+  --landing-parallax-reverse-scale: 1;
+  --landing-parallax-reverse-rotate: 0deg;
+  --landing-parallax-secondary-x: 0px;
+  --landing-parallax-secondary-y: 0px;
+  --landing-parallax-secondary-scale: 1;
+  --landing-parallax-secondary-rotate: 0deg;
   opacity: 1;
+  scroll-margin-top: 5.5rem;
+  scroll-snap-align: start;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   html.landing-motion-ready .landing-section-transition {
-    transition: opacity 780ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.landing-motion-ready [data-landing-parallax-layer="media"] {
+    translate: var(--landing-parallax-media-x)
+      var(--landing-parallax-media-y);
+    scale: var(--landing-parallax-media-scale);
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
+  html.landing-motion-ready [data-landing-parallax-layer="foreground"] {
+    translate: var(--landing-parallax-foreground-x)
+      var(--landing-parallax-foreground-y);
+    scale: var(--landing-parallax-foreground-scale);
+    rotate: var(--landing-parallax-foreground-rotate);
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
+  html.landing-motion-ready [data-landing-parallax-layer="reverse"] {
+    translate: var(--landing-parallax-reverse-x)
+      var(--landing-parallax-reverse-y);
+    scale: var(--landing-parallax-reverse-scale);
+    rotate: var(--landing-parallax-reverse-rotate);
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
+  html.landing-motion-ready [data-landing-parallax-layer="secondary"] {
+    translate: var(--landing-parallax-secondary-x)
+      var(--landing-parallax-secondary-y);
+    scale: var(--landing-parallax-secondary-scale);
+    rotate: var(--landing-parallax-secondary-rotate);
+    transform-origin: center;
+    backface-visibility: hidden;
+  }
+
+  html.landing-motion-ready
+    .landing-section-transition[data-parallax-active="true"]
+    [data-landing-parallax-layer] {
+    will-change: translate, scale, rotate;
   }
 
   html.landing-motion-ready
     .landing-section-transition:not([data-section-visible="true"]) {
-    opacity: 0.24;
+    opacity: 0;
   }
 }
 
@@ -132,5 +191,11 @@ select {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  [data-landing-parallax-layer] {
+    translate: none !important;
+    scale: none !important;
+    rotate: none !important;
   }
 }
