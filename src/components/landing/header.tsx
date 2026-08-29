@@ -899,7 +899,7 @@ export function Header() {
         ${
           isLandingPage
             ? `
-                fixed
+                absolute
                 inset-x-0
                 top-0
                 mx-auto

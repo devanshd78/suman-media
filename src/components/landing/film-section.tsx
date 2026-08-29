@@ -1,6 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
+import { useRef } from "react";
 
 const headingFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -90,20 +101,39 @@ function CaretRightIcon() {
 
 function GalleryRow({
   images,
+  direction,
+  progress,
+  zoom,
   decorative,
 }: {
   images: GalleryImage[];
+  direction: "left" | "right";
+  progress: MotionValue<number>;
+  zoom: MotionValue<number>;
   decorative: boolean;
 }) {
+  const reduceMotion = useReducedMotion();
+  const x = useTransform(
+    progress,
+    [0, 1],
+    direction === "left" ? ["6%", "-6%"] : ["-6%", "6%"],
+  );
+
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-max shrink-0 items-center gap-6">
+      <motion.div
+        className="flex w-max shrink-0 items-center gap-6 will-change-transform"
+        style={reduceMotion ? undefined : { x }}
+      >
         {images.map((image, index) => (
           <div
             key={`${image.src}-${index}`}
             className="relative aspect-[155/91] w-[80vw] max-w-[31.9375rem] shrink-0 overflow-hidden rounded-[0.25rem] bg-[#292929]"
           >
-            <div className="absolute inset-0">
+            <motion.div
+              className="absolute inset-0 will-change-transform"
+              style={reduceMotion ? undefined : { scale: zoom }}
+            >
               <Image
                 src={image.src}
                 alt={decorative ? "" : image.alt}
@@ -112,7 +142,7 @@ function GalleryRow({
                 className="object-cover"
                 style={{ objectPosition: image.position ?? "center" }}
               />
-            </div>
+            </motion.div>
 
             <div
               aria-hidden="true"
@@ -120,14 +150,27 @@ function GalleryRow({
             />
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
 export function FilmSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 82,
+    damping: 24,
+    mass: 0.42,
+  });
+  const imageZoom = useTransform(smoothProgress, [0, 0.78], [1.24, 1]);
+
   return (
     <section
+      ref={sectionRef}
       id="abhijat-marathi-cannes"
       aria-labelledby="abhijat-marathi-cannes-heading"
       className="landing-section-transition flex w-full flex-col items-center gap-16 overflow-hidden bg-[#1A1A1A] px-5 pt-16 sm:px-8 sm:pt-20 lg:gap-[6.25rem] lg:px-[3.5rem] lg:pt-[6.25rem]"
@@ -172,6 +215,9 @@ export function FilmSection() {
           <GalleryRow
             key={`film-gallery-row-${index}`}
             images={images}
+            direction={index % 2 === 0 ? "left" : "right"}
+            progress={smoothProgress}
+            zoom={imageZoom}
             decorative={index > 0}
           />
         ))}
