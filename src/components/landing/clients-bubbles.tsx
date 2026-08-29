@@ -18,15 +18,7 @@ type BubbleStyle = CSSProperties & {
   "--bubble-delay": string;
   "--bubble-drop": string;
   "--bubble-drift": string;
-  "--bubble-bg": string;
 };
-
-const BUBBLE_TONES = [
-  "linear-gradient(145deg,#B78A24 0%,#76520E 100%)",
-  "linear-gradient(145deg,#7A2638 0%,#3A111D 100%)",
-  "linear-gradient(145deg,#17696D 0%,#0B3A3D 100%)",
-  "linear-gradient(145deg,#B16A2A 0%,#6A351A 100%)",
-] as const;
 
 const BUBBLE_LAYOUT = [
   {
@@ -165,11 +157,10 @@ export function ClientsBubbles({
 
           const bubble = (
             <div
-              className="client-mobile-bubble client-3d-sphere relative aspect-square overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] transition-[box-shadow,filter,transform] duration-500 hover:-translate-y-1"
+              className="client-mobile-bubble relative aspect-square overflow-hidden rounded-full bg-[#927116] shadow-[0_1rem_2.5rem_rgba(77,58,9,0.18)]"
               style={
                 {
                   "--mobile-delay": `${index * 90}ms`,
-                  "--bubble-bg": BUBBLE_TONES[index % BUBBLE_TONES.length],
                 } as CSSProperties
               }
             >
@@ -234,19 +225,18 @@ export function ClientsBubbles({
             "--bubble-delay": layout.delay,
             "--bubble-drop": layout.drop,
             "--bubble-drift": layout.drift,
-            "--bubble-bg": BUBBLE_TONES[index % BUBBLE_TONES.length],
           };
 
           const bubble = (
             <div
-              className="client-logo-bubble client-3d-sphere group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full border border-white/20 [background:var(--bubble-bg)] transition-[box-shadow,filter,transform] duration-500 ease-out hover:[transform:perspective(900px)_rotateX(-5deg)_rotateY(7deg)_translateZ(26px)_scale(1.025)]"
+              className="client-logo-bubble group relative h-[var(--bubble-size)] w-[var(--bubble-size)] overflow-hidden rounded-full bg-[#927116] shadow-[0_1.5rem_4rem_rgba(77,58,9,0.16)]"
             >
               <Image
                 src={company.logoUrl!}
                 alt={company.logoAlt?.trim() || company.name}
                 fill
                 sizes="17rem"
-                className="object-contain p-[22%] transition-transform duration-500 ease-out [transform:translateZ(42px)] group-hover:scale-[1.06]"
+                className="object-contain p-[22%] transition-transform duration-500 ease-out group-hover:scale-105"
               />
             </div>
           );
@@ -345,7 +335,7 @@ export function ClientsBubbles({
           }
 
           50% {
-            transform: translate3d(0, -9px, 0);
+            transform: translate3d(0, -7px, 0);
           }
         }
 

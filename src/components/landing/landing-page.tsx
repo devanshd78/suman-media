@@ -4,7 +4,6 @@ import { AboutSection } from "./about-section";
 import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { CareersCtaSection } from "./careers-cta-section";
 import { ClientsSection } from "./client-section";
-import { CulturalRibbon } from "./cultural-ribbon";
 import { FaqSection } from "./faq-section";
 import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
@@ -47,8 +46,6 @@ export function LandingPage({
         description={home?.aboutDescription}
         cta={home?.aboutCta}
       />
-
-      <CulturalRibbon />
 
       <ClientsSection
         eyebrow={home?.clientsEyebrow}

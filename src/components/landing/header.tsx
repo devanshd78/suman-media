@@ -311,27 +311,7 @@ const NAV_LINKS = [
    LOGO
    ========================================================= */
 
-function SumanLogo({ light = false }: { light?: boolean }) {
-  if (light) {
-    return (
-      <span
-        role="img"
-        aria-label="Suman Entertainment & Media"
-        className="block h-[2.2rem] w-[6.75rem] shrink-0 bg-white sm:h-[2.45rem] sm:w-[7.5rem] md:w-[8rem] xl:h-[2.7rem] xl:w-[8.75rem] 2xl:w-[9.25rem]"
-        style={{
-          WebkitMaskImage: 'url("/images/logo.png")',
-          maskImage: 'url("/images/logo.png")',
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "left center",
-          maskPosition: "left center",
-          WebkitMaskSize: "contain",
-          maskSize: "contain",
-        }}
-      />
-    );
-  }
-
+function SumanLogo() {
   return (
     <Image
       src="/images/logo.png"
@@ -339,7 +319,20 @@ function SumanLogo({ light = false }: { light?: boolean }) {
       width={240}
       height={80}
       priority
-      className="h-auto w-[6.75rem] shrink-0 object-contain sm:w-[7.5rem] md:w-[8rem] xl:w-[8.75rem] 2xl:w-[9.25rem]"
+      className="
+        h-auto
+        w-[6.75rem]
+        shrink-0
+        object-contain
+
+        sm:w-[7.5rem]
+
+        md:w-[8rem]
+
+        xl:w-[8.75rem]
+
+        2xl:w-[9.25rem]
+      "
     />
   );
 }
@@ -459,10 +452,8 @@ function DropdownPanel({
         z-40
         hidden
         overflow-hidden
-        border-t
-        border-[#C99B36]/18
-        bg-[#F7F1E7]
-        shadow-[0_2.5rem_6rem_rgba(31,18,9,0.24)]
+        bg-white
+        shadow-[0_2.5rem_5rem_rgba(0,0,0,0.28)]
 
         xl:block
       "
@@ -904,7 +895,6 @@ export function Header() {
         ${
           isLandingPage
             ? `
-                landing-header-premium
                 absolute
                 inset-x-0
                 top-0
@@ -983,7 +973,7 @@ export function Header() {
             closeDropdown
           }
         >
-          <SumanLogo light={isLandingPage} />
+          <SumanLogo />
         </Link>
 
         {/* =================================================
@@ -1324,7 +1314,7 @@ export function Header() {
             w-screen
             flex-col
             overflow-hidden
-            bg-[radial-gradient(circle_at_20%_10%,rgba(100,31,46,0.42),transparent_34%),radial-gradient(circle_at_88%_22%,rgba(15,91,95,0.28),transparent_38%),rgba(8,8,9,0.98)]
+            bg-[#080808]/[0.98]
             backdrop-blur-xl
 
             xl:hidden
@@ -1366,7 +1356,7 @@ export function Header() {
                 closeMobileMenu
               }
             >
-              <SumanLogo light />
+              <SumanLogo />
             </Link>
 
             <button

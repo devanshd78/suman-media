@@ -9,7 +9,6 @@ import {
   type CSSProperties,
 } from "react";
 
-import { TextReveal } from "@/components/motion/text-reveal";
 import type {
   CmsCta,
   CmsFeaturedIndustry,
@@ -282,16 +281,11 @@ function IndustryCard({
       )}`}
       data-industry-card
       className="
-        premium-card
         group
         block
         w-[min(27.625rem,85vw)]
         shrink-0
-        overflow-hidden
-        rounded-[1.1rem]
-        border
-        border-[#C99B36]/14
-        bg-[#FFFDF8]
+        bg-white
         text-black
 
         focus-visible:outline
@@ -383,7 +377,7 @@ function IndustryCard({
           flex
           min-h-[4.25rem]
           items-center
-          bg-[#FFFDF8]
+          bg-white
           px-5
         "
       >
@@ -562,9 +556,6 @@ export function IndustriesSection({
       aria-labelledby="industries-heading"
       className="
         landing-section-transition
-        culture-thread
-        heritage-surface
-        paithani-edge
         mx-auto
         flex
         w-full
@@ -572,6 +563,7 @@ export function IndustriesSection({
         flex-col
         items-center
         overflow-hidden
+        bg-white
 
         px-5
         pb-10
@@ -635,7 +627,6 @@ export function IndustriesSection({
             id="industries-heading"
             className={`
               ${exo2.className}
-              premium-display
 
               text-[2rem]
               font-semibold
@@ -651,11 +642,8 @@ export function IndustriesSection({
                 '"liga" off, "clig" off',
             }}
           >
-            <TextReveal
-              text={heading?.trim() || "The Industries we work with?"}
-              stagger={0.04}
-              amount={0.25}
-            />
+            {heading?.trim() ||
+              "The Industries we work with?"}
           </h2>
         </div>
 

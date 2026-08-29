@@ -1,10 +1,5 @@
 import Link from "next/link";
 import { Exo_2, Inter } from "next/font/google";
-
-import { HeritageOrnament } from "@/components/motion/heritage-ornament";
-import { HeritageDepthField, Premium3DSurface } from "@/components/motion/premium-3d";
-import { Reveal } from "@/components/motion/reveal";
-import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCta } from "@/types/cms";
 
 const exo2 = Exo_2({ subsets: ["latin"], weight: ["600"] });
@@ -39,64 +34,37 @@ export function AboutSection({ eyebrow, heading, description, cta }: AboutSectio
     <section
       id="about-suman-entertainment"
       aria-labelledby="about-suman-heading"
-      className="landing-section-transition culture-thread culture-weave heritage-surface fort-silhouette paithani-edge relative flex w-full flex-col items-start gap-[0.625rem] overflow-hidden px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[7.5rem]"
+      className="landing-section-transition mx-auto flex w-full max-w-full flex-col items-start gap-[0.625rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
-      <HeritageDepthField className="z-0 opacity-26" tone="light" />
-      <div className="pointer-events-none absolute right-5 top-9 hidden lg:block lg:right-[3.5rem]">
-        <HeritageOrnament tone="gold" label="महाराष्ट्र" className="text-[#7A4F18]/50" />
-      </div>
-
       <div className="grid w-full grid-cols-1 items-start gap-8 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-[6.25rem]">
-        <Reveal delay={0.05} distance={16}>
-          <div className="flex items-start gap-3 pt-1">
-            <span aria-hidden="true" className="mt-[0.3rem] h-1.5 w-1.5 rotate-45 bg-[#B68A16]" />
-            <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
-              {resolvedEyebrow}
-            </p>
-          </div>
-        </Reveal>
+        <p className={`${inter.className} pt-1 text-[0.625rem] font-semibold uppercase leading-[0.875rem] tracking-[-0.00625rem] text-[rgba(0,9,51,0.65)]`}>
+          {resolvedEyebrow}
+        </p>
 
-        <Premium3DSurface
-          className="w-full rounded-[2rem]"
-          surfaceClassName="rounded-[2rem]"
-          intensity={2.5}
-          lift={7}
-          perspective={1500}
-          glare={false}
-        >
-          <div className="depth-paper-slab flex min-w-0 flex-col items-start overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10 [transform-style:preserve-3d]">
-            <div aria-hidden="true" className="absolute -right-12 -top-12 h-40 w-40 rotate-45 border border-[#B68A16]/12 [transform:translateZ(18px)_rotate(45deg)]" />
+        <div className="flex min-w-0 flex-col items-start">
+          <h2
+            id="about-suman-heading"
+            className={`${exo2.className} w-full text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
+            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+          >
+            {resolvedHeading}
+          </h2>
 
-            <h2
-              id="about-suman-heading"
-              className={`${exo2.className} premium-display premium-3d-layer-deep w-full max-w-[72rem] text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#15110D] lg:text-[clamp(2.65rem,3.35vw,3.6rem)] lg:leading-[1.08]`}
-              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              <TextReveal text={resolvedHeading} stagger={0.022} amount={0.2} />
-            </h2>
+          <p
+            className={`${inter.className} mt-8 w-full text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
+            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+          >
+            {resolvedDescription}
+          </p>
 
-            <Reveal delay={0.18} distance={22} className="premium-3d-layer w-full">
-              <p
-                className={`${inter.className} mt-8 w-full max-w-[70rem] text-base font-normal leading-7 text-[rgba(28,22,17,0.66)] lg:text-[1.04rem] lg:leading-8`}
-                style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-              >
-                {resolvedDescription}
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.28} distance={14} className="premium-3d-layer-deep">
-              <Link
-                href={resolvedCta.href}
-                className={`${inter.className} kinetic-link group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
-              >
-                <span>{resolvedCta.label}</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1.5">
-                  <ArrowRightIcon />
-                </span>
-              </Link>
-            </Reveal>
-          </div>
-        </Premium3DSurface>
+          <Link
+            href={resolvedCta.href}
+            className={`${inter.className} group mt-8 inline-flex items-center gap-1.5 py-2 text-sm font-semibold leading-5 text-[#8F6C1A] transition-opacity hover:opacity-65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8F6C1A]/35`}
+          >
+            <span>{resolvedCta.label}</span>
+            <span className="transition-transform duration-200 group-hover:translate-x-1"><ArrowRightIcon /></span>
+          </Link>
+        </div>
       </div>
     </section>
   );
