@@ -3,6 +3,7 @@
 import { getImageProps } from "next/image";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Exo_2, Inter } from "next/font/google";
 import {
   AnimatePresence,
@@ -53,6 +54,14 @@ const DEVELOPMENT_FALLBACK_SLIDES: CmsHeroSlide[] = [
 ];
 
 const SLIDE_INTERVAL_MS = 6000;
+
+const WebGLHeritageScene = dynamic(
+  () =>
+    import("@/components/motion/webgl-heritage-scene").then(
+      (module) => module.WebGLHeritageScene,
+    ),
+  { ssr: false },
+);
 
 function ArrowRightIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
@@ -229,8 +238,19 @@ export function HeroSection({ slides = [] }: { slides?: CmsHeroSlide[] }) {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(105%_92%_at_52%_0%,rgba(0,0,0,0)_58%,rgba(0,0,0,0.62)_100%)]"
       />
 
-      {/* 3D CULTURAL DEPTH FIELD */}
-      <HeritageDepthField className="z-[7] opacity-70" tone="dark" />
+      {/*
+        REAL WEBGL DEPTH LAYER
+        Three.js + React Three Fiber render the floating Maharashtra-inspired
+        geometry. GSAP choreographs scene changes when the CMS hero slide changes.
+      */}
+      <WebGLHeritageScene
+        activeSlide={activeSlide}
+        reducedMotion={Boolean(reduceMotion)}
+        className="z-[6] opacity-90"
+      />
+
+      {/* CSS/Framer fallback detail remains intentionally subtle. */}
+      <HeritageDepthField className="z-[7] opacity-25" tone="dark" />
       <div aria-hidden="true" className="depth-horizon-grid z-[8]" />
 
       {/* Gold/Paithani-inspired threads: abstract cultural DNA, not literal decoration. */}
