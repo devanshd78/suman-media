@@ -13,13 +13,22 @@ type TurnstileOptions = {
   expectedAction?: string;
 };
 
+let cachedAllowedHostnamesRaw: string | null = null;
+let cachedAllowedHostnames = new Set<string>();
+
 function allowedHostnames(): Set<string> {
-  return new Set(
-    (process.env.TURNSTILE_ALLOWED_HOSTNAMES ?? "")
+  const raw = process.env.TURNSTILE_ALLOWED_HOSTNAMES ?? "";
+  if (raw === cachedAllowedHostnamesRaw) return cachedAllowedHostnames;
+
+  cachedAllowedHostnamesRaw = raw;
+  cachedAllowedHostnames = new Set(
+    raw
       .split(",")
       .map((value) => value.trim().toLowerCase())
       .filter(Boolean),
   );
+
+  return cachedAllowedHostnames;
 }
 
 export async function requireTurnstile({

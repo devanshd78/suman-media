@@ -8,7 +8,7 @@ import {
   serializeJsonLd,
   websiteJsonLd,
 } from "@/lib/seo/structured-data";
-import { getHomePage, getSiteSettings } from "@/sanity/lib/data";
+import { getHomePage, getHomePageMetadata, getSiteSettings } from "@/sanity/lib/data";
 
 /*
  * The homepage is editorial content, so ISR is the right default:
@@ -19,8 +19,8 @@ import { getHomePage, getSiteSettings } from "@/sanity/lib/data";
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [home, settings] = await Promise.all([getHomePage(true), getSiteSettings()]);
-  const seo = home?.seo;
+  const [homeMetadata, settings] = await Promise.all([getHomePageMetadata(), getSiteSettings()]);
+  const seo = homeMetadata?.seo;
 
   const title =
     seo?.title?.trim() ||
@@ -48,13 +48,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [home, cleanHome, settings] = await Promise.all([
-    getHomePage(false),
-    getHomePage(true),
+  const [home, homeMetadata, settings] = await Promise.all([
+    getHomePage(),
+    getHomePageMetadata(),
     getSiteSettings(),
   ]);
   const faqs =
-    cleanHome?.faqSection?.items?.filter(
+    homeMetadata?.faqSection?.items?.filter(
       (item) => Boolean(item?.question?.trim() && item?.answer?.trim()),
     ) ?? [];
 

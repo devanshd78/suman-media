@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as bodyFont, plusJakartaSans as headingFont } from "@/lib/fonts";
 import {
   motion,
   useReducedMotion,
@@ -13,16 +13,6 @@ import type { CmsCta } from "@/types/cms";
 /* =========================================================
    FONTS
    ========================================================= */
-
-const headingFont = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
-
-const bodyFont = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 /* =========================================================
    ICON

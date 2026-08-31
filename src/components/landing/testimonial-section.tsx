@@ -1,11 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 
 import type { CmsStoryBanner, CmsTestimonialSection } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
-const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 const REFERENCE_TESTIMONIAL_COPY =
   "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";

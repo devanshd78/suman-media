@@ -122,9 +122,6 @@ export function LandingPage({
           home?.industriesDescription
         }
         cta={home?.industriesCta}
-        industries={
-          home?.featuredIndustries ?? []
-        }
       />
 
       {/* =====================================================

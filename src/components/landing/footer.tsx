@@ -1,23 +1,12 @@
 import Link from "next/link";
-import { Noto_Sans_Devanagari, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  notoSansDevanagari as devanagari,
+  plusJakartaSans as body,
+  plusJakartaSans as display,
+} from "@/lib/fonts";
 import type { ReactNode } from "react";
 
 import type { CmsCta, CmsSiteSettings } from "@/types/cms";
-
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const body = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const devanagari = Noto_Sans_Devanagari({
-  subsets: ["devanagari"],
-  weight: ["700", "800"],
-});
 
 const DEFAULT_MARATHI_WORDMARK = "\u0938\u0941\u092e\u0928 \u090f\u0902\u091f\u0930\u091f\u0947\u0928\u092e\u0947\u0902\u091f \u0905\u0901\u0921 \u092e\u0940\u0921\u093f\u092f\u093e";
 

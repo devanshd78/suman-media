@@ -14,7 +14,6 @@ export const HOME_PAGE_QUERY =
         coalesce(enabled, true) == true
       ]{
         _key,
-        internalName,
         eyebrow,
         heading,
         description,
@@ -22,20 +21,10 @@ export const HOME_PAGE_QUERY =
         "imageUrl":
           image.asset->url,
 
-        "imageAlt":
-          select(
-            image.decorative == true => "",
-            image.alt
-          ),
 
         "mobileImageUrl":
           mobileImage.asset->url,
 
-        "mobileImageAlt":
-          select(
-            mobileImage.decorative == true => "",
-            mobileImage.alt
-          ),
 
         "badgeUrl":
           badge.asset->url,
@@ -76,8 +65,6 @@ export const HOME_PAGE_QUERY =
       style
     },
 
-    clientsEyebrow,
-    clientsHeading,
 
     servicesEyebrow,
     servicesHeading,
@@ -101,88 +88,13 @@ export const HOME_PAGE_QUERY =
       style
     },
 
-    stats[]{
+    stats[0...4]{
       _key,
       value,
       prefix,
       suffix,
       label
     },
-
-    "featuredCompanies":
-      select(
-        count(
-          coalesce(
-            featuredCompanies,
-            []
-          )
-        ) > 0
-          => featuredCompanies[]->{
-            _id,
-            name,
-
-            "slug":
-              slug.current,
-
-            shortDescription,
-
-            "logoUrl":
-              logo.asset->url,
-
-            "logoAlt":
-              logo.alt,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt,
-
-            websiteUrl,
-
-            "hasDetailPage":
-              defined(description) ||
-              count(
-                coalesce(body, [])
-              ) > 0
-          },
-
-        *[
-          _type == "company" &&
-          coalesce(featured, false) == true &&
-          defined(logo.asset)
-        ]
-          | order(name asc)
-          [0...8]{
-            _id,
-            name,
-
-            "slug":
-              slug.current,
-
-            shortDescription,
-
-            "logoUrl":
-              logo.asset->url,
-
-            "logoAlt":
-              logo.alt,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt,
-
-            websiteUrl,
-
-            "hasDetailPage":
-              defined(description) ||
-              count(
-                coalesce(body, [])
-              ) > 0
-          }
-      ),
 
     "featuredServices":
       select(
@@ -231,106 +143,6 @@ export const HOME_PAGE_QUERY =
           }
       ),
 
-    "featuredIndustries":
-      select(
-        count(
-          coalesce(
-            featuredIndustries,
-            []
-          )
-        ) > 0
-          => featuredIndustries[]->{
-            _id,
-            title,
-
-            "slug":
-              slug.current,
-
-            shortDescription,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt
-          },
-
-        *[
-          _type == "industry" &&
-          coalesce(featured, false) == true &&
-          defined(featuredImage.asset)
-        ]
-          | order(title asc)
-          [0...12]{
-            _id,
-            title,
-
-            "slug":
-              slug.current,
-
-            shortDescription,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt
-          }
-      ),
-
-    "featuredProjects":
-      select(
-        count(
-          coalesce(
-            featuredProjects,
-            []
-          )
-        ) > 0
-          => featuredProjects[]->{
-            _id,
-            title,
-
-            "slug":
-              slug.current,
-
-            client,
-            shortDescription,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt,
-
-            projectDate
-          },
-
-        *[
-          _type == "project" &&
-          coalesce(featured, false) == true &&
-          defined(featuredImage.asset)
-        ]
-          | order(projectDate desc)
-          [0...8]{
-            _id,
-            title,
-
-            "slug":
-              slug.current,
-
-            client,
-            shortDescription,
-
-            "imageUrl":
-              featuredImage.asset->url,
-
-            "imageAlt":
-              featuredImage.alt,
-
-            projectDate
-          }
-      ),
-
     "featuredInsights":
       select(
         count(
@@ -354,13 +166,7 @@ export const HOME_PAGE_QUERY =
             "imageAlt":
               featuredImage.alt,
 
-            publishedAt,
-
-            "authorName":
-              author->name,
-
-            "category":
-              categories[0]->title
+            publishedAt
           },
 
         *[
@@ -386,13 +192,7 @@ export const HOME_PAGE_QUERY =
             "imageAlt":
               featuredImage.alt,
 
-            publishedAt,
-
-            "authorName":
-              author->name,
-
-            "category":
-              categories[0]->title
+            publishedAt
           }
       ),
 
@@ -459,7 +259,7 @@ export const HOME_PAGE_QUERY =
           style
         },
 
-        benefits[]{
+        benefits[0...5]{
           _key,
           title,
           href
@@ -512,7 +312,7 @@ export const HOME_PAGE_QUERY =
           ),
 
         "partnerLogos":
-          partnerLogos[]{
+          partnerLogos[0...5]{
             _key,
             label,
 
@@ -566,10 +366,9 @@ export const HOME_PAGE_QUERY =
         heading,
 
         "items":
-          items[]{
+          items[0...12]{
             _key,
             title,
-            source,
             href,
 
             "imageUrl":
@@ -648,29 +447,31 @@ export const HOME_PAGE_QUERY =
           href,
           style
         }
-      },
+      }
+  }
+`);
 
+export const HOME_PAGE_METADATA_QUERY =
+  defineQuery(`
+  *[
+    _type == "homePage" &&
+    _id == "homePage"
+  ][0]{
     "seo": {
-      "title":
-        seo.metaTitle,
+      "title": seo.metaTitle,
+      "description": seo.metaDescription,
+      "canonicalUrl": seo.canonicalUrl,
+      "noIndex": coalesce(seo.noIndex, false),
+      "socialImageUrl": seo.socialImage.asset->url,
+      "socialImageAlt": seo.socialImage.alt
+    },
 
-      "description":
-        seo.metaDescription,
-
-      "canonicalUrl":
-        seo.canonicalUrl,
-
-      "noIndex":
-        coalesce(
-          seo.noIndex,
-          false
-        ),
-
-      "socialImageUrl":
-        seo.socialImage.asset->url,
-
-      "socialImageAlt":
-        seo.socialImage.alt
+    "faqSection": faqSection{
+      items[]{
+        _key,
+        question,
+        answer
+      }
     }
   }
 `);

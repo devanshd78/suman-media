@@ -1,15 +1,10 @@
 import Image from "next/image";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as plusJakarta } from "@/lib/fonts";
 import type { CSSProperties } from "react";
 
 import type { CmsFeaturedService } from "@/types/cms";
 
 import { ServicesScrollGallery } from "./services-scroll-gallery";
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
 
 /**
  * The final scroll hand-off is calibrated to the supplied recording.

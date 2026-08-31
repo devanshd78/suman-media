@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as bodyFont, plusJakartaSans as headingFont } from "@/lib/fonts";
 import {
   motion,
   useReducedMotion,
@@ -16,24 +16,11 @@ import {
   type ReactNode,
 } from "react";
 
-import type {
-  CmsCta,
-  CmsFeaturedIndustry,
-} from "@/types/cms";
+import type { CmsCta } from "@/types/cms";
 
 /* ============================================================
    FONTS
    ============================================================ */
-
-const headingFont = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
-
-const bodyFont = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 /* ============================================================
    TYPES
@@ -63,14 +50,6 @@ type IndustriesSectionProps = {
   description?: string | null;
   cta?: CmsCta | null;
 
-  /*
-   * Kept only for compatibility with the existing
-   * LandingPage call.
-   *
-   * Individual industries are intentionally
-   * controlled from this file, not Sanity.
-   */
-  industries?: CmsFeaturedIndustry[] | null;
 };
 
 /* ============================================================
@@ -623,20 +602,17 @@ export function IndustriesSection({
   const shouldReduceMotion =
     useReducedMotion();
 
-  const [
+  const [metrics, setMetrics] = useState({
+    horizontalDistance: 0,
+    stickyHeight: 0,
+    sectionStart: 0,
+  });
+
+  const {
     horizontalDistance,
-    setHorizontalDistance,
-  ] = useState(0);
-
-  const [
     stickyHeight,
-    setStickyHeight,
-  ] = useState(0);
-
-  const [
     sectionStart,
-    setSectionStart,
-  ] = useState(0);
+  } = metrics;
 
   /* ==========================================================
      CONTENT
@@ -671,79 +647,63 @@ export function IndustriesSection({
      ========================================================== */
 
   useEffect(() => {
-    const section =
-      sectionRef.current;
+    const section = sectionRef.current;
+    const sticky = stickyContentRef.current;
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
 
-    const sticky =
-      stickyContentRef.current;
-
-    const viewport =
-      viewportRef.current;
-
-    const track =
-      trackRef.current;
-
-    if (
-      !section ||
-      !sticky ||
-      !viewport ||
-      !track
-    ) {
+    if (!section || !sticky || !viewport || !track) {
       return;
     }
 
-    const measure = () => {
-      const distance = Math.max(
-        0,
-        track.scrollWidth -
-          viewport.clientWidth,
-      );
+    let frame = 0;
+    let cancelled = false;
 
-      const measuredStickyHeight =
-        sticky.scrollHeight;
+    const commitMeasurement = () => {
+      if (cancelled) return;
 
-      const absoluteSectionTop =
-        section.getBoundingClientRect()
-          .top + window.scrollY;
+      const next = {
+        horizontalDistance: Math.max(
+          0,
+          track.scrollWidth - viewport.clientWidth,
+        ),
+        stickyHeight: sticky.scrollHeight,
+        sectionStart: section.getBoundingClientRect().top + window.scrollY,
+      };
 
-      setHorizontalDistance(
-        distance,
-      );
-
-      setStickyHeight(
-        measuredStickyHeight,
-      );
-
-      setSectionStart(
-        absoluteSectionTop,
+      setMetrics((current) =>
+        current.horizontalDistance === next.horizontalDistance &&
+        current.stickyHeight === next.stickyHeight &&
+        Math.abs(current.sectionStart - next.sectionStart) < 0.5
+          ? current
+          : next,
       );
     };
 
-    measure();
+    const scheduleMeasure = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(commitMeasurement);
+    };
 
-    const observer =
-      new ResizeObserver(measure);
+    scheduleMeasure();
 
-    observer.observe(section);
+    const observer = new ResizeObserver(scheduleMeasure);
     observer.observe(sticky);
     observer.observe(viewport);
     observer.observe(track);
 
-    window.addEventListener(
-      "resize",
-      measure,
-      {
-        passive: true,
-      },
-    );
+    window.addEventListener("resize", scheduleMeasure, { passive: true });
+
+    // Font metrics can settle after hydration. Re-measure once the loaded font
+    // set is ready so the sticky release point stays exact without observing
+    // the section's own computed height and creating a resize feedback loop.
+    void document.fonts?.ready.then(scheduleMeasure);
 
     return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
       observer.disconnect();
-
-      window.removeEventListener(
-        "resize",
-        measure,
-      );
+      window.removeEventListener("resize", scheduleMeasure);
     };
   }, []);
 

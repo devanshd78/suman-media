@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as plusJakarta } from "@/lib/fonts";
 import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
 
 type Slide = {
   id: number;
@@ -275,8 +270,10 @@ function SlideCard({
 export function ClientsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [slideWidth, setSlideWidth] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(0);
+  const [dimensions, setDimensions] = useState({
+    slideWidth: 0,
+    viewportWidth: 0,
+  });
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const firstSlideRef = useRef<HTMLDivElement>(null);
@@ -305,24 +302,43 @@ export function ClientsSection() {
     const firstSlide = firstSlideRef.current;
     if (!viewport || !firstSlide) return;
 
+    let frame = 0;
+
     const measure = () => {
-      setViewportWidth(viewport.clientWidth);
-      setSlideWidth(firstSlide.offsetWidth);
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const next = {
+          viewportWidth: viewport.clientWidth,
+          slideWidth: firstSlide.offsetWidth,
+        };
+
+        setDimensions((current) =>
+          current.viewportWidth === next.viewportWidth &&
+          current.slideWidth === next.slideWidth
+            ? current
+            : next,
+        );
+      });
     };
 
     measure();
+
     const observer = new ResizeObserver(measure);
     observer.observe(viewport);
     observer.observe(firstSlide);
 
-    return () => observer.disconnect();
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, []);
 
   const trackX = useMemo(() => {
+    const { slideWidth, viewportWidth } = dimensions;
     if (!slideWidth || !viewportWidth) return 0;
 
     return viewportWidth / 2 - slideWidth / 2 - activeIndex * (slideWidth + SLIDE_GAP_PX);
-  }, [activeIndex, slideWidth, viewportWidth]);
+  }, [activeIndex, dimensions]);
 
   return (
     <section

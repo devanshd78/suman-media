@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef } from "react";
 
 type AnimatedStatNumberProps = {
   value: number;
@@ -20,7 +16,6 @@ export function AnimatedStatNumber({
   delay = 0,
 }: AnimatedStatNumberProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [displayValue, setDisplayValue] = useState(0);
   const hasAnimated = useRef(false);
 
   useEffect(() => {
@@ -30,12 +25,15 @@ export function AnimatedStatNumber({
       return;
     }
 
+    const formatValue = (currentValue: number) =>
+      `${prefix ?? ""}${currentValue}${suffix ?? ""}`;
+
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
     if (reduceMotion) {
-      setDisplayValue(value);
+      element.textContent = formatValue(value);
       hasAnimated.current = true;
       return;
     }
@@ -54,29 +52,25 @@ export function AnimatedStatNumber({
           const start = performance.now();
 
           const tick = (time: number) => {
-            const progress = Math.min(
-              (time - start) / duration,
-              1,
-            );
+            const progress = Math.min((time - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const displayValue = Math.round(value * eased);
 
-            const eased =
-              1 - Math.pow(1 - progress, 3);
-
-            setDisplayValue(
-              Math.round(value * eased),
-            );
+            /*
+             * Keep the exact existing timing/easing, but update the isolated
+             * text node directly instead of forcing a React render every frame.
+             */
+            element.textContent = formatValue(displayValue);
 
             if (progress < 1) {
-              frameId =
-                requestAnimationFrame(tick);
+              frameId = window.requestAnimationFrame(tick);
             } else {
-              setDisplayValue(value);
+              element.textContent = formatValue(value);
               hasAnimated.current = true;
             }
           };
 
-          frameId =
-            requestAnimationFrame(tick);
+          frameId = window.requestAnimationFrame(tick);
         }, delay);
       },
       {
@@ -89,15 +83,9 @@ export function AnimatedStatNumber({
     return () => {
       observer.disconnect();
       window.clearTimeout(timeoutId);
-      cancelAnimationFrame(frameId);
+      window.cancelAnimationFrame(frameId);
     };
-  }, [delay, value]);
+  }, [delay, prefix, suffix, value]);
 
-  return (
-    <span ref={ref}>
-      {prefix ?? ""}
-      {displayValue}
-      {suffix ?? ""}
-    </span>
-  );
+  return <span ref={ref}>{prefix ?? ""}0{suffix ?? ""}</span>;
 }

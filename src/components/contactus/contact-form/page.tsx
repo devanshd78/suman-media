@@ -2,23 +2,13 @@
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Script from "next/script";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import {
   FALLBACK_COUNTRY_CALLING_CODES,
   type CountryCallingCode,
 } from "@/lib/country-calling-codes";
 import type { ApiResponse } from "@/types/api";
 import { PartnerLogoMarquee } from "../partner-logo-marquee";
-
-const exo2 = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-
-const inter = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 const FALLBACK_GENERAL_CATEGORIES = [
   "Services",

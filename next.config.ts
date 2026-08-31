@@ -18,6 +18,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  // Production traffic is already compressed by Nginx. Avoid spending Node.js
+  // CPU gzipping the same responses inside the standalone Next.js server.
+  compress: false,
   turbopack: {
     root: process.cwd(),
   },

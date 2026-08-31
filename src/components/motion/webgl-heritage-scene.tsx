@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import gsap from "gsap";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 type WebGLHeritageSceneProps = {
@@ -25,51 +25,56 @@ const MAROON = "#6B1F2E";
 const PEACOCK = "#0F4C4C";
 const COPPER = "#A96B43";
 
-function FloatingGem({
-  config,
-  index,
-  reducedMotion,
-}: {
-  config: GemConfig;
-  index: number;
-  reducedMotion: boolean;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state, delta) => {
-    if (reducedMotion || !meshRef.current) return;
-
-    const mesh = meshRef.current;
-    const t = state.clock.elapsedTime;
-
-    mesh.rotation.x += delta * 0.06 * config.speed;
-    mesh.rotation.y += delta * 0.085 * config.speed;
-    mesh.position.y =
-      config.position[1] + Math.sin(t * (0.32 + index * 0.018) + index) * 0.13;
-  });
-
-  return (
-    <mesh
-      ref={meshRef}
-      position={config.position}
-      rotation={config.rotation}
-      scale={config.scale}
-    >
-      <octahedronGeometry args={[1, 0]} />
-      <meshPhysicalMaterial
-        color={config.color}
-        metalness={0.78}
-        roughness={0.23}
-        clearcoat={1}
-        clearcoatRoughness={0.18}
-        transparent
-        opacity={config.opacity}
-        emissive={config.color}
-        emissiveIntensity={0.035}
-      />
-    </mesh>
-  );
-}
+const GEMS: readonly GemConfig[] = [
+  {
+    position: [-3.4, 1.85, -1.4],
+    scale: 0.72,
+    rotation: [0.6, 0.18, 0.78],
+    color: GOLD,
+    opacity: 0.34,
+    speed: 0.8,
+  },
+  {
+    position: [3.75, 1.45, -2.35],
+    scale: 1.08,
+    rotation: [0.78, -0.28, 0.78],
+    color: PEACOCK,
+    opacity: 0.23,
+    speed: 0.62,
+  },
+  {
+    position: [2.8, -1.25, -0.8],
+    scale: 0.42,
+    rotation: [0.55, 0.35, 0.78],
+    color: COPPER,
+    opacity: 0.38,
+    speed: 1.02,
+  },
+  {
+    position: [-2.6, -1.35, -2.4],
+    scale: 0.92,
+    rotation: [0.82, 0.18, 0.78],
+    color: MAROON,
+    opacity: 0.22,
+    speed: 0.72,
+  },
+  {
+    position: [0.7, 2.25, -3.1],
+    scale: 0.52,
+    rotation: [0.64, -0.4, 0.78],
+    color: GOLD,
+    opacity: 0.2,
+    speed: 0.9,
+  },
+  {
+    position: [-0.2, -1.95, -1.9],
+    scale: 0.34,
+    rotation: [0.4, 0.42, 0.78],
+    color: PEACOCK,
+    opacity: 0.28,
+    speed: 1.12,
+  },
+];
 
 function HeritageField({
   activeSlide,
@@ -80,60 +85,7 @@ function HeritageField({
 }) {
   const rootRef = useRef<THREE.Group>(null);
   const innerRef = useRef<THREE.Group>(null);
-
-  const gems = useMemo<GemConfig[]>(
-    () => [
-      {
-        position: [-3.4, 1.85, -1.4],
-        scale: 0.72,
-        rotation: [0.6, 0.18, 0.78],
-        color: GOLD,
-        opacity: 0.34,
-        speed: 0.8,
-      },
-      {
-        position: [3.75, 1.45, -2.35],
-        scale: 1.08,
-        rotation: [0.78, -0.28, 0.78],
-        color: PEACOCK,
-        opacity: 0.23,
-        speed: 0.62,
-      },
-      {
-        position: [2.8, -1.25, -0.8],
-        scale: 0.42,
-        rotation: [0.55, 0.35, 0.78],
-        color: COPPER,
-        opacity: 0.38,
-        speed: 1.02,
-      },
-      {
-        position: [-2.6, -1.35, -2.4],
-        scale: 0.92,
-        rotation: [0.82, 0.18, 0.78],
-        color: MAROON,
-        opacity: 0.22,
-        speed: 0.72,
-      },
-      {
-        position: [0.7, 2.25, -3.1],
-        scale: 0.52,
-        rotation: [0.64, -0.4, 0.78],
-        color: GOLD,
-        opacity: 0.2,
-        speed: 0.9,
-      },
-      {
-        position: [-0.2, -1.95, -1.9],
-        scale: 0.34,
-        rotation: [0.4, 0.42, 0.78],
-        color: PEACOCK,
-        opacity: 0.28,
-        speed: 1.12,
-      },
-    ],
-    [],
-  );
+  const gemRefs = useRef<Array<THREE.Mesh | null>>([]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -181,24 +133,60 @@ function HeritageField({
     return () => ctx.revert();
   }, [activeSlide, reducedMotion]);
 
-  useFrame((state) => {
-    if (reducedMotion || !innerRef.current) return;
+  /*
+   * Keep the exact existing motion formulas, but update every floating mesh
+   * from one render-loop subscriber instead of registering one useFrame hook
+   * per gem. This reduces per-frame React Three Fiber callback overhead without
+   * changing positions, speeds, rotations, or timing.
+   */
+  useFrame((state, delta) => {
+    if (reducedMotion) return;
 
     const t = state.clock.elapsedTime;
-    innerRef.current.rotation.z = Math.sin(t * 0.12) * 0.025;
-    innerRef.current.position.y = Math.sin(t * 0.22) * 0.035;
+
+    GEMS.forEach((config, index) => {
+      const mesh = gemRefs.current[index];
+      if (!mesh) return;
+
+      mesh.rotation.x += delta * 0.06 * config.speed;
+      mesh.rotation.y += delta * 0.085 * config.speed;
+      mesh.position.y =
+        config.position[1] + Math.sin(t * (0.32 + index * 0.018) + index) * 0.13;
+    });
+
+    const inner = innerRef.current;
+    if (!inner) return;
+
+    inner.rotation.z = Math.sin(t * 0.12) * 0.025;
+    inner.position.y = Math.sin(t * 0.22) * 0.035;
   });
 
   return (
     <group ref={rootRef}>
       <group ref={innerRef}>
-        {gems.map((config, index) => (
-          <FloatingGem
+        {GEMS.map((config, index) => (
+          <mesh
             key={`${config.position.join("-")}-${index}`}
-            config={config}
-            index={index}
-            reducedMotion={reducedMotion}
-          />
+            ref={(mesh) => {
+              gemRefs.current[index] = mesh;
+            }}
+            position={config.position}
+            rotation={config.rotation}
+            scale={config.scale}
+          >
+            <octahedronGeometry args={[1, 0]} />
+            <meshPhysicalMaterial
+              color={config.color}
+              metalness={0.78}
+              roughness={0.23}
+              clearcoat={1}
+              clearcoatRoughness={0.18}
+              transparent
+              opacity={config.opacity}
+              emissive={config.color}
+              emissiveIntensity={0.035}
+            />
+          </mesh>
         ))}
 
         {/* Abstract Paithani-style orbit rings. */}
@@ -260,10 +248,7 @@ export function WebGLHeritageScene({
         <directionalLight position={[-5, -2, 3]} intensity={0.65} color="#7AB8AF" />
         <pointLight position={[0, 1.5, 2.5]} intensity={8} distance={10} color={GOLD} />
 
-        <HeritageField
-          activeSlide={activeSlide}
-          reducedMotion={reducedMotion}
-        />
+        <HeritageField activeSlide={activeSlide} reducedMotion={reducedMotion} />
       </Canvas>
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,transparent_0%,rgba(0,0,0,0.02)_45%,rgba(0,0,0,0.28)_100%)]" />

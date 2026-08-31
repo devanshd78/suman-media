@@ -4,13 +4,10 @@ import dynamic from "next/dynamic";
 import { getImageProps } from "next/image";
 import Image from "next/image";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import { useEffect, useState } from "react";
 
 import type { CmsHeroSlide } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["500", "600"] });
-const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 /*
  * Development-only safety content. Sanity remains the source of truth in

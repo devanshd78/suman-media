@@ -7,9 +7,10 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import {
-  Inter,
-  Plus_Jakarta_Sans,
-} from "next/font/google";
+  inter as benefitFont,
+  plusJakartaSans as body,
+  plusJakartaSans as display,
+} from "@/lib/fonts";
 
 import type {
   CmsCta,
@@ -19,21 +20,6 @@ import type {
 /* =========================================================
    FONTS
    ========================================================= */
-
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-
-const body = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-const benefitFont = Inter({
-  subsets: ["latin"],
-  weight: ["600"],
-});
 
 /* =========================================================
    ICONS

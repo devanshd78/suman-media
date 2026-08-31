@@ -1,20 +1,10 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as body, plusJakartaSans as display } from "@/lib/fonts";
 
 import { AnimatedStatNumber } from "./animated-stat-number";
 
 /* =========================================================
    FONTS
    ========================================================= */
-
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["700"],
-});
-
-const body = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 /* =========================================================
    TYPES

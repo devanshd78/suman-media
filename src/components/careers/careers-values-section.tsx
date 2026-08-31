@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import {
   BooksIcon,
@@ -11,18 +12,8 @@ import {
   MoneyWavyIcon,
   UsersFourIcon,
 } from "@phosphor-icons/react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import type { CmsCareersCulture } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-
-const inter = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 const CAREER_BENEFITS = [
   { label: "Competitive Compensation", Icon: CoinsIcon },
@@ -322,13 +313,16 @@ export function CareersValuesSection({
                     aria-label={`Culture highlight ${index + 1} of ${slides.length}`}
                   >
                     <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={slide.imageUrl}
-                        alt={slide.imageAlt || slide.title}
-                        draggable={false}
-                        className="aspect-[16/10] w-full shrink-0 select-none object-cover object-center lg:aspect-auto lg:h-[38.75rem] lg:w-[38rem]"
-                      />
+                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden lg:aspect-auto lg:h-[38.75rem] lg:w-[38rem]">
+                        <Image
+                          src={slide.imageUrl}
+                          alt={slide.imageAlt || slide.title}
+                          fill
+                          sizes="(max-width: 1023px) 100vw, 38rem"
+                          draggable={false}
+                          className="select-none object-cover object-center"
+                        />
+                      </div>
 
                       <div
                         className="flex min-h-[15rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 lg:min-h-0"

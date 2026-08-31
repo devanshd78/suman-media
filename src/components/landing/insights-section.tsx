@@ -2,13 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import { useRef } from "react";
 
 import type { CmsCta, CmsFeaturedInsight } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
-const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 function ArrowIcon({ direction = "right" }: { direction?: "left" | "right" }) {
   return (

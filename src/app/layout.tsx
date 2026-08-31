@@ -1,14 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import { siteConfig } from "@/config/site";
-import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
+import { siteConfig } from "@/config/site";
+import { inter, plusJakartaSans } from "@/lib/fonts";
+
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -39,10 +34,19 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-white text-zinc-950">{children}</body>
+    <html
+      lang="en"
+      className={`${plusJakartaSans.variable} ${inter.variable} h-full antialiased`}
+    >
+      <body className="flex min-h-full flex-col bg-white text-zinc-950">
+        {children}
+      </body>
     </html>
   );
 }

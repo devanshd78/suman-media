@@ -3,19 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CaretDownIcon, CaretRightIcon } from "@phosphor-icons/react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 
 import type { CmsCareerOpening } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-
-const inter = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
 
 const FALLBACK_OPENINGS: CmsCareerOpening[] = [
   {

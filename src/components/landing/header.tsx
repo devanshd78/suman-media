@@ -2,14 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["600"],
-});
 
 /* =========================================================
    TYPES

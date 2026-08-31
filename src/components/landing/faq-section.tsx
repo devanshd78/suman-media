@@ -1,9 +1,6 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 
 import type { CmsFaqSection } from "@/types/cms";
-
-const exo2 = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["600"] });
-const inter = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "600"] });
 
 function PlusIcon() {
   return (

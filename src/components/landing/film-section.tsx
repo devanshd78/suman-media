@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { inter as buttonFont, plusJakartaSans as headingFont } from "@/lib/fonts";
 import {
   motion,
   useReducedMotion,
@@ -12,16 +12,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useRef } from "react";
-
-const headingFont = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
-
-const buttonFont = Inter({
-  subsets: ["latin"],
-  weight: ["600"],
-});
 
 type GalleryImage = {
   src: string;

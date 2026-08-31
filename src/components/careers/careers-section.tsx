@@ -1,15 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
-
-const exo2 = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-
-const inter = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "600"],
-});
+import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 
 /* ========================================================= */
 /* TYPES                                                     */
@@ -236,15 +227,13 @@ function GalleryGroup({
               transform: `translateY(-${verticalOffset}rem)`,
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={image.url}
               alt={duplicate ? "" : image.alt}
+              fill
+              sizes="22rem"
               draggable={false}
-              loading="lazy"
               className="
-                h-full
-                w-full
                 select-none
                 object-cover
                 object-center
@@ -464,14 +453,14 @@ export async function CareersSection() {
           lg:aspect-auto
         "
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={heroImage.url}
           alt={heroImage.alt}
+          fill
+          priority
+          sizes="100vw"
           draggable={false}
           className="
-            h-full
-            w-full
             select-none
             object-cover
             object-center
