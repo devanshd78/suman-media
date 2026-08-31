@@ -1,30 +1,79 @@
 import type { NextConfig } from "next";
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction =
+  process.env.NODE_ENV === "production";
 
-const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== "false";
+const allowIndexing =
+  process.env.NEXT_PUBLIC_ALLOW_INDEXING !==
+  "false";
 
 const securityHeaders = [
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "X-DNS-Prefetch-Control", value: "on" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-  ...(!allowIndexing ? [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }] : []),
+  {
+    key: "X-Content-Type-Options",
+    value: "nosniff",
+  },
+  {
+    key: "Referrer-Policy",
+    value: "strict-origin-when-cross-origin",
+  },
+  {
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
+  },
+  {
+    key: "Permissions-Policy",
+    value:
+      "camera=(), microphone=(), geolocation=(), payment=()",
+  },
+
+  ...(!allowIndexing
+    ? [
+        {
+          key: "X-Robots-Tag",
+          value:
+            "noindex, nofollow, noarchive",
+        },
+      ]
+    : []),
+
   ...(isProduction
-    ? [{ key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" }]
+    ? [
+        {
+          key: "Strict-Transport-Security",
+          value:
+            "max-age=31536000; includeSubDomains",
+        },
+      ]
     : []),
 ];
 
 const nextConfig: NextConfig = {
   output: "standalone",
+
   poweredByHeader: false,
-  // Production traffic is already compressed by Nginx. Avoid spending Node.js
-  // CPU gzipping the same responses inside the standalone Next.js server.
+
+  /*
+   * Nginx already handles compression
+   * in production.
+   */
   compress: false,
+
   turbopack: {
     root: process.cwd(),
   },
+
   images: {
+    /*
+     * Hero currently requests:
+     *
+     * desktop → 88
+     * mobile  → 84
+     *
+     * 75 remains available as the normal
+     * default quality for other images.
+     */
+    qualities: [75, 84, 88],
+
     remotePatterns: [
       {
         protocol: "https",
@@ -33,15 +82,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
   async headers() {
     return [
       {
         source: "/:path*",
         headers: securityHeaders,
       },
+
       {
         source: "/api/:path*",
-        headers: [{ key: "Cache-Control", value: "no-store" }],
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+        ],
       },
     ];
   },
