@@ -453,6 +453,12 @@ export const HOME_PAGE_QUERY =
         heading,
         description,
 
+        cta{
+          label,
+          href,
+          style
+        },
+
         benefits[]{
           _key,
           title,
@@ -701,6 +707,20 @@ export const SITE_SETTINGS_QUERY =
       _key,
       platform,
       url
+    },
+
+    footer{
+      heading,
+      description,
+      contactCta{ label, href, style },
+      partnerHeading,
+      partnerDescription,
+      partnerCta{ label, href, style },
+      growHeading,
+      growDescription,
+      growCta{ label, href, style },
+      marathiWordmark,
+      designCredit
     },
 
     defaultMetaTitle,

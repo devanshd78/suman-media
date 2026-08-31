@@ -222,6 +222,7 @@ export const homePageType = defineType({
       fields: [
         defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Why Partner With us?", validation: (rule) => rule.max(120) }),
         defineField({ name: "description", title: "Description", type: "text", rows: 4, initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
+        defineField({ name: "cta", title: "Partner contact button", type: "cta", initialValue: { label: "Contact us", href: "/contact", style: "primary" } }),
         defineField({
           name: "benefits",
           title: "Partner benefits",

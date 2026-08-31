@@ -8,6 +8,7 @@ export const siteSettingsType = defineType({
     { name: "brand", title: "Brand", default: true },
     { name: "contact", title: "Contact" },
     { name: "social", title: "Social" },
+    { name: "footer", title: "Footer" },
     { name: "seo", title: "SEO defaults" },
   ],
   fields: [
@@ -79,6 +80,25 @@ export const siteSettingsType = defineType({
           ],
           preview: { select: { title: "platform", subtitle: "url" } },
         },
+      ],
+    }),
+    defineField({
+      name: "footer",
+      title: "Footer",
+      type: "object",
+      group: "footer",
+      fields: [
+        defineField({ name: "heading", title: "Heading", type: "string", initialValue: "Get started", validation: (rule) => rule.max(80) }),
+        defineField({ name: "description", title: "Description", type: "text", rows: 3, initialValue: "Create an account instantly, or contact us to design a custom package for your business.", validation: (rule) => rule.max(260) }),
+        defineField({ name: "contactCta", title: "Primary contact link", type: "cta", initialValue: { label: "Contact us", href: "/contact", style: "text" } }),
+        defineField({ name: "partnerHeading", title: "Partner card heading", type: "string", initialValue: "Partner with us", validation: (rule) => rule.max(80) }),
+        defineField({ name: "partnerDescription", title: "Partner card description", type: "text", rows: 3, initialValue: "From films and music to technology and distribution, partner with us to create, build and reach new audiences.", validation: (rule) => rule.max(260) }),
+        defineField({ name: "partnerCta", title: "Partner card link", type: "cta", initialValue: { label: "Become a partner", href: "/contact?type=partnership", style: "text" } }),
+        defineField({ name: "growHeading", title: "Growth card heading", type: "string", initialValue: "Grow with us", validation: (rule) => rule.max(80) }),
+        defineField({ name: "growDescription", title: "Growth card description", type: "text", rows: 3, initialValue: "Join a growing media ecosystem built around content, technology, regional IP and global opportunities.", validation: (rule) => rule.max(260) }),
+        defineField({ name: "growCta", title: "Growth card link", type: "cta", initialValue: { label: "Explore investment", href: "/investors", style: "text" } }),
+        defineField({ name: "marathiWordmark", title: "Marathi footer wordmark", type: "string", initialValue: "\u0938\u0941\u092e\u0928 \u090f\u0902\u091f\u0930\u091f\u0947\u0928\u092e\u0947\u0902\u091f \u0905\u0901\u0921 \u092e\u0940\u0921\u093f\u092f\u093e", validation: (rule) => rule.max(120) }),
+        defineField({ name: "designCredit", title: "Design credit", type: "string", initialValue: "Design Courtesy NOWT", validation: (rule) => rule.max(120) }),
       ],
     }),
     defineField({

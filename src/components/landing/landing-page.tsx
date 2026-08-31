@@ -1,5 +1,7 @@
 import type { CmsHomePage } from "@/types/cms";
 
+import { ParallaxBlackSection } from "@/components/motion/parallax-black-section";
+
 import { AboutSection } from "./about-section";
 import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { CareersCtaSection } from "./careers-cta-section";
@@ -17,9 +19,17 @@ import { ServicesSection } from "./services-section";
 import { StatsSection } from "./stats-section";
 import { TestimonialSection } from "./testimonial-section";
 
+/* ============================================================
+   TYPES
+   ============================================================ */
+
 type LandingPageProps = {
   home: CmsHomePage | null;
 };
+
+/* ============================================================
+   LANDING PAGE
+   ============================================================ */
 
 export function LandingPage({
   home,
@@ -36,11 +46,26 @@ export function LandingPage({
         bg-black
       "
     >
+      {/* =====================================================
+          GLOBAL LANDING TEXT REVEAL
+          ===================================================== */}
+
       <LandingTextReveal />
+
+      {/* =====================================================
+          HERO
+          DARK → DARK
+          No white-to-black transition needed.
+          ===================================================== */}
 
       <HeroSection
         slides={home?.heroSlides ?? []}
       />
+
+      {/* =====================================================
+          ABOUT
+          DARK
+          ===================================================== */}
 
       <AboutSection
         eyebrow={home?.aboutEyebrow}
@@ -49,19 +74,46 @@ export function LandingPage({
         cta={home?.aboutCta}
       />
 
+      {/* =====================================================
+          CLIENTS
+          WHITE
+          ===================================================== */}
+
       <ClientsSection />
 
-      <ServicesSection
-        eyebrow={home?.servicesEyebrow}
-        heading={home?.servicesHeading}
-        services={
-          home?.featuredServices ?? []
-        }
-      />
+      {/* =====================================================
+          WHITE → BLACK
+
+          Clients
+              ↓
+          Services
+
+          Apply premium parallax transition here.
+          ===================================================== */}
+
+      <ParallaxBlackSection>
+        <ServicesSection
+          eyebrow={home?.servicesEyebrow}
+          heading={home?.servicesHeading}
+          services={
+            home?.featuredServices ?? []
+          }
+        />
+      </ParallaxBlackSection>
+
+      {/* =====================================================
+          ACHIEVEMENT
+          WARM / #FFEABF
+          ===================================================== */}
 
       <AchievementRevealGrid
         content={home?.achievement}
       />
+
+      {/* =====================================================
+          INDUSTRIES
+          WHITE
+          ===================================================== */}
 
       <IndustriesSection
         eyebrow={home?.industriesEyebrow}
@@ -75,17 +127,42 @@ export function LandingPage({
         }
       />
 
-      {/* Thin animated statistics strip */}
-      <StatsSection
-        stats={home?.stats ?? []}
-      />
+      {/* =====================================================
+          PARTNER
+          WARM / #FFEABF
 
-      {/* Why Partner With us? + Cannes */}
+          No white → black transition.
+          ===================================================== */}
+
       <PartnerSection
         content={home?.partnerSection}
       />
 
+      {/* =====================================================
+          STATS
+          WARM / #FFEABF
+          ===================================================== */}
+
+      <StatsSection
+        stats={home?.stats ?? []}
+      />
+
+      {/* =====================================================
+          FILM / CANNES
+          DARK
+
+          Previous section is #FFEABF rather than white,
+          so leave this transition untouched.
+          ===================================================== */}
+
       <FilmSection />
+
+      {/* =====================================================
+          TESTIMONIAL + STORY
+
+          TestimonialSection controls its own internal
+          white / dark composition.
+          ===================================================== */}
 
       <TestimonialSection
         testimonial={
@@ -94,13 +171,35 @@ export function LandingPage({
         story={home?.storyBanner}
       />
 
+      {/* =====================================================
+          MEDIA COVERAGE
+          WHITE
+          ===================================================== */}
+
       <MediaCoverageSection
         content={home?.mediaCoverage}
       />
 
-      <FounderLetterSection
-        content={home?.founderLetter}
-      />
+      {/* =====================================================
+          WHITE → BLACK
+
+          Media Coverage
+                ↓
+          Founder Letter
+
+          Apply parallax transition.
+          ===================================================== */}
+
+      <ParallaxBlackSection>
+        <FounderLetterSection
+          content={home?.founderLetter}
+        />
+      </ParallaxBlackSection>
+
+      {/* =====================================================
+          INSIGHTS
+          WHITE
+          ===================================================== */}
 
       <InsightsSection
         eyebrow={home?.insightsEyebrow}
@@ -111,13 +210,30 @@ export function LandingPage({
         }
       />
 
+      {/* =====================================================
+          FAQ
+          WHITE
+          ===================================================== */}
+
       <FaqSection
         content={home?.faqSection}
       />
 
-      <CareersCtaSection
-        content={home?.careersCta}
-      />
+      {/* =====================================================
+          WHITE → BLACK
+
+          FAQ
+           ↓
+          Careers
+
+          Apply parallax transition.
+          ===================================================== */}
+
+      <ParallaxBlackSection>
+        <CareersCtaSection
+          content={home?.careersCta}
+        />
+      </ParallaxBlackSection>
     </main>
   );
 }

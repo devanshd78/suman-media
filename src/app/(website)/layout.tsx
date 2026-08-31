@@ -18,7 +18,7 @@ export default async function WebsiteLayout({ children }: { children: ReactNode 
     <SmoothScrollProvider>
       <Header />
       {children}
-      <Footer socialLinks={settings?.socialLinks} />
+      <Footer settings={settings} />
       <SanityLive />
       {isEnabled ? <VisualEditing /> : null}
     </SmoothScrollProvider>

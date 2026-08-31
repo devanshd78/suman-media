@@ -11,295 +11,133 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type RefObject,
-} from "react";
+import { useMemo, useRef, useState } from "react";
 
 import type { CmsFeaturedService } from "@/types/cms";
+
+/* =========================================================
+   TYPES
+   ========================================================= */
 
 type ServicesScrollGalleryProps = {
   eyebrow?: string | null;
   heading?: string | null;
   services: CmsFeaturedService[];
-  handoffScrollVh?: number;
 };
 
-type OrderedService = {
+type GalleryService = {
   service: CmsFeaturedService;
-  serviceNumber: number;
+  number: number;
 };
 
-type StageMetrics = {
-  cardWidth: number;
-  cardHeight: number;
-  stackStep: number;
-  scale: number;
-  top: number;
-  measured: boolean;
-};
+/* =========================================================
+   EXACT MOTION SYSTEM FROM YOUR REFERENCE CODE
+   ========================================================= */
 
-const MAX_SERVICES = 8;
-const CARD_SCROLL_VH = 72;
-const DEFAULT_HANDOFF_SCROLL_VH = 46;
-const DEFAULT_HEADING = "What we really do?";
+const PERSPECTIVE_PX = 2000;
 
-/** Colours are stored in CMS order: service 01 through service 08. */
-const SERVICE_COLOURS = [
-  "#FF7043", // 01 Deep Orange 400
-  "#AB47BC", // 02 Purple 400
-  "#FDD835", // 03 Yellow 600
-  "#4BE887", // 04 Neon 600
-  "#1565C0", // 05 Blue 800
-  "#9CCC65", // 06 Light Green 400
-  "#00ACC1", // 07 Cyan 600
-  "#F06292", // 08 Pink 300
-] as const;
-
-/** Exact desktop widths from front card 08 to back card 01. */
-const STACK_WIDTHS_REM = [
-  78.5,
-  70.875,
-  63.375,
-  55.75,
-  48.25,
-  40.625,
-  33.125,
-  25.5,
-] as const;
-
-const FRONT_CARD_WIDTH_REM = STACK_WIDTHS_REM[0];
-const DESKTOP_CARD_WIDTH = FRONT_CARD_WIDTH_REM * 16;
-const DESKTOP_CARD_HEIGHT = 38.75 * 16;
-const DESKTOP_STACK_STEP = 4 * 16;
-
-/**
- * Mobile keeps the desktop card proportions on a smaller logical canvas. The
- * complete eight-card stack is then scaled as one unit, preventing cards 01
- * and 02 from being clipped out of the layout.
+/*
+ * Distance between one frame and the next in Z-space.
+ *
+ * IMPORTANT:
+ * All cards remain absolutely positioned in the same place.
+ * The apparent staircase comes from:
+ *
+ * negative Z
+ * +
+ * perspective
+ * +
+ * Y derived from Z
  */
-const MOBILE_CARD_WIDTH = 640;
-const MOBILE_CARD_HEIGHT = 360;
-const MOBILE_STACK_STEP = 24;
+const CARD_SPACING_PX = 470;
 
-function clamp(value: number, min = 0, max = 1) {
-  return Math.min(max, Math.max(min, value));
-}
+/*
+ * EXACT cascade relationship from your animation.
+ *
+ * Card further in Z:
+ * also moves upward.
+ *
+ * This creates:
+ *
+ *             01
+ *           ┌────┐
+ *         ┌──02──┐
+ *       ┌────03────┐
+ *     ┌─────04──────┐
+ *   ┌──────05────────┐
+ * ┌────────06──────────┐
+ * ┌──────────07────────────┐
+ * ┌────────────08──────────────┐
+ */
+const CASCADE_SLOPE = 0.34;
 
-function mix(from: number, to: number, progress: number) {
-  return from + (to - from) * progress;
-}
+/*
+ * Card flies THROUGH the camera.
+ */
+const FLY_PAST_Z_PX = Math.round(
+  PERSPECTIVE_PX * 1.05,
+);
 
-function easeInOutCubic(value: number) {
-  const progress = clamp(value);
+/*
+ * Exact dramatic rotation from the reference.
+ */
+const SWING_DEG = 70;
 
-  return progress < 0.5
-    ? 4 * progress * progress * progress
-    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-}
+const SCROLL_PER_CARD_VH = 60;
 
-function widthRatioAtDepth(depth: number) {
-  const safeDepth = clamp(depth, 0, STACK_WIDTHS_REM.length - 1);
-  const lowerIndex = Math.floor(safeDepth);
-  const upperIndex = Math.min(
-    STACK_WIDTHS_REM.length - 1,
-    Math.ceil(safeDepth),
-  );
-  const localProgress = safeDepth - lowerIndex;
-  const lower = STACK_WIDTHS_REM[lowerIndex] / FRONT_CARD_WIDTH_REM;
-  const upper = STACK_WIDTHS_REM[upperIndex] / FRONT_CARD_WIDTH_REM;
+const FINAL_HOLD_VH = 18;
 
-  return mix(lower, upper, localProgress);
-}
+/*
+ * Same spring characteristics as your uploaded code.
+ */
+const SCROLL_SPRING = {
+  stiffness: 500,
+  damping: 60,
+  mass: 1,
+  restDelta: 0.0001,
+  restSpeed: 0.0001,
+} as const;
 
-function readString(record: Record<string, unknown>, keys: string[]) {
-  for (const key of keys) {
-    const value = record[key];
+/* =========================================================
+   CARD COLORS
 
-    if (typeof value === "string" && value.trim()) {
-      return value.trim();
-    }
-  }
+   ORIGINAL UI IS PRESERVED.
 
-  return null;
-}
+   01 = orange
+   02 = purple
+   03 = yellow
+   04 = green
+   05 = blue
+   06 = lime
+   07 = cyan
+   08 = pink
+   ========================================================= */
 
-function readNestedImage(
-  record: Record<string, unknown>,
-  keys: string[],
-): { url: string; alt?: string } | null {
-  for (const key of keys) {
-    const value = record[key];
+const SERVICE_COLORS = [
+  "#FF6548",
+  "#A747C6",
+  "#FFD429",
+  "#47E58C",
+  "#176FC8",
+  "#9DCE67",
+  "#04A9BB",
+  "#ED5B8D",
+] as const;
 
-    if (!value || typeof value !== "object") continue;
+/* =========================================================
+   UTILS
+   ========================================================= */
 
-    const nested = value as Record<string, unknown>;
-    const url = readString(nested, ["url", "src", "assetUrl"]);
-
-    if (!url) continue;
-
-    return {
-      url,
-      alt: readString(nested, ["alt", "altText", "description"]) || undefined,
-    };
-  }
-
-  return null;
-}
-
-function serviceMedia(service: CmsFeaturedService) {
-  const record = service as unknown as Record<string, unknown>;
-  const fallbackTitle =
-    typeof service.title === "string" && service.title.trim()
-      ? service.title.trim()
-      : "Service";
-  const directUrl = readString(record, [
-    "imageUrl",
-    "cardImageUrl",
-    "featuredImageUrl",
-    "coverImageUrl",
-    "thumbnailUrl",
-    "heroImageUrl",
-  ]);
-  const directAlt = readString(record, [
-    "imageAlt",
-    "cardImageAlt",
-    "featuredImageAlt",
-    "coverImageAlt",
-    "thumbnailAlt",
-  ]);
-
-  if (directUrl) {
-    return { url: directUrl, alt: directAlt || fallbackTitle };
-  }
-
-  const nested = readNestedImage(record, [
-    "image",
-    "cardImage",
-    "featuredImage",
-    "coverImage",
-    "thumbnail",
-    "heroImage",
-  ]);
-
-  if (nested) {
-    return { url: nested.url, alt: nested.alt || fallbackTitle };
-  }
-
-  return null;
-}
-
-function splitHeadingIntoTwoLines(value: string) {
-  const heading = value.trim() || DEFAULT_HEADING;
-
-  if (heading.toLowerCase() === DEFAULT_HEADING.toLowerCase()) {
-    return ["What we", "really do?"];
-  }
-
-  const words = heading.split(/\s+/).filter(Boolean);
-
-  if (words.length < 2) return [heading];
-
-  const breakAt = Math.ceil(words.length / 2);
-  return [words.slice(0, breakAt).join(" "), words.slice(breakAt).join(" ")];
-}
-
-function useStageMetrics(
-  stageRef: RefObject<HTMLDivElement | null>,
-  serviceCount: number,
-) {
-  const [metrics, setMetrics] = useState<StageMetrics>({
-    cardWidth: DESKTOP_CARD_WIDTH,
-    cardHeight: DESKTOP_CARD_HEIGHT,
-    stackStep: DESKTOP_STACK_STEP,
-    scale: 0.8,
-    top: 176,
-    measured: false,
-  });
-
-  useEffect(() => {
-    const stage = stageRef.current;
-
-    if (!stage) return;
-
-    const measure = () => {
-      const rect = stage.getBoundingClientRect();
-      const isCompact = rect.width < 900;
-      const cardWidth = isCompact ? MOBILE_CARD_WIDTH : DESKTOP_CARD_WIDTH;
-      const cardHeight = isCompact ? MOBILE_CARD_HEIGHT : DESKTOP_CARD_HEIGHT;
-      const stackStep = isCompact ? MOBILE_STACK_STEP : DESKTOP_STACK_STEP;
-      const stackHeight =
-        cardHeight + Math.max(0, serviceCount - 1) * stackStep;
-      const horizontalInset = isCompact ? 16 : 32;
-      const bottomInset = isCompact ? 20 : 32;
-      const top = isCompact
-        ? Math.min(150, Math.max(96, rect.height * 0.2))
-        : Math.min(250, Math.max(144, rect.height * 0.21));
-      const widthScale = Math.max(
-        0.1,
-        (rect.width - horizontalInset) / cardWidth,
-      );
-      const heightScale = Math.max(
-        0.1,
-        (rect.height - top - bottomInset) / stackHeight,
-      );
-      const scale = Math.min(1, widthScale, heightScale);
-
-      setMetrics((current) => {
-        const next = {
-          cardWidth,
-          cardHeight,
-          stackStep,
-          scale,
-          top,
-          measured: true,
-        };
-
-        if (
-          current.cardWidth === next.cardWidth &&
-          current.cardHeight === next.cardHeight &&
-          current.stackStep === next.stackStep &&
-          Math.abs(current.scale - next.scale) < 0.001 &&
-          Math.abs(current.top - next.top) < 0.5 &&
-          current.measured
-        ) {
-          return current;
-        }
-
-        return next;
-      });
-    };
-
-    measure();
-
-    const resizeObserver = new ResizeObserver(measure);
-    resizeObserver.observe(stage);
-    window.addEventListener("resize", measure, { passive: true });
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [serviceCount, stageRef]);
-
-  return metrics;
-}
-
-function ArrowUpRight() {
+function ArrowRightIcon() {
   return (
     <svg
       aria-hidden="true"
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
+      viewBox="0 0 20 20"
+      className="h-4 w-4"
       fill="none"
-      className="h-3.5 w-3.5 shrink-0"
     >
       <path
-        d="M4 10L10 4M5 4H10V9"
+        d="M4 10h11M11 6l4 4-4 4"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
@@ -309,63 +147,216 @@ function ArrowUpRight() {
   );
 }
 
-function MaskedHeading({ heading }: { heading: string }) {
-  const lines = useMemo(() => splitHeadingIntoTwoLines(heading), [heading]);
+function splitHeading(
+  heading: string,
+) {
+  const value =
+    heading.trim() ||
+    "What we really do?";
+
+  if (
+    value.toLowerCase() ===
+    "what we really do?"
+  ) {
+    return ["What we", "really do?"];
+  }
+
+  const words = value
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (words.length <= 2) {
+    return [value];
+  }
+
+  const middle = Math.ceil(
+    words.length / 2,
+  );
+
+  return [
+    words.slice(0, middle).join(" "),
+    words.slice(middle).join(" "),
+  ];
+}
+
+/* =========================================================
+   LARGE HEADING
+
+   KEEPING THE PLACEMENT YOU LIKED.
+   ========================================================= */
+
+function ServicesHeading({
+  heading,
+}: {
+  heading: string;
+}) {
+  const lines = useMemo(
+    () => splitHeading(heading),
+    [heading],
+  );
 
   return (
     <h2
       id="services-heading"
       aria-label={heading}
-      className="pointer-events-none absolute left-1/2 top-[3.75rem] z-0 flex w-[min(65.875rem,calc(100%_-_2rem))] -translate-x-1/2 flex-col items-center text-center text-[clamp(3.5rem,10.4167vw,10rem)] font-semibold leading-[0.9] tracking-[-0.03125rem] text-white [font-feature-settings:'liga'_off,'clig'_off] sm:top-[4.75rem] lg:top-[clamp(7rem,18.85vh,12.72706rem)]"
+      className="
+        pointer-events-none
+        absolute
+        left-1/2
+        top-[3.5rem]
+        z-0
+        flex
+        w-full
+        -translate-x-1/2
+        flex-col
+        items-center
+        text-center
+        text-[clamp(4rem,10vw,9rem)]
+        font-semibold
+        leading-[0.82]
+        tracking-[-0.065em]
+        text-white
+        sm:top-[4rem]
+        lg:top-[4.5rem]
+      "
     >
-      {lines.map((line, lineIndex) => (
-        <span
-          key={`${line}-${lineIndex}`}
-          aria-hidden="true"
-          className="block h-[0.94em] w-full overflow-hidden"
-        >
-          <span className="block whitespace-nowrap leading-[0.9]">
+      {lines.map(
+        (line, index) => (
+          <span
+            key={`${line}-${index}`}
+            aria-hidden="true"
+            className="
+              block
+              whitespace-nowrap
+            "
+          >
             {line}
           </span>
-        </span>
-      ))}
+        ),
+      )}
     </h2>
   );
 }
 
+/* =========================================================
+   ACTIVE CARD CONTENT
+
+   UI PRESERVED:
+   - number top-left
+   - content bottom-left
+   - image right
+   - white CTA
+   ========================================================= */
+
 function ServiceCardContent({
   item,
-  isInteractive,
-  isPriority,
+  detailsOpacity,
+  interactive,
 }: {
-  item: OrderedService;
-  isInteractive: boolean;
-  isPriority: boolean;
+  item: GalleryService;
+  detailsOpacity:
+    | number
+    | MotionValue<number>;
+  interactive: boolean;
 }) {
-  const { service, serviceNumber } = item;
-  const media = serviceMedia(service);
-  const number = String(serviceNumber).padStart(2, "0");
-  const title = service.title?.trim() || `Service ${number}`;
-  const description = service.shortDescription?.trim() || "";
-  const slug = service.slug?.trim() || "";
+  const { service, number } = item;
 
-  const actionClassName =
-    "mt-7 inline-flex items-center justify-center gap-1 rounded-[0.25rem] bg-white px-4 py-3 text-[0.75rem] font-semibold leading-4 text-[#1A1A1A] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+  const numberLabel = String(
+    number,
+  ).padStart(2, "0");
+
+  const title =
+    service.title?.trim() ||
+    `Service ${numberLabel}`;
+
+  const description =
+    service.shortDescription?.trim() ||
+    "";
+
+  const slug =
+    service.slug?.trim() || "";
+
+  /*
+   * Yellow / lime cards require dark ink.
+   */
+  const darkInk =
+    number === 3 ||
+    number === 4 ||
+    number === 6;
+
+  const foreground = darkInk
+    ? "#111111"
+    : "#FFFFFF";
 
   return (
-    <div className="relative flex h-full w-full items-center gap-14 overflow-hidden rounded-[0.5rem] pb-8 pr-8 pt-8">
-      <div className="relative z-10 flex min-w-0 flex-1 self-stretch flex-col items-start pl-14">
-        <p className="text-[2.5rem] font-semibold leading-[3rem] tracking-[-0.03125rem] text-white">
-          {number}
-        </p>
+    <div
+      className="
+        relative
+        grid
+        h-full
+        w-full
+        grid-cols-[54%_46%]
+        overflow-hidden
+      "
+    >
+      {/* ===================================================
+          LEFT COPY
+          =================================================== */}
 
-        <div className="mt-6 flex max-w-[35rem] flex-col items-start">
-          <h3 className="text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-white [font-feature-settings:'liga'_off,'clig'_off]">
+      <motion.div
+        className="
+          relative
+          z-10
+          flex
+          min-w-0
+          flex-col
+          p-[clamp(1.5rem,3vw,3.25rem)]
+        "
+        style={{
+          opacity: detailsOpacity,
+          color: foreground,
+        }}
+      >
+        <span
+          className="
+            block
+            text-[clamp(1.8rem,2.5vw,2.75rem)]
+            font-semibold
+            leading-none
+            tracking-[-0.045em]
+          "
+        >
+          {numberLabel}
+        </span>
+
+        <div
+          className="
+            mt-auto
+            max-w-[31rem]
+          "
+        >
+          <h3
+            className="
+              text-[clamp(1.45rem,2.1vw,2.35rem)]
+              font-semibold
+              leading-[1.08]
+              tracking-[-0.04em]
+            "
+          >
             {title}
           </h3>
 
           {description ? (
-            <p className="mt-5 max-w-[33rem] text-[0.875rem] font-normal leading-[1.25rem] text-white/90 [font-feature-settings:'liga'_off,'clig'_off]">
+            <p
+              className="
+                mt-4
+                max-w-[29rem]
+                text-[clamp(0.68rem,0.82vw,0.84rem)]
+                font-normal
+                leading-[1.5]
+                opacity-80
+              "
+            >
               {description}
             </p>
           ) : null}
@@ -373,294 +364,918 @@ function ServiceCardContent({
           {slug ? (
             <Link
               href={`/services/${slug}`}
-              tabIndex={isInteractive ? 0 : -1}
-              aria-label={`Explore ${title}`}
-              className={actionClassName}
+              tabIndex={
+                interactive ? 0 : -1
+              }
+              className="
+                mt-6
+                inline-flex
+                w-fit
+                items-center
+                gap-2
+                rounded-[0.18rem]
+                bg-white
+                px-4
+                py-3
+                text-[0.7rem]
+                font-semibold
+                leading-4
+                text-black
+                transition-transform
+                duration-200
+                hover:-translate-y-[2px]
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-white
+              "
             >
-              Explore Capabilities
-              <ArrowUpRight />
-            </Link>
-          ) : (
-            <span aria-disabled="true" className={actionClassName}>
-              Explore Capabilities
-              <ArrowUpRight />
-            </span>
-          )}
-        </div>
-      </div>
+              <span>
+                Explore Capabilities
+              </span>
 
-      <div className="relative h-full w-[44%] shrink-0 overflow-hidden rounded-[0.25rem] bg-black/10">
-        {media ? (
+              <ArrowRightIcon />
+            </Link>
+          ) : null}
+        </div>
+      </motion.div>
+
+      {/* ===================================================
+          IMAGE
+          =================================================== */}
+
+      <div
+        className="
+          relative
+          h-full
+          min-w-0
+          overflow-hidden
+          bg-black/10
+        "
+      >
+        {service.imageUrl ? (
           <Image
-            src={media.url}
-            alt={media.alt || title}
+            src={service.imageUrl}
+            alt={
+              service.imageAlt?.trim() ||
+              title
+            }
             fill
-            priority={isPriority}
-            sizes="(max-width: 899px) 45vw, 34.5rem"
-            className="object-cover"
+            sizes="
+              (max-width: 1023px) 100vw,
+              46vw
+            "
+            className="
+              select-none
+              object-cover
+            "
           />
         ) : (
           <div
             aria-hidden="true"
-            className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(0,0,0,0.12))] text-[7rem] font-semibold leading-none text-white/65"
-          >
-            {number}
-          </div>
+            className="
+              absolute
+              inset-0
+              bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(0,0,0,0.12))]
+            "
+          />
         )}
       </div>
     </div>
   );
 }
 
-function ServiceStackCard({
+/* =========================================================
+   ONE 3D FRAME
+
+   THIS IS THE IMPORTANT PART.
+
+   This animation mechanism is now the same as the code
+   you sent.
+
+   INITIAL:
+
+   service 08:
+   z = 0
+
+   service 07:
+   z = -470
+
+   service 06:
+   z = -940
+
+   ...
+
+   service 01:
+   z = -3290
+
+
+   SCROLL:
+
+   08:
+   0 → +2100
+   then gone
+
+   07:
+   -470 → 0 → +2100
+
+   06:
+   -940 → 0 → +2100
+
+   etc.
+   ========================================================= */
+
+function Service3DCard({
   item,
-  stackIndex,
-  serviceCount,
+  animationIndex,
+  progress,
+  isActive,
+  totalCards,
+  lastIndex,
   step,
-  metrics,
-  isInteractive,
-  reduceMotion,
 }: {
-  item: OrderedService;
-  stackIndex: number;
-  serviceCount: number;
-  step: MotionValue<number>;
-  metrics: StageMetrics;
-  isInteractive: boolean;
-  reduceMotion: boolean;
+  item: GalleryService;
+  animationIndex: number;
+  progress: MotionValue<number>;
+  isActive: boolean;
+  totalCards: number;
+  lastIndex: number;
+  step: number;
 }) {
-  const background =
-    SERVICE_COLOURS[(item.serviceNumber - 1) % SERVICE_COLOURS.length];
-  const strongShadow = item.serviceNumber <= 2;
+  /*
+   * animationIndex:
+   *
+   * 0 = service 08
+   * 1 = service 07
+   * ...
+   * 7 = service 01
+   */
 
-  const scaleX = useTransform(step, (value) => {
-    const relativeDepth = stackIndex - value;
+  const isFirst =
+    animationIndex === 0;
 
-    return relativeDepth >= 0 ? widthRatioAtDepth(relativeDepth) : 1;
-  });
+  const isLast =
+    animationIndex === lastIndex;
 
-  const scale = useTransform(step, (value) => {
-    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
-    return 1 + exitProgress * 0.32;
-  });
+  const sliceStart =
+    animationIndex * step;
 
-  const z = useTransform(step, (value) => {
-    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
-    return exitProgress * 450;
-  });
+  const sliceEnd =
+    (animationIndex + 1) *
+    step;
 
-  const y = useTransform(step, (value) => {
-    const relativeDepth = stackIndex - value;
+  /*
+   * EXACT initial depth.
+   */
+  const restZ =
+    -animationIndex *
+    CARD_SPACING_PX;
 
-    if (relativeDepth >= 0) {
-      return -relativeDepth * metrics.stackStep;
-    }
+  /* =======================================================
+     Z MOTION
 
-    const exitProgress = easeInOutCubic(clamp(-relativeDepth));
-    return exitProgress * metrics.cardHeight * 0.88;
-  });
+     IMPORTANT:
 
-  const rotateX = useTransform(step, (value) => {
-    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
-    return exitProgress * -9;
-  });
+     Outside this frame's slice,
+     its Z DOES NOT CHANGE.
 
-  const rotateZ = useTransform(step, (value) => {
-    const exitProgress = easeInOutCubic(clamp(value - stackIndex));
-    const direction = stackIndex % 2 === 0 ? -1 : 1;
-    return exitProgress * direction * 1.35;
-  });
+     Therefore only the current frame moves.
+     ======================================================= */
 
-  const opacity = useTransform(step, (value) => {
-    const exitProgress = clamp(value - stackIndex);
+  const z = useTransform(
+    progress,
 
-    if (exitProgress <= 0.82) return 1;
+    isFirst
+      ? [0, sliceEnd]
+      : isLast
+        ? [0, sliceStart]
+        : [
+            0,
+            sliceStart,
+            sliceEnd,
+          ],
 
-    return mix(1, 0, (exitProgress - 0.82) / 0.18);
-  });
+    isFirst
+      ? [
+          0,
+          FLY_PAST_Z_PX,
+        ]
+      : isLast
+        ? [
+            restZ,
+            0,
+          ]
+        : [
+            restZ,
+            0,
+            FLY_PAST_Z_PX,
+          ],
+  );
 
-  const staticScaleX = widthRatioAtDepth(stackIndex);
-  const staticY = -stackIndex * metrics.stackStep;
+  /* =======================================================
+     ROTATE X
+
+     Same 70° fly-away movement from your reference.
+
+     Last service 01 does not fly out.
+     ======================================================= */
+
+  const rotateX = useTransform(
+    progress,
+    [
+      sliceStart,
+      sliceEnd,
+    ],
+    isLast
+      ? [0, 0]
+      : [0, SWING_DEG],
+  );
+
+  /* =======================================================
+     CASCADE
+
+     EXACT mechanism:
+
+     y = z * 0.34
+     ======================================================= */
+
+  const y = useTransform(
+    z,
+    (value) =>
+      value * CASCADE_SLOPE,
+  );
+
+  /* =======================================================
+     OPACITY
+
+     DIFFERENCE FROM YOUR PASTED SAMPLE:
+
+     I AM KEEPING ALL 8 CARDS VISIBLE AT THE START,
+     because your chosen UI requires the entire staircase
+     to be visible immediately.
+
+     They only fade once they fly through the camera.
+     ======================================================= */
+
+  const opacity = useTransform(
+    z,
+    [
+      FLY_PAST_Z_PX * 0.62,
+      FLY_PAST_Z_PX,
+    ],
+    [1, 0],
+  );
+
+  /* =======================================================
+     DETAILS
+
+     Back frames only show:
+     - color
+     - image slice
+
+     The title/description/button only become visible
+     when a card reaches the front.
+
+     This avoids the ugly overlapping text from the
+     previous implementations.
+     ======================================================= */
+
+  const detailsOpacity =
+    useTransform(
+      z,
+      [
+        -210,
+        0,
+        FLY_PAST_Z_PX * 0.42,
+      ],
+      [0, 1, 0],
+    );
+
+  const color =
+    SERVICE_COLORS[
+      (item.number - 1) %
+        SERVICE_COLORS.length
+    ];
 
   return (
-    <motion.article
-      aria-hidden={!isInteractive}
-      className="absolute left-0 top-0 origin-center overflow-hidden rounded-[0.5rem] [backface-visibility:hidden] [transform-style:preserve-3d]"
+    <div
+      className="
+        service-3d-card-shell
+        absolute
+        left-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+      "
       style={{
-        width: metrics.cardWidth,
-        height: metrics.cardHeight,
-        zIndex: serviceCount - stackIndex,
-        pointerEvents: isInteractive ? "auto" : "none",
-        background,
-        boxShadow: strongShadow
-          ? "0 -16px 50px -4px rgba(0,0,0,0.16)"
-          : "0 -12px 24px -4px rgba(0,0,0,0.05)",
-        scaleX: reduceMotion ? staticScaleX : scaleX,
-        scale: reduceMotion ? 1 : scale,
-        z: reduceMotion ? 0 : z,
-        y: reduceMotion ? staticY : y,
-        rotateX: reduceMotion ? 0 : rotateX,
-        rotateZ: reduceMotion ? 0 : rotateZ,
-        opacity: reduceMotion ? 1 : opacity,
-        transformOrigin: "50% 0%",
-        willChange: reduceMotion ? undefined : "transform, opacity",
+        zIndex:
+          totalCards -
+          animationIndex,
+
+        pointerEvents:
+          isActive
+            ? "auto"
+            : "none",
       }}
+      aria-hidden={!isActive}
     >
-      <ServiceCardContent
-        item={item}
-        isInteractive={isInteractive}
-        isPriority={stackIndex === 0}
-      />
-    </motion.article>
+      <motion.article
+        style={{
+          y,
+          z,
+          rotateX,
+          opacity,
+          backgroundColor: color,
+        }}
+        className="
+          service-3d-card
+          h-full
+          w-full
+          overflow-hidden
+          rounded-[0.3rem]
+          border
+          border-black/[0.035]
+          shadow-[0_1.5rem_5rem_rgba(0,0,0,0.25)]
+        "
+      >
+        <ServiceCardContent
+          item={item}
+          detailsOpacity={
+            detailsOpacity
+          }
+          interactive={isActive}
+        />
+      </motion.article>
+    </div>
   );
 }
+
+/* =========================================================
+   MOBILE / TABLET
+
+   No huge 3D sticky animation.
+
+   This remains intentionally simpler.
+   ========================================================= */
+
+function StaticServices({
+  services,
+}: {
+  services: GalleryService[];
+}) {
+  return (
+    <div
+      className="
+        services-static-list
+        flex
+        w-full
+        flex-col
+        gap-5
+        bg-black
+        px-5
+        py-12
+        lg:hidden
+      "
+    >
+      {services.map((item) => {
+        const { service, number } =
+          item;
+
+        const color =
+          SERVICE_COLORS[
+            (number - 1) %
+              SERVICE_COLORS.length
+          ];
+
+        const darkInk =
+          number === 3 ||
+          number === 4 ||
+          number === 6;
+
+        return (
+          <article
+            key={service._id}
+            className="
+              overflow-hidden
+              rounded-[0.3rem]
+              shadow-[0_1rem_3rem_rgba(0,0,0,0.25)]
+            "
+            style={{
+              backgroundColor: color,
+            }}
+          >
+            <div
+              className="
+                grid
+                grid-cols-1
+                md:grid-cols-[54%_46%]
+              "
+            >
+              <div
+                className="
+                  flex
+                  min-h-[21rem]
+                  flex-col
+                  p-6
+                  sm:p-8
+                  md:min-h-[28rem]
+                "
+                style={{
+                  color: darkInk
+                    ? "#111"
+                    : "#fff",
+                }}
+              >
+                <span
+                  className="
+                    text-2xl
+                    font-semibold
+                  "
+                >
+                  {String(
+                    number,
+                  ).padStart(2, "0")}
+                </span>
+
+                <div
+                  className="
+                    mt-auto
+                    flex
+                    flex-col
+                    gap-3
+                  "
+                >
+                  <h3
+                    className="
+                      text-2xl
+                      font-semibold
+                      leading-tight
+                    "
+                  >
+                    {service.title}
+                  </h3>
+
+                  <p
+                    className="
+                      text-sm
+                      leading-6
+                      opacity-80
+                    "
+                  >
+                    {
+                      service.shortDescription
+                    }
+                  </p>
+
+                  {service.slug ? (
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="
+                        inline-flex
+                        w-fit
+                        items-center
+                        gap-2
+                        rounded-[3px]
+                        bg-white
+                        px-4
+                        py-3
+                        text-sm
+                        font-semibold
+                        text-black
+                      "
+                    >
+                      <span>
+                        Explore Capabilities
+                      </span>
+
+                      <ArrowRightIcon />
+                    </Link>
+                  ) : null}
+                </div>
+              </div>
+
+              <div
+                className="
+                  relative
+                  min-h-[20rem]
+                  bg-black/10
+                  md:min-h-[28rem]
+                "
+              >
+                {service.imageUrl ? (
+                  <Image
+                    src={
+                      service.imageUrl
+                    }
+                    alt={
+                      service.imageAlt?.trim() ||
+                      service.title
+                    }
+                    fill
+                    sizes="100vw"
+                    className="
+                      object-cover
+                    "
+                  />
+                ) : null}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
 
 export function ServicesScrollGallery({
   eyebrow,
   heading,
   services,
-  handoffScrollVh = DEFAULT_HANDOFF_SCROLL_VH,
 }: ServicesScrollGalleryProps) {
-  const scrollRootRef = useRef<HTMLDivElement>(null);
-  const stickyStageRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion() ?? false;
+  const containerRef =
+    useRef<HTMLDivElement>(null);
 
-  const orderedServices = useMemo<OrderedService[]>(() => {
-    const numbered = services.slice(0, MAX_SERVICES).map((service, index) => ({
-      service,
-      serviceNumber: index + 1,
-    }));
+  const prefersReducedMotion =
+    useReducedMotion() ?? false;
 
-    // Service 08 starts at the front; service 01 starts at the back.
-    return numbered.reverse();
-  }, [services]);
-
-  const serviceCount = orderedServices.length;
-  const metrics = useStageMetrics(stickyStageRef, serviceCount);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const cardScrollVh = serviceCount * CARD_SCROLL_VH;
-  const totalScrollableVh = cardScrollVh + Math.max(0, handoffScrollVh);
-  const cardPhaseEnd =
-    totalScrollableVh > 0 ? cardScrollVh / totalScrollableVh : 1;
-
-  const { scrollYProgress } = useScroll({
-    target: scrollRootRef,
-    offset: ["start start", "end end"],
-  });
-
-  const smoothedProgress = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 30,
-    mass: 0.24,
-    restDelta: 0.0005,
-  });
-
-  const sourceProgress = reduceMotion ? scrollYProgress : smoothedProgress;
-
-  /**
-   * Cards finish before the root ends. The remaining hand-off distance keeps
-   * the heading pinned while the overlapping partner strip and next section
-   * rise over it, matching the final part of the supplied scroll recording.
+  /*
+   * CMS order:
+   *
+   * 01
+   * 02
+   * ...
+   * 08
    */
-  const step = useTransform(sourceProgress, (latest) => {
-    if (cardPhaseEnd <= 0) return serviceCount;
+  const cmsServices =
+    useMemo<GalleryService[]>(
+      () =>
+        services
+          .slice(0, 8)
+          .map(
+            (
+              service,
+              index,
+            ) => ({
+              service,
+              number: index + 1,
+            }),
+          ),
+      [services],
+    );
 
-    return clamp(latest / cardPhaseEnd) * serviceCount;
-  });
+  /*
+   * ANIMATION ORDER MUST BE:
+   *
+   * 08
+   * 07
+   * 06
+   * 05
+   * 04
+   * 03
+   * 02
+   * 01
+   *
+   * because 08 starts in front.
+   */
+  const animationServices =
+    useMemo(
+      () =>
+        [...cmsServices].reverse(),
+      [cmsServices],
+    );
 
-  useMotionValueEvent(step, "change", (latest) => {
-    if (reduceMotion) {
-      setActiveIndex(0);
-      return;
-    }
+  const totalCards =
+    animationServices.length;
 
-    const nextIndex =
-      latest >= serviceCount - 0.001
-        ? -1
-        : Math.min(
-            serviceCount - 1,
-            Math.max(0, Math.floor(latest + 0.025)),
-          );
+  const lastIndex = Math.max(
+    0,
+    totalCards - 1,
+  );
 
-    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
-  });
+  /*
+   * 0 = 08 active
+   * 1 = 07 active
+   * ...
+   */
+  const [
+    activeAnimationIndex,
+    setActiveAnimationIndex,
+  ] = useState(0);
 
-  if (serviceCount === 0) return null;
+  const trackHeightVh =
+    100 +
+    lastIndex *
+      SCROLL_PER_CARD_VH +
+    FINAL_HOLD_VH;
 
-  const stackHeight =
-    metrics.cardHeight + Math.max(0, serviceCount - 1) * metrics.stackStep;
-  const frontCardTop = Math.max(0, serviceCount - 1) * metrics.stackStep;
-  const scrollHeight = reduceMotion
-    ? "100svh"
-    : `${100 + totalScrollableVh}svh`;
-  const resolvedHeading = heading?.trim() || DEFAULT_HEADING;
+  /*
+   * Leave FINAL_HOLD_VH untouched after
+   * service 01 reaches the foreground.
+   */
+  const travelEnd =
+    lastIndex > 0
+      ? (lastIndex *
+          SCROLL_PER_CARD_VH) /
+        (lastIndex *
+          SCROLL_PER_CARD_VH +
+          FINAL_HOLD_VH)
+      : 1;
+
+  const step =
+    lastIndex > 0
+      ? travelEnd / lastIndex
+      : 1;
+
+  const { scrollYProgress } =
+    useScroll({
+      target: containerRef,
+      offset: [
+        "start start",
+        "end end",
+      ],
+    });
+
+  /*
+   * EXACT spring system from the code you sent.
+   */
+  const smoothProgress =
+    useSpring(
+      scrollYProgress,
+      SCROLL_SPRING,
+    );
+
+  /* =======================================================
+     ACTIVE FRAME
+
+     State updates ONLY when crossing to another card.
+
+     It does not update continuously every scroll pixel.
+     ======================================================= */
+
+  useMotionValueEvent(
+    smoothProgress,
+    "change",
+    (latest) => {
+      if (
+        !Number.isFinite(latest) ||
+        lastIndex === 0
+      ) {
+        return;
+      }
+
+      const next = Math.min(
+        lastIndex,
+        Math.max(
+          0,
+          Math.round(
+            latest / step,
+          ),
+        ),
+      );
+
+      setActiveAnimationIndex(
+        (current) =>
+          current === next
+            ? current
+            : next,
+      );
+    },
+  );
+
+  if (totalCards === 0) {
+    return null;
+  }
+
+  const resolvedHeading =
+    heading?.trim() ||
+    "What we really do?";
 
   return (
     <>
+      {/* ===================================================
+          MOBILE
+          =================================================== */}
+
+      <StaticServices
+        services={cmsServices}
+      />
+
+      {/* ===================================================
+          DESKTOP
+          =================================================== */}
+
       <div
-        ref={scrollRootRef}
-        className="relative z-0 w-full bg-black"
-        style={{ height: scrollHeight }}
+        ref={containerRef}
+        className="
+          services-3d-scroll
+          relative
+          hidden
+          w-full
+          bg-black
+          lg:block
+        "
+        style={{
+          height: prefersReducedMotion
+            ? "100svh"
+            : `${trackHeightVh}svh`,
+        }}
       >
+        {/* =================================================
+            STICKY VIEWPORT
+            ================================================= */}
+
         <div
-          ref={stickyStageRef}
-          className="sticky top-0 h-[100svh] w-full overflow-hidden bg-black"
+          className="
+            services-3d-sticky
+            sticky
+            top-0
+            h-[100svh]
+            w-full
+            overflow-hidden
+            bg-black
+          "
         >
           {eyebrow?.trim() ? (
-            <p className="sr-only">{eyebrow.trim()}</p>
+            <span className="sr-only">
+              {eyebrow.trim()}
+            </span>
           ) : null}
 
-          <MaskedHeading heading={resolvedHeading} />
+          {/* ===============================================
+              HEADING
+
+              SAME UI / SAME PLACEMENT
+              =============================================== */}
+
+          <ServicesHeading
+            heading={
+              resolvedHeading
+            }
+          />
+
+          {/* ===============================================
+              3D STAGE
+              =============================================== */}
 
           <div
-            className="absolute left-1/2 z-10 transition-opacity duration-300"
-            style={{
-              top: metrics.top,
-              width: metrics.cardWidth,
-              height: stackHeight,
-              opacity: metrics.measured ? 1 : 0,
-              transform: `translateX(-50%) scale(${metrics.scale})`,
-              transformOrigin: "50% 0%",
-              perspective: "1200px",
-            }}
+            className="
+              services-3d-stage
+              relative
+              h-full
+              w-full
+            "
           >
-            <div
-              className="absolute left-0"
-              style={{
-                top: frontCardTop,
-                width: metrics.cardWidth,
-                height: metrics.cardHeight,
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {orderedServices.map((item, index) => (
-                <ServiceStackCard
-                  key={`${item.serviceNumber}-${item.service.slug || item.service.title || "service"}`}
+            {animationServices.map(
+              (
+                item,
+                animationIndex,
+              ) => (
+                <Service3DCard
+                  key={
+                    item.service._id
+                  }
                   item={item}
-                  stackIndex={index}
-                  serviceCount={serviceCount}
+                  animationIndex={
+                    animationIndex
+                  }
+                  progress={
+                    smoothProgress
+                  }
+                  isActive={
+                    activeAnimationIndex ===
+                    animationIndex
+                  }
+                  totalCards={
+                    totalCards
+                  }
+                  lastIndex={
+                    lastIndex
+                  }
                   step={step}
-                  metrics={metrics}
-                  isInteractive={index === activeIndex}
-                  reduceMotion={reduceMotion}
                 />
-              ))}
-            </div>
+              ),
+            )}
           </div>
         </div>
       </div>
 
-      <style jsx global>{`
-        .services-partner-handoff {
-          margin-top: calc(
-            -1 * var(--services-partner-overlap, 92svh)
-          );
+      {/* ===================================================
+          COMPONENT-SCOPED CSS
+          =================================================== */}
+
+      <style>{`
+        /* =================================================
+           REAL PERSPECTIVE
+
+           EXACTLY THE SAME PRINCIPLE AS YOUR SENT CODE.
+           ================================================= */
+
+        .services-3d-sticky {
+          perspective: ${PERSPECTIVE_PX}px;
+          perspective-origin: 50% 50%;
+          isolation: isolate;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .services-partner-handoff {
-            margin-top: 0 !important;
+        .services-3d-stage,
+        .service-3d-card-shell,
+        .service-3d-card {
+          transform-style: preserve-3d;
+        }
+
+        /* =================================================
+           CARD PLACEMENT
+
+           Front card stays lower in the viewport,
+           allowing the complete 01 → 08 staircase
+           to appear above it.
+
+           Heading remains behind the stack.
+           ================================================= */
+
+        .service-3d-card-shell {
+          top: 68%;
+          width: min(88vw, 80rem);
+          height: clamp(20rem, 40svh, 33rem);
+        }
+
+        .service-3d-card {
+          transform-origin: 50% 0%;
+          will-change: transform, opacity;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+
+        /* =================================================
+           1366 / 1440 LAPTOPS
+           ================================================= */
+
+        @media
+          (min-width: 1024px)
+          and (max-width: 1500px) {
+
+          .service-3d-card-shell {
+            top: 68%;
+            width: min(88vw, 72rem);
+            height: clamp(
+              19rem,
+              39svh,
+              30rem
+            );
+          }
+        }
+
+        /* =================================================
+           SHORT LAPTOPS
+
+           1366×768 etc.
+           ================================================= */
+
+        @media
+          (min-width: 1024px)
+          and (max-height: 800px) {
+
+          .service-3d-card-shell {
+            top: 69%;
+            width: min(86vw, 68rem);
+            height: clamp(
+              18rem,
+              38svh,
+              27rem
+            );
+          }
+        }
+
+        /* =================================================
+           LARGE DESKTOP
+           ================================================= */
+
+        @media (min-width: 1800px) {
+          .service-3d-card-shell {
+            top: 67%;
+            width: min(82vw, 82rem);
+            height: min(
+              42svh,
+              34rem
+            );
+          }
+        }
+
+        /* =================================================
+           REDUCED MOTION
+           ================================================= */
+
+        @media (
+          prefers-reduced-motion:
+          reduce
+        ) {
+          .services-3d-scroll {
+            display: none !important;
+          }
+
+          .services-static-list {
+            display: flex !important;
           }
         }
       `}</style>

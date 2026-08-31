@@ -31,6 +31,20 @@ export type CmsSiteSettings = {
     url: string;
   }> | null;
 
+  footer?: {
+    heading?: string | null;
+    description?: string | null;
+    contactCta?: CmsCta | null;
+    partnerHeading?: string | null;
+    partnerDescription?: string | null;
+    partnerCta?: CmsCta | null;
+    growHeading?: string | null;
+    growDescription?: string | null;
+    growCta?: CmsCta | null;
+    marathiWordmark?: string | null;
+    designCredit?: string | null;
+  } | null;
+
   defaultMetaTitle?: string | null;
 
   defaultMetaDescription?:
@@ -231,6 +245,8 @@ export type CmsPartnerSection = {
   heading?: string | null;
 
   description?: string | null;
+
+  cta?: CmsCta | null;
 
   benefits?:
     | CmsPartnerBenefit[]

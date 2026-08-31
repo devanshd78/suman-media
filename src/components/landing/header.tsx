@@ -2,8 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["600"],
+});
 
 /* =========================================================
    TYPES
@@ -1188,45 +1194,56 @@ export function Header() {
               Visible tablet+
               =============================================== */}
 
-          <Link
-            href="/contact"
-            onMouseEnter={
-              closeDropdown
-            }
-            className="
-              hidden
-              min-h-10
-              shrink-0
-              items-center
-              justify-center
-              gap-2
-              whitespace-nowrap
-              rounded-xl
-              bg-[#8F6C1A]
+<Link
+  href="/contact"
+  onMouseEnter={closeDropdown}
+  className={`
+    ${inter.className}
 
-              px-4
-              py-2
+    hidden
+    min-h-10
+    shrink-0
+    items-center
+    justify-center
+    gap-2
+    whitespace-nowrap
 
-              text-xs
-              font-semibold
-              text-white
+    rounded-[0.5rem]
+    bg-white
 
-              transition-colors
-              duration-200
+    px-4
+    py-2
 
-              hover:bg-[#9A7810]
+    text-center
+    text-[0.875rem]
+    font-semibold
+    leading-[1.25rem]
+    text-[#8F6C1A]
 
-              md:inline-flex
+    transition-[background-color,transform]
+    duration-200
 
-              xl:px-5
-            "
-          >
-            <span>
-              Contact us
-            </span>
+    hover:-translate-y-[1px]
+    hover:bg-[#F7F7F7]
 
-            <ArrowRightIcon />
-          </Link>
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-white/60
+    focus-visible:ring-offset-2
+    focus-visible:ring-offset-transparent
+
+    md:inline-flex
+
+    xl:px-5
+  `}
+  style={{
+    fontFeatureSettings: '"liga" off, "clig" off',
+  }}
+>
+  <span>Contact us</span>
+
+  <ArrowRightIcon />
+</Link>
 
           {/* ===============================================
               MOBILE / TABLET MENU BUTTON
@@ -1670,45 +1687,53 @@ export function Header() {
 
             {/* CONTACT CTA */}
 
-            <Link
-              href="/contact"
-              onClick={
-                closeMobileMenu
-              }
-              className="
-                mt-7
-                inline-flex
-                min-h-12
-                w-full
-                items-center
-                justify-center
-                gap-2
+<Link
+  href="/contact"
+  onClick={closeMobileMenu}
+  className={`
+    ${inter.className}
 
-                rounded-xl
-                bg-[#8F6C1A]
+    mt-7
+    inline-flex
+    min-h-12
+    w-full
+    items-center
+    justify-center
+    gap-2
 
-                px-5
-                py-3
+    rounded-[0.5rem]
+    bg-white
 
-                text-sm
-                font-semibold
-                text-white
+    px-5
+    py-3
 
-                transition-colors
-                duration-200
+    text-center
+    text-[0.875rem]
+    font-semibold
+    leading-[1.25rem]
+    text-[#8F6C1A]
 
-                hover:bg-[#9A7810]
+    transition-[background-color,transform]
+    duration-200
 
-                sm:w-fit
-                sm:min-w-[10rem]
-              "
-            >
-              <span>
-                Contact us
-              </span>
+    hover:-translate-y-[1px]
+    hover:bg-[#F7F7F7]
 
-              <ArrowRightIcon />
-            </Link>
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-white/60
+
+    sm:w-fit
+    sm:min-w-[10rem]
+  `}
+  style={{
+    fontFeatureSettings: '"liga" off, "clig" off',
+  }}
+>
+  <span>Contact us</span>
+
+  <ArrowRightIcon />
+</Link>
           </nav>
         </div>
       ) : null}
