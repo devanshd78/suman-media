@@ -1,16 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import type { CmsContactPage } from "@/types/cms";
 import { PartnerLogoMarquee } from "./partner-logo-marquee";
 import styles from "./contact-page.module.css";
 
-const exo2 = Exo_2({
+const exo2 = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["600"],
 });
 
-const inter = Inter({
+const inter = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "600"],
 });

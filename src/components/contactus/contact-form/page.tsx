@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Script from "next/script";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import {
   FALLBACK_COUNTRY_CALLING_CODES,
   type CountryCallingCode,
@@ -10,12 +10,12 @@ import {
 import type { ApiResponse } from "@/types/api";
 import { PartnerLogoMarquee } from "../partner-logo-marquee";
 
-const exo2 = Exo_2({
+const exo2 = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["600"],
 });
 
-const inter = Inter({
+const inter = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "600"],
 });

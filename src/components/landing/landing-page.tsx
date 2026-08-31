@@ -4,13 +4,13 @@ import { AboutSection } from "./about-section";
 import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { CareersCtaSection } from "./careers-cta-section";
 import { ClientsSection } from "./client-section";
-import { CulturalRibbon } from "./cultural-ribbon";
 import { FaqSection } from "./faq-section";
+import { FilmSection } from "./film-section";
 import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
 import { InsightsSection } from "./insights-section";
-import { LandingSectionObserver } from "./landing-section-observer";
+import { LandingTextReveal } from "./landing-text-reveal";
 import { MediaCoverageSection } from "./media-coverage-section";
 import { PartnerSection } from "./partner-section";
 import { ServicesSection } from "./services-section";
@@ -26,6 +26,7 @@ export function LandingPage({
 }: LandingPageProps) {
   return (
     <main
+      data-landing-page
       className="
         relative
         mx-auto
@@ -35,7 +36,7 @@ export function LandingPage({
         bg-black
       "
     >
-      <LandingSectionObserver />
+      <LandingTextReveal />
 
       <HeroSection
         slides={home?.heroSlides ?? []}
@@ -48,15 +49,7 @@ export function LandingPage({
         cta={home?.aboutCta}
       />
 
-      <CulturalRibbon />
-
-      <ClientsSection
-        eyebrow={home?.clientsEyebrow}
-        heading={home?.clientsHeading}
-        companies={
-          home?.featuredCompanies ?? []
-        }
-      />
+      <ClientsSection />
 
       <ServicesSection
         eyebrow={home?.servicesEyebrow}
@@ -91,6 +84,8 @@ export function LandingPage({
       <PartnerSection
         content={home?.partnerSection}
       />
+
+      <FilmSection />
 
       <TestimonialSection
         testimonial={

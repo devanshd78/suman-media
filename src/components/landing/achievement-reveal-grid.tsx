@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 
-import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsAchievementSection } from "@/types/cms";
 
 const BOX_COUNT = 20;
@@ -179,16 +178,12 @@ export function AchievementRevealGrid({
       aria-labelledby="achievement-heading"
       className="
         landing-section-transition
-        culture-thread
-        culture-weave
-        heritage-saffron
-        paithani-edge
-        fort-silhouette
         relative
         mx-auto
         w-full
         max-w-full
         overflow-hidden
+        bg-[#FFEABF]
       "
     >
       {/* =====================================================
@@ -242,6 +237,7 @@ export function AchievementRevealGrid({
 
         {content?.departmentEmblemUrl ? (
           <div
+            data-landing-parallax-layer="reverse"
             className="
               relative
               z-[2]
@@ -284,6 +280,7 @@ export function AchievementRevealGrid({
 
         {content?.governmentSealUrl ? (
           <div
+            data-landing-parallax-layer="reverse"
             className="
               absolute
               -right-[3rem]
@@ -360,7 +357,7 @@ export function AchievementRevealGrid({
               xl:text-[4rem]
             "
           >
-            <TextReveal text={heading} stagger={0.022} amount={0.18} />
+            {heading}
           </h2>
 
           {description ? (

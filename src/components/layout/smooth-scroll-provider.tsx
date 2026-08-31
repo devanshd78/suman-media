@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
 const HEADER_OFFSET_PX = 88;
-const SCROLL_DURATION_SECONDS = 0.92;
+const SCROLL_DURATION_SECONDS = 1.05;
 
 function getHashTarget(hash: string) {
   if (!hash || hash === "#") return null;
@@ -33,9 +33,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       syncTouch: false,
-      wheelMultiplier: 0.96,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1,
-      autoResize: true,
     });
 
     lenisRef.current = lenis;
@@ -141,7 +140,9 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
   }, [pathname]);
 
   return children;

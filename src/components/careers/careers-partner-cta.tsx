@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { Exo_2, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import type { CmsCareersPartnerCta } from "@/types/cms";
 
-const exo2 = Exo_2({
+const exo2 = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["600"],
 });
 
-const inter = Inter({
+const inter = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["600"],
 });
