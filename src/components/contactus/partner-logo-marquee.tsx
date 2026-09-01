@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import styles from "./contact-page.module.css";
 
 const PARTNER_LOGOS = [

@@ -21,10 +21,11 @@ export const homePageType = defineType({
   fields: [
     defineField({
       name: "heroSlides",
-      title: "Hero slides",
+      title: "Legacy hero slides",
       type: "array",
       group: "hero",
-      description: "Homepage hero carousel. Drag items to change the slide order.",
+      hidden: true,
+      description: "Legacy carousel content retained for migration safety.",
       of: [
         defineArrayMember({
           name: "heroSlide",
@@ -111,13 +112,64 @@ export const homePageType = defineType({
           },
         }),
       ],
-      validation: (rule) => rule.required().min(1).max(5),
+      validation: (rule) => rule.max(5),
+    }),
+
+    defineField({
+      name: "heroVideo",
+      title: "Hero video",
+      type: "file",
+      group: "hero",
+      description:
+        "Optional MP4 background video. If empty, /public/videos/MediaVedio.mp4 is used without re-encoding.",
+      options: { accept: "video/mp4" },
+    }),
+    defineField({
+      name: "heroEyebrow",
+      title: "Hero eyebrow",
+      type: "string",
+      group: "hero",
+      initialValue: "DIGITAL ENTERTAINMENT & PLATFORM",
+      validation: (rule) => rule.max(80),
+    }),
+    defineField({
+      name: "heroHeading",
+      title: "Hero heading",
+      type: "string",
+      group: "hero",
+      initialValue: "Abhijat Marathi OTT",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
+      name: "heroDescription",
+      title: "Hero description",
+      type: "text",
+      rows: 4,
+      group: "hero",
+      initialValue:
+        "A dedicated Marathi OTT platform bringing regional stories, films and content to audiences worldwide.",
+      validation: (rule) => rule.max(360),
+    }),
+    defineField({
+      name: "heroLearnMoreCta",
+      title: "Learn more button",
+      type: "cta",
+      group: "hero",
+      initialValue: {
+        label: "Learn more",
+        href: "/companies/abhijat-marathi",
+        style: "primary",
+      },
+    }),
+    defineField({
+      name: "heroJoinNowCta",
+      title: "Join now button",
+      type: "cta",
+      group: "hero",
+      initialValue: { label: "Join now", href: "/contact", style: "text" },
     }),
 
     // Kept hidden so existing content is not destroyed during migration.
-    defineField({ name: "heroEyebrow", title: "Hero eyebrow", type: "string", group: "hero", hidden: true }),
-    defineField({ name: "heroHeading", title: "Hero heading", type: "string", group: "hero", hidden: true }),
-    defineField({ name: "heroDescription", title: "Hero description", type: "text", group: "hero", hidden: true }),
     defineField({ name: "heroImage", title: "Hero image", type: "mediaImage", group: "hero", hidden: true }),
     defineField({ name: "heroCtas", title: "Hero calls to action", type: "array", group: "hero", hidden: true, of: [defineArrayMember({ type: "cta" })] }),
 

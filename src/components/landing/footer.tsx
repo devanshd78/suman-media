@@ -348,7 +348,7 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
             <FooterGroup title="Contact" links={CONTACT} />
           </div>
 
-          <div className="flex min-h-[27rem] flex-col py-7 sm:pl-8 lg:py-7 lg:pl-9">
+          <div className="flex flex-col py-7 sm:pl-8 lg:min-h-[27rem] lg:py-7 lg:pl-9">
             <FooterGroup title="Solutions" links={SOLUTIONS} />
 
             <div className="mt-8 flex flex-wrap items-center gap-2 sm:mt-10">

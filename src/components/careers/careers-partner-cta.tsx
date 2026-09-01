@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 import type { CmsCareersPartnerCta } from "@/types/cms";
 
@@ -46,12 +47,12 @@ export function CareersPartnerCta({
       }}
     >
       <div className="flex w-full flex-col items-start gap-3">
-        <h2
+        <TextReveal
+          as="h2"
+          text={heading}
           className={`${exo2.className} w-full max-w-[30.5rem] text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-        >
-          {heading}
-        </h2>
+        />
 
         <Link
           href="/contact?type=partnership"

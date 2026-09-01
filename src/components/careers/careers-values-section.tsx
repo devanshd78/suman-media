@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import { useEffect, useRef } from "react";
 import {
   BooksIcon,
@@ -13,6 +13,7 @@ import {
   UsersFourIcon,
 } from "@phosphor-icons/react";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CmsCareersCulture } from "@/types/cms";
 
 const CAREER_BENEFITS = [
@@ -199,23 +200,23 @@ export function CareersValuesSection({
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           <div className={rowClassName}>
-            <span>Create</span>
+            <TextReveal as="span" text="Create" split="characters" />
             <BlueCircle />
           </div>
 
           <div className={rowClassName}>
             <YellowSquare />
-            <span>Collaborate</span>
+            <TextReveal as="span" text="Collaborate" split="characters" />
           </div>
 
           <div className={rowClassName}>
-            <span>Experiment</span>
+            <TextReveal as="span" text="Experiment" split="characters" />
             <OrangeTriangle />
           </div>
 
           <div className={rowClassName}>
             <GreenStar />
-            <span>Grow</span>
+            <TextReveal as="span" text="Grow" split="characters" />
           </div>
         </div>
       </section>
@@ -226,19 +227,19 @@ export function CareersValuesSection({
       >
         <div className="mx-auto grid w-full max-w-[83rem] grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-[3.5rem]">
           <div className="flex min-w-0 flex-col items-start gap-6 lg:pr-8">
-            <h2
+            <TextReveal
+              as="h2"
               id="careers-benefits-heading"
+              text={cultureHeading}
               className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              {cultureHeading}
-            </h2>
-            <p
+            />
+            <TextReveal
+              as="p"
+              text={cultureDescription}
               className={`${inter.className} max-w-[35rem] text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              {cultureDescription}
-            </p>
+            />
           </div>
 
           <ul className="m-0 w-full list-none p-0" aria-label="Employee benefits">
@@ -252,12 +253,12 @@ export function CareersValuesSection({
                   className="h-[3.75rem] w-[3.75rem] shrink-0 text-black"
                   weight="regular"
                 />
-                <span
+                <TextReveal
+                  as="span"
+                  text={label}
                   className={`${inter.className} text-xl font-semibold leading-7 text-black`}
                   style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                >
-                  {label}
-                </span>
+                />
               </li>
             ))}
           </ul>
@@ -270,36 +271,36 @@ export function CareersValuesSection({
       >
         <div className="mx-auto flex w-full max-w-full flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
-            <p
+            <TextReveal
+              as="p"
+              text={cultureEyebrow}
               className={`${inter.className} w-full text-sm font-semibold leading-5 text-[rgba(0,9,51,0.65)]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              {cultureEyebrow}
-            </p>
+            />
 
-            <h2
+            <TextReveal
+              as="h2"
               id="careers-culture-heading"
+              text={cultureHeading}
               className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              {cultureHeading}
-            </h2>
+            />
           </div>
 
-          <p
+          <TextReveal
+            as="p"
+            text={cultureDescription}
             className={`${inter.className} w-full text-base font-normal leading-6 text-[#969696] lg:w-[37.125rem] lg:flex-none`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-          >
-            {cultureDescription}
-          </p>
+          />
         </div>
 
         <div
           ref={cultureScrollRef}
           className="relative w-full"
-          style={{ height: `${Math.max(slides.length, 1) * 100}vh` }}
+          style={{ height: `${Math.max(slides.length, 1) * 100}svh` }}
         >
-          <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]">
+          <div className="sticky top-0 flex h-[100svh] w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]">
             <div className="mx-auto w-full max-w-[83rem] overflow-hidden">
               <div
                 ref={cultureTrackRef}
@@ -325,7 +326,7 @@ export function CareersValuesSection({
                       </div>
 
                       <div
-                        className="flex min-h-[15rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 lg:min-h-0"
+                        className="flex min-h-[12rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 sm:min-h-[15rem] lg:min-h-0"
                         style={{
                           backgroundColor:
                             SLIDE_PANEL_COLORS[
@@ -341,22 +342,22 @@ export function CareersValuesSection({
                         </p>
 
                         <div className="flex min-w-0 flex-col items-start gap-3">
-                          <h3
+                          <TextReveal
+                            as="h3"
+                            text={slide.title}
                             className={`${inter.className} text-xl font-semibold leading-7 text-black`}
                             style={{
                               fontFeatureSettings: '"liga" off, "clig" off',
                             }}
-                          >
-                            {slide.title}
-                          </h3>
-                          <p
+                          />
+                          <TextReveal
+                            as="p"
+                            text={slide.description}
                             className={`${inter.className} text-base font-normal leading-6 text-black`}
                             style={{
                               fontFeatureSettings: '"liga" off, "clig" off',
                             }}
-                          >
-                            {slide.description}
-                          </p>
+                          />
                         </div>
                       </div>
                     </div>

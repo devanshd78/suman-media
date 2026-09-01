@@ -4,7 +4,6 @@ import type {
   CmsFeaturedCompany,
   CmsFeaturedInsight,
   CmsFeaturedProject,
-  CmsHeroSlide,
   CmsHomePage,
   CmsSitemapDocument,
   CmsSiteSettings,
@@ -24,7 +23,6 @@ import {
   HOME_FEATURED_COMPANIES_QUERY,
   HOME_FEATURED_INSIGHTS_QUERY,
   HOME_FEATURED_PROJECTS_QUERY,
-  HOME_PAGE_HERO_QUERY,
   HOME_PAGE_METADATA_QUERY,
   HOME_PAGE_QUERY,
   INSIGHT_BY_SLUG_QUERY,
@@ -199,20 +197,6 @@ export function getFeaturedInsights(): Promise<CmsFeaturedInsight[]> {
       Boolean(post?.title && post?.slug && post?.imageUrl && post?.publishedAt),
     "featured insights",
   );
-}
-
-export async function getHomeHeroSlides(): Promise<CmsHeroSlide[]> {
-  try {
-    const result = await sanityFetch<{ heroSlides?: CmsHeroSlide[] | null }>({
-      query: HOME_PAGE_HERO_QUERY,
-      revalidate: process.env.NODE_ENV === "development" ? 0 : 3600,
-    });
-
-    return result?.heroSlides?.filter((slide) => Boolean(slide?.imageUrl && slide?.heading)) ?? [];
-  } catch (error) {
-    console.error("Failed to load homepage hero slides from Sanity", error);
-    return [];
-  }
 }
 
 async function getDetailDocument(query: string, slug: string, metadata = false) {

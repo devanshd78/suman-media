@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import Link from "next/link";
 
 import {
@@ -412,9 +412,14 @@ function Navigation({
     <div
       className="
         flex
+        w-full
         shrink-0
         items-center
+        justify-end
         gap-2
+
+        sm:w-auto
+        sm:justify-start
       "
     >
       <button
@@ -708,6 +713,7 @@ function SlideCard({
           <div
             className="
               flex
+              flex-wrap
               shrink-0
               items-center
               gap-3
@@ -965,9 +971,9 @@ export function ClientsSection() {
 
   const moveToPhysicalIndex =
     useCallback(
-      async (
+      async function moveToPhysicalIndex(
         targetPhysicalIndex: number,
-      ) => {
+      ) {
         if (
           SLIDES.length <= 1
         ) {
@@ -1409,7 +1415,11 @@ export function ClientsSection() {
         items-center
         justify-end
 
-        gap-[6.25rem]
+        gap-14
+
+        sm:gap-20
+
+        lg:gap-[6.25rem]
 
         overflow-hidden
 
@@ -1428,13 +1438,16 @@ export function ClientsSection() {
           w-full
           max-w-[74.3125rem]
 
-          items-end
+          flex-col
+          items-start
           justify-between
           gap-6
 
           px-4
 
           sm:px-6
+          sm:flex-row
+          sm:items-end
 
           lg:px-0
         "

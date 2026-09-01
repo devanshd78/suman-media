@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import Link from "next/link";
 import {
   motion,
@@ -732,6 +732,9 @@ function StaticServices({
         bg-black
         px-5
         py-12
+
+        sm:px-8
+
         lg:hidden
       "
     >

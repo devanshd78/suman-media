@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -168,9 +168,6 @@ export function AchievementRevealGrid({
 
   const ctaHref =
     content?.cta?.href?.trim() || "/about";
-
-  const ctaStyle =
-    content?.cta?.style || "text";
 
   return (
     <section

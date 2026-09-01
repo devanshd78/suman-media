@@ -9,51 +9,33 @@ export const HOME_PAGE_QUERY =
     _id,
     _updatedAt,
 
-    "heroSlides":
-      heroSlides[
-        coalesce(enabled, true) == true
-      ]{
-        _key,
-        eyebrow,
-        heading,
-        description,
+    "hero": {
+      "videoUrl":
+        heroVideo.asset->url,
 
-        "imageUrl":
-          image.asset->url,
+      "eyebrow":
+        heroEyebrow,
 
+      "heading":
+        heroHeading,
 
-        "mobileImageUrl":
-          mobileImage.asset->url,
+      "description":
+        heroDescription,
 
+      "learnMoreCta":
+        heroLearnMoreCta{
+          label,
+          href,
+          style
+        },
 
-        "badgeUrl":
-          badge.asset->url,
-
-        "badgeAlt":
-          select(
-            badge.decorative == true => "",
-            badge.alt
-          ),
-
-        "qrCodeUrl":
-          qrCode.asset->url,
-
-        "qrCodeAlt":
-          select(
-            qrCode.decorative == true => "",
-            qrCode.alt
-          ),
-
-        downloadTitle,
-        downloadCaption,
-        downloadHref,
-
-        cta{
+      "joinNowCta":
+        heroJoinNowCta{
           label,
           href,
           style
         }
-      },
+    },
 
     aboutEyebrow,
     aboutHeading,
@@ -532,75 +514,6 @@ export const SITE_SETTINGS_QUERY =
 
     "defaultSocialImageAlt":
       defaultSocialImage.alt
-  }
-`);
-
-export const HOME_PAGE_HERO_QUERY =
-  defineQuery(`
-  *[
-    _type == "homePage" &&
-    _id == "homePage"
-  ][0]{
-    "heroSlides":
-      heroSlides[
-        coalesce(enabled, true) == true
-      ]{
-        _key,
-        internalName,
-        eyebrow,
-        heading,
-        description,
-
-        "imageUrl":
-          image.asset->url,
-
-        "imageAlt":
-          select(
-            image.decorative == true
-              => "",
-            image.alt
-          ),
-
-        "mobileImageUrl":
-          mobileImage.asset->url,
-
-        "mobileImageAlt":
-          select(
-            mobileImage.decorative == true
-              => "",
-            mobileImage.alt
-          ),
-
-        "badgeUrl":
-          badge.asset->url,
-
-        "badgeAlt":
-          select(
-            badge.decorative == true
-              => "",
-            badge.alt
-          ),
-
-        "qrCodeUrl":
-          qrCode.asset->url,
-
-        "qrCodeAlt":
-          select(
-            qrCode.decorative == true
-              => "",
-            qrCode.alt
-          ),
-
-        downloadTitle,
-        downloadCaption,
-        downloadHref,
-
-        cta{
-          label,
-          href,
-          style
-        }
-      }
   }
 `);
 

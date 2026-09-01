@@ -60,6 +60,11 @@ body > * {
   max-width: 100%;
 }
 
+:where(main, section, article, header, footer, nav, aside),
+:where(.flex, .grid) > * {
+  min-width: 0;
+}
+
 img,
 picture,
 video,
@@ -84,6 +89,13 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+input,
+textarea,
+select {
+  min-width: 0;
+  max-width: 100%;
 }
 
 ::selection {

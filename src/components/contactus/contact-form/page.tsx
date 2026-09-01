@@ -219,7 +219,7 @@ export default function ContactFormPage({
 
       <section
         aria-labelledby="contact-form-page-heading"
-        className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 max-[359px]:px-2 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
       >
         <header className="flex w-full flex-col items-start gap-4">
           <h1
@@ -240,7 +240,7 @@ export default function ContactFormPage({
         </header>
 
         <div
-          className="grid w-full grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(9.1875rem,1fr))]"
+          className="grid w-full grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(9.1875rem,1fr))]"
           aria-label={isPartnership ? "Partnership categories" : "Enquiry categories"}
         >
           {categories.map((category) => {
@@ -266,7 +266,7 @@ export default function ContactFormPage({
         <div className="grid w-full grid-cols-1 items-start gap-[3.5rem] lg:grid-cols-[minmax(0,1.5fr)_minmax(16rem,1fr)]">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full min-w-0 flex-col items-start gap-[3.5rem] rounded-[1.25rem] border border-[#E6E6E6] bg-white p-5 sm:p-8"
+            className="flex w-full min-w-0 flex-col items-start gap-[3.5rem] rounded-[1.25rem] border border-[#E6E6E6] bg-white p-5 max-[399px]:rounded-none max-[399px]:border-0 max-[399px]:p-0 sm:p-8"
           >
             <h2
               className={`${inter.className} w-full text-xl font-normal leading-7 text-black`}
@@ -356,7 +356,7 @@ export default function ContactFormPage({
                   Mobile Number <span className="text-[rgba(0,9,51,0.65)]">*</span>
                 </span>
                 <span className="flex h-12 w-full items-center gap-2">
-                  <span className="relative flex h-full w-[7.5rem] shrink-0 items-center justify-between rounded-lg bg-[#F9F9F9] px-4">
+                  <span className="relative flex h-full w-[6.5rem] shrink-0 items-center justify-between rounded-lg bg-[#F9F9F9] px-3 sm:w-[7.5rem] sm:px-4">
                     <span className={`${inter.className} truncate text-base leading-6 text-black`}>
                       {selectedCountry.flag} {selectedCountry.callingCode}
                     </span>
@@ -409,8 +409,9 @@ export default function ContactFormPage({
 
               {turnstileSiteKey ? (
                 <div
-                  className="cf-turnstile"
+                  className="cf-turnstile w-full max-w-full"
                   data-sitekey={turnstileSiteKey}
+                  data-size="flexible"
                   data-action="contact"
                 />
               ) : null}

@@ -22,7 +22,7 @@
     "prebuild": "prisma generate",
     "sanity:studio": "sanity dev",
     "sanity:deploy": "sanity deploy",
-    "sanity:schema": "sanity schema extract --path schema.json",
+    "sanity:schema": "sanity schema extract --path schema.json --force",
     "sanity:typegen": "npm run sanity:schema && sanity typegen generate",
     "sanity:typegen:watch": "sanity typegen generate --watch",
     "sanity:validate": "sanity documents validate",

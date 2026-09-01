@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { CaretDownIcon, CaretRightIcon } from "@phosphor-icons/react";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 import type { CmsCareerOpening } from "@/types/cms";
 
@@ -100,10 +101,18 @@ function DetailList({ title, items }: { title: string; items?: string[] | null }
 
   return (
     <div className="space-y-3">
-      <h4 className="font-semibold text-black">{title}</h4>
+      <TextReveal
+        as="h4"
+        text={title}
+        className="font-semibold text-black"
+      />
       <ul className="list-disc space-y-2 pl-5">
         {items.map((item, index) => (
-          <li key={`${item}-${index}`}>{item}</li>
+          <TextReveal
+            as="li"
+            text={item}
+            key={`${item}-${index}`}
+          />
         ))}
       </ul>
     </div>
@@ -121,13 +130,13 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
       aria-labelledby="career-openings-heading"
       className="mx-auto flex w-full max-w-full scroll-mt-24 flex-col items-center gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
     >
-      <h2
+      <TextReveal
+        as="h2"
         id="career-openings-heading"
+        text="Open Positions"
         className={`${exo2.className} text-center text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
         style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-      >
-        Open Positions
-      </h2>
+      />
 
       <div className="w-full max-w-[81.125rem]">
         <div className="flex w-full flex-col gap-6">
@@ -142,21 +151,21 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
               >
                 <div className="flex min-h-[7.5rem] w-full flex-col items-start justify-center gap-6 p-5 md:flex-row md:items-center md:justify-between md:gap-[6.25rem]">
                   <div className="min-w-0 flex-1">
-                    <h3
+                    <TextReveal
+                      as="h3"
+                      text={job.title}
                       className={`${exo2.className} text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                    >
-                      {job.title}
-                    </h3>
-                    <p
+                    />
+                    <TextReveal
+                      as="p"
+                      text={job.location}
                       className={`${inter.className} mt-1 text-base font-normal leading-6 text-[#B8B8B8]`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                    >
-                      {job.location}
-                    </p>
+                    />
                   </div>
 
-                  <div className="flex shrink-0 items-center gap-5">
+                  <div className="grid w-full shrink-0 grid-cols-1 gap-3 sm:flex sm:w-auto sm:items-center sm:gap-5">
                     <button
                       type="button"
                       aria-expanded={isOpen}
@@ -166,7 +175,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                           current === index ? null : index,
                         )
                       }
-                      className={`${inter.className} inline-flex h-12 items-center justify-center gap-2 px-1 text-sm font-semibold text-black`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 px-1 text-sm font-semibold text-black sm:w-auto`}
                     >
                       <span>View details</span>
                       <span
@@ -185,7 +194,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
 
                     <Link
                       href={safeApplyHref(job.applyUrl)}
-                      className={`${inter.className} inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A]`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto`}
                     >
                       <span>Apply now</span>
                       <CaretRightIcon aria-hidden="true" size={18} weight="bold" />
@@ -207,7 +216,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                       className={`${inter.className} space-y-8 px-5 pb-10 text-base font-normal leading-7 text-[#969696]`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                     >
-                      <p>{job.description}</p>
+                      <TextReveal as="p" text={job.description} />
                       <DetailList
                         title="Your responsibilities will include:"
                         items={job.responsibilities}
@@ -226,7 +235,10 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
         className={`${inter.className} w-full max-w-[16.375rem] text-center text-2xl font-semibold leading-8 text-black`}
         style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
       >
-        Didn&apos;t find a good fit? Share your CV{" "}
+        <TextReveal
+          as="span"
+          text="Didn't find a good fit? Share your CV"
+        />{" "}
         <Link
           href="/contact"
           className="text-[#8F6C1A] underline decoration-transparent underline-offset-4 transition-colors hover:decoration-current"

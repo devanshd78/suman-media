@@ -58,9 +58,7 @@ export function LandingPage({
           No white-to-black transition needed.
           ===================================================== */}
 
-      <HeroSection
-        slides={home?.heroSlides ?? []}
-      />
+      <HeroSection content={home?.hero} />
 
       {/* =====================================================
           ABOUT

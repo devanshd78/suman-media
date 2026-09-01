@@ -71,32 +71,15 @@ export type CmsCta = {
     | null;
 };
 
-export type CmsHeroSlide = {
-  _key: string;
+export type CmsHero = {
+  videoUrl?: string | null;
 
-  internalName?: string | null;
+  eyebrow?: string | null;
+  heading?: string | null;
+  description?: string | null;
 
-  eyebrow: string;
-  heading: string;
-  description: string;
-
-  imageUrl: string;
-  imageAlt?: string | null;
-
-  mobileImageUrl?: string | null;
-  mobileImageAlt?: string | null;
-
-  badgeUrl?: string | null;
-  badgeAlt?: string | null;
-
-  qrCodeUrl?: string | null;
-  qrCodeAlt?: string | null;
-
-  downloadTitle?: string | null;
-  downloadCaption?: string | null;
-  downloadHref?: string | null;
-
-  cta?: CmsCta | null;
+  learnMoreCta?: CmsCta | null;
+  joinNowCta?: CmsCta | null;
 };
 
 export type CmsStat = {
@@ -392,9 +375,7 @@ export type CmsHomePage = {
 
   _updatedAt: string;
 
-  heroSlides?:
-    | CmsHeroSlide[]
-    | null;
+  hero?: CmsHero | null;
 
   aboutEyebrow?: string | null;
 

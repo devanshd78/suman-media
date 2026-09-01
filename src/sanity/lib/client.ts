@@ -1,4 +1,4 @@
-import { createClient, type QueryParams } from "next-sanity";
+import { createClient } from "next-sanity";
 import { isSanityConfigured, sanityEnv } from "@/sanity/env";
 
 export const sanityClient = isSanityConfigured

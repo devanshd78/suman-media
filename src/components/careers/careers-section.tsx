@@ -1,6 +1,9 @@
-import Image from "next/image";
+import type { CSSProperties } from "react";
+import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
+import { CareersHeroTypewriter } from "@/components/careers/careers-hero-typewriter";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 /* ========================================================= */
 /* TYPES                                                     */
@@ -224,8 +227,9 @@ function GalleryGroup({
             style={{
               width: "22rem",
               height: "25rem",
-              transform: `translateY(-${verticalOffset}rem)`,
-            }}
+              "--gallery-offset": `-${verticalOffset}rem`,
+              "--gallery-offset-mobile": `-${verticalOffset * 0.55}rem`,
+            } as CSSProperties}
           >
             <Image
               src={image.url}
@@ -298,91 +302,7 @@ export async function CareersSection() {
           lg:pt-[6.25rem]
         "
       >
-        <div
-          className="
-            flex
-            w-full
-            flex-col
-            items-center
-            gap-4
-          "
-        >
-          {/* CAREERS */}
-          <p
-            className={`
-              ${inter.className}
-
-              w-full
-
-              text-center
-              text-[0.875rem]
-              font-semibold
-              leading-[1.25rem]
-
-              text-[rgba(0,9,51,0.65)]
-            `}
-            style={{
-              fontFeatureSettings:
-                '"liga" off, "clig" off',
-            }}
-          >
-            CAREERS
-          </p>
-
-          {/* MAIN HEADING */}
-          <h1
-            className={`
-              ${exo2.className}
-
-              w-full
-
-              text-center
-
-              text-[2rem]
-              font-semibold
-              leading-[2.5rem]
-              tracking-[-0.03125rem]
-
-              text-black
-
-              lg:text-[2.5rem]
-              lg:leading-[3rem]
-            `}
-            style={{
-              fontFeatureSettings:
-                '"liga" off, "clig" off',
-            }}
-          >
-            Build What&apos;s Next With Us
-          </h1>
-
-          {/* DESCRIPTION */}
-          <p
-            className={`
-              ${inter.className}
-
-              w-full
-              max-w-[37.125rem]
-
-              text-center
-
-              text-base
-              font-normal
-              leading-6
-
-              text-[#969696]
-            `}
-            style={{
-              fontFeatureSettings:
-                '"liga" off, "clig" off',
-            }}
-          >
-            Join a growing media, entertainment and
-            technology ecosystem where ideas become
-            stories, products, experiences and
-            businesses.
-          </p>
-        </div>
+        <CareersHeroTypewriter />
 
         {/* BUTTON */}
         <Link
@@ -503,7 +423,9 @@ export async function CareersSection() {
             gap-4
           "
         >
-          <p
+          <TextReveal
+            as="p"
+            text="CAREERS"
             className={`
               ${inter.className}
 
@@ -513,11 +435,11 @@ export async function CareersSection() {
 
               text-[rgba(0,9,51,0.65)]
             `}
-          >
-            CAREERS
-          </p>
+          />
 
-          <h2
+          <TextReveal
+            as="h2"
+            text="Life @ Suman Ent."
             className={`
               ${exo2.className}
 
@@ -531,13 +453,13 @@ export async function CareersSection() {
               lg:text-[2.5rem]
               lg:leading-[3rem]
             `}
-          >
-            Life @ Suman Ent.
-          </h2>
+          />
         </div>
 
         {/* RIGHT */}
-        <p
+        <TextReveal
+          as="p"
+          text="Work at the intersection of creativity, technology and culture. From content and OTT to music, AI, marketing and experiences, every team contributes to something bigger."
           className={`
             ${inter.className}
 
@@ -550,12 +472,7 @@ export async function CareersSection() {
 
             text-[#969696]
           `}
-        >
-          Work at the intersection of creativity,
-          technology and culture. From content and OTT
-          to music, AI, marketing and experiences,
-          every team contributes to something bigger.
-        </p>
+        />
       </div>
 
       {/* =================================================== */}
@@ -667,6 +584,11 @@ export async function CareersSection() {
          */
 
         .careers-gallery-card {
+          transform:
+            translateY(
+              var(--gallery-offset, 0px)
+            );
+
           transition:
             transform 300ms ease-in-out;
         }
@@ -730,10 +652,7 @@ export async function CareersSection() {
 
             transform:
               translateY(
-                calc(
-                  var(--gallery-offset, 0px)
-                  * 0.55
-                )
+                var(--gallery-offset-mobile, 0px)
               );
           }
         }

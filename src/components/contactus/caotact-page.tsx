@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import type { CmsContactPage } from "@/types/cms";
@@ -262,7 +262,7 @@ export function ContactPageContent({
             <Link
               key={card._key}
               href={resolveContactCardHref(card.href, index)}
-              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] sm:p-8 lg:h-[30.9375rem] lg:max-w-none lg:aspect-auto`}
+              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] sm:p-8 lg:max-w-none`}
               aria-label={`${card.title}: ${card.description}`}
             >
               <Image
@@ -306,7 +306,7 @@ export function ContactPageContent({
       >
         <h2
           id="connected-world-heading"
-          className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem] lg:w-[40.5rem] lg:flex-none lg:self-stretch`}
+          className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem] lg:w-[44%] lg:flex-none lg:self-stretch xl:w-[40.5rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           {connectedWorldHeading}
@@ -392,7 +392,7 @@ export function ContactPageContent({
           </h2>
 
           <div className="flex w-full flex-col items-start gap-6">
-            <div className="flex items-start gap-2">
+            <div className="flex w-full min-w-0 items-start gap-2">
               <Image
                 src="/images/icons/EnvelopeSimple.svg"
                 alt=""
@@ -401,20 +401,20 @@ export function ContactPageContent({
                 className="h-6 w-6 shrink-0"
               />
               <p
-                className={`${inter.className} text-base font-normal leading-6 text-black`}
+                className={`${inter.className} min-w-0 text-base font-normal leading-6 text-black`}
                 style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
               >
                 <span>E-mail:&nbsp; </span>
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="text-[#8F6C1A] transition-opacity hover:opacity-70"
+                  className="break-all text-[#8F6C1A] transition-opacity hover:opacity-70"
                 >
                   {contactEmail}
                 </a>
               </p>
             </div>
 
-            <div className="flex items-start gap-2">
+            <div className="flex w-full min-w-0 items-start gap-2">
               <Image
                 src="/images/icons/Phone.svg"
                 alt=""
