@@ -897,16 +897,16 @@ export function Header() {
         z-50
         w-full
 
-        ${
-          isLandingPage
-            ? `
+        ${isLandingPage
+          ? `
                 absolute
                 inset-x-0
                 top-0
                 mx-auto
                 max-w-full
+                bg-transparent
               `
-            : `
+          : `
                 relative
                 mx-auto
                 max-w-full
@@ -931,9 +931,8 @@ export function Header() {
           items-center
           justify-between
 
-          ${
-            isLandingPage
-              ? `
+          ${isLandingPage
+            ? `
                   min-h-[4rem]
                   px-4
                   py-3
@@ -945,7 +944,7 @@ export function Header() {
 
                   xl:px-[3.5rem]
                 `
-              : `
+            : `
                   min-h-[4.5rem]
                   px-4
                   py-3
@@ -1045,7 +1044,7 @@ export function Header() {
                       setOpenDropdown(
                         (current) =>
                           current ===
-                          menu.id
+                            menu.id
                             ? null
                             : menu.id,
                       )
@@ -1061,27 +1060,24 @@ export function Header() {
                       transition-colors
                       duration-200
 
-                      ${
-                        isLandingPage
-                          ? `
+                      ${isLandingPage
+                        ? `
                               text-[0.6875rem]
 
-                              ${
-                                isOpen
-                                  ? "text-white"
-                                  : "text-white/80 hover:text-white"
-                              }
+                              ${isOpen
+                          ? "text-white"
+                          : "text-white/80 hover:text-white"
+                        }
 
                               2xl:text-xs
                             `
-                          : `
+                        : `
                               text-xs
 
-                              ${
-                                isOpen
-                                  ? "text-black"
-                                  : "text-[#929292] hover:text-black"
-                              }
+                              ${isOpen
+                          ? "text-black"
+                          : "text-[#929292] hover:text-black"
+                        }
 
                               2xl:text-sm
                             `
@@ -1110,7 +1106,7 @@ export function Header() {
               (item) => {
                 const isActive =
                   pathname ===
-                    item.href ||
+                  item.href ||
                   pathname.startsWith(
                     `${item.href}/`,
                   );
@@ -1144,9 +1140,8 @@ export function Header() {
                       transition-colors
                       duration-200
 
-                      ${
-                        isLandingPage
-                          ? `
+                      ${isLandingPage
+                        ? `
                               text-[0.6875rem]
                               text-white/80
 
@@ -1154,15 +1149,15 @@ export function Header() {
 
                               2xl:text-xs
                             `
-                          : isActive
-                            ? `
+                        : isActive
+                          ? `
                                 text-xs
                                 font-semibold
                                 text-black
 
                                 2xl:text-sm
                               `
-                            : `
+                          : `
                                 text-xs
                                 text-[#929292]
 
@@ -1189,56 +1184,57 @@ export function Header() {
               Visible tablet+
               =============================================== */}
 
-<Link
-  href="/contact"
-  onMouseEnter={closeDropdown}
-  className={`
-    ${inter.className}
+          <Link
+            href="/contact"
+            onMouseEnter={closeDropdown}
+            className={`
+              ${inter.className}
 
-    hidden
-    min-h-10
-    shrink-0
-    items-center
-    justify-center
-    gap-2
-    whitespace-nowrap
+              hidden
+              min-h-10
+              shrink-0
+              items-center
+              justify-center
+              gap-2
+              whitespace-nowrap
 
-    rounded-[0.5rem]
-    bg-white
+              rounded-[0.25rem]
+              bg-[#FFFFFF]
 
-    px-4
-    py-2
+              px-4
+              py-2
 
-    text-center
-    text-[0.875rem]
-    font-semibold
-    leading-[1.25rem]
-    text-[#8F6C1A]
+              text-center
+              text-[0.875rem]
+              font-semibold
+              leading-[1.25rem]
+              text-[#8F6C1A]
 
-    transition-[background-color,transform]
-    duration-200
+              transition-[background-color,transform]
+              duration-200
 
-    hover:-translate-y-[1px]
-    hover:bg-[#F7F7F7]
+              hover:-translate-y-[1px]
+              hover:bg-[#F7F7F7]
 
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-white/60
-    focus-visible:ring-offset-2
-    focus-visible:ring-offset-transparent
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-white/60
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-transparent
 
-    md:inline-flex
+              md:inline-flex
 
-    xl:px-5
-  `}
-  style={{
-    fontFeatureSettings: '"liga" off, "clig" off',
-  }}
->
-  <span>Contact us</span>
+              xl:px-5
+            `}
+            style={{
+              fontFeatureSettings:
+                '"liga" off, "clig" off',
+            }}
+          >
+            <span>Contact us</span>
 
-  <ArrowRightIcon />
-</Link>
+            <ArrowRightIcon />
+          </Link>
 
           {/* ===============================================
               MOBILE / TABLET MENU BUTTON
@@ -1277,14 +1273,13 @@ export function Header() {
 
               xl:hidden
 
-              ${
-                isLandingPage
-                  ? `
+              ${isLandingPage
+                ? `
                       text-white
 
                       hover:bg-white/10
                     `
-                  : `
+                : `
                       text-[rgba(0,6,38,0.85)]
 
                       hover:bg-black/5
@@ -1627,7 +1622,7 @@ export function Header() {
               (item) => {
                 const isActive =
                   pathname ===
-                    item.href ||
+                  item.href ||
                   pathname.startsWith(
                     `${item.href}/`,
                   );
@@ -1665,10 +1660,9 @@ export function Header() {
 
                       sm:text-lg
 
-                      ${
-                        isActive
-                          ? "text-white"
-                          : "text-white/90 hover:text-white"
+                      ${isActive
+                        ? "text-white"
+                        : "text-white/90 hover:text-white"
                       }
                     `}
                   >
@@ -1682,10 +1676,10 @@ export function Header() {
 
             {/* CONTACT CTA */}
 
-<Link
-  href="/contact"
-  onClick={closeMobileMenu}
-  className={`
+            <Link
+              href="/contact"
+              onClick={closeMobileMenu}
+              className={`
     ${inter.className}
 
     mt-7
@@ -1721,14 +1715,14 @@ export function Header() {
     sm:w-fit
     sm:min-w-[10rem]
   `}
-  style={{
-    fontFeatureSettings: '"liga" off, "clig" off',
-  }}
->
-  <span>Contact us</span>
+              style={{
+                fontFeatureSettings: '"liga" off, "clig" off',
+              }}
+            >
+              <span>Contact us</span>
 
-  <ArrowRightIcon />
-</Link>
+              <ArrowRightIcon />
+            </Link>
           </nav>
         </div>
       ) : null}

@@ -4,7 +4,8 @@ import Image from "@/components/ui/image";
 import Link from "next/link";
 
 import {
-  plusJakartaSans as plusJakarta,
+  inter,
+  plusJakartaSans,
 } from "@/lib/fonts";
 
 import {
@@ -19,6 +20,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type PointerEvent as ReactPointerEvent,
 } from "react";
 
 /* ============================================================
@@ -27,12 +29,25 @@ import {
 
 type Slide = {
   id: number;
+
   image: string;
+  imagePosition?: string;
+
   eyebrow: string;
   title: string;
   description: string;
-  watchHref?: string;
-  learnHref?: string;
+
+  primaryLabel: string;
+  primaryHref: string;
+
+  secondaryLabel: string;
+  secondaryHref: string;
+};
+
+type CarouselDimensions = {
+  viewportWidth: number;
+  slideWidth: number;
+  gap: number;
 };
 
 /* ============================================================
@@ -42,56 +57,161 @@ type Slide = {
 const SLIDES: Slide[] = [
   {
     id: 1,
+
     image:
       "/images/landing/client/Image1.png",
 
+    imagePosition:
+      "center center",
+
     eyebrow:
-      "01. EVENT & EXPERIENCES",
+      "01. DIGITAL ENTERTAINMENT & PLATFORM",
 
     title:
-      "Experiences Beyond the Screen",
+      "Abhijat Marathi OTT",
 
     description:
-      "Delivering concerts, cultural festivals, corporate events, product launches, and large-scale public experiences that connect brands with audiences.",
+      "A dedicated Marathi OTT platform bringing regional stories, films and content to audiences worldwide.",
 
-    watchHref: "#",
-    learnHref: "#",
+    primaryLabel:
+      "Explore Abhijat Marathi",
+
+    primaryHref:
+      "/companies/abhijat-marathi",
+
+    secondaryLabel:
+      "Learn more",
+
+    secondaryHref:
+      "/companies/abhijat-marathi",
   },
 
   {
     id: 2,
+
     image:
       "/images/landing/client/Image2.png",
 
+    imagePosition:
+      "center center",
+
     eyebrow:
-      "02. MEDIA & ENTERTAINMENT",
+      "02. EVENT & EXPERIENCES",
 
     title:
-      "Stories Built for Every Screen",
+      "Designing Experiences Beyond the Screen",
 
     description:
-      "Creating entertainment-led formats, campaigns, and media experiences designed to move seamlessly across platforms and audiences.",
+      "Delivering concerts, cultural festivals, corporate events, product launches, and large-scale public experiences that connect brands with audiences.",
 
-    watchHref: "#",
-    learnHref: "#",
+    primaryLabel:
+      "Watch now",
+
+    primaryHref:
+      "/services",
+
+    secondaryLabel:
+      "Learn more",
+
+    secondaryHref:
+      "/services",
   },
 
   {
     id: 3,
+
     image:
       "/images/landing/client/Image3.png",
 
+    imagePosition:
+      "center center",
+
     eyebrow:
-      "03. DIGITAL & INTERACTIVE",
+      "03. MUSIC & AUDIO ECOSYSTEM",
 
     title:
-      "Interactive Experiences That Connect",
+      "Building India's Next Music Library",
 
     description:
-      "Building digital-first experiences that combine content, culture, technology, and participation to create stronger audience engagement.",
+      "From original compositions and film soundtracks to digital publishing and royalty management, creating music that reaches audiences everywhere.",
 
-    watchHref: "#",
-    learnHref: "#",
+    primaryLabel:
+      "Explore library",
+
+    primaryHref:
+      "/services",
+
+    secondaryLabel:
+      "Learn more",
+
+    secondaryHref:
+      "/services",
+  },
+
+  {
+    id: 4,
+
+    image:
+      "/images/landing/client/Image4.png",
+
+    /*
+     * Keeps the woman comfortably visible while retaining
+     * the artwork on the left.
+     */
+    imagePosition:
+      "center center",
+
+    eyebrow:
+      "04. CONTENT CREATION",
+
+    title:
+      "Creating Stories That Inspire Millions",
+
+    description:
+      "Producing feature films, web series, documentaries, branded content, and corporate communications with end-to-end production capabilities.",
+
+    primaryLabel:
+      "Watch now",
+
+    primaryHref:
+      "/services",
+
+    secondaryLabel:
+      "Learn more",
+
+    secondaryHref:
+      "/services",
+  },
+
+  {
+    id: 5,
+
+    image:
+      "/images/landing/client/Image5.png",
+
+    imagePosition:
+      "center center",
+
+    eyebrow:
+      "05. GOVT & STRATEGIC COMMUNICATION",
+
+    title:
+      "Empowering Public Communication at Scale",
+
+    description:
+      "Partnering with government institutions, public sector organizations, and enterprises to deliver impactful campaigns, citizen engagement, and strategic communication initiatives.",
+
+    primaryLabel:
+      "Watch now",
+
+    primaryHref:
+      "/services",
+
+    secondaryLabel:
+      "Learn more",
+
+    secondaryHref:
+      "/services",
   },
 ];
 
@@ -99,45 +219,57 @@ const SLIDES: Slide[] = [
    CONFIG
    ============================================================ */
 
-const AUTOPLAY_MS = 5200;
-
-const SLIDE_GAP_PX = 40;
+const AUTOPLAY_MS = 5600;
 
 /*
- * Smooth UI animation.
+ * Smooth editorial carousel spring.
  *
- * A controlled tween is preferable here to repeatedly starting
- * new springs while the user is rapidly clicking navigation.
+ * Lower stiffness = less abrupt acceleration.
+ * Higher damping = controlled landing.
  */
-const SLIDE_DURATION = 0.72;
+const SLIDE_SPRING = {
+  type: "spring" as const,
 
-const SLIDE_EASE = [
+  stiffness: 135,
+  damping: 25,
+  mass: 0.9,
+
+  restDelta: 0.12,
+  restSpeed: 0.12,
+};
+
+const UI_EASE = [
   0.22,
   1,
   0.36,
   1,
 ] as const;
 
+const SWIPE_DISTANCE_PX = 44;
+
+const SWIPE_AXIS_RATIO = 1.15;
+
 /* ============================================================
-   LOOP
+   INFINITE TRACK
 
-   Physical structure:
-
-   [03 clone] [01] [02] [03] [01 clone]
-
-   Starting position:
-                ↑ 01
+   [05 clone]
+   [01]
+   [02]
+   [03]
+   [04]
+   [05]
+   [01 clone]
    ============================================================ */
 
 const LOOPED_SLIDES =
   SLIDES.length > 1
     ? [
-        SLIDES[
-          SLIDES.length - 1
-        ],
-        ...SLIDES,
-        SLIDES[0],
-      ]
+      SLIDES[
+      SLIDES.length - 1
+      ],
+      ...SLIDES,
+      SLIDES[0],
+    ]
     : SLIDES;
 
 /* ============================================================
@@ -152,7 +284,9 @@ function physicalToLogical(
   }
 
   if (physicalIndex === 0) {
-    return SLIDES.length - 1;
+    return (
+      SLIDES.length - 1
+    );
   }
 
   if (
@@ -165,6 +299,32 @@ function physicalToLogical(
   return physicalIndex - 1;
 }
 
+function calculateTrackX(
+  physicalIndex: number,
+  dimensions:
+    CarouselDimensions,
+) {
+  const {
+    viewportWidth,
+    slideWidth,
+    gap,
+  } = dimensions;
+
+  if (
+    !viewportWidth ||
+    !slideWidth
+  ) {
+    return 0;
+  }
+
+  return (
+    viewportWidth / 2 -
+    slideWidth / 2 -
+    physicalIndex *
+    (slideWidth + gap)
+  );
+}
+
 /* ============================================================
    ICONS
    ============================================================ */
@@ -173,15 +333,13 @@ function ArrowLeftIcon() {
   return (
     <svg
       aria-hidden="true"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
       className="h-6 w-6"
     >
       <path
         d="M15 18L9 12L15 6"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -194,15 +352,13 @@ function ArrowRightIcon() {
   return (
     <svg
       aria-hidden="true"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
       className="h-6 w-6"
     >
       <path
         d="M9 18L15 12L9 6"
-        stroke="white"
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -211,16 +367,10 @@ function ArrowRightIcon() {
   );
 }
 
-function SmallArrowRight({
-  inverse = false,
-}: {
-  inverse?: boolean;
-}) {
+function SmallArrowRight() {
   return (
     <svg
       aria-hidden="true"
-      width="8"
-      height="14"
       viewBox="0 0 8 14"
       fill="none"
       className="
@@ -231,11 +381,7 @@ function SmallArrowRight({
     >
       <path
         d="M1 13L7 7L1 1"
-        stroke={
-          inverse
-            ? "white"
-            : "rgba(143,108,26,0.8)"
-        }
+        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -248,11 +394,14 @@ function PauseIcon() {
   return (
     <svg
       aria-hidden="true"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
-      className="h-6 w-6"
+      className="
+        h-5
+        w-5
+        sm:h-6
+        sm:w-6
+      "
     >
       <rect
         x="7.5"
@@ -260,7 +409,7 @@ function PauseIcon() {
         width="3"
         height="13"
         rx="1.5"
-        fill="white"
+        fill="currentColor"
       />
 
       <rect
@@ -269,7 +418,7 @@ function PauseIcon() {
         width="3"
         height="13"
         rx="1.5"
-        fill="white"
+        fill="currentColor"
       />
     </svg>
   );
@@ -279,27 +428,30 @@ function PlayIcon() {
   return (
     <svg
       aria-hidden="true"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
       fill="none"
-      className="h-6 w-6"
+      className="
+        h-5
+        w-5
+        sm:h-6
+        sm:w-6
+      "
     >
       <path
         d="M9 7.5L17 12L9 16.5V7.5Z"
-        fill="white"
+        fill="currentColor"
       />
     </svg>
   );
 }
 
 /* ============================================================
-   HEADER
+   SECTION HEADING
    ============================================================ */
 
 function HeaderText() {
   const reduceMotion =
-    useReducedMotion();
+    useReducedMotion() ?? false;
 
   return (
     <div
@@ -308,45 +460,65 @@ function HeaderText() {
         flex-1
       "
     >
+      {/* =====================================================
+          EYEBROW — BUSINESS ECOSYSTEM
+
+          Plus Jakarta Sans
+          14px / 20px
+          600
+          #B8B8B8
+          ===================================================== */}
+
       <motion.p
         initial={
           reduceMotion
             ? false
             : {
-                opacity: 0,
-                y: 12,
-              }
+              opacity: 0,
+              y: 12,
+            }
         }
         whileInView={
           reduceMotion
             ? undefined
             : {
-                opacity: 1,
-                y: 0,
-              }
+              opacity: 1,
+              y: 0,
+            }
         }
         viewport={{
           once: true,
-          amount: 0.65,
+          amount: 0.6,
         }}
         transition={{
           duration: 0.45,
-          ease: SLIDE_EASE,
+          ease: UI_EASE,
         }}
-        className="
-          self-stretch
+        className={`
+          ${plusJakartaSans.className}
 
           text-[0.875rem]
           font-semibold
           leading-[1.25rem]
-
           text-[#B8B8B8]
-
-          [font-feature-settings:'liga'_off,'clig'_off]
-        "
+        `}
+        style={{
+          fontFeatureSettings:
+            '"liga" off, "clig" off',
+        }}
       >
         BUSINESS ECOSYSTEM
       </motion.p>
+
+      {/* =====================================================
+          HEADING
+
+          Plus Jakarta Sans
+          40px / 48px
+          600
+          -0.5px
+          #1A1A1A
+          ===================================================== */}
 
       <motion.h2
         id="clients-heading"
@@ -354,41 +526,44 @@ function HeaderText() {
           reduceMotion
             ? false
             : {
-                opacity: 0,
-                y: 22,
-              }
+              opacity: 0,
+              y: 20,
+            }
         }
         whileInView={
           reduceMotion
             ? undefined
             : {
-                opacity: 1,
-                y: 0,
-              }
+              opacity: 1,
+              y: 0,
+            }
         }
         viewport={{
           once: true,
-          amount: 0.65,
+          amount: 0.6,
         }}
         transition={{
-          duration: 0.62,
-          delay: 0.08,
-          ease: SLIDE_EASE,
+          duration: 0.6,
+          delay: 0.06,
+          ease: UI_EASE,
         }}
-        className="
-          mt-1
-          self-stretch
+        className={`
+          ${plusJakartaSans.className}
 
-          text-[2rem]
+          mt-1
+          max-w-[50rem]
+
+          text-[2.5rem]
           font-semibold
-          leading-[2.5rem]
+          leading-[3rem]
           tracking-[-0.03125rem]
 
           text-[#1A1A1A]
-
-          md:text-[2.5rem]
-          md:leading-[3rem]
-        "
+        `}
+        style={{
+          fontFeatureSettings:
+            '"liga" off, "clig" off',
+        }}
       >
         One platform, a universe of
         entertainment
@@ -398,7 +573,7 @@ function HeaderText() {
 }
 
 /* ============================================================
-   NAVIGATION
+   TOP NAVIGATION
    ============================================================ */
 
 function Navigation({
@@ -408,47 +583,49 @@ function Navigation({
   onPrevious: () => void;
   onNext: () => void;
 }) {
+  const buttonClass = `
+    inline-flex
+
+    h-12
+    w-12
+
+    shrink-0
+
+    items-center
+    justify-center
+
+    rounded-[0.25rem]
+
+    bg-[#8F6C1A]
+    text-white
+
+    transition-[background-color,transform]
+    duration-200
+
+    hover:bg-[#806016]
+
+    active:scale-[0.96]
+
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-[#8F6C1A]/40
+    focus-visible:ring-offset-2
+  `;
+
   return (
     <div
       className="
         flex
-        w-full
         shrink-0
         items-center
-        justify-end
         gap-2
-
-        sm:w-auto
-        sm:justify-start
       "
     >
       <button
         type="button"
         onClick={onPrevious}
         aria-label="Previous slide"
-        className="
-          flex
-          h-12
-          w-12
-          shrink-0
-          items-center
-          justify-center
-
-          rounded-lg
-
-          bg-[#8F6C1A]
-
-          transition-[background-color,transform]
-          duration-200
-
-          hover:bg-[#806016]
-
-          active:scale-[0.96]
-
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-[#8F6C1A]/40
-        "
+        className={buttonClass}
       >
         <ArrowLeftIcon />
       </button>
@@ -457,29 +634,7 @@ function Navigation({
         type="button"
         onClick={onNext}
         aria-label="Next slide"
-        className="
-          flex
-          h-12
-          w-12
-          shrink-0
-          items-center
-          justify-center
-
-          rounded-lg
-
-          bg-[#8F6C1A]
-
-          transition-[background-color,transform]
-          duration-200
-
-          hover:bg-[#806016]
-
-          active:scale-[0.96]
-
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-[#8F6C1A]/40
-        "
+        className={buttonClass}
       >
         <ArrowRightIcon />
       </button>
@@ -495,76 +650,413 @@ function SlideCard({
   slide,
   isActive,
   isPlaying,
+  reduceMotion,
   onTogglePlayback,
 }: {
   slide: Slide;
+
   isActive: boolean;
+
   isPlaying: boolean;
+
+  reduceMotion: boolean;
+
   onTogglePlayback: () => void;
 }) {
   return (
-    <article
-      aria-hidden={
-        !isActive
+    <motion.article
+      aria-hidden={!isActive}
+      animate={
+        reduceMotion
+          ? undefined
+          : {
+            opacity:
+              isActive
+                ? 1
+                : 0.8,
+
+            scale:
+              isActive
+                ? 1
+                : 0.987,
+          }
       }
+      transition={{
+        duration: 0.58,
+        ease: UI_EASE,
+      }}
+      style={{
+        pointerEvents:
+          isActive
+            ? "auto"
+            : "none",
+
+        transformOrigin:
+          "50% 50%",
+      }}
       className="
+        relative
+
+        h-[34rem]
         w-full
-        shrink-0
+
         overflow-hidden
+
         rounded-[0.25rem]
-        bg-white
+
+        bg-[#111]
+
+        sm:h-[32rem]
+
+        md:h-[34rem]
+
+        lg:h-[37.375rem]
+
+        xl:h-[39rem]
       "
     >
+      {/* ======================================================
+          BACKGROUND
+          ====================================================== */}
+
+      <motion.div
+        className="
+    absolute
+    inset-0
+    overflow-hidden
+    rounded-[0.25rem]
+  "
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+              scale: isActive
+                ? 1
+                : 1.035,
+            }
+        }
+        transition={{
+          duration: 1.05,
+          ease: UI_EASE,
+        }}
+      >
+        <Image
+          src={slide.image}
+          alt={slide.title}
+          fill
+          priority={slide.id === 1}
+          sizes="
+      (max-width: 639px) calc(100vw - 2rem),
+      (max-width: 1023px) calc(100vw - 5rem),
+      74.3125rem
+    "
+          className="
+      select-none
+      rounded-[0.25rem]
+      object-cover
+    "
+          style={{
+            objectPosition:
+              slide.imagePosition ??
+              "center center",
+          }}
+        />
+      </motion.div>
+
+      {/* ======================================================
+          GRADIENT SYSTEM
+
+          Strong bottom gradient, plus a subtle left-side
+          gradient so white typography remains readable.
+          ====================================================== */}
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          inset-0
+
+          bg-[linear-gradient(180deg,rgba(0,0,0,0.01)_0%,rgba(0,0,0,0.02)_34%,rgba(0,0,0,0.20)_57%,rgba(0,0,0,0.88)_100%)]
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+
+          absolute
+          inset-0
+
+          bg-[linear-gradient(90deg,rgba(0,0,0,0.48)_0%,rgba(0,0,0,0.22)_47%,rgba(0,0,0,0.02)_84%)]
+        "
+      />
+
+      {/* ======================================================
+          BOTTOM CONTENT
+          ====================================================== */}
+
       <div
         className="
-          flex
-          w-full
-          flex-col
-          items-center
-          gap-10
-        "
+          absolute
+
+          inset-x-0
+          bottom-0
+
+          z-10
+
+          px-5
+          pb-6
+
+          sm:px-7
+          sm:pb-8
+
+          md:px-8
+          md:pb-9
+
+          lg:px-[2.5rem]
+          lg:pb-[2.5rem]
+      "
       >
-        {/* =================================================
-            IMAGE
-            ================================================= */}
+        {/* ====================================================
+            COPY + PLAYBACK CONTROL
+
+            IMPORTANT:
+            Pause button is vertically aligned to THIS TEXT ROW,
+            not the image.
+            ==================================================== */}
 
         <div
           className="
-            relative
-            flex
-
-            h-[24rem]
+            grid
             w-full
 
-            flex-col
+            grid-cols-[minmax(0,1fr)_auto]
+
             items-center
-            justify-end
 
-            overflow-hidden
-            rounded-[0.25rem]
+            gap-4
 
-            bg-[#111]
+            sm:gap-6
 
-            sm:h-[30rem]
-
-            lg:h-[37.375rem]
+            lg:gap-10
           "
         >
-          <Image
-            src={slide.image}
-            alt={slide.title}
-            fill
-            priority={
-              slide.id === 1
-            }
-            sizes="
-              (max-width: 768px) 92vw,
-              74.3125rem
-            "
+          {/* ==================================================
+              COPY
+              ================================================== */}
+
+          <div
             className="
-              object-cover
+              min-w-0
+
+              max-w-[68rem]
             "
-          />
+          >
+            {/* ================================================
+                EYEBROW
+
+                Desktop:
+                Plus Jakarta Sans
+                14px / 20px
+                600
+                #FFF
+                ================================================ */}
+
+            <motion.p
+              animate={
+                reduceMotion
+                  ? undefined
+                  : {
+                    opacity:
+                      isActive
+                        ? 1
+                        : 0,
+
+                    y:
+                      isActive
+                        ? 0
+                        : 10,
+                  }
+              }
+              transition={{
+                duration: 0.42,
+                ease: UI_EASE,
+              }}
+              className={`
+                ${plusJakartaSans.className}
+
+                text-[0.6875rem]
+                font-semibold
+                leading-[1rem]
+                text-[#FFFFFF]
+
+                sm:text-[0.75rem]
+                sm:leading-[1.125rem]
+
+                lg:text-[0.875rem]
+                lg:leading-[1.25rem]
+              `}
+              style={{
+                fontFeatureSettings:
+                  '"liga" off, "clig" off',
+              }}
+            >
+              {slide.eyebrow}
+            </motion.p>
+
+            {/* ================================================
+                TITLE
+
+                Desktop exact:
+                Google Sans Flex
+                56px / 64px
+                400
+                -1px
+                #FFF
+                ================================================ */}
+
+            <motion.h3
+              animate={
+                reduceMotion
+                  ? undefined
+                  : {
+                    opacity:
+                      isActive
+                        ? 1
+                        : 0,
+
+                    y:
+                      isActive
+                        ? 0
+                        : 16,
+                  }
+              }
+              transition={{
+                duration: 0.52,
+
+                delay:
+                  isActive
+                    ? 0.035
+                    : 0,
+
+                ease: UI_EASE,
+              }}
+              className="
+                mt-1
+
+                break-words
+
+                text-[2rem]
+                font-normal
+                leading-[2.5rem]
+                tracking-[-0.03125rem]
+
+                text-[#FFFFFF]
+
+                min-[390px]:text-[2.25rem]
+                min-[390px]:leading-[2.75rem]
+
+                sm:text-[2.625rem]
+                sm:leading-[3.125rem]
+
+                md:text-[3rem]
+                md:leading-[3.5rem]
+
+                lg:text-[3.5rem]
+                lg:leading-[4rem]
+                lg:tracking-[-0.0625rem]
+              "
+              style={{
+                fontFamily:
+                  '"Google Sans Flex", "Plus Jakarta Sans", sans-serif',
+
+                fontFeatureSettings:
+                  '"liga" off, "clig" off',
+              }}
+            >
+              {slide.title}
+            </motion.h3>
+
+            {/* ================================================
+                DESCRIPTION
+
+                Desktop exact:
+                Plus Jakarta Sans
+                20px / 28px
+                400
+                rgba(255,255,255,.78)
+                ================================================ */}
+
+            <motion.p
+              animate={
+                reduceMotion
+                  ? undefined
+                  : {
+                    opacity:
+                      isActive
+                        ? 1
+                        : 0,
+
+                    y:
+                      isActive
+                        ? 0
+                        : 16,
+                  }
+              }
+              transition={{
+                duration: 0.56,
+
+                delay:
+                  isActive
+                    ? 0.07
+                    : 0,
+
+                ease: UI_EASE,
+              }}
+              className={`
+                ${plusJakartaSans.className}
+
+                mt-2
+
+                max-w-[57rem]
+
+                text-[0.8125rem]
+                font-normal
+                leading-[1.25rem]
+
+                text-white/[0.78]
+
+                sm:text-[0.9375rem]
+                sm:leading-[1.375rem]
+
+                md:text-[1.0625rem]
+                md:leading-[1.625rem]
+
+                lg:text-[1.25rem]
+                lg:leading-[1.75rem]
+              `}
+              style={{
+                fontFeatureSettings:
+                  '"liga" off, "clig" off',
+              }}
+            >
+              {slide.description}
+            </motion.p>
+          </div>
+
+          {/* ==================================================
+              PLAY / PAUSE
+
+              It now belongs to the text grid.
+
+              Therefore:
+              - title can grow/shrink
+              - description can wrap
+              - the control remains centered against copy
+              ================================================== */}
 
           <button
             type="button"
@@ -582,36 +1074,46 @@ function SlideCard({
                 : "Play slider autoplay"
             }
             className="
-              absolute
-              right-4
-              top-4
+              inline-flex
 
-              flex
-              h-12
-              w-12
+              h-10
+              w-10
+
+              shrink-0
+
               items-center
               justify-center
+
+              self-center
 
               rounded-full
 
               border
               border-white
 
-              bg-black/5
+              bg-black/10
 
-              backdrop-blur-[1px]
+              text-white
 
-              transition-colors
+              backdrop-blur-[2px]
+
+              transition-[background-color,transform]
               duration-200
 
-              hover:bg-black/15
+              hover:scale-[1.04]
+              hover:bg-black/25
+
+              active:scale-[0.96]
 
               focus-visible:outline-none
               focus-visible:ring-2
               focus-visible:ring-white/80
 
-              sm:right-[2.53125rem]
-              sm:top-[2.55981rem]
+              sm:h-11
+              sm:w-11
+
+              lg:h-12
+              lg:w-12
             "
           >
             {isPlaying ? (
@@ -622,197 +1124,243 @@ function SlideCard({
           </button>
         </div>
 
-        {/* =================================================
-            COPY
-            ================================================= */}
+        {/* ====================================================
+            ACTIONS
+            ==================================================== */}
 
-        <div
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                opacity:
+                  isActive
+                    ? 1
+                    : 0,
+
+                y:
+                  isActive
+                    ? 0
+                    : 18,
+              }
+          }
+          transition={{
+            duration: 0.6,
+
+            delay:
+              isActive
+                ? 0.11
+                : 0,
+
+            ease: UI_EASE,
+          }}
           className="
+            mt-5
+
             flex
-            min-h-[12.5rem]
+
             w-full
-
             flex-col
-            justify-center
-            gap-8
 
-            px-4
-            pb-4
+            items-stretch
 
-            sm:px-0
+            gap-2
 
-            lg:flex-row
-            lg:items-center
-            lg:gap-14
+            min-[390px]:w-auto
+            min-[390px]:flex-row
+            min-[390px]:items-center
+
+            sm:mt-6
+            sm:gap-3
           "
         >
-          <div
-            className="
-              min-w-0
-              flex-1
-            "
-          >
-            <p
-              className="
-                text-[0.875rem]
-                font-semibold
-                leading-[1.25rem]
+          {/* ==================================================
+              PRIMARY CTA
 
-                text-[#B8B8B8]
+              Desktop exact:
+              Inter
+              20 / 28
+              600
+              #1A1A1A
+              white background
+              16px radius
+              ================================================== */}
 
-                [font-feature-settings:'liga'_off,'clig'_off]
-              "
-            >
-              {slide.eyebrow}
-            </p>
+          <Link
+            href={
+              slide.primaryHref
+            }
+            tabIndex={
+              isActive
+                ? 0
+                : -1
+            }
+            className={`
+              ${inter.className}
 
-            <h3
-              className="
-                mt-1
+              group
 
-                text-[1.75rem]
-                font-bold
-                leading-[2.25rem]
+              inline-flex
 
-                text-[#1A1A1A]
+              min-h-[3.25rem]
 
-                [font-feature-settings:'liga'_off,'clig'_off]
-
-                md:text-[2rem]
-                md:leading-[2.5rem]
-              "
-            >
-              {slide.title}
-            </h3>
-
-            <p
-              className="
-                mt-3
-                max-w-[47rem]
-
-                text-[1rem]
-                font-normal
-                leading-[1.5rem]
-
-                text-[#B8B8B8]
-
-                [font-feature-settings:'liga'_off,'clig'_off]
-
-                md:text-[1.25rem]
-                md:leading-[1.75rem]
-              "
-            >
-              {slide.description}
-            </p>
-          </div>
-
-          {/* ===============================================
-              ACTIONS
-              =============================================== */}
-
-          <div
-            className="
-              flex
-              flex-wrap
-              shrink-0
               items-center
-              gap-3
-            "
+              justify-center
+
+              gap-2
+
+              rounded-[1rem]
+
+              bg-[#FFFFFF]
+
+              px-5
+              py-3
+
+              text-center
+
+              text-[0.875rem]
+              font-semibold
+              leading-[1.25rem]
+
+              text-[#1A1A1A]
+
+              transition-[background-color,transform]
+              duration-200
+
+              hover:-translate-y-[1px]
+              hover:bg-[#F7F7F7]
+
+              active:translate-y-0
+
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-white/75
+              focus-visible:ring-offset-2
+              focus-visible:ring-offset-black/30
+
+              sm:text-[1rem]
+              sm:leading-[1.5rem]
+
+              lg:min-h-[3.5rem]
+              lg:px-6
+              lg:text-[1.25rem]
+              lg:leading-[1.75rem]
+            `}
+            style={{
+              fontFeatureSettings:
+                '"liga" off, "clig" off',
+            }}
           >
-            {slide.watchHref ? (
-              <Link
-                href={
-                  slide.watchHref
-                }
-                tabIndex={
-                  isActive
-                    ? 0
-                    : -1
-                }
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-1
+            <span>
+              {slide.primaryLabel}
+            </span>
 
-                  rounded-lg
+            <span
+              aria-hidden="true"
+              className="
+                inline-flex
 
-                  bg-[#8F6C1A]
+                transition-transform
+                duration-200
 
-                  px-4
-                  py-4
+                group-hover:translate-x-1
+              "
+            >
+              <SmallArrowRight />
+            </span>
+          </Link>
 
-                  text-[0.875rem]
-                  font-semibold
-                  leading-5
-                  text-white
+          {/* ==================================================
+              SECONDARY CTA
+              ================================================== */}
 
-                  transition-opacity
+          <Link
+            href={
+              slide.secondaryHref
+            }
+            tabIndex={
+              isActive
+                ? 0
+                : -1
+            }
+            className={`
+              ${inter.className}
 
-                  hover:opacity-90
+              group
 
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#8F6C1A]/40
-                "
-              >
-                Watch now
+              inline-flex
 
-                <SmallArrowRight
-                  inverse
-                />
-              </Link>
-            ) : null}
+              min-h-[3.25rem]
 
-            {slide.learnHref ? (
-              <Link
-                href={
-                  slide.learnHref
-                }
-                tabIndex={
-                  isActive
-                    ? 0
-                    : -1
-                }
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-2
+              items-center
+              justify-center
 
-                  rounded-lg
+              gap-2
 
-                  border
-                  border-[#ECECEC]
+              rounded-[1rem]
 
-                  bg-white
+              border
+              border-[#FFFFFF]
 
-                  px-4
-                  py-4
+              bg-transparent
 
-                  text-[0.875rem]
-                  font-semibold
-                  leading-5
-                  text-[#1A1A1A]
+              px-5
+              py-3
 
-                  transition-colors
+              text-center
 
-                  hover:bg-[#FAFAFA]
+              text-[0.875rem]
+              font-semibold
+              leading-[1.25rem]
 
-                  focus-visible:outline-none
-                  focus-visible:ring-2
-                  focus-visible:ring-[#8F6C1A]/30
-                "
-              >
-                Learn more
+              text-[#F9F9F9]
 
-                <SmallArrowRight />
-              </Link>
-            ) : null}
-          </div>
-        </div>
+              transition-[background-color,transform]
+              duration-200
+
+              hover:-translate-y-[1px]
+              hover:bg-white/10
+
+              active:translate-y-0
+
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-white/75
+
+              sm:text-[1rem]
+              sm:leading-[1.5rem]
+
+              lg:min-h-[3.5rem]
+              lg:px-6
+              lg:text-[1.25rem]
+              lg:leading-[1.75rem]
+            `}
+            style={{
+              fontFeatureSettings:
+                '"liga" off, "clig" off',
+            }}
+          >
+            <span>
+              {slide.secondaryLabel}
+            </span>
+
+            <span
+              aria-hidden="true"
+              className="
+                inline-flex
+
+                transition-transform
+                duration-200
+
+                group-hover:translate-x-1
+              "
+            >
+              <SmallArrowRight />
+            </span>
+          </Link>
+        </motion.div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -822,15 +1370,10 @@ function SlideCard({
 
 export function ClientsSection() {
   const reduceMotion =
-    useReducedMotion();
+    useReducedMotion() ?? false;
 
   /* ==========================================================
      STATE
-
-     Keep React state to a minimum.
-
-     Only logical UI state lives in React.
-     Track movement itself lives in MotionValue.
      ========================================================== */
 
   const [
@@ -844,12 +1387,19 @@ export function ClientsSection() {
   ] = useState(true);
 
   const [
-    dimensions,
-    setDimensions,
-  ] = useState({
-    slideWidth: 0,
-    viewportWidth: 0,
-  });
+    autoplayResetKey,
+    setAutoplayResetKey,
+  ] = useState(0);
+
+  const [
+    interactionPaused,
+    setInteractionPaused,
+  ] = useState(false);
+
+  const [
+    isReady,
+    setIsReady,
+  ] = useState(false);
 
   /* ==========================================================
      REFS
@@ -858,20 +1408,12 @@ export function ClientsSection() {
   const viewportRef =
     useRef<HTMLDivElement>(null);
 
+  const trackRef =
+    useRef<HTMLDivElement>(null);
+
   const firstSlideRef =
     useRef<HTMLDivElement>(null);
 
-  /*
-   * Current PHYSICAL index.
-   *
-   * Starts at:
-   *
-   * clone 03
-   * REAL 01 ← index 1
-   * real 02
-   * real 03
-   * clone 01
-   */
   const physicalIndexRef =
     useRef(
       SLIDES.length > 1
@@ -879,94 +1421,56 @@ export function ClientsSection() {
         : 0,
     );
 
-  /*
-   * Prevent multiple Framer animations
-   * from fighting each other.
-   */
+  const dimensionsRef =
+    useRef<CarouselDimensions>({
+      viewportWidth: 0,
+      slideWidth: 0,
+      gap: 0,
+    });
+
   const isAnimatingRef =
     useRef(false);
 
-  /*
-   * If the user clicks rapidly while animation
-   * is running, remember their input rather
-   * than dropping it.
-   *
-   * + = next
-   * - = previous
-   */
   const pendingStepsRef =
     useRef(0);
 
-  /*
-   * Current animation playback controller.
-   */
   const animationRef =
     useRef<
-      ReturnType<typeof animate> | null
+      ReturnType<
+        typeof animate
+      > | null
     >(null);
 
-  /*
-   * Latest dimensions without forcing callbacks
-   * to be recreated after every measurement.
-   */
-  const dimensionsRef =
-    useRef(dimensions);
+  const movementTokenRef =
+    useRef(0);
+
+  const pointerStartRef =
+    useRef<{
+      x: number;
+      y: number;
+    } | null>(null);
 
   /* ==========================================================
-     MOTION VALUE
-
-     Updating this does NOT re-render React.
+     TRACK X
      ========================================================== */
 
   const trackX =
     useMotionValue(0);
 
-  /* ==========================================================
-     KEEP DIMENSIONS REF CURRENT
-     ========================================================== */
-
-  useEffect(() => {
-    dimensionsRef.current =
-      dimensions;
-  }, [dimensions]);
-
-  /* ==========================================================
-     CALCULATE TRACK X
-     ========================================================== */
-
   const getTrackX =
     useCallback(
       (
         physicalIndex: number,
-      ) => {
-        const {
-          slideWidth,
-          viewportWidth,
-        } =
-          dimensionsRef.current;
-
-        if (
-          !slideWidth ||
-          !viewportWidth
-        ) {
-          return 0;
-        }
-
-        return (
-          viewportWidth / 2 -
-          slideWidth / 2 -
-          physicalIndex *
-            (
-              slideWidth +
-              SLIDE_GAP_PX
-            )
-        );
-      },
+      ) =>
+        calculateTrackX(
+          physicalIndex,
+          dimensionsRef.current,
+        ),
       [],
     );
 
   /* ==========================================================
-     INTERNAL MOVE ENGINE
+     MOVE ENGINE
      ========================================================== */
 
   const moveToPhysicalIndex =
@@ -980,18 +1484,33 @@ export function ClientsSection() {
           return;
         }
 
+        const movementToken =
+          ++movementTokenRef.current;
+
         isAnimatingRef.current =
           true;
+
+        const incomingLogicalIndex =
+          physicalToLogical(
+            targetPhysicalIndex,
+          );
+
+        /*
+         * Activate incoming card at movement start.
+         */
+        setActiveIndex(
+          (current) =>
+            current ===
+              incomingLogicalIndex
+              ? current
+              : incomingLogicalIndex,
+        );
 
         const destination =
           getTrackX(
             targetPhysicalIndex,
           );
 
-        /*
-         * Stop only an old controller that is
-         * no longer part of this move.
-         */
         animationRef.current?.stop();
 
         if (reduceMotion) {
@@ -1003,13 +1522,7 @@ export function ClientsSection() {
             animate(
               trackX,
               destination,
-              {
-                duration:
-                  SLIDE_DURATION,
-
-                ease:
-                  SLIDE_EASE,
-              },
+              SLIDE_SPRING,
             );
 
           animationRef.current =
@@ -1019,36 +1532,28 @@ export function ClientsSection() {
             await controller;
           } catch {
             /*
-             * Animation can be interrupted during
-             * resize/unmount. No error is needed.
+             * Expected when resize/unmount interrupts movement.
              */
           }
         }
 
-        /*
-         * Keep physical reference aligned with
-         * the animation target.
-         */
+        if (
+          movementToken !==
+          movementTokenRef.current
+        ) {
+          return;
+        }
+
         physicalIndexRef.current =
           targetPhysicalIndex;
 
         /* ====================================================
-           CLONE RESET
-
-           These are instantaneous MotionValue writes,
-           NOT React state changes.
-
-           Therefore there is no visible re-render or lag.
+           LOOP REPOSITION
            ==================================================== */
 
         if (
           targetPhysicalIndex === 0
         ) {
-          /*
-           * clone last
-           *      ↓
-           * real last
-           */
           physicalIndexRef.current =
             SLIDES.length;
 
@@ -1061,11 +1566,6 @@ export function ClientsSection() {
           targetPhysicalIndex ===
           SLIDES.length + 1
         ) {
-          /*
-           * clone first
-           *      ↓
-           * real first
-           */
           physicalIndexRef.current =
             1;
 
@@ -1074,32 +1574,14 @@ export function ClientsSection() {
           );
         }
 
-        const logicalIndex =
-          physicalToLogical(
-            physicalIndexRef.current,
-          );
-
-        /*
-         * One small React update AFTER movement,
-         * only when logical slide actually changes.
-         */
-        setActiveIndex(
-          (current) =>
-            current ===
-            logicalIndex
-              ? current
-              : logicalIndex,
-        );
+        animationRef.current =
+          null;
 
         isAnimatingRef.current =
           false;
 
         /* ====================================================
-           PROCESS FAST CLICKS
-
-           If someone clicked 2–3 times while the animation
-           was running, process the next queued movement
-           rather than launching competing animations.
+           QUEUED NAVIGATION
            ==================================================== */
 
         const queued =
@@ -1117,12 +1599,9 @@ export function ClientsSection() {
         pendingStepsRef.current -=
           direction;
 
-        const nextPhysical =
-          physicalIndexRef.current +
-          direction;
-
         await moveToPhysicalIndex(
-          nextPhysical,
+          physicalIndexRef.current +
+          direction,
         );
       },
       [
@@ -1133,28 +1612,20 @@ export function ClientsSection() {
     );
 
   /* ==========================================================
-     REQUEST MOVEMENT
-
-     Button/autoplay calls this instead of changing
-     React state directly.
+     REQUEST MOVE
      ========================================================== */
 
   const requestMove =
     useCallback(
-      (direction: -1 | 1) => {
+      (
+        direction: -1 | 1,
+      ) => {
         if (
           SLIDES.length <= 1
         ) {
           return;
         }
 
-        /*
-         * An animation is already active:
-         * queue this click.
-         *
-         * Clamp the queue to prevent somebody
-         * generating dozens of delayed slides.
-         */
         if (
           isAnimatingRef.current
         ) {
@@ -1164,23 +1635,34 @@ export function ClientsSection() {
               Math.min(
                 2,
                 pendingStepsRef.current +
-                  direction,
+                direction,
               ),
             );
 
           return;
         }
 
-        const target =
-          physicalIndexRef.current +
-          direction;
-
         void moveToPhysicalIndex(
-          target,
+          physicalIndexRef.current +
+          direction,
         );
       },
-      [moveToPhysicalIndex],
+      [
+        moveToPhysicalIndex,
+      ],
     );
+
+  /* ==========================================================
+     AUTOPLAY RESET
+     ========================================================== */
+
+  const resetAutoplay =
+    useCallback(() => {
+      setAutoplayResetKey(
+        (value) =>
+          value + 1,
+      );
+    }, []);
 
   /* ==========================================================
      NAVIGATION
@@ -1188,23 +1670,29 @@ export function ClientsSection() {
 
   const goPrevious =
     useCallback(() => {
+      resetAutoplay();
+
       requestMove(-1);
-    }, [requestMove]);
+    }, [
+      requestMove,
+      resetAutoplay,
+    ]);
 
   const goNext =
     useCallback(() => {
+      resetAutoplay();
+
       requestMove(1);
-    }, [requestMove]);
-
-  /* ==========================================================
-     DOT NAVIGATION
-
-     Dots move directly to a real physical slide.
-     ========================================================== */
+    }, [
+      requestMove,
+      resetAutoplay,
+    ]);
 
   const goToSlide =
     useCallback(
-      (logicalIndex: number) => {
+      (
+        logicalIndex: number,
+      ) => {
         if (
           SLIDES.length <= 1 ||
           isAnimatingRef.current
@@ -1212,16 +1700,19 @@ export function ClientsSection() {
           return;
         }
 
-        pendingStepsRef.current = 0;
+        resetAutoplay();
 
-        const realPhysicalIndex =
-          logicalIndex + 1;
+        pendingStepsRef.current =
+          0;
 
         void moveToPhysicalIndex(
-          realPhysicalIndex,
+          logicalIndex + 1,
         );
       },
-      [moveToPhysicalIndex],
+      [
+        moveToPhysicalIndex,
+        resetAutoplay,
+      ],
     );
 
   /* ==========================================================
@@ -1231,6 +1722,7 @@ export function ClientsSection() {
   useEffect(() => {
     if (
       !isPlaying ||
+      interactionPaused ||
       reduceMotion ||
       SLIDES.length <= 1
     ) {
@@ -1238,13 +1730,12 @@ export function ClientsSection() {
     }
 
     const timer =
-      window.setInterval(
+      window.setTimeout(
         () => {
-          /*
-           * Don't pile autoplay input behind an
-           * existing button animation.
-           */
           if (
+            document
+              .visibilityState ===
+            "visible" &&
             !isAnimatingRef.current
           ) {
             requestMove(1);
@@ -1254,31 +1745,36 @@ export function ClientsSection() {
       );
 
     return () => {
-      window.clearInterval(
+      window.clearTimeout(
         timer,
       );
     };
   }, [
+    activeIndex,
+    autoplayResetKey,
+    interactionPaused,
     isPlaying,
     reduceMotion,
     requestMove,
   ]);
 
   /* ==========================================================
-     MEASURE
-
-     ResizeObserver + RAF avoids layout thrashing.
+     RESPONSIVE MEASUREMENT
      ========================================================== */
 
   useEffect(() => {
     const viewport =
       viewportRef.current;
 
+    const track =
+      trackRef.current;
+
     const firstSlide =
       firstSlideRef.current;
 
     if (
       !viewport ||
+      !track ||
       !firstSlide
     ) {
       return;
@@ -1294,28 +1790,76 @@ export function ClientsSection() {
       frame =
         window.requestAnimationFrame(
           () => {
-            const next = {
+            const trackStyle =
+              window.getComputedStyle(
+                track,
+              );
+
+            const rawGap =
+              parseFloat(
+                trackStyle.columnGap ||
+                trackStyle.gap ||
+                "0",
+              );
+
+            const next:
+              CarouselDimensions = {
               viewportWidth:
                 viewport.clientWidth,
 
               slideWidth:
-                firstSlide.offsetWidth,
+                firstSlide
+                  .offsetWidth,
+
+              gap:
+                Number.isFinite(
+                  rawGap,
+                )
+                  ? rawGap
+                  : 0,
             };
 
-            setDimensions(
-              (current) => {
-                if (
-                  current.viewportWidth ===
-                    next.viewportWidth &&
-                  current.slideWidth ===
-                    next.slideWidth
-                ) {
-                  return current;
-                }
+            const current =
+              dimensionsRef.current;
 
-                return next;
-              },
+            if (
+              current.viewportWidth ===
+              next.viewportWidth &&
+              current.slideWidth ===
+              next.slideWidth &&
+              current.gap ===
+              next.gap
+            ) {
+              setIsReady(true);
+
+              return;
+            }
+
+            movementTokenRef.current +=
+              1;
+
+            animationRef.current?.stop();
+
+            animationRef.current =
+              null;
+
+            isAnimatingRef.current =
+              false;
+
+            pendingStepsRef.current =
+              0;
+
+            dimensionsRef.current =
+              next;
+
+            trackX.set(
+              calculateTrackX(
+                physicalIndexRef.current,
+                next,
+              ),
             );
+
+            setIsReady(true);
           },
         );
     };
@@ -1342,44 +1886,98 @@ export function ClientsSection() {
 
       observer.disconnect();
     };
-  }, []);
-
-  /* ==========================================================
-     APPLY POSITION WHEN DIMENSIONS CHANGE
-
-     No animation here — resizing should simply keep
-     the active slide centered.
-     ========================================================== */
-
-  useEffect(() => {
-    if (
-      !dimensions.slideWidth ||
-      !dimensions.viewportWidth
-    ) {
-      return;
-    }
-
-    /*
-     * Cancel current movement because previous target was
-     * calculated from obsolete dimensions.
-     */
-    animationRef.current?.stop();
-
-    isAnimatingRef.current =
-      false;
-
-    pendingStepsRef.current = 0;
-
-    trackX.set(
-      getTrackX(
-        physicalIndexRef.current,
-      ),
-    );
   }, [
-    dimensions,
-    getTrackX,
     trackX,
   ]);
+
+  /* ==========================================================
+     TOUCH SWIPE
+     ========================================================== */
+
+  const handlePointerDown =
+    useCallback(
+      (
+        event:
+          ReactPointerEvent<HTMLDivElement>,
+      ) => {
+        if (
+          event.pointerType ===
+          "mouse"
+        ) {
+          return;
+        }
+
+        pointerStartRef.current = {
+          x: event.clientX,
+          y: event.clientY,
+        };
+      },
+      [],
+    );
+
+  const handlePointerCancel =
+    useCallback(() => {
+      pointerStartRef.current =
+        null;
+    }, []);
+
+  const handlePointerUp =
+    useCallback(
+      (
+        event:
+          ReactPointerEvent<HTMLDivElement>,
+      ) => {
+        const start =
+          pointerStartRef.current;
+
+        pointerStartRef.current =
+          null;
+
+        if (!start) {
+          return;
+        }
+
+        const deltaX =
+          event.clientX -
+          start.x;
+
+        const deltaY =
+          event.clientY -
+          start.y;
+
+        const horizontal =
+          Math.abs(
+            deltaX,
+          );
+
+        const vertical =
+          Math.abs(
+            deltaY,
+          );
+
+        if (
+          horizontal <
+          SWIPE_DISTANCE_PX ||
+          horizontal <
+          vertical *
+          SWIPE_AXIS_RATIO
+        ) {
+          return;
+        }
+
+        resetAutoplay();
+
+        requestMove(
+          deltaX < 0
+            ? 1
+            : -1,
+        );
+      },
+      [
+        requestMove,
+        resetAutoplay,
+      ],
+    );
 
   /* ==========================================================
      CLEANUP
@@ -1387,12 +1985,19 @@ export function ClientsSection() {
 
   useEffect(() => {
     return () => {
+      movementTokenRef.current +=
+        1;
+
       animationRef.current?.stop();
+
+      animationRef.current =
+        null;
 
       isAnimatingRef.current =
         false;
 
-      pendingStepsRef.current = 0;
+      pendingStepsRef.current =
+        0;
     };
   }, []);
 
@@ -1404,50 +2009,79 @@ export function ClientsSection() {
     <section
       id="clients"
       aria-labelledby="clients-heading"
-      className={`
-        ${plusJakarta.className}
+      onMouseEnter={() => {
+        setInteractionPaused(
+          true,
+        );
+      }}
+      onMouseLeave={() => {
+        setInteractionPaused(
+          false,
+        );
+      }}
+      onFocusCapture={() => {
+        setInteractionPaused(
+          true,
+        );
+      }}
+      onBlurCapture={(
+        event,
+      ) => {
+        if (
+          event.currentTarget.contains(
+            event.relatedTarget as
+            Node | null,
+          )
+        ) {
+          return;
+        }
 
+        setInteractionPaused(
+          false,
+        );
+      }}
+      className="
         landing-section-transition
 
         flex
         w-full
         flex-col
         items-center
-        justify-end
-
-        gap-14
-
-        sm:gap-20
-
-        lg:gap-[6.25rem]
 
         overflow-hidden
 
         bg-white
 
-        py-[6.25rem]
-      `}
+        py-16
+
+        sm:py-20
+
+        lg:py-[6.25rem]
+      "
     >
-      {/* =====================================================
+      {/* ======================================================
           HEADER
-          ===================================================== */}
+          ====================================================== */}
 
       <div
         className="
           flex
+
           w-full
           max-w-[74.3125rem]
 
           flex-col
+
           items-start
           justify-between
+
           gap-6
 
-          px-4
+          px-5
 
-          sm:px-6
           sm:flex-row
           sm:items-end
+          sm:px-8
 
           lg:px-0
         "
@@ -1464,27 +2098,55 @@ export function ClientsSection() {
         />
       </div>
 
-      {/* =====================================================
+      {/* ======================================================
           CAROUSEL
-          ===================================================== */}
+          ====================================================== */}
 
       <div
         ref={viewportRef}
-        className="
-          relative
-          w-full
-          overflow-hidden
-          [contain:layout_paint]
-        "
         role="region"
         aria-roledescription="carousel"
         aria-label="Business ecosystem"
+        onPointerDown={
+          handlePointerDown
+        }
+        onPointerUp={
+          handlePointerUp
+        }
+        onPointerCancel={
+          handlePointerCancel
+        }
+        className={`
+          relative
+
+          mt-14
+
+          w-full
+
+          touch-pan-y
+          overflow-hidden
+
+          transition-opacity
+          duration-300
+
+          sm:mt-16
+
+          lg:mt-[6.25rem]
+
+          ${isReady
+            ? "opacity-100"
+            : "opacity-0"
+          }
+        `}
       >
         <motion.div
+          ref={trackRef}
           className="
             flex
-            items-start
-            gap-10
+
+            items-center
+
+            gap-4
 
             transform-gpu
 
@@ -1492,6 +2154,10 @@ export function ClientsSection() {
 
             [backface-visibility:hidden]
             [transform-style:preserve-3d]
+
+            sm:gap-6
+
+            lg:gap-10
           "
           style={{
             x: trackX,
@@ -1521,14 +2187,17 @@ export function ClientsSection() {
                   }
                   className="
                     w-[calc(100vw-2rem)]
-                    max-w-[74.3125rem]
+
                     shrink-0
 
                     transform-gpu
 
-                    sm:w-[calc(100vw-7rem)]
+                    sm:w-[calc(100vw-5rem)]
+
+                    md:w-[calc(100vw-7rem)]
 
                     lg:w-[74.3125rem]
+                    lg:max-w-[74.3125rem]
                   "
                 >
                   <SlideCard
@@ -1539,12 +2208,17 @@ export function ClientsSection() {
                     isPlaying={
                       isPlaying
                     }
-                    onTogglePlayback={() =>
-                      setIsPlaying(
-                        (value) =>
-                          !value,
-                      )
+                    reduceMotion={
+                      reduceMotion
                     }
+                    onTogglePlayback={() => {
+                      resetAutoplay();
+
+                      setIsPlaying(
+                        (current) =>
+                          !current,
+                      );
+                    }}
                   />
                 </div>
               );
@@ -1553,15 +2227,19 @@ export function ClientsSection() {
         </motion.div>
       </div>
 
-      {/* =====================================================
-          MOBILE DOTS
-          ===================================================== */}
+      {/* ======================================================
+          MOBILE / TABLET DOTS
+          ====================================================== */}
 
       <div
         className="
-          -mt-14
+          mt-6
+
           flex
+
           items-center
+          justify-center
+
           gap-2
 
           lg:hidden
@@ -1571,34 +2249,58 @@ export function ClientsSection() {
           (
             slide,
             index,
-          ) => (
-            <button
-              key={slide.id}
-              type="button"
-              aria-label={`Go to slide ${
-                index + 1
-              }`}
-              aria-current={
-                index ===
-                activeIndex
-                  ? "true"
-                  : undefined
-              }
-              onClick={() =>
-                goToSlide(
-                  index,
-                )
-              }
-              className={[
-                "h-2 rounded-full transition-[width,background-color] duration-300",
+          ) => {
+            const active =
+              index ===
+              activeIndex;
 
-                index ===
-                activeIndex
-                  ? "w-6 bg-[#8F6C1A]"
-                  : "w-2 bg-[#D9D9D9]",
-              ].join(" ")}
-            />
-          ),
+            return (
+              <button
+                key={slide.id}
+                type="button"
+                aria-label={`Go to slide ${index + 1
+                  }`}
+                aria-current={
+                  active
+                    ? "true"
+                    : undefined
+                }
+                onClick={() => {
+                  goToSlide(
+                    index,
+                  );
+                }}
+                className={`
+                  h-2
+
+                  rounded-full
+
+                  transition-[width,background-color,transform]
+                  duration-300
+
+                  ease-[cubic-bezier(0.22,1,0.36,1)]
+
+                  hover:scale-110
+
+                  focus-visible:outline-none
+                  focus-visible:ring-2
+                  focus-visible:ring-[#8F6C1A]/35
+                  focus-visible:ring-offset-2
+
+                  ${active
+                    ? `
+                          w-6
+                          bg-[#8F6C1A]
+                        `
+                    : `
+                          w-2
+                          bg-[#D9D9D9]
+                        `
+                  }
+                `}
+              />
+            );
+          },
         )}
       </div>
     </section>
