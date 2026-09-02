@@ -97,21 +97,31 @@ function PartnersStrip() {
       aria-label="Selected industry partners"
       className="
         flex
-        min-h-[11rem]
+        min-h-[8rem]
         w-full
         items-center
         justify-start
-        gap-14
+        gap-8
         overflow-x-auto
+        overscroll-x-contain
+        scroll-smooth
         bg-black
         px-6
-        py-14
+        py-10
 
         [scrollbar-width:none]
 
-        sm:justify-center
-        sm:overflow-hidden
+        sm:min-h-[9rem]
+        sm:gap-12
         sm:px-8
+        sm:py-12
+
+        lg:min-h-[11rem]
+        lg:gap-14
+        lg:py-14
+
+        xl:justify-center
+        xl:overflow-hidden
 
         [&::-webkit-scrollbar]:hidden
       "

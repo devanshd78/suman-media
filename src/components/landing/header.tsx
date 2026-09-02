@@ -1062,14 +1062,14 @@ export function Header() {
 
                       ${isLandingPage
                         ? `
-                              text-[0.6875rem]
+                              text-[0.75rem]
 
                               ${isOpen
                           ? "text-white"
                           : "text-white/80 hover:text-white"
                         }
 
-                              2xl:text-xs
+                              2xl:text-[0.875rem]
                             `
                         : `
                               text-xs
@@ -1142,12 +1142,12 @@ export function Header() {
 
                       ${isLandingPage
                         ? `
-                              text-[0.6875rem]
+                              text-[0.75rem]
                               text-white/80
 
                               hover:text-white
 
-                              2xl:text-xs
+                              2xl:text-[0.875rem]
                             `
                         : isActive
                           ? `
@@ -1493,7 +1493,7 @@ export function Header() {
                               pb-2
                               pt-5
 
-                              text-[0.625rem]
+                              text-[0.75rem]
                               font-semibold
                               uppercase
                               leading-4
@@ -1690,7 +1690,7 @@ export function Header() {
     justify-center
     gap-2
 
-    rounded-[0.5rem]
+    rounded-[0.25rem]
     bg-white
 
     px-5

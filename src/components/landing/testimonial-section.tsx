@@ -70,7 +70,7 @@ export function TestimonialSection({
             {quote ? (
               <blockquote className="mt-8 max-w-[40rem] sm:mt-9">
                 <p
-                  className={`${inter.className} text-center text-[0.78rem] font-normal leading-[1.35rem] text-[rgba(0,6,38,0.62)] sm:text-[0.875rem] sm:leading-[1.5rem]`}
+                  className={`${inter.className} text-center text-[0.875rem] font-normal leading-[1.5rem] text-[rgba(0,6,38,0.62)] sm:text-[0.9375rem] sm:leading-[1.625rem]`}
                   style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                 >
                   {quote}
@@ -85,7 +85,7 @@ export function TestimonialSection({
                     {personName}
                   </p>
                 ) : null}
-                <p className={`${inter.className} text-[0.7rem] font-semibold leading-5 text-[rgba(0,6,38,0.90)] sm:text-[0.75rem]`}>
+                <p className={`${inter.className} text-[0.75rem] font-semibold leading-5 text-[rgba(0,6,38,0.90)] sm:text-[0.8125rem]`}>
                   {personRole}
                   {personRole && companyName ? " at " : null}
                   {companyName}
@@ -103,7 +103,7 @@ export function TestimonialSection({
                 {partnerLogos.slice(0, 5).map((logo, index) => (
                   <div
                     key={logo._key ?? `${logo.label}-${index}`}
-                    className="relative h-[2.1rem] w-[7.25rem] opacity-90 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:w-[8rem]"
+                    className="relative h-[2.1rem] w-[7.25rem] opacity-90 grayscale transition-[opacity,filter] duration-300 hover:opacity-100 hover:grayscale-0 sm:w-[8rem]"
                   >
                     <Image
                       src={logo.imageUrl}
@@ -147,7 +147,7 @@ export function TestimonialSection({
 
           <div className="relative z-10 flex h-full w-full flex-col justify-between px-5 py-6 sm:px-8 sm:py-8 lg:px-[3.5rem] lg:py-9">
             <div className="max-w-[35rem]">
-              <p className={`${inter.className} text-[0.625rem] font-semibold uppercase leading-4 tracking-[0.035em] text-white`}>
+              <p className={`${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.035em] text-white sm:text-[0.875rem] sm:leading-[1.25rem]`}>
                 {storyEyebrow}
               </p>
 
@@ -161,7 +161,7 @@ export function TestimonialSection({
 
               <Link
                 href={storyCtaHref}
-                className={`${inter.className} group mt-7 inline-flex items-center gap-2 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-72 sm:text-sm`}
+                className={`${inter.className} group mt-7 inline-flex items-center gap-2 py-2 text-[0.875rem] font-semibold leading-[1.25rem] text-white transition-opacity hover:opacity-72 sm:text-[0.9375rem] sm:leading-[1.375rem]`}
               >
                 <span>{storyCtaLabel}</span>
                 <span className="transition-transform duration-200 group-hover:translate-x-1">

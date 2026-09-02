@@ -72,11 +72,15 @@ export function MediaCoverageSection({
             ${exo2.className}
             mt-2.5
             text-center
-            text-[2.5rem]
+            text-[2rem]
             font-semibold
-            leading-[3rem]
+            leading-[2.5rem]
             tracking-[-0.03125rem]
             text-black
+            sm:text-[2.25rem]
+            sm:leading-[2.75rem]
+            lg:text-[2.5rem]
+            lg:leading-[3rem]
           `}
           style={{
             fontFeatureSettings: '"liga" off, "clig" off',
@@ -97,8 +101,8 @@ export function MediaCoverageSection({
           grid-cols-2
           items-center
           justify-items-center
-          gap-x-8
-          gap-y-10
+          gap-x-4
+          gap-y-8
 
           sm:mt-16
           sm:grid-cols-3
@@ -117,14 +121,20 @@ export function MediaCoverageSection({
               className="
                 relative
                 flex
-                h-[4.5rem]
-                w-[14rem]
+                h-[3.25rem]
+                w-full
+                max-w-[10rem]
                 aspect-[28/9]
+                sm:h-[3.75rem]
+                sm:max-w-[11.5rem]
+                lg:h-[4.5rem]
+                lg:w-[14rem]
+                lg:max-w-none
                 items-center
                 justify-center
                 opacity-[0.82]
                 grayscale
-                transition-all
+                transition-[opacity,filter]
                 duration-300
                 group-hover:opacity-100
                 group-hover:grayscale-0
@@ -135,7 +145,7 @@ export function MediaCoverageSection({
                   src={item.imageUrl!}
                   alt={item.imageAlt?.trim() || `${item.title} logo`}
                   fill
-                  sizes="224px"
+                  sizes="(max-width: 639px) 160px, (max-width: 1023px) 184px, 224px"
                   className="object-contain"
                 />
               </div>

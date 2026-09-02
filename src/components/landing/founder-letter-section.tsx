@@ -50,7 +50,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
           <span className="mt-1 block">{heading}</span>
         </h2>
 
-        <div className={`${inter.className} mt-4 space-y-4 text-[0.73rem] leading-[1.18rem] text-[rgba(0,9,51,0.63)] sm:text-[0.78rem] sm:leading-[1.28rem]`}>
+        <div className={`${inter.className} mt-4 space-y-4 text-[0.875rem] leading-[1.45rem] text-[rgba(0,9,51,0.63)] sm:text-[0.9375rem] sm:leading-[1.55rem]`}>
           {paragraphs.map((paragraph, index) => (
             <p key={`${paragraph.slice(0, 28)}-${index}`}>{paragraph}</p>
           ))}
@@ -73,7 +73,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
             </p>
           )}
 
-          <p className={`${inter.className} mt-2 text-right text-[0.64rem] font-semibold leading-4 text-[rgba(0,9,51,0.60)]`}>
+          <p className={`${inter.className} mt-2 text-right text-[0.75rem] font-semibold leading-[1.125rem] text-[rgba(0,9,51,0.60)] sm:text-[0.8125rem] sm:leading-[1.25rem]`}>
             {founderRole}- <span className="font-normal">{founderName}</span>
           </p>
         </div>

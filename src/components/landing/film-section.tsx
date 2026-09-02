@@ -222,8 +222,6 @@ function GalleryRow({
                     ? undefined
                     : {
                         scale: zoom,
-                        willChange:
-                          "transform",
                       }
                 }
               >
@@ -304,9 +302,9 @@ export function FilmSection() {
     useSpring(
       scrollYProgress,
       {
-        stiffness: 82,
-        damping: 24,
-        mass: 0.42,
+        stiffness: 92,
+        damping: 28,
+        mass: 0.5,
       },
     );
 
@@ -318,7 +316,7 @@ export function FilmSection() {
     useTransform(
       smoothProgress,
       [0, 0.78],
-      [1.24, 1],
+      [1.16, 1],
     );
 
   return (

@@ -53,9 +53,9 @@ const textUnitVariants: Variants = {
 
     transition: {
       type: "spring",
-      stiffness: 500,
-      damping: 60,
-      mass: 2,
+      stiffness: 320,
+      damping: 42,
+      mass: 1.15,
     },
   },
 };
@@ -188,8 +188,7 @@ function AnimatedText({
                         <motion.span
                           className="
                             inline-block
-                            will-change-transform
-                          "
+                                    "
                           variants={
                             reducedMotion
                               ? undefined
@@ -215,8 +214,7 @@ function AnimatedText({
                   <motion.span
                     className="
                       inline-block
-                      will-change-transform
-                    "
+                        "
                     variants={
                       reducedMotion
                         ? undefined
@@ -370,7 +368,7 @@ export function HeroSection({
 
       <video
         key={videoUrl}
-        autoPlay
+        autoPlay={!shouldReduceMotion}
         muted
         loop
         playsInline
@@ -466,15 +464,15 @@ export function HeroSection({
 
             max-w-full
 
-            text-[0.6875rem]
+            text-[0.75rem]
             font-semibold
             uppercase
-            leading-[1rem]
+            leading-[1.125rem]
             tracking-[0.01em]
             text-[#F9F9F9]
 
-            sm:text-[0.75rem]
-            sm:leading-[1.125rem]
+            sm:text-[0.8125rem]
+            sm:leading-[1.1875rem]
 
             lg:text-[0.875rem]
             lg:leading-[1.25rem]
@@ -612,9 +610,9 @@ export function HeroSection({
                 }
               : {
                   type: "spring",
-                  stiffness: 350,
-                  damping: 60,
-                  mass: 2,
+                  stiffness: 240,
+                  damping: 36,
+                  mass: 1.05,
                   delay: 1.3,
                 }
           }

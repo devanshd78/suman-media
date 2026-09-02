@@ -1,3 +1,4 @@
+import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import { TextReveal } from "@/components/motion/text-reveal";
@@ -38,25 +39,32 @@ export function CareersPartnerCta({
   return (
     <section
       aria-label="Partner with Suman Media"
-      className="mx-auto flex h-[30rem] w-full max-w-full flex-col items-end justify-between overflow-hidden p-5 sm:p-8"
-      style={{
-        backgroundImage: `radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url("${backgroundImage}")`,
-        backgroundPosition: "center, center",
-        backgroundRepeat: "no-repeat, no-repeat",
-        backgroundSize: "100% 100%, cover",
-      }}
+      className="relative mx-auto flex min-h-[24rem] w-full max-w-full flex-col items-end justify-between overflow-hidden px-5 py-8 sm:min-h-[30rem] sm:px-8 sm:py-10 lg:min-h-[32rem] lg:px-[3.5rem]"
     >
-      <div className="flex w-full flex-col items-start gap-3">
+      <Image
+        src={backgroundImage}
+        alt=""
+        fill
+        sizes="100vw"
+        className="pointer-events-none select-none object-cover object-center"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(118.01%_73.86%_at_57.53%_72.82%,rgba(0,0,0,0)_42.15%,rgba(0,0,0,0.76)_85.74%)]"
+      />
+
+      <div className="relative z-10 flex w-full flex-col items-start gap-3">
         <TextReveal
           as="h2"
           text={heading}
-          className={`${exo2.className} w-full max-w-[30.5rem] text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem]`}
+          className={`${exo2.className} w-full max-w-[30.5rem] text-[clamp(1.8rem,7vw,2.5rem)] font-semibold leading-[1.2] tracking-[-0.03125rem] text-white`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         />
 
         <Link
           href="/contact?type=partnership"
-          className={`${inter.className} group inline-flex items-center justify-center gap-1 rounded-lg p-4 text-sm font-semibold leading-5 text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
+          className={`${inter.className} group inline-flex min-h-12 items-center justify-center gap-1 rounded-[1rem] px-4 py-3 text-sm font-semibold leading-5 text-white transition-[background-color,transform] duration-200 hover:-translate-y-[1px] hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:text-base sm:leading-6`}
         >
           <span>Join as a Partner</span>
           <ArrowRightIcon />

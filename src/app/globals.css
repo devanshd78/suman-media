@@ -4,6 +4,8 @@
   --background: #ffffff;
   --foreground: #18181b;
   --site-header-offset: 88px;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -12,7 +14,9 @@
   --font-sans: var(--font-plus-jakarta-sans);
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -22,6 +26,8 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--site-header-offset);
   overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html.lenis,
@@ -49,10 +55,13 @@ body {
   max-width: 100%;
   margin: 0;
   overflow-x: clip;
+  overscroll-behavior-x: none;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-plus-jakarta-sans), Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body > * {
@@ -68,8 +77,20 @@ body > * {
 img,
 picture,
 video,
-canvas {
+canvas,
+svg {
   max-width: 100%;
+}
+
+img,
+picture,
+video,
+canvas {
+  display: block;
+}
+
+img {
+  height: auto;
 }
 
 h1,
@@ -79,8 +100,29 @@ h4,
 h5,
 h6,
 p,
-a {
+a,
+li,
+dd,
+dt,
+blockquote {
   overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p,
+li,
+dd,
+dt,
+blockquote {
+  text-wrap: pretty;
 }
 
 button,
@@ -89,6 +131,18 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+a[href],
+summary,
+select {
+  touch-action: manipulation;
 }
 
 input,
@@ -103,31 +157,52 @@ select {
   color: #ffffff;
 }
 
-@supports not (overflow: clip) {
-  html,
-  body {
-    overflow-x: hidden;
-  }
+/*
+ * A safe shared baseline for every landing-page section. Individual sections
+ * can still opt into sticky/3D layouts without being constrained by a global
+ * containment rule.
+ */
+.landing-section-transition {
+  min-width: 0;
+  max-width: 100%;
 }
 
+/*
+ * Keep GPU promotion temporary. Elements are promoted only while the reveal
+ * is pending, then returned to normal compositing once visible. Avoiding blur
+ * here is important: filter animations across a long landing page are much
+ * more expensive on mobile GPUs than transform + opacity.
+ */
 @media (prefers-reduced-motion: no-preference) {
   html.landing-text-motion-ready .landing-text-reveal {
     opacity: 0;
-    filter: blur(0.2rem);
-    transform: translate3d(0, 1.5rem, 0);
+    transform: translate3d(0, 0.85rem, 0);
     transition:
-      opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-      filter 750ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+      opacity 520ms var(--motion-ease-out),
+      transform 640ms var(--motion-ease-out);
     transition-delay: var(--landing-text-delay, 0ms);
-    will-change: opacity, filter, transform;
+    will-change: opacity, transform;
   }
 
   html.landing-text-motion-ready
     .landing-text-reveal[data-landing-text-visible="true"] {
     opacity: 1;
-    filter: blur(0);
     transform: translate3d(0, 0, 0);
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  html.landing-text-motion-ready .landing-text-reveal {
+    transform: translate3d(0, 1.35rem, 0);
+    transition-duration: 620ms, 760ms;
+  }
+}
+
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
   }
 }
 

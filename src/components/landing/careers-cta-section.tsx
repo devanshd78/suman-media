@@ -51,7 +51,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
       />
 
       <div className="relative z-10 flex h-full w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
-        <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.045em] text-white/90`}>
+        <p className={`${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.045em] text-white/90 sm:text-[0.875rem] sm:leading-[1.25rem]`}>
           {content.eyebrow?.trim() || "CARRERS"}
         </p>
 

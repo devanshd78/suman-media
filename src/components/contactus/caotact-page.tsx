@@ -301,19 +301,31 @@ export function ContactPageContent({
 
       <section
         aria-labelledby="connected-world-heading"
-        className={`${styles.connectedWorld} flex min-h-[56rem] w-full flex-col items-start justify-start gap-8 px-5 py-16 sm:px-8 lg:h-[81.0625rem] lg:min-h-0 lg:flex-row lg:justify-center lg:gap-[3.5rem] lg:px-[3.5rem] lg:py-[6.25rem]`}
-        style={{ backgroundImage: `url("${connectedWorldImage}")` }}
+        className={`${styles.connectedWorld} relative flex min-h-[44rem] w-full flex-col items-start justify-start gap-8 overflow-hidden px-5 py-16 sm:min-h-[56rem] sm:px-8 lg:h-[81.0625rem] lg:min-h-0 lg:flex-row lg:justify-center lg:gap-[3.5rem] lg:px-[3.5rem] lg:py-[6.25rem]`}
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[72%] lg:h-[82.644%]"
+        >
+          <Image
+            src={connectedWorldImage}
+            alt=""
+            fill
+            sizes="100vw"
+            className="select-none object-cover object-bottom"
+          />
+        </div>
+
         <h2
           id="connected-world-heading"
-          className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem] lg:w-[44%] lg:flex-none lg:self-stretch xl:w-[40.5rem]`}
+          className={`${exo2.className} relative z-10 w-full text-[clamp(2rem,7vw,2.5rem)] font-semibold leading-[1.2] tracking-[-0.03125rem] text-white lg:w-[44%] lg:flex-none lg:self-stretch xl:w-[40.5rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           {connectedWorldHeading}
         </h2>
 
         <p
-          className={`${inter.className} w-full text-base font-normal leading-6 text-[#F9F9F9] lg:min-w-0 lg:flex-1`}
+          className={`${inter.className} relative z-10 w-full text-base font-normal leading-6 text-[#F9F9F9] lg:min-w-0 lg:flex-1`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           {connectedWorldDescription}

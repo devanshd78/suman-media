@@ -216,13 +216,14 @@ export function AchievementRevealGrid({
           className="
             relative
             z-[2]
-            text-[0.55rem]
-            font-medium
+            text-[0.75rem]
+            font-semibold
             uppercase
             tracking-[0.03em]
             text-[#171717]
 
-            sm:text-[0.625rem]
+            sm:text-[0.875rem]
+            sm:leading-[1.25rem]
           "
         >
           {eyebrow}
@@ -384,8 +385,9 @@ export function AchievementRevealGrid({
     gap-1.5
     py-2
 
-    text-[0.7rem]
+    text-[0.875rem]
     font-semibold
+    leading-[1.25rem]
     text-[#171717]
 
     transition-opacity
@@ -397,7 +399,7 @@ export function AchievementRevealGrid({
     focus-visible:outline-offset-4
     focus-visible:outline-[#8F6C1A]
 
-    sm:text-xs
+    sm:text-[0.9375rem]
     lg:mt-11
   "
           >

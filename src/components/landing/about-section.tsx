@@ -71,31 +71,24 @@ function ArrowRightIcon() {
 const wordVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: "0.65em",
-    filter: "blur(7px)",
+    y: "0.55em",
   },
 
   visible: {
     opacity: 1,
     y: "0em",
-    filter: "blur(0px)",
 
     transition: {
       y: {
         type: "spring",
-        stiffness: 120,
-        damping: 18,
-        mass: 0.8,
+        stiffness: 135,
+        damping: 20,
+        mass: 0.72,
       },
 
       opacity: {
-        duration: 0.45,
-        ease: "easeOut",
-      },
-
-      filter: {
-        duration: 0.5,
-        ease: "easeOut",
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   },
@@ -171,7 +164,6 @@ function AnimatedWords({
               <motion.span
                 className="
                   inline-block
-                  will-change-[transform,opacity,filter]
                 "
                 variants={
                   shouldReduceMotion
@@ -311,6 +303,7 @@ export function AboutSection({
             ==================================================== */}
 
         <div
+          data-motion-managed
           className="
             flex
             min-w-0

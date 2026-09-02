@@ -607,15 +607,18 @@ export async function CareersSection() {
             infinite;
 
           will-change: transform;
+          backface-visibility: hidden;
         }
 
         /*
          * Slightly pause when the user wants to
          * inspect the gallery.
          */
-        .careers-gallery-window:hover
-          .careers-gallery-track {
-          animation-play-state: paused;
+        @media (hover: hover) and (pointer: fine) {
+          .careers-gallery-window:hover
+            .careers-gallery-track {
+            animation-play-state: paused;
+          }
         }
 
         @keyframes careersGalleryMovement {

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
 const HEADER_OFFSET_PX = 88;
-const SCROLL_DURATION_SECONDS = 1.05;
+const SCROLL_DURATION_SECONDS = 1.0;
 
 function getHashTarget(hash: string) {
   if (!hash || hash === "#") return null;
@@ -24,16 +24,20 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
 
-    // Keep native scrolling for users who explicitly request less motion.
-    if (reducedMotion.matches) return;
+    // Native touch scrolling is already heavily optimized by mobile browsers.
+    // Avoid putting Lenis in front of it; this keeps long sticky/3D sections
+    // responsive on phones and tablets while desktop wheel/trackpad scrolling
+    // still receives the premium smoothing layer.
+    if (reducedMotion.matches || coarsePointer.matches) return;
 
     const lenis = new Lenis({
       duration: SCROLL_DURATION_SECONDS,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       syncTouch: false,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 0.92,
       touchMultiplier: 1,
     });
 

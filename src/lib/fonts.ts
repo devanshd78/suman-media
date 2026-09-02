@@ -19,7 +19,7 @@ export const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const inter = Inter({
   subsets: ["latin"],
-  weight: ["600"],
+  weight: ["400", "500", "600"],
   variable: "--font-inter",
   display: "swap",
 });

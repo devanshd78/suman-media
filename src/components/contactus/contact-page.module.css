@@ -9,6 +9,7 @@
   width: max-content;
   align-items: center;
   will-change: transform;
+  backface-visibility: hidden;
   animation: contactPartnerMarquee 28s linear infinite;
 }
 
@@ -22,11 +23,11 @@
 
 @keyframes contactPartnerMarquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -128,14 +129,19 @@
 
 .connectedWorld {
   background-color: #0b0d19;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: auto 72%;
 }
 
-@media (min-width: 64rem) {
-  .connectedWorld {
-    background-position: 0 224.947px;
-    background-size: 100% 82.644%;
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marqueeTrack {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack {
+    animation: none;
+    transform: none;
+    will-change: auto;
   }
 }

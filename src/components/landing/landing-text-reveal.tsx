@@ -18,6 +18,8 @@ export function LandingTextReveal() {
     ).filter(
       (element) =>
         !element.closest("[data-landing-text-reveal-skip]") &&
+        !element.closest("[data-motion-managed]") &&
+        !element.matches("[data-text-reveal]") &&
         Boolean(element.textContent?.trim()),
     );
 

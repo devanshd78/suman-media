@@ -33,12 +33,12 @@ export function FaqSection({ content }: { content?: CmsFaqSection | null }) {
       className="landing-section-transition mx-auto grid w-full max-w-full gap-12 bg-white px-5 py-16 sm:px-8 sm:py-20 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:gap-14 lg:gap-24 lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <div>
-        <p className={`${inter.className} text-[0.625rem] font-semibold uppercase tracking-[0.055em] text-[rgba(0,9,51,0.58)]`}>
+        <p className={`${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.055em] text-[rgba(0,9,51,0.58)] sm:text-[0.875rem] sm:leading-[1.25rem]`}>
           {content.eyebrow?.trim() || "FAQ"}
         </p>
         <h2
           id="faq-heading"
-          className={`${exo2.className} mt-2.5 max-w-[28rem] text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04em] text-black sm:text-[2.4rem] sm:leading-[2.9rem]`}
+          className={`${exo2.className} mt-2.5 max-w-[28rem] text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04em] text-black sm:text-[2.4rem] sm:leading-[2.9rem] lg:text-[2.5rem] lg:leading-[3rem]`}
         >
           {content.heading?.trim() || "Questions people asked?"}
         </h2>

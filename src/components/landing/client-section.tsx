@@ -553,12 +553,18 @@ function HeaderText() {
           mt-1
           max-w-[50rem]
 
-          text-[2.5rem]
+          text-[2rem]
           font-semibold
-          leading-[3rem]
+          leading-[2.5rem]
           tracking-[-0.03125rem]
 
           text-[#1A1A1A]
+
+          sm:text-[2.25rem]
+          sm:leading-[2.75rem]
+
+          lg:text-[2.5rem]
+          lg:leading-[3rem]
         `}
         style={{
           fontFeatureSettings:
@@ -744,7 +750,6 @@ function SlideCard({
           src={slide.image}
           alt={slide.title}
           fill
-          priority={slide.id === 1}
           sizes="
       (max-width: 639px) calc(100vw - 2rem),
       (max-width: 1023px) calc(100vw - 5rem),
@@ -888,13 +893,13 @@ function SlideCard({
               className={`
                 ${plusJakartaSans.className}
 
-                text-[0.6875rem]
+                text-[0.75rem]
                 font-semibold
-                leading-[1rem]
+                leading-[1.125rem]
                 text-[#FFFFFF]
 
-                sm:text-[0.75rem]
-                sm:leading-[1.125rem]
+                sm:text-[0.8125rem]
+                sm:leading-[1.1875rem]
 
                 lg:text-[0.875rem]
                 lg:leading-[1.25rem]
@@ -1382,6 +1387,13 @@ export function ClientsSection() {
   ] = useState(0);
 
   const [
+    activePhysicalIndex,
+    setActivePhysicalIndex,
+  ] = useState(
+    SLIDES.length > 1 ? 1 : 0,
+  );
+
+  const [
     isPlaying,
     setIsPlaying,
   ] = useState(true);
@@ -1401,9 +1413,17 @@ export function ClientsSection() {
     setIsReady,
   ] = useState(false);
 
+  const [
+    isSectionVisible,
+    setIsSectionVisible,
+  ] = useState(false);
+
   /* ==========================================================
      REFS
      ========================================================== */
+
+  const sectionRef =
+    useRef<HTMLElement>(null);
 
   const viewportRef =
     useRef<HTMLDivElement>(null);
@@ -1506,6 +1526,10 @@ export function ClientsSection() {
               : incomingLogicalIndex,
         );
 
+        setActivePhysicalIndex(
+          targetPhysicalIndex,
+        );
+
         const destination =
           getTrackX(
             targetPhysicalIndex,
@@ -1557,6 +1581,10 @@ export function ClientsSection() {
           physicalIndexRef.current =
             SLIDES.length;
 
+          setActivePhysicalIndex(
+            SLIDES.length,
+          );
+
           trackX.set(
             getTrackX(
               SLIDES.length,
@@ -1568,6 +1596,8 @@ export function ClientsSection() {
         ) {
           physicalIndexRef.current =
             1;
+
+          setActivePhysicalIndex(1);
 
           trackX.set(
             getTrackX(1),
@@ -1716,12 +1746,44 @@ export function ClientsSection() {
     );
 
   /* ==========================================================
+     VIEWPORT ACTIVITY
+
+     Do not keep autoplay timers active while this large carousel is far
+     outside the viewport. This reduces background work on long pages and
+     makes mobile scrolling more predictable.
+     ========================================================== */
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSectionVisible(
+          Boolean(entry?.isIntersecting),
+        );
+      },
+      {
+        rootMargin: "20% 0px 20% 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  /* ==========================================================
      AUTOPLAY
      ========================================================== */
 
   useEffect(() => {
     if (
       !isPlaying ||
+      !isSectionVisible ||
       interactionPaused ||
       reduceMotion ||
       SLIDES.length <= 1
@@ -1753,6 +1815,7 @@ export function ClientsSection() {
     activeIndex,
     autoplayResetKey,
     interactionPaused,
+    isSectionVisible,
     isPlaying,
     reduceMotion,
     requestMove,
@@ -2007,8 +2070,10 @@ export function ClientsSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="clients"
       aria-labelledby="clients-heading"
+      data-motion-managed
       onMouseEnter={() => {
         setInteractionPaused(
           true,
@@ -2168,14 +2233,9 @@ export function ClientsSection() {
               slide,
               renderIndex,
             ) => {
-              const logicalIndex =
-                physicalToLogical(
-                  renderIndex,
-                );
-
               const isActive =
-                logicalIndex ===
-                activeIndex;
+                renderIndex ===
+                activePhysicalIndex;
 
               return (
                 <div

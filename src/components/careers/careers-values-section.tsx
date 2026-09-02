@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "@/components/ui/image";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import {
   BooksIcon,
   ChartLineUpIcon,
@@ -135,7 +142,7 @@ export function CareersValuesSection({
       : FALLBACK_CULTURE_SLIDES;
 
   const cultureScrollRef = useRef<HTMLDivElement>(null);
-  const cultureTrackRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion() ?? false;
 
   const cultureEyebrow = cmsCulture?.eyebrow?.trim() || "CULTURE";
   const cultureHeading =
@@ -144,50 +151,30 @@ export function CareersValuesSection({
     cmsCulture?.description?.trim() ||
     "We believe great work comes from curious people, open collaboration and the freedom to challenge what already exists.";
 
-  useEffect(() => {
-    const scrollArea = cultureScrollRef.current;
-    const track = cultureTrackRef.current;
+  const { scrollYProgress: cultureScrollProgress } = useScroll({
+    target: cultureScrollRef,
+    offset: ["start start", "end end"],
+  });
 
-    if (!scrollArea || !track) return;
+  const smoothCultureProgress = useSpring(
+    cultureScrollProgress,
+    {
+      stiffness: 145,
+      damping: 32,
+      mass: 0.7,
+      restDelta: 0.001,
+      restSpeed: 0.001,
+    },
+  );
 
-    const scrollAreaElement = scrollArea;
-    const trackElement = track;
-    let animationFrame: number | null = null;
-
-    function updateTrackPosition() {
-      animationFrame = null;
-
-      const scrollDistance =
-        scrollAreaElement.offsetHeight - window.innerHeight;
-      const scrolledDistance = -scrollAreaElement.getBoundingClientRect().top;
-      const progress =
-        scrollDistance > 0
-          ? Math.min(Math.max(scrolledDistance / scrollDistance, 0), 1)
-          : 0;
-      const horizontalTravel = Math.max(slides.length - 1, 0) * 100;
-
-      trackElement.style.transform = `translate3d(-${progress * horizontalTravel}%, 0, 0)`;
-    }
-
-    function scheduleTrackUpdate() {
-      if (animationFrame !== null) return;
-
-      animationFrame = window.requestAnimationFrame(updateTrackPosition);
-    }
-
-    updateTrackPosition();
-    window.addEventListener("scroll", scheduleTrackUpdate, { passive: true });
-    window.addEventListener("resize", scheduleTrackUpdate);
-
-    return () => {
-      window.removeEventListener("scroll", scheduleTrackUpdate);
-      window.removeEventListener("resize", scheduleTrackUpdate);
-
-      if (animationFrame !== null) {
-        window.cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, [slides.length]);
+  const cultureTrackX = useTransform(
+    smoothCultureProgress,
+    [0, 1],
+    [
+      "0%",
+      `-${Math.max(slides.length - 1, 0) * 100}%`,
+    ],
+  );
 
   return (
     <>
@@ -298,14 +285,32 @@ export function CareersValuesSection({
         <div
           ref={cultureScrollRef}
           className="relative w-full"
-          style={{ height: `${Math.max(slides.length, 1) * 100}svh` }}
+          style={
+            shouldReduceMotion
+              ? undefined
+              : { height: `${Math.max(slides.length, 1) * 100}svh` }
+          }
         >
-          <div className="sticky top-0 flex h-[100svh] w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]">
+          <div
+            className={
+              shouldReduceMotion
+                ? "relative flex w-full items-center overflow-hidden px-5 py-8 sm:px-8 lg:px-[3.5rem]"
+                : "sticky top-0 flex h-[100svh] w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]"
+            }
+          >
             <div className="mx-auto w-full max-w-[83rem] overflow-hidden">
-              <div
-                ref={cultureTrackRef}
-                className="flex w-full will-change-transform"
+              <motion.div
+                className={
+                  shouldReduceMotion
+                    ? "flex w-full flex-col gap-6"
+                    : "flex w-full transform-gpu"
+                }
                 aria-label="Culture highlights"
+                style={
+                  shouldReduceMotion
+                    ? undefined
+                    : { x: cultureTrackX }
+                }
               >
                 {slides.map((slide, index) => (
                   <article
@@ -363,7 +368,7 @@ export function CareersValuesSection({
                     </div>
                   </article>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

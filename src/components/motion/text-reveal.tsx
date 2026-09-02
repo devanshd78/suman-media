@@ -141,7 +141,7 @@ export function TextReveal({
       }
     >
       <motion.span
-        className="inline-block will-change-transform"
+        className="inline-block"
         initial={reduceMotion ? false : hidden}
         animate={reduceMotion || isInView ? shown : hidden}
         transition={{

@@ -45,10 +45,35 @@ function withSanityLoader(props: ImageProps): ImageProps {
   };
 }
 
+/**
+ * Website-wide image defaults.
+ *
+ * `next/image` already lazily loads non-priority images, but keeping the
+ * behaviour explicit here means every current and future image that uses the
+ * shared component follows the same policy automatically:
+ *
+ * - above-the-fold / explicitly priority images keep Next.js priority behaviour
+ * - every other image -> lazy
+ * - async decoding for non-blocking image decode
+ *
+ * A component can still override `loading` or `decoding` when there is a
+ * measured reason to do so.
+ */
+function withImageDefaults(props: ImageProps): ImageProps {
+  const loadedProps = withSanityLoader(props);
+  return {
+    ...loadedProps,
+    ...(loadedProps.priority
+      ? {}
+      : { loading: loadedProps.loading ?? "lazy" }),
+    decoding: loadedProps.decoding ?? "async",
+  };
+}
+
 export function getImageProps(props: ImageProps) {
-  return getNextImageProps(withSanityLoader(props));
+  return getNextImageProps(withImageDefaults(props));
 }
 
 export default function Image(props: ImageProps) {
-  return <NextImage {...withSanityLoader(props)} />;
+  return <NextImage {...withImageDefaults(props)} />;
 }

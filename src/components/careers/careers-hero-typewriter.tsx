@@ -105,6 +105,7 @@ function TypewriterLine({
 
   const showCaret =
     !reduceMotion &&
+    active &&
     visibleUnitCount > 0 &&
     (!isComplete || persistCaret);
   const trailLength = isComplete

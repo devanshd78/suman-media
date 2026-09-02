@@ -97,11 +97,11 @@ const FINAL_HOLD_VH = 18;
  * Same spring feel as the desktop animation.
  */
 const SCROLL_SPRING = {
-  stiffness: 500,
-  damping: 60,
-  mass: 1,
-  restDelta: 0.0001,
-  restSpeed: 0.0001,
+  stiffness: 260,
+  damping: 42,
+  mass: 0.9,
+  restDelta: 0.0005,
+  restSpeed: 0.0005,
 } as const;
 
 /* ============================================================
@@ -467,7 +467,7 @@ function ServiceCardContent({
                 mt-2.5
                 max-w-[29rem]
                 overflow-hidden
-                text-[0.7rem]
+                text-[0.8125rem]
                 font-normal
                 leading-[1.45]
                 opacity-80
@@ -477,7 +477,7 @@ function ServiceCardContent({
                 [-webkit-line-clamp:3]
 
                 sm:mt-4
-                sm:text-[0.8rem]
+                sm:text-[0.875rem]
                 sm:[-webkit-line-clamp:4]
 
                 lg:text-[clamp(0.68rem,0.82vw,0.84rem)]
@@ -507,7 +507,7 @@ function ServiceCardContent({
                 bg-white
                 px-3.5
                 py-2.5
-                text-[0.65rem]
+                text-[0.8125rem]
                 font-semibold
                 leading-4
                 text-black
@@ -523,7 +523,7 @@ function ServiceCardContent({
                 sm:mt-5
                 sm:px-4
                 sm:py-3
-                sm:text-[0.7rem]
+                sm:text-[0.875rem]
 
                 lg:mt-6
               "
@@ -1129,6 +1129,7 @@ export function ServicesScrollGallery({
     <>
       <div
         ref={containerRef}
+        data-motion-managed
         className="
           services-3d-scroll
           relative

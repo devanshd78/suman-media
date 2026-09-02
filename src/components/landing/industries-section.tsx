@@ -551,6 +551,7 @@ function IndustryCard({
       className="
         group
         block
+        snap-start
         w-[17.5rem]
         shrink-0
         bg-white
@@ -1218,6 +1219,7 @@ export function IndustriesSection({
 
         @media (max-width: 639px) {
           .industry-artwork-frame {
+            will-change: auto;
             width: min(
               var(--industry-artwork-width),
               calc(100% - 1.5rem)
@@ -1280,6 +1282,10 @@ export function IndustriesSection({
            ================================================== */
 
         @media (max-width: 1023px) {
+          .industry-artwork-frame {
+            will-change: auto;
+          }
+
           #industries {
             height: auto !important;
           }
@@ -1291,6 +1297,8 @@ export function IndustriesSection({
           }
 
           .industries-viewport {
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: 1.25rem;
             overflow-x: auto !important;
             overflow-y: hidden !important;
             overscroll-behavior-x:
@@ -1326,6 +1334,8 @@ export function IndustriesSection({
           }
 
           .industries-viewport {
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: 1.25rem;
             overflow-x: auto !important;
             scrollbar-width: none;
           }

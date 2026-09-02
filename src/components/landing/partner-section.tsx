@@ -427,7 +427,7 @@ export function PartnerSection({
                           ml-auto
                           shrink-0
                           text-[#1A1A1A]/45
-                          transition-all
+                          transition-[color,transform]
                           duration-200
 
                           group-hover:translate-x-0.5

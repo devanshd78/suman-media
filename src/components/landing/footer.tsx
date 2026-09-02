@@ -178,7 +178,7 @@ const SOLUTIONS: FooterLink[] = [
 function FooterGroup({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div className="flex flex-col">
-      <h3 className={`${body.className} mb-5 text-[0.625rem] font-semibold uppercase leading-4 tracking-[0.01em] text-[#161616]`}>
+      <h3 className={`${body.className} mb-5 text-[0.75rem] font-semibold uppercase leading-4 tracking-[0.01em] text-[#161616]`}>
         {title}
       </h3>
 
@@ -187,7 +187,7 @@ function FooterGroup({ title, links }: { title: string; links: FooterLink[] }) {
           <li key={`${title}-${link.label}`}>
             <Link
               href={link.href}
-              className={`${body.className} group inline-flex max-w-full items-center gap-1.5 text-[0.625rem] font-normal leading-[1.45] text-black/62 transition-colors duration-200 hover:text-black sm:text-[0.675rem]`}
+              className={`${body.className} group inline-flex max-w-full items-center gap-1.5 text-[0.75rem] font-normal leading-[1.5] text-black/62 transition-colors duration-200 hover:text-black`}
             >
               <span>{link.label}</span>
               {link.arrow ? (
@@ -196,7 +196,7 @@ function FooterGroup({ title, links }: { title: string; links: FooterLink[] }) {
                 </span>
               ) : null}
               {link.soon ? (
-                <span className={`${body.className} ml-1.5 rounded-[0.18rem] bg-[#E8C96A] px-1.5 py-[0.15rem] text-[0.45rem] font-semibold leading-none text-[#604809]`}>
+                <span className={`${body.className} ml-1.5 rounded-[0.18rem] bg-[#E8C96A] px-1.5 py-[0.15rem] text-[0.6875rem] font-semibold leading-none text-[#604809]`}>
                   Soon
                 </span>
               ) : null}
@@ -236,7 +236,7 @@ function FooterAction({ cta, fallback }: { cta?: CmsCta | null; fallback: CmsCta
   return (
     <Link
       href={resolved.href}
-      className={`${body.className} group inline-flex w-fit items-center gap-1.5 text-[0.625rem] font-medium leading-4 text-[#9B7417] transition-colors hover:text-[#5F4308]`}
+      className={`${body.className} group inline-flex w-fit items-center gap-1.5 text-[0.75rem] font-medium leading-5 text-[#9B7417] transition-colors hover:text-[#5F4308]`}
     >
       <span>{resolved.label}</span>
       <span className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -264,10 +264,10 @@ function FooterIntroCard({
       <span className="mb-5 inline-flex h-9 w-9 items-center justify-center rounded-[0.18rem] border border-black/12 text-black/80">
         {icon}
       </span>
-      <h3 className={`${display.className} text-[0.8rem] font-medium leading-5 text-[#171717] sm:text-[0.86rem]`}>
+      <h3 className={`${display.className} text-[0.875rem] font-medium leading-5 text-[#171717]`}>
         {heading}
       </h3>
-      <p className={`${body.className} mt-2 max-w-[15rem] text-[0.58rem] font-normal leading-[1.45] text-black/40 sm:text-[0.625rem]`}>
+      <p className={`${body.className} mt-2 max-w-[18rem] text-[0.75rem] font-normal leading-[1.5] text-black/50 lg:max-w-[15rem] lg:text-black/40`}>
         {description}
       </p>
       <div className="mt-7">
@@ -305,7 +305,7 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
             <h2 className={`${display.className} text-[1.55rem] font-semibold leading-[1.12] tracking-[-0.035em] text-[#111] sm:text-[1.8rem] lg:text-[2rem]`}>
               {heading}
             </h2>
-            <p className={`${body.className} mt-4 max-w-[27rem] text-[0.625rem] leading-[1.55] text-black/58 sm:text-[0.675rem]`}>
+            <p className={`${body.className} mt-4 max-w-[27rem] text-[0.875rem] leading-[1.55] text-black/58`}>
               {description}
             </p>
             <div className="mt-10">
@@ -371,10 +371,10 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
         </p>
 
         <div className="mt-12 flex flex-col gap-2 sm:mt-14 sm:flex-row sm:items-center sm:justify-between lg:mt-16">
-          <p className={`${body.className} text-[0.5rem] font-normal leading-4 text-black/30 sm:text-[0.55rem]`}>
+          <p className={`${body.className} text-[0.75rem] font-normal leading-5 text-black/45 lg:text-black/35`}>
             &copy;2026 {legalName}
           </p>
-          <p className={`${body.className} text-[0.5rem] font-normal leading-4 text-black/30 sm:text-[0.55rem]`}>
+          <p className={`${body.className} text-[0.75rem] font-normal leading-5 text-black/45 lg:text-black/35`}>
             {designCredit}
           </p>
         </div>
