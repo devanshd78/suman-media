@@ -167,7 +167,7 @@ function AnimatedText({
                 <span
                   className="
                     inline-block
-                    whitespace-nowrap
+                    max-w-full
                   "
                 >
                   {Array.from(
@@ -459,7 +459,7 @@ export function HeroSection({
           reducedMotion={
             shouldReduceMotion
           }
-          className={`
+          className={`landing-eyebrow
             ${inter.className}
 
             max-w-full
@@ -492,7 +492,7 @@ export function HeroSection({
           reducedMotion={
             shouldReduceMotion
           }
-          className={`
+          className={`landing-hero-title
             ${plusJakartaSans.className}
 
             mt-2
@@ -536,7 +536,7 @@ export function HeroSection({
           reducedMotion={
             shouldReduceMotion
           }
-          className={`
+          className={`landing-lead
             ${plusJakartaSans.className}
 
             mt-3

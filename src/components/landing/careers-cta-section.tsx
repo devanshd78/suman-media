@@ -24,7 +24,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
     <section
       id="careers"
       aria-labelledby="landing-careers-heading"
-      className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-full overflow-hidden bg-[#121212] text-white sm:aspect-[16/9] lg:aspect-[2.65/1]"
+      className="landing-section-transition relative mx-auto min-h-[28rem] w-full max-w-full overflow-hidden bg-[#121212] text-white sm:min-h-[30rem] lg:min-h-[clamp(28rem,38vw,40rem)]"
     >
       {content.imageUrl ? (
         <div
@@ -50,21 +50,21 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,transparent_55%)]"
       />
 
-      <div className="relative z-10 flex h-full w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
-        <p className={`${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.045em] text-white/90 sm:text-[0.875rem] sm:leading-[1.25rem]`}>
+      <div className="relative z-10 flex min-h-[inherit] w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
+        <p className={`landing-eyebrow ${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.045em] text-white/90 sm:text-[0.875rem] sm:leading-[1.25rem]`}>
           {content.eyebrow?.trim() || "CARRERS"}
         </p>
 
         <h2
           id="landing-careers-heading"
-          className={`${exo2.className} mt-3 max-w-[41rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
+          className={`landing-title ${exo2.className} mt-3 max-w-[41rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           {content.heading}
         </h2>
 
         {content.description?.trim() ? (
-          <p className={`${inter.className} mt-4 max-w-[36rem] text-sm leading-6 text-white/72`}>
+          <p className={`landing-body ${inter.className} mt-4 max-w-[36rem] text-sm leading-6 text-white/72`}>
             {content.description}
           </p>
         ) : null}

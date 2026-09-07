@@ -68,7 +68,7 @@ export function MediaCoverageSection({
 
         <h2
           id="media-coverage-heading"
-          className={`
+          className={`landing-title
             ${exo2.className}
             mt-2.5
             text-center

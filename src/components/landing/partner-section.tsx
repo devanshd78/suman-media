@@ -187,8 +187,8 @@ export function PartnerSection({
           md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]
           md:gap-12
 
-          lg:grid-cols-[minmax(0,0.78fr)_minmax(30rem,1.22fr)]
-          lg:gap-20
+          lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]
+          lg:gap-12 xl:gap-20
           lg:px-[3.5rem]
           lg:pt-[4.25rem]
 
@@ -247,7 +247,7 @@ export function PartnerSection({
 
           <h2
             id="why-partner-heading"
-            className={`
+            className={`landing-title
               ${display.className}
 
               text-[2rem]
@@ -281,7 +281,7 @@ export function PartnerSection({
               =============================================== */}
 
           <p
-            className={`
+            className={`landing-body
               ${body.className}
 
               mt-5

@@ -187,7 +187,7 @@ function FooterGroup({ title, links }: { title: string; links: FooterLink[] }) {
           <li key={`${title}-${link.label}`}>
             <Link
               href={link.href}
-              className={`${body.className} group inline-flex max-w-full items-center gap-1.5 text-[0.75rem] font-normal leading-[1.5] text-black/62 transition-colors duration-200 hover:text-black`}
+              className={`${body.className} group inline-flex max-w-full items-center gap-1.5 text-[0.875rem] font-normal leading-[1.6] text-black/62 transition-colors duration-200 hover:text-black`}
             >
               <span>{link.label}</span>
               {link.arrow ? (
@@ -236,7 +236,7 @@ function FooterAction({ cta, fallback }: { cta?: CmsCta | null; fallback: CmsCta
   return (
     <Link
       href={resolved.href}
-      className={`${body.className} group inline-flex w-fit items-center gap-1.5 text-[0.75rem] font-medium leading-5 text-[#9B7417] transition-colors hover:text-[#5F4308]`}
+      className={`${body.className} group inline-flex w-fit items-center gap-1.5 text-[0.875rem] font-semibold leading-5 text-[#9B7417] transition-colors hover:text-[#5F4308]`}
     >
       <span>{resolved.label}</span>
       <span className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -264,10 +264,10 @@ function FooterIntroCard({
       <span className="mb-5 inline-flex h-9 w-9 items-center justify-center rounded-[0.18rem] border border-black/12 text-black/80">
         {icon}
       </span>
-      <h3 className={`${display.className} text-[0.875rem] font-medium leading-5 text-[#171717]`}>
+      <h3 className={`${display.className} text-[1.25rem] font-semibold leading-7 text-[#171717]`}>
         {heading}
       </h3>
-      <p className={`${body.className} mt-2 max-w-[18rem] text-[0.75rem] font-normal leading-[1.5] text-black/50 lg:max-w-[15rem] lg:text-black/40`}>
+      <p className={`${body.className} mt-2 max-w-[22rem] text-[1rem] font-normal leading-[1.6] text-black/50 lg:max-w-[20rem] lg:text-black/40`}>
         {description}
       </p>
       <div className="mt-7">
@@ -300,12 +300,12 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
   return (
     <footer className="relative isolate w-full overflow-hidden bg-white text-black">
       <div className="w-full px-5 pt-10 sm:px-8 sm:pt-12 lg:px-[3.5rem] lg:pt-14 xl:px-[4rem]">
-        <div className="grid gap-10 pb-9 lg:grid-cols-[minmax(0,2.05fr)_minmax(13rem,0.95fr)_minmax(13rem,0.95fr)] lg:gap-14 lg:pb-11">
+        <div className="grid gap-10 pb-9 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-8 xl:gap-14 lg:pb-11">
           <div className="max-w-[31rem]">
-            <h2 className={`${display.className} text-[1.55rem] font-semibold leading-[1.12] tracking-[-0.035em] text-[#111] sm:text-[1.8rem] lg:text-[2rem]`}>
+            <h2 className={`${display.className} text-[2rem] font-semibold leading-[1.2] tracking-[-0.035em] text-[#111] sm:text-[2.5rem] lg:text-[2.75rem]`}>
               {heading}
             </h2>
-            <p className={`${body.className} mt-4 max-w-[27rem] text-[0.875rem] leading-[1.55] text-black/58`}>
+            <p className={`${body.className} mt-4 max-w-[27rem] text-[1rem] leading-[1.55] text-black/58`}>
               {description}
             </p>
             <div className="mt-10">
@@ -333,22 +333,22 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
         <div className="h-px w-full bg-black/[0.08]" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="flex flex-col gap-[4.25rem] py-7 sm:pr-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:py-7 lg:pr-9">
+          <div className="flex flex-col gap-[4.25rem] py-7 sm:pr-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:py-7 lg:pr-5 xl:pr-9">
             <FooterGroup title="Company" links={COMPANY} />
             <FooterGroup title="Resources" links={RESOURCES} />
           </div>
 
-          <div className="flex flex-col gap-[3.5rem] py-7 sm:pl-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:px-9 lg:py-7">
+          <div className="flex flex-col gap-[3.5rem] py-7 sm:pl-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:px-5 xl:px-9 lg:py-7">
             <FooterGroup title="Product" links={PRODUCT} />
             <FooterGroup title="Investor & Relations" links={INVESTOR} />
           </div>
 
-          <div className="flex flex-col gap-[3.5rem] py-7 sm:pr-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:px-9 lg:py-7">
+          <div className="flex flex-col gap-[3.5rem] py-7 sm:pr-8 lg:min-h-[27rem] lg:border-r lg:border-black/[0.09] lg:px-5 xl:px-9 lg:py-7">
             <FooterGroup title="Services" links={SERVICES} />
             <FooterGroup title="Contact" links={CONTACT} />
           </div>
 
-          <div className="flex flex-col py-7 sm:pl-8 lg:min-h-[27rem] lg:py-7 lg:pl-9">
+          <div className="flex flex-col py-7 sm:pl-8 lg:min-h-[27rem] lg:py-7 lg:pl-5 xl:pl-9">
             <FooterGroup title="Solutions" links={SOLUTIONS} />
 
             <div className="mt-8 flex flex-wrap items-center gap-2 sm:mt-10">

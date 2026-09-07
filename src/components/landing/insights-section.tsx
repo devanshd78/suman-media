@@ -576,7 +576,7 @@ export function InsightsSection() {
 
           <h2
             id="insights-heading"
-            className={`
+            className={`landing-title
               ${plusJakartaSans.className}
 
               mt-1

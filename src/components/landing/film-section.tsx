@@ -370,7 +370,7 @@ export function FilmSection() {
 
         <h2
           id="abhijat-marathi-cannes-heading"
-          className={`
+          className={`landing-title
             ${plusJakarta.className}
 
             self-stretch

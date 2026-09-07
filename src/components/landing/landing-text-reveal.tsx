@@ -18,12 +18,12 @@ export function LandingTextReveal() {
     ).filter(
       (element) =>
         !element.closest("[data-landing-text-reveal-skip]") &&
-        !element.closest("[data-motion-managed]") &&
+        !element.closest("[data-motion-managed], header, nav, [role=dialog], [role=menu], [aria-hidden=true], [inert]") &&
         !element.matches("[data-text-reveal]") &&
         Boolean(element.textContent?.trim()),
     );
 
-    if (elements.length === 0) return;
+    if (elements.length === 0 || !("IntersectionObserver" in window)) return;
 
     const sectionIndexes = new Map<Element, number>();
     const viewportCutoff = window.innerHeight * 0.95;

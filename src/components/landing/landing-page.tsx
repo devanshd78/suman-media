@@ -86,18 +86,14 @@ export function LandingPage({
               ↓
           Services
 
-          Apply premium parallax transition here.
+          Services owns its sticky coordinate system; do not transform its ancestor.
           ===================================================== */}
 
-      <ParallaxBlackSection>
-        <ServicesSection
-          eyebrow={home?.servicesEyebrow}
-          heading={home?.servicesHeading}
-          services={
-            home?.featuredServices ?? []
-          }
-        />
-      </ParallaxBlackSection>
+      <ServicesSection
+        eyebrow={home?.servicesEyebrow}
+        heading={home?.servicesHeading}
+        services={home?.featuredServices ?? []}
+      />
 
       {/* =====================================================
           ACHIEVEMENT
@@ -196,14 +192,7 @@ export function LandingPage({
           WHITE
           ===================================================== */}
 
-      <InsightsSection
-        eyebrow={home?.insightsEyebrow}
-        heading={home?.insightsHeading}
-        cta={home?.insightsCta}
-        posts={
-          home?.featuredInsights ?? []
-        }
-      />
+      <InsightsSection />
 
       {/* =====================================================
           FAQ

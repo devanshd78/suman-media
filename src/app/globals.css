@@ -14,6 +14,8 @@
   --font-sans: var(--font-plus-jakarta-sans);
 }
 
+/* Resets must remain below Tailwind utilities in the cascade. */
+@layer base {
 *,
 *::before,
 *::after {
@@ -157,6 +159,8 @@ select {
   color: #ffffff;
 }
 
+}
+
 /*
  * A safe shared baseline for every landing-page section. Individual sections
  * can still opt into sticky/3D layouts without being constrained by a global
@@ -220,3 +224,17 @@ select {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Shared readable type, without zooming/scaling the entire page. */
+.landing-title {
+  font-size: clamp(2rem, 1.5rem + 1.25vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.03125rem;
+}
+.landing-hero-title {
+  font-size: clamp(2.5rem, 1.5rem + 3.5vw, 5.25rem);
+  line-height: 1.08;
+}
+.landing-eyebrow { font-size: 0.875rem; line-height: 1.25rem; }
+.landing-body { font-size: clamp(1rem, 0.94rem + 0.18vw, 1.125rem); line-height: 1.6; }
+.landing-lead { font-size: clamp(1rem, 0.8rem + 0.5vw, 1.375rem); line-height: 1.5; }

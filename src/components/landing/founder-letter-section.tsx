@@ -40,17 +40,17 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
         </>
       ) : null}
 
-      <article className="relative z-10 w-full max-w-[33rem] bg-[#fbfbfb] px-6 py-8 shadow-[0_1.5rem_5rem_rgba(0,0,0,0.28)] sm:px-9 sm:py-10 lg:px-[2.75rem] lg:py-[2.85rem]">
+      <article className="relative z-10 w-full max-w-[42rem] bg-[#fbfbfb] px-6 py-8 shadow-[0_1.5rem_5rem_rgba(0,0,0,0.28)] sm:px-9 sm:py-10 lg:px-[2.75rem] lg:py-[2.85rem]">
         <h2
           id="founder-letter-heading"
-          className={`${exo2.className} text-[2.15rem] font-semibold leading-[2.5rem] tracking-[-0.045rem] text-[#121b3d] sm:text-[2.55rem] sm:leading-[3rem]`}
+          className={`landing-title ${exo2.className} text-[2.15rem] font-semibold leading-[2.5rem] tracking-[-0.045rem] text-[#121b3d] sm:text-[2.55rem] sm:leading-[3rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           <span className="block">{eyebrow}</span>
           <span className="mt-1 block">{heading}</span>
         </h2>
 
-        <div className={`${inter.className} mt-4 space-y-4 text-[0.875rem] leading-[1.45rem] text-[rgba(0,9,51,0.63)] sm:text-[0.9375rem] sm:leading-[1.55rem]`}>
+        <div className={`${inter.className} mt-4 space-y-4 text-[1rem] leading-[1.625rem] text-[rgba(0,9,51,0.63)] sm:text-[1.0625rem] sm:leading-[1.75rem]`}>
           {paragraphs.map((paragraph, index) => (
             <p key={`${paragraph.slice(0, 28)}-${index}`}>{paragraph}</p>
           ))}
@@ -73,7 +73,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
             </p>
           )}
 
-          <p className={`${inter.className} mt-2 text-right text-[0.75rem] font-semibold leading-[1.125rem] text-[rgba(0,9,51,0.60)] sm:text-[0.8125rem] sm:leading-[1.25rem]`}>
+          <p className={`${inter.className} mt-2 text-right text-[0.875rem] font-semibold leading-[1.375rem] text-[rgba(0,9,51,0.60)] sm:text-[0.875rem] sm:leading-[1.375rem]`}>
             {founderRole}- <span className="font-normal">{founderName}</span>
           </p>
         </div>

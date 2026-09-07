@@ -252,11 +252,11 @@ export function AboutSection({
 
           sm:gap-y-8
 
-          lg:grid-cols-[14rem_minmax(0,1fr)]
-          lg:gap-x-[6.25rem]
+          lg:grid-cols-[12rem_minmax(0,1fr)]
+          lg:gap-x-10 xl:gap-x-20
           lg:gap-y-0
 
-          xl:grid-cols-[15rem_minmax(0,1fr)]
+          xl:grid-cols-[14rem_minmax(0,1fr)]
         "
       >
         {/* ====================================================
@@ -271,7 +271,7 @@ export function AboutSection({
 
         <p
           data-landing-parallax-layer="reverse"
-          className={`
+          className={`landing-eyebrow
             ${headingFont.className}
 
             m-0
@@ -328,7 +328,7 @@ export function AboutSection({
             id="about-suman-heading"
             text={resolvedHeading}
             stagger={0.035}
-            className={`
+            className={`landing-title
               ${headingFont.className}
 
               m-0
@@ -372,7 +372,7 @@ export function AboutSection({
             text={resolvedDescription}
             delay={0.1}
             stagger={0.018}
-            className={`
+            className={`landing-lead
               ${bodyFont.className}
 
               mt-6

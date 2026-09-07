@@ -2,13 +2,11 @@
 
 import Image from "@/components/ui/image";
 import Link from "next/link";
-import { inter } from "@/lib/fonts";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-
-/* =========================================================
-   TYPES
-   ========================================================= */
+import { inter } from "@/lib/fonts";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import styles from "./header.module.css";
 
 type MenuEntry = {
   label: string;
@@ -308,444 +306,88 @@ const NAV_LINKS = [
   },
 ];
 
-/* =========================================================
-   LOGO
-   ========================================================= */
+const DESKTOP_QUERY = "(min-width: 1120px)";
+const CLOSE_DELAY_MS = 140;
 
-function SumanLogo() {
+function SumanLogo({ inverse = false }: { inverse?: boolean }) {
   return (
     <Image
       src="/images/logo.png"
       alt="Suman Entertainment & Media"
-      width={240}
-      height={80}
+      width={134}
+      height={39}
       priority
-      className="
-        h-auto
-        w-[6.75rem]
-        shrink-0
-        object-contain
-
-        sm:w-[7.5rem]
-
-        md:w-[8rem]
-
-        xl:w-[8.75rem]
-
-        2xl:w-[9.25rem]
-      "
+      className={`${styles.logo} ${inverse ? styles.logoInverse : ""}`}
     />
   );
 }
 
-/* =========================================================
-   ICONS
-   ========================================================= */
-
-function ChevronDownIcon({
-  className = "",
-}: {
-  className?: string;
-}) {
+function ChevronDownIcon({ open = false }: { open?: boolean }) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 12 12"
-      className={`
-        h-3
-        w-3
-        shrink-0
-        transition-transform
-        duration-200
-        ${className}
-      `}
-      fill="none"
-    >
-      <path
-        d="M3 4.5 6 7.5l3-3"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg aria-hidden="true" viewBox="0 0 12 12" className={styles.chevron} data-open={open} fill="none">
+      <path d="M3 4.5 6 7.5l3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function MenuIcon() {
+function MenuIcon({ close = false }: { close?: boolean }) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-[1.375rem] w-[1.375rem]"
-      fill="none"
-    >
-      <path
-        d="M4 7h16M4 12h16M4 17h16"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none">
+      <path d={close ? "M6 6l12 12M18 6 6 18" : "M4 7h16M4 12h16M4 17h16"} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
 
-function CloseIcon() {
+function ArrowRightIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="h-[1.375rem] w-[1.375rem]"
-      fill="none"
-    >
-      <path
-        d="M6 6l12 12M18 6 6 18"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+    <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16" fill="none">
+      <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function ArrowRightIcon({
-  className = "h-4 w-4",
-}: {
-  className?: string;
-}) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 20 20"
-      className={className}
-      fill="none"
-    >
-      <path
-        d="M4 10h11M11 6l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/* =========================================================
-   DESKTOP DROPDOWN PANEL
-   ========================================================= */
-
-function DropdownPanel({
-  menu,
-  onNavigate,
-}: {
-  menu: NavMenu;
-  onNavigate: () => void;
-}) {
+function DropdownPanel({ menu, onNavigate }: { menu: NavMenu; onNavigate: () => void }) {
   return (
     <div
       id={`nav-menu-${menu.id}`}
+      data-desktop-panel
+      data-lenis-prevent
       aria-label={`${menu.label} menu`}
-      className="
-        absolute
-        inset-x-0
-        top-full
-        z-40
-        hidden
-        overflow-hidden
-        bg-white
-        shadow-[0_2.5rem_5rem_rgba(0,0,0,0.28)]
-
-        xl:block
-      "
+      className={styles.dropdown}
     >
-      <div
-        className="
-          grid
-          w-full
-          divide-x
-          divide-[rgba(0,17,102,0.08)]
-        "
-        style={{
-          gridTemplateColumns:
-            menu.gridColumns,
-        }}
-      >
-        {menu.columns.map(
-          (column) => (
-            <div
-              key={column.heading}
-              className="
-                flex
-                min-w-0
-                flex-col
-                px-7
-                py-8
-
-                2xl:px-9
-              "
-            >
-              <p
-                className="
-                  text-sm
-                  font-semibold
-                  leading-5
-                  text-black
-                "
-              >
-                {column.heading}
-              </p>
-
-              <div
-                className="
-                  mt-8
-                  flex
-                  flex-col
-                  gap-8
-                "
-              >
-                {column.entries.map(
-                  (entry) => (
-                    <div
-                      key={
-                        entry.label
-                      }
-                      className="
-                        flex
-                        flex-col
-                      "
-                    >
-                      <Link
-                        href={
-                          entry.href
-                        }
-                        onClick={
-                          onNavigate
-                        }
-                        className="
-                          w-fit
-                          text-[0.9375rem]
-                          font-normal
-                          leading-6
-                          text-[#8F6C1A]
-
-                          transition-opacity
-                          duration-200
-
-                          hover:opacity-70
-                        "
-                      >
-                        {
-                          entry.label
-                        }
-                      </Link>
-
-                      {entry.sublines
-                        ?.length ? (
-                        <ul
-                          className="
-                            mt-4
-                            flex
-                            flex-col
-                            gap-3
-                          "
-                        >
-                          {entry.sublines.map(
-                            (
-                              line,
-                            ) => (
-                              <li
-                                key={
-                                  line
-                                }
-                                className="
-                                  text-sm
-                                  font-medium
-                                  leading-5
-                                  text-[rgba(0,9,51,0.65)]
-                                "
-                              >
-                                {
-                                  line
-                                }
-                              </li>
-                            ),
-                          )}
-                        </ul>
-                      ) : null}
-
-                      {entry.subtext ? (
-                        <p
-                          className="
-                            mt-3
-                            text-sm
-                            font-normal
-                            leading-6
-                            text-[rgba(0,9,51,0.65)]
-                          "
-                        >
-                          {
-                            entry.subtext
-                          }
-                        </p>
-                      ) : null}
-                    </div>
-                  ),
-                )}
-              </div>
-
-              {column.image ? (
-                <div
-                  className="
-                    relative
-                    mt-8
-                    aspect-[3/1]
-                    w-full
-                    overflow-hidden
-                  "
-                >
-                  <Image
-                    src={
-                      column.image
-                        .src
-                    }
-                    alt={
-                      column.image
-                        .alt
-                    }
-                    fill
-                    sizes="30vw"
-                    className="
-                      select-none
-                      object-cover
-                    "
-                  />
+      <div className={styles.dropdownGrid} style={{ gridTemplateColumns: menu.gridColumns }}>
+        {menu.columns.map((column) => (
+          <div key={column.heading} className={styles.column}>
+            <h3 className={styles.columnHeading}>{column.heading}</h3>
+            <div className={styles.entries}>
+              {column.entries.map((entry) => (
+                <div key={entry.label}>
+                  <Link href={entry.href} onClick={onNavigate} className={styles.entryLink}>{entry.label}</Link>
+                  {entry.sublines?.length ? (
+                    <ul className={styles.sublines}>
+                      {entry.sublines.map((line) => <li key={line}>{line}</li>)}
+                    </ul>
+                  ) : null}
+                  {entry.subtext ? <p className={styles.subtext}>{entry.subtext}</p> : null}
                 </div>
-              ) : null}
+              ))}
             </div>
-          ),
-        )}
-
+            {column.image ? (
+              <div className={styles.columnImage}>
+                <Image src={column.image.src} alt={column.image.alt} fill sizes="(min-width: 1120px) 30vw, 90vw" className={styles.coverImage} />
+              </div>
+            ) : null}
+          </div>
+        ))}
         {menu.featured ? (
-          <div
-            className="
-              flex
-              min-w-0
-              items-start
-              p-7
-
-              2xl:p-8
-            "
-          >
-            <div
-              className="
-                relative
-                w-full
-                overflow-hidden
-              "
-            >
-              <div
-                className="
-                  relative
-                  aspect-[21/9]
-                  w-full
-                "
-              >
-                <Image
-                  src={
-                    menu.featured
-                      .imageSrc
-                  }
-                  alt={
-                    menu.featured
-                      .imageAlt
-                  }
-                  fill
-                  sizes="35vw"
-                  className="
-                    select-none
-                    object-cover
-                  "
-                />
+          <div className={styles.featured}>
+            <Link href={menu.featured.href} onClick={onNavigate} className={styles.featuredLink}>
+              <Image src={menu.featured.imageSrc} alt={menu.featured.imageAlt} fill sizes="35vw" className={styles.coverImage} />
+              <div className={styles.featuredCaption}>
+                <span className={styles.featuredButton}>Explore</span>
+                <span><strong>{menu.featured.tag}</strong> &middot; {menu.featured.title}</span>
               </div>
-
-              <div
-                className="
-                  absolute
-                  inset-x-0
-                  bottom-0
-                  flex
-                  items-center
-                  gap-3
-                  bg-gradient-to-t
-                  from-black/80
-                  to-transparent
-                  p-4
-                "
-              >
-                <Link
-                  href={
-                    menu.featured
-                      .href
-                  }
-                  onClick={
-                    onNavigate
-                  }
-                  className="
-                    inline-flex
-                    shrink-0
-                    items-center
-                    justify-center
-                    rounded-full
-                    bg-white
-                    px-4
-                    py-2
-                    text-sm
-                    font-semibold
-                    text-black
-
-                    transition-opacity
-
-                    hover:opacity-85
-                  "
-                >
-                  Explore
-                </Link>
-
-                <p
-                  className="
-                    min-w-0
-                    truncate
-                    text-sm
-                    text-white
-                  "
-                >
-                  <span
-                    className="
-                      font-semibold
-                    "
-                  >
-                    {
-                      menu.featured
-                        .tag
-                    }
-                  </span>
-
-                  <span
-                    className="
-                      text-white/80
-                    "
-                  >
-                    {" "}
-                    •{" "}
-                    {
-                      menu.featured
-                        .title
-                    }
-                  </span>
-                </p>
-              </div>
-            </div>
+            </Link>
           </div>
         ) : null}
       </div>
@@ -753,978 +395,225 @@ function DropdownPanel({
   );
 }
 
-/* =========================================================
-   HEADER
-   ========================================================= */
-
 export function Header() {
   const pathname = usePathname();
+  const isLandingPage = pathname === "/";
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isLandingPage =
-    pathname === "/";
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current !== null) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }, []);
 
-  const [menuOpen, setMenuOpen] =
-    useState(false);
+  const closeDropdown = useCallback(() => {
+    cancelClose();
+    setOpenDropdown(null);
+  }, [cancelClose]);
 
-  const [
-    openDropdown,
-    setOpenDropdown,
-  ] = useState<string | null>(null);
+  const openMenu = useCallback((id: string) => {
+    cancelClose();
+    setOpenDropdown(id);
+  }, [cancelClose]);
 
-  /* ---------------------------------------------------------
-     Close everything after route change
-     --------------------------------------------------------- */
+  const scheduleClose = useCallback(() => {
+    cancelClose();
+    // Bridge the short pointer journey between a trigger and its panel.
+    closeTimer.current = setTimeout(() => {
+      const focused = document.activeElement;
+      if (focused instanceof HTMLElement &&
+          focused.matches(":focus-visible") &&
+          focused.closest("[data-desktop-panel]")) return;
+      setOpenDropdown(null);
+      closeTimer.current = null;
+    }, CLOSE_DELAY_MS);
+  }, [cancelClose]);
+
+  const closeMobileMenu = useCallback(() => setMenuOpen(false), []);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
+    const frame = requestAnimationFrame(() => {
+      cancelClose();
       setMenuOpen(false);
       setOpenDropdown(null);
     });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [pathname]);
-
-  /* ---------------------------------------------------------
-     Escape closes navigation
-     --------------------------------------------------------- */
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, cancelClose]);
 
   useEffect(() => {
-    const handleKeyDown = (
-      event: KeyboardEvent,
-    ) => {
-      if (event.key !== "Escape") {
-        return;
-      }
-
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const onBreakpoint = () => {
+      cancelClose();
       setMenuOpen(false);
       setOpenDropdown(null);
     };
-
-    window.addEventListener(
-      "keydown",
-      handleKeyDown,
-    );
-
-    return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown,
-      );
-    };
-  }, []);
-
-  /* ---------------------------------------------------------
-     Lock page scrolling behind mobile menu
-     --------------------------------------------------------- */
+    desktop.addEventListener("change", onBreakpoint);
+    return () => { desktop.removeEventListener("change", onBreakpoint); cancelClose(); };
+  }, [cancelClose]);
 
   useEffect(() => {
-    if (!menuOpen) {
-      return;
-    }
-
-    const body =
-      document.body;
-
-    const html =
-      document.documentElement;
-
-    const previousBodyOverflow =
-      body.style.overflow;
-
-    const previousHtmlOverflow =
-      html.style.overflow;
-
-    body.style.overflow =
-      "hidden";
-
-    html.style.overflow =
-      "hidden";
-
+    const onOutsidePointer = (event: PointerEvent) => {
+      if (event.target instanceof Node && !headerRef.current?.contains(event.target)) closeDropdown();
+    };
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (openDropdown) {
+        event.preventDefault();
+        triggerRefs.current[openDropdown]?.focus({ preventScroll: true });
+        closeDropdown();
+      }
+      setMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", onOutsidePointer);
+    document.addEventListener("keydown", onEscape);
     return () => {
-      body.style.overflow =
-        previousBodyOverflow;
+      document.removeEventListener("pointerdown", onOutsidePointer);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, [openDropdown, closeDropdown]);
 
-      html.style.overflow =
-        previousHtmlOverflow;
+  useEffect(() => {
+    if (!menuOpen) return;
+    const dialog = dialogRef.current;
+    const returnFocus = menuButtonRef.current;
+    const previousBody = document.body.style.overflow;
+    const previousHtml = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus());
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || !dialog) return;
+      const focusable = Array.from(dialog.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), summary, [tabindex="0"]',
+      )).filter((element) => element.getClientRects().length > 0);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) {
+        event.preventDefault(); last?.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) {
+        event.preventDefault(); first?.focus();
+      }
+    };
+    document.addEventListener("keydown", trapFocus);
+    return () => {
+      cancelAnimationFrame(focusFrame);
+      document.removeEventListener("keydown", trapFocus);
+      document.body.style.overflow = previousBody;
+      document.documentElement.style.overflow = previousHtml;
+      returnFocus?.focus({ preventScroll: true });
     };
   }, [menuOpen]);
 
-  /* ---------------------------------------------------------
-     Desktop begins at XL = 1280px
-     --------------------------------------------------------- */
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (
-        window.innerWidth >= 1280
-      ) {
-        setMenuOpen(false);
-      } else {
-        setOpenDropdown(null);
-      }
-    };
-
-    window.addEventListener(
-      "resize",
-      handleResize,
-    );
-
-    return () => {
-      window.removeEventListener(
-        "resize",
-        handleResize,
-      );
-    };
-  }, []);
-
-  const closeDropdown = () => {
-    setOpenDropdown(null);
-  };
-
-  const closeMobileMenu = () => {
-    setMenuOpen(false);
-  };
-
-  const activeMenu =
-    NAV_MENUS.find(
-      (menu) =>
-        menu.id === openDropdown,
-    ) ?? null;
+  const activeMenu = NAV_MENUS.find((menu) => menu.id === openDropdown) ?? null;
 
   return (
     <header
-      className={`
-        z-50
-        w-full
-
-        ${isLandingPage
-          ? `
-                absolute
-                inset-x-0
-                top-0
-                mx-auto
-                max-w-full
-                bg-transparent
-              `
-          : `
-                relative
-                mx-auto
-                max-w-full
-                border-b
-                border-[#E6E6E6]
-                bg-white
-              `
-        }
-      `}
-      onMouseLeave={
-        closeDropdown
-      }
+      ref={headerRef}
+      data-site-header
+      data-landing-text-reveal-skip
+      data-overlay={isLandingPage}
+      className={`${inter.className} ${styles.header}`}
+      onPointerEnter={cancelClose}
+      onPointerLeave={(event) => { if (event.pointerType === "mouse") scheduleClose(); }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) closeDropdown();
+      }}
     >
-      {/* =====================================================
-          MAIN HEADER ROW
-          ===================================================== */}
-
-      <div
-        className={`
-          flex
-          w-full
-          items-center
-          justify-between
-
-          ${isLandingPage
-            ? `
-                  min-h-[4rem]
-                  px-4
-                  py-3
-
-                  sm:min-h-[4.5rem]
-                  sm:px-6
-
-                  md:px-8
-
-                  xl:px-[3.5rem]
-                `
-            : `
-                  min-h-[4.5rem]
-                  px-4
-                  py-3
-
-                  sm:min-h-[5rem]
-                  sm:px-6
-
-                  md:px-8
-
-                  xl:min-h-[5.625rem]
-                  xl:px-12
-                `
-          }
-        `}
-      >
-        {/* =================================================
-            LOGO
-            ================================================= */}
-
-        <Link
-          href="/"
-          aria-label="Home"
-          className="
-            inline-flex
-            min-w-0
-            shrink-0
-            items-center
-          "
-          onMouseEnter={
-            closeDropdown
-          }
-        >
-          <SumanLogo />
+      <div className={styles.row}>
+        <Link href="/" aria-label="Suman Entertainment & Media home" className={styles.brand} onMouseEnter={closeDropdown}>
+          <SumanLogo inverse={isLandingPage} />
         </Link>
-
-        {/* =================================================
-            RIGHT SIDE
-            ================================================= */}
-
-        <div
-          className="
-            ml-3
-            flex
-            shrink-0
-            items-center
-            gap-1.5
-
-            sm:gap-2.5
-
-            md:gap-3
-
-            xl:gap-5
-          "
-        >
-          {/* ===============================================
-              DESKTOP NAV
-              1280px+
-              =============================================== */}
-
-          <nav
-            aria-label="Primary navigation"
-            className="
-              hidden
-              items-center
-              gap-3
-
-              xl:flex
-
-              2xl:gap-6
-            "
-          >
-            {NAV_MENUS.map(
-              (menu) => {
-                const isOpen =
-                  openDropdown ===
-                  menu.id;
-
-                return (
-                  <button
-                    key={menu.id}
-                    type="button"
-                    aria-expanded={
-                      isOpen
-                    }
-                    aria-controls={`nav-menu-${menu.id}`}
-                    onMouseEnter={() =>
-                      setOpenDropdown(
-                        menu.id,
-                      )
-                    }
-                    onFocus={() =>
-                      setOpenDropdown(
-                        menu.id,
-                      )
-                    }
-                    onClick={() =>
-                      setOpenDropdown(
-                        (current) =>
-                          current ===
-                            menu.id
-                            ? null
-                            : menu.id,
-                      )
-                    }
-                    className={`
-                      inline-flex
-                      min-h-10
-                      items-center
-                      gap-1
-                      whitespace-nowrap
-                      font-medium
-
-                      transition-colors
-                      duration-200
-
-                      ${isLandingPage
-                        ? `
-                              text-[0.75rem]
-
-                              ${isOpen
-                          ? "text-white"
-                          : "text-white/80 hover:text-white"
-                        }
-
-                              2xl:text-[0.875rem]
-                            `
-                        : `
-                              text-xs
-
-                              ${isOpen
-                          ? "text-black"
-                          : "text-[#929292] hover:text-black"
-                        }
-
-                              2xl:text-sm
-                            `
-                      }
-                    `}
-                  >
-                    <span>
-                      {
-                        menu.label
-                      }
-                    </span>
-
-                    <ChevronDownIcon
-                      className={
-                        isOpen
-                          ? "rotate-180"
-                          : ""
-                      }
-                    />
-                  </button>
-                );
-              },
-            )}
-
-            {NAV_LINKS.map(
-              (item) => {
-                const isActive =
-                  pathname ===
-                  item.href ||
-                  pathname.startsWith(
-                    `${item.href}/`,
-                  );
-
-                return (
-                  <Link
-                    key={
-                      item.label
-                    }
-                    href={
-                      item.href
-                    }
-                    aria-current={
-                      isActive
-                        ? "page"
-                        : undefined
-                    }
-                    onMouseEnter={
-                      closeDropdown
-                    }
-                    onFocus={
-                      closeDropdown
-                    }
-                    className={`
-                      inline-flex
-                      min-h-10
-                      items-center
-                      whitespace-nowrap
-                      font-medium
-
-                      transition-colors
-                      duration-200
-
-                      ${isLandingPage
-                        ? `
-                              text-[0.75rem]
-                              text-white/80
-
-                              hover:text-white
-
-                              2xl:text-[0.875rem]
-                            `
-                        : isActive
-                          ? `
-                                text-xs
-                                font-semibold
-                                text-black
-
-                                2xl:text-sm
-                              `
-                          : `
-                                text-xs
-                                text-[#929292]
-
-                                hover:text-black
-
-                                2xl:text-sm
-                              `
-                      }
-                    `}
-                  >
-                    {
-                      item.label
-                    }
-                  </Link>
-                );
-              },
-            )}
+        <div className={styles.actions}>
+          <nav aria-label="Primary navigation" className={styles.desktopNav}>
+            {NAV_MENUS.map((menu) => (
+              <button
+                key={menu.id}
+                ref={(element) => { triggerRefs.current[menu.id] = element; }}
+                type="button"
+                className={styles.navControl}
+                aria-expanded={openDropdown === menu.id}
+                aria-controls={openDropdown === menu.id ? `nav-menu-${menu.id}` : undefined}
+                onPointerEnter={(event) => { if (event.pointerType === "mouse") openMenu(menu.id); }}
+                onClick={(event) => {
+                  cancelClose();
+                  // A pointer click after hover must not instantly close what hover opened.
+                  if (event.detail > 0 && event.currentTarget.matches(":hover")) openMenu(menu.id);
+                  else setOpenDropdown((current) => current === menu.id ? null : menu.id);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                  event.preventDefault();
+                  openMenu(menu.id);
+                  const last = event.key === "ArrowUp";
+                  requestAnimationFrame(() => {
+                    const links = headerRef.current?.querySelectorAll<HTMLAnchorElement>(`#nav-menu-${menu.id} a[href]`);
+                    links?.[last ? links.length - 1 : 0]?.focus();
+                  });
+                }}
+              >
+                <span>{menu.label}</span><ChevronDownIcon open={openDropdown === menu.id} />
+              </button>
+            ))}
+            {NAV_LINKS.map((item) => (
+              <Link key={item.label} href={item.href} className={styles.navControl}
+                aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}
+                onMouseEnter={closeDropdown} onFocus={closeDropdown}>
+                {item.label}
+              </Link>
+            ))}
           </nav>
-
-          {/* ===============================================
-              CONTACT CTA
-
-              Hidden on phone.
-              Visible tablet+
-              =============================================== */}
-
-          <Link
-            href="/contact"
-            onMouseEnter={closeDropdown}
-            className={`
-              ${inter.className}
-
-              hidden
-              min-h-10
-              shrink-0
-              items-center
-              justify-center
-              gap-2
-              whitespace-nowrap
-
-              rounded-[0.25rem]
-              bg-[#FFFFFF]
-
-              px-4
-              py-2
-
-              text-center
-              text-[0.875rem]
-              font-semibold
-              leading-[1.25rem]
-              text-[#8F6C1A]
-
-              transition-[background-color,transform]
-              duration-200
-
-              hover:-translate-y-[1px]
-              hover:bg-[#F7F7F7]
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-white/60
-              focus-visible:ring-offset-2
-              focus-visible:ring-offset-transparent
-
-              md:inline-flex
-
-              xl:px-5
-            `}
-            style={{
-              fontFeatureSettings:
-                '"liga" off, "clig" off',
-            }}
-          >
-            <span>Contact us</span>
-
-            <ArrowRightIcon />
+          <Link href="/contact" className={`${styles.contact} ${styles.desktopContact}`} onMouseEnter={closeDropdown} onFocus={closeDropdown}>
+            Contact us <ArrowRightIcon />
           </Link>
-
-          {/* ===============================================
-              MOBILE / TABLET MENU BUTTON
-
-              Visible < 1280px
-              =============================================== */}
-
-          <button
-            type="button"
-            aria-label={
-              menuOpen
-                ? "Close navigation menu"
-                : "Open navigation menu"
-            }
-            aria-expanded={
-              menuOpen
-            }
-            aria-controls="mobile-primary-navigation"
-            onClick={() =>
-              setMenuOpen(
-                (current) =>
-                  !current,
-              )
-            }
-            className={`
-              inline-flex
-              h-10
-              w-10
-              shrink-0
-              items-center
-              justify-center
-              rounded-full
-
-              transition-colors
-              duration-200
-
-              xl:hidden
-
-              ${isLandingPage
-                ? `
-                      text-white
-
-                      hover:bg-white/10
-                    `
-                : `
-                      text-[rgba(0,6,38,0.85)]
-
-                      hover:bg-black/5
-                    `
-              }
-            `}
-          >
-            {menuOpen ? (
-              <CloseIcon />
-            ) : (
-              <MenuIcon />
-            )}
+          <button ref={menuButtonRef} type="button" className={styles.mobileToggle}
+            aria-label="Open navigation menu" aria-expanded={menuOpen}
+            aria-controls={menuOpen ? "mobile-primary-navigation" : undefined}
+            onClick={() => { closeDropdown(); setMenuOpen(true); }}>
+            <MenuIcon />
           </button>
         </div>
       </div>
 
-      {/* =====================================================
-          DESKTOP MEGA MENU
-          ===================================================== */}
+      {activeMenu ? <DropdownPanel key={activeMenu.id} menu={activeMenu} onNavigate={closeDropdown} /> : null}
 
-      {activeMenu ? (
-        <DropdownPanel
-          menu={activeMenu}
-          onNavigate={
-            closeDropdown
-          }
-        />
-      ) : null}
-
-      {/* =====================================================
-          MOBILE / TABLET NAVIGATION
-          ===================================================== */}
-
-      {menuOpen ? (
-        <div
-          id="mobile-primary-navigation"
-          className="
-            fixed
-            inset-0
-            z-[999]
-            flex
-            h-[100dvh]
-            w-screen
-            flex-col
-            overflow-hidden
-            bg-[#080808]/[0.98]
-            backdrop-blur-xl
-
-            xl:hidden
-          "
-        >
-          {/* ===============================================
-              MOBILE MENU TOP
-              =============================================== */}
-
-          <div
-            className="
-              flex
-              min-h-[4rem]
-              shrink-0
-              items-center
-              justify-between
-
-              border-b
-              border-white/10
-
-              px-4
-              py-3
-
-              sm:min-h-[4.5rem]
-              sm:px-6
-
-              md:px-8
-            "
-          >
-            <Link
-              href="/"
-              aria-label="Home"
-              className="
-                inline-flex
-                shrink-0
-                items-center
-              "
-              onClick={
-                closeMobileMenu
-              }
-            >
-              <SumanLogo />
-            </Link>
-
-            <button
-              type="button"
-              onClick={
-                closeMobileMenu
-              }
-              aria-label="Close navigation menu"
-              className="
-                inline-flex
-                h-10
-                w-10
-                shrink-0
-                items-center
-                justify-center
-                rounded-full
-                text-white
-
-                transition-colors
-                duration-200
-
-                hover:bg-white/10
-              "
-            >
-              <CloseIcon />
-            </button>
+      {menuOpen ? createPortal(
+        <div ref={dialogRef} id="mobile-primary-navigation" role="dialog" aria-modal="true"
+          aria-label="Navigation" data-lenis-prevent data-landing-text-reveal-skip
+          className={`${inter.className} ${styles.mobileDialog}`}>
+          <div className={styles.mobileTop}>
+            <Link href="/" aria-label="Suman Entertainment & Media home" onClick={closeMobileMenu}><SumanLogo inverse /></Link>
+            <button ref={closeButtonRef} type="button" aria-label="Close navigation menu" className={styles.iconButton} onClick={closeMobileMenu}><MenuIcon close /></button>
           </div>
-
-          {/* ===============================================
-              MOBILE NAV SCROLL AREA
-              =============================================== */}
-
-          <nav
-            aria-label="Mobile primary navigation"
-            className="
-              min-h-0
-              flex-1
-              overflow-y-auto
-              overscroll-contain
-
-              px-4
-              pb-[calc(2.5rem+env(safe-area-inset-bottom))]
-              pt-2
-
-              sm:px-6
-              sm:pt-4
-
-              md:px-8
-            "
-          >
-            {/* MENU GROUPS */}
-
-            {NAV_MENUS.map(
-              (menu) => (
-                <details
-                  key={menu.id}
-                  className="
-                    group
-                    border-b
-                    border-white/10
-                  "
-                >
-                  <summary
-                    className="
-                      flex
-                      min-h-[4rem]
-                      cursor-pointer
-                      list-none
-                      items-center
-                      justify-between
-                      gap-5
-
-                      py-4
-
-                      text-base
-                      font-medium
-                      text-white/90
-
-                      transition-colors
-
-                      hover:text-white
-
-                      sm:text-lg
-
-                      [&::-webkit-details-marker]:hidden
-                    "
-                  >
-                    <span>
-                      {
-                        menu.label
-                      }
-                    </span>
-
-                    <ChevronDownIcon
-                      className="
-                        group-open:rotate-180
-                      "
-                    />
-                  </summary>
-
-                  <div
-                    className="
-                      flex
-                      flex-col
-                      pb-6
-                    "
-                  >
-                    {menu.columns.map(
-                      (
-                        column,
-                      ) => (
-                        <div
-                          key={
-                            column.heading
-                          }
-                          className="
-                            flex
-                            flex-col
-                          "
-                        >
-                          <p
-                            className="
-                              pb-2
-                              pt-5
-
-                              text-[0.75rem]
-                              font-semibold
-                              uppercase
-                              leading-4
-                              tracking-[0.08em]
-                              text-white/40
-                            "
-                          >
-                            {
-                              column.heading
-                            }
-                          </p>
-
-                          {column.entries.map(
-                            (
-                              entry,
-                            ) => (
-                              <div
-                                key={
-                                  entry.label
-                                }
-                                className="
-                                  border-b
-                                  border-white/[0.05]
-
-                                  last:border-b-0
-                                "
-                              >
-                                <Link
-                                  href={
-                                    entry.href
-                                  }
-                                  onClick={
-                                    closeMobileMenu
-                                  }
-                                  className="
-                                    block
-
-                                    py-3
-
-                                    text-sm
-                                    font-medium
-                                    leading-5
-                                    text-white/85
-
-                                    transition-colors
-
-                                    hover:text-white
-
-                                    sm:text-base
-                                  "
-                                >
-                                  {
-                                    entry.label
-                                  }
-                                </Link>
-
-                                {entry
-                                  .sublines
-                                  ?.length ? (
-                                  <ul
-                                    className="
-                                      -mt-1
-                                      space-y-1.5
-                                      pb-4
-                                      pl-3
-                                    "
-                                  >
-                                    {entry.sublines.map(
-                                      (
-                                        line,
-                                      ) => (
-                                        <li
-                                          key={
-                                            line
-                                          }
-                                          className="
-                                            text-xs
-                                            leading-5
-                                            text-white/45
-
-                                            sm:text-sm
-                                          "
-                                        >
-                                          {
-                                            line
-                                          }
-                                        </li>
-                                      ),
-                                    )}
-                                  </ul>
-                                ) : null}
-
-                                {entry.subtext ? (
-                                  <p
-                                    className="
-                                      -mt-1
-                                      pb-4
-                                      pl-3
-
-                                      text-xs
-                                      leading-5
-                                      text-white/45
-
-                                      sm:text-sm
-                                    "
-                                  >
-                                    {
-                                      entry.subtext
-                                    }
-                                  </p>
-                                ) : null}
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      ),
-                    )}
+          <nav aria-label="Mobile primary navigation" className={styles.mobileContent} data-lenis-prevent>
+            {NAV_MENUS.map((menu) => (
+              <details key={menu.id} className={styles.mobileGroup}>
+                <summary className={styles.mobileSummary}>{menu.label}<ChevronDownIcon /></summary>
+                {menu.columns.map((column) => (
+                  <div key={column.heading} className={styles.mobileColumn}>
+                    <h3>{column.heading}</h3>
+                    {column.entries.map((entry) => (
+                      <div key={entry.label} className={styles.mobileEntry}>
+                        <Link href={entry.href} onClick={closeMobileMenu}>{entry.label}</Link>
+                        {entry.sublines?.length ? <ul>{entry.sublines.map((line) => <li key={line}>{line}</li>)}</ul> : null}
+                        {entry.subtext ? <p>{entry.subtext}</p> : null}
+                      </div>
+                    ))}
                   </div>
-                </details>
-              ),
-            )}
-
-            {/* NORMAL LINKS */}
-
-            {NAV_LINKS.map(
-              (item) => {
-                const isActive =
-                  pathname ===
-                  item.href ||
-                  pathname.startsWith(
-                    `${item.href}/`,
-                  );
-
-                return (
-                  <Link
-                    key={
-                      item.label
-                    }
-                    href={
-                      item.href
-                    }
-                    aria-current={
-                      isActive
-                        ? "page"
-                        : undefined
-                    }
-                    onClick={
-                      closeMobileMenu
-                    }
-                    className={`
-                      flex
-                      min-h-[4rem]
-                      items-center
-
-                      border-b
-                      border-white/10
-
-                      py-4
-
-                      text-base
-                      font-medium
-
-                      transition-colors
-
-                      sm:text-lg
-
-                      ${isActive
-                        ? "text-white"
-                        : "text-white/90 hover:text-white"
-                      }
-                    `}
-                  >
-                    {
-                      item.label
-                    }
-                  </Link>
-                );
-              },
-            )}
-
-            {/* CONTACT CTA */}
-
-            <Link
-              href="/contact"
-              onClick={closeMobileMenu}
-              className={`
-    ${inter.className}
-
-    mt-7
-    inline-flex
-    min-h-12
-    w-full
-    items-center
-    justify-center
-    gap-2
-
-    rounded-[0.25rem]
-    bg-white
-
-    px-5
-    py-3
-
-    text-center
-    text-[0.875rem]
-    font-semibold
-    leading-[1.25rem]
-    text-[#8F6C1A]
-
-    transition-[background-color,transform]
-    duration-200
-
-    hover:-translate-y-[1px]
-    hover:bg-[#F7F7F7]
-
-    focus-visible:outline-none
-    focus-visible:ring-2
-    focus-visible:ring-white/60
-
-    sm:w-fit
-    sm:min-w-[10rem]
-  `}
-              style={{
-                fontFeatureSettings: '"liga" off, "clig" off',
-              }}
-            >
-              <span>Contact us</span>
-
-              <ArrowRightIcon />
-            </Link>
+                ))}
+              </details>
+            ))}
+            {NAV_LINKS.map((item) => <Link key={item.label} href={item.href} onClick={closeMobileMenu} className={styles.mobileLink}>{item.label}</Link>)}
+            <Link href="/contact" onClick={closeMobileMenu} className={`${styles.contact} ${styles.mobileContact}`}>Contact us <ArrowRightIcon /></Link>
           </nav>
-        </div>
+        </div>, document.body,
       ) : null}
     </header>
   );

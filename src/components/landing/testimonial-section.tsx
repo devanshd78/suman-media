@@ -70,7 +70,7 @@ export function TestimonialSection({
             {quote ? (
               <blockquote className="mt-8 max-w-[40rem] sm:mt-9">
                 <p
-                  className={`${inter.className} text-center text-[0.875rem] font-normal leading-[1.5rem] text-[rgba(0,6,38,0.62)] sm:text-[0.9375rem] sm:leading-[1.625rem]`}
+                  className={`landing-body ${inter.className} text-center text-[0.875rem] font-normal leading-[1.5rem] text-[rgba(0,6,38,0.62)] sm:text-[0.9375rem] sm:leading-[1.625rem]`}
                   style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                 >
                   {quote}
@@ -123,7 +123,7 @@ export function TestimonialSection({
       {hasStory ? (
         <section
           aria-labelledby="join-abhijat-heading"
-          className="landing-section-transition relative mx-auto aspect-[4/5] w-full max-w-full overflow-hidden bg-[#111] sm:aspect-[16/10] lg:aspect-[2.55/1]"
+          className="landing-section-transition relative mx-auto min-h-[28rem] w-full max-w-full overflow-hidden bg-[#111] sm:min-h-[30rem] lg:min-h-[clamp(28rem,38vw,40rem)]"
         >
           {story?.imageUrl ? (
             <div
@@ -145,15 +145,15 @@ export function TestimonialSection({
             className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.74)_0%,rgba(0,0,0,0.42)_32%,rgba(0,0,0,0.04)_68%)]"
           />
 
-          <div className="relative z-10 flex h-full w-full flex-col justify-between px-5 py-6 sm:px-8 sm:py-8 lg:px-[3.5rem] lg:py-9">
+          <div className="relative z-10 flex min-h-[inherit] w-full flex-col justify-between px-5 py-6 sm:px-8 sm:py-8 lg:px-[3.5rem] lg:py-9">
             <div className="max-w-[35rem]">
-              <p className={`${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.035em] text-white sm:text-[0.875rem] sm:leading-[1.25rem]`}>
+              <p className={`landing-eyebrow ${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.035em] text-white sm:text-[0.875rem] sm:leading-[1.25rem]`}>
                 {storyEyebrow}
               </p>
 
               <h2
                 id="join-abhijat-heading"
-                className={`${exo2.className} mt-2.5 max-w-[33rem] text-[2rem] font-semibold leading-[2.3rem] tracking-[-0.035rem] text-white sm:text-[2.35rem] sm:leading-[2.75rem] lg:text-[2.5rem] lg:leading-[3rem] lg:tracking-[-0.05rem]`}
+                className={`landing-title ${exo2.className} mt-2.5 max-w-[33rem] text-[2rem] font-semibold leading-[2.3rem] tracking-[-0.035rem] text-white sm:text-[2.35rem] sm:leading-[2.75rem] lg:text-[2.5rem] lg:leading-[3rem] lg:tracking-[-0.05rem]`}
                 style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
               >
                 {storyHeading}

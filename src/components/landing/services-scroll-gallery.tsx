@@ -399,7 +399,8 @@ function ServiceCardContent({
           ====================================================== */}
 
       <motion.div
-        className="
+        data-lenis-prevent
+        className="service-copy
           relative
           z-10
           flex
@@ -440,12 +441,13 @@ function ServiceCardContent({
         <div
           className="
             mt-auto
+            shrink-0
             min-h-0
             max-w-[31rem]
           "
         >
           <h3
-            className="
+            className="service-copy-title
               text-[1.3rem]
               font-semibold
               leading-[1.08]
@@ -463,7 +465,7 @@ function ServiceCardContent({
 
           {description ? (
             <p
-              className="
+              className="service-copy-description
                 mt-2.5
                 max-w-[29rem]
                 overflow-hidden
@@ -1346,7 +1348,7 @@ export function ServicesScrollGallery({
         /* =====================================================
            DESKTOP / LAPTOP
 
-           Restores your original desktop geometry.
+           Keeps the desktop composition while reserving readable copy height.
            ===================================================== */
 
         @media (min-width: 1024px) {
@@ -1359,9 +1361,9 @@ export function ServicesScrollGallery({
             );
 
             height: clamp(
-              19rem,
-              39svh,
-              30rem
+              21.5rem,
+              44svh,
+              32rem
             );
           }
         }
@@ -1385,9 +1387,9 @@ export function ServicesScrollGallery({
             );
 
             height: clamp(
-              18rem,
-              38svh,
-              27rem
+              21.5rem,
+              44svh,
+              29rem
             );
           }
         }
@@ -1431,6 +1433,27 @@ export function ServicesScrollGallery({
               34rem
             );
           }
+        }
+
+        #services .service-copy {
+          padding: clamp(1rem, 2vw, 2rem);
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          scrollbar-width: thin;
+        }
+        #services .service-copy-title {
+          font-size: clamp(1.375rem, 1rem + 1vw, 2.25rem);
+          line-height: 1.15;
+        }
+        #services .service-copy-description {
+          font-size: clamp(1rem, 0.925rem + 0.2vw, 1.125rem);
+          line-height: 1.5;
+          margin-top: 0.75rem;
+        }
+        #services .service-copy a {
+          font-size: 0.875rem;
+          min-height: 2.75rem;
+          margin-top: 1rem;
         }
       `}</style>
     </>
