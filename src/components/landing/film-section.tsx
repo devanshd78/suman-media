@@ -4,22 +4,26 @@ import Image from "@/components/ui/image";
 import Link from "next/link";
 
 import {
-  inter as buttonFont,
-  plusJakartaSans as plusJakarta,
+  inter,
+  plusJakartaSans,
 } from "@/lib/fonts";
 
 import {
   motion,
+  useInView,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
 
 import {
+  useEffect,
   useRef,
+  useState,
 } from "react";
+
+import styles from "./film-section.module.css";
 
 /* ============================================================
    TYPES
@@ -31,20 +35,28 @@ type GalleryImage = {
   position?: string;
 };
 
-type GalleryRowProps = {
-  images: GalleryImage[];
-  direction: "left" | "right";
-  progress: MotionValue<number>;
-  zoom: MotionValue<number>;
-  decorative?: boolean;
-  reduceMotion: boolean;
+type GalleryGeometry = {
+  height: number;
+  travel: number;
+  initialScale: number;
+  endFraction: number;
 };
 
 /* ============================================================
-   GALLERY DATA
+   CONTENT
    ============================================================ */
 
-const GALLERY_IMAGES: readonly GalleryImage[] = [
+const HEADING =
+  "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.";
+
+const DESCRIPTION =
+  "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
+
+/* ============================================================
+   EXISTING IMAGES
+   ============================================================ */
+
+const GALLERY_IMAGES = [
   {
     src: "/images/landing/film/mumbai-gateway.png",
     alt: "Gateway of India and Mumbai harbour at golden hour",
@@ -70,38 +82,66 @@ const GALLERY_IMAGES: readonly GalleryImage[] = [
     alt: "Abhijat Marathi presentation at the Bharat Pavilion",
     position: "center 42%",
   },
-];
+] as const satisfies readonly GalleryImage[];
 
-/*
- * Every row deliberately uses a different order.
- *
- * This avoids the three rows visually appearing like
- * duplicated strips while still reusing the same local assets.
- */
-const GALLERY_ROWS: readonly GalleryImage[][] = [
-  [...GALLERY_IMAGES],
+/* ============================================================
+   EXACTLY TWO ROWS
+
+   Each row has one buffer image at either end so horizontal
+   movement does not expose an empty edge.
+
+   These are static buffers:
+   - no autoplay
+   - no infinite carousel
+   - no third row
+   ============================================================ */
+
+const GALLERY_ROWS: readonly (readonly GalleryImage[])[] = [
+  [
+    GALLERY_IMAGES[5],
+    ...GALLERY_IMAGES,
+    GALLERY_IMAGES[0],
+  ],
 
   [
+    GALLERY_IMAGES[2],
     GALLERY_IMAGES[3],
     GALLERY_IMAGES[5],
     GALLERY_IMAGES[1],
     GALLERY_IMAGES[4],
     GALLERY_IMAGES[0],
     GALLERY_IMAGES[2],
-  ],
-
-  [
-    GALLERY_IMAGES[2],
-    GALLERY_IMAGES[0],
-    GALLERY_IMAGES[4],
-    GALLERY_IMAGES[1],
-    GALLERY_IMAGES[5],
     GALLERY_IMAGES[3],
   ],
 ];
 
 /* ============================================================
-   ICON
+   MOTION
+   ============================================================ */
+
+const EASE: [number, number, number, number] = [
+  0.22,
+  1,
+  0.36,
+  1,
+];
+
+const INITIAL_GEOMETRY: GalleryGeometry = {
+  height: 0,
+  travel: 0,
+  initialScale: 2.05,
+  endFraction: 1.35 / 2.35,
+};
+
+function clamp01(value: number) {
+  return Math.min(
+    1,
+    Math.max(0, value),
+  );
+}
+
+/* ============================================================
+   CTA ICON
    ============================================================ */
 
 function CaretRightIcon() {
@@ -109,17 +149,13 @@ function CaretRightIcon() {
     <svg
       aria-hidden="true"
       viewBox="0 0 20 20"
+      width="20"
+      height="20"
       fill="none"
-      className="
-        h-5
-        w-5
-        shrink-0
-      "
     >
       <path
         d="M7.5 15L12.5 10L7.5 5"
         stroke="currentColor"
-        strokeOpacity="0.8"
         strokeWidth="1.66667"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -129,141 +165,81 @@ function CaretRightIcon() {
 }
 
 /* ============================================================
+   IMAGE CARD
+
+   Square image treatment, as in the recording.
+   No independent hover zoom competing with the wall animation.
+   ============================================================ */
+
+function GalleryCard({
+  image,
+  decorative = false,
+  loadImages,
+}: {
+  image: GalleryImage;
+  decorative?: boolean;
+  loadImages: boolean;
+}) {
+  return (
+    <figure className={styles.card}>
+      <Image
+        src={image.src}
+        alt={decorative ? "" : image.alt}
+        fill
+        loading={loadImages ? "eager" : "lazy"}
+        decoding="async"
+        draggable={false}
+        sizes="
+          (max-width: 639px) 95vw,
+          (max-width: 1023px) 95vw,
+          55vw
+        "
+        className={styles.image}
+        style={{
+          objectPosition: image.position ?? "center",
+        }}
+      />
+    </figure>
+  );
+}
+
+/* ============================================================
    GALLERY ROW
    ============================================================ */
 
 function GalleryRow({
   images,
-  direction,
-  progress,
-  zoom,
-  decorative = false,
-  reduceMotion,
-}: GalleryRowProps) {
-  /*
-   * Opposite rows move in opposite directions.
-   *
-   * Mobile receives slightly less overall visual travel because
-   * percentage movement is relative to this oversized row.
-   */
-  const x = useTransform(
-    progress,
-    [0, 1],
-    direction === "left"
-      ? ["5.5%", "-5.5%"]
-      : ["-5.5%", "5.5%"],
-  );
-
+  x,
+  decorative,
+  loadImages,
+}: {
+  images: readonly GalleryImage[];
+  x: MotionValue<number>;
+  decorative: boolean;
+  loadImages: boolean;
+}) {
   return (
     <div
-      className="
-        flex
-        w-full
-        min-w-0
-        justify-center
-        overflow-visible
-      "
+      className={styles.row}
+      aria-hidden={decorative ? true : undefined}
     >
       <motion.div
-        className="
-          flex
-          w-max
-          shrink-0
-          items-center
-
-          gap-3
-
-          sm:gap-4
-
-          md:gap-5
-
-          lg:gap-6
-        "
-        style={
-          reduceMotion
-            ? undefined
-            : {
-                x,
-                willChange: "transform",
-              }
-        }
+        data-film-row-track
+        className={styles.track}
+        style={{ x }}
       >
-        {images.map(
-          (
-            image,
-            index,
-          ) => (
-            <div
-              key={`${image.src}-${index}`}
-              className="
-                relative
-                aspect-[155/91]
-                w-[76vw]
-                shrink-0
-                overflow-hidden
-                rounded-[0.25rem]
-                bg-[#292929]
-
-                sm:w-[65vw]
-
-                md:w-[48vw]
-
-                lg:w-[35vw]
-                lg:max-w-[31.9375rem]
-              "
-            >
-              <motion.div
-                className="
-                  absolute
-                  inset-0
-                "
-                style={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        scale: zoom,
-                      }
-                }
-              >
-                <Image
-                  src={image.src}
-                  alt={
-                    decorative
-                      ? ""
-                      : image.alt
-                  }
-                  fill
-                  sizes="
-                    (max-width: 639px) 76vw,
-                    (max-width: 767px) 65vw,
-                    (max-width: 1023px) 48vw,
-                    31.9375rem
-                  "
-                  className="
-                    select-none
-                    object-cover
-                  "
-                  style={{
-                    objectPosition:
-                      image.position ??
-                      "center",
-                  }}
-                />
-              </motion.div>
-
-              {/* subtle lower image treatment */}
-              <div
-                aria-hidden="true"
-                className="
-                  pointer-events-none
-                  absolute
-                  inset-0
-                  bg-[linear-gradient(180deg,transparent_55%,rgba(0,0,0,0.18)_100%)]
-                "
-              />
-            </div>
-          ),
-        )}
+        {images.map((image, index) => (
+          <GalleryCard
+            key={`${image.src}-${index}`}
+            image={image}
+            decorative={
+              decorative ||
+              index === 0 ||
+              index === images.length - 1
+            }
+            loadImages={loadImages}
+          />
+        ))}
       </motion.div>
     </div>
   );
@@ -274,305 +250,404 @@ function GalleryRow({
    ============================================================ */
 
 export function FilmSection() {
-  const sectionRef =
-    useRef<HTMLElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
-  const reduceMotion =
-    useReducedMotion() ?? false;
+  const reduceMotion = useReducedMotion() === true;
 
-  /* ----------------------------------------------------------
-     SECTION SCROLL PROGRESS
-     ---------------------------------------------------------- */
+  const [geometry, setGeometry] = useState(
+    INITIAL_GEOMETRY,
+  );
 
-  const {
-    scrollYProgress,
-  } = useScroll({
-    target: sectionRef,
+  /*
+   * Load the gallery shortly before the user reaches it.
+   * Both rows reuse the same six image sources.
+   */
+  const loadImages = useInView(sceneRef, {
+    once: true,
+    margin: "700px 0px 700px 0px",
+  });
+
+  const sceneVisible = useInView(sceneRef, {
+    margin: "100px 0px 100px 0px",
+  });
+
+  /* ==========================================================
+     RESPONSIVE MEASUREMENTS
+
+     Measure layout dimensions, not transformed rectangles.
+
+     The zoom itself therefore cannot change the measurement
+     and cause the animation to recalculate continuously.
+     ========================================================== */
+
+  useEffect(() => {
+    if (reduceMotion) {
+      return;
+    }
+
+    const stage = stageRef.current;
+
+    const track =
+      stage?.querySelector<HTMLElement>(
+        "[data-film-row-track]",
+      );
+
+    const card = track?.firstElementChild;
+
+    if (
+      !stage ||
+      !track ||
+      !(card instanceof HTMLElement)
+    ) {
+      return;
+    }
+
+    let frame: number | null = null;
+    let disposed = false;
+
+    const measure = () => {
+      frame = null;
+
+      if (disposed) {
+        return;
+      }
+
+      const width = stage.clientWidth;
+      const height = stage.clientHeight;
+
+      if (!width || !height) {
+        return;
+      }
+
+      const gap =
+        Number.parseFloat(
+          getComputedStyle(track).columnGap,
+        ) || 0;
+
+      const cardStep = card.offsetWidth + gap;
+
+      /*
+       * Limit horizontal travel to the available row width.
+       * This prevents black gaps at the left or right edges.
+       */
+      const safeOverflow = Math.max(
+        0,
+        (track.scrollWidth - width) / 2 - 16,
+      );
+
+      const compact = width < 1024;
+
+      const travel = Math.min(
+        cardStep * (compact ? 1.15 : 1.8),
+        safeOverflow,
+      );
+
+      /*
+       * The scroll scene consists of:
+       *
+       * one visible stage
+       * +
+       * the distance used by the zoom/row animation.
+       *
+       * No additional inactive hold is appended.
+       */
+      const scrollDistance = Math.round(
+        height * (compact ? 1.1 : 1.35),
+      );
+
+      const totalHeight = height + scrollDistance;
+
+      const next: GalleryGeometry = {
+        height: totalHeight,
+        travel,
+
+        initialScale:
+          width < 640
+            ? 1.22
+            : compact
+              ? 1.6
+              : 2.05,
+
+        endFraction:
+          scrollDistance / totalHeight,
+      };
+
+      setGeometry((current) =>
+        Math.abs(current.height - next.height) < 0.5 &&
+          Math.abs(current.travel - next.travel) < 0.5 &&
+          current.initialScale === next.initialScale &&
+          Math.abs(
+            current.endFraction - next.endFraction,
+          ) < 0.0001
+          ? current
+          : next,
+      );
+    };
+
+    const scheduleMeasure = () => {
+      if (!disposed && frame === null) {
+        frame = requestAnimationFrame(measure);
+      }
+    };
+
+    scheduleMeasure();
+
+    const observer = new ResizeObserver(
+      scheduleMeasure,
+    );
+
+    observer.observe(stage);
+    observer.observe(track);
+    observer.observe(card);
+
+    window.addEventListener(
+      "resize",
+      scheduleMeasure,
+      { passive: true },
+    );
+
+    return () => {
+      disposed = true;
+
+      if (frame !== null) {
+        cancelAnimationFrame(frame);
+      }
+
+      observer.disconnect();
+
+      window.removeEventListener(
+        "resize",
+        scheduleMeasure,
+      );
+    };
+  }, [reduceMotion]);
+
+  /* ==========================================================
+     SCROLL PROGRESS
+
+     Measure the untransformed outer scene.
+
+     Mapping the scene's full height to its actual pin distance
+     keeps animation completion aligned with sticky release.
+     ========================================================== */
+
+  const { scrollYProgress } = useScroll({
+    target: sceneRef,
+
     offset: [
-      "start end",
+      "start start",
       "end start",
     ],
   });
 
-  /*
-   * Smooth the raw page-scroll value before passing it into
-   * the row translation and image scale transforms.
-   */
-  const smoothProgress =
-    useSpring(
-      scrollYProgress,
-      {
-        stiffness: 92,
-        damping: 28,
-        mass: 0.5,
-      },
-    );
+  const progress = useTransform(
+    scrollYProgress,
+    (value) =>
+      clamp01(
+        value /
+        Math.max(geometry.endFraction, 0.001),
+      ),
+  );
 
-  /*
-   * Images start slightly zoomed and settle to natural scale
-   * as this section progresses through the viewport.
-   */
-  const imageZoom =
-    useTransform(
-      smoothProgress,
-      [0, 0.78],
-      [1.16, 1],
-    );
+  /* ==========================================================
+     ONE SHARED ZOOM
+
+     Desktop:
+       large images → smaller images
+       2.05 → 1
+
+     Only the complete wall scales.
+     Individual cards do not run separate zoom animations.
+     ========================================================== */
+
+  const scale = useTransform(
+    progress,
+    (value) =>
+      geometry.initialScale +
+      (1 - geometry.initialScale) * value,
+  );
+
+  /* ==========================================================
+     OPPOSING ROW MOVEMENT
+
+     The horizontal movement starts gently and increases
+     as the wall zooms out.
+
+     Both values reverse naturally when scrolling upward.
+     ========================================================== */
+
+  const topX = useTransform(
+    progress,
+    (value) =>
+      -geometry.travel * value * value,
+  );
+
+  const bottomX = useTransform(
+    progress,
+    (value) =>
+      geometry.travel * value * value,
+  );
+
+  /* ==========================================================
+     RENDER
+     ========================================================== */
 
   return (
     <section
-      ref={sectionRef}
       id="abhijat-marathi-cannes"
       aria-labelledby="abhijat-marathi-cannes-heading"
-      className="
-        landing-section-transition
-
-        flex
-        w-full
-        flex-col
-        items-center
-        overflow-hidden
-        bg-[#1A1A1A]
-
-        px-5
-        pt-16
-
-        sm:px-8
-        sm:pt-20
-
-        lg:px-[3.5rem]
-        lg:pt-[6.25rem]
-      "
+      data-motion-managed
+      data-landing-text-reveal-skip
+      className={`
+        ${plusJakartaSans.className}
+        ${styles.section}
+      `}
     >
-      {/* ======================================================
-          CONTENT
-          ====================================================== */}
+      {/* =====================================================
+          TEXT AND CTA
+          ===================================================== */}
 
-      <div
-        className="
-          flex
-          w-full
-          flex-col
-          items-start
-        "
-      >
-        {/* ====================================================
-            HEADING
-
-            Figma:
-            Plus Jakarta Sans
-            40px
-            600
-            48px
-            -0.5px
-            #F9F9F9
-            ==================================================== */}
-
-        <h2
+      <div className={styles.content}>
+        <motion.h2
           id="abhijat-marathi-cannes-heading"
-          className={`landing-title
-            ${plusJakarta.className}
-
-            self-stretch
-
-            text-[2rem]
-            font-semibold
-            leading-[2.5rem]
-            tracking-[-0.03125rem]
-            text-[#F9F9F9]
-
-            sm:text-[2.25rem]
-            sm:leading-[2.75rem]
-
-            lg:text-[2.5rem]
-            lg:leading-[3rem]
-          `}
-          style={{
-            fontFeatureSettings:
-              '"liga" off, "clig" off',
+          className={styles.heading}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                opacity: 0,
+                y: 22,
+              }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.7,
+            ease: EASE,
           }}
         >
-          Abhijat Marathi made its
-          Global Alpha Launch at the
-          Cannes Film Festival 2026, at
-          the Bharat (India) Pavilion.
-        </h2>
+          {HEADING}
+        </motion.h2>
 
-        {/* ====================================================
-            DESCRIPTION
-
-            Figma:
-            Plus Jakarta Sans
-            16px
-            400
-            24px
-            #F9F9F9
-            ==================================================== */}
-
-        <p
-          className={`
-            ${plusJakarta.className}
-
-            mt-4
-            self-stretch
-
-            text-[1rem]
-            font-normal
-            leading-[1.5rem]
-            text-[#F9F9F9]
-          `}
-          style={{
-            fontFeatureSettings:
-              '"liga" off, "clig" off',
+        <motion.p
+          className={styles.description}
+          initial={
+            reduceMotion
+              ? false
+              : {
+                opacity: 0,
+                y: 18,
+              }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.65,
+            ease: EASE,
           }}
         >
-          From creating original content
-          and building digital platforms
-          to strategic communications
-          and global distribution, our
-          integrated capabilities help
-          businesses, creators,
-          governments, and brands grow
-          through media and technology.
-        </p>
-
-        {/* ====================================================
-            CTA
-
-            Figma:
-            background: #FFF
-            radius: 4px
-
-            Inter
-            16px
-            600
-            24px
-            #8F6C1A
-            ==================================================== */}
+          {DESCRIPTION}
+        </motion.p>
 
         <Link
           href="/portfolio"
           className={`
-            ${buttonFont.className}
-
-            group
-
-            mt-14
-
-            inline-flex
-            min-h-[3.5rem]
-            cursor-pointer
-            items-center
-            justify-center
-            gap-1
-
-            rounded-[0.25rem]
-            bg-[#FFFFFF]
-
-            px-4
-            py-4
-
-            text-center
-            text-[1rem]
-            font-semibold
-            leading-[1.5rem]
-            text-[#8F6C1A]
-
-            transition-[background-color,transform]
-            duration-200
-
-            hover:-translate-y-[1px]
-            hover:bg-[#F9F9F9]
-
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-white/65
-            focus-visible:ring-offset-2
-            focus-visible:ring-offset-[#1A1A1A]
+            ${inter.className}
+            ${styles.cta}
           `}
-          style={{
-            fontFeatureSettings:
-              '"liga" off, "clig" off',
-          }}
         >
-          <span>
-            Cannes Moment
-          </span>
+          <span>Cannes Moment</span>
 
-          <span
-            className="
-              inline-flex
-              items-center
-              justify-center
-
-              transition-transform
-              duration-200
-
-              group-hover:translate-x-1
-            "
-          >
+          <span className={styles.ctaArrow}>
             <CaretRightIcon />
           </span>
         </Link>
       </div>
 
-      {/* ======================================================
-          GALLERY
-
-          Full-bleed relative to section horizontal padding.
-          ====================================================== */}
+      {/* =====================================================
+          TWO-ROW SCROLL SCENE
+          ===================================================== */}
 
       <div
+        ref={sceneRef}
+        className={styles.scene}
+        data-reduced={reduceMotion}
+        data-active={sceneVisible && !reduceMotion}
+        role="group"
         aria-label="Mumbai and Marathi culture gallery"
-        className="
-          -mx-5
-          mt-16
-
-          flex
-          w-[calc(100%+2.5rem)]
-          flex-col
-          items-center
-
-          gap-3
-
-          sm:-mx-8
-          sm:mt-20
-          sm:w-[calc(100%+4rem)]
-          sm:gap-4
-
-          md:gap-5
-
-          lg:-mx-[3.5rem]
-          lg:mt-[6.25rem]
-          lg:w-[calc(100%+7rem)]
-          lg:gap-6
-        "
+        style={{
+          height:
+            reduceMotion
+              ? undefined
+              : geometry.height || undefined,
+        }}
       >
-        {GALLERY_ROWS.map(
-          (
-            images,
-            index,
-          ) => (
-            <GalleryRow
-              key={`film-gallery-row-${index}`}
-              images={images}
-              direction={
-                index % 2 === 0
-                  ? "left"
-                  : "right"
-              }
-              progress={
-                smoothProgress
-              }
-              zoom={imageZoom}
-              decorative={
-                index > 0
-              }
-              reduceMotion={
-                reduceMotion
-              }
-            />
-          ),
+        {reduceMotion ? (
+          /* =================================================
+             ACCESSIBLE STATIC FALLBACK
+
+             Six unique images, arranged in two rows.
+             ================================================= */
+
+          <div
+            className={styles.reducedViewport}
+            tabIndex={0}
+          >
+            <div className={styles.reducedGrid}>
+              {GALLERY_IMAGES.map((image) => (
+                <GalleryCard
+                  key={image.src}
+                  image={image}
+                  loadImages={loadImages}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* =================================================
+             PINNED ZOOM-OUT GALLERY
+             ================================================= */
+
+          <div
+            ref={stageRef}
+            className={styles.stage}
+          >
+            <motion.div
+              className={styles.wall}
+              style={{ scale }}
+            >
+              {/* ROW 1 — MOVES LEFT */}
+
+              <GalleryRow
+                images={GALLERY_ROWS[0]}
+                x={topX}
+                decorative={false}
+                loadImages={loadImages}
+              />
+
+              {/* ROW 2 — MOVES RIGHT */}
+
+              <GalleryRow
+                images={GALLERY_ROWS[1]}
+                x={bottomX}
+                decorative
+                loadImages={loadImages}
+              />
+            </motion.div>
+          </div>
         )}
       </div>
     </section>

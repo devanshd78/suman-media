@@ -1,0 +1,417 @@
+/* ============================================================
+   SECTION
+   ============================================================ */
+
+.section {
+    /*
+   * Final square-card size.
+   *
+   * The height constraint ensures that both rows fit inside
+   * the visible stage when the zoom-out finishes.
+   */
+    --film-card-size: min(25vw,
+            calc((100svh - 3rem) / 2.17));
+
+    --film-gap: calc(var(--film-card-size) * 0.17);
+
+    --film-wall-height: calc(var(--film-card-size) * 2 + var(--film-gap));
+
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    padding-block: 100px;
+
+    background: #1a1a1a;
+    color: #f9f9f9;
+
+    font-feature-settings: "liga" off, "clig" off;
+
+    /*
+   * Do not use overflow:hidden on an ancestor of the
+   * sticky stage. Clipping belongs on .stage instead.
+   */
+    overflow: visible;
+}
+
+/* ============================================================
+   HEADING AND DESCRIPTION
+   ============================================================ */
+
+.content {
+    box-sizing: border-box;
+
+    width: 100%;
+    margin-inline: auto;
+
+    padding-inline: clamp(1.25rem,
+            4vw,
+            4rem);
+}
+
+.heading {
+    max-width: 86rem;
+    margin: 0;
+
+    color: #f9f9f9;
+
+    font-family: inherit;
+    font-size: clamp(2rem,
+            1.5rem + 1.25vw,
+            3rem);
+
+    font-style: normal;
+    font-weight: 600;
+
+    line-height: 1.2;
+    letter-spacing: -0.03125rem;
+
+    overflow-wrap: break-word;
+    text-wrap: balance;
+}
+
+.description {
+    max-width: 89rem;
+    margin: 1rem 0 0;
+
+    color: #f9f9f9;
+
+    font-family: inherit;
+    font-size: clamp(1rem,
+            0.94rem + 0.18vw,
+            1.125rem);
+
+    font-style: normal;
+    font-weight: 400;
+
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+
+/* ============================================================
+   CANNES BUTTON
+   ============================================================ */
+
+.cta {
+    box-sizing: border-box;
+
+    display: inline-flex;
+
+    min-height: 3.5rem;
+    max-width: 100%;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    margin-top: 3.5rem;
+    padding: 0.875rem 1.25rem;
+
+    border-radius: 0.25rem;
+
+    background: #fff;
+    color: #8f6c1a;
+
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+
+    text-align: center;
+    text-decoration: none;
+
+    transition:
+        background-color 200ms ease,
+        transform 200ms ease;
+}
+
+.cta:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 5px;
+}
+
+.ctaArrow {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    transition: transform 250ms ease;
+}
+
+/* ============================================================
+   SCROLL SCENE
+
+   The component measures and supplies the final height.
+
+   235svh is the initial desktop layout before measurement:
+   100svh stage + approximately 135svh of animation travel.
+   ============================================================ */
+
+.scene {
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+
+    height: 235svh;
+
+    margin-top: clamp(3.5rem,
+            6vw,
+            6.25rem);
+
+    /*
+   * Keep this wrapper untransformed and unclipped.
+   */
+    overflow: visible;
+}
+
+/* ============================================================
+   STICKY VIEWPORT
+   ============================================================ */
+
+.stage {
+    position: sticky;
+    top: 0;
+
+    width: 100%;
+    height: 100svh;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    background: #1a1a1a;
+}
+
+/* ============================================================
+   ZOOMING IMAGE WALL
+
+   Exactly two rows.
+
+   The wall starts enlarged, then zooms out until both rows
+   fit within the stage.
+   ============================================================ */
+
+.wall {
+    position: absolute;
+
+    top: max(1.5rem,
+            calc((100% - var(--film-wall-height)) / 2));
+
+    left: 0;
+
+    display: flex;
+    width: 100%;
+
+    flex-direction: column;
+    gap: var(--film-gap);
+
+    /*
+   * Keep the upper edge stable during the zoom-out.
+   * The second row is revealed as the wall becomes smaller.
+   */
+    transform-origin: 50% 0%;
+}
+
+/* ============================================================
+   ROW LAYOUT
+
+   The row centers the track.
+   Framer Motion translates the inner track independently.
+   ============================================================ */
+
+.row {
+    display: flex;
+
+    width: 100%;
+    min-width: 0;
+
+    justify-content: center;
+}
+
+.track {
+    display: flex;
+
+    width: max-content;
+    max-width: none;
+
+    flex: 0 0 auto;
+    align-items: center;
+
+    gap: var(--film-gap);
+}
+
+/* ============================================================
+   SQUARE IMAGE CARDS
+   ============================================================ */
+
+.card {
+    position: relative;
+
+    width: var(--film-card-size);
+    height: var(--film-card-size);
+
+    flex: 0 0 auto;
+
+    margin: 0;
+    overflow: hidden;
+
+    border-radius: clamp(0.75rem,
+            1.1vw,
+            1.25rem);
+
+    background: #292929;
+}
+
+.card .image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/*
+ * Three moving layers:
+ *
+ * 1. Complete wall scale
+ * 2. Upper row translation
+ * 3. Lower row translation
+ *
+ * Individual images are not continuously animated.
+ */
+.scene[data-active="true"] .wall,
+.scene[data-active="true"] .track {
+    will-change: transform;
+}
+
+/* ============================================================
+   CTA HOVER ONLY
+
+   No additional image hover zoom, tilt or rotation.
+   ============================================================ */
+
+@media (hover: hover) and (pointer: fine) {
+    .cta:hover {
+        background: #f3f1eb;
+        transform: translateY(-1px);
+    }
+
+    .cta:hover .ctaArrow {
+        transform: translateX(3px);
+    }
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .section {
+        --film-card-size: min(52vw,
+                calc((100svh - 3rem) / 2.17));
+
+        padding-block: 80px;
+    }
+
+    .scene {
+        height: 210svh;
+    }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 639px) {
+    .section {
+        --film-card-size: min(78vw,
+                calc((100svh - 3rem) / 2.17));
+
+        padding-block: 64px;
+    }
+
+    .heading {
+        font-size: clamp(1.75rem,
+                6.4vw,
+                2.25rem);
+    }
+
+    .description {
+        line-height: 1.5;
+    }
+
+    .cta {
+        margin-top: 2rem;
+    }
+
+    .scene {
+        height: 210svh;
+        margin-top: 3rem;
+    }
+}
+
+/* ============================================================
+   REDUCED-MOTION FALLBACK
+
+   Six unique images.
+   Three columns × two rows.
+
+   Smaller screens can scroll this static grid horizontally.
+   ============================================================ */
+
+.scene[data-reduced="true"] {
+    height: auto;
+}
+
+.reducedViewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    padding:
+        0.25rem clamp(1.25rem, 4vw, 4rem);
+}
+
+.reducedViewport:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+}
+
+.reducedGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: clamp(0.75rem,
+            1.5vw,
+            1.5rem);
+}
+
+.reducedGrid .card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+@media (max-width: 639px) {
+    .reducedGrid {
+        width: max-content;
+
+        grid-template-columns:
+            repeat(3, 72vw);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cta,
+    .ctaArrow {
+        transform: none !important;
+        transition: none !important;
+    }
+}
