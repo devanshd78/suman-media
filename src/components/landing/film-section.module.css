@@ -4,17 +4,16 @@
 
 .section {
     /*
-   * Final square-card size.
+   * Wider cinematic cards.
    *
-   * The height constraint ensures that both rows fit inside
-   * the visible stage when the zoom-out finishes.
+   * Width and height are constrained independently so both rows
+   * remain visible on short laptops while the cards feel wider.
    */
-    --film-card-size: min(25vw,
-            calc((100svh - 3rem) / 2.17));
+    --film-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
+    --film-card-height: min(28vw, 29rem, calc((100svh - 4rem) * 0.46));
+    --film-gap: clamp(0.75rem, 1.4vw, 1.5rem);
 
-    --film-gap: calc(var(--film-card-size) * 0.17);
-
-    --film-wall-height: calc(var(--film-card-size) * 2 + var(--film-gap));
+    --film-wall-height: calc(var(--film-card-height) * 2 + var(--film-gap));
 
     position: relative;
 
@@ -24,7 +23,7 @@
 
     padding-block: 100px;
 
-    background: #1a1a1a;
+    background: #000;
     color: #f9f9f9;
 
     font-feature-settings: "liga" off, "clig" off;
@@ -180,7 +179,7 @@
     overflow: hidden;
     isolation: isolate;
 
-    background: #1a1a1a;
+    background: #000;
 }
 
 /* ============================================================
@@ -248,8 +247,8 @@
 .card {
     position: relative;
 
-    width: var(--film-card-size);
-    height: var(--film-card-size);
+    width: var(--film-card-width);
+    height: var(--film-card-height);
 
     flex: 0 0 auto;
 
@@ -312,8 +311,8 @@
 
 @media (min-width: 640px) and (max-width: 1023px) {
     .section {
-        --film-card-size: min(52vw,
-                calc((100svh - 3rem) / 2.17));
+        --film-card-width: min(64vw, calc((100svh - 3rem) * 0.7));
+        --film-card-height: min(44vw, calc((100svh - 3rem) * 0.46));
 
         padding-block: 80px;
     }
@@ -329,8 +328,8 @@
 
 @media (max-width: 639px) {
     .section {
-        --film-card-size: min(78vw,
-                calc((100svh - 3rem) / 2.17));
+        --film-card-width: min(84vw, calc((100svh - 2rem) * 0.7));
+        --film-card-height: min(58vw, calc((100svh - 2rem) * 0.47));
 
         padding-block: 64px;
     }
@@ -395,7 +394,7 @@
 .reducedGrid .card {
     width: 100%;
     height: auto;
-    aspect-ratio: 1;
+    aspect-ratio: 1.4 / 1;
 }
 
 @media (max-width: 639px) {

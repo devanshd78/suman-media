@@ -190,9 +190,9 @@ function GalleryCard({
         decoding="async"
         draggable={false}
         sizes="
-          (max-width: 639px) 95vw,
-          (max-width: 1023px) 95vw,
-          55vw
+          (max-width: 639px) 84vw,
+          (max-width: 1023px) 64vw,
+          38vw
         "
         className={styles.image}
         style={{

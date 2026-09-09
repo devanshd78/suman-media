@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
 const HEADER_OFFSET_PX = 88;
-const SCROLL_DURATION_SECONDS = 1.0;
+const SCROLL_DURATION_SECONDS = 0.85;
 
 function getHashTarget(hash: string) {
   if (!hash || hash === "#") return null;
@@ -37,7 +37,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       syncTouch: false,
-      wheelMultiplier: 0.92,
+      wheelMultiplier: 1,
       touchMultiplier: 1,
     });
 

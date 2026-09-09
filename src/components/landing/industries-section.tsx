@@ -9,7 +9,6 @@ import { usePinnedRail } from "@/hooks/use-pinned-rail";
 import { motion } from "framer-motion";
 
 import {
-  useId,
   useRef,
   type ReactNode,
 } from "react";
@@ -237,12 +236,6 @@ function IndustryCard({
 }: {
   industry: IndustryItem;
 }) {
-  const noiseId =
-    useId().replace(
-      /:/g,
-      "",
-    );
-
   return (
     <Link
       href={`/services?industry=${encodeURIComponent(
@@ -319,42 +312,10 @@ function IndustryCard({
             Keep the texture layer separately above gradient.
             =================================================== */}
 
-        <svg
+        <div
           aria-hidden="true"
-          focusable="false"
-          className={
-            styles.noise
-          }
-          width="100%"
-          height="100%"
-        >
-          <filter
-            id={noiseId}
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.8"
-              numOctaves="3"
-              stitchTiles="stitch"
-              seed="7"
-            />
-
-            <feColorMatrix
-              type="saturate"
-              values="0"
-            />
-          </filter>
-
-          <rect
-            width="100%"
-            height="100%"
-            filter={`url(#${noiseId})`}
-          />
-        </svg>
+          className={styles.noise}
+        />
 
         {/* ===================================================
             SVG ARTWORK
