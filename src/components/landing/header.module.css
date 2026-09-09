@@ -124,3 +124,14 @@
 @media (min-width: 1120px) { .desktopNav { display: flex; } .mobileToggle, .mobileDialog { display: none; } }
 @media (max-height: 740px) and (min-width: 1120px) { .column, .featured { padding: 1.25rem; } .entries { margin-top: 1rem; gap: 1rem; } }
 @media (prefers-reduced-motion: reduce) { .header *, .mobileDialog * { transition: none; } }
+
+/* Final scroll navigation overrides: the homepage top bar is transparent,
+   independent of the separate opaque dropdown surface. */
+.header, .header[data-overlay="true"] { position: fixed; inset: 0 0 auto; z-index: 100; transform: translateY(0); transition: transform 260ms cubic-bezier(0.22,1,0.36,1), background-color 180ms ease; }
+.header { background: #fff; }
+.header[data-overlay="true"] { background: transparent; color: #fff; }
+.header[data-overlay="true"][data-scrolled="true"] { background: rgb(10 10 10 / 0.92); backdrop-filter: blur(10px); }
+.header[data-hidden="true"] { transform: translateY(calc(-100% - 2px)); }
+.header:focus-within, .header[data-menu-open="true"] { transform: translateY(0); }
+.spacer { height: 5rem; }
+@media (prefers-reduced-motion: reduce) { .header { transition: none; } }

@@ -28,8 +28,6 @@ import type {
 const DEFAULT_HERO_VIDEO =
   "/videos/MediaVedio.mp4";
 
-const DEFAULT_EYEBROW =
-  "DIGITAL ENTERTAINMENT & PLATFORM";
 
 const DEFAULT_HEADING =
   "Abhijat Marathi OTT";
@@ -146,7 +144,8 @@ function AnimatedText({
           ? false
           : "hidden"
       }
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
       variants={containerVariants}
       style={{
         fontFeatureSettings:
@@ -287,12 +286,6 @@ export function HeroSection({
       DEFAULT_HERO_VIDEO,
     );
 
-  const eyebrow =
-    textOrFallback(
-      content?.eyebrow,
-      DEFAULT_EYEBROW,
-    );
-
   const heading =
     textOrFallback(
       content?.heading,
@@ -333,6 +326,8 @@ export function HeroSection({
 
   return (
     <section
+      id="hero"
+      data-motion-managed
       aria-label="Suman featured platform"
       className="
         landing-section-transition
@@ -450,34 +445,7 @@ export function HeroSection({
             inverse white
             ==================================================== */}
 
-        <AnimatedText
-          as="p"
-          text={`01. ${eyebrow}`}
-          split="words"
-          delay={0.08}
-          stagger={0.06}
-          reducedMotion={
-            shouldReduceMotion
-          }
-          className={`landing-eyebrow
-            ${inter.className}
 
-            max-w-full
-
-            text-[0.75rem]
-            font-semibold
-            uppercase
-            leading-[1.125rem]
-            tracking-[0.01em]
-            text-[#F9F9F9]
-
-            sm:text-[0.8125rem]
-            sm:leading-[1.1875rem]
-
-            lg:text-[0.875rem]
-            lg:leading-[1.25rem]
-          `}
-        />
 
         {/* ====================================================
             MAIN HEADING
@@ -635,7 +603,7 @@ export function HeroSection({
               justify-center
               gap-2.5
 
-              rounded-[0.25rem]
+              rounded-[0.5rem]
               bg-[#FFFFFF]
 
               px-4

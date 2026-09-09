@@ -10,7 +10,9 @@
   padding: 0;
   font-feature-settings: "liga" off, "clig" off;
 }
-.sticky { padding: var(--industry-top) 0 var(--industry-bottom); background: #fff; }
+.sticky { background: #fff; }
+.content { padding: 64px 0; }
+@media (min-width: 1024px) { .content { padding-block: 100px; } }
 .section[data-pinned="true"] .sticky { position: sticky; top: 0; }
 .header { display: grid; gap: 1.75rem; padding: 0 var(--industry-side); }
 .eyebrow { margin: 0 0 1rem; color: #b8b8b8; font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
@@ -31,16 +33,23 @@
 .visual { position: relative; display: grid; place-items: center; aspect-ratio: 1; width: 100%; overflow: hidden; }
 .number { position: absolute; left: 1.25rem; top: 1.25rem; z-index: 2; font-size: 0.875rem; line-height: 1.25; font-weight: 500; color: rgb(0 9 51 / 0.6); }
 .bloom { position: absolute; inset: 12%; border-radius: 50%; background: rgb(255 255 255 / 0.2); filter: blur(3.7rem); pointer-events: none; }
-.noise { position: absolute; inset: 0; opacity: 0.075; mix-blend-mode: soft-light; pointer-events: none; background-image: repeating-radial-gradient(circle at 24% 31%, rgb(255 255 255 / 0.18) 0 0.6px, transparent 0.8px 3px); }
+.noise { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.16; mix-blend-mode: soft-light; pointer-events: none; }
 .artwork { position: relative; display: grid; place-items: center; width: 82%; height: 82%; transform: rotate(0deg); transform-origin: center; transition: transform 900ms cubic-bezier(0.16,1,0.3,1); }
 /* SVG proportions are preserved; no stretching a 322x277 cube into a square. */
 .artwork > svg { width: 100%; height: 100%; }
 .artwork[data-industry-artwork="investors"] { width: 74%; height: 84%; }
 .cardTitle { display: flex; align-items: flex-start; min-height: 3.75rem; padding: 1rem 0 0; margin: 0; font-size: clamp(1.125rem, 1rem + 0.2vw, 1.25rem); line-height: 1.5; font-weight: 600; }
 @media (min-width: 900px) { .header { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 5vw, 5rem); } .introduction { justify-self: end; } }
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .card { width: clamp(15rem, min(28vw, calc(100svh - var(--industry-top) - var(--industry-header-height) - var(--industry-gap) - var(--industry-bottom) - 3.75rem)), 25rem); }
+@media (min-width: 1024px) {
+  .card { width: clamp(15rem, min(24vw, calc(100svh - 33rem)), 26rem); }
 }
-@media (hover: hover) and (pointer: fine) { .card:hover .artwork { transform: rotate(-90deg); } }
-.card:focus-visible .artwork { transform: rotate(-90deg); }
-@media (prefers-reduced-motion: reduce) { .artwork, .cta svg { transition: none; transform: none !important; } }
+.cardDescription { min-height: 3rem; margin: 0; max-width: 30ch; font-size: 1rem; line-height: 1.5; color: #555b68; }
+@media (hover: hover) and (pointer: fine) {
+  .cardDescription { opacity: 0; transform: translateY(6px); transition: opacity 600ms ease, transform 750ms cubic-bezier(0.22,1,0.36,1); }
+  .card:hover .artwork, .card:focus-visible .artwork { transform: rotate(-8deg) scale(1.035); }
+  .card:hover .cardDescription, .card:focus-visible .cardDescription { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .artwork, .cta svg, .cardDescription { transition: none; transform: none !important; }
+  .cardDescription { opacity: 1; }
+}

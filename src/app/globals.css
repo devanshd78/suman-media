@@ -238,3 +238,22 @@ select {
 .landing-eyebrow { font-size: 0.875rem; line-height: 1.25rem; }
 .landing-body { font-size: clamp(1rem, 0.94rem + 0.18vw, 1.125rem); line-height: 1.6; }
 .landing-lead { font-size: clamp(1rem, 0.8rem + 0.5vw, 1.375rem); line-height: 1.5; }
+
+/* Requested section rhythm. These are content paddings, not collapsing
+   margins or extra distance inside the sticky scroll sequences. */
+@media (min-width: 1024px) {
+  [data-landing-page] > #about-suman-entertainment,
+  [data-landing-page] > #insights,
+  [data-landing-page] > #faq { padding-block: 100px; }
+  #why-partner > div:first-child { padding-top: 100px; }
+  .testimonial-body { min-height: min(65svh, 48rem); padding-top: 100px; padding-bottom: 100px; }
+}
+#testimonial .testimonial-quote { font-size: clamp(1.25rem, 0.95rem + 1vw, 2.25rem); line-height: 1.5; }
+#testimonial blockquote { margin-inline: auto; }
+@media (min-width: 1024px) {
+  [data-landing-page] #media-coverage,
+  [data-landing-page] #founder-letter { padding-block: 100px; }
+  [data-landing-page] section[aria-label="Suman Entertainment statistics"] { padding-bottom: 100px; }
+  [data-landing-page] #careers > .relative,
+  [data-landing-page] section[aria-labelledby="join-abhijat-heading"] > .relative { padding-block: 100px; }
+}

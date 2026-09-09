@@ -1,3 +1,4 @@
+import { IntersectionReveal } from "@/components/motion/intersection-reveal";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
@@ -51,26 +52,28 @@ export function TestimonialSection({
     <>
       {hasTestimonial ? (
         <section
+          id="testimonial"
+          data-motion-managed
           aria-label="Client testimonial"
           className="landing-section-transition mx-auto w-full max-w-full bg-white"
         >
-          <div className="flex flex-col items-center px-5 pb-12 pt-16 text-center sm:px-8 sm:pb-14 sm:pt-20 lg:px-[3.5rem] lg:pb-[4.75rem] lg:pt-[5.5rem]">
+          <IntersectionReveal className="testimonial-body flex min-h-[28rem] flex-col items-center justify-center px-5 py-16 text-center sm:px-8 lg:px-14">
             {testimonial?.companyLogoUrl ? (
-              <div className="relative h-[2rem] w-[7rem] sm:h-[2.35rem] sm:w-[8rem]">
+              <div className="relative h-[3.75rem] w-[12rem] sm:h-[4.5rem] sm:w-[14rem]">
                 <Image
                   src={testimonial.companyLogoUrl}
                   alt={testimonial.companyLogoAlt?.trim() || companyName || ""}
                   fill
-                  sizes="128px"
+                  sizes="224px"
                   className="object-contain"
                 />
               </div>
             ) : null}
 
             {quote ? (
-              <blockquote className="mt-8 max-w-[40rem] sm:mt-9">
+              <blockquote className="mt-8 max-w-[60rem] sm:mt-9">
                 <p
-                  className={`landing-body ${inter.className} text-center text-[0.875rem] font-normal leading-[1.5rem] text-[rgba(0,6,38,0.62)] sm:text-[0.9375rem] sm:leading-[1.625rem]`}
+                  className={`testimonial-quote ${inter.className} text-center text-[0.875rem] font-normal leading-[1.5rem] text-[rgba(0,6,38,0.62)] sm:text-[0.9375rem] sm:leading-[1.625rem]`}
                   style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                 >
                   {quote}
@@ -92,7 +95,7 @@ export function TestimonialSection({
                 </p>
               </div>
             ) : null}
-          </div>
+          </IntersectionReveal>
 
           {partnerLogos.length > 0 ? (
             <div

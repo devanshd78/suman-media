@@ -2,15 +2,15 @@
 
 import Image from "@/components/ui/image";
 import Link from "next/link";
+
 import {
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+
 import {
   useEffect,
   useMemo,
@@ -22,93 +22,48 @@ import type {
   CmsFeaturedService,
 } from "@/types/cms";
 
+import styles from "./services-scroll-gallery.module.css";
+
 /* ============================================================
    TYPES
    ============================================================ */
 
-type ServicesScrollGalleryProps = {
+type Props = {
   eyebrow?: string | null;
   heading?: string | null;
+
   services: CmsFeaturedService[];
 };
 
-type GalleryService = {
+type Item = {
   service: CmsFeaturedService;
   number: number;
 };
 
-type ResponsiveMotionConfig = {
+type Geometry = {
+  width: number;
+  height: number;
+
+  cardWidth: number;
+  cardHeight: number;
+
+  frontTop: number;
+
+  step: number;
+
   perspective: number;
-  cardSpacing: number;
-  cascadeSlope: number;
-  flyPastZ: number;
-  swingDeg: number;
+  spacing: number;
+
+  stride: number;
+
+  pinned: boolean;
 };
-
-/* ============================================================
-   ANIMATION CONFIG
-
-   Desktop keeps the original 3D values.
-
-   Mobile/tablet use the SAME animation mechanism, but use
-   smaller Z spacing so the complete stack remains inside
-   narrower / shorter viewports.
-   ============================================================ */
-
-const DESKTOP_MOTION: ResponsiveMotionConfig = {
-  perspective: 2000,
-  cardSpacing: 470,
-  cascadeSlope: 0.34,
-  flyPastZ: 2100,
-  swingDeg: 70,
-};
-
-const TABLET_MOTION: ResponsiveMotionConfig = {
-  perspective: 1500,
-  cardSpacing: 210,
-  cascadeSlope: 0.26,
-  flyPastZ: 1580,
-  swingDeg: 64,
-};
-
-const MOBILE_MOTION: ResponsiveMotionConfig = {
-  perspective: 1050,
-  cardSpacing: 135,
-  cascadeSlope: 0.24,
-  flyPastZ: 1150,
-  swingDeg: 58,
-};
-
-/*
- * Keep the same scroll cadence on every device.
- *
- * This ensures:
- *
- * 08 → leaves
- * 07 → front
- * 06 → front
- * ...
- * 01 → final hold
- */
-const SCROLL_PER_CARD_VH = 60;
-const FINAL_HOLD_VH = 18;
-
-/*
- * Same spring feel as the desktop animation.
- */
-const SCROLL_SPRING = {
-  stiffness: 260,
-  damping: 42,
-  mass: 0.9,
-  restDelta: 0.0005,
-  restSpeed: 0.0005,
-} as const;
 
 /* ============================================================
    COLORS
    ============================================================ */
 
-const SERVICE_COLORS = [
+const COLORS = [
   "#FF6548",
   "#A747C6",
   "#FFD429",
@@ -117,98 +72,215 @@ const SERVICE_COLORS = [
   "#9DCE67",
   "#04A9BB",
   "#ED5B8D",
-] as const;
+];
 
 /* ============================================================
-   RESPONSIVE MOTION
+   INITIAL GEOMETRY
    ============================================================ */
 
-function getMotionConfig(
-  width: number,
-): ResponsiveMotionConfig {
-  if (width < 640) {
-    return MOBILE_MOTION;
-  }
+const INITIAL: Geometry = {
+  width: 0,
+  height: 0,
 
-  if (width < 1024) {
-    return TABLET_MOTION;
-  }
+  cardWidth: 0,
+  cardHeight: 0,
 
-  return DESKTOP_MOTION;
-}
+  frontTop: 0,
 
-function useResponsiveMotionConfig() {
-  /*
-   * Start with desktop on SSR so server/client markup remains
-   * deterministic. The actual viewport config is applied
-   * immediately after mount.
-   */
-  const [
-    config,
-    setConfig,
-  ] = useState<ResponsiveMotionConfig>(
-    DESKTOP_MOTION,
+  step: 0,
+
+  perspective: 2000,
+
+  spacing: 470,
+
+  stride: 1,
+
+  pinned: false,
+};
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
+const clamp = (
+  value: number,
+  min = 0,
+  max = 1,
+) =>
+  Math.min(
+    max,
+    Math.max(
+      min,
+      value,
+    ),
   );
 
-  useEffect(() => {
-    let animationFrame = 0;
+/* ============================================================
+   RESPONSIVE GEOMETRY
 
-    const update = () => {
-      cancelAnimationFrame(
-        animationFrame,
-      );
+   One exact vertical scroll distance controls the gallery.
 
-      animationFrame =
-        requestAnimationFrame(() => {
-          const next =
-            getMotionConfig(
-              window.innerWidth,
-            );
+   No additional empty scrolling after the cards finish.
+   ============================================================ */
 
-          setConfig(
-            (current) =>
-              current === next
-                ? current
-                : next,
-          );
-        });
-    };
+export function calculateServiceGeometry(
+  width: number,
+  height: number,
+  count: number,
+  reduced: boolean,
+): Geometry {
+  const compact =
+    width < 900;
 
-    update();
+  /* ==========================================================
+     RESPONSIVE CARD HEIGHT
+     ========================================================== */
 
-    window.addEventListener(
-      "resize",
-      update,
-      {
-        passive: true,
-      },
+  const cardHeight =
+    Math.min(
+      compact
+        ? 580
+        : 600,
+
+      Math.max(
+        compact
+          ? 450
+          : 325,
+
+        height *
+        (
+          compact
+            ? 0.6
+            : 0.52
+        ),
+      ),
     );
 
-    return () => {
-      cancelAnimationFrame(
-        animationFrame,
-      );
+  /* ==========================================================
+     FRONT CARD LOCATION
+     ========================================================== */
 
-      window.removeEventListener(
-        "resize",
-        update,
-      );
-    };
-  }, []);
+  const frontTop =
+    height -
+    32 -
+    cardHeight;
 
-  return config;
+  /* ==========================================================
+     BACK STACK LOCATION
+     ========================================================== */
+
+  const backTop =
+    Math.min(
+      190,
+
+      Math.max(
+        100,
+        height * 0.18,
+      ),
+    );
+
+  /* ==========================================================
+     STACK STEP
+     ========================================================== */
+
+  const step =
+    count > 1
+      ? Math.min(
+        42,
+
+        (
+          frontTop -
+          backTop
+        ) /
+        (
+          count -
+          1
+        ),
+      )
+      : 0;
+
+  /* ==========================================================
+     SCROLL STRIDE
+
+     Previously this was extremely long and then the card also
+     had a completely static middle range.
+
+     Now:
+     - enough scrolling to read
+     - continuous visual response
+     - no giant dead scroll period
+     ========================================================== */
+
+  const stride =
+    Math.round(
+      Math.max(
+        620,
+
+        Math.min(
+          980,
+          height * 0.95,
+        ),
+      ),
+    );
+
+  return {
+    width,
+    height,
+
+    cardWidth:
+      Math.min(
+        width -
+        (
+          compact
+            ? 28
+            : 88
+        ),
+
+        1400,
+      ),
+
+    cardHeight,
+
+    frontTop,
+
+    step:
+      Math.max(
+        10,
+        step,
+      ),
+
+    perspective:
+      compact
+        ? 1400
+        : 2000,
+
+    spacing:
+      compact
+        ? 300
+        : 470,
+
+    stride,
+
+    pinned:
+      !reduced &&
+      count > 1 &&
+      width >= 360 &&
+      height >= 600 &&
+      step >= 12,
+  };
 }
 
 /* ============================================================
-   ICON
+   ARROW
    ============================================================ */
 
-function ArrowRightIcon() {
+function Arrow() {
   return (
     <svg
       aria-hidden="true"
+      width="16"
+      height="16"
       viewBox="0 0 20 20"
-      className="h-4 w-4"
       fill="none"
     >
       <path
@@ -223,597 +295,516 @@ function ArrowRightIcon() {
 }
 
 /* ============================================================
-   HEADING UTILS
-   ============================================================ */
-
-function splitHeading(
-  heading: string,
-) {
-  const value =
-    heading.trim() ||
-    "What we really do?";
-
-  if (
-    value.toLowerCase() ===
-    "what we really do?"
-  ) {
-    return [
-      "What we",
-      "really do?",
-    ];
-  }
-
-  const words = value
-    .split(/\s+/)
-    .filter(Boolean);
-
-  if (words.length <= 2) {
-    return [value];
-  }
-
-  const middle = Math.ceil(
-    words.length / 2,
-  );
-
-  return [
-    words
-      .slice(0, middle)
-      .join(" "),
-    words
-      .slice(middle)
-      .join(" "),
-  ];
-}
-
-/* ============================================================
-   BACKGROUND HEADING
-   ============================================================ */
-
-function ServicesHeading({
-  heading,
-}: {
-  heading: string;
-}) {
-  const lines = useMemo(
-    () => splitHeading(heading),
-    [heading],
-  );
-
-  return (
-    <h2
-      id="services-heading"
-      aria-label={heading}
-      className="
-        pointer-events-none
-        absolute
-        left-1/2
-        top-[2.5rem]
-        z-0
-        flex
-        w-full
-        -translate-x-1/2
-        flex-col
-        items-center
-        px-3
-        text-center
-        text-[clamp(3rem,16vw,5rem)]
-        font-semibold
-        leading-[0.82]
-        tracking-[-0.065em]
-        text-white
-
-        sm:top-[3.25rem]
-        sm:text-[clamp(4.25rem,13vw,7rem)]
-
-        lg:top-[4.5rem]
-        lg:text-[clamp(4rem,10vw,9rem)]
-      "
-    >
-      {lines.map(
-        (line, index) => (
-          <span
-            key={`${line}-${index}`}
-            aria-hidden="true"
-            className="
-              block
-              whitespace-nowrap
-            "
-          >
-            {line}
-          </span>
-        ),
-      )}
-    </h2>
-  );
-}
-
-/* ============================================================
    CARD CONTENT
    ============================================================ */
 
-function ServiceCardContent({
+function CardContent({
   item,
-  detailsOpacity,
-  interactive,
+  interactive = true,
 }: {
-  item: GalleryService;
-  detailsOpacity:
-    | number
-    | MotionValue<number>;
-  interactive: boolean;
+  item: Item;
+  interactive?: boolean;
 }) {
   const {
     service,
     number,
   } = item;
 
-  const numberLabel =
-    String(number).padStart(
-      2,
-      "0",
-    );
-
-  const title =
-    service.title?.trim() ||
-    `Service ${numberLabel}`;
-
-  const description =
-    service.shortDescription?.trim() ||
-    "";
-
-  const slug =
-    service.slug?.trim() || "";
-
-  /*
-   * Yellow / green / lime cards need dark text.
-   */
-  const darkInk =
-    number === 3 ||
-    number === 4 ||
-    number === 6;
-
-  const foreground =
-    darkInk
-      ? "#111111"
-      : "#FFFFFF";
-
   return (
     <div
-      className="
-        relative
-        grid
-        h-full
-        w-full
-        grid-cols-1
-        grid-rows-[60%_40%]
-        overflow-hidden
-
-        sm:grid-rows-[56%_44%]
-
-        lg:grid-cols-[54%_46%]
-        lg:grid-rows-1
-      "
+      className={
+        styles.cardBody
+      }
     >
-      {/* ======================================================
+      {/* =====================================================
           COPY
-          ====================================================== */}
+          ===================================================== */}
 
-      <motion.div
+      <div
+        className={
+          styles.copy
+        }
         data-lenis-prevent
-        className="service-copy
-          relative
-          z-10
-          flex
-          min-h-0
-          min-w-0
-          flex-col
-          overflow-hidden
-          p-5
-
-          min-[390px]:p-6
-
-          sm:p-8
-
-          lg:p-[clamp(1.5rem,3vw,3.25rem)]
-        "
-        style={{
-          opacity: detailsOpacity,
-          color: foreground,
-        }}
       >
         <span
-          className="
-            block
-            shrink-0
-            text-[1.5rem]
-            font-semibold
-            leading-none
-            tracking-[-0.045em]
-
-            sm:text-[2rem]
-
-            lg:text-[clamp(1.8rem,2.5vw,2.75rem)]
-          "
+          className={
+            styles.number
+          }
         >
-          {numberLabel}
+          {String(
+            number,
+          ).padStart(
+            2,
+            "0",
+          )}
         </span>
 
         <div
-          className="
-            mt-auto
-            shrink-0
-            min-h-0
-            max-w-[31rem]
-          "
+          className={
+            styles.details
+          }
         >
-          <h3
-            className="service-copy-title
-              text-[1.3rem]
-              font-semibold
-              leading-[1.08]
-              tracking-[-0.04em]
-
-              min-[390px]:text-[1.4rem]
-
-              sm:text-[1.75rem]
-
-              lg:text-[clamp(1.45rem,2.1vw,2.35rem)]
-            "
-          >
-            {title}
+          <h3>
+            {service.title ||
+              `Service ${number}`}
           </h3>
 
-          {description ? (
-            <p
-              className="service-copy-description
-                mt-2.5
-                max-w-[29rem]
-                overflow-hidden
-                text-[0.8125rem]
-                font-normal
-                leading-[1.45]
-                opacity-80
-
-                [display:-webkit-box]
-                [-webkit-box-orient:vertical]
-                [-webkit-line-clamp:3]
-
-                sm:mt-4
-                sm:text-[0.875rem]
-                sm:[-webkit-line-clamp:4]
-
-                lg:text-[clamp(0.68rem,0.82vw,0.84rem)]
-                lg:[display:block]
-              "
-            >
-              {description}
+          {service.shortDescription ? (
+            <p>
+              {
+                service.shortDescription
+              }
             </p>
           ) : null}
 
-          {slug ? (
+          {service.slug ? (
             <Link
-              href={`/services/${slug}`}
+              href={`/services/${service.slug}`}
               tabIndex={
                 interactive
                   ? 0
                   : -1
               }
-              className="
-                mt-4
-                inline-flex
-                w-fit
-                shrink-0
-                items-center
-                gap-2
-                rounded-[0.18rem]
-                bg-white
-                px-3.5
-                py-2.5
-                text-[0.8125rem]
-                font-semibold
-                leading-4
-                text-black
-                transition-transform
-                duration-200
-
-                hover:-translate-y-[2px]
-
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-white
-
-                sm:mt-5
-                sm:px-4
-                sm:py-3
-                sm:text-[0.875rem]
-
-                lg:mt-6
-              "
+              className={
+                styles.cta
+              }
             >
-              <span>
-                Explore Capabilities
-              </span>
+              Explore Capabilities
 
-              <ArrowRightIcon />
+              <Arrow />
             </Link>
           ) : null}
         </div>
-      </motion.div>
+      </div>
 
-      {/* ======================================================
+      {/* =====================================================
           IMAGE
-          ====================================================== */}
+          ===================================================== */}
 
       <div
-        className="
-          relative
-          h-full
-          min-h-0
-          min-w-0
-          overflow-hidden
-          bg-black/10
-        "
+        className={
+          styles.image
+        }
       >
         {service.imageUrl ? (
           <Image
-            src={service.imageUrl}
+            src={
+              service.imageUrl
+            }
             alt={
               service.imageAlt?.trim() ||
-              title
+              service.title
             }
             fill
+            loading="lazy"
             sizes="
-              (max-width: 639px) 100vw,
-              (max-width: 1023px) 100vw,
-              46vw
+              (max-width: 899px) 94vw,
+              45vw
             "
-            className="
-              select-none
-              object-cover
-            "
+            className={
+              styles.cover
+            }
           />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="
-              absolute
-              inset-0
-              bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(0,0,0,0.12))]
-            "
-          />
-        )}
+        ) : null}
       </div>
     </div>
   );
 }
 
 /* ============================================================
-   ONE 3D CARD
+   SERVICE FRAME
 
-   Animation order is reversed:
+   Each card gets exactly one scroll unit.
 
-   CMS:
-   01 02 03 04 05 06 07 08
+   IMPORTANT:
 
-   animation:
-   08 07 06 05 04 03 02 01
+   There is NO stored "furthest scroll position".
 
-   At rest:
+   Therefore:
 
-   08 = z 0
-   07 = negative Z
-   06 = further negative Z
-   ...
-   01 = deepest card
+   scroll down
+      ↓
+   08 → 07 → 06 → ...
 
-   Scroll moves one card at a time through the camera.
+   scroll back up
+      ↑
+   ... → 06 → 07 → 08
+
+   Everything reconstructs naturally.
    ============================================================ */
 
-function Service3DCard({
+function ServiceFrame({
   item,
-  animationIndex,
+  index,
+  total,
   progress,
-  isActive,
-  totalCards,
-  lastIndex,
-  step,
-  motionConfig,
+  geometry,
+  active,
 }: {
-  item: GalleryService;
-  animationIndex: number;
-  progress: MotionValue<number>;
-  isActive: boolean;
-  totalCards: number;
-  lastIndex: number;
-  step: number;
-  motionConfig:
-    ResponsiveMotionConfig;
+  item: Item;
+
+  index: number;
+  total: number;
+
+  progress:
+  MotionValue<number>;
+
+  geometry: Geometry;
+
+  active: boolean;
 }) {
+  const {
+    cardHeight,
+    perspective,
+    spacing,
+    step,
+  } = geometry;
+
   const isFirst =
-    animationIndex === 0;
+    index === 0;
 
   const isLast =
-    animationIndex ===
-    lastIndex;
+    index ===
+    total - 1;
 
-  const sliceStart =
-    animationIndex * step;
-
-  const sliceEnd =
-    (animationIndex + 1) *
-    step;
+  /* ==========================================================
+     RESTING Z
+     ========================================================== */
 
   const restZ =
-    -animationIndex *
-    motionConfig.cardSpacing;
+    -index *
+    spacing;
 
-  /*
-   * First card:
-   * 0 → through camera
-   *
-   * Middle cards:
-   * restZ → 0 → through camera
-   *
-   * Last card:
-   * restZ → 0 and remains there
-   */
-  const z = useTransform(
-    progress,
+  /* ==========================================================
+     PERSPECTIVE COMPENSATION
+     ========================================================== */
 
-    isFirst
-      ? [
-          0,
-          sliceEnd,
-        ]
-      : isLast
-        ? [
-            0,
-            sliceStart,
-          ]
-        : [
-            0,
-            sliceStart,
-            sliceEnd,
-          ],
+  const ratio =
+    perspective /
+    (
+      perspective -
+      restZ
+    );
 
-    isFirst
-      ? [
-          0,
-          motionConfig.flyPastZ,
-        ]
-      : isLast
-        ? [
-            restZ,
-            0,
-          ]
-        : [
-            restZ,
-            0,
-            motionConfig.flyPastZ,
-          ],
-  );
+  const restY =
+    (
+      cardHeight *
+      (
+        ratio -
+        1
+      ) /
+      2 -
+      index *
+      step
+    ) /
+    ratio;
 
-  /*
-   * Current front card swings away as it passes
-   * through the camera.
-   *
-   * 01 stays flat at the end.
-   */
-  const rotateX =
+  /* ==========================================================
+     LOCAL CARD PROGRESS
+
+     progress:
+       0 → 8
+
+     card 08:
+       local 0 → 1
+
+     card 07:
+       local 0 → 1 after progress reaches 1
+
+     etc.
+
+     This value automatically decreases while scrolling upward.
+     ========================================================== */
+
+  const local =
     useTransform(
       progress,
-      [
-        sliceStart,
-        sliceEnd,
-      ],
-      isLast
-        ? [0, 0]
-        : [
-            0,
-            motionConfig.swingDeg,
-          ],
+
+      (
+        value,
+      ) =>
+        clamp(
+          value -
+          index,
+        ),
     );
 
-  /*
-   * This creates the visible staircase.
-   */
-  const y = useTransform(
-    z,
-    (value) =>
-      value *
-      motionConfig.cascadeSlope,
-  );
+  /* ==========================================================
+     LAST CARD
 
-  /*
-   * Fade only after passing close to the camera.
-   */
-  const opacity =
+     Last card does not fly away.
+
+     It continuously moves from the back of the stack
+     to foreground.
+
+     It reaches foreground exactly when Services finishes.
+     ========================================================== */
+
+  const lastY =
     useTransform(
-      z,
-      [
-        motionConfig.flyPastZ *
-          0.62,
-        motionConfig.flyPastZ,
-      ],
-      [1, 0],
-    );
+      local,
 
-  /*
-   * On mobile the Z distance between cards is smaller.
-   * Scale the details reveal threshold accordingly so
-   * text from the next/back card does not overlap.
-   */
-  const detailsRevealStart =
-    -Math.min(
-      210,
-      motionConfig.cardSpacing *
-        0.78,
-    );
-
-  const detailsOpacity =
-    useTransform(
-      z,
       [
-        detailsRevealStart,
         0,
-        motionConfig.flyPastZ *
-          0.42,
+        0.55,
+        1,
       ],
-      [0, 1, 0],
+
+      [
+        restY,
+
+        restY *
+        0.18,
+
+        0,
+      ],
     );
 
-  const color =
-    SERVICE_COLORS[
-      (item.number - 1) %
-        SERVICE_COLORS.length
-    ];
+  const lastZ =
+    useTransform(
+      local,
+
+      [
+        0,
+        0.55,
+        1,
+      ],
+
+      [
+        restZ,
+
+        restZ *
+        0.18,
+
+        0,
+      ],
+    );
+
+  /* ==========================================================
+     NORMAL CARD Y
+
+     No static hold.
+
+     rest
+       ↓
+     readable foreground
+       ↓
+     tiny continuous drift
+       ↓
+     exit
+     ========================================================== */
+
+  const normalY =
+    useTransform(
+      local,
+
+      [
+        0,
+        0.38,
+        0.68,
+        1,
+      ],
+
+      isFirst
+        ? [
+          0,
+
+          -cardHeight *
+          0.01,
+
+          -cardHeight *
+          0.035,
+
+          cardHeight *
+          0.68,
+        ]
+        : [
+          restY,
+
+          0,
+
+          -cardHeight *
+          0.035,
+
+          cardHeight *
+          0.68,
+        ],
+    );
+
+  /* ==========================================================
+     NORMAL CARD Z
+     ========================================================== */
+
+  const normalZ =
+    useTransform(
+      local,
+
+      [
+        0,
+        0.38,
+        0.68,
+        1,
+      ],
+
+      isFirst
+        ? [
+          0,
+
+          perspective *
+          0.01,
+
+          perspective *
+          0.035,
+
+          perspective *
+          0.82,
+        ]
+        : [
+          restZ,
+
+          0,
+
+          perspective *
+          0.035,
+
+          perspective *
+          0.82,
+        ],
+    );
+
+  /* ==========================================================
+     ROTATION
+     ========================================================== */
+
+  const normalRotateX =
+    useTransform(
+      local,
+
+      [
+        0,
+        0.38,
+        0.68,
+        1,
+      ],
+
+      [
+        0,
+        0,
+        3,
+        70,
+      ],
+    );
+
+  /* ==========================================================
+     OPACITY
+
+     Fade only near the end of the exit.
+     ========================================================== */
+
+  const normalOpacity =
+    useTransform(
+      local,
+
+      [
+        0,
+        0.72,
+        0.9,
+        1,
+      ],
+
+      [
+        1,
+        1,
+        1,
+        0,
+      ],
+    );
+
+  const y =
+    isLast
+      ? lastY
+      : normalY;
+
+  const z =
+    isLast
+      ? lastZ
+      : normalZ;
 
   return (
     <div
-      className="
-        service-3d-card-shell
-        absolute
-        left-1/2
-        -translate-x-1/2
-        -translate-y-1/2
-      "
+      className={
+        styles.shell
+      }
       style={{
-        zIndex:
-          totalCards -
-          animationIndex,
+        width:
+          geometry.cardWidth,
 
-        pointerEvents:
-          isActive
-            ? "auto"
-            : "none",
+        height:
+          cardHeight,
+
+        top:
+          geometry.frontTop,
+
+        zIndex:
+          total -
+          index,
       }}
-      aria-hidden={!isActive}
     >
       <motion.article
+        data-service-frame
+        data-active={
+          active
+        }
+        aria-hidden={
+          !active
+        }
+        inert={
+          !active
+        }
         style={{
           y,
           z,
-          rotateX,
-          opacity,
-          backgroundColor: color,
+
+          rotateX:
+            isLast
+              ? 0
+              : normalRotateX,
+
+          opacity:
+            isLast
+              ? 1
+              : normalOpacity,
+
+          background:
+            COLORS[
+            (
+              item.number -
+              1
+            ) %
+            COLORS.length
+            ],
+
+          color:
+            [3, 4, 6].includes(
+              item.number,
+            )
+              ? "#151515"
+              : "#fff",
+
+          pointerEvents:
+            active
+              ? "auto"
+              : "none",
         }}
-        className="
-          service-3d-card
-          h-full
-          w-full
-          overflow-hidden
-          rounded-[0.3rem]
-          border
-          border-black/[0.035]
-          shadow-[0_1.5rem_5rem_rgba(0,0,0,0.25)]
-        "
+        className={
+          styles.frame
+        }
       >
-        <ServiceCardContent
+        <CardContent
           item={item}
-          detailsOpacity={
-            detailsOpacity
+          interactive={
+            active
           }
-          interactive={isActive}
         />
       </motion.article>
     </div>
@@ -821,641 +812,494 @@ function Service3DCard({
 }
 
 /* ============================================================
-   REDUCED MOTION FALLBACK
-
-   This is ONLY used when the operating system explicitly
-   requests reduced motion.
-
-   Normal mobile devices still get the complete 3D animation.
-   ============================================================ */
-
-function ReducedMotionServices({
-  services,
-  heading,
-  eyebrow,
-}: {
-  services: GalleryService[];
-  heading: string;
-  eyebrow?: string | null;
-}) {
-  return (
-    <div
-      className="
-        w-full
-        bg-black
-        px-5
-        py-14
-
-        sm:px-8
-        sm:py-20
-
-        lg:px-14
-        lg:py-24
-      "
-    >
-      <div
-        className="
-          mx-auto
-          mb-10
-          max-w-[80rem]
-          text-center
-        "
-      >
-        {eyebrow?.trim() ? (
-          <p
-            className="
-              mb-3
-              text-xs
-              font-semibold
-              uppercase
-              tracking-[0.08em]
-              text-white/55
-            "
-          >
-            {eyebrow.trim()}
-          </p>
-        ) : null}
-
-        <h2
-          id="services-heading"
-          className="
-            text-[clamp(3rem,10vw,7rem)]
-            font-semibold
-            leading-[0.9]
-            tracking-[-0.06em]
-            text-white
-          "
-        >
-          {heading}
-        </h2>
-      </div>
-
-      <div
-        className="
-          mx-auto
-          flex
-          max-w-[80rem]
-          flex-col
-          gap-5
-        "
-      >
-        {services.map((item) => {
-          const {
-            service,
-            number,
-          } = item;
-
-          const color =
-            SERVICE_COLORS[
-              (number - 1) %
-                SERVICE_COLORS.length
-            ];
-
-          return (
-            <article
-              key={service._id}
-              className="
-                h-[clamp(28rem,68svh,38rem)]
-                overflow-hidden
-                rounded-[0.3rem]
-              "
-              style={{
-                backgroundColor:
-                  color,
-              }}
-            >
-              <ServiceCardContent
-                item={item}
-                detailsOpacity={1}
-                interactive
-              />
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ============================================================
-   MAIN
+   MAIN GALLERY
    ============================================================ */
 
 export function ServicesScrollGallery({
   eyebrow,
   heading,
   services,
-}: ServicesScrollGalleryProps) {
-  const containerRef =
-    useRef<HTMLDivElement>(null);
+}: Props) {
+  const rootRef =
+    useRef<HTMLDivElement>(
+      null,
+    );
 
-  const prefersReducedMotion =
-    useReducedMotion() ?? false;
+  const [
+    geometry,
+    setGeometry,
+  ] =
+    useState<Geometry>(
+      INITIAL,
+    );
 
-  const motionConfig =
-    useResponsiveMotionConfig();
+  const [
+    active,
+    setActive,
+  ] =
+    useState(0);
 
-  /*
-   * CMS ordering remains:
-   *
-   * 01
-   * 02
-   * 03
-   * ...
-   * 08
-   */
-  const cmsServices =
-    useMemo<GalleryService[]>(
+  /* ==========================================================
+     SERVICES
+
+     Preserve:
+     08 as front card initially.
+     ========================================================== */
+
+  const items =
+    useMemo(
       () =>
         services
-          .slice(0, 8)
+          .slice(
+            0,
+            8,
+          )
           .map(
             (
               service,
               index,
             ) => ({
               service,
-              number: index + 1,
+
+              number:
+                index +
+                1,
             }),
-          ),
+          )
+          .reverse(),
+
       [services],
     );
 
-  /*
-   * Animation starts with service 08 in front.
-   */
-  const animationServices =
-    useMemo(
-      () =>
-        [
-          ...cmsServices,
-        ].reverse(),
-      [cmsServices],
+  const count =
+    items.length;
+
+  const currentHeading =
+    heading?.trim() ||
+    "What we really do?";
+
+  /* ==========================================================
+     RESPONSIVE GEOMETRY
+     ========================================================== */
+
+  useEffect(() => {
+    const reduced =
+      matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+
+    let frame = 0;
+
+    const measure =
+      () => {
+        frame = 0;
+
+        const next =
+          calculateServiceGeometry(
+            document.documentElement
+              .clientWidth,
+
+            document.documentElement
+              .clientHeight,
+
+            count,
+
+            reduced.matches,
+          );
+
+        setGeometry(
+          (
+            old,
+          ) =>
+            Object.keys(
+              next,
+            ).every(
+              (
+                key,
+              ) =>
+                old[
+                key as keyof Geometry
+                ] ===
+                next[
+                key as keyof Geometry
+                ],
+            )
+              ? old
+              : next,
+        );
+      };
+
+    const schedule =
+      () => {
+        if (!frame) {
+          frame =
+            requestAnimationFrame(
+              measure,
+            );
+        }
+      };
+
+    schedule();
+
+    window.addEventListener(
+      "resize",
+      schedule,
+      {
+        passive: true,
+      },
     );
 
-  const totalCards =
-    animationServices.length;
-
-  const lastIndex =
-    Math.max(
-      0,
-      totalCards - 1,
+    reduced.addEventListener(
+      "change",
+      schedule,
     );
 
-  /*
-   * 0 = service 08
-   * 1 = service 07
-   * ...
-   * 7 = service 01
-   */
-  const [
-    activeAnimationIndex,
-    setActiveAnimationIndex,
-  ] = useState(0);
+    return () => {
+      cancelAnimationFrame(
+        frame,
+      );
 
-  /*
-   * Each card receives the exact same amount of
-   * vertical scroll distance on all normal devices.
-   */
-  const trackHeightVh =
-    100 +
-    lastIndex *
-      SCROLL_PER_CARD_VH +
-    FINAL_HOLD_VH;
+      window.removeEventListener(
+        "resize",
+        schedule,
+      );
 
-  /*
-   * Stop animation slightly before the track ends.
-   * The remaining distance is the final-card hold.
-   */
-  const travelEnd =
-    lastIndex > 0
-      ? (
-          lastIndex *
-          SCROLL_PER_CARD_VH
-        ) /
-        (
-          lastIndex *
-            SCROLL_PER_CARD_VH +
-          FINAL_HOLD_VH
-        )
-      : 1;
+      reduced.removeEventListener(
+        "change",
+        schedule,
+      );
+    };
+  }, [count]);
 
-  /*
-   * One progress slice per transition.
-   */
-  const step =
-    lastIndex > 0
-      ? travelEnd /
-        lastIndex
-      : 1;
+  /* ==========================================================
+     SCROLL PROGRESS
+
+     THIS is the major correction.
+
+     Old:
+       scroll →
+       furthest.current →
+       Math.max(previous progress)
+       ↓
+       impossible to rewind
+
+     New:
+       real scrollYProgress
+       ↓
+       progress 0 → number of cards
+       ↓
+       fully reversible
+     ========================================================== */
 
   const {
     scrollYProgress,
-  } = useScroll({
-    target: containerRef,
-    offset: [
-      "start start",
-      "end end",
-    ],
-  });
+  } =
+    useScroll({
+      target:
+        rootRef,
 
-  const smoothProgress =
-    useSpring(
+      offset: [
+        "start start",
+        "end end",
+      ],
+    });
+
+  const progress =
+    useTransform(
       scrollYProgress,
-      SCROLL_SPRING,
+
+      [
+        0,
+        1,
+      ],
+
+      [
+        0,
+        Math.max(
+          1,
+          count,
+        ),
+      ],
     );
 
-  /*
-   * Change interactive card only when scroll moves
-   * into another frame.
-   */
+  /* ==========================================================
+     ACTIVE CARD
+
+     React updates ONLY when the active service changes.
+
+     Card transform itself remains MotionValue-based.
+     ========================================================== */
+
   useMotionValueEvent(
-    smoothProgress,
+    progress,
+
     "change",
-    (latest) => {
+
+    (
+      value,
+    ) => {
       if (
-        !Number.isFinite(
-          latest,
-        ) ||
-        lastIndex === 0
+        count <= 0
       ) {
         return;
       }
 
       const next =
         Math.min(
-          lastIndex,
+          count -
+          1,
+
           Math.max(
             0,
-            Math.round(
-              latest / step,
+
+            Math.floor(
+              value,
             ),
           ),
         );
 
-      setActiveAnimationIndex(
-        (current) =>
-          current === next
-            ? current
+      setActive(
+        (
+          previous,
+        ) =>
+          previous ===
+            next
+            ? previous
             : next,
       );
     },
   );
 
-  if (totalCards === 0) {
+  /* ==========================================================
+     EMPTY
+     ========================================================== */
+
+  if (!count) {
     return null;
   }
 
-  const resolvedHeading =
-    heading?.trim() ||
-    "What we really do?";
+  /* ==========================================================
+     HEADING
+     ========================================================== */
 
-  /*
-   * Accessibility override only.
-   *
-   * This does NOT depend on viewport width.
-   * Mobile still gets animation unless the user has
-   * explicitly enabled reduced-motion in the OS.
-   */
-  if (prefersReducedMotion) {
-    return (
-      <ReducedMotionServices
-        services={cmsServices}
-        heading={resolvedHeading}
-        eyebrow={eyebrow}
-      />
+  const headingMarkup =
+    (
+      <h2
+        id="services-heading"
+        className={
+          styles.heading
+        }
+      >
+        {currentHeading.toLowerCase() ===
+          "what we really do?" ? (
+          <>
+            What we
+            <br />
+            really do?
+          </>
+        ) : (
+          currentHeading
+        )}
+      </h2>
     );
-  }
+
+  /* ==========================================================
+     EXACT SCROLL HEIGHT
+
+     No:
+
+       + geometry.height * 0.35
+
+     No artificial final dead scroll.
+
+     stageHeight + travelDistance
+
+     where:
+
+       travelDistance =
+         count × stride
+     ========================================================== */
+
+  const scrollHeight =
+    geometry.height +
+    count *
+    geometry.stride;
+
+  /* ==========================================================
+     RENDER
+     ========================================================== */
 
   return (
-    <>
-      <div
-        ref={containerRef}
-        data-motion-managed
-        className="
-          services-3d-scroll
-          relative
-          block
-          w-full
-          bg-black
-        "
-        style={{
-          height:
-            `${trackHeightVh}svh`,
-        }}
-      >
-        {/* ====================================================
-            STICKY VIEWPORT
-            ==================================================== */}
+    <div
+      ref={rootRef}
+      data-motion-managed
+      data-services-gallery
+      data-pinned={
+        geometry.pinned
+      }
+      className={
+        styles.root
+      }
+      style={{
+        height:
+          geometry.pinned
+            ? scrollHeight
+            : undefined,
+      }}
+    >
+      {/* =====================================================
+          PINNED 3D MODE
+          ===================================================== */}
 
+      {geometry.pinned ? (
         <div
-          className="
-            services-3d-sticky
-            sticky
-            top-0
-            h-[100svh]
-            w-full
-            touch-pan-y
-            overflow-hidden
-            bg-black
-          "
+          className={
+            styles.stage
+          }
           style={{
-            perspective:
-              `${motionConfig.perspective}px`,
-
-            perspectiveOrigin:
-              "50% 50%",
+            height:
+              geometry.height,
           }}
         >
-          {eyebrow?.trim() ? (
-            <span className="sr-only">
-              {eyebrow.trim()}
+          {eyebrow ? (
+            <span
+              className="sr-only"
+            >
+              {eyebrow}
             </span>
           ) : null}
 
-          {/* ==================================================
-              BACKGROUND HEADING
-              ================================================== */}
-
-          <ServicesHeading
-            heading={
-              resolvedHeading
-            }
-          />
-
-          {/* ==================================================
-              3D STAGE
-              ================================================== */}
+          {headingMarkup}
 
           <div
-            className="
-              services-3d-stage
-              relative
-              h-full
-              w-full
-            "
+            className={
+              styles.scene
+            }
+            style={{
+              perspective:
+                geometry.perspective,
+
+              perspectiveOrigin:
+                `50% ${geometry.frontTop +
+                geometry.cardHeight /
+                2
+                }px`,
+            }}
           >
-            {animationServices.map(
+            {items.map(
               (
                 item,
-                animationIndex,
+                index,
               ) => (
-                <Service3DCard
-                  key={
-                    item.service._id
+                <ServiceFrame
+                  key={`${item.service._id}-${item.number}`}
+                  item={
+                    item
                   }
-                  item={item}
-                  animationIndex={
-                    animationIndex
+                  index={
+                    index
+                  }
+                  total={
+                    count
                   }
                   progress={
-                    smoothProgress
+                    progress
                   }
-                  isActive={
-                    activeAnimationIndex ===
-                    animationIndex
+                  geometry={
+                    geometry
                   }
-                  totalCards={
-                    totalCards
-                  }
-                  lastIndex={
-                    lastIndex
-                  }
-                  step={step}
-                  motionConfig={
-                    motionConfig
+                  active={
+                    index ===
+                    active
                   }
                 />
               ),
             )}
           </div>
         </div>
-      </div>
+      ) : (
+        /* ===================================================
+           RESPONSIVE STATIC FALLBACK
 
-      {/* ======================================================
-          COMPONENT-SCOPED CSS
-          ====================================================== */}
+           Small/short screens retain readable cards.
+           =================================================== */
 
-      <style>{`
-        /* =====================================================
-           3D ENVIRONMENT
-           ===================================================== */
-
-        .services-3d-sticky {
-          isolation: isolate;
-        }
-
-        .services-3d-stage,
-        .service-3d-card-shell,
-        .service-3d-card {
-          transform-style: preserve-3d;
-        }
-
-        .service-3d-card {
-          transform-origin: 50% 0%;
-          will-change: transform, opacity;
-
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-
-        /* =====================================================
-           MOBILE
-
-           The front card sits lower so the complete stack can
-           rise behind it.
-
-           Width almost fills the screen while leaving a clean
-           outer gutter.
-           ===================================================== */
-
-        .service-3d-card-shell {
-          top: 64%;
-
-          width: calc(
-            100vw - 1.25rem
-          );
-
-          max-width: 30rem;
-
-          height: clamp(
-            23rem,
-            68svh,
-            34rem
-          );
-        }
-
-        /* =====================================================
-           VERY SMALL PHONES
-           ===================================================== */
-
-        @media (max-width: 389px) {
-          .service-3d-card-shell {
-            top: 64.5%;
-
-            width: calc(
-              100vw - 1rem
-            );
-
-            height: clamp(
-              22rem,
-              67svh,
-              31rem
-            );
+        <div
+          className={
+            styles.staticList
           }
-        }
+        >
+          {headingMarkup}
 
-        /* =====================================================
-           TALL MOBILE DEVICES
-           ===================================================== */
+          {items.map(
+            (
+              item,
+            ) => (
+              <article
+                key={`${item.service._id}-${item.number}`}
+                className={
+                  styles.staticCard
+                }
+                style={{
+                  background:
+                    COLORS[
+                    (
+                      item.number -
+                      1
+                    ) %
+                    COLORS.length
+                    ],
 
-        @media
-          (max-width: 639px)
-          and (min-height: 760px) {
+                  color:
+                    [3, 4, 6].includes(
+                      item.number,
+                    )
+                      ? "#151515"
+                      : "#fff",
+                }}
+              >
+                <CardContent
+                  item={
+                    item
+                  }
+                />
+              </article>
+            ),
+          )}
+        </div>
+      )}
 
-          .service-3d-card-shell {
-            top: 64%;
+      {/* =====================================================
+          ACCESSIBILITY NAVIGATION
+          ===================================================== */}
 
-            height: min(
-              66svh,
-              35rem
-            );
-          }
-        }
-
-        /* =====================================================
-           TABLET
-           ===================================================== */
-
-        @media (min-width: 640px) {
-          .service-3d-card-shell {
-            top: 65%;
-
-            width: min(
-              88vw,
-              44rem
-            );
-
-            max-width: none;
-
-            height: min(
-              61svh,
-              38rem
-            );
-          }
-        }
-
-        /* =====================================================
-           DESKTOP / LAPTOP
-
-           Keeps the desktop composition while reserving readable copy height.
-           ===================================================== */
-
-        @media (min-width: 1024px) {
-          .service-3d-card-shell {
-            top: 68%;
-
-            width: min(
-              88vw,
-              72rem
-            );
-
-            height: clamp(
-              21.5rem,
-              44svh,
-              32rem
-            );
-          }
-        }
-
-        /* =====================================================
-           SHORT LAPTOP
-
-           1366×768 etc.
-           ===================================================== */
-
-        @media
-          (min-width: 1024px)
-          and (max-height: 800px) {
-
-          .service-3d-card-shell {
-            top: 69%;
-
-            width: min(
-              86vw,
-              68rem
-            );
-
-            height: clamp(
-              21.5rem,
-              44svh,
-              29rem
-            );
-          }
-        }
-
-        /* =====================================================
-           REGULAR LARGE DESKTOP
-           ===================================================== */
-
-        @media (min-width: 1501px) {
-          .service-3d-card-shell {
-            top: 68%;
-
-            width: min(
-              88vw,
-              80rem
-            );
-
-            height: clamp(
-              20rem,
-              40svh,
-              33rem
-            );
-          }
-        }
-
-        /* =====================================================
-           VERY LARGE DESKTOP
-           ===================================================== */
-
-        @media (min-width: 1800px) {
-          .service-3d-card-shell {
-            top: 67%;
-
-            width: min(
-              82vw,
-              82rem
-            );
-
-            height: min(
-              42svh,
-              34rem
-            );
-          }
-        }
-
-        #services .service-copy {
-          padding: clamp(1rem, 2vw, 2rem);
-          overflow-y: auto;
-          overscroll-behavior: contain;
-          scrollbar-width: thin;
-        }
-        #services .service-copy-title {
-          font-size: clamp(1.375rem, 1rem + 1vw, 2.25rem);
-          line-height: 1.15;
-        }
-        #services .service-copy-description {
-          font-size: clamp(1rem, 0.925rem + 0.2vw, 1.125rem);
-          line-height: 1.5;
-          margin-top: 0.75rem;
-        }
-        #services .service-copy a {
-          font-size: 0.875rem;
-          min-height: 2.75rem;
-          margin-top: 1rem;
-        }
-      `}</style>
-    </>
+      {geometry.pinned ? (
+        <nav
+          className="sr-only"
+          aria-label="All services"
+        >
+          {items.map(
+            (
+              item,
+            ) =>
+              item.service
+                .slug ? (
+                <Link
+                  key={
+                    item.number
+                  }
+                  href={`/services/${item.service.slug}`}
+                >
+                  {
+                    item
+                      .service
+                      .title
+                  }
+                </Link>
+              ) : null,
+          )}
+        </nav>
+      ) : null}
+    </div>
   );
 }

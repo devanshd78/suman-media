@@ -512,12 +512,45 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  // Direction-aware navigation. Scroll updates only set data attributes, not
+  // component state every frame. Keyboard focus/open menus keep it available.
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    let previous = Math.max(0, window.scrollY);
+    let accumulated = 0;
+    let direction = 0;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - previous;
+      previous = y;
+      const nextDirection = Math.sign(delta);
+      if (nextDirection && nextDirection !== direction) { accumulated = 0; direction = nextDirection; }
+      accumulated += Math.abs(delta);
+      header.dataset.scrolled = String(y > 24);
+      if (y < 100 || menuOpen || openDropdown || header.contains(document.activeElement)) {
+        header.dataset.hidden = "false";
+      } else if (accumulated > 12) {
+        header.dataset.hidden = String(direction > 0);
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", schedule); };
+  }, [menuOpen, openDropdown, pathname]);
+
   const activeMenu = NAV_MENUS.find((menu) => menu.id === openDropdown) ?? null;
 
   return (
+    <>
+    {!isLandingPage ? <div aria-hidden="true" className={styles.spacer} /> : null}
     <header
       ref={headerRef}
       data-site-header
+      data-menu-open={menuOpen || Boolean(openDropdown)}
       data-landing-text-reveal-skip
       data-overlay={isLandingPage}
       className={`${inter.className} ${styles.header}`}
@@ -616,5 +649,6 @@ export function Header() {
         </div>, document.body,
       ) : null}
     </header>
+    </>
   );
 }

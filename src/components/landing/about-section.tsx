@@ -220,6 +220,7 @@ export function AboutSection({
 
   return (
     <section
+      data-motion-managed
       id="about-suman-entertainment"
       aria-labelledby="about-suman-heading"
       className="
@@ -418,15 +419,16 @@ export function AboutSection({
               justify-center
               gap-1.5
 
-              rounded-[0.25rem]
+              rounded-[0.5rem]
 
-              px-0
-              py-2
+              px-6
+              py-3
+              bg-white
 
               text-[0.875rem]
               font-semibold
               leading-[1.25rem]
-              text-[#F9F7F4]
+              text-[#8F6C1A]
 
               transition-opacity
               duration-200

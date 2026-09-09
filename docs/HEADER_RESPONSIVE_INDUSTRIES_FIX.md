@@ -1,3 +1,5 @@
+> Historical notes for the earlier header patch. The current delivery is described in SCROLL_RESPONSIVE_FIX.md. Its Services timing and scroll controllers supersede the earlier behavior below.
+
 # Header, responsive typography and Industries patch
 
 ## Baseline and scope
