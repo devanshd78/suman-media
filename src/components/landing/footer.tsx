@@ -123,7 +123,7 @@ const COMPANY: FooterLink[] = [
   { label: "Leadership", href: "/leadership" },
   { label: "Our Journey", href: "/about#journey" },
   { label: "Contact us", href: "/contact" },
-  { label: "Become a Part", href: "/careers" },
+  { label: "Become a Part", href: "/partners" },
 ];
 
 const RESOURCES: FooterLink[] = [
@@ -318,7 +318,7 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
             heading={partnerHeading}
             description={partnerDescription}
             cta={footer?.partnerCta}
-            fallbackCta={{ label: "Become a partner", href: "/contact?type=partnership", style: "text" }}
+            fallbackCta={{ label: "Become a partner", href: "/partners", style: "text" }}
           />
 
           <FooterIntroCard

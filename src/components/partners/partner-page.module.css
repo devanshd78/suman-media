@@ -1,0 +1,3422 @@
+.page {
+  --partner-gold: #8f6c1a;
+  --partner-ink: #1a1a1a;
+  --partner-muted: #969696;
+  --partner-tertiary: #b8b8b8;
+  --partner-cream: #f7f3e9;
+  --partner-warm: #f8e7b7;
+  --partner-pad: clamp(20px, 3.889vw, 56px);
+
+  --Font-family-Heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --Font-family-Body: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  /* 1440px Figma values are the max; type scales down fluidly below that. */
+  --Font-size-Tiny: clamp(12px, 0.972vw, 14px);
+  --Font-size-Small: clamp(14px, 1.111vw, 16px);
+  --Font-size-Heading-4: clamp(16px, 1.389vw, 20px);
+  --Font-size-Heading-2: clamp(24px, 2.222vw, 32px);
+  --Font-size-Heading-1: clamp(30px, 2.778vw, 40px);
+  --Font-size-Display: clamp(40px, 3.889vw, 56px);
+  --Line-height-Tiny: clamp(18px, 1.389vw, 20px);
+  --Line-height-Small: clamp(20px, 1.667vw, 24px);
+  --Line-height-Heading-4: clamp(24px, 1.944vw, 28px);
+  --Line-height-Heading-2: clamp(32px, 2.778vw, 40px);
+  --Line-height-Heading-1: clamp(38px, 3.333vw, 48px);
+  --Line-height-Display: clamp(48px, 4.444vw, 64px);
+  --Spacing-0: 0px;
+  --Spacing-4: 4px;
+  --Corner-radius-4: 4px;
+  --Corner-radius-8: 8px;
+  --Corner-radius-32: 32px;
+  --Light-Border-Text-Primary: #1a1a1a;
+  --Light-Border-Text-Secondary: #969696;
+  --Light-Border-Text-Tertiary: #b8b8b8;
+  --Light-Border-Text-PrimaryInverse: #f9f9f9;
+  --Text-Warning: #8f6c1a;
+  --Text-Weak-2: rgba(0, 9, 51, 0.65);
+  --Text-Inverse-strong: #fff;
+  --Text-Inverse-strong-2: #fff;
+  --BrandPrimary-500: #8f6c1a;
+  --Fill-Warning-strong-2: #8f6c1a;
+  --Neutrals-0: #fff;
+
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  background: #fff;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-feature-settings: "liga" off, "clig" off;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.page svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.textLink,
+.pillLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.textLink svg,
+.pillLink svg {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.textLink:focus-visible,
+.pillLink:focus-visible,
+.mediaRail:focus-visible,
+.filmThumb:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  width: 100%;
+  background: #fff;
+}
+
+.heroInner {
+  display: grid;
+  width: 100%;
+  max-width: 100rem;
+  min-height: clamp(29rem, 52svh, 37rem);
+  margin-inline: auto;
+  padding: clamp(6rem, 8vw, 8.5rem) var(--partner-pad) clamp(4.5rem, 7vw, 7rem);
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 8rem);
+}
+
+.heroTitleBlock,
+.heroIntro {
+  min-width: 0;
+  align-self: stretch;
+}
+
+.heroTitleBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero .eyebrow {
+  align-self: stretch;
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.heroTitleBlock h1 {
+  align-self: stretch;
+  max-width: 46rem;
+  margin: 12px 0 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-1, 40px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 48px);
+  letter-spacing: -0.5px;
+}
+
+.heroIntro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroIntro>p {
+  align-self: stretch;
+  max-width: 38rem;
+  margin: 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.heroIntro .textLink {
+  width: fit-content;
+  min-width: 132px;
+  height: 48px;
+  margin-top: 24px;
+  padding: 0 var(--Spacing-0, 0);
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-0, 0);
+  border-radius: var(--Corner-radius-4, 4px);
+  background: var(--Neutrals-0, #fff);
+  color: var(--Text-Warning, #8f6c1a);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.heroIntro .textLink svg {
+  margin-left: 8px;
+}
+
+/* =========================================================
+   FILM / IMAGE SCROLLER
+   Large image = layered treatment.
+   Small images = full-colour selectable thumbnails.
+   ========================================================= */
+
+.filmFeature {
+  position: relative;
+  isolation: isolate;
+  min-height: clamp(42rem, 74svh, 54rem);
+  overflow: hidden;
+  background: #050505;
+  color: #fff;
+}
+
+.filmBackdrop {
+  position: absolute;
+  inset: -3.5rem 0;
+  z-index: -3;
+  overflow: hidden;
+}
+
+.filmSlide {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.filmBackdropImage {
+  object-fit: cover;
+  object-position: center 52%;
+  filter: grayscale(1) contrast(1.08) brightness(0.9);
+}
+
+.filmShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg,
+      rgb(0 0 0 / 0.84) 0%,
+      rgb(0 0 0 / 0.6) 38%,
+      rgb(0 0 0 / 0.24) 72%,
+      rgb(0 0 0 / 0.38) 100%),
+    linear-gradient(180deg,
+      rgb(0 0 0 / 0.12) 0%,
+      rgb(0 0 0 / 0.05) 58%,
+      rgb(0 0 0 / 0.78) 100%);
+}
+
+.filmCopy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  max-width: 54rem;
+  flex-direction: column;
+  padding: clamp(5rem, 8vw, 8rem) var(--partner-pad) 14rem;
+}
+
+.filmEyebrow {
+  margin: 0;
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.filmCopy h2 {
+  max-width: 48rem;
+  margin: 12px 0 0;
+  color: var(--Text-Inverse-strong-2, #fff);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Display, 56px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 64px);
+  letter-spacing: -1px;
+}
+
+.filmCopy>p:not(.filmEyebrow) {
+  max-width: 43rem;
+  margin: 16px 0 0;
+  color: var(--Light-Border-Text-PrimaryInverse, #f9f9f9);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-4, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Line-height-Heading-4, 28px);
+}
+
+.filmCopy .textLink,
+.finalCtaCopy .textLink {
+  width: fit-content;
+  margin-top: 24px;
+  gap: 6px;
+  color: var(--Text-Inverse-strong, #fff);
+  text-align: center;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Heading-4, 20px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-4, 28px);
+}
+
+.filmStrip {
+  position: absolute;
+  inset: auto var(--partner-pad) 28px;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 0.9vw, 14px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.filmStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.filmThumb {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 16 / 8.6;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 2px;
+  background: #151515;
+  cursor: pointer;
+  opacity: 0.78;
+  appearance: none;
+  transition:
+    opacity 280ms ease,
+    border-color 280ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.filmThumb[data-active="true"] {
+  border-color: #fff;
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.filmThumbImage {
+  object-fit: cover;
+  filter: none;
+  transform: scale(1.001);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.filmThumbIndex {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  z-index: 2;
+  color: #fff;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.72);
+}
+
+/* =========================================================
+   PARTNER BRAND LOGOS
+   ========================================================= */
+
+.partnerLogoStrip {
+  display: flex;
+  width: 100%;
+  min-height: 136px;
+  transform: rotate(0.003deg);
+  justify-content: center;
+  align-items: center;
+  gap: 72px;
+  overflow-x: auto;
+  padding: 32px var(--partner-pad);
+  background: #fff;
+  scrollbar-width: none;
+}
+
+.partnerLogoStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.partnerLogo {
+  width: auto;
+  max-width: 12rem;
+  height: clamp(2.25rem, 4vw, 3.7rem);
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: none;
+  opacity: 1;
+}
+
+/* =========================================================
+   WHO CAN PARTNER
+   ========================================================= */
+
+.whoSection {
+  width: 100%;
+  padding: clamp(5rem, 9vw, 9rem) var(--partner-pad);
+  background: var(--BrandPrimary-50, #F5F1EB);
+}
+
+.centeredHeading {
+  max-width: 56rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.whoEyebrow {
+  margin: 0 0 12px;
+  color: var(--Text-Weak-2, rgba(0, 9, 51, 0.65));
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.centeredHeading h2 {
+  margin: 0;
+  color: #000;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-1, 40px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 48px);
+  letter-spacing: -0.5px;
+}
+
+.whoDescription {
+  max-width: 48rem;
+  margin: 16px auto 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.partnerTypeGrid {
+  display: grid;
+  width: 100%;
+  max-width: 94rem;
+  margin: clamp(3.5rem, 6vw, 6rem) auto 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(2rem, 5vw, 6.5rem);
+  row-gap: clamp(3rem, 5vw, 5rem);
+}
+
+.partnerTypeReveal {
+  min-width: 0;
+}
+
+.partnerTypeCard {
+  min-height: 11rem;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.12);
+  transition:
+    border-color 300ms ease,
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.partnerNumber {
+  display: inline-block;
+  color: var(--BrandPrimary-500, #8f6c1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Display, 56px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 64px);
+  letter-spacing: -1px;
+}
+
+.partnerTypeCard h3 {
+  margin: 16px 0 0;
+  color: #000;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Heading-4, 20px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-4, 28px);
+}
+
+.partnerTypeCard p {
+  max-width: 26rem;
+  margin: 8px 0 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+/* =========================================================
+   IMPACT IMAGE + LANDING-PAGE COUNTER ANIMATION
+   ========================================================= */
+
+.impactSection {
+  width: 100%;
+  background: var(--partner-cream);
+}
+
+.impactImageWrap {
+  position: relative;
+  width: 100%;
+  min-height: clamp(20rem, 44vw, 42rem);
+  overflow: hidden;
+  background: #111;
+}
+
+.impactImage {
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.04);
+}
+
+.impactShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.22)),
+    linear-gradient(90deg, rgb(143 108 26 / 0.05), transparent 46%);
+}
+
+.statsBand {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  padding-inline: var(--partner-pad);
+  background: var(--partner-cream);
+}
+
+.statItem {
+  position: relative;
+  display: flex;
+  min-height: clamp(9rem, 12vw, 12rem);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.statItem+.statItem {
+  border-left: 1px solid rgb(0 0 0 / 0.12);
+}
+
+.statItem strong {
+  color: #000;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Display, 56px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 64px);
+  letter-spacing: -1px;
+}
+
+.statItem span:not(:first-child) {
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+/* AnimatedStatNumber renders an inner span. Keep it on the number style. */
+.statItem strong>span {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* =========================================================
+   ECOSYSTEM / HOW-WE-WORK TYPOGRAPHY
+   ========================================================= */
+
+.ecosystem {
+  width: 100%;
+  background: #fff;
+}
+
+.ecosystemTitle {
+  padding: clamp(5rem, 8vw, 8rem) var(--partner-pad) clamp(3.5rem, 6vw, 5.5rem);
+  text-align: center;
+}
+
+.ecosystemTitle .eyebrow {
+  margin: 0 0 12px;
+  color: var(--Light-Border-Text-Tertiary, #b8b8b8);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.ecosystemTitle h2 {
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-1, 40px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 48px);
+  letter-spacing: -0.5px;
+}
+
+.ecosystemBlock {
+  width: 100%;
+}
+
+.ecosystemBlock[data-tone="light"] {
+  background: var(--partner-cream);
+  color: #161616;
+}
+
+.ecosystemBlock[data-tone="dark"] {
+  background: #000;
+  color: #fff;
+}
+
+.ecosystemBlock[data-tone="warm"] {
+  background: var(--partner-warm);
+  color: #161616;
+}
+
+.ecosystemHeader {
+  display: flex;
+  width: 100%;
+  height: 138px;
+  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--Spacing-32, 32px);
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  box-sizing: border-box;
+}
+
+.ecosystemHeader[data-tone="dark"] {
+  border-bottom-color: rgb(255 255 255 / 0.14);
+}
+
+.ecosystemIdentity {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.ecosystemLogo {
+  width: 42px;
+  height: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.ecosystemIdentity h3 {
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-exo-2), "Exo 2", sans-serif;
+  font-size: var(--Font-size-Heading-2, 32px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-2, 40px);
+}
+
+.ecosystemHeader[data-tone="dark"] .ecosystemIdentity h3 {
+  color: #fff;
+}
+
+.ecosystemIntro {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 55%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.ecosystemIntro p {
+  width: min(100%, 500px);
+  margin: 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.ecosystemHeader[data-tone="dark"] .ecosystemIntro p {
+  color: rgb(255 255 255 / 0.68);
+}
+
+.pillLink {
+  width: auto;
+  min-width: 104px;
+  height: 48px;
+  padding: 0 18px;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-4, 4px);
+  border-radius: var(--Corner-radius-32, 32px);
+  background: var(--Fill-Warning-strong-2, #8f6c1a);
+  color: var(--Text-Inverse-strong, #fff);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.pillLink svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================================================
+   ECOSYSTEM MEDIA RAILS
+   ========================================================= */
+
+.mediaRailWrap {
+  padding: clamp(2rem, 4vw, 4rem) 0 clamp(2.4rem, 4.5vw, 4.5rem);
+}
+
+.mediaRail {
+  display: flex;
+  gap: clamp(0.7rem, 1.5vw, 1.4rem);
+  width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-inline: var(--partner-pad);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.mediaRail::-webkit-scrollbar {
+  display: none;
+}
+
+.mediaCard {
+  position: relative;
+  width: min(44rem, 52vw);
+  aspect-ratio: 16 / 9;
+  flex: 0 0 auto;
+  margin: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: #ddd;
+}
+
+.mediaCard:nth-child(n + 2) {
+  width: min(25rem, 28vw);
+}
+
+.mediaCardImage {
+  object-fit: cover;
+  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================
+   STUDIO LAYERED SHOWCASE
+   ========================================================= */
+
+.studioShowcase {
+  position: relative;
+  min-height: clamp(34rem, 65vw, 64rem);
+  overflow: hidden;
+  background: #000;
+}
+
+.studioShowcase h3 {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 2;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: 88px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.studioPrimary,
+.studioSecondary {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  background: #111;
+}
+
+.studioPrimary {
+  left: var(--partner-pad);
+  bottom: clamp(2rem, 8vw, 8rem);
+  width: min(42rem, 43vw);
+  aspect-ratio: 16 / 9;
+}
+
+.studioSecondary {
+  top: clamp(2rem, 6vw, 6rem);
+  right: var(--partner-pad);
+  width: min(26rem, 28vw);
+  aspect-ratio: 4 / 5;
+}
+
+.studioImage {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* =========================================================
+   AI PARTNERS
+   Full ecosystem frame: 138px header + collaboration area.
+   ========================================================= */
+
+.ecosystemBlock[data-section="ai"] {
+  display: flex;
+  width: 100%;
+  min-height: 100svh;
+  flex-direction: column;
+  background: var(--BrandPrimary-50, #f5f1eb);
+}
+
+.ecosystemBlock[data-section="ai"] .ecosystemHeader {
+  flex: 0 0 138px;
+}
+
+.aiPartners {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  padding: 32px 56px 56px;
+  align-items: stretch;
+  gap: 32px;
+  background: var(--BrandPrimary-50, #f5f1eb);
+  box-sizing: border-box;
+}
+
+.aiPartnerCard {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  align-self: stretch;
+  padding: 24px 16px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.aiBrandLockup {
+  display: flex;
+  width: 100%;
+  min-height: 175px;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.aiBrandLockup img {
+  display: block;
+  width: auto;
+  height: 175px;
+  max-width: calc((100% - 65px) / 2);
+  object-fit: contain;
+  flex: 0 1 auto;
+}
+
+.aiAbhijatLogo {
+  width: auto !important;
+  height: 175px !important;
+}
+
+.aiZMarathiLogo {
+  width: auto !important;
+  height: 175px !important;
+  filter: brightness(0) saturate(100%);
+  mix-blend-mode: normal;
+}
+
+.aiLaminarLogo {
+  width: auto !important;
+  height: 175px !important;
+}
+
+.aiBrandDivider {
+  width: 1px;
+  height: 96px;
+  flex: 0 0 1px;
+  background: rgb(26 26 26 / 0.14);
+}
+
+.aiPartnerCard p {
+  width: 100%;
+  max-width: 390px;
+  margin: 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+
+.finalCta {
+  position: relative;
+  isolation: isolate;
+  min-height: 416px;
+  overflow: hidden;
+  background: #111;
+  color: #fff;
+}
+
+.finalCtaImageWrap {
+  position: absolute;
+  inset: -2.5rem;
+  z-index: -3;
+}
+
+.finalCtaImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.finalCtaShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(90deg,
+      rgb(0 0 0 / 0.86) 0%,
+      rgb(0 0 0 / 0.58) 42%,
+      rgb(0 0 0 / 0.1) 77%);
+}
+
+.finalCtaCopy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: inherit;
+  max-width: 520px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 32px;
+}
+
+.finalCtaCopy h2 {
+  max-width: 480px;
+  margin: 0;
+  color: var(--Text-Inverse-strong, #fff);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-1, 40px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 48px);
+  letter-spacing: -0.5px;
+}
+
+.finalCtaCopy .textLink {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 48px;
+  margin-top: 24px;
+  padding: 0 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--Corner-radius-8, 8px);
+  background: var(--Light-Border-Text-Primary, #1a1a1a);
+  color: var(--Text-Inverse-strong, #fff);
+  text-align: center;
+  text-decoration: none;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.finalCtaCopy .textLink svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* =========================================================
+   HOVER / POINTER EFFECTS
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .textLink:hover svg,
+  .pillLink:hover svg {
+    transform: translateX(3px);
+  }
+
+  .filmThumb:hover {
+    opacity: 1;
+  }
+
+  .filmThumb:hover .filmThumbImage {
+    transform: scale(1.045);
+  }
+
+  .partnerTypeCard:hover {
+    border-color: var(--partner-gold);
+    transform: translateY(-0.35rem);
+  }
+
+  .mediaCard:hover .mediaCardImage {
+    transform: scale(1.035);
+  }
+
+  .pillLink:hover {
+    background: #785a13;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (min-width: 900px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+  }
+}
+
+@media (max-width: 1199px) {
+  .partnerLogoStrip {
+    gap: 56px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .heroInner {
+    min-height: auto;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ecosystemHeader {
+    height: auto;
+    min-height: 138px;
+    padding: 20px 32px;
+  }
+
+  .ecosystemIntro {
+    flex-basis: 52%;
+    max-width: 46rem;
+  }
+
+  .mediaCard {
+    width: 68vw;
+  }
+
+  .mediaCard:nth-child(n + 2) {
+    width: 42vw;
+  }
+
+  .studioShowcase {
+    min-height: 44rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .filmFeature {
+    min-height: 44rem;
+  }
+
+  .filmCopy {
+    padding-top: 4.75rem;
+    padding-bottom: 12.5rem;
+  }
+
+  .filmStrip {
+    grid-template-columns: repeat(5, 38vw);
+    margin-right: calc(var(--partner-pad) * -1);
+    padding-right: var(--partner-pad);
+  }
+
+  .partnerLogoStrip {
+    gap: 40px;
+  }
+
+  .statsBand {
+    padding-inline: 0;
+  }
+
+  .statItem {
+    min-height: 8.5rem;
+  }
+
+  .ecosystemIntro {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .studioShowcase {
+    min-height: 39rem;
+  }
+
+  .studioShowcase h3 {
+    top: 48%;
+    width: 90%;
+  }
+
+  .studioPrimary {
+    left: 1rem;
+    bottom: 2.25rem;
+    width: 72vw;
+  }
+
+  .studioSecondary {
+    top: 2rem;
+    right: 1rem;
+    width: 38vw;
+  }
+
+  .ecosystemBlock[data-section="ai"] {
+    min-height: 100svh;
+  }
+
+  .ecosystemBlock[data-section="ai"] .ecosystemHeader {
+    flex-basis: auto;
+  }
+
+  .aiPartners {
+    flex-direction: column;
+    min-height: 0;
+    padding: 32px var(--partner-pad) 40px;
+    gap: 16px;
+  }
+
+  .aiPartnerCard {
+    min-height: 320px;
+    padding: 24px 0;
+  }
+
+  .aiBrandLockup {
+    min-height: 132px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 132px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .heroInner {
+    padding-top: 5.75rem;
+    padding-bottom: 4.5rem;
+    gap: 2rem;
+  }
+
+  .heroTitleBlock h1,
+  .centeredHeading h2,
+  .ecosystemTitle h2 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.4px;
+  }
+
+  .heroIntro .textLink {
+    min-width: 124px;
+  }
+
+  .filmFeature {
+    min-height: 42rem;
+  }
+
+  .filmBackdropImage {
+    object-position: 48% center;
+  }
+
+  .filmCopy {
+    padding-top: 4.5rem;
+    padding-bottom: 11.75rem;
+  }
+
+  .filmCopy h2 {
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.75px;
+  }
+
+  .filmCopy>p:not(.filmEyebrow) {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .filmCopy .textLink {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .filmStrip {
+    right: 0;
+    grid-template-columns: repeat(5, 48vw);
+  }
+
+  .partnerLogoStrip {
+    justify-content: flex-start;
+    min-height: 112px;
+    gap: 36px;
+    padding-block: 28px;
+  }
+
+  .partnerLogo {
+    height: 2.4rem;
+  }
+
+  .whoSection {
+    padding-top: 4.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .partnerTypeCard {
+    min-height: 0;
+    padding-bottom: 1rem;
+  }
+
+  .partnerNumber,
+  .statItem strong {
+    font-size: 44px;
+    line-height: 52px;
+    letter-spacing: -0.75px;
+  }
+
+  .impactImageWrap {
+    min-height: 19rem;
+  }
+
+  .statsBand {
+    grid-template-columns: 1fr;
+  }
+
+  .statItem+.statItem {
+    border-left: 0;
+    border-top: 1px solid rgb(0 0 0 / 0.12);
+  }
+
+  .statItem {
+    min-height: 7.75rem;
+  }
+
+  .ecosystemHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    gap: 20px;
+    padding: 24px var(--partner-pad);
+  }
+
+  .ecosystemIdentity {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .ecosystemLogo {
+    width: 36px;
+  }
+
+  .ecosystemIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: none;
+    gap: 16px;
+  }
+
+  .ecosystemIntro p {
+    width: 100%;
+  }
+
+  .ecosystemIdentity h3 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .mediaRailWrap {
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .mediaCard,
+  .mediaCard:nth-child(n + 2) {
+    width: 80vw;
+  }
+
+  .studioShowcase {
+    min-height: 35rem;
+  }
+
+  .studioShowcase h3 {
+    font-size: clamp(56px, 17vw, 88px);
+    line-height: 1.25;
+  }
+
+  .finalCta {
+    min-height: 360px;
+  }
+
+  .finalCtaImage {
+    object-position: 58% center;
+  }
+
+  .finalCtaShade {
+    background: linear-gradient(90deg,
+        rgb(0 0 0 / 0.88) 0%,
+        rgb(0 0 0 / 0.68) 58%,
+        rgb(0 0 0 / 0.28) 100%);
+  }
+
+  .finalCtaCopy h2 {
+    font-size: var(--Font-size-Heading-1, 40px);
+    line-height: var(--Line-height-Heading-1, 48px);
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (max-width: 639px) {
+  .finalCtaCopy {
+    max-width: min(100%, 520px);
+    padding: 24px 20px;
+  }
+
+  .finalCtaCopy h2 {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 440px) {
+  .page {
+    --partner-pad: 1.125rem;
+  }
+
+  .filmEyebrow {
+    max-width: 19rem;
+  }
+
+  .aiBrandLockup {
+    min-height: 104px;
+    gap: 18px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 104px !important;
+    max-width: calc((100% - 37px) / 2);
+  }
+
+  .aiZMarathiLogo {
+    filter: brightness(0) saturate(100%);
+  }
+
+  .aiBrandDivider {
+    height: 64px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroInner {
+    padding-left: max(var(--partner-pad), calc((100vw - 100rem) / 2 + 4rem));
+    padding-right: max(var(--partner-pad), calc((100vw - 100rem) / 2 + 4rem));
+  }
+}
+
+@media (min-width: 1920px) {
+  .page {
+    --partner-pad: 5rem;
+  }
+
+  .filmStrip,
+  .mediaRail,
+  .whoSection,
+  .ecosystemTitle {
+    padding-left: max(var(--partner-pad), calc((100vw - 112rem) / 2));
+    padding-right: max(var(--partner-pad), calc((100vw - 112rem) / 2));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .filmBackdrop,
+  .studioPrimary,
+  .studioSecondary,
+  .finalCtaImageWrap {
+    transform: none !important;
+  }
+
+  .filmThumb,
+  .filmThumbImage,
+  .mediaCardImage,
+  .partnerTypeCard,
+  .textLink svg,
+  .pillLink svg {
+    transition: none !important;
+  }
+
+  .filmThumb[data-active="true"] {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   ABHIJAT MARATHI OTT — REFERENCE LAYOUT
+   Desktop frame follows the 1440px reference supplied by user.
+   ========================================================= */
+
+.ecosystemBlock[data-section="ott"] {
+  background: var(--BrandPrimary-50, #f5f1eb);
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemHeader {
+  display: flex;
+  width: 100%;
+  height: 138px;
+  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--Spacing-32, 32px);
+  border-bottom: 1px solid rgb(26 26 26 / 0.08);
+  background: var(--BrandPrimary-50, #f5f1eb);
+  box-sizing: border-box;
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemIdentity {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 20px;
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemLogo {
+  width: 42px;
+  height: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-exo-2), "Exo 2", sans-serif;
+  font-size: var(--Font-size-Heading-2, 32px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-2, 40px);
+  letter-spacing: 0;
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemIntro {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 55%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.ecosystemBlock[data-section="ott"] .ecosystemIntro p {
+  width: min(100%, 470px);
+  margin: 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.ecosystemBlock[data-section="ott"] .pillLink {
+  display: inline-flex;
+  width: auto;
+  min-width: 104px;
+  height: 48px;
+  padding: 0 18px;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-4, 4px);
+  border-radius: var(--Corner-radius-32, 32px);
+  background: var(--Fill-Warning-strong-2, #8f6c1a);
+  color: var(--Text-Inverse-strong, #fff);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Tiny, 14px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.ecosystemBlock[data-section="ott"] .pillLink svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mediaRailWrap[data-ott-layout="true"] {
+  padding: 40px 0 0;
+  background: var(--BrandPrimary-50, #f5f1eb);
+}
+
+.mediaRailWrap[data-ott-layout="true"] .mediaRail {
+  --ott-media-height: clamp(280px, 31.75vw, 430px);
+
+  gap: 32px;
+  padding-inline: 56px;
+  scroll-padding-inline: 56px;
+  scroll-snap-type: x mandatory;
+}
+
+.mediaRailWrap[data-ott-layout="true"] .mediaCard {
+  width: calc(var(--ott-media-height) * 1.7777778);
+  height: var(--ott-media-height);
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: #d8d2c8;
+  scroll-snap-align: start;
+}
+
+.mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
+  width: calc(var(--ott-media-height) * 0.707);
+  height: var(--ott-media-height);
+  aspect-ratio: auto;
+}
+
+.mediaRailWrap[data-ott-layout="true"] .mediaCardImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.ottMediaControls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  width: 100%;
+  height: 138px;
+  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
+  align-items: center;
+  gap: var(--Spacing-32, 32px);
+  background: var(--BrandPrimary-50, #f5f1eb);
+  box-sizing: border-box;
+}
+
+.ottSocials {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  gap: 32px;
+}
+
+.ottSocialIcon {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+.ottSocialIcon svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.ottDownload {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 16px;
+  color: #000;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-4, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Line-height-Heading-4, 28px);
+  white-space: nowrap;
+}
+
+.googlePlayMark,
+.appleMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.googlePlayMark {
+  width: 21px;
+  height: 24px;
+}
+
+.appleMark {
+  width: 20px;
+  height: 24px;
+}
+
+.googlePlayMark svg,
+.appleMark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ottRailNav {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 12px;
+}
+
+.ottRailButton {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  padding: 0 var(--Spacing-0, 0);
+  flex: 0 0 48px;
+  justify-content: center;
+  align-items: center;
+  gap: var(--Spacing-0, 0);
+  aspect-ratio: 1 / 1;
+  border: 0;
+  border-radius: var(--Corner-radius-8, 8px);
+  background: var(--Fill-Warning-strong, #8f6c1a);
+  color: #fff;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.ottRailButton[data-direction="previous"] svg {
+  transform: rotate(180deg);
+}
+
+.ottRailButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ottRailButton:disabled {
+  background: rgb(143 108 26 / 0.09);
+  color: rgb(143 108 26 / 0.24);
+  cursor: default;
+}
+
+.ottRailButton:focus-visible {
+  outline: 2px solid var(--Fill-Warning-strong, #8f6c1a);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ottRailButton:not(:disabled):hover {
+    background: #785a13;
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 1023px) {
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    height: auto;
+    min-height: 138px;
+    padding: 20px 32px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    flex-basis: 52%;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    gap: 24px;
+    padding-inline: 32px;
+    scroll-padding-inline: 32px;
+  }
+
+  .ottMediaControls {
+    height: 124px;
+    padding: 20px 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    gap: 20px;
+    padding: 24px var(--partner-pad);
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
+    gap: 14px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
+    width: 36px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p {
+    width: 100%;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .ecosystemBlock[data-section="ott"] .pillLink {
+    min-width: 104px;
+    height: 48px;
+    padding-inline: 18px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] {
+    padding-top: 24px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(214px, 56vw, 310px);
+
+    gap: 16px;
+    padding-inline: var(--partner-pad);
+    scroll-padding-inline: var(--partner-pad);
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaCard {
+    width: min(82vw, calc(var(--ott-media-height) * 1.7777778));
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
+    width: calc(var(--ott-media-height) * 0.707);
+  }
+
+  .ottMediaControls {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "social nav"
+      "download download";
+    height: auto;
+    min-height: 154px;
+    padding: 24px var(--partner-pad);
+    row-gap: 24px;
+    column-gap: 20px;
+  }
+
+  .ottSocials {
+    grid-area: social;
+    gap: 22px;
+  }
+
+  .ottSocialIcon,
+  .ottSocialIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ottSocialIcon {
+    flex-basis: 28px;
+  }
+
+  .ottDownload {
+    grid-area: download;
+    justify-self: center;
+    gap: 12px;
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .ottRailNav {
+    grid-area: nav;
+  }
+
+  .ottRailButton {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+}
+
+@media (max-width: 440px) {
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .ecosystemBlock[data-section="ott"] .pillLink {
+    justify-self: start;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: 208px;
+  }
+
+  .ottMediaControls {
+    grid-template-columns: 1fr auto;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .ottSocials {
+    gap: 18px;
+  }
+
+  .ottDownload {
+    justify-self: start;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+
+/* =========================================================
+   ECOSYSTEM FRAME NORMALIZATION + FILMY REFERENCE PASS
+   Each Abhijat ecosystem block occupies one viewport frame on desktop.
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    display: flex;
+    width: 100%;
+    min-height: 100svh;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .ecosystemBlock[data-section="ott"]>.ecosystemHeader,
+  .ecosystemBlock[data-section="studios"]>.ecosystemHeader,
+  .ecosystemBlock[data-section="ai"]>.ecosystemHeader,
+  .ecosystemBlock[data-section="filmy"]>.ecosystemHeader {
+    flex: 0 0 138px;
+  }
+
+  .ecosystemBlock[data-section="studios"] .studioShowcase {
+    min-height: calc(100svh - 138px);
+    flex: 1 1 auto;
+  }
+
+  .ecosystemBlock[data-section="ott"] .mediaRailWrap,
+  .ecosystemBlock[data-section="filmy"] .mediaRailWrap {
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+}
+
+/* =========================================================
+   ABHIJAT MARATHI FILMY — supplied reference layout
+   ========================================================= */
+
+.ecosystemBlock[data-section="filmy"] {
+  background: #f3e4bf;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  margin-bottom: 32px;
+}
+
+.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  background: #f3e4bf;
+  border-bottom-color: rgb(26 26 26 / 0.08);
+}
+
+.ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--font-exo-2), "Exo 2", sans-serif;
+  font-size: var(--Font-size-Heading-2, 32px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-2, 40px);
+}
+
+.ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Small, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 24px);
+}
+
+.ecosystemBlock[data-section="filmy"] .pillLink {
+  min-width: 104px;
+  height: 48px;
+  padding: 0 18px;
+  border-radius: var(--Corner-radius-32, 32px);
+  background: var(--Fill-Warning-strong-2, #8f6c1a);
+  color: var(--Text-Inverse-strong, #fff);
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Tiny, 14px);
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 20px);
+}
+
+.mediaRailWrap[data-filmy-layout="true"] {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(36px, 5vh, 56px) 0 0;
+  background: #f3e4bf;
+}
+
+.mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+  --filmy-media-height: clamp(260px, 31vw, 400px);
+
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  padding-inline: 56px;
+  scroll-padding-inline: 56px;
+  align-items: center;
+  scroll-snap-type: x mandatory;
+}
+
+.mediaRailWrap[data-filmy-layout="true"] .mediaCard,
+.mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+  width: calc(var(--filmy-media-height) * 1.7777778);
+  height: var(--filmy-media-height);
+  aspect-ratio: auto;
+  flex: 0 0 auto;
+  border-radius: 0;
+  background: #d8cba8;
+  scroll-snap-align: start;
+}
+
+.mediaRailWrap[data-filmy-layout="true"] .mediaCardImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.filmyMediaControls {
+  display: flex;
+  width: 100%;
+  min-height: 120px;
+  padding: 20px 56px 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: #f3e4bf;
+  box-sizing: border-box;
+}
+
+.filmySocials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.filmySocialIcon {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.26);
+  color: #000;
+}
+
+.filmySocialIcon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.filmyRailNav {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Slightly taller closing story frame, per latest reference note. */
+.finalCta {
+  min-height: 480px;
+}
+
+@media (max-width: 1023px) {
+  .mediaRailWrap[data-filmy-layout="true"] {
+    padding-top: 32px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(240px, 39vw, 340px);
+
+    gap: 24px;
+    padding-inline: 32px;
+    scroll-padding-inline: 32px;
+  }
+
+  .filmyMediaControls {
+    min-height: 108px;
+    padding: 18px 32px 24px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .ecosystemBlock[data-section="filmy"] {
+    margin-bottom: 24px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] {
+    padding-top: 24px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(210px, 52vw, 300px);
+
+    gap: 16px;
+    padding-inline: var(--partner-pad);
+    scroll-padding-inline: var(--partner-pad);
+  }
+
+  .filmyMediaControls {
+    min-height: 96px;
+    padding: 18px var(--partner-pad) 24px;
+  }
+
+  .filmySocials {
+    gap: 12px;
+  }
+
+  .filmySocialIcon {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .filmySocialIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .finalCta {
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 768px) {
+  .ecosystemBlock[data-section="ott"] .mediaRailWrap[data-ott-layout="true"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+/* =========================================================
+   FINAL RESPONSIVE SYSTEM
+   Approved 1440px typography/layout values remain the desktop target.
+   Everything below scales progressively for laptop, tablet and mobile.
+   ========================================================= */
+
+.heroTitleBlock h1,
+.filmCopy h2,
+.centeredHeading h2,
+.ecosystemTitle h2,
+.ecosystemIdentity h3,
+.studioShowcase h3,
+.finalCtaCopy h2 {
+  text-wrap: balance;
+}
+
+.heroIntro>p,
+.filmCopy>p:not(.filmEyebrow),
+.whoDescription,
+.partnerTypeCard p,
+.ecosystemIntro p,
+.aiPartnerCard p {
+  overflow-wrap: anywhere;
+}
+
+.partnerTypeCard,
+.ecosystemHeader,
+.ecosystemIdentity,
+.ecosystemIntro,
+.mediaRail,
+.aiPartnerCard,
+.aiBrandLockup,
+.finalCtaCopy {
+  min-width: 0;
+}
+
+/* Keep all ecosystem CTAs physically identical at every width. */
+.pillLink,
+.ecosystemBlock[data-section="ott"] .pillLink,
+.ecosystemBlock[data-section="filmy"] .pillLink {
+  min-width: 104px;
+  height: 48px;
+  padding: 0 18px;
+  flex: 0 0 auto;
+  border-radius: 32px;
+  gap: 4px;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+/* 1440 design target and larger desktops. */
+@media (min-width: 1200px) {
+  .heroInner {
+    min-height: clamp(500px, 52svh, 592px);
+    padding-left: 56px;
+    padding-right: 56px;
+    gap: clamp(64px, 6vw, 96px);
+  }
+
+  .heroTitleBlock h1,
+  .centeredHeading h2,
+  .ecosystemTitle h2,
+  .finalCtaCopy h2 {
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.5px;
+  }
+
+  .filmCopy h2,
+  .partnerNumber,
+  .statItem strong {
+    font-size: 56px;
+    line-height: 64px;
+    letter-spacing: -1px;
+  }
+
+  .filmCopy>p:not(.filmEyebrow) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .partnerLogoStrip {
+    gap: 72px;
+    padding-inline: 56px;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    height: 138px;
+    min-height: 138px;
+    padding: 20px 56px;
+    gap: 32px;
+  }
+
+  .ecosystemIdentity {
+    gap: 20px;
+  }
+
+  .ecosystemLogo,
+  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
+    width: 42px;
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .ecosystemIntro p,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .studioShowcase h3 {
+    font-size: 88px;
+    line-height: 110px;
+  }
+
+  .aiBrandLockup {
+    min-height: 175px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    width: auto !important;
+    height: 175px !important;
+    max-height: 175px;
+  }
+
+  .finalCta {
+    min-height: 480px;
+  }
+}
+
+/* Make full-frame ecosystem layouts react to viewport HEIGHT too,
+   so short laptops do not crop their carousels. */
+@media (min-width: 1024px) {
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    min-height: 100svh;
+    height: auto;
+  }
+
+  .ecosystemBlock[data-section="ott"] .mediaRailWrap[data-ott-layout="true"] {
+    min-height: calc(100svh - 138px);
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(248px, min(31.75vw, calc(100svh - 330px)), 430px);
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(248px, min(31vw, calc(100svh - 310px)), 400px);
+  }
+
+  .ecosystemBlock[data-section="studios"] .studioShowcase {
+    min-height: calc(100svh - 138px);
+  }
+}
+
+/* Laptop / small desktop. */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .page {
+    --partner-pad: 40px;
+  }
+
+  .heroInner {
+    padding: 96px 40px 72px;
+    gap: 56px;
+  }
+
+  .filmFeature {
+    min-height: clamp(680px, 78svh, 820px);
+  }
+
+  .filmCopy {
+    padding: 80px 40px 210px;
+  }
+
+  .filmStrip {
+    left: 40px;
+    right: 40px;
+  }
+
+  .partnerLogoStrip {
+    gap: 48px;
+    padding-inline: 40px;
+  }
+
+  .whoSection,
+  .ecosystemTitle {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    height: 138px;
+    min-height: 138px;
+    padding: 20px 40px;
+    gap: 24px;
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .ecosystemIntro,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    flex-basis: 58%;
+    gap: 18px;
+  }
+
+  .ecosystemIntro p,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    gap: 24px;
+    padding-inline: 40px;
+    scroll-padding-inline: 40px;
+  }
+
+  .ottMediaControls,
+  .filmyMediaControls {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .studioShowcase h3 {
+    font-size: clamp(68px, 7.1vw, 84px);
+    line-height: 1.22;
+  }
+
+  .aiPartners {
+    padding: 28px 40px 44px;
+    gap: 24px;
+  }
+
+  .aiPartnerCard {
+    gap: 24px;
+    padding-inline: 12px;
+  }
+
+  .aiBrandLockup {
+    min-height: 142px;
+    gap: 24px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 142px !important;
+    max-height: 142px;
+  }
+
+  .aiBrandDivider {
+    height: 82px;
+  }
+}
+
+/* Tablet: simplify composition before text starts colliding. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .page {
+    --partner-pad: 32px;
+    --Font-size-Tiny: 13px;
+    --Font-size-Small: 15px;
+    --Font-size-Heading-4: 18px;
+    --Font-size-Heading-2: 27px;
+    --Font-size-Heading-1: 34px;
+    --Font-size-Display: 46px;
+    --Line-height-Tiny: 19px;
+    --Line-height-Small: 22px;
+    --Line-height-Heading-4: 26px;
+    --Line-height-Heading-2: 35px;
+    --Line-height-Heading-1: 42px;
+    --Line-height-Display: 54px;
+  }
+
+  .heroInner {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 96px 32px 72px;
+    gap: 30px;
+  }
+
+  .heroTitleBlock h1 {
+    max-width: 680px;
+  }
+
+  .heroIntro {
+    max-width: 680px;
+  }
+
+  .filmFeature {
+    min-height: 700px;
+  }
+
+  .filmCopy {
+    max-width: 700px;
+    padding: 72px 32px 210px;
+  }
+
+  .filmCopy h2 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+
+  .filmStrip {
+    left: 32px;
+    right: 0;
+    grid-template-columns: repeat(5, 30vw);
+    gap: 12px;
+    padding-right: 32px;
+  }
+
+  .partnerLogoStrip {
+    justify-content: flex-start;
+    min-height: 120px;
+    gap: 40px;
+    padding: 28px 32px;
+  }
+
+  .partnerLogo {
+    height: clamp(36px, 4.8vw, 50px);
+  }
+
+  .whoSection {
+    padding: 72px 32px;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+    row-gap: 36px;
+    margin-top: 56px;
+  }
+
+  .impactImageWrap {
+    min-height: clamp(360px, 52vw, 520px);
+  }
+
+  .statItem {
+    min-height: 136px;
+  }
+
+  .ecosystemTitle {
+    padding: 72px 32px 48px;
+  }
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    display: flex;
+    min-height: 100svh;
+    height: auto;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    flex: 0 0 auto;
+    padding: 24px 32px;
+    gap: 18px;
+  }
+
+  .ecosystemIdentity,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
+    gap: 16px;
+  }
+
+  .ecosystemLogo,
+  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
+    width: 38px;
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 27px;
+    line-height: 35px;
+  }
+
+  .ecosystemIntro,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: none;
+    gap: 20px;
+  }
+
+  .ecosystemIntro p,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+    width: 100%;
+    max-width: 620px;
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"],
+  .mediaRailWrap[data-filmy-layout="true"] {
+    flex: 1 1 auto;
+    padding-top: 28px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(230px, min(38vw, calc(100svh - 330px)), 330px);
+    gap: 20px;
+    padding-inline: 32px;
+    scroll-padding-inline: 32px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(230px, min(37vw, calc(100svh - 310px)), 320px);
+    gap: 20px;
+    padding-inline: 32px;
+    scroll-padding-inline: 32px;
+  }
+
+  .ottMediaControls {
+    height: auto;
+    min-height: 116px;
+    padding: 18px 32px;
+  }
+
+  .filmyMediaControls {
+    min-height: 104px;
+    padding: 18px 32px 22px;
+  }
+
+  .ottDownload {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .studioShowcase {
+    min-height: max(600px, calc(100svh - 170px));
+  }
+
+  .studioShowcase h3 {
+    font-size: clamp(54px, 8.5vw, 72px);
+    line-height: 1.22;
+  }
+
+  .studioPrimary {
+    left: 32px;
+    width: min(56vw, 560px);
+  }
+
+  .studioSecondary {
+    right: 32px;
+    width: min(32vw, 300px);
+  }
+
+  .aiPartners {
+    flex: 1 1 auto;
+    padding: 28px 32px 40px;
+    gap: 20px;
+  }
+
+  .aiPartnerCard {
+    gap: 22px;
+    padding: 20px 10px;
+  }
+
+  .aiBrandLockup {
+    min-height: 112px;
+    gap: 20px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 112px !important;
+    max-height: 112px;
+    max-width: calc((100% - 41px) / 2);
+  }
+
+  .aiBrandDivider {
+    height: 70px;
+  }
+
+  .aiPartnerCard p {
+    max-width: 330px;
+  }
+
+  .finalCta {
+    min-height: 440px;
+  }
+
+  .finalCtaCopy {
+    max-width: 500px;
+    padding: 32px;
+  }
+}
+
+/* Phones / portrait tablets. */
+@media (max-width: 767px) {
+  .page {
+    --partner-pad: clamp(18px, 5.2vw, 24px);
+    --Font-size-Tiny: 12px;
+    --Font-size-Small: 14px;
+    --Font-size-Heading-4: 16px;
+    --Font-size-Heading-2: 24px;
+    --Font-size-Heading-1: 30px;
+    --Font-size-Display: 40px;
+    --Line-height-Tiny: 18px;
+    --Line-height-Small: 20px;
+    --Line-height-Heading-4: 24px;
+    --Line-height-Heading-2: 32px;
+    --Line-height-Heading-1: 38px;
+    --Line-height-Display: 48px;
+  }
+
+  .heroInner {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 88px var(--partner-pad) 56px;
+    gap: 28px;
+  }
+
+  .heroTitleBlock h1,
+  .centeredHeading h2,
+  .ecosystemTitle h2 {
+    font-size: var(--Font-size-Heading-1);
+    line-height: var(--Line-height-Heading-1);
+    letter-spacing: -0.4px;
+  }
+
+  .heroIntro>p {
+    max-width: 100%;
+  }
+
+  .heroIntro .textLink {
+    min-width: 120px;
+    height: 48px;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .filmFeature {
+    min-height: 660px;
+  }
+
+  .filmBackdrop {
+    inset: -24px 0;
+  }
+
+  .filmCopy {
+    max-width: 100%;
+    padding: 56px var(--partner-pad) 190px;
+  }
+
+  .filmCopy h2 {
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.7px;
+  }
+
+  .filmCopy>p:not(.filmEyebrow) {
+    max-width: 100%;
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .filmCopy .textLink {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .filmStrip {
+    left: var(--partner-pad);
+    right: 0;
+    bottom: 20px;
+    grid-template-columns: repeat(5, 44vw);
+    gap: 10px;
+    padding-right: var(--partner-pad);
+  }
+
+  .filmThumbIndex {
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  .partnerLogoStrip {
+    justify-content: flex-start;
+    min-height: 104px;
+    gap: 32px;
+    padding: 24px var(--partner-pad);
+  }
+
+  .partnerLogo {
+    height: 36px;
+    max-width: 150px;
+  }
+
+  .whoSection {
+    padding: 56px var(--partner-pad) 64px;
+  }
+
+  .whoEyebrow {
+    margin-bottom: 10px;
+  }
+
+  .whoDescription {
+    margin-top: 12px;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: 1fr;
+    margin-top: 44px;
+    row-gap: 24px;
+  }
+
+  .partnerTypeCard {
+    min-height: 0;
+    padding-bottom: 18px;
+  }
+
+  .partnerNumber,
+  .statItem strong {
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.7px;
+  }
+
+  .partnerTypeCard h3 {
+    margin-top: 12px;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .partnerTypeCard p {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .impactImageWrap {
+    min-height: 300px;
+  }
+
+  .statsBand {
+    grid-template-columns: 1fr;
+    padding-inline: 0;
+  }
+
+  .statItem {
+    min-height: 112px;
+    gap: 4px;
+  }
+
+  .statItem+.statItem {
+    border-left: 0;
+    border-top: 1px solid rgb(0 0 0 / 0.12);
+  }
+
+  .statItem span:not(:first-child) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .ecosystemTitle {
+    padding: 56px var(--partner-pad) 40px;
+  }
+
+  .ecosystemTitle .eyebrow {
+    margin-bottom: 10px;
+  }
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    display: flex;
+    min-height: 0;
+    height: auto;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    padding: 22px var(--partner-pad);
+    gap: 18px;
+  }
+
+  .ecosystemIdentity,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ecosystemLogo,
+  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
+    width: 34px;
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .ecosystemIntro,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    width: 100%;
+    max-width: none;
+    gap: 14px;
+  }
+
+  .ecosystemIntro p,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+    width: 100%;
+    max-width: none;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"],
+  .mediaRailWrap[data-filmy-layout="true"] {
+    padding-top: 22px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(204px, 57vw, 286px);
+    gap: 14px;
+    padding-inline: var(--partner-pad);
+    scroll-padding-inline: var(--partner-pad);
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaCard {
+    width: min(86vw, calc(var(--ott-media-height) * 1.7777778));
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
+    width: calc(var(--ott-media-height) * 0.707);
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(200px, 55vw, 280px);
+    gap: 14px;
+    padding-inline: var(--partner-pad);
+    scroll-padding-inline: var(--partner-pad);
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
+  .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+    width: min(86vw, calc(var(--filmy-media-height) * 1.7777778));
+  }
+
+  .ottMediaControls {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "social nav"
+      "download download";
+    height: auto;
+    min-height: 148px;
+    padding: 20px var(--partner-pad);
+    row-gap: 22px;
+    column-gap: 16px;
+  }
+
+  .ottSocials {
+    grid-area: social;
+    gap: 20px;
+  }
+
+  .ottSocialIcon,
+  .ottSocialIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ottSocialIcon {
+    flex-basis: 28px;
+  }
+
+  .ottDownload {
+    grid-area: download;
+    justify-self: start;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .ottRailNav {
+    grid-area: nav;
+  }
+
+  .ottRailButton {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .studioShowcase {
+    min-height: 540px;
+  }
+
+  .studioShowcase h3 {
+    top: 49%;
+    width: 92%;
+    font-size: 48px;
+    line-height: 60px;
+  }
+
+  .studioPrimary {
+    left: var(--partner-pad);
+    bottom: 32px;
+    width: 72vw;
+  }
+
+  .studioSecondary {
+    top: 32px;
+    right: var(--partner-pad);
+    width: 39vw;
+  }
+
+  .aiPartners {
+    flex-direction: column;
+    min-height: 0;
+    padding: 28px var(--partner-pad) 36px;
+    gap: 10px;
+  }
+
+  .aiPartnerCard {
+    min-height: 250px;
+    gap: 18px;
+    padding: 20px 0;
+  }
+
+  .aiBrandLockup {
+    min-height: 96px;
+    gap: 16px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 96px !important;
+    max-height: 96px;
+    max-width: calc((100% - 33px) / 2);
+  }
+
+  .aiZMarathiLogo {
+    filter: brightness(0) saturate(100%);
+    mix-blend-mode: normal;
+  }
+
+  .aiBrandDivider {
+    height: 58px;
+  }
+
+  .aiPartnerCard p {
+    max-width: 340px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .ecosystemBlock[data-section="filmy"] {
+    margin-bottom: 24px;
+  }
+
+  .filmyMediaControls {
+    min-height: 92px;
+    padding: 16px var(--partner-pad) 22px;
+  }
+
+  .filmySocialIcon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .filmySocialIcon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .finalCta {
+    min-height: 420px;
+  }
+
+  .finalCtaImageWrap {
+    inset: -24px;
+  }
+
+  .finalCtaCopy {
+    max-width: min(88%, 480px);
+    padding: 28px var(--partner-pad);
+  }
+
+  .finalCtaCopy h2 {
+    max-width: 100%;
+    font-size: 30px;
+    line-height: 38px;
+    letter-spacing: -0.4px;
+  }
+
+  .finalCtaCopy .textLink {
+    min-height: 48px;
+    margin-top: 20px;
+    padding-inline: 14px;
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+/* Small phones. */
+@media (max-width: 479px) {
+  .page {
+    --partner-pad: 18px;
+    --Font-size-Heading-2: 22px;
+    --Font-size-Heading-1: 28px;
+    --Font-size-Display: 36px;
+    --Line-height-Heading-2: 30px;
+    --Line-height-Heading-1: 36px;
+    --Line-height-Display: 44px;
+  }
+
+  .heroInner {
+    padding-top: 82px;
+    padding-bottom: 48px;
+    gap: 24px;
+  }
+
+  .heroTitleBlock h1,
+  .centeredHeading h2,
+  .ecosystemTitle h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .filmFeature {
+    min-height: 620px;
+  }
+
+  .filmCopy {
+    padding-top: 48px;
+    padding-bottom: 178px;
+  }
+
+  .filmCopy h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .filmCopy>p:not(.filmEyebrow) {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .filmStrip {
+    grid-template-columns: repeat(5, 54vw);
+  }
+
+  .partnerLogoStrip {
+    min-height: 96px;
+    gap: 28px;
+    padding-block: 22px;
+  }
+
+  .partnerLogo {
+    height: 32px;
+    max-width: 132px;
+  }
+
+  .whoSection {
+    padding-top: 48px;
+    padding-bottom: 56px;
+  }
+
+  .partnerTypeGrid {
+    margin-top: 36px;
+  }
+
+  .partnerNumber,
+  .statItem strong {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .impactImageWrap {
+    min-height: 250px;
+  }
+
+  .ecosystemTitle {
+    padding-top: 48px;
+    padding-bottom: 34px;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 16px;
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .ecosystemIntro,
+  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .ecosystemIntro .pillLink,
+  .ecosystemBlock[data-section="ott"] .pillLink,
+  .ecosystemBlock[data-section="filmy"] .pillLink {
+    justify-self: start;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(190px, 58vw, 240px);
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(188px, 57vw, 236px);
+  }
+
+  .ottMediaControls {
+    min-height: 142px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .ottSocials {
+    gap: 16px;
+  }
+
+  .ottDownload {
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .studioShowcase {
+    min-height: 500px;
+  }
+
+  .studioShowcase h3 {
+    font-size: 42px;
+    line-height: 52px;
+  }
+
+  .studioPrimary {
+    width: 78vw;
+  }
+
+  .studioSecondary {
+    width: 42vw;
+  }
+
+  .aiPartnerCard {
+    min-height: 224px;
+  }
+
+  .aiBrandLockup {
+    min-height: 84px;
+    gap: 12px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 84px !important;
+    max-height: 84px;
+    max-width: calc((100% - 25px) / 2);
+  }
+
+  .aiBrandDivider {
+    height: 50px;
+  }
+
+  .filmyMediaControls {
+    min-height: 84px;
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+
+  .filmySocialIcon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .finalCta {
+    min-height: 400px;
+  }
+
+  .finalCtaCopy {
+    max-width: 92%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .finalCtaCopy h2 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+/* Extra-small phones: avoid any horizontal collision at 320–360px. */
+@media (max-width: 360px) {
+  .page {
+    --partner-pad: 16px;
+  }
+
+  .heroTitleBlock h1,
+  .centeredHeading h2,
+  .ecosystemTitle h2,
+  .finalCtaCopy h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .filmCopy h2 {
+    font-size: 34px;
+    line-height: 42px;
+  }
+
+  .filmStrip {
+    grid-template-columns: repeat(5, 58vw);
+  }
+
+  .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: 21px;
+    line-height: 28px;
+  }
+
+  .ottMediaControls {
+    column-gap: 10px;
+  }
+
+  .ottSocials {
+    gap: 12px;
+  }
+
+  .ottRailNav,
+  .filmyRailNav {
+    gap: 8px;
+  }
+
+  .ottRailButton {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 76px !important;
+    max-height: 76px;
+  }
+}
+
+/* Wide / ultra-wide displays: keep content visually anchored to the 1440px design frame. */
+@media (min-width: 1600px) {
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail,
+  .ottMediaControls,
+  .filmyMediaControls {
+    padding-left: max(56px, calc((100vw - 1440px) / 2 + 56px));
+    padding-right: max(56px, calc((100vw - 1440px) / 2 + 56px));
+  }
+
+  .whoSection,
+  .ecosystemTitle {
+    padding-left: max(56px, calc((100vw - 1600px) / 2 + 56px));
+    padding-right: max(56px, calc((100vw - 1600px) / 2 + 56px));
+  }
+}
+
+/* Short desktop windows need tighter vertical rhythm while retaining the one-frame concept. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .filmFeature {
+    min-height: 620px;
+  }
+
+  .filmCopy {
+    padding-top: 56px;
+    padding-bottom: 176px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] {
+    padding-top: 24px;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
+    --ott-media-height: clamp(220px, calc(100svh - 300px), 320px);
+  }
+
+  .ottMediaControls {
+    height: 110px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] {
+    padding-top: 24px;
+  }
+
+  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
+    --filmy-media-height: clamp(220px, calc(100svh - 286px), 310px);
+  }
+
+  .filmyMediaControls {
+    min-height: 96px;
+  }
+
+  .aiPartners {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+
+  .aiBrandLockup,
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 124px !important;
+    min-height: 124px;
+    max-height: 124px;
+  }
+
+  .finalCta {
+    min-height: 420px;
+  }
+}
