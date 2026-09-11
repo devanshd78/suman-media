@@ -243,7 +243,7 @@ select {
    margins or extra distance inside the sticky scroll sequences. */
 @media (min-width: 1024px) {
   [data-landing-page] > #about-suman-entertainment,
-  [data-landing-page] > #insights,
+  [data-landing-page] > #news-blogs,
   [data-landing-page] > #faq { padding-block: 100px; }
   #why-partner > div:first-child { padding-top: 100px; }
   .testimonial-body { min-height: min(65svh, 48rem); padding-top: 100px; padding-bottom: 100px; }

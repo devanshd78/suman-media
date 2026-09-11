@@ -120,7 +120,7 @@ The project uses Next.js 16, so keep implementation changes aligned with the ins
 - `src/components/landing/partner-section.tsx`
 - `src/components/landing/stats-section.tsx`
 - `src/components/landing/testimonial-section.tsx`
-- `src/components/landing/insights-section.tsx`
+- `src/components/landing/news-and-blogs-section.tsx`
 - `src/components/landing/media-coverage-section.tsx` (new)
 - `src/components/landing/founder-letter-section.tsx` (new)
 - `src/components/landing/faq-section.tsx` (new)

@@ -55,14 +55,14 @@ Recommended webhook projection:
     select(
       _type == "service" => "/services",
       _type == "company" => "/companies",
-      _type == "post" => "/insights",
+      _type == "post" => "/news-and-blogs",
       _type == "project" => "/portfolio",
       _type == "job" => "/careers",
       null
     ),
     select(_type == "service" && defined(slug.current) => "/services/" + slug.current, null),
     select(_type == "company" && defined(slug.current) => "/companies/" + slug.current, null),
-    select(_type == "post" && defined(slug.current) => "/insights/" + slug.current, null),
+    select(_type == "post" && defined(slug.current) => "/news-and-blogs/" + slug.current, null),
     "/sitemap.xml"
   ])
 }

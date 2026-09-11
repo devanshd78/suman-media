@@ -3,10 +3,10 @@ import type {
     InsightDetail,
     InsightListItem,
     PortableTextNode,
-} from "@/types/insights";
+} from "@/types/news-and-blogs";
 
 const DATE = "2026-08-07T10:00:00.000Z";
-const BASE = "/images/insights/news-blogs";
+const BASE = "/images/news-and-blogs/news-blogs";
 const DEFAULT_EXCERPT =
     "Suman Entertainment & Media Pvt. Ltd. brings together platforms, content, technology and experiences under one growing media ecosystem.";
 
@@ -45,8 +45,8 @@ export const REFERENCE_POSTS: InsightListItem[] = [
     ),
     item(
         "reference-prajakta",
-        "Prajakta mail Cannes moments 2026",
-        "prajakta-mail-cannes-moments-2026",
+        "Prajakta Mali Cannes Moments 2026",
+        "prajakta-mali-cannes-moments-2026",
         "featured-prajakta-cannes.jpg",
         "Latest Articles",
         true,
@@ -312,8 +312,8 @@ export const REFERENCE_ARTICLE: InsightDetail = {
         slug: "essence-of-marathi-culture",
     },
     nextPost: {
-        title: "Prajakta mail Cannes moments 2026",
-        slug: "prajakta-mail-cannes-moments-2026",
+        title: "Prajakta Mali Cannes Moments 2026",
+        slug: "prajakta-mali-cannes-moments-2026",
     },
     seo: {
         title: hero.title,

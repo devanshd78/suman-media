@@ -12,7 +12,7 @@ import {
 } from "react";
 
 import { inter, plusJakartaSans } from "@/lib/fonts";
-import type { InsightCategory, InsightListItem } from "@/types/insights";
+import type { InsightCategory, InsightListItem } from "@/types/news-and-blogs";
 
 import styles from "./news-blogs.module.css";
 
@@ -123,7 +123,7 @@ function Meta({ post, inverse = false }: { post: InsightListItem; inverse?: bool
 function StandardCard({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.newsCard}>
-            <Link href={`/insights/${post.slug}`} className={styles.cardLink}>
+            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
                 <div className={styles.newsCardImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -147,7 +147,7 @@ function StandardCard({ post }: { post: InsightListItem }) {
 function FeatureLarge({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.featureLarge}>
-            <Link href={`/insights/${post.slug}`} className={styles.cardLink}>
+            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
                 <div className={styles.featureLargeImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -171,7 +171,7 @@ function FeatureLarge({ post }: { post: InsightListItem }) {
 function FeatureCompact({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.featureCompact}>
-            <Link href={`/insights/${post.slug}`} className={styles.compactLink}>
+            <Link href={`/news-and-blogs/${post.slug}`} className={styles.compactLink}>
                 <div className={styles.featureCompactImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -333,7 +333,7 @@ export function NewsBlogsPage({ posts }: Props) {
     return (
         <main className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}>
             <section className={styles.hero} aria-labelledby="news-blogs-hero-title">
-                <Link href={`/insights/${hero.slug}`} className={styles.heroLink}>
+                <Link href={`/news-and-blogs/${hero.slug}`} className={styles.heroLink}>
                     <Image
                         src={hero.imageUrl}
                         alt={hero.imageAlt?.trim() || hero.title}
@@ -445,7 +445,7 @@ export function NewsBlogsPage({ posts }: Props) {
                             key={`${post._id}-${index}`}
                             data-press-card
                         >
-                            <Link href={`/insights/${post.slug}`} className={styles.cardLink}>
+                            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
                                 <div className={styles.pressImageWrap}>
                                     <Image
                                         src={post.imageUrl}

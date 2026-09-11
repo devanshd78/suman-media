@@ -30,6 +30,6 @@ export const siteConfig = {
     "Suman Entertainment & Media Pvt. Ltd.",
   url: getSiteUrl(),
   description:
-    "Discover Suman Media & Entertainment, its companies, services, portfolio, insights and career opportunities.",
+    "Discover Suman Media & Entertainment, its companies, services, portfolio, News & Blogs, and career opportunities.",
   allowIndexing,
 } as const;

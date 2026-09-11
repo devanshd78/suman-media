@@ -11,7 +11,7 @@ import type {
     PortableTextMarkDef,
     PortableTextNode,
     PortableTextSpan,
-} from "@/types/insights";
+} from "@/types/news-and-blogs";
 
 import styles from "./news-blog-detail.module.css";
 
@@ -165,7 +165,7 @@ function ArticleBody({ body }: { body?: PortableTextNode[] | null }) {
 function SmallArticleCard({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.relatedCard}>
-            <Link href={`/insights/${post.slug}`}>
+            <Link href={`/news-and-blogs/${post.slug}`}>
                 <div className={styles.relatedImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -231,7 +231,7 @@ export function NewsBlogDetail({ article }: Props) {
                             <div className={styles.sidebarHeadingRow}>
                                 <h2 className={styles.sidebarEyebrow}>Related articles</h2>
                                 <Link
-                                    href="/insights"
+                                    href="/news-and-blogs"
                                     className={styles.sidebarArrowButton}
                                     aria-label="View all related articles"
                                 >
@@ -241,7 +241,7 @@ export function NewsBlogDetail({ article }: Props) {
 
                             <div className={styles.sidebarLinks}>
                                 {related.slice(0, 3).map((post: InsightListItem) => (
-                                    <Link href={`/insights/${post.slug}`} key={post._id}>
+                                    <Link href={`/news-and-blogs/${post.slug}`} key={post._id}>
                                         {post.title}
                                     </Link>
                                 ))}
@@ -261,14 +261,14 @@ export function NewsBlogDetail({ article }: Props) {
             <nav className={styles.articlePager} aria-label="Article navigation">
                 <div>
                     {article.previousPost ? (
-                        <Link href={`/insights/${article.previousPost.slug}`}>
+                        <Link href={`/news-and-blogs/${article.previousPost.slug}`}>
                             Previous article
                         </Link>
                     ) : null}
                 </div>
                 <div>
                     {article.nextPost ? (
-                        <Link href={`/insights/${article.nextPost.slug}`} data-align="right">
+                        <Link href={`/news-and-blogs/${article.nextPost.slug}`} data-align="right">
                             Next article
                         </Link>
                     ) : null}
@@ -279,7 +279,7 @@ export function NewsBlogDetail({ article }: Props) {
                 <section className={styles.exploreSection} aria-labelledby="explore-other-articles-heading">
                     <div className={styles.exploreHeading}>
                         <h2 id="explore-other-articles-heading">Explore other articles</h2>
-                        <Link href="/insights">View all</Link>
+                        <Link href="/news-and-blogs">View all</Link>
                     </div>
                     <div className={styles.relatedGrid}>
                         {related.slice(0, 3).map((post: InsightListItem) => (

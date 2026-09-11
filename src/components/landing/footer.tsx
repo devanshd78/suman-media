@@ -127,7 +127,7 @@ const COMPANY: FooterLink[] = [
 ];
 
 const RESOURCES: FooterLink[] = [
-  { label: "News and Blogs", href: "/insights" },
+  { label: "News & Blogs", href: "/news-and-blogs" },
   { label: "Case study", href: "/case-studies" },
   { label: "FAQ", href: "/#faq" },
   { label: "Terms and Condition", href: "/terms" },

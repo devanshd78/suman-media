@@ -8,6 +8,8 @@ import {
   plusJakartaSans,
 } from "@/lib/fonts";
 
+import type { CmsCta, CmsFeaturedInsight } from "@/types/cms";
+
 import {
   useCallback,
   useEffect,
@@ -23,31 +25,39 @@ type Direction =
   | "left"
   | "right";
 
-type Insight = {
-  id: number;
+type NewsBlogCardData = {
+  id: string;
   image: string;
   title: string;
   description: string;
   href: string;
 };
 
-/* ============================================================
-   FRONTEND-CONTROLLED INSIGHTS
+type NewsBlogsSectionProps = {
+  eyebrow?: string | null;
+  heading?: string | null;
+  cta?: CmsCta | null;
+  articles?: CmsFeaturedInsight[] | null;
+};
 
-   NO SANITY / CMS DEPENDENCY.
+/* ============================================================
+   NEWS & BLOGS FALLBACK
+
+   Sanity featured articles are used when available. These local
+   cards are rendered only when Sanity has no valid featured posts.
 
    Images:
-   /public/images/landing/insights/Image1.png
-   /public/images/landing/insights/Image2.png
-   /public/images/landing/insights/Image3.png
+   /public/images/landing/news-and-blogs/Image1.png
+   /public/images/landing/news-and-blogs/Image2.png
+   /public/images/landing/news-and-blogs/Image3.png
    ============================================================ */
 
-const INSIGHTS: Insight[] = [
+const FALLBACK_NEWS_BLOGS: NewsBlogCardData[] = [
   {
-    id: 1,
+    id: "fallback-news-1",
 
     image:
-      "/images/landing/insights/Image1.png",
+      "/images/landing/news-and-blogs/Image1.png",
 
     title:
       "Suman Entertainment & Media Pvt. Ltd.",
@@ -55,14 +65,14 @@ const INSIGHTS: Insight[] = [
     description:
       "Suman Entertainment & Media Pvt. Ltd. brings together platforms, content, technology, experiences and entertainment under one growing media ecosystem.",
 
-    href: "/insights",
+    href: "/news-and-blogs",
   },
 
   {
-    id: 2,
+    id: "fallback-news-2",
 
     image:
-      "/images/landing/insights/Image2.png",
+      "/images/landing/news-and-blogs/Image2.png",
 
     title:
       "Digital Platforms and OTT",
@@ -70,14 +80,14 @@ const INSIGHTS: Insight[] = [
     description:
       "Building digital entertainment platforms and OTT experiences designed around regional storytelling, audiences and new-age distribution.",
 
-    href: "/insights",
+    href: "/news-and-blogs",
   },
 
   {
-    id: 3,
+    id: "fallback-news-3",
 
     image:
-      "/images/landing/insights/Image3.png",
+      "/images/landing/news-and-blogs/Image3.png",
 
     title:
       "Media, Culture and Entertainment",
@@ -85,7 +95,7 @@ const INSIGHTS: Insight[] = [
     description:
       "Creating stories, experiences and entertainment properties that connect culture, creators, technology and audiences across platforms.",
 
-    href: "/insights",
+    href: "/news-and-blogs",
   },
 ];
 
@@ -125,17 +135,17 @@ function ArrowIcon({
 }
 
 /* ============================================================
-   INSIGHT CARD
+   NEWS & BLOG CARD
    ============================================================ */
 
-function InsightCard({
-  insight,
+function NewsBlogCard({
+  article,
 }: {
-  insight: Insight;
+  article: NewsBlogCardData;
 }) {
   return (
     <article
-      data-insight-card
+      data-news-blog-card
       className="
         w-[86vw]
         shrink-0
@@ -151,7 +161,7 @@ function InsightCard({
       "
     >
       <Link
-        href={insight.href}
+        href={article.href}
         className="
           group
           block
@@ -177,8 +187,8 @@ function InsightCard({
           "
         >
           <Image
-            src={insight.image}
-            alt={insight.title}
+            src={article.image}
+            alt={article.title}
             fill
             loading="lazy"
             quality={84}
@@ -235,7 +245,7 @@ function InsightCard({
               sm:leading-[1.75rem]
             `}
           >
-            {insight.title}
+            {article.title}
           </h3>
 
           {/* =================================================
@@ -278,7 +288,7 @@ function InsightCard({
                 sm:leading-[1.5rem]
               `}
             >
-              {insight.description}
+              {article.description}
             </p>
 
             <span
@@ -321,10 +331,44 @@ function InsightCard({
 }
 
 /* ============================================================
-   INSIGHTS SECTION
+   NEWS & BLOGS SECTION
    ============================================================ */
 
-export function InsightsSection() {
+export function NewsBlogsSection({
+  eyebrow,
+  heading,
+  cta,
+  articles,
+}: NewsBlogsSectionProps) {
+  const cmsNewsBlogs: NewsBlogCardData[] =
+    articles
+      ?.filter(
+        (item) =>
+          Boolean(item?.title?.trim()) &&
+          Boolean(item?.slug?.trim()) &&
+          Boolean(item?.excerpt?.trim()) &&
+          Boolean(item?.imageUrl?.trim()),
+      )
+      .map((item) => ({
+        id: item._id,
+        image: item.imageUrl,
+        title: item.title,
+        description: item.excerpt,
+        href: `/news-and-blogs/${item.slug}`,
+      })) ?? [];
+
+  const visibleNewsBlogs =
+    cmsNewsBlogs.length > 0
+      ? cmsNewsBlogs
+      : FALLBACK_NEWS_BLOGS;
+
+  const sectionEyebrow =
+    eyebrow?.trim() || "LATEST ANNOUNCEMENTS";
+  const sectionHeading =
+    heading?.trim() || "News & Blogs";
+  const sectionCtaLabel = cta?.label?.trim() || "view all";
+  const sectionCtaHref = cta?.href?.trim() || "/news-and-blogs";
+
   const scrollerRef =
     useRef<HTMLDivElement>(null);
 
@@ -364,7 +408,7 @@ export function InsightsSection() {
 
       setCanScrollNext(
         left <
-          maxScroll - 4,
+        maxScroll - 4,
       );
     }, []);
 
@@ -447,7 +491,7 @@ export function InsightsSection() {
 
         const card =
           scroller.querySelector<HTMLElement>(
-            "[data-insight-card]",
+            "[data-news-blog-card]",
           );
 
         if (!card) {
@@ -462,8 +506,8 @@ export function InsightsSection() {
         const gap =
           Number.parseFloat(
             computed.columnGap ||
-              computed.gap ||
-              "0",
+            computed.gap ||
+            "0",
           ) || 0;
 
         const amount =
@@ -487,8 +531,8 @@ export function InsightsSection() {
 
   return (
     <section
-      id="insights"
-      aria-labelledby="insights-heading"
+      id="news-blogs"
+      aria-labelledby="news-blogs-heading"
       className="
         landing-section-transition
 
@@ -563,7 +607,7 @@ export function InsightsSection() {
               [font-feature-settings:'liga'_off,'clig'_off]
             `}
           >
-            LATEST ANNOUNCEMENTS
+            {sectionEyebrow}
           </p>
 
           {/* =================================================
@@ -575,7 +619,7 @@ export function InsightsSection() {
               ================================================= */}
 
           <h2
-            id="insights-heading"
+            id="news-blogs-heading"
             className={`landing-title
               ${plusJakartaSans.className}
 
@@ -598,7 +642,7 @@ export function InsightsSection() {
               lg:leading-[3rem]
             `}
           >
-            News and blogs
+            {sectionHeading}
           </h2>
         </div>
 
@@ -607,7 +651,7 @@ export function InsightsSection() {
             =================================================== */}
 
         <Link
-          href="/insights"
+          href={sectionCtaHref}
           className={`
             ${inter.className}
 
@@ -635,7 +679,7 @@ export function InsightsSection() {
           `}
         >
           <span>
-            view all
+            {sectionCtaLabel}
           </span>
 
           <span
@@ -659,7 +703,7 @@ export function InsightsSection() {
         ref={scrollerRef}
         data-landing-parallax-layer="reverse"
         className="
-          insights-track
+          news-blogs-track
 
           mt-10
 
@@ -687,11 +731,11 @@ export function InsightsSection() {
           lg:gap-8
         "
       >
-        {INSIGHTS.map(
-          (insight) => (
-            <InsightCard
-              key={insight.id}
-              insight={insight}
+        {visibleNewsBlogs.map(
+          (article) => (
+            <NewsBlogCard
+              key={article.id}
+              article={article}
             />
           ),
         )}
@@ -723,7 +767,7 @@ export function InsightsSection() {
           disabled={
             !canScrollPrevious
           }
-          aria-label="Previous announcement"
+          aria-label="Previous News & Blog article"
           className="
             inline-flex
             h-12
@@ -770,7 +814,7 @@ export function InsightsSection() {
           disabled={
             !canScrollNext
           }
-          aria-label="Next announcement"
+          aria-label="Next News & Blog article"
           className="
             inline-flex
             h-12
@@ -811,25 +855,24 @@ export function InsightsSection() {
           ===================================================== */}
 
       <style>{`
-        .insights-track {
-          scrollbar-width: none;
+        .news-blogs-track {
           -ms-overflow-style: none;
           -webkit-overflow-scrolling: touch;
         }
 
-        .insights-track::-webkit-scrollbar {
+        .news-blogs-track::-webkit-scrollbar {
           display: none;
         }
 
         @media (
           prefers-reduced-motion: reduce
         ) {
-          .insights-track {
+          .news-blogs-track {
             scroll-behavior: auto;
           }
 
-          #insights
-            [data-insight-card]
+          #news-blogs
+            [data-news-blog-card]
             img {
             transition: none !important;
             transform: none !important;

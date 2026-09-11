@@ -262,13 +262,13 @@ export const homePageType = defineType({
     defineField({ name: "industriesDescription", title: "Industries description", type: "text", rows: 4, group: "content", initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
     defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
 
-    defineField({ name: "insightsEyebrow", title: "Insights eyebrow", type: "string", group: "content", initialValue: "LATEST ANNOUNCEMENTS", validation: (rule) => rule.max(80) }),
-    defineField({ name: "insightsHeading", title: "Insights heading", type: "string", group: "content", initialValue: "News and Blogs", validation: (rule) => rule.max(120) }),
-    defineField({ name: "insightsCta", title: "Insights button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/insights", style: "text" } }),
+    defineField({ name: "insightsEyebrow", title: "News & Blogs eyebrow", type: "string", group: "content", initialValue: "LATEST ANNOUNCEMENTS", validation: (rule) => rule.max(80) }),
+    defineField({ name: "insightsHeading", title: "News & Blogs heading", type: "string", group: "content", initialValue: "News & Blogs", validation: (rule) => rule.max(120) }),
+    defineField({ name: "insightsCta", title: "News & Blogs button", type: "cta", group: "content", initialValue: { label: "View all", href: "/news-and-blogs", style: "text" } }),
 
     defineField({
       name: "partnerSection",
-      title: "Why partner + Cannes section",
+      title: "Why partner section",
       type: "object",
       group: "content",
       fields: [
@@ -297,10 +297,172 @@ export const homePageType = defineType({
           ],
           validation: (rule) => rule.max(8),
         }),
-        defineField({ name: "eventHeading", title: "Cannes / event heading", type: "string", initialValue: "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.", validation: (rule) => rule.max(220) }),
-        imageField("eventImage", "Cannes / event image"),
-        imageField("eventBadge", "Event badge / logo image"),
-        defineField({ name: "eventCta", title: "Event button", type: "cta", initialValue: { label: "View Our Cannes Monument", href: "/portfolio", style: "text" } }),
+        defineField({ name: "eventHeading", title: "Legacy Cannes heading", type: "string", hidden: true, initialValue: "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.", validation: (rule) => rule.max(220) }),
+        defineField({ name: "eventImage", title: "Legacy Cannes image", type: "mediaImage", hidden: true }),
+        defineField({ name: "eventBadge", title: "Legacy Cannes badge / logo", type: "mediaImage", hidden: true }),
+        defineField({ name: "eventCta", title: "Legacy Cannes button", type: "cta", hidden: true, initialValue: { label: "Explore Cannes Moments", href: "#cannes-gallery", style: "text" } }),
+      ],
+    }),
+
+    defineField({
+      name: "cannesSection",
+      title: "Cannes Moments",
+      type: "object",
+      group: "content",
+      description:
+        "Homepage Cannes photo/video section. If this media list is empty, the website automatically uses the files in /public/cannes.",
+      fields: [
+        defineField({
+          name: "heading",
+          title: "Heading",
+          type: "string",
+          initialValue:
+            "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.",
+          validation: (rule) => rule.max(220),
+        }),
+        defineField({
+          name: "description",
+          title: "Description",
+          type: "text",
+          rows: 4,
+          initialValue:
+            "Explore photographs and video moments from Abhijat Marathi's Cannes 2026 presence at the Bharat (India) Pavilion.",
+          validation: (rule) => rule.max(500),
+        }),
+        defineField({
+          name: "cta",
+          title: "Button",
+          type: "cta",
+          initialValue: {
+            label: "Explore Cannes Moments",
+            href: "#cannes-gallery",
+            style: "text",
+          },
+        }),
+        defineField({
+          name: "media",
+          title: "Cannes photos & videos",
+          type: "array",
+          description:
+            "Add and order photos/videos here. When at least one valid item exists, Sanity media replaces the local /public/cannes fallback gallery.",
+          of: [
+            defineArrayMember({
+              name: "cannesMediaItem",
+              title: "Cannes media item",
+              type: "object",
+              fields: [
+                defineField({
+                  name: "mediaType",
+                  title: "Media type",
+                  type: "string",
+                  initialValue: "image",
+                  options: {
+                    layout: "radio",
+                    list: [
+                      { title: "Photo", value: "image" },
+                      { title: "Video", value: "video" },
+                    ],
+                  },
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: "image",
+                  title: "Photo",
+                  type: "mediaImage",
+                  description: "Used when Media type is Photo.",
+                  hidden: ({ parent }) => parent?.mediaType === "video",
+                }),
+                defineField({
+                  name: "video",
+                  title: "Video",
+                  type: "file",
+                  description:
+                    "Used when Media type is Video. MP4 is recommended for reliable muted autoplay.",
+                  options: { accept: "video/mp4,video/webm" },
+                  hidden: ({ parent }) => parent?.mediaType !== "video",
+                }),
+                defineField({
+                  name: "videoLabel",
+                  title: "Video accessibility label",
+                  type: "string",
+                  description:
+                    "Short description of the video for accessibility. Example: Cannes red carpet interview.",
+                  validation: (rule) => rule.max(160),
+                  hidden: ({ parent }) => parent?.mediaType !== "video",
+                }),
+                defineField({
+                  name: "poster",
+                  title: "Video poster image",
+                  type: "mediaImage",
+                  description: "Optional preview shown while the video loads.",
+                  hidden: ({ parent }) => parent?.mediaType !== "video",
+                }),
+                defineField({
+                  name: "caption",
+                  title: "Internal caption / fallback label",
+                  type: "string",
+                  validation: (rule) => rule.max(180),
+                }),
+                defineField({
+                  name: "objectPosition",
+                  title: "Crop position",
+                  type: "string",
+                  description:
+                    "Optional CSS object-position, for example: center, center 30%, 60% center.",
+                  validation: (rule) => rule.max(40),
+                }),
+                defineField({
+                  name: "enabled",
+                  title: "Show on website",
+                  type: "boolean",
+                  initialValue: true,
+                }),
+              ],
+              validation: (rule) =>
+                rule.custom((value) => {
+                  const item = value as
+                    | {
+                      mediaType?: "image" | "video";
+                      image?: { asset?: unknown };
+                      video?: { asset?: unknown };
+                      videoLabel?: string;
+                    }
+                    | undefined;
+
+                  if (!item) return true;
+
+                  if (item.mediaType === "video") {
+                    if (!item.video?.asset) return "Upload a video for this item.";
+                    if (!item.videoLabel?.trim()) {
+                      return "Add a short accessibility label for this video.";
+                    }
+                    return true;
+                  }
+
+                  if (!item.image?.asset) return "Upload a photo for this item.";
+                  return true;
+                }),
+              preview: {
+                select: {
+                  mediaType: "mediaType",
+                  caption: "caption",
+                  videoLabel: "videoLabel",
+                  image: "image",
+                  poster: "poster",
+                },
+                prepare: ({ mediaType, caption, videoLabel, image, poster }) => ({
+                  title:
+                    caption ||
+                    videoLabel ||
+                    (mediaType === "video" ? "Cannes video" : "Cannes photo"),
+                  subtitle: mediaType === "video" ? "Video" : "Photo",
+                  media: mediaType === "video" ? poster : image,
+                }),
+              },
+            }),
+          ],
+          validation: (rule) => rule.max(18),
+        }),
       ],
     }),
 
@@ -473,7 +635,7 @@ export const homePageType = defineType({
     defineField({ name: "featuredServices", title: "Featured services", type: "array", group: "featured", description: "Optional manual selection and order. If empty, published Service documents marked Featured service are used automatically.", of: [defineArrayMember({ type: "reference", to: [{ type: "service" }] })], validation: (rule) => rule.unique().max(8) }),
     defineField({ name: "featuredIndustries", title: "Featured industries", type: "array", group: "featured", description: "Optional manual selection and order. If empty, published Industry documents marked Featured industry are used automatically.", of: [defineArrayMember({ type: "reference", to: [{ type: "industry" }] })], validation: (rule) => rule.unique().max(12) }),
     defineField({ name: "featuredProjects", title: "Featured projects", type: "array", group: "featured", description: "Optional manual selection and order. If empty, published Project documents marked Featured project are used automatically.", of: [defineArrayMember({ type: "reference", to: [{ type: "project" }] })], validation: (rule) => rule.unique().max(8) }),
-    defineField({ name: "featuredInsights", title: "Featured insights", type: "array", group: "featured", description: "Optional manual selection and order. If empty, published Insight documents marked Featured insight are used automatically.", of: [defineArrayMember({ type: "reference", to: [{ type: "post" }] })], validation: (rule) => rule.unique().max(6) }),
+    defineField({ name: "featuredInsights", title: "Featured News & Blog articles", type: "array", group: "featured", description: "Optional manual selection and order. If empty, published News & Blog articles marked Featured article are used automatically.", of: [defineArrayMember({ type: "reference", to: [{ type: "post" }] })], validation: (rule) => rule.unique().max(6) }),
 
     defineField({ name: "seo", title: "SEO", type: "seo", group: "seo" }),
   ],

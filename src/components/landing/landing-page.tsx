@@ -7,11 +7,11 @@ import { AchievementRevealGrid } from "./achievement-reveal-grid";
 import { CareersCtaSection } from "./careers-cta-section";
 import { ClientsSection } from "./client-section";
 import { FaqSection } from "./faq-section";
-import { FilmSection } from "./film-section";
+import { CannesSection } from "./cannes-section";
 import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
-import { InsightsSection } from "./insights-section";
+import { NewsBlogsSection } from "./news-blogs-section";
 import { LandingTextReveal } from "./landing-text-reveal";
 import { MediaCoverageSection } from "./media-coverage-section";
 import { PartnerSection } from "./partner-section";
@@ -139,14 +139,14 @@ export function LandingPage({
       />
 
       {/* =====================================================
-          FILM / CANNES
+          CANNES MOMENTS
           DARK
 
           Previous section is #FFEABF rather than white,
           so leave this transition untouched.
           ===================================================== */}
 
-      <FilmSection />
+      <CannesSection content={home?.cannesSection} />
 
       {/* =====================================================
           TESTIMONIAL + STORY
@@ -188,11 +188,16 @@ export function LandingPage({
       </ParallaxBlackSection>
 
       {/* =====================================================
-          INSIGHTS
+          NEWS & BLOGS
           WHITE
           ===================================================== */}
 
-      <InsightsSection />
+      <NewsBlogsSection
+        eyebrow={home?.insightsEyebrow}
+        heading={home?.insightsHeading}
+        cta={home?.insightsCta}
+        articles={home?.featuredInsights}
+      />
 
       {/* =====================================================
           FAQ
