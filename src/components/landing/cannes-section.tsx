@@ -46,6 +46,7 @@ type GalleryGeometry = {
   travel: number;
   initialScale: number;
   endFraction: number;
+  topStartOffset: number;
 };
 
 type CannesSectionProps = {
@@ -71,82 +72,17 @@ const DEFAULT_CTA = {
   href: "#cannes-gallery",
 } as const;
 
-const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
-  {
-    key: "cannes-red-carpet-group-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-01.jpg",
-    alt: "Guests representing Indian culture on the Cannes red carpet",
-    position: "center 44%",
-    fit: "contain",
-  },
-  {
-    key: "cannes-interview-group-short",
-    kind: "video",
-    src: "/cannes/cannes-interview-group-short.mp4",
-    alt: "Cannes interview moment with guests at the festival",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-portrait-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-portrait-01.jpg",
-    alt: "Festival guest in traditional attire on the Cannes red carpet",
-    position: "center 34%",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-walk",
-    kind: "video",
-    src: "/cannes/cannes-red-carpet-walk.mp4",
-    alt: "Cannes red carpet festival moment",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-group-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-02.jpg",
-    alt: "Festival guests posing together on the Cannes red carpet",
-    position: "center 42%",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-portrait-video",
-    kind: "video",
-    src: "/cannes/cannes-red-carpet-portrait-video.mp4",
-    alt: "Close-up Cannes red carpet video moment",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-blue-look-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
-    alt: "Traditional blue look presented on the Cannes red carpet",
-    position: "center 48%",
-    fit: "contain",
-  },
-  {
-    key: "cannes-interview-group",
-    kind: "video",
-    src: "/cannes/cannes-interview-group.mp4",
-    alt: "Cannes festival interview with a group of guests",
-    fit: "contain",
-  },
-  {
-    key: "cannes-red-carpet-blue-look-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
-    alt: "Wide Cannes red carpet moment featuring a traditional blue look",
-    position: "center 48%",
-    fit: "contain",
-  },
-  {
-    key: "cannes-interview-indoor",
-    kind: "video",
-    src: "/cannes/cannes-interview-indoor.mp4",
-    alt: "Indoor interview recorded during the Cannes visit",
-    fit: "contain",
-  },
+/* ============================================================
+   CANNES FALLBACK MEDIA
+
+   ORDER:
+   1. Top row — left to right
+   2. Bottom row — left to right
+
+   Do NOT use even/odd splitting.
+   ============================================================ */
+
+const FALLBACK_CANNES_TOP_ROW: readonly GalleryMedia[] = [
   {
     key: "cannes-red-carpet-guests-01",
     kind: "image",
@@ -155,6 +91,15 @@ const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
     position: "center 38%",
     fit: "contain",
   },
+
+  {
+    key: "cannes-interview-indoor",
+    kind: "video",
+    src: "/cannes/cannes-interview-indoor.mp4",
+    alt: "Cannes interview and pavilion moment",
+    fit: "contain",
+  },
+
   {
     key: "cannes-red-carpet-interview",
     kind: "video",
@@ -162,14 +107,73 @@ const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
     alt: "Red carpet interview moment at Cannes",
     fit: "contain",
   },
+
   {
-    key: "cannes-pavilion-guests-01",
+    key: "cannes-pavilion-guests-02",
     kind: "image",
-    src: "/cannes/cannes-pavilion-guests-01.jpg",
-    alt: "Guests gathering at the Cannes pavilion",
-    position: "center 38%",
+    src: "/cannes/cannes-pavilion-guests-02.jpg",
+    alt: "Guests meeting at the Cannes pavilion",
+    position: "center 42%",
     fit: "contain",
   },
+
+  {
+    key: "cannes-red-carpet-group-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-group-02.jpg",
+    alt: "Festival guests posing together on the Cannes red carpet",
+    position: "center 42%",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-red-carpet-portrait-video",
+    kind: "video",
+    src: "/cannes/cannes-red-carpet-portrait-video.mp4",
+    alt: "Close-up Cannes red carpet portrait moment",
+    position: "center center",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-red-carpet-portrait-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-portrait-01.jpg",
+    alt: "Festival guest in traditional attire on the Cannes red carpet",
+    position: "center 34%",
+    fit: "contain",
+  },
+];
+
+
+const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
+  {
+    key: "cannes-red-carpet-blue-look-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
+    alt: "Traditional blue look on the Cannes red carpet",
+    position: "center 48%",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-red-carpet-walk",
+    kind: "video",
+    src: "/cannes/cannes-red-carpet-walk.mp4",
+    alt: "Cannes red carpet walk",
+    position: "center center",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-red-carpet-group-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-group-01.jpg",
+    alt: "Guests representing Indian culture on the Cannes red carpet",
+    position: "center 44%",
+    fit: "contain",
+  },
+
   {
     key: "cannes-riviera-portrait-01",
     kind: "image",
@@ -178,15 +182,111 @@ const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
     position: "center 42%",
     fit: "contain",
   },
+
   {
-    key: "cannes-pavilion-guests-02",
+    key: "cannes-interview-group",
+    kind: "video",
+    src: "/cannes/cannes-interview-group.mp4",
+    alt: "Cannes festival interview with guests",
+    position: "center center",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-red-carpet-group-02-bottom",
     kind: "image",
-    src: "/cannes/cannes-pavilion-guests-02.jpg",
-    alt: "Cannes pavilion gathering with festival guests",
+    src: "/cannes/cannes-red-carpet-group-02.jpg",
+    alt: "Cannes red carpet group moment",
+    position: "center 42%",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-interview-group-short",
+    kind: "video",
+    src: "/cannes/cannes-interview-group-short.mp4",
+    alt: "Cannes interview moment at the Bharat Pavilion",
+    position: "center center",
+    fit: "contain",
+  },
+
+  {
+    key: "cannes-pavilion-guests-01",
+    kind: "image",
+    src: "/cannes/cannes-pavilion-guests-01.jpg",
+    alt: "Guests gathering at the Cannes pavilion",
     position: "center 38%",
     fit: "contain",
   },
+
+  {
+    key: "cannes-red-carpet-blue-look-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    alt: "Traditional blue look presented on the Cannes red carpet",
+    position: "center 48%",
+    fit: "contain",
+  },
 ];
+
+
+/* Combined fallback is still useful for reduced-motion/static mode */
+const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
+  ...FALLBACK_CANNES_TOP_ROW,
+  ...FALLBACK_CANNES_BOTTOM_ROW,
+];
+
+
+/* ============================================================
+   ROW HELPERS
+   ============================================================ */
+
+function expandGalleryRow(
+  row: readonly GalleryMedia[],
+): GalleryMedia[] {
+  if (row.length === 0) {
+    return [];
+  }
+
+  const expanded = [...row];
+
+  /*
+   * Maintain enough cards for wide screens.
+   */
+  while (expanded.length < 4) {
+    expanded.push(
+      row[expanded.length % row.length],
+    );
+  }
+
+  /*
+   * Add one clone to each side.
+   *
+   * This allows the horizontal movement to happen without
+   * revealing empty space at either edge.
+   */
+  return [
+    expanded[expanded.length - 1],
+    ...expanded,
+    expanded[0],
+  ];
+}
+
+
+/* ============================================================
+   SANITY ROW BUILDER
+
+   Sanity still supplies one ordered media list.
+   We preserve its order by putting the first half in row 1
+   and the second half in row 2.
+
+   OLD CODE:
+   index % 2 === 0 / index % 2 === 1
+
+   That code was changing the visible order.
+   ============================================================ */
+
+
 function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
   const videoUrl = item.videoUrl?.trim();
   const imageUrl = item.imageUrl?.trim();
@@ -236,26 +336,20 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
 }
 
 function buildGalleryRows(media: readonly GalleryMedia[]) {
-  const first = media.filter((_, index) => index % 2 === 0);
-  const second = media.filter((_, index) => index % 2 === 1);
+  if (media.length === 0) {
+    return [[], []] as const;
+  }
 
-  const ensureRow = (row: GalleryMedia[], fallback: GalleryMedia[]) => {
-    const source = row.length > 0 ? row : fallback;
-    const expanded = [...source];
+  // Preserve Sanity/editor order exactly:
+  // first half = row 1, second half = row 2.
+  const splitIndex = Math.ceil(media.length / 2);
+  const firstRow = media.slice(0, splitIndex);
+  const secondRow = media.slice(splitIndex);
 
-    while (expanded.length < 4 && source.length > 0) {
-      expanded.push(source[expanded.length % source.length]);
-    }
-
-    if (expanded.length === 0) return [];
-
-    return [expanded[expanded.length - 1], ...expanded, expanded[0]];
-  };
-
-  const firstRow = ensureRow(first, [...media]);
-  const secondRow = ensureRow(second, first.length > 0 ? first : [...media]);
-
-  return [firstRow, secondRow] as const;
+  return [
+    expandGalleryRow(firstRow),
+    expandGalleryRow(secondRow.length > 0 ? secondRow : firstRow),
+  ] as const;
 }
 
 /* ============================================================
@@ -272,8 +366,9 @@ const EASE: [number, number, number, number] = [
 const INITIAL_GEOMETRY: GalleryGeometry = {
   height: 0,
   travel: 0,
-  initialScale: 2.05,
+  initialScale: 1.45,
   endFraction: 1.35 / 2.35,
+  topStartOffset: 0,
 };
 
 function clamp01(value: number) {
@@ -472,10 +567,31 @@ export function CannesSection({ content }: CannesSectionProps) {
       ?.map(toGalleryMedia)
       .filter((item): item is GalleryMedia => item !== null) ?? [];
 
-  const galleryMedia =
-    cmsMedia.length > 0 ? cmsMedia : [...FALLBACK_CANNES_MEDIA];
+  const usingCmsMedia =
+    cmsMedia.length > 0;
 
-  const galleryRows = buildGalleryRows(galleryMedia);
+  const galleryMedia =
+    usingCmsMedia
+      ? cmsMedia
+      : [...FALLBACK_CANNES_MEDIA];
+
+  /*
+   * Local fallback has an exact designed row order.
+   *
+   * Sanity preserves editor order:
+   * first half → first row
+   * second half → second row.
+   */
+  const galleryRows = usingCmsMedia
+    ? buildGalleryRows(cmsMedia)
+    : [
+      expandGalleryRow(
+        FALLBACK_CANNES_TOP_ROW,
+      ),
+      expandGalleryRow(
+        FALLBACK_CANNES_BOTTOM_ROW,
+      ),
+    ] as const;
 
   const heading = content?.heading?.trim() || DEFAULT_HEADING;
   const description = content?.description?.trim() || DEFAULT_DESCRIPTION;
@@ -558,12 +674,47 @@ export function CannesSection({ content }: CannesSectionProps) {
        * Limit horizontal travel to the available row width.
        * This prevents black gaps at the left or right edges.
        */
+      const compact = width < 1024;
+
+      /*
+       * DESKTOP START FRAME
+       * -------------------
+       * The previous 2.05x zoom made one card sit in the centre with
+       * two partial cards at the sides. For row 1 we want TWO complete
+       * cards to be the dominant starting composition.
+       *
+       * 1) Shift row 1 by half a card step so the viewport centre sits
+       *    between two cards instead of through the centre of one card.
+       * 2) Derive the initial scale from the measured card width so two
+       *    cards occupy about 92% of the stage width.
+       */
+      const topStartOffset =
+        width >= 1024 ? -(cardStep / 2) : 0;
+
+      const twoCardWidth =
+        card.offsetWidth * 2 + gap;
+
+      const desktopPairScale =
+        twoCardWidth > 0
+          ? (width * 0.92) / twoCardWidth
+          : 1.4;
+
+      const initialScale =
+        width < 640
+          ? 1.12
+          : compact
+            ? 1.22
+            : Math.min(
+              1.5,
+              Math.max(1.18, desktopPairScale),
+            );
+
       const safeOverflow = Math.max(
         0,
-        (track.scrollWidth - width) / 2 - 16,
+        (track.scrollWidth - width) / 2 -
+        Math.abs(topStartOffset) -
+        16,
       );
-
-      const compact = width < 1024;
 
       const travel = Math.min(
         cardStep * (compact ? 1.15 : 1.8),
@@ -589,24 +740,24 @@ export function CannesSection({ content }: CannesSectionProps) {
         height: totalHeight,
         travel,
 
-        initialScale:
-          width < 640
-            ? 1.22
-            : compact
-              ? 1.6
-              : 2.05,
+        initialScale,
 
         endFraction:
           scrollDistance / totalHeight,
+
+        topStartOffset,
       };
 
       setGeometry((current) =>
         Math.abs(current.height - next.height) < 0.5 &&
           Math.abs(current.travel - next.travel) < 0.5 &&
-          current.initialScale === next.initialScale &&
+          Math.abs(current.initialScale - next.initialScale) < 0.0001 &&
           Math.abs(
             current.endFraction - next.endFraction,
-          ) < 0.0001
+          ) < 0.0001 &&
+          Math.abs(
+            current.topStartOffset - next.topStartOffset,
+          ) < 0.5
           ? current
           : next,
       );
@@ -681,8 +832,8 @@ export function CannesSection({ content }: CannesSectionProps) {
      ONE SHARED ZOOM
 
      Desktop:
-       large images → smaller images
-       2.05 → 1
+       two-card opening frame → full gallery wall
+       measured pair scale → 1
 
      Only the complete wall scales.
      Individual cards do not run separate zoom animations.
@@ -707,7 +858,8 @@ export function CannesSection({ content }: CannesSectionProps) {
   const topX = useTransform(
     progress,
     (value) =>
-      -geometry.travel * value * value,
+      geometry.topStartOffset -
+      geometry.travel * value * value,
   );
 
   const bottomX = useTransform(
