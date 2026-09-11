@@ -1,5 +1,6 @@
 import Image from "@/components/ui/image";
 import Link from "next/link";
+import { Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { inter, plusJakartaSans } from "@/lib/fonts";
@@ -13,6 +14,12 @@ import type {
 } from "@/types/insights";
 
 import styles from "./news-blog-detail.module.css";
+
+const manrope = Manrope({
+    subsets: ["latin"],
+    variable: "--font-manrope",
+    display: "swap",
+});
 
 type Props = {
     article: InsightDetail;
@@ -185,7 +192,7 @@ export function NewsBlogDetail({ article }: Props) {
     const related = article.relatedPosts ?? [];
 
     return (
-        <main className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}>
+        <main className={`${plusJakartaSans.variable} ${inter.variable} ${manrope.variable} ${styles.page}`}>
             <header className={styles.articleHeader}>
                 <div className={styles.articleHeaderGrid}>
                     <h1>{article.title}</h1>
@@ -221,18 +228,29 @@ export function NewsBlogDetail({ article }: Props) {
 
                     <aside className={styles.sidebar}>
                         <div className={styles.sidebarSticky}>
-                            <p className={styles.sidebarEyebrow}>Related articles</p>
+                            <div className={styles.sidebarHeadingRow}>
+                                <h2 className={styles.sidebarEyebrow}>Related articles</h2>
+                                <Link
+                                    href="/insights"
+                                    className={styles.sidebarArrowButton}
+                                    aria-label="View all related articles"
+                                >
+                                    <Arrow />
+                                </Link>
+                            </div>
+
                             <div className={styles.sidebarLinks}>
                                 {related.slice(0, 3).map((post: InsightListItem) => (
                                     <Link href={`/insights/${post.slug}`} key={post._id}>
                                         {post.title}
-                                        <Arrow />
                                     </Link>
                                 ))}
                             </div>
 
+                            <div className={styles.sidebarRule} aria-hidden="true" />
+
                             <div className={styles.connectBox}>
-                                <h2>Connect with Domingo</h2>
+                                <Link href="/contact">Connect with Domingo</Link>
                                 <p>Credits: Marissa Grootes</p>
                             </div>
                         </div>
@@ -244,18 +262,14 @@ export function NewsBlogDetail({ article }: Props) {
                 <div>
                     {article.previousPost ? (
                         <Link href={`/insights/${article.previousPost.slug}`}>
-                            <span>Previous article</span>
-                            <strong>{article.previousPost.title}</strong>
+                            Previous article
                         </Link>
-                    ) : (
-                        <span />
-                    )}
+                    ) : null}
                 </div>
                 <div>
                     {article.nextPost ? (
                         <Link href={`/insights/${article.nextPost.slug}`} data-align="right">
-                            <span>Next article</span>
-                            <strong>{article.nextPost.title}</strong>
+                            Next article
                         </Link>
                     ) : null}
                 </div>
