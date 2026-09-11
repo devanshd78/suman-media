@@ -12,44 +12,57 @@ type OttImage = {
   center?: boolean;
 };
 
-const OTT_IMAGES: readonly OttImage[] = [
+const OTT_IMAGES = [
   {
     src: "/images/ott/image1.png",
     left: "0rem",
+    top: "9rem",      // 144px
     zIndex: 10,
+    center: false,
   },
   {
-    src: "/images/ott/Image2.png",
-    left: "12.5rem",
+    src: "/images/ott/image2.png",
+    left: "12.5rem", // 200px
+    top: "6rem",     // 96px
     zIndex: 20,
+    center: false,
   },
   {
     src: "/images/ott/image3.png",
-    left: "25rem",
+    left: "25rem",   // 400px
+    top: "3rem",     // 48px
     zIndex: 30,
+    center: false,
   },
   {
     src: "/images/ott/image4.png",
-    left: "37.5rem",
+    left: "37.5rem", // 600px
+    top: "0rem",
     zIndex: 40,
     center: true,
   },
   {
     src: "/images/ott/image5.png",
-    left: "50rem",
+    left: "50rem",   // 800px
+    top: "3rem",     // 48px
     zIndex: 30,
+    center: false,
   },
   {
     src: "/images/ott/image6.png",
-    left: "62.5rem",
+    left: "62.5rem", // 1000px
+    top: "6rem",     // 96px
     zIndex: 20,
+    center: false,
   },
   {
     src: "/images/ott/image7.png",
-    left: "75rem",
+    left: "75rem",   // 1200px
+    top: "9rem",     // 144px
     zIndex: 10,
+    center: false,
   },
-];
+] as const;
 
 function ChevronRight() {
   return (
@@ -312,69 +325,64 @@ export default function OttHeader({
             Total width:
             372 + (6 × 200) = 1572px = 98.25rem
         ========================================================= */}
+        {/* =========================================================
+    OTT IMAGE STACK
+========================================================= */}
         <div
           className="
-            relative
-            h-[17rem]
-            w-full
-            shrink-0
+    relative
+    w-full
+    shrink-0
+    overflow-visible
 
-            md:h-[24rem]
-
-            xl:h-[30.6875rem]
-          "
+    h-[20rem]
+    md:h-[25rem]
+    xl:h-[30.6875rem]
+  "
           aria-hidden="true"
         >
           <div
             className="
-              absolute
-              left-1/2
-              top-0
+      absolute
+      left-1/2
+      top-0
 
-              h-[30.6875rem]
-              w-[98.25rem]
+      h-[35.6875rem]
+      w-[98.25rem]
 
-              origin-top
-              -translate-x-1/2
-              scale-[0.55]
+      origin-top
+      -translate-x-1/2
 
-              md:scale-[0.78]
-
-              xl:scale-100
-            "
+      scale-[0.55]
+      md:scale-[0.78]
+      xl:scale-100
+    "
           >
             {OTT_IMAGES.map((image) => {
-              const isCenter = image.center === true;
+              const isCenter = image.center;
 
               return (
                 <div
                   key={image.src}
                   className="
-                    absolute
-                    w-[23.25rem]
-                    overflow-hidden
-                    rounded-[1rem]
-                  "
+            absolute
+            w-[23.25rem]
+            overflow-hidden
+            rounded-[1rem]
+          "
                   style={{
                     left: image.left,
-
-                    /*
-                     * The center is 64px taller.
-                     * Every other image starts 64px lower,
-                     * making all seven cards bottom-aligned.
-                     */
-                    top: isCenter ? "0rem" : "4rem",
-
-                    height: isCenter ? "30.6875rem" : "26.6875rem",
-
+                    top: image.top,
                     zIndex: image.zIndex,
 
+                    height: isCenter
+                      ? "30.6875rem"
+                      : "26.6875rem",
+
                     backgroundImage: `url("${image.src}")`,
+
                     backgroundRepeat: "no-repeat",
 
-                    /*
-                     * Exact Figma crop for the elevated center card.
-                     */
                     backgroundPosition: isCenter
                       ? "-0.289px -29.077px"
                       : "50% 50%",
@@ -384,7 +392,7 @@ export default function OttHeader({
                       : "cover",
 
                     boxShadow:
-                      "16px 0 16px 0 rgba(0,0,0,0.20), -16px 0 20px 0 rgba(0,0,0,0.20)",
+                      "16px 0 16px 0 rgba(0, 0, 0, 0.20), -16px 0 20px 0 rgba(0, 0, 0, 0.20)",
                   }}
                 />
               );
