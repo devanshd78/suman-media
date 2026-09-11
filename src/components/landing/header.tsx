@@ -521,10 +521,10 @@ function DropdownPanel({
         reduceMotion
           ? false
           : {
-              opacity: 0,
-              y: -8,
-              clipPath: "inset(0 0 100% 0)",
-            }
+            opacity: 0,
+            y: -8,
+            clipPath: "inset(0 0 100% 0)",
+          }
       }
       animate={{
         opacity: 1,
@@ -535,16 +535,19 @@ function DropdownPanel({
         reduceMotion
           ? { opacity: 0 }
           : {
-              opacity: 0,
-              y: -6,
-              clipPath: "inset(0 0 100% 0)",
-            }
+            opacity: 0,
+            y: -6,
+            clipPath: "inset(0 0 100% 0)",
+          }
       }
       transition={{
         duration: reduceMotion ? 0 : 0.3,
         ease: [0.22, 1, 0.36, 1],
       }}
-      style={{ transformOrigin: "50% 0%" }}
+      style={{
+        transformOrigin: "50% 0%",
+        backgroundColor: "#FFFFFF",
+      }}
     >
       <motion.div
         className={styles.dropdownGrid}
@@ -790,6 +793,18 @@ export function Header() {
     >(null);
 
   /*
+   * Keeps the white desktop navigation surface mounted while
+   * the dropdown is animating out. Without this state the
+   * homepage header turns transparent one frame before the
+   * dropdown exit animation has finished.
+   */
+  const [
+    dropdownSurfaceVisible,
+    setDropdownSurfaceVisible,
+  ] =
+    useState(false);
+
+  /*
    * This is intentionally only a BOOLEAN threshold state.
    *
    * React is NOT updated on every scroll position.
@@ -857,9 +872,22 @@ export function Header() {
        dark nav
      ========================================================== */
 
+  const navigationSurfaceVisible =
+    menuOpen ||
+    dropdownSurfaceVisible;
+
+  /*
+   * The homepage is transparent only when nothing in the
+   * navigation needs a solid surface.
+   *
+   * Opening a desktop dropdown now creates one continuous
+   * white patch behind the header row + dropdown and switches
+   * the logo/nav text to their dark versions.
+   */
   const transparentAtTop =
     isLandingPage &&
-    !isScrolled;
+    !isScrolled &&
+    !navigationSurfaceVisible;
 
   const topTextColor =
     transparentAtTop
@@ -889,6 +917,11 @@ export function Header() {
     useCallback(() => {
       cancelClose();
 
+      /*
+       * Keep dropdownSurfaceVisible=true here.
+       * AnimatePresence clears it only after the exit animation,
+       * preventing a transparent flash over the homepage hero.
+       */
       setOpenDropdown(
         null,
       );
@@ -900,6 +933,14 @@ export function Header() {
         id: string,
       ) => {
         cancelClose();
+
+        /*
+         * Turn the white patch on in the same interaction that
+         * opens the dropdown.
+         */
+        setDropdownSurfaceVisible(
+          true,
+        );
 
         setOpenDropdown(
           id,
@@ -966,6 +1007,10 @@ export function Header() {
             null,
           );
 
+          setDropdownSurfaceVisible(
+            false,
+          );
+
           setIsScrolled(
             Math.max(
               0,
@@ -1005,6 +1050,10 @@ export function Header() {
 
         setOpenDropdown(
           null,
+        );
+
+        setDropdownSurfaceVisible(
+          false,
         );
       };
 
@@ -1509,6 +1558,11 @@ export function Header() {
             transparentAtTop
               ? "none"
               : undefined,
+
+          transition:
+            reduceMotion
+              ? undefined
+              : "background-color 280ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms ease, border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
         onPointerEnter={
           cancelClose
@@ -1549,6 +1603,11 @@ export function Header() {
               transparentAtTop
                 ? "transparent"
                 : "#FFFFFF",
+
+            transition:
+              reduceMotion
+                ? undefined
+                : "background-color 280ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {/* =================================================
@@ -1657,15 +1716,14 @@ export function Header() {
                         openMenu(
                           menu.id,
                         );
+                      } else if (
+                        openDropdown ===
+                        menu.id
+                      ) {
+                        closeDropdown();
                       } else {
-                        setOpenDropdown(
-                          (
-                            current,
-                          ) =>
-                            current ===
-                              menu.id
-                              ? null
-                              : menu.id,
+                        openMenu(
+                          menu.id,
                         );
                       }
                     }}
@@ -1846,7 +1904,17 @@ export function Header() {
             DESKTOP DROPDOWN
             =================================================== */}
 
-        <AnimatePresence initial={false} mode="sync">
+        <AnimatePresence
+          initial={false}
+          mode="sync"
+          onExitComplete={() => {
+            if (!openDropdown) {
+              setDropdownSurfaceVisible(
+                false,
+              );
+            }
+          }}
+        >
           {activeMenu ? (
             <DropdownPanel
               key={activeMenu.id}
