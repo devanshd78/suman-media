@@ -14,11 +14,11 @@ const ASSETS = {
     screen: "/images/ott/mobile/onphone-image.png",
   },
 
-  /*
-   * Change only these paths if your other four card
-   * filenames are different.
-   */
-  smartTv: "/images/ott/smart-tv.png",
+  television: {
+    setup: "/images/ott/television/television-setup.png",
+    screen: "/images/ott/television/television-image.png",
+  },
+
   connectedTv: "/images/ott/connected-tv.png",
   contentAggregation: "/images/ott/content-aggregation.png",
   subscriptionManagement: "/images/ott/subscription-management.png",
@@ -42,11 +42,14 @@ function CardHeader({
       className="
         relative
         z-50
+
         flex
         w-full
         flex-col
         items-center
+
         gap-[0.5rem]
+
         px-5
         pt-[2.5rem]
       "
@@ -54,10 +57,13 @@ function CardHeader({
       <h3
         className="
           w-full
+
           text-center
+
           text-[1.25rem]
           font-semibold
           leading-[1.75rem]
+
           text-black
 
           lg:text-[1.5rem]
@@ -66,7 +72,9 @@ function CardHeader({
         style={{
           fontFamily:
             'var(--Font-family-Heading, "Plus Jakarta Sans")',
-          fontFeatureSettings: "'liga' off, 'clig' off",
+
+          fontFeatureSettings:
+            "'liga' off, 'clig' off",
         }}
       >
         {title}
@@ -76,10 +84,13 @@ function CardHeader({
         className="
           w-full
           max-w-[25.5rem]
+
           text-center
+
           text-[0.75rem]
           font-normal
           leading-[1.125rem]
+
           text-[#969696]
 
           lg:text-[0.875rem]
@@ -88,7 +99,9 @@ function CardHeader({
         style={{
           fontFamily:
             'var(--Font-family-Body, "Plus Jakarta Sans")',
-          fontFeatureSettings: "'liga' off, 'clig' off",
+
+          fontFeatureSettings:
+            "'liga' off, 'clig' off",
         }}
       >
         {description}
@@ -98,96 +111,7 @@ function CardHeader({
 }
 
 /* =========================================================
-   GENERIC LOOPING ARTWORK
-
-   Used by the four non-mobile cards.
-========================================================= */
-
-type AnimationDirection =
-  | "up"
-  | "left"
-  | "right";
-
-type LoopingArtworkProps = {
-  src: string;
-  direction: AnimationDirection;
-  reducedMotion: boolean;
-  backgroundSize?: string;
-  backgroundPosition?: string;
-  distance?: number;
-};
-
-function LoopingArtwork({
-  src,
-  direction,
-  reducedMotion,
-  backgroundSize = "contain",
-  backgroundPosition = "center bottom",
-  distance = 120,
-}: LoopingArtworkProps) {
-  const animation =
-    direction === "up"
-      ? {
-        y: reducedMotion
-          ? 0
-          : [distance, 0, distance],
-      }
-      : direction === "left"
-        ? {
-          x: reducedMotion
-            ? 0
-            : [distance, 0, distance],
-        }
-        : {
-          x: reducedMotion
-            ? 0
-            : [-distance, 0, -distance],
-        };
-
-  return (
-    <motion.div
-      initial={false}
-      animate={animation}
-      transition={
-        reducedMotion
-          ? {
-            duration: 0,
-          }
-          : {
-            duration: 2,
-            times: [0, 0.92, 1],
-            ease: "easeOut",
-            repeat: Infinity,
-            repeatType: "loop",
-          }
-      }
-      className="absolute inset-0"
-      style={{
-        backgroundImage: `url("${src}")`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition,
-        backgroundSize,
-        willChange: "transform",
-      }}
-    />
-  );
-}
-
-/* =========================================================
-   MOBILE APPLICATION PHONE
-
-   Figma outer phone:
-   width  = 20.48256rem
-   height = 42.47088rem
-
-   IMPORTANT STACK ORDER:
-
-   50 dynamic island
-   40 time/status
-   30 logo
-   20 purple header
-   10 OTT app screen
-    0 physical frame
+   MOBILE PHONE
 ========================================================= */
 
 function MobilePhone({
@@ -199,12 +123,15 @@ function MobilePhone({
     <div
       className="
         absolute
+
         left-1/2
         top-[10.5rem]
         z-20
+
         -translate-x-1/2
 
         origin-top
+
         scale-[0.72]
         sm:scale-[0.82]
         md:scale-[0.9]
@@ -214,64 +141,79 @@ function MobilePhone({
       <motion.div
         initial={false}
         animate={{
-          y: reducedMotion ? 0 : [145, 0, 145],
+          y: reducedMotion
+            ? 0
+            : [145, 0, 145],
         }}
         transition={
           reducedMotion
-            ? { duration: 0 }
+            ? {
+                duration: 0,
+              }
             : {
-              duration: 2,
-              times: [0, 0.92, 1],
-              ease: "easeOut",
-              repeat: Infinity,
-              repeatType: "loop",
-            }
+                duration: 2,
+
+                times: [
+                  0,
+                  0.92,
+                  1,
+                ],
+
+                ease: "easeOut",
+
+                repeat: Infinity,
+
+                repeatType: "loop",
+              }
         }
         className="
           relative
+
           h-[42.47088rem]
           w-[20.48256rem]
         "
         style={{
           willChange: "transform",
+
           filter:
             "drop-shadow(16px 18px 24px rgba(0,0,0,0.16))",
         }}
       >
-        {/* =====================================================
-            PHONE / METALLIC FRAME
+        {/* =================================================
+            PHONE FRAME
+        ================================================= */}
 
-            Keep this BEHIND all UI.
-
-            Do NOT use mix-blend-mode here.
-            We need the actual silver border from the PNG.
-        ====================================================== */}
         <div
           className="
             pointer-events-none
+
             absolute
             inset-0
             z-0
           "
           style={{
             backgroundImage:
-              'url("/images/ott/mobile/mobile.png")',
+              `url("${ASSETS.mobile.frame}")`,
 
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "100% 100%",
+            backgroundRepeat:
+              "no-repeat",
+
+            backgroundPosition:
+              "center",
+
+            backgroundSize:
+              "100% 100%",
           }}
         />
 
+        {/* =================================================
+            OTT SCREEN
+        ================================================= */}
 
-        {/* =====================================================
-            APPLICATION SCREEN
-
-            Starts below the custom purple header.
-        ====================================================== */}
         <div
           className="
             absolute
+
             left-1/2
             top-[4.42rem]
             z-10
@@ -280,6 +222,7 @@ function MobilePhone({
             w-[19.55419rem]
 
             -translate-x-1/2
+
             overflow-hidden
 
             rounded-b-[3.32419rem]
@@ -294,9 +237,10 @@ function MobilePhone({
             "
             style={{
               backgroundImage:
-                'url("/images/ott/mobile/onphone-image.png")',
+                `url("${ASSETS.mobile.screen}")`,
 
-              backgroundRepeat: "no-repeat",
+              backgroundRepeat:
+                "no-repeat",
 
               backgroundPosition:
                 "-32.592px -142.443px",
@@ -307,22 +251,14 @@ function MobilePhone({
           />
         </div>
 
-
-        {/* =====================================================
+        {/* =================================================
             PURPLE HEADER
+        ================================================= */}
 
-            IMPORTANT:
-            The top is intentionally inset.
-
-            This exposes the metallic silver frame above
-            and on both sides, matching the Figma reference.
-
-            Figma dimensions:
-            19.96181rem × 4.23431rem
-        ====================================================== */}
         <div
           className="
             absolute
+
             left-1/2
             top-[0.27rem]
             z-20
@@ -342,22 +278,21 @@ function MobilePhone({
           }}
         />
 
+        {/* =================================================
+            INNER PHONE EDGE
+        ================================================= */}
 
-        {/* =====================================================
-            SMALL INNER EDGE
-
-            Gives the top of the phone the thin reflective
-            edge visible in the Figma mockup.
-        ====================================================== */}
         <div
           className="
             pointer-events-none
+
             absolute
+
             left-1/2
             top-[0.16rem]
             z-[21]
 
-            h-[4.40rem]
+            h-[4.4rem]
             w-[20.17rem]
 
             -translate-x-1/2
@@ -374,19 +309,16 @@ function MobilePhone({
           }}
         />
 
+        {/* =================================================
+            STATUS / TIME
+        ================================================= */}
 
-        {/* =====================================================
-            STATUS BAR / TIME
-
-            Move together with the purple header.
-
-            Exact Figma dimensions:
-            19.693rem × 2.62125rem
-        ====================================================== */}
         <div
           className="
             pointer-events-none
+
             absolute
+
             left-1/2
             top-[0.34rem]
             z-40
@@ -398,9 +330,10 @@ function MobilePhone({
           "
           style={{
             backgroundImage:
-              'url("/images/ott/mobile/time.png")',
+              `url("${ASSETS.mobile.time}")`,
 
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat:
+              "no-repeat",
 
             backgroundPosition:
               "-2.576px 0.235px",
@@ -410,26 +343,16 @@ function MobilePhone({
           }}
         />
 
+        {/* =================================================
+            CENTER LOGO
+        ================================================= */}
 
-        {/* =====================================================
-            CENTER OTT LOGO
-
-            Figma values:
-            x = 144.502px
-            y = 30.717px
-
-            width ≈ 30.4px
-            height ≈ 31px
-
-            Header starts at 0.27rem.
-            30.717px ≈ 1.92rem.
-
-            Final top ≈ 2.19rem.
-        ====================================================== */}
         <div
           className="
             pointer-events-none
+
             absolute
+
             left-1/2
             top-[2.18rem]
             z-50
@@ -441,24 +364,25 @@ function MobilePhone({
           "
           style={{
             backgroundImage:
-              'url("/images/ott/mobile/center-logo.png")',
+              `url("${ASSETS.mobile.logo}")`,
 
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "contain",
+            backgroundRepeat:
+              "no-repeat",
+
+            backgroundPosition:
+              "center",
+
+            backgroundSize:
+              "contain",
           }}
         />
 
-
-        {/* =====================================================
-            BOTTOM EDGE OF PURPLE HEADER
-
-            Very subtle separation before application navigation.
-        ====================================================== */}
         <div
           className="
             pointer-events-none
+
             absolute
+
             left-1/2
             top-[4.46rem]
             z-30
@@ -477,12 +401,426 @@ function MobilePhone({
 }
 
 /* =========================================================
+   SMART TV
+
+   Structure:
+
+   Television hardware        z-10
+   OTT screen                 z-20
+   Television bezel           z-30
+
+   SCREEN FIGMA SIZE:
+
+   width  = 29.86956rem
+   height = 16.58275rem
+========================================================= */
+
+function SmartTelevision({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <div
+      className="
+        absolute
+
+        inset-x-0
+        top-[6.3rem]
+        bottom-0
+
+        z-20
+
+        overflow-hidden
+      "
+    >
+      {/* =================================================
+          COMPLETE TELEVISION COMPOSITION
+      ================================================= */}
+
+      <div
+        className="
+          absolute
+
+          left-1/2
+          top-0
+
+          h-[33.02857rem]
+          w-[57.76474rem]
+
+          origin-top
+
+          -translate-x-1/2
+
+          scale-[0.58]
+          sm:scale-[0.72]
+          md:scale-[0.82]
+          lg:scale-100
+        "
+      >
+        <motion.div
+          initial={false}
+          animate={{
+            x: reducedMotion
+              ? 0
+              : [
+                  -58,
+                  -58,
+                  0,
+                  0,
+                  -58,
+                ],
+          }}
+          transition={
+            reducedMotion
+              ? {
+                  duration: 0,
+                }
+              : {
+                  duration: 2,
+
+                  times: [
+                    0,
+                    0.18,
+                    0.76,
+                    0.92,
+                    1,
+                  ],
+
+                  ease: "easeInOut",
+
+                  repeat:
+                    Infinity,
+
+                  repeatType:
+                    "loop",
+                }
+          }
+          className="
+            relative
+            h-full
+            w-full
+          "
+          style={{
+            willChange:
+              "transform",
+          }}
+        >
+          {/* =================================================
+              TV + SPEAKERS + SOUNDBAR
+
+              This provides all physical television hardware.
+          ================================================= */}
+
+          <div
+            className="
+              pointer-events-none
+
+              absolute
+              inset-0
+              z-10
+            "
+            style={{
+              backgroundImage:
+                `url("${ASSETS.television.setup}")`,
+
+              backgroundRepeat:
+                "no-repeat",
+
+              backgroundPosition:
+                "center center",
+
+              backgroundSize:
+                "100% 100%",
+            }}
+          />
+
+          {/* =================================================
+              TV SCREEN CONTENT
+
+              Exact Figma:
+
+              width:
+              29.86956rem
+
+              height:
+              16.58275rem
+
+              Website is placed ONLY inside this rectangle.
+          ================================================= */}
+
+          <div
+            className="
+              absolute
+
+              left-[13.90528rem]
+              top-[3.92056rem]
+
+              z-20
+
+              h-[16.58275rem]
+              w-[29.86956rem]
+
+              overflow-hidden
+
+              bg-black
+            "
+          >
+            {/* ===============================================
+                WEBSITE SCREENSHOT
+
+                television-image.png contains white space.
+
+                We enlarge + offset the source so only the
+                actual website UI appears inside television.
+            ================================================ */}
+
+            <div
+              className="
+                absolute
+
+                left-[-3.79rem]
+                top-[-4.29rem]
+
+                h-[27.75rem]
+                w-[36.91rem]
+              "
+              style={{
+                backgroundImage:
+                  `url("${ASSETS.television.screen}")`,
+
+                backgroundRepeat:
+                  "no-repeat",
+
+                backgroundPosition:
+                  "center center",
+
+                backgroundSize:
+                  "100% 100%",
+              }}
+            />
+          </div>
+
+          {/* =================================================
+              TV BEZEL
+
+              IMPORTANT FIX
+
+              This is NOT a regular border because a normal
+              border would shrink/crop the OTT screen.
+
+              box-shadow with positive spread draws the frame
+              OUTSIDE the exact screen dimensions.
+
+              Therefore:
+
+              OTT image remains exactly:
+              29.86956rem × 16.58275rem
+
+              AND
+
+              television gets its black physical border.
+          ================================================= */}
+
+          <div
+            className="
+              pointer-events-none
+
+              absolute
+
+              left-[13.90528rem]
+              top-[3.92056rem]
+
+              z-30
+
+              h-[16.58275rem]
+              w-[29.86956rem]
+
+              rounded-[0.08rem]
+            "
+            style={{
+              boxShadow: `
+                0 0 0 0.42rem #090909,
+                0 0 0 0.49rem rgba(255,255,255,0.10),
+                0 0.45rem 1.2rem rgba(0,0,0,0.22)
+              `,
+            }}
+          />
+
+          {/* =================================================
+              INNER BLACK EDGE
+
+              Small inner edge like the reference television.
+              It sits over only a few pixels.
+          ================================================= */}
+
+          <div
+            className="
+              pointer-events-none
+
+              absolute
+
+              left-[13.90528rem]
+              top-[3.92056rem]
+
+              z-[31]
+
+              h-[16.58275rem]
+              w-[29.86956rem]
+            "
+            style={{
+              boxShadow:
+                "inset 0 0 0 0.08rem rgba(0,0,0,0.95)",
+            }}
+          />
+
+          {/* =================================================
+              TOP BEZEL HIGHLIGHT
+
+              Gives slight dimensional separation visible
+              in your reference.
+          ================================================= */}
+
+          <div
+            className="
+              pointer-events-none
+
+              absolute
+
+              left-[13.48528rem]
+              top-[3.50056rem]
+
+              z-[32]
+
+              h-[0.08rem]
+              w-[30.70956rem]
+
+              bg-white/[0.10]
+            "
+          />
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   GENERIC CARD ANIMATION
+========================================================= */
+
+type Direction =
+  | "up"
+  | "left"
+  | "right";
+
+type LoopingArtworkProps = {
+  src: string;
+  direction: Direction;
+  reducedMotion: boolean;
+
+  distance?: number;
+
+  backgroundSize?: string;
+  backgroundPosition?: string;
+};
+
+function LoopingArtwork({
+  src,
+  direction,
+  reducedMotion,
+
+  distance = 100,
+
+  backgroundSize = "contain",
+  backgroundPosition = "center bottom",
+}: LoopingArtworkProps) {
+  const animation =
+    direction === "up"
+      ? {
+          y: reducedMotion
+            ? 0
+            : [
+                distance,
+                0,
+                distance,
+              ],
+        }
+      : direction === "left"
+        ? {
+            x: reducedMotion
+              ? 0
+              : [
+                  distance,
+                  0,
+                  distance,
+                ],
+          }
+        : {
+            x: reducedMotion
+              ? 0
+              : [
+                  -distance,
+                  0,
+                  -distance,
+                ],
+          };
+
+  return (
+    <motion.div
+      initial={false}
+      animate={animation}
+      transition={
+        reducedMotion
+          ? {
+              duration: 0,
+            }
+          : {
+              duration: 2,
+
+              times: [
+                0,
+                0.92,
+                1,
+              ],
+
+              ease: "easeOut",
+
+              repeat: Infinity,
+
+              repeatType: "loop",
+            }
+      }
+      className="
+        absolute
+        inset-0
+      "
+      style={{
+        backgroundImage:
+          `url("${src}")`,
+
+        backgroundRepeat:
+          "no-repeat",
+
+        backgroundPosition,
+
+        backgroundSize,
+
+        willChange:
+          "transform",
+      }}
+    />
+  );
+}
+
+/* =========================================================
    ENTERTAINMENT SECTION
 ========================================================= */
 
 export default function Entertainment() {
   const reducedMotion =
-    Boolean(useReducedMotion());
+    Boolean(
+      useReducedMotion(),
+    );
 
   return (
     <section
@@ -490,12 +828,14 @@ export default function Entertainment() {
       className="
         w-full
         overflow-hidden
+
         bg-[#F5F1EB]
       "
     >
       <div
         className="
           mx-auto
+
           flex
           w-full
           max-w-[90rem]
@@ -516,13 +856,9 @@ export default function Entertainment() {
         "
       >
         {/* =================================================
-            SECTION TITLE
-
-            Figma:
-            max-width 51.125rem
-            font-size 2.5rem
-            line-height 3rem
+            SECTION HEADING
         ================================================= */}
+
         <h2
           id="entertainment-heading"
           className="
@@ -534,6 +870,7 @@ export default function Entertainment() {
             text-[1.9rem]
             font-bold
             leading-[2.35rem]
+
             tracking-[-0.03125rem]
 
             text-black
@@ -547,6 +884,7 @@ export default function Entertainment() {
           style={{
             fontFamily:
               'var(--Font-family-Body, "Plus Jakarta Sans")',
+
             fontFeatureSettings:
               "'liga' off, 'clig' off",
           }}
@@ -555,29 +893,29 @@ export default function Entertainment() {
         </h2>
 
         {/* =================================================
-            CARDS WRAPPER
+            CARDS
         ================================================= */}
+
         <div
           className="
             flex
             w-full
             flex-col
+
             gap-8
           "
         >
           {/* =================================================
-              FIRST ROW
-
-              Desktop:
-              available = 1328px
-              gap       = 32px
-              card      = 648px each
+              TOP ROW
           ================================================= */}
+
           <div
             className="
               grid
               w-full
+
               grid-cols-1
+
               gap-8
 
               lg:grid-cols-2
@@ -586,6 +924,7 @@ export default function Entertainment() {
             {/* =================================================
                 MOBILE APPLICATIONS
             ================================================= */}
+
             <article
               className="
                 relative
@@ -593,9 +932,11 @@ export default function Entertainment() {
                 h-[34.375rem]
 
                 min-w-0
+
                 overflow-hidden
 
                 rounded-[1.25rem]
+
                 bg-white
               "
             >
@@ -605,13 +946,16 @@ export default function Entertainment() {
               />
 
               <MobilePhone
-                reducedMotion={reducedMotion}
+                reducedMotion={
+                  reducedMotion
+                }
               />
             </article>
 
             {/* =================================================
                 SMART TV APPLICATIONS
             ================================================= */}
+
             <article
               className="
                 relative
@@ -619,9 +963,11 @@ export default function Entertainment() {
                 h-[34.375rem]
 
                 min-w-0
+
                 overflow-hidden
 
                 rounded-[1.25rem]
+
                 bg-white
               "
             >
@@ -630,46 +976,36 @@ export default function Entertainment() {
                 description="Large-screen experiences that bring digital entertainment into the living room."
               />
 
-              <div
-                className="
-                  absolute
-                  inset-x-0
-                  bottom-0
-
-                  h-[24rem]
-
-                  overflow-hidden
-                "
-              >
-                <LoopingArtwork
-                  src={ASSETS.smartTv}
-                  direction="right"
-                  reducedMotion={reducedMotion}
-                  backgroundSize="contain"
-                  backgroundPosition="center bottom"
-                  distance={110}
-                />
-              </div>
+              <SmartTelevision
+                reducedMotion={
+                  reducedMotion
+                }
+              />
             </article>
           </div>
 
           {/* =================================================
-              SECOND ROW
+              BOTTOM ROW
           ================================================= */}
+
           <div
             className="
               grid
               w-full
+
               grid-cols-1
+
               gap-8
 
               md:grid-cols-2
+
               lg:grid-cols-3
             "
           >
             {/* =================================================
                 CONNECTED TV
             ================================================= */}
+
             <article
               className="
                 relative
@@ -677,9 +1013,11 @@ export default function Entertainment() {
                 h-[34.375rem]
 
                 min-w-0
+
                 overflow-hidden
 
                 rounded-[1.25rem]
+
                 bg-white
               "
             >
@@ -691,6 +1029,7 @@ export default function Entertainment() {
               <div
                 className="
                   absolute
+
                   inset-x-0
                   bottom-0
 
@@ -700,12 +1039,21 @@ export default function Entertainment() {
                 "
               >
                 <LoopingArtwork
-                  src={ASSETS.connectedTv}
+                  src={
+                    ASSETS.connectedTv
+                  }
+
                   direction="right"
-                  reducedMotion={reducedMotion}
-                  backgroundSize="contain"
-                  backgroundPosition="center bottom"
+
+                  reducedMotion={
+                    reducedMotion
+                  }
+
                   distance={90}
+
+                  backgroundSize="contain"
+
+                  backgroundPosition="center bottom"
                 />
               </div>
             </article>
@@ -713,6 +1061,7 @@ export default function Entertainment() {
             {/* =================================================
                 CONTENT AGGREGATION
             ================================================= */}
+
             <article
               className="
                 relative
@@ -720,9 +1069,11 @@ export default function Entertainment() {
                 h-[34.375rem]
 
                 min-w-0
+
                 overflow-hidden
 
                 rounded-[1.25rem]
+
                 bg-white
               "
             >
@@ -734,6 +1085,7 @@ export default function Entertainment() {
               <div
                 className="
                   absolute
+
                   inset-x-0
                   bottom-0
 
@@ -743,12 +1095,21 @@ export default function Entertainment() {
                 "
               >
                 <LoopingArtwork
-                  src={ASSETS.contentAggregation}
+                  src={
+                    ASSETS.contentAggregation
+                  }
+
                   direction="left"
-                  reducedMotion={reducedMotion}
-                  backgroundSize="contain"
-                  backgroundPosition="center bottom"
+
+                  reducedMotion={
+                    reducedMotion
+                  }
+
                   distance={90}
+
+                  backgroundSize="contain"
+
+                  backgroundPosition="center bottom"
                 />
               </div>
             </article>
@@ -756,6 +1117,7 @@ export default function Entertainment() {
             {/* =================================================
                 SUBSCRIPTION MANAGEMENT
             ================================================= */}
+
             <article
               className="
                 relative
@@ -763,12 +1125,15 @@ export default function Entertainment() {
                 h-[34.375rem]
 
                 min-w-0
+
                 overflow-hidden
 
                 rounded-[1.25rem]
+
                 bg-white
 
                 md:col-span-2
+
                 lg:col-span-1
               "
             >
@@ -780,6 +1145,7 @@ export default function Entertainment() {
               <div
                 className="
                   absolute
+
                   inset-x-0
                   bottom-0
 
@@ -789,12 +1155,21 @@ export default function Entertainment() {
                 "
               >
                 <LoopingArtwork
-                  src={ASSETS.subscriptionManagement}
+                  src={
+                    ASSETS.subscriptionManagement
+                  }
+
                   direction="up"
-                  reducedMotion={reducedMotion}
-                  backgroundSize="contain"
-                  backgroundPosition="center bottom"
+
+                  reducedMotion={
+                    reducedMotion
+                  }
+
                   distance={100}
+
+                  backgroundSize="contain"
+
+                  backgroundPosition="center bottom"
                 />
               </div>
             </article>

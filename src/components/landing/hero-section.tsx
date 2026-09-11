@@ -306,11 +306,7 @@ export function HeroSection({
     );
 
   const learnMoreHref =
-    textOrFallback(
-      content?.learnMoreCta
-        ?.href,
-      "/companies/abhijat-marathi",
-    );
+    "/Abhijat-Marathi";
 
   const joinNowLabel =
     textOrFallback(

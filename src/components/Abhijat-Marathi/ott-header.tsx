@@ -1,4 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import {
+  motion,
+  useReducedMotion,
+} from "framer-motion";
+
+/* =========================================================
+   TYPES
+========================================================= */
 
 type OttHeaderProps = {
   learnMoreHref?: string;
@@ -7,62 +17,108 @@ type OttHeaderProps = {
 
 type OttImage = {
   src: string;
+
   left: string;
+  top: string;
+
   zIndex: number;
+
   center?: boolean;
+
+  /*
+   * Entrance delay.
+   *
+   * Center first,
+   * then inner pair,
+   * middle pair,
+   * outer pair.
+   */
+  delay: number;
 };
 
-const OTT_IMAGES = [
+/* =========================================================
+   IMAGE STACK
+
+   FINAL POSITIONS REMAIN EXACTLY THE SAME.
+
+   Horizontal step:
+   12.5rem / 200px
+
+   Vertical staircase:
+   center      = 0
+   inner       = 3rem
+   middle      = 6rem
+   outer       = 9rem
+========================================================= */
+
+const OTT_IMAGES: OttImage[] = [
   {
     src: "/images/ott/image1.png",
     left: "0rem",
-    top: "9rem",      // 144px
+    top: "9rem",
     zIndex: 10,
     center: false,
+    delay: 0.54,
   },
+
   {
     src: "/images/ott/image2.png",
-    left: "12.5rem", // 200px
-    top: "6rem",     // 96px
+    left: "12.5rem",
+    top: "6rem",
     zIndex: 20,
     center: false,
+    delay: 0.36,
   },
+
   {
     src: "/images/ott/image3.png",
-    left: "25rem",   // 400px
-    top: "3rem",     // 48px
+    left: "25rem",
+    top: "3rem",
     zIndex: 30,
     center: false,
+    delay: 0.18,
   },
+
   {
     src: "/images/ott/image4.png",
-    left: "37.5rem", // 600px
+    left: "37.5rem",
     top: "0rem",
     zIndex: 40,
     center: true,
+    delay: 0,
   },
+
   {
     src: "/images/ott/image5.png",
-    left: "50rem",   // 800px
-    top: "3rem",     // 48px
+    left: "50rem",
+    top: "3rem",
     zIndex: 30,
     center: false,
+    delay: 0.18,
   },
+
   {
     src: "/images/ott/image6.png",
-    left: "62.5rem", // 1000px
-    top: "6rem",     // 96px
+    left: "62.5rem",
+    top: "6rem",
     zIndex: 20,
     center: false,
+    delay: 0.36,
   },
+
   {
     src: "/images/ott/image7.png",
-    left: "75rem",   // 1200px
-    top: "9rem",     // 144px
+    left: "75rem",
+    top: "9rem",
     zIndex: 10,
     center: false,
+    delay: 0.54,
   },
-] as const;
+];
+
+/* =========================================================
+   CHEVRON
+========================================================= */
 
 function ChevronRight() {
   return (
@@ -84,10 +140,17 @@ function ChevronRight() {
   );
 }
 
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 export default function OttHeader({
   learnMoreHref = "#",
   joinNowHref = "#",
 }: OttHeaderProps) {
+  const prefersReducedMotion =
+    Boolean(useReducedMotion());
+
   return (
     <section
       aria-labelledby="ott-header-title"
@@ -101,31 +164,40 @@ export default function OttHeader({
       <div
         className="
           mx-auto
+
           flex
           w-full
           max-w-[90rem]
           flex-col
           items-center
 
-          px-5
-          py-16
           gap-12
 
+          px-5
+          py-16
+
+          md:gap-16
           md:px-8
           md:py-20
-          md:gap-16
 
           xl:h-[56rem]
+          xl:gap-[6.25rem]
           xl:px-[3.5rem]
           xl:py-[6.25rem]
-          xl:gap-[6.25rem]
         "
       >
-        {/* =========================================================
+        {/* =================================================
             TEXT WRAPPER
-        ========================================================= */}
-        <div className="w-full shrink-0">
-          {/* Category */}
+        ================================================= */}
+
+        <div
+          className="
+            w-full
+            shrink-0
+          "
+        >
+          {/* CATEGORY */}
+
           <p
             className="
               w-full
@@ -134,29 +206,38 @@ export default function OttHeader({
               text-[0.875rem]
               font-semibold
               leading-[1.25rem]
+
               text-white
             "
             style={{
               fontFamily:
                 'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
+
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
             }}
           >
             OTT, DIGITAL PLATFORM &amp; STREAMING
           </p>
 
-          {/* Main heading */}
+          {/* =================================================
+              MAIN HEADING
+          ================================================= */}
+
           <h1
             id="ott-header-title"
             className="
               mt-2
+
               w-full
               max-w-[58.875rem]
 
               text-[2.5rem]
               font-semibold
               leading-[2.9rem]
+
               tracking-[-0.04rem]
+
               text-white
 
               md:text-[3rem]
@@ -169,25 +250,46 @@ export default function OttHeader({
             style={{
               fontFamily:
                 'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
+
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
             }}
           >
             Building Digital Platforms for the
-            <br className="hidden xl:block" />
-            <span className="xl:hidden"> </span>
+
+            <br
+              className="
+                hidden
+                xl:block
+              "
+            />
+
+            <span
+              className="
+                xl:hidden
+              "
+            >
+              {" "}
+            </span>
+
             Next Generation of Entertainment
           </h1>
 
-          {/* Description */}
+          {/* =================================================
+              SUBTEXT
+          ================================================= */}
+
           <p
             className="
               mt-4
+
               w-full
               max-w-[53.8125rem]
 
               text-[1rem]
               font-medium
               leading-[1.5rem]
+
               text-[rgba(255,255,255,0.78)]
 
               md:text-[1.125rem]
@@ -199,42 +301,68 @@ export default function OttHeader({
             style={{
               fontFamily:
                 'var(--Font-family-Body, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
+
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
             }}
           >
-            From Marathi OTT to connected-screen experiences, Suman builds
-            and enables digital
-            <br className="hidden xl:block" />
-            <span className="xl:hidden"> </span>
-            platforms that bring content to audiences across devices and
-            markets.
+            From Marathi OTT to connected-screen
+            experiences, Suman builds and enables digital
+
+            <br
+              className="
+                hidden
+                xl:block
+              "
+            />
+
+            <span
+              className="
+                xl:hidden
+              "
+            >
+              {" "}
+            </span>
+
+            platforms that bring content to audiences
+            across devices and markets.
           </p>
 
-          {/* Buttons */}
+          {/* =================================================
+              BUTTONS
+          ================================================= */}
+
           <div
             className="
               mt-6
+
               flex
               flex-wrap
               items-center
+
               gap-4
             "
           >
-            {/* Learn more */}
+            {/* LEARN MORE */}
+
             <Link
               href={learnMoreHref}
               className="
                 flex
+
                 h-[3.5rem]
                 w-[12.5rem]
+
                 items-center
                 justify-center
 
                 rounded-[0.25rem]
+
                 bg-white
 
                 transition-opacity
                 duration-200
+
                 hover:opacity-90
 
                 focus-visible:outline
@@ -243,46 +371,70 @@ export default function OttHeader({
                 focus-visible:outline-white
               "
             >
-              <span className="flex items-center gap-3">
+              <span
+                className="
+                  flex
+                  items-center
+
+                  gap-3
+                "
+              >
                 <span
                   className="
                     text-center
+
                     text-[1rem]
                     font-semibold
                     leading-[1.5rem]
+
                     text-[#8F6C1A]
                   "
                   style={{
-                    fontFamily: "var(--Font-family-Body, Inter)",
-                    fontFeatureSettings: "'liga' off, 'clig' off",
+                    fontFamily:
+                      "var(--Font-family-Body, Inter)",
+
+                    fontFeatureSettings:
+                      "'liga' off, 'clig' off",
                   }}
                 >
                   Learn more
                 </span>
 
-                <span className="text-[#8F6C1A]">
+                <span
+                  className="
+                    text-[#8F6C1A]
+                  "
+                >
                   <ChevronRight />
                 </span>
               </span>
             </Link>
 
-            {/* Join now */}
+            {/* =================================================
+                JOIN NOW
+            ================================================= */}
+
             <Link
               href={joinNowHref}
               className="
                 flex
+
                 h-[3.5rem]
+
                 items-center
                 justify-center
+
                 gap-1
 
                 rounded-[0.75rem]
+
                 px-4
 
                 text-white
 
                 transition-colors
                 duration-200
+
                 hover:bg-white/[0.06]
 
                 focus-visible:outline
@@ -298,8 +450,11 @@ export default function OttHeader({
                   leading-[1.5rem]
                 "
                 style={{
-                  fontFamily: "var(--Font-family-Body, Inter)",
-                  fontFeatureSettings: "'liga' off, 'clig' off",
+                  fontFamily:
+                    "var(--Font-family-Body, Inter)",
+
+                  fontFeatureSettings:
+                    "'liga' off, 'clig' off",
                 }}
               >
                 Join now
@@ -310,93 +465,213 @@ export default function OttHeader({
           </div>
         </div>
 
-        {/* =========================================================
-            7-IMAGE OVERLAPPING COLLAGE
+        {/* =====================================================
+            IMAGE STACK
 
-            Desktop geometry:
+            FINAL GEOMETRY:
 
-            Card width       = 372px / 23.25rem
-            Center height    = 491px / 30.6875rem
-            Side height      = 427px / 26.6875rem
-            Height diff      = 64px / 4rem
-            Horizontal step  = 200px / 12.5rem
-            Overlap          = 172px / 10.75rem
+            image1     y = 144px
+            image2     y = 96px
+            image3     y = 48px
+            image4     y = 0px
+            image5     y = 48px
+            image6     y = 96px
+            image7     y = 144px
 
-            Total width:
-            372 + (6 × 200) = 1572px = 98.25rem
-        ========================================================= */}
-        {/* =========================================================
-    OTT IMAGE STACK
-========================================================= */}
+            ENTRY ANIMATION:
+
+            Each card initially begins LOWER than its
+            final position.
+
+            Center enters first, then expands outward.
+        ====================================================== */}
+
         <div
           className="
-    relative
-    w-full
-    shrink-0
-    overflow-visible
+            relative
 
-    h-[20rem]
-    md:h-[25rem]
-    xl:h-[30.6875rem]
-  "
+            h-[20rem]
+            w-full
+
+            shrink-0
+
+            overflow-visible
+
+            md:h-[25rem]
+
+            xl:h-[30.6875rem]
+          "
           aria-hidden="true"
         >
+          {/* =================================================
+              MASTER STACK
+
+              Desktop visual width:
+              1572px / 98.25rem
+          ================================================= */}
+
           <div
             className="
-      absolute
-      left-1/2
-      top-0
+              absolute
 
-      h-[35.6875rem]
-      w-[98.25rem]
+              left-1/2
+              top-0
 
-      origin-top
-      -translate-x-1/2
+              h-[35.6875rem]
+              w-[98.25rem]
 
-      scale-[0.55]
-      md:scale-[0.78]
-      xl:scale-100
-    "
+              origin-top
+
+              -translate-x-1/2
+
+              scale-[0.55]
+
+              md:scale-[0.78]
+
+              xl:scale-100
+            "
           >
-            {OTT_IMAGES.map((image) => {
-              const isCenter = image.center;
+            {OTT_IMAGES.map(
+              (image) => {
+                const isCenter =
+                  Boolean(
+                    image.center,
+                  );
 
-              return (
-                <div
-                  key={image.src}
-                  className="
-            absolute
-            w-[23.25rem]
-            overflow-hidden
-            rounded-[1rem]
-          "
-                  style={{
-                    left: image.left,
-                    top: image.top,
-                    zIndex: image.zIndex,
+                return (
+                  <motion.div
+                    key={image.src}
 
-                    height: isCenter
-                      ? "30.6875rem"
-                      : "26.6875rem",
+                    /* =========================================
+                       FINAL ABSOLUTE POSITION
 
-                    backgroundImage: `url("${image.src}")`,
+                       Do NOT animate top itself.
 
-                    backgroundRepeat: "no-repeat",
+                       top stays fixed to Figma position,
+                       while transform:y animates relative
+                       to that exact position.
+                    ========================================== */
 
-                    backgroundPosition: isCenter
-                      ? "-0.289px -29.077px"
-                      : "50% 50%",
+                    className="
+                      absolute
 
-                    backgroundSize: isCenter
-                      ? "100% 107.152%"
-                      : "cover",
+                      w-[23.25rem]
 
-                    boxShadow:
-                      "16px 0 16px 0 rgba(0, 0, 0, 0.20), -16px 0 20px 0 rgba(0, 0, 0, 0.20)",
-                  }}
-                />
-              );
-            })}
+                      overflow-hidden
+
+                      rounded-[1rem]
+                    "
+
+                    style={{
+                      left:
+                        image.left,
+
+                      top:
+                        image.top,
+
+                      zIndex:
+                        image.zIndex,
+
+                      height:
+                        isCenter
+                          ? "30.6875rem"
+                          : "26.6875rem",
+
+                      backgroundImage:
+                        `url("${image.src}")`,
+
+                      backgroundRepeat:
+                        "no-repeat",
+
+                      backgroundPosition:
+                        isCenter
+                          ? "-0.289px -29.077px"
+                          : "50% 50%",
+
+                      backgroundSize:
+                        isCenter
+                          ? "100% 107.152%"
+                          : "cover",
+
+                      boxShadow:
+                        "16px 0 16px 0 rgba(0,0,0,0.20), -16px 0 20px 0 rgba(0,0,0,0.20)",
+
+                      willChange:
+                        prefersReducedMotion
+                          ? undefined
+                          : "transform, opacity",
+                    }}
+
+                    /* =========================================
+                       START
+
+                       All cards begin BELOW their actual
+                       final positions.
+
+                       Center travels slightly farther,
+                       giving the main poster a stronger
+                       entrance.
+                    ========================================== */
+
+                    initial={
+                      prefersReducedMotion
+                        ? false
+                        : {
+                          /*
+                           * Start well below the final stack.
+                           *
+                           * Center travels slightly farther so it feels
+                           * like the main poster is rising into position.
+                           */
+                          y: isCenter ? 340 : 300,
+
+                          opacity: 0,
+                        }
+                    }
+
+                    animate={{
+                      y: 0,
+                      opacity: 1,
+                    }}
+
+                    transition={
+                      prefersReducedMotion
+                        ? {
+                          duration: 0,
+                        }
+                        : {
+                          delay: image.delay,
+
+                          /*
+                           * Slow vertical rise.
+                           */
+                          y: {
+                            duration: 2.4,
+
+                            /*
+                             * Smooth cinematic deceleration:
+                             *
+                             * fast enough at the start,
+                             * then very gently settles at the top.
+                             */
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+
+                          /*
+                           * Fade finishes slightly earlier than movement,
+                           * which makes the cards feel solid while
+                           * they're still gliding upward.
+                           */
+                          opacity: {
+                            duration: 1.5,
+                            ease: "easeOut",
+                          },
+                        }
+                    }
+                  />
+                );
+              },
+            )}
           </div>
         </div>
       </div>
