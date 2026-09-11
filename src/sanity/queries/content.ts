@@ -276,6 +276,68 @@ export const HOME_PAGE_QUERY =
         }
       },
 
+    "cannesSection": {
+      "heading":
+        coalesce(
+          cannesSection.heading,
+          partnerSection.eventHeading
+        ),
+
+      "description":
+        cannesSection.description,
+
+      "cta":
+        select(
+          defined(cannesSection.cta.label) &&
+          defined(cannesSection.cta.href)
+            => cannesSection.cta{
+              label,
+              href,
+              style
+            },
+          partnerSection.eventCta{
+            label,
+            href,
+            style
+          }
+        ),
+
+      "media":
+        cannesSection.media[
+          coalesce(enabled, true) == true
+        ]{
+          _key,
+          "mediaType": coalesce(mediaType, "image"),
+          caption,
+          objectPosition,
+
+          "imageUrl":
+            image.asset->url,
+
+          "imageAlt":
+            select(
+              image.decorative == true
+                => "",
+              image.alt
+            ),
+
+          "videoUrl":
+            video.asset->url,
+
+          videoLabel,
+
+          "posterUrl":
+            poster.asset->url,
+
+          "posterAlt":
+            select(
+              poster.decorative == true
+                => "",
+              poster.alt
+            )
+        }
+    },
+
     "testimonialSection":
       testimonialSection{
         quote,

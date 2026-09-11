@@ -30,9 +30,9 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("industry").title("Industries"),
       S.documentTypeListItem("project").title("Portfolio Projects"),
       S.divider(),
-      S.documentTypeListItem("post").title("Insights"),
+      S.documentTypeListItem("post").title("News & Blogs"),
       S.documentTypeListItem("author").title("Authors"),
-      S.documentTypeListItem("category").title("Insight Categories"),
+      S.documentTypeListItem("category").title("News & Blog Categories"),
       S.divider(),
       S.documentTypeListItem("job").title("Jobs"),
     ]);

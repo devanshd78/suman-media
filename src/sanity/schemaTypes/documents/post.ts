@@ -2,7 +2,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const postType = defineType({
   name: "post",
-  title: "Insight",
+  title: "News & Blog Article",
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
@@ -12,11 +12,13 @@ export const postType = defineType({
   fields: [
     defineField({ name: "title", title: "Title", type: "string", group: "content", validation: (rule) => rule.required().max(120) }),
     defineField({ name: "slug", title: "Slug", type: "slug", group: "content", options: { source: "title", maxLength: 96 }, validation: (rule) => rule.required() }),
-    defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, group: "content", description: "Used on insight cards and as the SEO description fallback.", validation: (rule) => rule.required().max(240) }),
+    defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, group: "content", description: "Used on News & Blog cards and as the SEO description fallback.", validation: (rule) => rule.required().max(240) }),
     defineField({ name: "featuredImage", title: "Featured image", type: "mediaImage", group: "content", validation: (rule) => rule.required() }),
+    defineField({ name: "imageCredit", title: "Featured image credit", type: "string", group: "content", description: "Optional source or photographer credit displayed below the article hero image.", validation: (rule) => rule.max(160) }),
+    defineField({ name: "readingTimeMinutes", title: "Reading time override (minutes)", type: "number", group: "content", description: "Optional. Leave empty to calculate reading time automatically from the article body.", validation: (rule) => rule.integer().min(1).max(120) }),
     defineField({ name: "body", title: "Article body", type: "portableText", group: "content", validation: (rule) => rule.required() }),
     defineField({ name: "publishedAt", title: "Published at", type: "datetime", group: "content", initialValue: () => new Date().toISOString(), validation: (rule) => rule.required() }),
-    defineField({ name: "featured", title: "Featured insight", type: "boolean", group: "content", initialValue: false }),
+    defineField({ name: "featured", title: "Featured article", type: "boolean", group: "content", initialValue: false }),
     defineField({ name: "author", title: "Author", type: "reference", group: "relations", to: [{ type: "author" }], validation: (rule) => rule.required() }),
     defineField({ name: "categories", title: "Categories", type: "array", group: "relations", of: [defineArrayMember({ type: "reference", to: [{ type: "category" }] })], validation: (rule) => rule.required().min(1).unique() }),
     defineField({ name: "relatedServices", title: "Related services", type: "array", group: "relations", of: [defineArrayMember({ type: "reference", to: [{ type: "service" }] })], validation: (rule) => rule.unique() }),

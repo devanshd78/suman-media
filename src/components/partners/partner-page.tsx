@@ -150,7 +150,7 @@ const FILM_STRIP = [
 
 const OTT_IMAGES = [
   {
-    src: "/images/landing/insights/Image2.png",
+    src: "/images/landing/news-and-blogs/Image2.png",
     alt: "Raja Shivchhatrapati Marathi title artwork",
   },
   {
@@ -177,7 +177,7 @@ const FILMY_IMAGES = [
     alt: "Marathi entertainment episode",
   },
   {
-    src: "/images/landing/insights/Image2.png",
+    src: "/images/landing/news-and-blogs/Image2.png",
     alt: "Marathi cinema artwork",
   },
 ] as const;

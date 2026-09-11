@@ -82,7 +82,7 @@ The global landing-text observer now explicitly ignores independently managed mo
 | `src/components/landing/faq-section.tsx` | Readable question/answer sizes and later two-column breakpoint. |
 | `src/components/landing/media-coverage-section.tsx` | Shared section-title class. |
 | `src/components/landing/founder-letter-section.tsx` | Wider editorial column and larger reading text. |
-| `src/components/landing/insights-section.tsx` | Shared section-title class only. |
+| `src/components/landing/news-and-blogs-section.tsx` | Shared section-title class only. |
 | `src/components/landing/careers-cta-section.tsx` | Content-safe height and responsive text. |
 | `src/components/landing/testimonial-section.tsx` | Content-safe Story height and readable text. |
 | `src/components/landing/footer.tsx` | Larger typography and less restrictive column spacing. |
@@ -166,5 +166,5 @@ git apply --reverse --ignore-space-change --whitespace=nowarn "$Patch"
 
 ## Technical references
 
-- Tailwind CSS base/utility layering: https://tailwindcss.com/docs/preflight
-- Git patch verification and reverse application: https://git-scm.com/docs/git-apply
+- Tailwind CSS base/utility layering: <https://tailwindcss.com/docs/preflight>
+- Git patch verification and reverse application: <https://git-scm.com/docs/git-apply>

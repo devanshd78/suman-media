@@ -9,7 +9,7 @@ const staticPaths = [
   "/companies",
   "/services",
   "/portfolio",
-  "/insights",
+  "/news-and-blogs",
   "/careers",
   "/partners",
   "/contact",
@@ -22,7 +22,7 @@ function documentPath(document: CmsSitemapDocument) {
     case "company":
       return `/companies/${document.slug}`;
     case "post":
-      return `/insights/${document.slug}`;
+      return `/news-and-blogs/${document.slug}`;
   }
 }
 

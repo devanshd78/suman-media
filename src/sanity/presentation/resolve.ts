@@ -28,9 +28,9 @@ export const locations = {
     resolve: (doc) => ({
       locations: [
         ...(doc?.slug
-          ? [{ title: doc.title || "Insight", href: `/insights/${doc.slug}` }]
+          ? [{ title: doc.title || "News & Blog Article", href: `/news-and-blogs/${doc.slug}` }]
           : []),
-        { title: "All insights", href: "/insights" },
+        { title: "All News & Blogs", href: "/news-and-blogs" },
       ],
     }),
   }),
@@ -56,5 +56,5 @@ export const mainDocuments = defineDocuments([
   { route: "/contact", filter: `_type == "contactPage"` },
   { route: "/services/:slug", filter: `_type == "service" && slug.current == $slug` },
   { route: "/companies/:slug", filter: `_type == "company" && slug.current == $slug` },
-  { route: "/insights/:slug", filter: `_type == "post" && slug.current == $slug` },
+  { route: "/news-and-blogs/:slug", filter: `_type == "post" && slug.current == $slug` },
 ]);

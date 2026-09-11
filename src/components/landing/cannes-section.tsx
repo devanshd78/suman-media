@@ -8,6 +8,8 @@ import {
   plusJakartaSans,
 } from "@/lib/fonts";
 
+import type { CmsCannesMediaItem, CmsCannesSection } from "@/types/cms";
+
 import {
   motion,
   useInView,
@@ -23,15 +25,18 @@ import {
   useState,
 } from "react";
 
-import styles from "./film-section.module.css";
+import styles from "./cannes-section.module.css";
 
 /* ============================================================
    TYPES
    ============================================================ */
 
-type GalleryImage = {
+type GalleryMedia = {
+  key: string;
+  kind: "image" | "video";
   src: string;
   alt: string;
+  poster?: string;
   position?: string;
 };
 
@@ -42,78 +47,176 @@ type GalleryGeometry = {
   endFraction: number;
 };
 
+type CannesSectionProps = {
+  content?: CmsCannesSection | null;
+};
+
 /* ============================================================
-   CONTENT
+   DEFAULT CANNES CONTENT
+
+   Sanity wins when editors provide content/media. The local files
+   below are the production-safe fallback when the CMS section or
+   its media array is empty/unavailable.
    ============================================================ */
 
-const HEADING =
+const DEFAULT_HEADING =
   "Abhijat Marathi made its Global Alpha Launch at the Cannes Film Festival 2026, at the Bharat (India) Pavilion.";
 
-const DESCRIPTION =
-  "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
+const DEFAULT_DESCRIPTION =
+  "Explore photographs and video moments from Abhijat Marathi's Cannes 2026 presence at the Bharat (India) Pavilion.";
 
-/* ============================================================
-   EXISTING IMAGES
-   ============================================================ */
+const DEFAULT_CTA = {
+  label: "Explore Cannes Moments",
+  href: "#cannes-gallery",
+} as const;
 
-const GALLERY_IMAGES = [
+const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
   {
-    src: "/images/landing/film/mumbai-gateway.png",
-    alt: "Gateway of India and Mumbai harbour at golden hour",
+    key: "cannes-red-carpet-group-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-group-01.jpg",
+    alt: "Guests representing Indian culture on the Cannes red carpet",
   },
   {
-    src: "/images/landing/film/ganesh-festival.png",
-    alt: "Ganesh Chaturthi procession with traditional dhol-tasha performers",
+    key: "cannes-interview-group-short",
+    kind: "video",
+    src: "/cannes/cannes-interview-group-short.mp4",
+    alt: "Cannes interview moment with guests at the festival",
   },
   {
-    src: "/images/landing/film/lavani-performance.png",
-    alt: "Traditional Marathi Lavani performance in a heritage theatre",
+    key: "cannes-red-carpet-portrait-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-portrait-01.jpg",
+    alt: "Festival guest in traditional attire on the Cannes red carpet",
+    position: "center 30%",
   },
   {
-    src: "/images/landing/film/marine-drive.png",
-    alt: "Mumbai Marine Drive and the Queen's Necklace after monsoon rain",
+    key: "cannes-red-carpet-walk",
+    kind: "video",
+    src: "/cannes/cannes-red-carpet-walk.mp4",
+    alt: "Cannes red carpet festival moment",
   },
   {
-    src: "/images/landing/hero/Image1.png",
-    alt: "Illustrated tribute to Chhatrapati Shivaji Maharaj",
+    key: "cannes-red-carpet-group-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-group-02.jpg",
+    alt: "Festival guests posing together on the Cannes red carpet",
   },
   {
-    src: "/images/landing/background2.png",
-    alt: "Abhijat Marathi presentation at the Bharat Pavilion",
-    position: "center 42%",
+    key: "cannes-red-carpet-portrait-video",
+    kind: "video",
+    src: "/cannes/cannes-red-carpet-portrait-video.mp4",
+    alt: "Close-up Cannes red carpet video moment",
   },
-] as const satisfies readonly GalleryImage[];
-
-/* ============================================================
-   EXACTLY TWO ROWS
-
-   Each row has one buffer image at either end so horizontal
-   movement does not expose an empty edge.
-
-   These are static buffers:
-   - no autoplay
-   - no infinite carousel
-   - no third row
-   ============================================================ */
-
-const GALLERY_ROWS: readonly (readonly GalleryImage[])[] = [
-  [
-    GALLERY_IMAGES[5],
-    ...GALLERY_IMAGES,
-    GALLERY_IMAGES[0],
-  ],
-
-  [
-    GALLERY_IMAGES[2],
-    GALLERY_IMAGES[3],
-    GALLERY_IMAGES[5],
-    GALLERY_IMAGES[1],
-    GALLERY_IMAGES[4],
-    GALLERY_IMAGES[0],
-    GALLERY_IMAGES[2],
-    GALLERY_IMAGES[3],
-  ],
+  {
+    key: "cannes-red-carpet-blue-look-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    alt: "Traditional blue look presented on the Cannes red carpet",
+  },
+  {
+    key: "cannes-interview-group",
+    kind: "video",
+    src: "/cannes/cannes-interview-group.mp4",
+    alt: "Cannes festival interview with a group of guests",
+  },
+  {
+    key: "cannes-red-carpet-blue-look-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
+    alt: "Wide Cannes red carpet moment featuring a traditional blue look",
+  },
+  {
+    key: "cannes-interview-indoor",
+    kind: "video",
+    src: "/cannes/cannes-interview-indoor.mp4",
+    alt: "Indoor interview recorded during the Cannes visit",
+  },
+  {
+    key: "cannes-red-carpet-guests-01",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-guests-01.jpg",
+    alt: "Guests greeting the audience on the Cannes red carpet",
+    position: "center 32%",
+  },
+  {
+    key: "cannes-red-carpet-interview",
+    kind: "video",
+    src: "/cannes/cannes-red-carpet-interview.mp4",
+    alt: "Red carpet interview moment at Cannes",
+  },
+  {
+    key: "cannes-pavilion-guests-01",
+    kind: "image",
+    src: "/cannes/cannes-pavilion-guests-01.jpg",
+    alt: "Guests gathering at the Cannes pavilion",
+  },
+  {
+    key: "cannes-riviera-portrait-01",
+    kind: "image",
+    src: "/cannes/cannes-riviera-portrait-01.jpg",
+    alt: "Festival portrait overlooking the Cannes waterfront",
+  },
+  {
+    key: "cannes-pavilion-guests-02",
+    kind: "image",
+    src: "/cannes/cannes-pavilion-guests-02.jpg",
+    alt: "Cannes pavilion gathering with festival guests",
+  },
 ];
+
+function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
+  const videoUrl = item.videoUrl?.trim();
+  const imageUrl = item.imageUrl?.trim();
+
+  // Prefer an explicitly selected video. Also accept a valid video URL when
+  // older Sanity content predates the mediaType field.
+  if ((item.mediaType === "video" || (!item.mediaType && videoUrl)) && videoUrl) {
+    return {
+      key: item._key,
+      kind: "video",
+      src: videoUrl,
+      alt: item.videoLabel?.trim() || item.caption?.trim() || "Cannes 2026 video moment",
+      poster: item.posterUrl?.trim() || undefined,
+      position: item.objectPosition?.trim() || undefined,
+    };
+  }
+
+  if (imageUrl) {
+    return {
+      key: item._key,
+      kind: "image",
+      src: imageUrl,
+      alt: item.imageAlt?.trim() || item.caption?.trim() || "Cannes 2026 moment",
+      position: item.objectPosition?.trim() || undefined,
+    };
+  }
+
+  return null;
+}
+
+function buildGalleryRows(media: readonly GalleryMedia[]) {
+  const first = media.filter((_, index) => index % 2 === 0);
+  const second = media.filter((_, index) => index % 2 === 1);
+
+  const ensureRow = (row: GalleryMedia[], fallback: GalleryMedia[]) => {
+    const source = row.length > 0 ? row : fallback;
+    const expanded = [...source];
+
+    while (expanded.length < 4 && source.length > 0) {
+      expanded.push(source[expanded.length % source.length]);
+    }
+
+    if (expanded.length === 0) return [];
+
+    return [expanded[expanded.length - 1], ...expanded, expanded[0]];
+  };
+
+  const firstRow = ensureRow(first, [...media]);
+  const secondRow = ensureRow(second, first.length > 0 ? first : [...media]);
+
+  return [firstRow, secondRow] as const;
+}
 
 /* ============================================================
    MOTION
@@ -165,40 +268,102 @@ function CaretRightIcon() {
 }
 
 /* ============================================================
-   IMAGE CARD
-
-   Square image treatment, as in the recording.
-   No independent hover zoom competing with the wall animation.
+   MEDIA CARD
    ============================================================ */
 
-function GalleryCard({
-  image,
-  decorative = false,
-  loadImages,
+function GalleryVideo({
+  media,
+  active,
+  loadMedia,
+  reducedMotion,
+  decorative,
 }: {
-  image: GalleryImage;
+  media: GalleryMedia;
+  active: boolean;
+  loadMedia: boolean;
+  reducedMotion: boolean;
+  decorative: boolean;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoInView = useInView(videoRef, { margin: "160px 0px 160px 0px" });
+  const shouldAutoplay = loadMedia && active && videoInView && !reducedMotion;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !loadMedia) return;
+
+    if (shouldAutoplay) {
+      void video.play().catch(() => {
+        // Muted autoplay is allowed by modern browsers, but playback can
+        // still be blocked by user/browser policy. Failing silently keeps
+        // the media wall stable and the first frame visible.
+      });
+    } else {
+      video.pause();
+    }
+  }, [loadMedia, shouldAutoplay]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={loadMedia ? media.src : undefined}
+      poster={media.poster}
+      className={styles.video}
+      style={{ objectPosition: media.position ?? "center" }}
+      autoPlay={shouldAutoplay}
+      muted
+      loop
+      playsInline
+      preload={loadMedia ? "metadata" : "none"}
+      controls={reducedMotion && !decorative}
+      aria-hidden={decorative ? true : undefined}
+      aria-label={decorative ? undefined : media.alt}
+      tabIndex={reducedMotion && !decorative ? 0 : -1}
+      disablePictureInPicture
+    />
+  );
+}
+
+function GalleryCard({
+  media,
+  decorative = false,
+  loadMedia,
+  active,
+  reducedMotion,
+}: {
+  media: GalleryMedia;
   decorative?: boolean;
-  loadImages: boolean;
+  loadMedia: boolean;
+  active: boolean;
+  reducedMotion: boolean;
 }) {
   return (
-    <figure className={styles.card}>
-      <Image
-        src={image.src}
-        alt={decorative ? "" : image.alt}
-        fill
-        loading={loadImages ? "eager" : "lazy"}
-        decoding="async"
-        draggable={false}
-        sizes="
-          (max-width: 639px) 84vw,
-          (max-width: 1023px) 64vw,
-          38vw
-        "
-        className={styles.image}
-        style={{
-          objectPosition: image.position ?? "center",
-        }}
-      />
+    <figure className={styles.card} aria-hidden={decorative ? true : undefined}>
+      {media.kind === "video" ? (
+        <GalleryVideo
+          media={media}
+          active={active}
+          loadMedia={loadMedia}
+          reducedMotion={reducedMotion}
+          decorative={decorative}
+        />
+      ) : (
+        <Image
+          src={media.src}
+          alt={decorative ? "" : media.alt}
+          fill
+          loading={loadMedia ? "eager" : "lazy"}
+          decoding="async"
+          draggable={false}
+          sizes="
+            (max-width: 639px) 84vw,
+            (max-width: 1023px) 64vw,
+            38vw
+          "
+          className={styles.image}
+          style={{ objectPosition: media.position ?? "center" }}
+        />
+      )}
     </figure>
   );
 }
@@ -208,36 +373,37 @@ function GalleryCard({
    ============================================================ */
 
 function GalleryRow({
-  images,
+  media,
   x,
   decorative,
-  loadImages,
+  loadMedia,
+  active,
+  reducedMotion,
 }: {
-  images: readonly GalleryImage[];
+  media: readonly GalleryMedia[];
   x: MotionValue<number>;
   decorative: boolean;
-  loadImages: boolean;
+  loadMedia: boolean;
+  active: boolean;
+  reducedMotion: boolean;
 }) {
   return (
-    <div
-      className={styles.row}
-      aria-hidden={decorative ? true : undefined}
-    >
+    <div className={styles.row} aria-hidden={decorative ? true : undefined}>
       <motion.div
-        data-film-row-track
+        data-cannes-row-track
         className={styles.track}
         style={{ x }}
       >
-        {images.map((image, index) => (
+        {media.map((item, index) => (
           <GalleryCard
-            key={`${image.src}-${index}`}
-            image={image}
+            key={`${item.key}-${index}`}
+            media={item}
             decorative={
-              decorative ||
-              index === 0 ||
-              index === images.length - 1
+              decorative || index === 0 || index === media.length - 1
             }
-            loadImages={loadImages}
+            loadMedia={loadMedia}
+            active={active}
+            reducedMotion={reducedMotion}
           />
         ))}
       </motion.div>
@@ -246,14 +412,29 @@ function GalleryRow({
 }
 
 /* ============================================================
-   FILM SECTION
+   CANNES SECTION
    ============================================================ */
 
-export function FilmSection() {
+export function CannesSection({ content }: CannesSectionProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
   const reduceMotion = useReducedMotion() === true;
+
+  const cmsMedia =
+    content?.media
+      ?.map(toGalleryMedia)
+      .filter((item): item is GalleryMedia => item !== null) ?? [];
+
+  const galleryMedia =
+    cmsMedia.length > 0 ? cmsMedia : [...FALLBACK_CANNES_MEDIA];
+
+  const galleryRows = buildGalleryRows(galleryMedia);
+
+  const heading = content?.heading?.trim() || DEFAULT_HEADING;
+  const description = content?.description?.trim() || DEFAULT_DESCRIPTION;
+  const ctaLabel = content?.cta?.label?.trim() || DEFAULT_CTA.label;
+  const ctaHref = content?.cta?.href?.trim() || DEFAULT_CTA.href;
 
   const [geometry, setGeometry] = useState(
     INITIAL_GEOMETRY,
@@ -261,9 +442,9 @@ export function FilmSection() {
 
   /*
    * Load the gallery shortly before the user reaches it.
-   * Both rows reuse the same six image sources.
+   * Photos and videos are loaded shortly before the section reaches the viewport.
    */
-  const loadImages = useInView(sceneRef, {
+  const loadMedia = useInView(sceneRef, {
     once: true,
     margin: "700px 0px 700px 0px",
   });
@@ -290,7 +471,7 @@ export function FilmSection() {
 
     const track =
       stage?.querySelector<HTMLElement>(
-        "[data-film-row-track]",
+        "[data-cannes-row-track]",
       );
 
     const card = track?.firstElementChild;
@@ -533,7 +714,7 @@ export function FilmSection() {
             ease: EASE,
           }}
         >
-          {HEADING}
+          {heading}
         </motion.h2>
 
         <motion.p
@@ -559,17 +740,17 @@ export function FilmSection() {
             ease: EASE,
           }}
         >
-          {DESCRIPTION}
+          {description}
         </motion.p>
 
         <Link
-          href="/portfolio"
+          href={ctaHref}
           className={`
             ${inter.className}
             ${styles.cta}
           `}
         >
-          <span>Cannes Moment</span>
+          <span>{ctaLabel}</span>
 
           <span className={styles.ctaArrow}>
             <CaretRightIcon />
@@ -583,11 +764,12 @@ export function FilmSection() {
 
       <div
         ref={sceneRef}
+        id="cannes-gallery"
         className={styles.scene}
         data-reduced={reduceMotion}
         data-active={sceneVisible && !reduceMotion}
         role="group"
-        aria-label="Mumbai and Marathi culture gallery"
+        aria-label="Cannes 2026 photo and video gallery"
         style={{
           height:
             reduceMotion
@@ -599,7 +781,7 @@ export function FilmSection() {
           /* =================================================
              ACCESSIBLE STATIC FALLBACK
 
-             Six unique images, arranged in two rows.
+             Unique Cannes media items from Sanity or the local fallback set.
              ================================================= */
 
           <div
@@ -607,11 +789,13 @@ export function FilmSection() {
             tabIndex={0}
           >
             <div className={styles.reducedGrid}>
-              {GALLERY_IMAGES.map((image) => (
+              {galleryMedia.map((item) => (
                 <GalleryCard
-                  key={image.src}
-                  image={image}
-                  loadImages={loadImages}
+                  key={item.key}
+                  media={item}
+                  loadMedia={loadMedia}
+                  active={sceneVisible}
+                  reducedMotion={reduceMotion}
                 />
               ))}
             </div>
@@ -632,19 +816,23 @@ export function FilmSection() {
               {/* ROW 1 — MOVES LEFT */}
 
               <GalleryRow
-                images={GALLERY_ROWS[0]}
+                media={galleryRows[0]}
                 x={topX}
                 decorative={false}
-                loadImages={loadImages}
+                loadMedia={loadMedia}
+                active={sceneVisible}
+                reducedMotion={reduceMotion}
               />
 
               {/* ROW 2 — MOVES RIGHT */}
 
               <GalleryRow
-                images={GALLERY_ROWS[1]}
+                media={galleryRows[1]}
                 x={bottomX}
                 decorative
-                loadImages={loadImages}
+                loadMedia={loadMedia}
+                active={sceneVisible}
+                reducedMotion={reduceMotion}
               />
             </motion.div>
           </div>

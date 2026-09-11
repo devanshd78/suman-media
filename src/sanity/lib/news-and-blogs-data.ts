@@ -5,12 +5,12 @@ import {
     NEWS_BLOG_BY_SLUG_QUERY,
     NEWS_BLOGS_LIST_QUERY,
     NEWS_BLOGS_SHARED_QUERY,
-} from "@/sanity/queries/insights";
+} from "@/sanity/queries/news-and-blogs";
 import type {
     InsightDetail,
     InsightListItem,
     InsightsSharedContent,
-} from "@/types/insights";
+} from "@/types/news-and-blogs";
 
 const REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 900;
 

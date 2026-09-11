@@ -9,11 +9,11 @@
    * Width and height are constrained independently so both rows
    * remain visible on short laptops while the cards feel wider.
    */
-    --film-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
-    --film-card-height: min(28vw, 29rem, calc((100svh - 4rem) * 0.46));
-    --film-gap: clamp(0.75rem, 1.4vw, 1.5rem);
+    --cannes-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
+    --cannes-card-height: min(28vw, 29rem, calc((100svh - 4rem) * 0.46));
+    --cannes-gap: clamp(0.75rem, 1.4vw, 1.5rem);
 
-    --film-wall-height: calc(var(--film-card-height) * 2 + var(--film-gap));
+    --cannes-wall-height: calc(var(--cannes-card-height) * 2 + var(--cannes-gap));
 
     position: relative;
 
@@ -195,7 +195,7 @@
     position: absolute;
 
     top: max(1.5rem,
-            calc((100% - var(--film-wall-height)) / 2));
+            calc((100% - var(--cannes-wall-height)) / 2));
 
     left: 0;
 
@@ -203,7 +203,7 @@
     width: 100%;
 
     flex-direction: column;
-    gap: var(--film-gap);
+    gap: var(--cannes-gap);
 
     /*
    * Keep the upper edge stable during the zoom-out.
@@ -237,18 +237,18 @@
     flex: 0 0 auto;
     align-items: center;
 
-    gap: var(--film-gap);
+    gap: var(--cannes-gap);
 }
 
 /* ============================================================
-   SQUARE IMAGE CARDS
+   CANNES MEDIA CARDS
    ============================================================ */
 
 .card {
     position: relative;
 
-    width: var(--film-card-width);
-    height: var(--film-card-height);
+    width: var(--cannes-card-width);
+    height: var(--cannes-card-height);
 
     flex: 0 0 auto;
 
@@ -262,16 +262,24 @@
     background: #292929;
 }
 
-.card .image {
+.card .image,
+.card .video {
     display: block;
 
     width: 100%;
     height: 100%;
 
     object-fit: cover;
+    background: #111;
 
+    -webkit-user-select: none;
     user-select: none;
     -webkit-user-drag: none;
+}
+
+.card .video {
+    border: 0;
+    pointer-events: none;
 }
 
 /*
@@ -311,8 +319,8 @@
 
 @media (min-width: 640px) and (max-width: 1023px) {
     .section {
-        --film-card-width: min(64vw, calc((100svh - 3rem) * 0.7));
-        --film-card-height: min(44vw, calc((100svh - 3rem) * 0.46));
+        --cannes-card-width: min(64vw, calc((100svh - 3rem) * 0.7));
+        --cannes-card-height: min(44vw, calc((100svh - 3rem) * 0.46));
 
         padding-block: 80px;
     }
@@ -328,8 +336,8 @@
 
 @media (max-width: 639px) {
     .section {
-        --film-card-width: min(84vw, calc((100svh - 2rem) * 0.7));
-        --film-card-height: min(58vw, calc((100svh - 2rem) * 0.47));
+        --cannes-card-width: min(84vw, calc((100svh - 2rem) * 0.7));
+        --cannes-card-height: min(58vw, calc((100svh - 2rem) * 0.47));
 
         padding-block: 64px;
     }
@@ -357,7 +365,7 @@
 /* ============================================================
    REDUCED-MOTION FALLBACK
 
-   Six unique images.
+   All unique Cannes media items.
    Three columns × two rows.
 
    Smaller screens can scroll this static grid horizontally.
@@ -395,6 +403,10 @@
     width: 100%;
     height: auto;
     aspect-ratio: 1.4 / 1;
+}
+
+.reducedGrid .video {
+    pointer-events: auto;
 }
 
 @media (max-width: 639px) {

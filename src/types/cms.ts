@@ -370,6 +370,31 @@ export type CmsCareersCta = {
   cta?: CmsCta | null;
 };
 
+export type CmsCannesMediaItem = {
+  _key: string;
+
+  mediaType?: "image" | "video" | null;
+
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+
+  videoUrl?: string | null;
+  videoLabel?: string | null;
+
+  posterUrl?: string | null;
+  posterAlt?: string | null;
+
+  caption?: string | null;
+  objectPosition?: string | null;
+};
+
+export type CmsCannesSection = {
+  heading?: string | null;
+  description?: string | null;
+  cta?: CmsCta | null;
+  media?: CmsCannesMediaItem[] | null;
+};
+
 export type CmsHomePage = {
   _id: string;
 
@@ -443,6 +468,10 @@ export type CmsHomePage = {
 
   partnerSection?:
     | CmsPartnerSection
+    | null;
+
+  cannesSection?:
+    | CmsCannesSection
     | null;
 
   testimonialSection?:

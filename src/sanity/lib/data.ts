@@ -195,7 +195,7 @@ export function getFeaturedInsights(): Promise<CmsFeaturedInsight[]> {
     INSIGHTS_LIST_QUERY,
     (post) =>
       Boolean(post?.title && post?.slug && post?.imageUrl && post?.publishedAt),
-    "featured insights",
+    "featured News & Blog articles",
   );
 }
 
