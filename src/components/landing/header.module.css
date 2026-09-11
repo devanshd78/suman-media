@@ -439,6 +439,9 @@
 .dropdown {
   position: absolute;
 
+  transform-origin: 50% 0%;
+  will-change: transform, opacity, clip-path;
+
   inset:
     100% 0 auto;
 

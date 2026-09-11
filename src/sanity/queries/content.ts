@@ -61,10 +61,10 @@ export const HOME_PAGE_QUERY =
       style
     },
 
-    insightsEyebrow,
-    insightsHeading,
+    "newsBlogsEyebrow": insightsEyebrow,
+    "newsBlogsHeading": insightsHeading,
 
-    insightsCta{
+    "newsBlogsCta": insightsCta{
       label,
       href,
       style
@@ -125,7 +125,7 @@ export const HOME_PAGE_QUERY =
           }
       ),
 
-    "featuredInsights":
+    "featuredNewsBlogs":
       select(
         count(
           coalesce(
@@ -147,6 +147,12 @@ export const HOME_PAGE_QUERY =
 
             "imageAlt":
               featuredImage.alt,
+
+            "imageHotspotX":
+              featuredImage.hotspot.x,
+
+            "imageHotspotY":
+              featuredImage.hotspot.y,
 
             publishedAt
           },
@@ -173,6 +179,12 @@ export const HOME_PAGE_QUERY =
 
             "imageAlt":
               featuredImage.alt,
+
+            "imageHotspotX":
+              featuredImage.hotspot.x,
+
+            "imageHotspotY":
+              featuredImage.hotspot.y,
 
             publishedAt
           }
@@ -310,6 +322,10 @@ export const HOME_PAGE_QUERY =
           "mediaType": coalesce(mediaType, "image"),
           caption,
           objectPosition,
+          objectFit,
+
+          "imageHotspotX": image.hotspot.x,
+          "imageHotspotY": image.hotspot.y,
 
           "imageUrl":
             image.asset->url,
@@ -884,6 +900,12 @@ export const HOME_FEATURED_INSIGHTS_QUERY =
     "imageAlt":
       featuredImage.alt,
 
+    "imageHotspotX":
+      featuredImage.hotspot.x,
+
+    "imageHotspotY":
+      featuredImage.hotspot.y,
+
     publishedAt,
 
     "authorName":
@@ -916,6 +938,12 @@ export const INSIGHTS_LIST_QUERY =
 
       "imageAlt":
         featuredImage.alt,
+
+      "imageHotspotX":
+        featuredImage.hotspot.x,
+
+      "imageHotspotY":
+        featuredImage.hotspot.y,
 
       publishedAt,
 

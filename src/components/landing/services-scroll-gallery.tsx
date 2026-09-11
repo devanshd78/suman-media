@@ -40,6 +40,8 @@ type Item = {
   number: number;
 };
 
+type ScrollDirection = "down" | "up";
+
 type Geometry = {
   width: number;
   height: number;
@@ -440,6 +442,7 @@ function ServiceFrame({
   progress,
   geometry,
   active,
+  direction,
 }: {
   item: Item;
 
@@ -452,6 +455,7 @@ function ServiceFrame({
   geometry: Geometry;
 
   active: boolean;
+  direction: ScrollDirection;
 }) {
   const {
     cardHeight,
@@ -720,15 +724,66 @@ function ServiceFrame({
       ],
     );
 
+  /* ==========================================================
+     REVERSE / SCROLL-UP RETURN
+
+     Forward motion is intentionally unchanged. While scrolling upward,
+     each exited card returns on its own scroll slice with a deliberately simple path:
+     it fades back in with only a light tilt, settles in the foreground, then
+     moves into the stack. The dramatic forward exit is not replayed in reverse.
+     Keeping one card per stride prevents several cards from popping back
+     at the same time.
+     ========================================================== */
+
+  const returnY =
+    useTransform(
+      local,
+      [0, 0.38, 0.68, 0.88, 1],
+      isFirst
+        ? [0, 0, 0, cardHeight * 0.18, cardHeight * 0.38]
+        : [restY, 0, 0, cardHeight * 0.18, cardHeight * 0.38],
+    );
+
+  const returnZ =
+    useTransform(
+      local,
+      [0, 0.38, 0.68, 0.88, 1],
+      isFirst
+        ? [0, 0, 0, perspective * 0.18, perspective * 0.34]
+        : [restZ, 0, 0, perspective * 0.18, perspective * 0.34],
+    );
+
+  const returnRotateX =
+    useTransform(
+      local,
+      [0, 0.68, 0.88, 1],
+      [0, 0, 6, 14],
+    );
+
+  const returnOpacity =
+    useTransform(
+      local,
+      [0, 0.94, 1],
+      [1, 1, 0],
+    );
+
+  const returning =
+    direction === "up" &&
+    !isLast;
+
   const y =
     isLast
       ? lastY
-      : normalY;
+      : returning
+        ? returnY
+        : normalY;
 
   const z =
     isLast
       ? lastZ
-      : normalZ;
+      : returning
+        ? returnZ
+        : normalZ;
 
   return (
     <div
@@ -768,12 +823,16 @@ function ServiceFrame({
           rotateX:
             isLast
               ? 0
-              : normalRotateX,
+              : returning
+                ? returnRotateX
+                : normalRotateX,
 
           opacity:
             isLast
               ? 1
-              : normalOpacity,
+              : returning
+                ? returnOpacity
+                : normalOpacity,
 
           background:
             COLORS[
@@ -838,6 +897,14 @@ export function ServicesScrollGallery({
     setActive,
   ] =
     useState(0);
+
+  const [
+    scrollDirection,
+    setScrollDirection,
+  ] = useState<ScrollDirection>("down");
+
+  const previousProgressRef =
+    useRef(0);
 
   /* ==========================================================
      SERVICES
@@ -1038,6 +1105,20 @@ export function ServicesScrollGallery({
     (
       value,
     ) => {
+      const previousProgress =
+        previousProgressRef.current;
+
+      if (Math.abs(value - previousProgress) > 0.002) {
+        const nextDirection: ScrollDirection =
+          value < previousProgress ? "up" : "down";
+
+        setScrollDirection((current) =>
+          current === nextDirection ? current : nextDirection,
+        );
+      }
+
+      previousProgressRef.current = value;
+
       if (
         count <= 0
       ) {
@@ -1212,6 +1293,7 @@ export function ServicesScrollGallery({
                     index ===
                     active
                   }
+                  direction={scrollDirection}
                 />
               ),
             )}

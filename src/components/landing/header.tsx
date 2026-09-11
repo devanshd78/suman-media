@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 
 import { inter } from "@/lib/fonts";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+
 import {
   useCallback,
   useEffect,
@@ -502,27 +504,60 @@ function ArrowRightIcon() {
 function DropdownPanel({
   menu,
   onNavigate,
+  reduceMotion,
 }: {
   menu: NavMenu;
   onNavigate: () => void;
+  reduceMotion: boolean;
 }) {
   return (
-    <div
+    <motion.div
       id={`nav-menu-${menu.id}`}
       data-desktop-panel
       data-lenis-prevent
       aria-label={`${menu.label} menu`}
-      className={
-        styles.dropdown
+      className={styles.dropdown}
+      initial={
+        reduceMotion
+          ? false
+          : {
+              opacity: 0,
+              y: -8,
+              clipPath: "inset(0 0 100% 0)",
+            }
       }
+      animate={{
+        opacity: 1,
+        y: 0,
+        clipPath: "inset(0 0 0% 0)",
+      }}
+      exit={
+        reduceMotion
+          ? { opacity: 0 }
+          : {
+              opacity: 0,
+              y: -6,
+              clipPath: "inset(0 0 100% 0)",
+            }
+      }
+      transition={{
+        duration: reduceMotion ? 0 : 0.3,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      style={{ transformOrigin: "50% 0%" }}
     >
-      <div
-        className={
-          styles.dropdownGrid
-        }
+      <motion.div
+        className={styles.dropdownGrid}
         style={{
-          gridTemplateColumns:
-            menu.gridColumns,
+          gridTemplateColumns: menu.gridColumns,
+        }}
+        initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.22,
+          delay: reduceMotion ? 0 : 0.055,
+          ease: [0.22, 1, 0.36, 1],
         }}
       >
         {menu.columns.map(
@@ -717,8 +752,8 @@ function DropdownPanel({
             </Link>
           </div>
         ) : null}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -732,6 +767,9 @@ export function Header() {
 
   const isLandingPage =
     pathname === "/";
+
+  const reduceMotion =
+    useReducedMotion() === true;
 
   /* ==========================================================
      STATE
@@ -1808,19 +1846,16 @@ export function Header() {
             DESKTOP DROPDOWN
             =================================================== */}
 
-        {activeMenu ? (
-          <DropdownPanel
-            key={
-              activeMenu.id
-            }
-            menu={
-              activeMenu
-            }
-            onNavigate={
-              closeDropdown
-            }
-          />
-        ) : null}
+        <AnimatePresence initial={false} mode="sync">
+          {activeMenu ? (
+            <DropdownPanel
+              key={activeMenu.id}
+              menu={activeMenu}
+              onNavigate={closeDropdown}
+              reduceMotion={reduceMotion}
+            />
+          ) : null}
+        </AnimatePresence>
 
         {/* ===================================================
             MOBILE DIALOG

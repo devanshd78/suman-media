@@ -47,7 +47,7 @@ export default async function NewsBlogArticlePage({ params }: NewsBlogPageProps)
   return (
     <>
       <NewsBlogDetail article={article} />
-      <FaqSection content={faq} variant="insights" />
+      <FaqSection content={faq} variant="newsAndBlogs" />
       <ParallaxBlackSection>
         <CareersCtaSection content={careersCta} />
       </ParallaxBlackSection>

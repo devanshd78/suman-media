@@ -193,10 +193,10 @@ export function LandingPage({
           ===================================================== */}
 
       <NewsBlogsSection
-        eyebrow={home?.insightsEyebrow}
-        heading={home?.insightsHeading}
-        cta={home?.insightsCta}
-        articles={home?.featuredInsights}
+        eyebrow={home?.newsBlogsEyebrow}
+        heading={home?.newsBlogsHeading}
+        cta={home?.newsBlogsCta}
+        articles={home?.featuredNewsBlogs}
       />
 
       {/* =====================================================

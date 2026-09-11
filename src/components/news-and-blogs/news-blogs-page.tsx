@@ -101,6 +101,15 @@ function formatDate(value: string) {
     }).format(date);
 }
 
+
+function imagePosition(post: InsightListItem) {
+    if (typeof post.imageHotspotX !== "number" || typeof post.imageHotspotY !== "number") {
+        return "center";
+    }
+
+    return `${Math.round(post.imageHotspotX * 100)}% ${Math.round(post.imageHotspotY * 100)}%`;
+}
+
 function matchesFilter(post: InsightListItem, filter: string) {
     if (filter === "all") return true;
 
@@ -131,6 +140,7 @@ function StandardCard({ post }: { post: InsightListItem }) {
                         fill
                         loading="lazy"
                         sizes="(max-width: 639px) 92vw, (max-width: 1023px) 46vw, 31vw"
+                        style={{ objectPosition: imagePosition(post) }}
                         className={styles.cardImage}
                     />
                 </div>
@@ -155,6 +165,7 @@ function FeatureLarge({ post }: { post: InsightListItem }) {
                         fill
                         loading="lazy"
                         sizes="(max-width: 767px) 92vw, 62vw"
+                        style={{ objectPosition: imagePosition(post) }}
                         className={styles.cardImage}
                     />
                 </div>
@@ -179,6 +190,7 @@ function FeatureCompact({ post }: { post: InsightListItem }) {
                         fill
                         loading="lazy"
                         sizes="(max-width: 767px) 36vw, 18vw"
+                        style={{ objectPosition: imagePosition(post) }}
                         className={styles.cardImage}
                     />
                 </div>
@@ -340,6 +352,7 @@ export function NewsBlogsPage({ posts }: Props) {
                         fill
                         priority
                         sizes="100vw"
+                        style={{ objectPosition: imagePosition(hero) }}
                         className={styles.heroImage}
                     />
                     <div className={styles.heroShade} aria-hidden="true" />
@@ -453,6 +466,7 @@ export function NewsBlogsPage({ posts }: Props) {
                                         fill
                                         loading="lazy"
                                         sizes="(max-width: 767px) 86vw, 46vw"
+                                        style={{ objectPosition: imagePosition(post) }}
                                         className={styles.cardImage}
                                     />
                                 </div>

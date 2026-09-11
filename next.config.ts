@@ -92,6 +92,21 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/insights",
+        destination: "/news-and-blogs",
+        permanent: true,
+      },
+      {
+        source: "/insights/:slug",
+        destination: "/news-and-blogs/:slug",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {

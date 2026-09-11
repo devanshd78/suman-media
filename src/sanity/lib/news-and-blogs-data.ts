@@ -9,7 +9,7 @@ import {
 import type {
     InsightDetail,
     InsightListItem,
-    InsightsSharedContent,
+    NewsBlogsSharedContent,
 } from "@/types/news-and-blogs";
 
 const REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 900;
@@ -52,9 +52,9 @@ export const getNewsBlogBySlug = cache(
 );
 
 export const getNewsBlogsSharedContent = cache(
-    async (): Promise<InsightsSharedContent | null> => {
+    async (): Promise<NewsBlogsSharedContent | null> => {
         try {
-            return await sanityFetch<InsightsSharedContent | null>({
+            return await sanityFetch<NewsBlogsSharedContent | null>({
                 query: NEWS_BLOGS_SHARED_QUERY,
                 revalidate: REVALIDATE,
             });

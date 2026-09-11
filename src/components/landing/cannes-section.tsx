@@ -38,6 +38,7 @@ type GalleryMedia = {
   alt: string;
   poster?: string;
   position?: string;
+  fit?: "cover" | "contain";
 };
 
 type GalleryGeometry = {
@@ -76,101 +77,134 @@ const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
     kind: "image",
     src: "/cannes/cannes-red-carpet-group-01.jpg",
     alt: "Guests representing Indian culture on the Cannes red carpet",
+    position: "center 44%",
+    fit: "contain",
   },
   {
     key: "cannes-interview-group-short",
     kind: "video",
     src: "/cannes/cannes-interview-group-short.mp4",
     alt: "Cannes interview moment with guests at the festival",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-portrait-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-portrait-01.jpg",
     alt: "Festival guest in traditional attire on the Cannes red carpet",
-    position: "center 30%",
+    position: "center 34%",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-walk",
     kind: "video",
     src: "/cannes/cannes-red-carpet-walk.mp4",
     alt: "Cannes red carpet festival moment",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-group-02",
     kind: "image",
     src: "/cannes/cannes-red-carpet-group-02.jpg",
     alt: "Festival guests posing together on the Cannes red carpet",
+    position: "center 42%",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-portrait-video",
     kind: "video",
     src: "/cannes/cannes-red-carpet-portrait-video.mp4",
     alt: "Close-up Cannes red carpet video moment",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-blue-look-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
     alt: "Traditional blue look presented on the Cannes red carpet",
+    position: "center 48%",
+    fit: "contain",
   },
   {
     key: "cannes-interview-group",
     kind: "video",
     src: "/cannes/cannes-interview-group.mp4",
     alt: "Cannes festival interview with a group of guests",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-blue-look-02",
     kind: "image",
     src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
     alt: "Wide Cannes red carpet moment featuring a traditional blue look",
+    position: "center 48%",
+    fit: "contain",
   },
   {
     key: "cannes-interview-indoor",
     kind: "video",
     src: "/cannes/cannes-interview-indoor.mp4",
     alt: "Indoor interview recorded during the Cannes visit",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-guests-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-guests-01.jpg",
     alt: "Guests greeting the audience on the Cannes red carpet",
-    position: "center 32%",
+    position: "center 38%",
+    fit: "contain",
   },
   {
     key: "cannes-red-carpet-interview",
     kind: "video",
     src: "/cannes/cannes-red-carpet-interview.mp4",
     alt: "Red carpet interview moment at Cannes",
+    fit: "contain",
   },
   {
     key: "cannes-pavilion-guests-01",
     kind: "image",
     src: "/cannes/cannes-pavilion-guests-01.jpg",
     alt: "Guests gathering at the Cannes pavilion",
+    position: "center 38%",
+    fit: "contain",
   },
   {
     key: "cannes-riviera-portrait-01",
     kind: "image",
     src: "/cannes/cannes-riviera-portrait-01.jpg",
     alt: "Festival portrait overlooking the Cannes waterfront",
+    position: "center 42%",
+    fit: "contain",
   },
   {
     key: "cannes-pavilion-guests-02",
     kind: "image",
     src: "/cannes/cannes-pavilion-guests-02.jpg",
     alt: "Cannes pavilion gathering with festival guests",
+    position: "center 38%",
+    fit: "contain",
   },
 ];
-
 function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
   const videoUrl = item.videoUrl?.trim();
   const imageUrl = item.imageUrl?.trim();
 
+  const hotspotPosition =
+    typeof item.imageHotspotX === "number" && typeof item.imageHotspotY === "number"
+      ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(item.imageHotspotY * 100)}%`
+      : undefined;
+
+  const position = item.objectPosition?.trim() || hotspotPosition;
+  const requestedFit =
+    item.objectFit === "contain" || item.objectFit === "cover"
+      ? item.objectFit
+      : undefined;
+
   // Prefer an explicitly selected video. Also accept a valid video URL when
-  // older Sanity content predates the mediaType field.
+  // older Sanity content predates the mediaType field. Videos default to
+  // contain so faces and full portrait footage are never cropped away.
   if ((item.mediaType === "video" || (!item.mediaType && videoUrl)) && videoUrl) {
     return {
       key: item._key,
@@ -178,7 +212,8 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
       src: videoUrl,
       alt: item.videoLabel?.trim() || item.caption?.trim() || "Cannes 2026 video moment",
       poster: item.posterUrl?.trim() || undefined,
-      position: item.objectPosition?.trim() || undefined,
+      position,
+      fit: requestedFit || "contain",
     };
   }
 
@@ -188,7 +223,12 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
       kind: "image",
       src: imageUrl,
       alt: item.imageAlt?.trim() || item.caption?.trim() || "Cannes 2026 moment",
-      position: item.objectPosition?.trim() || undefined,
+      position,
+      // The Cannes wall prioritizes the whole frame by default so faces,
+      // full outfits and group compositions are not cropped. Editors can
+      // explicitly switch an item to `cover` in Sanity when edge-to-edge
+      // framing is more important.
+      fit: requestedFit || "contain",
     };
   }
 
@@ -309,7 +349,10 @@ function GalleryVideo({
       src={loadMedia ? media.src : undefined}
       poster={media.poster}
       className={styles.video}
-      style={{ objectPosition: media.position ?? "center" }}
+      style={{
+        objectPosition: media.position ?? "center",
+        objectFit: media.fit ?? "contain",
+      }}
       autoPlay={shouldAutoplay}
       muted
       loop
@@ -361,7 +404,10 @@ function GalleryCard({
             38vw
           "
           className={styles.image}
-          style={{ objectPosition: media.position ?? "center" }}
+          style={{
+            objectPosition: media.position ?? "center",
+            objectFit: media.fit ?? "cover",
+          }}
         />
       )}
     </figure>

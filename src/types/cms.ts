@@ -166,6 +166,8 @@ export type CmsFeaturedInsight = {
 
   imageUrl: string;
   imageAlt?: string | null;
+  imageHotspotX?: number | null;
+  imageHotspotY?: number | null;
 
   publishedAt: string;
 
@@ -386,6 +388,9 @@ export type CmsCannesMediaItem = {
 
   caption?: string | null;
   objectPosition?: string | null;
+  objectFit?: "cover" | "contain" | null;
+  imageHotspotX?: number | null;
+  imageHotspotY?: number | null;
 };
 
 export type CmsCannesSection = {
@@ -434,11 +439,11 @@ export type CmsHomePage = {
 
   industriesCta?: CmsCta | null;
 
-  insightsEyebrow?: string | null;
+  newsBlogsEyebrow?: string | null;
 
-  insightsHeading?: string | null;
+  newsBlogsHeading?: string | null;
 
-  insightsCta?: CmsCta | null;
+  newsBlogsCta?: CmsCta | null;
 
   stats?: CmsStat[] | null;
 
@@ -458,7 +463,7 @@ export type CmsHomePage = {
     | CmsFeaturedProject[]
     | null;
 
-  featuredInsights?:
+  featuredNewsBlogs?:
     | CmsFeaturedInsight[]
     | null;
 

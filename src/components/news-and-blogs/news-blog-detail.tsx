@@ -53,6 +53,14 @@ function categoryLabel(article: InsightDetail) {
     return article.categories?.[0]?.title?.trim() || "New launches";
 }
 
+function imagePosition(item: InsightListItem) {
+    if (typeof item.imageHotspotX !== "number" || typeof item.imageHotspotY !== "number") {
+        return "center";
+    }
+
+    return `${Math.round(item.imageHotspotX * 100)}% ${Math.round(item.imageHotspotY * 100)}%`;
+}
+
 function calculateReadingTime(body: PortableTextNode[] | null | undefined) {
     const wordCount = (body ?? []).reduce((sum, node) => {
         if (node._type !== "block") return sum;
@@ -173,6 +181,7 @@ function SmallArticleCard({ post }: { post: InsightListItem }) {
                         fill
                         loading="lazy"
                         sizes="(max-width: 767px) 92vw, 30vw"
+                        style={{ objectPosition: imagePosition(post) }}
                         className={styles.relatedImage}
                     />
                 </div>
@@ -212,6 +221,7 @@ export function NewsBlogDetail({ article }: Props) {
                     fill
                     priority
                     sizes="100vw"
+                    style={{ objectPosition: imagePosition(article) }}
                     className={styles.heroImage}
                 />
             </section>
@@ -250,8 +260,8 @@ export function NewsBlogDetail({ article }: Props) {
                             <div className={styles.sidebarRule} aria-hidden="true" />
 
                             <div className={styles.connectBox}>
-                                <Link href="/contact">Connect with Domingo</Link>
-                                <p>Credits: Marissa Grootes</p>
+                                <Link href="/contact">Connect with Suman Entertainment</Link>
+                                <p>Cannes 2026 · Bharat (India) Pavilion</p>
                             </div>
                         </div>
                     </aside>

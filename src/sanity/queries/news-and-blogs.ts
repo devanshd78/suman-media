@@ -7,6 +7,8 @@ const INSIGHT_CARD_FIELDS = `
   excerpt,
   "imageUrl": featuredImage.asset->url,
   "imageAlt": select(featuredImage.decorative == true => "", featuredImage.alt),
+  "imageHotspotX": featuredImage.hotspot.x,
+  "imageHotspotY": featuredImage.hotspot.y,
   publishedAt,
   featured,
   "authorName": author->name,
