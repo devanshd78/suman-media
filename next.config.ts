@@ -52,6 +52,15 @@ const nextConfig: NextConfig = {
 
   poweredByHeader: false,
 
+  experimental: {
+    /*
+     * This project lives on a volume that creates AppleDouble `._*` files.
+     * Those files break Turbopack's numeric persistence database filenames
+     * when the dev server is restarted, so keep the dev cache in memory.
+     */
+    turbopackFileSystemCacheForDev: false,
+  },
+
   /*
    * Nginx already handles compression
    * in production.
