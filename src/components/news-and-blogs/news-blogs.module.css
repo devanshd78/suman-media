@@ -133,7 +133,7 @@
     align-items: center;
     align-self: stretch;
     gap: var(--Spacing-0, 0);
-    border-radius: var(--Corner-radius-16, 16px);
+    border-radius: var(--Corner-radius-8, 8px);
     background: var(--Light-Border-Background-Pressed, #ededed);
     color: var(--Light-Border-Text-LinkPressed, #828282);
     text-align: center;

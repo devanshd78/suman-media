@@ -2,17 +2,11 @@
 
 import Image from "@/components/ui/image";
 import Link from "next/link";
-
-import { plusJakartaSans } from "@/lib/fonts";
-import { usePinnedRail } from "@/hooks/use-pinned-rail";
-
 import { motion } from "framer-motion";
+import { useRef, type ReactNode } from "react";
 
-import {
-  useRef,
-  type ReactNode,
-} from "react";
-
+import { usePinnedRail } from "@/hooks/use-pinned-rail";
+import { plusJakartaSans } from "@/lib/fonts";
 import type { CmsCta } from "@/types/cms";
 
 import {
@@ -27,21 +21,13 @@ import {
 
 import styles from "./industries-section.module.css";
 
-/* ============================================================
-   TYPES
-   ============================================================ */
-
 type IndustryItem = {
   key: string;
   number: string;
-
   title: string;
   slug: string;
-
   gradientImage: string;
-
   description: string;
-
   artwork: ReactNode;
 };
 
@@ -52,160 +38,78 @@ type IndustriesSectionProps = {
   cta?: CmsCta | null;
 };
 
-/* ============================================================
-   INDUSTRIES
-
-   Gradient backgrounds are now ONLY:
-
-   /images/gradient/gradient-1.png
-   /images/gradient/gradient-2.png
-   /images/gradient/gradient-3.png
-   /images/gradient/gradient-4.png
-   /images/gradient/gradient-5.png
-   /images/gradient/gradient-6.png
-   /images/gradient/gradient-7.png
-
-   No CSS-generated gradient is used here anymore.
-   ============================================================ */
-
 const INDUSTRIES: IndustryItem[] = [
   {
     key: "entertainment",
-
     number: "01",
-
     title: "Entertainment",
-
     description:
       "Film, music and stories across screens and experiences.",
-
     slug: "entertainment",
-
-    gradientImage:
-      "/images/gradient/gradient-1.png",
-
-    artwork:
-      <EntertainmentArtwork />,
+    gradientImage: "/images/gradient/gradient-1.png",
+    artwork: <EntertainmentArtwork />,
   },
-
   {
     key: "enterprises",
-
     number: "02",
-
     title: "Enterprises",
-
     description:
       "Media and technology for connected business experiences.",
-
     slug: "enterprises",
-
-    gradientImage:
-      "/images/gradient/gradient-2.png",
-
-    artwork:
-      <EnterprisesArtwork />,
+    gradientImage: "/images/gradient/gradient-2.png",
+    artwork: <EnterprisesArtwork />,
   },
-
   {
     key: "brands",
-
     number: "03",
-
     title: "Brands",
-
     description:
       "Creative content and experiences that connect brands with audiences.",
-
     slug: "brands",
-
-    gradientImage:
-      "/images/gradient/gradient-3.png",
-
-    artwork:
-      <BrandsArtwork />,
+    gradientImage: "/images/gradient/gradient-3.png",
+    artwork: <BrandsArtwork />,
   },
-
   {
     key: "investors",
-
     number: "04",
-
     title: "Investors",
-
     description:
       "Media, information and communication for investment ecosystems.",
-
     slug: "investors",
-
-    gradientImage:
-      "/images/gradient/gradient-4.png",
-
-    artwork:
-      <InvestorsArtwork />,
+    gradientImage: "/images/gradient/gradient-4.png",
+    artwork: <InvestorsArtwork />,
   },
-
   {
     key: "public-sector",
-
     number: "05",
-
     title: "Public Sector",
-
     description:
       "Institutional media, public awareness and outreach.",
-
     slug: "public-sector",
-
-    gradientImage:
-      "/images/gradient/gradient-5.png",
-
-    artwork:
-      <PublicSectorArtwork />,
+    gradientImage: "/images/gradient/gradient-5.png",
+    artwork: <PublicSectorArtwork />,
   },
-
   {
     key: "creators",
-
     number: "06",
-
     title: "Creators",
-
     description:
       "Supporting talent, original content and creative collaboration.",
-
     slug: "creators",
-
-    gradientImage:
-      "/images/gradient/gradient-6.png",
-
-    artwork:
-      <CreatorsArtwork />,
+    gradientImage: "/images/gradient/gradient-6.png",
+    artwork: <CreatorsArtwork />,
   },
-
   {
     key: "government",
-
     number: "07",
-
     title: "Government",
-
     description:
       "Citizen engagement, culture and public communication.",
-
     slug: "government",
-
-    gradientImage:
-      "/images/gradient/gradient-7.png",
-
-    artwork:
-      <GovernmentArtwork />,
+    gradientImage: "/images/gradient/gradient-7.png",
+    artwork: <GovernmentArtwork />,
   },
 ];
-
-/* ============================================================
-   ARROW
-   ============================================================ */
 
 function ArrowIcon() {
   return (
@@ -227,10 +131,6 @@ function ArrowIcon() {
   );
 }
 
-/* ============================================================
-   INDUSTRY CARD
-   ============================================================ */
-
 function IndustryCard({
   industry,
 }: {
@@ -245,125 +145,67 @@ function IndustryCard({
       data-industry-card
       className={styles.card}
     >
-      {/* =====================================================
-          VISUAL
-          ===================================================== */}
-
-      <div
-        className={
-          styles.visual
-        }
-      >
-        {/* ===================================================
-            GRADIENT PNG
-
-            Replaces old radial-gradient / linear-gradient CSS.
-            =================================================== */}
-
+      <div className={styles.visual}>
+        {/* Original gradient background */}
         <Image
-          src={
-            industry.gradientImage
-          }
+          src={industry.gradientImage}
           alt=""
           aria-hidden="true"
           fill
           loading="lazy"
-          sizes="
-            (max-width: 1023px) 82vw,
-            26rem
-          "
-          className="
-            pointer-events-none
-            absolute
-            inset-0
-            select-none
-            object-cover
-          "
+          sizes="(max-width: 1023px) 82vw, 26rem"
+          className={styles.gradientBackground}
         />
 
-        {/* ===================================================
-            NUMBER
-            =================================================== */}
+        {/*
+          Global contrast-reduction layer.
 
-        <span
-          className={
-            styles.number
-          }
-        >
-          {industry.number}
-        </span>
-
-        {/* ===================================================
-            LIGHT BLOOM
-
-            Keeps the depth layer above the PNG.
-            =================================================== */}
-
+          Figma:
+          fill: rgba(255, 255, 255, 0.20);
+          filter: blur(49.95000076293945px);
+        */}
         <div
           aria-hidden="true"
-          className={
-            styles.bloom
-          }
+          className={styles.backgroundWash}
         />
 
-        {/* ===================================================
-            NOISE
+        {/* Existing central bloom */}
+        <div
+          aria-hidden="true"
+          className={styles.bloom}
+        />
 
-            Keep the texture layer separately above gradient.
-            =================================================== */}
-
+        {/* Existing texture */}
         <div
           aria-hidden="true"
           className={styles.noise}
         />
 
-        {/* ===================================================
-            SVG ARTWORK
-            =================================================== */}
+        {/* Number */}
+        <span className={styles.number}>
+          {industry.number}
+        </span>
 
+        {/* Main artwork */}
         <div
           aria-hidden="true"
-          data-industry-artwork={
-            industry.key
-          }
-          className={
-            styles.artwork
-          }
+          data-industry-artwork={industry.key}
+          className={styles.artwork}
         >
           {industry.artwork}
         </div>
       </div>
 
-      {/* =====================================================
-          TITLE
-          ===================================================== */}
-
-      <h3
-        className={
-          styles.cardTitle
-        }
-      >
+      <h3 className={styles.cardTitle}>
         {industry.title}
       </h3>
 
-      {/* =====================================================
-          DESCRIPTION
-          ===================================================== */}
-
-      <p
-        className={
-          styles.cardDescription
-        }
-      >
+      <p className={styles.cardDescription}>
         {industry.description}
       </p>
     </Link>
   );
 }
-
-/* ============================================================
-   SECTION
-   ============================================================ */
 
 export function IndustriesSection({
   eyebrow,
@@ -371,31 +213,23 @@ export function IndustriesSection({
   description,
   cta,
 }: IndustriesSectionProps) {
-  const section =
-    useRef<HTMLElement>(null);
+  const section = useRef<HTMLElement>(null);
 
   const content =
-    useRef<HTMLDivElement>(
-      null,
-    );
+    useRef<HTMLDivElement>(null);
 
   const viewport =
-    useRef<HTMLDivElement>(
-      null,
-    );
+    useRef<HTMLDivElement>(null);
 
   const track =
-    useRef<HTMLDivElement>(
-      null,
-    );
+    useRef<HTMLDivElement>(null);
 
-  const rail =
-    usePinnedRail({
-      section,
-      content,
-      viewport,
-      track,
-    });
+  const rail = usePinnedRail({
+    section,
+    content,
+    viewport,
+    track,
+  });
 
   return (
     <section
@@ -403,82 +237,45 @@ export function IndustriesSection({
       id="industries"
       aria-labelledby="industries-heading"
       data-motion-managed
-      data-pinned={
-        rail.pinned
-      }
-      className={`
-        ${plusJakartaSans.className}
-        ${styles.section}
-      `}
+      data-pinned={rail.pinned}
+      className={`${plusJakartaSans.className} ${styles.section}`}
       style={{
-        height:
-          rail.sectionHeight,
+        height: rail.sectionHeight,
       }}
     >
-      {/* =====================================================
-          STICKY WRAPPER
-          ===================================================== */}
-
       <div
-        className={
-          styles.sticky
-        }
+        className={styles.sticky}
         style={{
-          height:
-            rail.pinned
-              ? rail.viewportHeight
-              : undefined,
+          height: rail.pinned
+            ? rail.viewportHeight
+            : undefined,
         }}
       >
         <div
           ref={content}
-          className={
-            styles.content
-          }
+          className={styles.content}
         >
-          {/* =================================================
-              HEADER
-              ================================================= */}
-
-          <div
-            className={
-              styles.header
-            }
-          >
+          <div className={styles.header}>
             <div>
-              <p
-                className={
-                  styles.eyebrow
-                }
-              >
+              <p className={styles.eyebrow}>
                 {eyebrow?.trim() ||
                   "Industries we work with"}
               </p>
 
               <h2
                 id="industries-heading"
-                className={
-                  styles.heading
-                }
+                className={styles.heading}
               >
                 {heading?.trim() ||
                   "The Industries we work with?"}
               </h2>
             </div>
 
-            {/* ===============================================
-                RIGHT COPY
-                =============================================== */}
-
             <div
-              className={
-                styles.introduction
-              }
+              className={styles.introduction}
             >
               <p
-                className={
-                  styles.description
-                }
+                className={styles.description}
               >
                 {description?.trim() ||
                   "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology."}
@@ -489,9 +286,7 @@ export function IndustriesSection({
                   cta?.href?.trim() ||
                   "/services"
                 }
-                className={
-                  styles.cta
-                }
+                className={styles.cta}
               >
                 {cta?.label?.trim() ||
                   "Explore Capabilities"}
@@ -501,15 +296,9 @@ export function IndustriesSection({
             </div>
           </div>
 
-          {/* =================================================
-              HORIZONTAL INDUSTRY RAIL
-              ================================================= */}
-
           <div
             ref={viewport}
-            className={
-              styles.viewport
-            }
+            className={styles.viewport}
             data-lenis-prevent={
               rail.pinned
                 ? undefined
@@ -521,24 +310,16 @@ export function IndustriesSection({
           >
             <motion.div
               ref={track}
-              className={
-                styles.track
-              }
+              className={styles.track}
               style={{
                 x: rail.x,
               }}
             >
               {INDUSTRIES.map(
-                (
-                  industry,
-                ) => (
+                (industry) => (
                   <IndustryCard
-                    key={
-                      industry.key
-                    }
-                    industry={
-                      industry
-                    }
+                    key={industry.key}
+                    industry={industry}
                   />
                 ),
               )}
