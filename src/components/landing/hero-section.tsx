@@ -105,8 +105,8 @@ function AnimatedText({
   const unitCount =
     split === "characters"
       ? Array.from(
-          text.replace(/\s/g, ""),
-        ).length
+        text.replace(/\s/g, ""),
+      ).length
       : words.length;
 
   /*
@@ -117,10 +117,10 @@ function AnimatedText({
     Math.min(
       stagger,
       1 /
-        Math.max(
-          unitCount,
-          1,
-        ),
+      Math.max(
+        unitCount,
+        1,
+      ),
     );
 
   const containerVariants: Variants = {
@@ -162,7 +162,7 @@ function AnimatedText({
               key={`${word}-${wordIndex}`}
             >
               {split ===
-              "characters" ? (
+                "characters" ? (
                 <span
                   className="
                     inline-block
@@ -226,7 +226,7 @@ function AnimatedText({
               )}
 
               {wordIndex <
-              words.length - 1
+                words.length - 1
                 ? " "
                 : null}
             </Fragment>
@@ -427,10 +427,9 @@ export function HeroSection({
           relative
           z-10
 
-          mx-auto
           flex
           w-full
-          max-w-[83rem]
+          max-w-full
           flex-col
           items-start
         "
@@ -563,9 +562,9 @@ export function HeroSection({
             shouldReduceMotion
               ? false
               : {
-                  opacity: 0,
-                  y: 40,
-                }
+                opacity: 0,
+                y: 40,
+              }
           }
           animate={{
             opacity: 1,
@@ -574,15 +573,15 @@ export function HeroSection({
           transition={
             shouldReduceMotion
               ? {
-                  duration: 0,
-                }
+                duration: 0,
+              }
               : {
-                  type: "spring",
-                  stiffness: 240,
-                  damping: 36,
-                  mass: 1.05,
-                  delay: 1.3,
-                }
+                type: "spring",
+                stiffness: 240,
+                damping: 36,
+                mass: 1.05,
+                delay: 1.3,
+              }
           }
         >
           {/* ==================================================

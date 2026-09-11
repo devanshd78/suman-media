@@ -10,7 +10,7 @@
    * remain visible on short laptops while the cards feel wider.
    */
     --cannes-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
-    --cannes-card-height: min(28vw, 29rem, calc((100svh - 4rem) * 0.46));
+    --cannes-card-height: min(26vw, 27rem, calc((100svh - 4rem) * 0.44));
     --cannes-gap: clamp(0.75rem, 1.4vw, 1.5rem);
 
     --cannes-wall-height: calc(var(--cannes-card-height) * 2 + var(--cannes-gap));
@@ -270,6 +270,7 @@
     height: 100%;
 
     object-fit: cover;
+    object-position: center;
     background: #111;
 
     -webkit-user-select: none;

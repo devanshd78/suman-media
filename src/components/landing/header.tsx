@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 
 import { inter } from "@/lib/fonts";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+
 import {
   useCallback,
   useEffect,
@@ -502,27 +504,63 @@ function ArrowRightIcon() {
 function DropdownPanel({
   menu,
   onNavigate,
+  reduceMotion,
 }: {
   menu: NavMenu;
   onNavigate: () => void;
+  reduceMotion: boolean;
 }) {
   return (
-    <div
+    <motion.div
       id={`nav-menu-${menu.id}`}
       data-desktop-panel
       data-lenis-prevent
       aria-label={`${menu.label} menu`}
-      className={
-        styles.dropdown
+      className={styles.dropdown}
+      initial={
+        reduceMotion
+          ? false
+          : {
+            opacity: 0,
+            y: -8,
+            clipPath: "inset(0 0 100% 0)",
+          }
       }
+      animate={{
+        opacity: 1,
+        y: 0,
+        clipPath: "inset(0 0 0% 0)",
+      }}
+      exit={
+        reduceMotion
+          ? { opacity: 0 }
+          : {
+            opacity: 0,
+            y: -6,
+            clipPath: "inset(0 0 100% 0)",
+          }
+      }
+      transition={{
+        duration: reduceMotion ? 0 : 0.3,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      style={{
+        transformOrigin: "50% 0%",
+        backgroundColor: "#FFFFFF",
+      }}
     >
-      <div
-        className={
-          styles.dropdownGrid
-        }
+      <motion.div
+        className={styles.dropdownGrid}
         style={{
-          gridTemplateColumns:
-            menu.gridColumns,
+          gridTemplateColumns: menu.gridColumns,
+        }}
+        initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6 }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.22,
+          delay: reduceMotion ? 0 : 0.055,
+          ease: [0.22, 1, 0.36, 1],
         }}
       >
         {menu.columns.map(
@@ -717,8 +755,8 @@ function DropdownPanel({
             </Link>
           </div>
         ) : null}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -732,6 +770,9 @@ export function Header() {
 
   const isLandingPage =
     pathname === "/";
+
+  const reduceMotion =
+    useReducedMotion() === true;
 
   /* ==========================================================
      STATE
@@ -750,6 +791,18 @@ export function Header() {
     useState<
       string | null
     >(null);
+
+  /*
+   * Keeps the white desktop navigation surface mounted while
+   * the dropdown is animating out. Without this state the
+   * homepage header turns transparent one frame before the
+   * dropdown exit animation has finished.
+   */
+  const [
+    dropdownSurfaceVisible,
+    setDropdownSurfaceVisible,
+  ] =
+    useState(false);
 
   /*
    * This is intentionally only a BOOLEAN threshold state.
@@ -819,9 +872,22 @@ export function Header() {
        dark nav
      ========================================================== */
 
+  const navigationSurfaceVisible =
+    menuOpen ||
+    dropdownSurfaceVisible;
+
+  /*
+   * The homepage is transparent only when nothing in the
+   * navigation needs a solid surface.
+   *
+   * Opening a desktop dropdown now creates one continuous
+   * white patch behind the header row + dropdown and switches
+   * the logo/nav text to their dark versions.
+   */
   const transparentAtTop =
     isLandingPage &&
-    !isScrolled;
+    !isScrolled &&
+    !navigationSurfaceVisible;
 
   const topTextColor =
     transparentAtTop
@@ -851,6 +917,11 @@ export function Header() {
     useCallback(() => {
       cancelClose();
 
+      /*
+       * Keep dropdownSurfaceVisible=true here.
+       * AnimatePresence clears it only after the exit animation,
+       * preventing a transparent flash over the homepage hero.
+       */
       setOpenDropdown(
         null,
       );
@@ -862,6 +933,14 @@ export function Header() {
         id: string,
       ) => {
         cancelClose();
+
+        /*
+         * Turn the white patch on in the same interaction that
+         * opens the dropdown.
+         */
+        setDropdownSurfaceVisible(
+          true,
+        );
 
         setOpenDropdown(
           id,
@@ -928,6 +1007,10 @@ export function Header() {
             null,
           );
 
+          setDropdownSurfaceVisible(
+            false,
+          );
+
           setIsScrolled(
             Math.max(
               0,
@@ -967,6 +1050,10 @@ export function Header() {
 
         setOpenDropdown(
           null,
+        );
+
+        setDropdownSurfaceVisible(
+          false,
         );
       };
 
@@ -1471,6 +1558,11 @@ export function Header() {
             transparentAtTop
               ? "none"
               : undefined,
+
+          transition:
+            reduceMotion
+              ? undefined
+              : "background-color 280ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms ease, border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
         onPointerEnter={
           cancelClose
@@ -1511,6 +1603,11 @@ export function Header() {
               transparentAtTop
                 ? "transparent"
                 : "#FFFFFF",
+
+            transition:
+              reduceMotion
+                ? undefined
+                : "background-color 280ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {/* =================================================
@@ -1619,15 +1716,14 @@ export function Header() {
                         openMenu(
                           menu.id,
                         );
+                      } else if (
+                        openDropdown ===
+                        menu.id
+                      ) {
+                        closeDropdown();
                       } else {
-                        setOpenDropdown(
-                          (
-                            current,
-                          ) =>
-                            current ===
-                              menu.id
-                              ? null
-                              : menu.id,
+                        openMenu(
+                          menu.id,
                         );
                       }
                     }}
@@ -1808,19 +1904,26 @@ export function Header() {
             DESKTOP DROPDOWN
             =================================================== */}
 
-        {activeMenu ? (
-          <DropdownPanel
-            key={
-              activeMenu.id
+        <AnimatePresence
+          initial={false}
+          mode="sync"
+          onExitComplete={() => {
+            if (!openDropdown) {
+              setDropdownSurfaceVisible(
+                false,
+              );
             }
-            menu={
-              activeMenu
-            }
-            onNavigate={
-              closeDropdown
-            }
-          />
-        ) : null}
+          }}
+        >
+          {activeMenu ? (
+            <DropdownPanel
+              key={activeMenu.id}
+              menu={activeMenu}
+              onNavigate={closeDropdown}
+              reduceMotion={reduceMotion}
+            />
+          ) : null}
+        </AnimatePresence>
 
         {/* ===================================================
             MOBILE DIALOG

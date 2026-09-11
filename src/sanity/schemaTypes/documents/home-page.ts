@@ -262,6 +262,9 @@ export const homePageType = defineType({
     defineField({ name: "industriesDescription", title: "Industries description", type: "text", rows: 4, group: "content", initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
     defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
 
+    // Legacy storage keys are intentionally retained so existing Sanity documents
+    // do not need a destructive migration. The GROQ query exposes them to the
+    // frontend as newsBlogsEyebrow / newsBlogsHeading / newsBlogsCta.
     defineField({ name: "insightsEyebrow", title: "News & Blogs eyebrow", type: "string", group: "content", initialValue: "LATEST ANNOUNCEMENTS", validation: (rule) => rule.max(80) }),
     defineField({ name: "insightsHeading", title: "News & Blogs heading", type: "string", group: "content", initialValue: "News & Blogs", validation: (rule) => rule.max(120) }),
     defineField({ name: "insightsCta", title: "News & Blogs button", type: "cta", group: "content", initialValue: { label: "View all", href: "/news-and-blogs", style: "text" } }),
@@ -408,8 +411,23 @@ export const homePageType = defineType({
                   title: "Crop position",
                   type: "string",
                   description:
-                    "Optional CSS object-position, for example: center, center 30%, 60% center.",
+                    "Optional CSS object-position, for example: center, center 30%, 60% center. For photos, the Sanity hotspot is used automatically when this is empty.",
                   validation: (rule) => rule.max(40),
+                }),
+                defineField({
+                  name: "objectFit",
+                  title: "Media fit",
+                  type: "string",
+                  description:
+                    "Contain is the safe default so faces, full outfits and portrait video are not cropped. Choose Cover only when edge-to-edge framing is preferred.",
+                  initialValue: "contain",
+                  options: {
+                    layout: "radio",
+                    list: [
+                      { title: "Cover the card", value: "cover" },
+                      { title: "Show the full photo/video", value: "contain" },
+                    ],
+                  },
                 }),
                 defineField({
                   name: "enabled",

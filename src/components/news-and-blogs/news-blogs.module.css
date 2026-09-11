@@ -30,6 +30,7 @@
     --Spacing-4: 4px;
     --Spacing-8: 8px;
     --Spacing-16: 16px;
+    --text-max: 72rem;
     width: 100%;
     overflow-x: clip;
     background: #fff;
@@ -132,7 +133,7 @@
     align-items: center;
     align-self: stretch;
     gap: var(--Spacing-0, 0);
-    border-radius: var(--Corner-radius-16, 16px);
+    border-radius: var(--Corner-radius-8, 8px);
     background: var(--Light-Border-Background-Pressed, #ededed);
     color: var(--Light-Border-Text-LinkPressed, #828282);
     text-align: center;
@@ -182,8 +183,8 @@
 .featuredGrid {
     display: grid;
     width: 100%;
-    max-width: 1328px;
-    margin-inline: auto;
+    max-width: none;
+    margin-inline: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
     gap: 22px;
@@ -227,6 +228,8 @@
 .featureCompactBody,
 .cardBody,
 .pressBody {
+    width: 100%;
+    max-width: 44rem;
     padding-top: 16px;
 }
 
@@ -306,8 +309,8 @@
 .pressHeadingRow {
     display: flex;
     width: 100%;
-    max-width: 1328px;
-    margin-inline: auto;
+    max-width: none;
+    margin-inline: 0;
     align-items: flex-end;
     justify-content: space-between;
     gap: 48px;
@@ -327,7 +330,8 @@
 }
 
 .sectionHeadingRow h2 {
-    text-align: center;
+    max-width: var(--text-max);
+    text-align: left;
 }
 
 .filters {
@@ -365,8 +369,8 @@
 .newsGrid {
     display: grid;
     width: 100%;
-    max-width: 1328px;
-    margin: 52px auto 0;
+    max-width: none;
+    margin: 52px 0 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 28px;
     row-gap: 48px;
@@ -412,8 +416,8 @@
 .pressHeadingRow {
     display: grid;
     width: 100%;
-    max-width: 1328px;
-    margin-inline: auto;
+    max-width: none;
+    margin-inline: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
     gap: 16px;
@@ -421,6 +425,7 @@
 
 .pressHeadingRow h2 {
     width: fit-content;
+    max-width: var(--text-max);
     margin: 0;
     justify-self: start;
     color: var(--Light-Border-Text-Primary, #1a1a1a);
@@ -465,8 +470,8 @@
 .pressRail {
     display: flex;
     width: 100%;
-    max-width: 1328px;
-    margin: 72px auto 0;
+    max-width: none;
+    margin: 72px 0 0;
     padding: 0;
     align-items: flex-start;
     justify-content: flex-start;

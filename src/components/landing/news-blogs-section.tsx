@@ -28,6 +28,7 @@ type Direction =
 type NewsBlogCardData = {
   id: string;
   image: string;
+  imagePosition?: string;
   title: string;
   description: string;
   href: string;
@@ -46,59 +47,67 @@ type NewsBlogsSectionProps = {
    Sanity featured articles are used when available. These local
    cards are rendered only when Sanity has no valid featured posts.
 
-   Images:
-   /public/images/landing/news-and-blogs/Image1.png
-   /public/images/landing/news-and-blogs/Image2.png
-   /public/images/landing/news-and-blogs/Image3.png
+   Images intentionally reuse the exact Cannes fallback assets from
+   /public/cannes so the landing page and News & Blogs page stay visually
+   consistent whenever Sanity has not published featured articles.
    ============================================================ */
 
 const FALLBACK_NEWS_BLOGS: NewsBlogCardData[] = [
   {
-    id: "fallback-news-1",
-
-    image:
-      "/images/landing/news-and-blogs/Image1.png",
-
-    title:
-      "Suman Entertainment & Media Pvt. Ltd.",
-
+    id: "fallback-news-cannes-1",
+    image: "/cannes/cannes-red-carpet-group-01.jpg",
+    imagePosition: "center 46%",
+    title: "Abhijat Marathi at Cannes 2026",
     description:
-      "Suman Entertainment & Media Pvt. Ltd. brings together platforms, content, technology, experiences and entertainment under one growing media ecosystem.",
-
-    href: "/news-and-blogs",
+      "A look at Abhijat Marathi's Cannes 2026 presence, from the Bharat Pavilion to red-carpet moments celebrating Marathi culture on a global stage.",
+    href: "/news-and-blogs/abhijat-marathi-at-cannes-2026",
   },
-
   {
-    id: "fallback-news-2",
-
-    image:
-      "/images/landing/news-and-blogs/Image2.png",
-
-    title:
-      "Digital Platforms and OTT",
-
+    id: "fallback-news-cannes-2",
+    image: "/cannes/cannes-riviera-portrait-01.jpg",
+    imagePosition: "34% 46%",
+    title: "Prajakta Mali Cannes Moments 2026",
     description:
-      "Building digital entertainment platforms and OTT experiences designed around regional storytelling, audiences and new-age distribution.",
-
-    href: "/news-and-blogs",
+      "Selected photographs from Cannes 2026 featuring Marathi culture, fashion and the international festival atmosphere.",
+    href: "/news-and-blogs/prajakta-mali-cannes-moments-2026",
   },
-
   {
-    id: "fallback-news-3",
-
-    image:
-      "/images/landing/news-and-blogs/Image3.png",
-
-    title:
-      "Media, Culture and Entertainment",
-
+    id: "fallback-news-cannes-3",
+    image: "/cannes/cannes-pavilion-guests-01.jpg",
+    imagePosition: "center 34%",
+    title: "Inside the Bharat Pavilion at Cannes",
     description:
-      "Creating stories, experiences and entertainment properties that connect culture, creators, technology and audiences across platforms.",
-
-    href: "/news-and-blogs",
+      "Conversations, meetings and cultural exchange from the Bharat Pavilion during Cannes 2026.",
+    href: "/news-and-blogs/inside-bharat-pavilion-cannes-2026",
+  },
+  {
+    id: "fallback-news-cannes-4",
+    image: "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    imagePosition: "64% 50%",
+    title: "Marathi Culture on the Cannes Red Carpet",
+    description:
+      "A Cannes red-carpet moment bringing regional identity, fashion and Marathi culture into an international festival setting.",
+    href: "/news-and-blogs/marathi-culture-cannes-red-carpet",
+  },
+  {
+    id: "fallback-news-cannes-5",
+    image: "/cannes/cannes-red-carpet-group-02.jpg",
+    imagePosition: "center 43%",
+    title: "India at Cannes: Red Carpet Moments",
+    description:
+      "Festival guests and cultural representatives come together for a series of memorable Cannes 2026 red-carpet moments.",
+    href: "/news-and-blogs/india-at-cannes-red-carpet-moments",
+  },
+  {
+    id: "fallback-news-cannes-6",
+    image: "/cannes/cannes-pavilion-guests-02.jpg",
+    imagePosition: "center 34%",
+    title: "People and Conversations at Cannes 2026",
+    description:
+      "A closer look at the meetings, conversations and connections created around the Bharat Pavilion at Cannes 2026.",
+    href: "/news-and-blogs/people-and-conversations-cannes-2026",
   },
 ];
-
 /* ============================================================
    ICON
    ============================================================ */
@@ -198,6 +207,7 @@ function NewsBlogCard({
               (max-width: 1023px) 68vw,
               59vw
             "
+            style={{ objectPosition: article.imagePosition ?? "center" }}
             className="
               select-none
               object-cover
@@ -352,6 +362,10 @@ export function NewsBlogsSection({
       .map((item) => ({
         id: item._id,
         image: item.imageUrl,
+        imagePosition:
+          typeof item.imageHotspotX === "number" && typeof item.imageHotspotY === "number"
+            ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(item.imageHotspotY * 100)}%`
+            : undefined,
         title: item.title,
         description: item.excerpt,
         href: `/news-and-blogs/${item.slug}`,

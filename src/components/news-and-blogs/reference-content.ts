@@ -1,397 +1,333 @@
 import type { CmsCareersCta, CmsFaqSection } from "@/types/cms";
 import type {
-    InsightDetail,
-    InsightListItem,
-    PortableTextNode,
+  InsightDetail,
+  InsightListItem,
+  PortableTextNode,
 } from "@/types/news-and-blogs";
 
 const DATE = "2026-08-07T10:00:00.000Z";
-const BASE = "/images/news-and-blogs/news-blogs";
 const DEFAULT_EXCERPT =
-    "Suman Entertainment & Media Pvt. Ltd. brings together platforms, content, technology and experiences under one growing media ecosystem.";
+  "Suman Entertainment & Media Pvt. Ltd. brings together platforms, content, technology and experiences under one growing media ecosystem.";
+
+const CANNES_IMAGE_POSITIONS: Record<string, [number, number]> = {
+  "/cannes/cannes-red-carpet-group-01.jpg": [0.5, 0.46],
+  "/cannes/cannes-red-carpet-group-02.jpg": [0.5, 0.43],
+  "/cannes/cannes-red-carpet-blue-look-01.jpg": [0.64, 0.5],
+  "/cannes/cannes-red-carpet-blue-look-02.jpg": [0.58, 0.5],
+  "/cannes/cannes-pavilion-guests-01.jpg": [0.5, 0.34],
+  "/cannes/cannes-pavilion-guests-02.jpg": [0.5, 0.34],
+  "/cannes/cannes-riviera-portrait-01.jpg": [0.34, 0.46],
+};
 
 function item(
-    id: string,
-    title: string,
-    slug: string,
-    image: string,
-    category: string,
-    featured = false,
-    excerpt = DEFAULT_EXCERPT,
+  id: string,
+  title: string,
+  slug: string,
+  imageUrl: string,
+  category: string,
+  featured = false,
+  excerpt = DEFAULT_EXCERPT,
 ): InsightListItem {
-    return {
-        _id: id,
-        title,
-        slug,
-        excerpt,
-        imageUrl: `${BASE}/${image}`,
-        imageAlt: title,
-        publishedAt: DATE,
-        featured,
-        authorName: "Suman Entertainment & Media Pvt. Ltd.",
-        categories: [{ title: category, slug: category.toLowerCase().replace(/\s+/g, "-") }],
-    };
+  const hotspot = CANNES_IMAGE_POSITIONS[imageUrl];
+
+  return {
+    _id: id,
+    title,
+    slug,
+    excerpt,
+    imageUrl,
+    imageAlt: title,
+    imageHotspotX: hotspot?.[0],
+    imageHotspotY: hotspot?.[1],
+    publishedAt: DATE,
+    featured,
+    authorName: "Suman Entertainment & Media Pvt. Ltd.",
+    categories: [
+      {
+        title: category,
+        slug: category.toLowerCase().replace(/\s+/g, "-"),
+      },
+    ],
+  };
 }
 
+/*
+ * Production-safe News & Blogs fallback.
+ *
+ * These cards intentionally reuse the exact Cannes media shipped in
+ * /public/cannes. Sanity remains the source of truth: this data is shown only
+ * when no valid CMS posts are available.
+ */
 export const REFERENCE_POSTS: InsightListItem[] = [
-    item(
-        "reference-hero",
-        "One Content Ecosystem. Four Ways to Monetise.",
-        "one-content-ecosystem-four-ways-to-monetise",
-        "news-hero-cannes.jpg",
-        "New launches",
-        true,
-        "Different content calls for different revenue models. Choose the approach that fits your audience, content library and growth strategy.",
-    ),
-    item(
-        "reference-prajakta",
-        "Prajakta Mali Cannes Moments 2026",
-        "prajakta-mali-cannes-moments-2026",
-        "featured-prajakta-cannes.jpg",
-        "Latest Articles",
-        true,
-    ),
-    item(
-        "reference-feature-1",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-media-cultural-stories",
-        "featured-folk-performer.jpg",
-        "New launches",
-        true,
-    ),
-    item(
-        "reference-feature-2",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-media-cultural-celebrations",
-        "featured-cultural-child.jpg",
-        "New launches",
-        true,
-    ),
-    item(
-        "reference-bappa",
-        "Bappa is coming",
-        "bappa-is-coming",
-        "news-bappa.jpg",
-        "Articles",
-    ),
-    item(
-        "reference-culture",
-        "Essence of Marathi culture",
-        "essence-of-marathi-culture",
-        "news-marathi-culture.jpg",
-        "New launches",
-    ),
-    item(
-        "reference-karan",
-        "Suman entertainment X Karan Aujla",
-        "suman-entertainment-x-karan-aujla",
-        "news-karan-aujla.jpg",
-        "New launches",
-    ),
-    item(
-        "reference-community",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-community-stories",
-        "news-community-dance.jpg",
-        "Events",
-    ),
-    item(
-        "reference-digital",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-digital-platforms",
-        "news-digital-team.jpg",
-        "New added",
-    ),
-    item(
-        "reference-festival-1",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-festival-experiences-1",
-        "news-festival-lights.jpg",
-        "New launches",
-    ),
-    item(
-        "reference-festival-2",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-festival-experiences-2",
-        "news-festival-lights.jpg",
-        "New launches",
-    ),
-    item(
-        "reference-press-1",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-press-coverage-1",
-        "press-temple.jpg",
-        "Press",
-    ),
-    item(
-        "reference-press-2",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-press-coverage-2",
-        "press-temple.jpg",
-        "Press",
-    ),
-    item(
-        "reference-case-study",
-        "Suman Entertainment & Media Pvt. Ltd.",
-        "suman-case-study",
-        "press-temple.jpg",
-        "Case study",
-    ),
+  item(
+    "reference-hero",
+    "Abhijat Marathi at Cannes 2026",
+    "abhijat-marathi-at-cannes-2026",
+    "/cannes/cannes-red-carpet-group-01.jpg",
+    "New launches",
+    true,
+    "A look at Abhijat Marathi's Cannes 2026 presence, from the Bharat Pavilion to red-carpet moments celebrating Marathi culture on a global stage.",
+  ),
+  item(
+    "reference-prajakta",
+    "Prajakta Mali Cannes Moments 2026",
+    "prajakta-mali-cannes-moments-2026",
+    "/cannes/cannes-riviera-portrait-01.jpg",
+    "Latest Articles",
+    true,
+    "Selected photographs from Cannes 2026 featuring Marathi culture, fashion and the international festival atmosphere.",
+  ),
+  item(
+    "reference-feature-pavilion",
+    "Inside the Bharat Pavilion at Cannes",
+    "inside-bharat-pavilion-cannes-2026",
+    "/cannes/cannes-pavilion-guests-01.jpg",
+    "New launches",
+    true,
+    "Conversations, meetings and cultural exchange from the Bharat Pavilion during Cannes 2026.",
+  ),
+  item(
+    "reference-feature-blue-look",
+    "Marathi Culture on the Cannes Red Carpet",
+    "marathi-culture-cannes-red-carpet",
+    "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    "New launches",
+    true,
+    "A visual moment from the Cannes red carpet bringing regional identity and contemporary presentation together.",
+  ),
+  item(
+    "reference-guests",
+    "Cannes Red Carpet: Festival Guests",
+    "cannes-red-carpet-festival-guests",
+    "/cannes/cannes-red-carpet-group-02.jpg",
+    "Articles",
+  ),
+  item(
+    "reference-blue-look-two",
+    "A Cannes Moment in Blue",
+    "cannes-moment-in-blue",
+    "/cannes/cannes-red-carpet-blue-look-02.jpg",
+    "New launches",
+  ),
+  item(
+    "reference-group-two",
+    "India at Cannes: Red Carpet Moments",
+    "india-at-cannes-red-carpet-moments",
+    "/cannes/cannes-red-carpet-group-02.jpg",
+    "Events",
+  ),
+  item(
+    "reference-pavilion-two",
+    "People and Conversations at Cannes 2026",
+    "people-and-conversations-cannes-2026",
+    "/cannes/cannes-pavilion-guests-02.jpg",
+    "Events",
+  ),
+  item(
+    "reference-riviera",
+    "Cannes Riviera Portraits",
+    "cannes-riviera-portraits",
+    "/cannes/cannes-riviera-portrait-01.jpg",
+    "New added",
+  ),
+  item(
+    "reference-press-one",
+    "Abhijat Marathi's Cannes 2026 Showcase",
+    "abhijat-marathi-cannes-showcase-press",
+    "/cannes/cannes-pavilion-guests-01.jpg",
+    "Press",
+  ),
+  item(
+    "reference-press-two",
+    "Cannes 2026: Cultural Presence on the Red Carpet",
+    "cannes-2026-cultural-presence-press",
+    "/cannes/cannes-red-carpet-group-01.jpg",
+    "Press",
+  ),
+  item(
+    "reference-press-three",
+    "Bharat Pavilion Conversations at Cannes",
+    "bharat-pavilion-conversations-press",
+    "/cannes/cannes-pavilion-guests-02.jpg",
+    "Press",
+  ),
+  item(
+    "reference-press-four",
+    "Marathi Stories Meet a Global Audience",
+    "marathi-stories-global-audience-press",
+    "/cannes/cannes-red-carpet-blue-look-02.jpg",
+    "Press",
+  ),
+  item(
+    "reference-case-study",
+    "Building a Global Moment for Regional Storytelling",
+    "global-moment-regional-storytelling-case-study",
+    "/cannes/cannes-riviera-portrait-01.jpg",
+    "Case study",
+  ),
 ];
 
 let key = 0;
+
 const block = (
-    text: string,
-    style: "normal" | "h2" | "h3" | "h4" | "blockquote" = "normal",
-    listItem?: "bullet" | "number",
+  text: string,
+  style: "normal" | "h2" | "h3" | "h4" | "blockquote" = "normal",
+  listItem?: "bullet" | "number",
 ): PortableTextNode => ({
-    _key: `reference-block-${++key}`,
-    _type: "block",
-    style,
-    ...(listItem ? { listItem, level: 1 } : {}),
-    children: [
-        {
-            _key: `reference-span-${key}`,
-            _type: "span",
-            text,
-            marks: [],
-        },
-    ],
-    markDefs: [],
+  _key: `reference-block-${++key}`,
+  _type: "block",
+  style,
+  ...(listItem ? { listItem, level: 1 } : {}),
+  children: [
+    {
+      _key: `reference-span-${key}`,
+      _type: "span",
+      text,
+      marks: [],
+    },
+  ],
+  markDefs: [],
 });
 
-const image = (src: string, alt: string, caption?: string): PortableTextNode => ({
-    _key: `reference-image-${++key}`,
-    _type: "mediaImage",
-    imageUrl: `${BASE}/${src}`,
-    imageAlt: alt,
-    caption,
+const image = (
+  imageUrl: string,
+  alt: string,
+  caption?: string,
+): PortableTextNode => ({
+  _key: `reference-image-${++key}`,
+  _type: "mediaImage",
+  imageUrl,
+  imageAlt: alt,
+  caption,
 });
 
 const REFERENCE_BODY: PortableTextNode[] = [
-    block(
-        "Discover how to master SaaS UX challenges at scale with Domingo’s proven framework—ensuring growth without sacrificing user experience.",
-    ),
-    block("Growing Pains in SaaS UX — What Does Scaling Really Mean?", "h2"),
-    block(
-        "Picture this: Your SaaS product has found its market fit and is growing fast. More users, more features, more revenue—but with growth comes complexity. Have you noticed bottlenecks creeping into your user experience? Is your once-simple UI starting to feel tangled? Building for scale isn’t just about adding servers or databases; it’s about evolving your UX to keep pace without losing clarity or delight.",
-    ),
-    block(
-        "Building for scale means designing UX systems that not only support rapid growth but also prevent chaos from creeping into your product. It’s about foresight—anticipating challenges and turning them into opportunities for smoother, faster, and more intuitive user journeys. In SaaS, this is vital to retain users, reduce churn, and efficiently onboard new customers at any volume.",
-    ),
-    block("Common User Experience Bottlenecks in Rapid Growth", "h2"),
-    block("Scaling SaaS products faces several persistent UX hurdles:"),
-    block(
-        "Feature bloat and complexity: Adding new capabilities often disrupts the flow, confusing users.",
-        "normal",
-        "bullet",
-    ),
-    block(
-        "Inconsistent design and fragmented UI: Fast-paced releases without cohesive designs create visual and interaction chaos.",
-        "normal",
-        "bullet",
-    ),
-    block(
-        "Performance and usability trade-offs: As user numbers swell, slow load times and clunky interfaces can hurt engagement.",
-        "normal",
-        "bullet",
-    ),
-    block(
-        "Sound familiar? How much time does your team spend fixing user complaints from confusing navigation or rearranging UI elements that don’t align? These are growing pains that, when unchecked, increase support costs and risk user abandonment.",
-    ),
-    block("Domingo-Lean Framework: A Scalable UX Roadmap for Growth", "h2"),
-    block("Domingo’s lean six-phase framework offers a pragmatic path to master rapid SaaS scaling:"),
-    block("Rapid Repair Audit: Diagnose urgent UX issues that could exacerbate with growth.", "normal", "number"),
-    block("Core UI Repair: Standardize and refine UI components for consistency and ease of use.", "normal", "number"),
-    block("System Foundation: Build a flexible design system that supports scalable patterns and reusable assets.", "normal", "number"),
-    block("AI Workflow Setup: Employ AI to maintain design quality and spot emerging UX debt early.", "normal", "number"),
-    block("Validation & Handoff: Streamline handoffs between design, product, and engineering for speed and quality.", "normal", "number"),
-    block("Sprint Roadmap: Prioritize UX improvements aligned with scaling goals and user impact.", "normal", "number"),
-    block(
-        "This iterative approach helps teams stay ahead of complexity, ensuring UX remains a growth enabler—not a bottleneck.",
-    ),
-    block(
-        "Domingo Designing Agency applied their exceptional UI/UX expertise to elevate our site’s user experience. They were proactive in communication, collaborative in their approach, and ensured the entire process was seamless — delivering the finished product exactly as promised and on time. Managing Director, Bubbles, Hair & Beauty",
-        "blockquote",
-    ),
-    block("Why Early Planning Is the Secret Sauce for Scalable UX", "h2"),
-    block(
-        "Think of scaling UX like city planning. Placing roads, utilities, and traffic controls early avoids future gridlock. Similarly, SaaS UX built without scalable infrastructure quickly turns into a maze of patches and band-aids.",
-    ),
-    block(
-        "Early investment in scalable UX design disciplines—like building robust design systems and establishing clear style guides—saves teams countless hours in redesigns and helps maintain a seamless, intuitive user experience despite rapid changes.",
-    ),
-    block("Do you have the roadmap to plan your SaaS UX’s infrastructure today so it supports tomorrow’s growth?"),
-    image(
-        "article-red-carpet.jpg",
-        "Cannes red carpet moment",
-        "Credits: Marissa Grootes",
-    ),
-    block("Cross-Industry Innovation: AI and Automation in SaaS Growth", "h2"),
-    block(
-        "At Domingo, we blend lessons from eCommerce, fintech, and healthcare to fuel smarter, faster UX scaling. AI-powered tools monitor design consistency and user behavior continuously, helping teams catch and fix UX debt before it snowballs.",
-    ),
-    block(
-        "AI also accelerates collaboration through instant feedback loops, predictive analyses, and automated usability testing—turning the usual UX bottlenecks into competitive advantages.",
-    ),
-    block(
-        "Imagine a future where your SaaS UX team can preemptively solve scaling challenges—no guesswork, just data-driven confidence.",
-    ),
-    block(
-        "Domingo is more than a design agency: they are partners in success. The level of collaboration, creativity and professionalism they bring to the table is unparalleled. Dr. Hassan Yasin, CEO at Moodit",
-        "blockquote",
-    ),
-    image(
-        "article-workshop.jpg",
-        "Team collaborating around a table",
-        "Credits: airfocus",
-    ),
-    block("Aligning Stakeholders for Scalable UX Excellence", "h2"),
-    block(
-        "Scaling UX requires tight alignment across product, design, engineering, and business teams. Domingo facilitates this through collaborative workshops to align goals, clear KPIs tied to user experience and business outcomes, and shared dashboards supported by AI analytics.",
-    ),
-    block(
-        "When all hands understand the UX vision and their role in executing it, the product scales faster with fewer costly detours or redesigns.",
-    ),
-    block("The Power of UX Scalability in SaaS Growth Horizons", "h2"),
-    block(
-        "SaaS teams scaling rapidly risk creating a patchwork of UI patterns, inconsistent styles, and fragmented experiences.",
-    ),
-    block("This leads to design debt, inflated maintenance costs, slower engineering cycles, and a diluted brand identity."),
-    block(
-        "A well defined design system solves these issues by providing reusable components, clear style guidelines, and a unified design language.",
-    ),
-    block("Real SaaS Success Stories", "h2"),
-    block(
-        "Domingo Designing Agency helped us cut page load time by 40%, reduce bounce rate by 25%, and increase average session duration by 35%. They boosted our traffic, improved conversions, and helped us achieve an over 90 PageSpeed Insights score for both mobile and desktop. — Co-Founder & Director, One Orange Digital",
-        "blockquote",
-    ),
-    block(
-        "Domingo is more than a design agency: they are partners in success. The level of collaboration, creativity and professionalism they bring to the table is unparalleled. I’m grateful for the positive impact they’ve had on our projects. — Dr. Hassan Yasin, CEO at Moodit",
-        "blockquote",
-    ),
-    block(
-        "Pleasure working with Domingo. Effortlessly brings ideas to life through modern UI design. Deep understanding of UX exceeded expectations. Look forward to future collaborations. — Peter J Goodman, CEO at Kazoo",
-        "blockquote",
-    ),
-    block(
-        "Choosing Domingo was a game-changer. The synergy between Domingo’s cutting-edge design, Sanchit’s leadership, and their deep understanding of UX creates an unbeatable combination. Results consistently surpass expectations. — Jason Dowell, Creative Director at Savills",
-        "blockquote",
-    ),
-    block("…and many more."),
-    block("Connect with us", "h2"),
-    block(
-        "Book a strategy call directly with Domingo’s founder today to tailor your fractional design leadership journey.",
-    ),
-    block(
-        "Hear what leading customers say: “Domingo revolutionized our design process with AI and expert leadership—we've scaled without the full-time overhead.”",
-    ),
-    block(
-        "Follow us on Behance, Instagram, YouTube, and Twitter to stay updated on the latest innovations and case studies.",
-    ),
-    block(
-        "Domingo — Your fractional C-Suite design partner enabling fast releases, happier users, and scalable success on a flexible monthly retainer.",
-    ),
+  block(
+    "Cannes 2026 created a global setting for Abhijat Marathi to introduce its vision, meet audiences and industry participants, and present Marathi culture through a contemporary media lens.",
+  ),
+  block("A Marathi Story on a Global Stage", "h2"),
+  block(
+    "The Cannes Film Festival brings together cinema, media, culture and international conversations. Abhijat Marathi's presence placed regional storytelling within that wider global context while keeping Marathi identity at the centre of the experience.",
+  ),
+  image(
+    "/cannes/cannes-red-carpet-group-01.jpg",
+    "Guests representing Indian culture on the Cannes red carpet",
+    "Cannes 2026",
+  ),
+  block("Moments from the Bharat Pavilion", "h2"),
+  block(
+    "The Bharat Pavilion offered a space for conversations around Indian stories, creators, platforms and new opportunities for distribution. The photographs in this story capture meetings and moments from that shared environment.",
+  ),
+  image(
+    "/cannes/cannes-pavilion-guests-01.jpg",
+    "Guests meeting at the Bharat Pavilion during Cannes 2026",
+    "Bharat Pavilion, Cannes 2026",
+  ),
+  block("Culture, Fashion and the Red Carpet", "h2"),
+  block(
+    "Beyond screenings and meetings, Cannes is also a visual platform. Traditional and contemporary Marathi presentation became part of that international festival setting through red-carpet appearances and portraits.",
+  ),
+  image(
+    "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    "Traditional blue look on the Cannes red carpet",
+    "Cannes red carpet, 2026",
+  ),
+  block("Why the Moment Matters", "h2"),
+  block(
+    "For Suman Entertainment & Media, the Cannes presence represents the broader opportunity to connect regional intellectual property, digital platforms, creators and audiences across markets. It is one step in taking culturally rooted stories to wider audiences.",
+  ),
+  block(
+    "The Cannes Moments gallery on the homepage brings together the photographs and videos from this visit. Sanity can replace these local fallback assets whenever editors publish the final approved media and copy.",
+  ),
 ];
 
 const hero = REFERENCE_POSTS[0];
 
 export const REFERENCE_ARTICLE: InsightDetail = {
-    ...hero,
-    _type: "post",
-    _updatedAt: DATE,
-    body: REFERENCE_BODY,
-    imageCredit: "Caanes.com",
-    readingTimeMinutes: 4,
-    author: {
-        name: "Suman Entertainment & Media Pvt. Ltd.",
-    },
-    relatedPosts: [REFERENCE_POSTS[4], REFERENCE_POSTS[1], REFERENCE_POSTS[5]],
-    previousPost: {
-        title: "Essence of Marathi culture",
-        slug: "essence-of-marathi-culture",
-    },
-    nextPost: {
-        title: "Prajakta Mali Cannes Moments 2026",
-        slug: "prajakta-mali-cannes-moments-2026",
-    },
-    seo: {
-        title: hero.title,
-        description: hero.excerpt,
-    },
+  ...hero,
+  _type: "post",
+  _updatedAt: DATE,
+  body: REFERENCE_BODY,
+  imageCredit: "Cannes 2026",
+  readingTimeMinutes: 4,
+  author: {
+    name: "Suman Entertainment & Media Pvt. Ltd.",
+  },
+  relatedPosts: [REFERENCE_POSTS[1], REFERENCE_POSTS[2], REFERENCE_POSTS[3]],
+  previousPost: {
+    title: REFERENCE_POSTS[8].title,
+    slug: REFERENCE_POSTS[8].slug,
+  },
+  nextPost: {
+    title: REFERENCE_POSTS[1].title,
+    slug: REFERENCE_POSTS[1].slug,
+  },
+  seo: {
+    title: hero.title,
+    description: hero.excerpt,
+  },
 };
 
 export function getReferenceArticle(slug: string): InsightDetail | null {
-    if (slug === REFERENCE_ARTICLE.slug) return REFERENCE_ARTICLE;
+  if (slug === REFERENCE_ARTICLE.slug) return REFERENCE_ARTICLE;
 
-    const fallback = REFERENCE_POSTS.find((post) => post.slug === slug);
-    if (!fallback) return null;
+  const fallback = REFERENCE_POSTS.find((post) => post.slug === slug);
+  if (!fallback) return null;
 
-    return {
-        ...REFERENCE_ARTICLE,
-        ...fallback,
-        _id: fallback._id,
-        slug: fallback.slug,
-        title: fallback.title,
-        excerpt: fallback.excerpt,
-        imageUrl: fallback.imageUrl,
-        imageAlt: fallback.imageAlt,
-        categories: fallback.categories,
-        seo: {
-            title: fallback.title,
-            description: fallback.excerpt,
-        },
-    };
+  return {
+    ...REFERENCE_ARTICLE,
+    ...fallback,
+    _id: fallback._id,
+    slug: fallback.slug,
+    title: fallback.title,
+    excerpt: fallback.excerpt,
+    imageUrl: fallback.imageUrl,
+    imageAlt: fallback.imageAlt,
+    categories: fallback.categories,
+    relatedPosts: REFERENCE_POSTS.filter((post) => post.slug !== fallback.slug).slice(0, 3),
+    seo: {
+      title: fallback.title,
+      description: fallback.excerpt,
+    },
+  };
 }
 
 export const REFERENCE_FAQ: CmsFaqSection = {
-    eyebrow: "FAQ",
-    heading: "Questions people asked?",
-    contactText: "still have a quarry?",
-    contactEmail: "Contact@sumanentertainment.com",
-    items: [
-        {
-            _key: "faq-1",
-            question: "What is Suman Entertainment?",
-            answer:
-                "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.",
-        },
-        {
-            _key: "faq-2",
-            question: "Is Abhijat Marathi part of Suman Entertainment?",
-            answer:
-                "Abhijat Marathi is presented across Suman Entertainment’s ecosystem as a Marathi-focused platform and content initiative.",
-        },
-        {
-            _key: "faq-3",
-            question: "How we work with govt?",
-            answer:
-                "Suman Entertainment supports institutional communication, content, media, technology and distribution initiatives through project-specific engagements.",
-        },
-        {
-            _key: "faq-4",
-            question: "How we work with govt?",
-            answer:
-                "Engagements can include strategy, production, digital execution, event experiences and communication support depending on the project scope.",
-        },
-        {
-            _key: "faq-5",
-            question: "How we work with govt?",
-            answer:
-                "Each engagement is structured around the institution’s requirements, approvals, delivery milestones and communication objectives.",
-        },
-    ],
+  eyebrow: "FAQ",
+  heading: "Questions people asked?",
+  contactText: "Still have a query?",
+  contactEmail: "Contact@sumanentertainment.com",
+  items: [
+    {
+      _key: "faq-1",
+      question: "What is Suman Entertainment?",
+      answer:
+        "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.",
+    },
+    {
+      _key: "faq-2",
+      question: "Is Abhijat Marathi part of Suman Entertainment?",
+      answer:
+        "Abhijat Marathi is presented across Suman Entertainment's ecosystem as a Marathi-focused platform and content initiative.",
+    },
+    {
+      _key: "faq-3",
+      question: "How does Suman Entertainment work with institutions?",
+      answer:
+        "Suman Entertainment supports institutional communication, content, media, technology and distribution initiatives through project-specific engagements.",
+    },
+  ],
 };
 
 export const REFERENCE_CAREERS_CTA: CmsCareersCta = {
-    eyebrow: "CAREERS",
-    heading: "Join us to start a New Chapter in Media and Entertainment",
-    description: null,
-    imageUrl: `${BASE}/careers-banner.jpg`,
-    imageAlt: "Team collaborating in an office",
-    cta: {
-        label: "View Open Roles",
-        href: "/careers",
-        style: "text" as const,
-    },
+  eyebrow: "CAREERS",
+  heading: "Join us to start a New Chapter in Media and Entertainment",
+  description: null,
+  imageUrl: "/images/careers/slideimg3.jpg",
+  imageAlt: "Media and entertainment team at work",
+  cta: {
+    label: "View Open Roles",
+    href: "/careers",
+    style: "text" as const,
+  },
 };

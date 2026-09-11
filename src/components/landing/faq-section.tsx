@@ -7,7 +7,7 @@ import type { CmsFaqSection } from "@/types/cms";
 
 type FaqSectionProps = {
   content?: CmsFaqSection | null;
-  variant?: "default" | "insights";
+  variant?: "default" | "newsAndBlogs";
 };
 
 function PlusIcon() {
@@ -50,7 +50,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
 
   if (!content || items.length === 0) return null;
 
-  const insightsVariant = variant === "insights";
+  const newsBlogsVariant = variant === "newsAndBlogs";
 
   const toggleItem = (index: number) => {
     setOpenItems((current) => {
@@ -75,7 +75,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
       <div>
         <p
           className={
-            insightsVariant
+            newsBlogsVariant
               ? `${plusJakartaSans.className} m-0 text-[14px] font-semibold uppercase leading-[20px] tracking-normal text-[#B8B8B8] [font-feature-settings:'liga'_off,'clig'_off]`
               : `landing-eyebrow ${plusJakartaSans.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.055em] text-[rgba(0,9,51,0.58)] sm:text-[0.875rem] sm:leading-[1.25rem]`
           }
@@ -86,7 +86,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
         <h2
           id="faq-heading"
           className={
-            insightsVariant
+            newsBlogsVariant
               ? `${plusJakartaSans.className} mt-2.5 max-w-[28rem] text-[32px] font-semibold leading-[40px] tracking-[-0.4px] text-black [font-feature-settings:'liga'_off,'clig'_off] sm:text-[40px] sm:leading-[48px] sm:tracking-[-0.5px]`
               : `landing-title ${plusJakartaSans.className} mt-2.5 max-w-[28rem] text-[2rem] font-semibold leading-[2.45rem] tracking-[-0.04em] text-black sm:text-[2.4rem] sm:leading-[2.9rem] lg:text-[2.5rem] lg:leading-[3rem]`
           }
@@ -97,7 +97,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
         {content.contactEmail ? (
           <p
             className={
-              insightsVariant
+              newsBlogsVariant
                 ? `${plusJakartaSans.className} mt-4 text-[16px] font-normal leading-[24px] text-[#B8B8B8] [font-feature-settings:'liga'_off,'clig'_off]`
                 : `landing-body ${plusJakartaSans.className} mt-4 text-sm leading-6 text-[rgba(0,9,51,0.58)]`
             }
@@ -105,7 +105,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
             {content.contactText?.trim() || "still have a query?"}{" "}
             <a
               className={
-                insightsVariant
+                newsBlogsVariant
                   ? `${plusJakartaSans.className} font-normal text-[#8F6C1A] underline decoration-solid [text-decoration-skip-ink:none] [text-decoration-thickness:auto] [text-underline-offset:auto] [text-underline-position:from-font] transition-opacity hover:opacity-65`
                   : "font-normal text-[#8F6C1A] underline underline-offset-2 transition-opacity hover:opacity-65"
               }
@@ -136,7 +136,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
                 aria-controls={answerId}
                 onClick={() => toggleItem(index)}
                 className={
-                  insightsVariant
+                  newsBlogsVariant
                     ? `${plusJakartaSans.className} flex w-full cursor-pointer items-center justify-between gap-6 bg-transparent py-5 text-left text-[16px] font-bold leading-[24px] [font-feature-settings:'liga'_off,'clig'_off] transition-colors duration-300 ${isOpen ? "text-black" : "text-[#B8B8B8]"
                     }`
                     : `${plusJakartaSans.className} flex w-full cursor-pointer items-center justify-between gap-6 bg-transparent py-5 text-left text-[1.125rem] font-semibold leading-6 text-[rgba(0,6,38,0.90)] transition-colors duration-300 sm:text-[1.125rem]`
@@ -145,7 +145,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
                 <span>{item.question}</span>
 
                 <span
-                  className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-[border-color,color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${insightsVariant && isOpen
+                  className={`relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-[border-color,color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${newsBlogsVariant && isOpen
                       ? "border-[#8F5A39] text-[#8F5A39]"
                       : "border-[#7380aa] text-[#7380aa]"
                     }`}
@@ -181,7 +181,7 @@ export function FaqSection({ content, variant = "default" }: FaqSectionProps) {
                 <div className="min-h-0 overflow-hidden">
                   <p
                     className={
-                      insightsVariant
+                      newsBlogsVariant
                         ? `${plusJakartaSans.className} max-w-[45rem] pb-6 pr-10 text-[16px] font-normal leading-[24px] text-[#B8B8B8] [font-feature-settings:'liga'_off,'clig'_off] transition-transform duration-[360ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "translate-y-0" : "-translate-y-1.5"
                         }`
                         : `landing-body ${plusJakartaSans.className} max-w-[45rem] pb-6 pr-10 text-sm leading-6 text-[rgba(0,9,51,0.60)] transition-transform duration-[360ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:text-[0.94rem] sm:leading-7 ${isOpen ? "translate-y-0" : "-translate-y-1.5"

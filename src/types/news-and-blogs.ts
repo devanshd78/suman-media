@@ -19,6 +19,8 @@ export type InsightListItem = {
     excerpt: string;
     imageUrl: string;
     imageAlt?: string | null;
+    imageHotspotX?: number | null;
+    imageHotspotY?: number | null;
     publishedAt: string;
     featured?: boolean | null;
     authorName?: string | null;
@@ -72,7 +74,7 @@ export type InsightDetail = InsightListItem & {
     seo?: CmsSeo | null;
 };
 
-export type InsightsSharedContent = {
+export type NewsBlogsSharedContent = {
     faqSection?: CmsFaqSection | null;
     careersCta?: CmsCareersCta | null;
 };

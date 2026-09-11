@@ -50,7 +50,7 @@ export default async function NewsAndBlogsPage() {
 
       <FaqSection
         content={faq}
-        variant="insights"
+        variant="newsAndBlogs"
       />
 
       <ParallaxBlackSection>
