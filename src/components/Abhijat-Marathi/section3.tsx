@@ -334,6 +334,45 @@ const SHOW_CONTENT_ITEMS = [
 ] as const;
 
 /* =========================================================
+   MUSIC INFINITE CAROUSEL
+
+   Below HERO 3
+========================================================= */
+
+const MUSIC_CONTENT_ITEMS = [
+  {
+    title: "Na Sangatach Aaj",
+    category: "Music",
+    image: "/images/ott/Na Sangatach Aaj.png",
+  },
+  {
+    title: "Shaky",
+    category: "Music",
+    image: "/images/ott/Shaky.png",
+  },
+  {
+    title: "Nauvari pahija",
+    category: "Music",
+    image: "/images/ott/Nauvari pahija.png",
+  },
+  {
+    title: "Govyachya",
+    category: "Music",
+    image: "/images/ott/Govyachya.png",
+  },
+  {
+    title: "Zingaat",
+    category: "Music",
+    image: "/images/ott/Zingaat.png",
+  },
+  {
+    title: "Alka",
+    category: "Music",
+    image: "/images/ott/Alka.png",
+  },
+] as const;
+
+/* =========================================================
    ICONS
 ========================================================= */
 
@@ -684,6 +723,253 @@ function ContentCard({
             </div>
         </article>
     );
+}
+
+/* =========================================================
+   MUSIC CONTENT CARD
+
+   FIGMA:
+   width: 16.25rem
+   height: 22.5rem
+   gap: 1.5rem
+========================================================= */
+
+function MusicContentCard({
+  item,
+}: {
+  item: CarouselItem;
+}) {
+  return (
+    <article
+      className="
+        group/music-card
+
+        flex
+        h-[22.5rem]
+        w-[16.25rem]
+        shrink-0
+        flex-col
+        items-start
+
+        gap-[1.5rem]
+      "
+    >
+      {/* IMAGE */}
+
+      <div
+        className="
+          relative
+
+          min-h-0
+          w-full
+          flex-1
+
+          overflow-hidden
+
+          rounded-[0.5rem]
+
+          bg-[#EAEAEA]
+        "
+      >
+        <Image
+          src={item.image}
+          alt={item.title}
+          fill
+          unoptimized
+          sizes="260px"
+          className="object-cover object-center"
+        />
+
+        {/* HOVER OVERLAY */}
+
+        <div
+          className="
+            pointer-events-none
+
+            absolute
+            inset-0
+            z-10
+
+            bg-black/0
+
+            transition-colors
+            duration-300
+
+            group-hover/music-card:bg-black/10
+          "
+        />
+
+        {/* WATCH NOW */}
+
+        <div
+          className="
+            pointer-events-none
+
+            absolute
+            inset-0
+            z-20
+
+            flex
+            items-center
+            justify-center
+
+            opacity-0
+
+            transition-opacity
+            duration-300
+
+            group-hover/music-card:opacity-100
+          "
+        >
+          <button
+            type="button"
+            className="
+              pointer-events-auto
+
+              flex
+              items-center
+              justify-center
+
+              gap-[0.25rem]
+
+              rounded-[2rem]
+
+              bg-white
+
+              px-[0.75rem]
+              py-[0.5rem]
+
+              text-black
+
+              shadow-[0_0.5rem_1.5rem_rgba(0,0,0,0.12)]
+
+              backdrop-blur-[4px]
+
+              transition-transform
+              duration-200
+
+              hover:scale-[1.03]
+
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-black/30
+            "
+          >
+            <WatchNowPlayIcon />
+
+            <span
+              className="
+                whitespace-nowrap
+
+                text-[0.875rem]
+                font-semibold
+                leading-[1.25rem]
+
+                text-black
+              "
+              style={{
+                fontFamily:
+                  'var(--Font-family-Body, "Plus Jakarta Sans")',
+              }}
+            >
+              Stream now
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* TEXT */}
+
+      <div
+        className="
+          flex
+          w-full
+          flex-col
+
+          gap-[0.25rem]
+        "
+      >
+        <p
+          className="
+            line-clamp-1
+
+            w-full
+            overflow-hidden
+
+            text-[0.875rem]
+            font-normal
+            leading-[1.25rem]
+
+            text-[#1A1A1A]
+          "
+          style={{
+            fontFamily:
+              'var(--Font-family-Body, "Plus Jakarta Sans")',
+
+            fontFeatureSettings:
+              "'liga' off, 'clig' off",
+          }}
+        >
+          {item.title}
+        </p>
+
+        <p
+          className="
+            line-clamp-1
+
+            w-full
+            overflow-hidden
+
+            text-[0.875rem]
+            font-normal
+            leading-[1.25rem]
+
+            text-[#969696]
+          "
+          style={{
+            fontFamily:
+              'var(--Font-family-Body, "Plus Jakarta Sans")',
+
+            fontFeatureSettings:
+              "'liga' off, 'clig' off",
+          }}
+        >
+          {item.category}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+/* =========================================================
+   MUSIC CAROUSEL GROUP
+========================================================= */
+
+function MusicContentGroup({
+  copy,
+}: {
+  copy: number;
+}) {
+  return (
+    <div
+      aria-hidden={copy === 1}
+      className="
+        flex
+        shrink-0
+
+        gap-[1.5rem]
+      "
+    >
+      {MUSIC_CONTENT_ITEMS.map(
+        (item, index) => (
+          <MusicContentCard
+            key={`music-${copy}-${index}-${item.image}`}
+            item={item}
+          />
+        ),
+      )}
+    </div>
+  );
 }
 
 /* =========================================================
@@ -2444,6 +2730,119 @@ export default function Section3() {
             </div>
 
             {/* =====================================================
+                MUSIC INFINITE CAROUSEL
+
+                6 MUSIC CARDS
+
+                continuous:
+                RIGHT -> LEFT
+
+                pauses on hover
+            ====================================================== */}
+
+            <div
+              className="
+                section3-marquee
+
+                w-full
+                overflow-hidden
+
+                bg-white
+
+                pt-[1.5rem]
+                pb-[6.25rem]
+              "
+            >
+              <div
+                className="
+                  section3-marquee-track
+                  section3-marquee-track-music
+
+                  flex
+                  w-max
+
+                  gap-[1.5rem]
+
+                  will-change-transform
+                "
+              >
+                <MusicContentGroup copy={0} />
+
+                <MusicContentGroup copy={1} />
+              </div>
+            </div>
+
+            {/* ENTERTAINMENT ANYWHERE */}
+
+            <section
+                aria-labelledby="abhijat-anywhere-heading"
+                className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-[3.5rem] self-stretch bg-white px-5 py-16 md:px-8 lg:min-h-[28.1875rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+            >
+                <h2
+                    id="abhijat-anywhere-heading"
+                    className="w-[34.875rem] max-w-full text-center font-semibold not-italic"
+                    style={{
+                        color: "var(--Light-Border-Text-Primary, #1A1A1A)",
+                        fontFamily:
+                            'var(--Font-family-Heading, var(--font-plus-jakarta-sans, "Plus Jakarta Sans"))',
+                        fontFeatureSettings: "'liga' off, 'clig' off",
+                        fontSize: "var(--Font-size-Heading-2, 2rem)",
+                        lineHeight: "var(--Line-height-Heading-2, 2.5rem)",
+                    }}
+                >
+                    Experience Authentic Marathi Entertainment Anywhere, Anytime.
+                </h2>
+
+                <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
+                    {[
+                        {
+                            image: "/images/ott/playstore.png",
+                            alt: "Google Play Store",
+                            description:
+                                "Discover the essence of Maharashtra on your Android device. Stream classic films, new releases, and exclusive regional stories in high definition.",
+                        },
+                        {
+                            image: "/images/ott/AppStore.png",
+                            alt: "Apple App Store",
+                            description:
+                                "Elevate your streaming experience on iPhone and iPad. Enjoy curated Marathi cinema, compelling web originals, and cultural gems designed for seamless entertainment on iOS.",
+                        },
+                    ].map((platform) => (
+                        <article
+                            key={platform.image}
+                            className="flex min-h-[7.1875rem] items-center"
+                        >
+                            <div className="relative w-[8.25rem] shrink-0 self-stretch overflow-hidden rounded-l-[0.75rem] bg-[#D3D3D3]">
+                                <Image
+                                    src={platform.image}
+                                    alt={platform.alt}
+                                    fill
+                                    unoptimized
+                                    sizes="132px"
+                                    className="object-cover object-center"
+                                />
+                            </div>
+
+                            <p
+                                className="flex flex-1 items-center self-stretch p-4 font-normal not-italic"
+                                style={{
+                                    color:
+                                        "var(--Light-Border-Text-Secondary, #969696)",
+                                    fontFamily:
+                                        'var(--Font-family-Body, var(--font-plus-jakarta-sans, "Plus Jakarta Sans"))',
+                                    fontFeatureSettings: "'liga' off, 'clig' off",
+                                    fontSize: "var(--Font-size-Small, 1rem)",
+                                    lineHeight: "var(--Line-height-Small, 1.5rem)",
+                                }}
+                            >
+                                {platform.description}
+                            </p>
+                        </article>
+                    ))}
+                </div>
+            </section>
+
+            {/* =====================================================
           INFINITE MARQUEE CSS
       ====================================================== */}
 
@@ -2502,6 +2901,10 @@ export default function Section3() {
         .section3-marquee-track-shows {
           animation-duration:
             84s;
+        }
+
+        .section3-marquee-track-music {
+          animation-duration: 36s;
         }
 
         /*
