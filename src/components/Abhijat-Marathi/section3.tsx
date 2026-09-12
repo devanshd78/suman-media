@@ -1107,18 +1107,24 @@ export default function Section3() {
 
             <div
                 className="
-    relative
+    mx-auto
 
-    h-[32rem]
+    flex
     w-full
+    max-w-[90rem]
+    flex-col
+    items-center
 
-    overflow-hidden
+    gap-[1rem]
 
-    bg-black
+    px-5
+    py-16
 
-    sm:h-[37rem]
+    md:px-8
+    md:py-20
 
-    lg:h-[43.625rem]
+    lg:px-[3.5rem]
+    lg:py-[6.25rem]
   "
             >
                 <div
@@ -1141,6 +1147,7 @@ export default function Section3() {
                     <div
                         className="
               flex
+              max-w-full
               items-center
 
               gap-[0.625rem]
@@ -1169,23 +1176,23 @@ export default function Section3() {
                         <h2
                             id="abhijat-universe-heading"
                             className="
-                w-full
-                max-w-[33.25rem]
+                w-[33.25rem]
+                max-w-full
 
-                text-[2rem]
                 font-semibold
-                leading-[2.5rem]
+                not-italic
 
                 tracking-[-0.03125rem]
-
-                text-[#1A1A1A]
-
-                md:text-[2.5rem]
-                md:leading-[3rem]
               "
                             style={{
+                                color:
+                                    "var(--Light-Border-Text-Primary, #1A1A1A)",
                                 fontFamily:
-                                    'var(--Font-family-Heading, "Plus Jakarta Sans")',
+                                    'var(--Font-family-Heading, var(--font-plus-jakarta-sans, "Plus Jakarta Sans"))',
+                                fontSize:
+                                    "var(--Font-size-Heading-1, 2.5rem)",
+                                lineHeight:
+                                    "var(--Line-height-Heading-1, 3rem)",
 
                                 fontFeatureSettings:
                                     "'liga' off, 'clig' off",
@@ -1202,18 +1209,21 @@ export default function Section3() {
 
                     <p
                         className="
-              w-full
-              max-w-[37.5rem]
+              w-[37.5rem]
+              max-w-full
 
-              text-[1rem]
               font-normal
-              leading-[1.5rem]
-
-              text-[#969696]
+              not-italic
             "
                         style={{
+                            color:
+                                "var(--Light-Border-Text-Secondary, #969696)",
                             fontFamily:
-                                'var(--Font-family-Body, "Plus Jakarta Sans")',
+                                'var(--Font-family-Body, var(--font-plus-jakarta-sans, "Plus Jakarta Sans"))',
+                            fontSize:
+                                "var(--Font-size-Small, 1rem)",
+                            lineHeight:
+                                "var(--Line-height-Small, 1.5rem)",
 
                             fontFeatureSettings:
                                 "'liga' off, 'clig' off",
