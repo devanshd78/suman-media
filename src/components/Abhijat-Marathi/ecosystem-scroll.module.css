@@ -1,23 +1,23 @@
 .scrollTrack {
-  /* Three 83rem × 50.625rem panels, with the reference's spacing. */
-  --panel-width: min(83rem, calc(100vw - clamp(2.5rem, 8vw, 8rem)), calc(60svh * 141 / 86));
-  --panel-height: calc(var(--panel-width) * 86 / 141);
+  --section-gutter: clamp(1rem, 3vw, 3rem);
+  --panel-width: calc(100vw - 2 * var(--section-gutter));
+  --panel-height: min(calc(var(--panel-width) * 86 / 141), 65svh);
   --panel-gap: calc(var(--panel-height) * var(--panel-gap-ratio));
   position: relative;
   height: calc(112svh + 2 * (var(--panel-height) + var(--panel-gap)));
 }
 
 .stickyScene {
-  --scene-inset: clamp(2rem, 6svh, 6.25rem);
+  --scene-inset: clamp(1rem, 2svh, 2rem);
   position: sticky;
   top: 0;
   display: grid;
-  grid-template-rows: auto var(--panel-height) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   align-content: center;
   justify-items: center;
-  gap: clamp(0.5rem, 1.3svh, 1rem);
+  gap: clamp(1rem, 2svh, 1.5rem);
   height: 100svh;
-  padding: var(--scene-inset) 1.25rem;
+  padding: var(--scene-inset) var(--section-gutter);
   padding-top: max(var(--scene-inset), calc(var(--site-header-offset) + 1rem));
   background: #fff;
   overflow: clip;
@@ -27,31 +27,30 @@
 .heading {
   position: relative;
   z-index: 1;
-  width: var(--panel-width);
+  width: 100%;
 }
 
 .heading h2 {
-  font-size: clamp(1.25rem, calc(var(--panel-width) * 0.03), 2.5rem);
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 1.15;
+  text-wrap: balance;
 }
 
-/* Copy stays beneath the white panels and is revealed in the moving gaps. */
+/* Keep the full text block in flow above the device viewport. */
 .heading p {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  width: min(90%, 37.125rem);
-  margin-top: 0.75rem;
-  transform: translateX(-50%);
-  font-size: clamp(0.75rem, calc(var(--panel-width) * 0.012), 1rem);
+  margin-top: 0.5rem;
+  font-size: clamp(0.9375rem, 1.25vw, 1.125rem);
   line-height: 1.5;
 }
 
 .stage {
   position: relative;
   z-index: 2;
-  width: var(--panel-width);
-  height: var(--panel-height);
-  overflow: visible;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  container-type: size;
 }
 
 .deviceTrack {
@@ -60,7 +59,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--panel-gap);
+  gap: calc(100cqh * var(--panel-gap-ratio));
   pointer-events: none;
 }
 
@@ -69,33 +68,29 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: var(--panel-height);
-  aspect-ratio: 141 / 86;
+  height: 100cqh;
   flex-shrink: 0;
   background: #fff;
-  /* Reveal the description before the title as the previous panel leaves. */
-  mask-image: linear-gradient(to bottom, #000 0%, #000 86%, transparent 100%);
   container-type: size;
 }
 
 .television {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: min(100%, calc(100cqh * 141 / 86));
+  aspect-ratio: 141 / 86;
 }
 
 .phone {
   position: relative;
-  width: 61%;
+  width: min(88%, calc(90cqh * 2040 / 1002));
   aspect-ratio: 2040 / 1002;
-  transform: translateY(-11%);
 }
 
 .tablet {
   position: relative;
-  width: 57.5%;
+  width: min(80%, 110cqh);
   aspect-ratio: 780 / 550;
-  transform: translateY(-10%);
+  transform: translateY(-8%);
 }
 
 .tabletFrame {
@@ -111,17 +106,7 @@
 .stats {
   position: relative;
   z-index: 3;
-  width: var(--panel-width);
-}
-
-/* The reference keeps statistics in front and fades devices at the bottom. */
-.stats::before {
-  content: "";
-  position: absolute;
-  inset: -3rem calc(-1 * clamp(1.25rem, 4vw, 4rem)) auto;
-  height: 100svh;
-  background: linear-gradient(to bottom, transparent 0%, #fff clamp(6rem, 14svh, 10rem));
-  pointer-events: none;
+  width: 100%;
 }
 
 .stats > div {
@@ -132,26 +117,76 @@
 }
 
 .stats > div > div {
-  padding-inline: clamp(0.25rem, 1vw, 1rem);
+  padding-inline: clamp(0.5rem, 1.5vw, 1.5rem);
+  justify-content: flex-start;
 }
 
 .stats p:first-child {
-  font-size: clamp(1.5rem, calc(var(--panel-width) * 0.042), 3.5rem);
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
 }
 
 .stats p + p {
   margin-top: 0.5rem;
-  font-size: clamp(0.625rem, calc(var(--panel-width) * 0.012), 1rem);
+  font-size: clamp(0.875rem, 1.25vw, 1.125rem);
   line-height: 1.5;
 }
 
 @media (max-width: 767px) {
-  .stats::before {
-    inset-block-start: -2rem;
+  .stickyScene {
+    gap: 0.75rem;
+  }
+
+  .heading > div {
+    padding-inline: 0;
+  }
+
+  .heading h2 {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
+
+  .stats > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 0.5rem;
+  }
+
+  .stats p:first-child {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
   }
 }
 
-@media (max-height: 540px), (prefers-reduced-motion: reduce) {
+/* Fit the pinned sequence on shorter screens instead of disabling scrolling. */
+@media (max-height: 700px) {
+  .stickyScene {
+    --scene-inset: 0.5rem;
+    gap: 0.5rem;
+    padding-top: calc(var(--site-header-offset) + 0.5rem);
+  }
+
+  .heading h2 {
+    font-size: clamp(1.75rem, 5svh, 2.5rem);
+  }
+
+  .heading p {
+    margin-top: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .stats > div {
+    row-gap: 0.75rem;
+  }
+
+  .stats p:first-child {
+    font-size: clamp(2rem, 6svh, 2.5rem);
+  }
+
+  .stats p + p {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .scrollTrack {
     height: auto;
   }
@@ -159,21 +194,23 @@
   .stickyScene {
     position: relative;
     height: auto;
+    grid-template-rows: auto auto auto;
     padding-block: 3rem;
   }
 
+  .stage {
+    height: auto;
+    container-type: normal;
+  }
+
   .deviceTrack {
+    position: relative;
+    gap: var(--panel-gap);
     transform: none !important;
   }
 
-  .heading p {
-    position: static;
-    width: 90%;
-    margin: 0.75rem auto 0;
-    transform: none;
-  }
-
-  .deviceCanvas ~ .deviceCanvas {
-    display: none;
+  .deviceCanvas {
+    width: 100%;
+    height: var(--panel-height);
   }
 }

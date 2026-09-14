@@ -11,7 +11,7 @@ export default function OttPage() {
       <Entertainment />
       <Section3 />
       <Ecosystem />
-      <NewsBlogsSection />
+      <NewsBlogsSection revealText />
     </main>
   );
 }

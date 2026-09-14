@@ -1,5 +1,6 @@
 "use client";
 
+import { TextReveal } from "@/components/ui/scroll-text-reveal";
 import { motion, useReducedMotion } from "framer-motion";
 
 /* =========================================================
@@ -20,8 +21,6 @@ const ASSETS = {
   },
 
   connectedTv: "/images/ott/connected-tv.png",
-  contentAggregation: "/images/ott/content-aggregation.png",
-  subscriptionManagement: "/images/ott/subscription-management.png",
 } as const;
 
 /* =========================================================
@@ -77,7 +76,9 @@ function CardHeader({
             "'liga' off, 'clig' off",
         }}
       >
+        <TextReveal>
         {title}
+        </TextReveal>
       </h3>
 
       <p
@@ -104,7 +105,9 @@ function CardHeader({
             "'liga' off, 'clig' off",
         }}
       >
+        <TextReveal>
         {description}
+        </TextReveal>
       </p>
     </div>
   );
@@ -139,33 +142,30 @@ function MobilePhone({
       "
     >
       <motion.div
-        initial={false}
-        animate={{
-          y: reducedMotion
-            ? 0
-            : [145, 0, 145],
-        }}
-        transition={
+        initial={
           reducedMotion
-            ? {
-                duration: 0,
-              }
+            ? false
             : {
-                duration: 2,
-
-                times: [
-                  0,
-                  0.92,
-                  1,
-                ],
-
-                ease: "easeOut",
-
-                repeat: Infinity,
-
-                repeatType: "loop",
+                y: 180,
+                opacity: 0,
               }
         }
+        whileInView={
+          reducedMotion
+            ? undefined
+            : {
+                y: 0,
+                opacity: 1,
+              }
+        }
+        viewport={{
+          once: true,
+          amount: 0.25,
+        }}
+        transition={{
+          duration: 1.65,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         className="
           relative
 
@@ -173,7 +173,7 @@ function MobilePhone({
           w-[20.48256rem]
         "
         style={{
-          willChange: "transform",
+          willChange: "transform, opacity",
 
           filter:
             "drop-shadow(16px 18px 24px rgba(0,0,0,0.16))",
@@ -459,43 +459,30 @@ function SmartTelevision({
         "
       >
         <motion.div
-          initial={false}
-          animate={{
-            x: reducedMotion
-              ? 0
-              : [
-                  -58,
-                  -58,
-                  0,
-                  0,
-                  -58,
-                ],
-          }}
-          transition={
+          initial={
             reducedMotion
-              ? {
-                  duration: 0,
-                }
+              ? false
               : {
-                  duration: 2,
-
-                  times: [
-                    0,
-                    0.18,
-                    0.76,
-                    0.92,
-                    1,
-                  ],
-
-                  ease: "easeInOut",
-
-                  repeat:
-                    Infinity,
-
-                  repeatType:
-                    "loop",
+                  x: -220,
+                  opacity: 0,
                 }
           }
+          whileInView={
+            reducedMotion
+              ? undefined
+              : {
+                  x: 0,
+                  opacity: 1,
+                }
+          }
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: 1.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="
             relative
             h-full
@@ -503,7 +490,7 @@ function SmartTelevision({
           "
           style={{
             willChange:
-              "transform",
+              "transform, opacity",
           }}
         >
           {/* =================================================
@@ -705,110 +692,876 @@ function SmartTelevision({
 }
 
 /* =========================================================
-   GENERIC CARD ANIMATION
+   CONNECTED TV ARTWORK
 ========================================================= */
 
-type Direction =
-  | "up"
-  | "left"
-  | "right";
-
-type LoopingArtworkProps = {
-  src: string;
-  direction: Direction;
-  reducedMotion: boolean;
-
-  distance?: number;
-
-  backgroundSize?: string;
-  backgroundPosition?: string;
-};
-
-function LoopingArtwork({
-  src,
-  direction,
+function ConnectedTvArtwork({
   reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  const leftVariants = {
+    hidden: {
+      x: -145,
+    },
+    visible: {
+      x: 0,
+      transition: {
+        duration: 2.25,
+        delay: 0.05,
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
 
-  distance = 100,
-
-  backgroundSize = "contain",
-  backgroundPosition = "center bottom",
-}: LoopingArtworkProps) {
-  const animation =
-    direction === "up"
-      ? {
-          y: reducedMotion
-            ? 0
-            : [
-                distance,
-                0,
-                distance,
-              ],
-        }
-      : direction === "left"
-        ? {
-            x: reducedMotion
-              ? 0
-              : [
-                  distance,
-                  0,
-                  distance,
-                ],
-          }
-        : {
-            x: reducedMotion
-              ? 0
-              : [
-                  -distance,
-                  0,
-                  -distance,
-                ],
-          };
+  const rightVariants = {
+    hidden: {
+      x: 145,
+    },
+    visible: {
+      x: 0,
+      transition: {
+        duration: 2.25,
+        delay: 0.12,
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
+  };
 
   return (
-    <motion.div
-      initial={false}
-      animate={animation}
-      transition={
-        reducedMotion
-          ? {
-              duration: 0,
-            }
-          : {
-              duration: 2,
-
-              times: [
-                0,
-                0.92,
-                1,
-              ],
-
-              ease: "easeOut",
-
-              repeat: Infinity,
-
-              repeatType: "loop",
-            }
-      }
+    <div
       className="
         absolute
-        inset-0
+        inset-x-0
+        bottom-0
+
+        h-[24.5rem]
+
+        overflow-hidden
+      "
+    >
+      {/*
+        IMPORTANT:
+        The viewport trigger lives on this shared parent, not on each
+        moving child. This guarantees that the right artwork animates
+        even though it starts translated outside its final position.
+      */}
+      <motion.div
+        initial={reducedMotion ? false : "hidden"}
+        whileInView={reducedMotion ? undefined : "visible"}
+        viewport={{
+          once: true,
+          amount: 0.12,
+        }}
+        className="
+          absolute
+          left-1/2
+          top-0
+
+          h-full
+          w-[27.82806rem]
+          max-w-none
+
+          -translate-x-1/2
+        "
+      >
+        {/* ===================================================
+            LEFT: CROPPED television-setup.png
+
+            Only the left television composition is shown.
+            The source remains at the supplied Figma dimensions.
+        ==================================================== */}
+        <motion.div
+          variants={reducedMotion ? undefined : leftVariants}
+          className="
+            absolute
+            left-0
+            top-[5.2rem]
+
+            h-[13.88581rem]
+            w-[13.6rem]
+
+            overflow-hidden
+          "
+          style={{
+            willChange: "transform",
+          }}
+        >
+          <div
+            className="
+              pointer-events-none
+              absolute
+              left-[-5.85rem]
+              top-0
+
+              h-[13.88581rem]
+              w-[25.01169rem]
+            "
+            style={{
+              backgroundImage:
+                `url("${ASSETS.television.setup}")`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "0.16px 0.318px",
+              backgroundSize: "100% 84.857%",
+            }}
+          />
+
+          {/* television-image.png inside the visible TV screen */}
+          <div
+            className="
+              absolute
+              left-[0.17rem]
+              top-[1.44rem]
+              z-20
+
+              h-[6.09rem]
+              w-[12.93rem]
+
+              overflow-hidden
+              bg-black
+            "
+          >
+            <div
+              className="absolute"
+              style={{
+                left: "-1.64rem",
+                top: "-1.86rem",
+                width: "15.98rem",
+                height: "12.02rem",
+                backgroundImage:
+                  `url("${ASSETS.television.screen}")`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                backgroundSize: "100% 100%",
+              }}
+            />
+          </div>
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              left-[0.03rem]
+              top-[1.30rem]
+              z-30
+
+              h-[6.37rem]
+              w-[13.21rem]
+            "
+            style={{
+              boxShadow:
+                "inset 0 0 0 0.10rem rgba(0,0,0,0.92)",
+            }}
+          />
+        </motion.div>
+        <motion.div
+          variants={reducedMotion ? undefined : rightVariants}
+          className="
+            absolute
+            right-[3rem]
+            top-[0.70rem]
+
+            h-[14.8816rem]
+            w-[7.25rem]
+
+            shrink-0
+            overflow-hidden
+          "
+          style={{
+            aspectRatio: "19 / 39",
+            willChange: "transform",
+          }}
+          aria-hidden="true"
+        >
+          <img
+            src={ASSETS.connectedTv}
+            alt=""
+            draggable={false}
+            className="
+              pointer-events-none
+              absolute
+              top-0
+
+              h-full
+              max-w-none
+              select-none
+            "
+            style={{
+              left: "-67.5px",
+              width: "205.229%",
+            }}
+          />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* =========================================================
+   CONTENT AGGREGATION
+========================================================= */
+
+const CONTENT_IMAGES = [
+  "/images/ott/image1.png",
+  "/images/ott/image2.png",
+  "/images/ott/image3.png",
+  "/images/ott/image4.png",
+  "/images/ott/image5.png",
+  "/images/ott/image6.png",
+  "/images/ott/image7.png",
+] as const;
+
+const CONTENT_ROWS = [
+  [0, 1, 2, 3, 4, 5, 6],
+  [3, 4, 5, 6, 0, 1, 2],
+  [6, 0, 1, 2, 3, 4, 5],
+] as const;
+
+const CONTENT_ROW_OFFSETS = [
+  "-2.8rem",
+  "0.2rem",
+  "-1.55rem",
+] as const;
+
+type ContentTileMotion = {
+  fromLeft: boolean;
+  rowIndex: number;
+  itemIndex: number;
+};
+
+const contentTileVariants = {
+  hidden: ({
+    fromLeft,
+    rowIndex,
+  }: ContentTileMotion) => ({
+    x: fromLeft ? -105 : 105,
+    y: rowIndex === 1 ? 18 : -12,
+    scale: 0.9,
+    opacity: 0,
+  }),
+
+  show: ({
+    rowIndex,
+    itemIndex,
+  }: ContentTileMotion) => ({
+    x: 0,
+    y: 0,
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: 1.15,
+      delay:
+        rowIndex * 0.14 +
+        itemIndex * 0.075,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+};
+
+function ContentAggregationArtwork({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <motion.div
+      initial={reducedMotion ? false : "hidden"}
+      whileInView={reducedMotion ? undefined : "show"}
+      viewport={{
+        once: true,
+        amount: 0.22,
+        margin: "0px 0px -5% 0px",
+      }}
+      className="
+        absolute
+        bottom-0
+        left-1/2
+
+        flex
+        h-[24.5rem]
+        w-[27.82806rem]
+        max-w-none
+        -translate-x-1/2
+        flex-col
+        items-start
+        justify-center
+
+        gap-[1.41619rem]
+
+        overflow-hidden
+
+        bg-white
+
+        py-[2.33669rem]
+      "
+    >
+      {CONTENT_ROWS.map((row, rowIndex) => (
+        <div
+          key={rowIndex}
+          className="
+            flex
+            w-max
+            shrink-0
+            items-center
+            gap-[1.41619rem]
+          "
+          style={{
+            marginLeft:
+              CONTENT_ROW_OFFSETS[rowIndex],
+          }}
+        >
+          {row.map((imageIndex, itemIndex) => {
+            const fromLeft =
+              (rowIndex + itemIndex) % 2 === 0;
+
+            return (
+              <motion.div
+                key={`${rowIndex}-${itemIndex}`}
+                custom={{
+                  fromLeft,
+                  rowIndex,
+                  itemIndex,
+                }}
+                variants={
+                  contentTileVariants
+                }
+                className="
+                  relative
+
+                  h-[5.66475rem]
+                  w-[5.66475rem]
+                  shrink-0
+
+                  overflow-hidden
+
+                  rounded-[1.27456rem]
+
+                  bg-[#D9D9D9]
+                "
+                style={{
+                  backgroundImage:
+                    `url("${CONTENT_IMAGES[imageIndex]}")`,
+                  backgroundRepeat:
+                    "no-repeat",
+                  backgroundPosition:
+                    "center center",
+                  backgroundSize:
+                    "cover",
+                }}
+              />
+            );
+          })}
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+/* =========================================================
+   SUBSCRIPTION MANAGEMENT
+========================================================= */
+
+const SUBSCRIPTION_AVATARS = [
+  "/images/ott/image1.png",
+  "/images/ott/image2.png",
+  "/images/ott/image3.png",
+  "/images/ott/image4.png",
+  "/images/ott/image5.png",
+] as const;
+
+const WATCH_BARS = [
+  26, 18, 20, 18, 21, 31, 27, 23,
+  18, 28, 22, 25, 29, 31, 39, 46,
+  56, 49, 64, 42, 96, 52, 43, 36,
+  48, 67, 48, 51, 46, 50, 38, 44,
+  37, 34, 33, 34, 33, 29, 25, 34,
+  22, 27, 42, 25, 37, 17, 29, 20,
+] as const;
+
+const subscriptionAvatarVariants = {
+  hidden: {
+    x: 8,
+    scale: 0.75,
+    opacity: 0,
+  },
+  show: (index: number) => ({
+    x: 0,
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: 0.72,
+      delay: 1.06 + index * 0.075,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+};
+
+const watchBarVariants = {
+  hidden: {
+    scaleY: 0,
+    opacity: 0.55,
+  },
+  show: (index: number) => ({
+    scaleY: 1,
+    opacity: 1,
+    transition: {
+      duration: 0.78,
+      delay: 0.34 + index * 0.018,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  }),
+};
+
+function HeadphonesIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+    >
+      <path
+        d="M4 13V11a8 8 0 0 1 16 0v2"
+        stroke="#8F6C1A"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M4 13.5c0-1.1.9-2 2-2h1v6H6a2 2 0 0 1-2-2v-2Z"
+        stroke="#8F6C1A"
+        strokeWidth="1.8"
+      />
+
+      <path
+        d="M20 13.5c0-1.1-.9-2-2-2h-1v6h1a2 2 0 0 0 2-2v-2Z"
+        stroke="#8F6C1A"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      className="
+        h-[0.875rem]
+        w-[0.875rem]
+      "
+      fill="none"
+    >
+      <path
+        d="M11.5 3.5H16.5V8.5"
+        stroke="rgba(0,9,51,0.45)"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M16.25 3.75L9.25 10.75"
+        stroke="rgba(0,9,51,0.45)"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M15 11V15C15 15.5523 14.5523 16 14 16H5C4.44772 16 4 15.5523 4 15V6C4 5.44772 4.44772 5 5 5H9"
+        stroke="rgba(0,9,51,0.45)"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ActiveSubscriptionsCard({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <motion.div
+      initial={
+        reducedMotion
+          ? false
+          : {
+              y: 72,
+              scale: 0.96,
+              opacity: 0,
+            }
+      }
+      whileInView={
+        reducedMotion
+          ? undefined
+          : {
+              y: 0,
+              scale: 1,
+              opacity: 1,
+            }
+      }
+      viewport={{
+        once: true,
+        amount: 0.25,
+      }}
+      transition={{
+        duration: 1.25,
+        delay: 0.95,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="
+        flex
+        h-[7.25rem]
+        w-[19.375rem]
+        max-w-full
+        flex-col
+        items-center
+
+        rounded-[0.5rem]
+        border-[5px]
+        border-white/10
+        bg-[#F9F9F9]
+
+        p-[0.625rem]
+
+        backdrop-blur-[2px]
       "
       style={{
-        backgroundImage:
-          `url("${src}")`,
-
-        backgroundRepeat:
-          "no-repeat",
-
-        backgroundPosition,
-
-        backgroundSize,
-
         willChange:
-          "transform",
+          "transform, opacity",
       }}
-    />
+    >
+      <div
+        className="
+          flex
+          w-full
+          items-start
+          justify-between
+        "
+      >
+        <div
+          className="
+            flex
+            h-[2rem]
+            w-[2rem]
+            shrink-0
+            items-center
+            justify-center
+
+            rounded-[0.5rem]
+            border
+            border-[rgba(0,17,102,0.10)]
+            bg-white
+          "
+        >
+          <HeadphonesIcon />
+        </div>
+
+        <motion.div
+          initial={reducedMotion ? false : "hidden"}
+          whileInView={reducedMotion ? undefined : "show"}
+          viewport={{
+            once: true,
+            amount: 0.5,
+          }}
+          className="
+            flex
+            items-center
+            pt-[0.1rem]
+          "
+        >
+          {SUBSCRIPTION_AVATARS.map(
+            (src, index) => (
+              <motion.div
+                key={src}
+                custom={index}
+                variants={
+                  subscriptionAvatarVariants
+                }
+                className={`
+                  relative
+
+                  h-4
+                  w-4
+                  shrink-0
+
+                  overflow-hidden
+
+                  rounded-[1.5rem]
+                  border
+                  border-white
+
+                  ${
+                    index === 0
+                      ? ""
+                      : "-ml-[0.24rem]"
+                  }
+                `}
+              >
+                <img
+                  src={src}
+                  alt=""
+                  className="
+                    h-full
+                    w-full
+                    object-cover
+                  "
+                  draggable={false}
+                />
+              </motion.div>
+            ),
+          )}
+        </motion.div>
+      </div>
+
+      <div
+        className="
+          mt-auto
+          w-full
+        "
+      >
+        <p
+          className="
+            text-[0.875rem]
+            font-medium
+            leading-[1.25rem]
+
+            text-black
+          "
+          style={{
+            fontFamily:
+              'var(--Font-family-Body, "Inter")',
+
+            fontFeatureSettings:
+              "'liga' off, 'clig' off",
+          }}
+        >
+          Active Subscriptions
+        </p>
+
+        <p
+          className="
+            line-clamp-1
+            w-full
+
+            overflow-hidden
+            text-ellipsis
+
+            text-[0.5rem]
+            font-normal
+            leading-[1.25rem]
+
+            text-[rgba(0,9,51,0.65)]
+          "
+          style={{
+            fontFamily:
+              'var(--Font-family-Body, "Inter")',
+
+            fontFeatureSettings:
+              "'liga' off, 'clig' off",
+          }}
+        >
+          1000+ active subscription across the Asian region.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+function TotalWatchViewsCard({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <motion.div
+      initial={
+        reducedMotion
+          ? false
+          : {
+              y: 115,
+              scale: 0.97,
+              opacity: 0,
+            }
+      }
+      whileInView={
+        reducedMotion
+          ? undefined
+          : {
+              y: 0,
+              scale: 1,
+              opacity: 1,
+            }
+      }
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
+      transition={{
+        duration: 1.25,
+        delay: 0.12,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="
+        flex
+        h-[11.75rem]
+        w-[19.375rem]
+        max-w-full
+        flex-col
+        items-center
+        justify-between
+
+        rounded-[0.5rem]
+        border-[5px]
+        border-white/10
+        bg-[#F9F9F9]
+
+        p-[0.625rem]
+
+        backdrop-blur-[2px]
+      "
+      style={{
+        willChange:
+          "transform, opacity",
+      }}
+    >
+      <div
+        className="
+          flex
+          w-full
+          items-start
+          justify-between
+        "
+      >
+        <div>
+          <p
+            className="
+              text-[0.5rem]
+              font-normal
+              leading-[0.75rem]
+
+              text-[rgba(0,9,51,0.65)]
+            "
+            style={{
+              fontFamily:
+                'var(--Font-family-Body, "Inter")',
+
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
+            }}
+          >
+            Totals watch views
+          </p>
+
+          <p
+            className="
+              text-[0.875rem]
+              font-medium
+              leading-[1.25rem]
+
+              text-black
+            "
+            style={{
+              fontFamily:
+                'var(--Font-family-Body, "Inter")',
+
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
+            }}
+          >
+            2,100,151,80
+          </p>
+        </div>
+
+        <ExternalLinkIcon />
+      </div>
+
+      <motion.div
+        initial={reducedMotion ? false : "hidden"}
+        whileInView={reducedMotion ? undefined : "show"}
+        viewport={{
+          once: true,
+          amount: 0.4,
+        }}
+        className="
+          flex
+          h-[6.375rem]
+          w-full
+          shrink-0
+
+          items-end
+          justify-center
+
+          gap-[0.25rem]
+
+          overflow-hidden
+        "
+      >
+        {WATCH_BARS.map(
+          (height, index) => (
+            <motion.span
+              key={index}
+              custom={index}
+              variants={
+                watchBarVariants
+              }
+              className="
+                block
+                w-[0.125rem]
+                shrink-0
+                origin-bottom
+
+                bg-[#8F6C1A]
+              "
+              style={{
+                height: `${height}%`,
+                willChange:
+                  "transform, opacity",
+              }}
+            />
+          ),
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function SubscriptionManagementArtwork({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <div
+      className="
+        absolute
+        inset-x-0
+        bottom-0
+
+        flex
+        h-[24.5rem]
+        flex-col
+        items-center
+        justify-end
+
+        gap-[0.75rem]
+
+        overflow-hidden
+
+        pb-[1.25rem]
+      "
+    >
+      <ActiveSubscriptionsCard
+        reducedMotion={reducedMotion}
+      />
+
+      <TotalWatchViewsCard
+        reducedMotion={reducedMotion}
+      />
+    </div>
   );
 }
 
@@ -889,7 +1642,9 @@ export default function Entertainment() {
               "'liga' off, 'clig' off",
           }}
         >
+          <TextReveal>
           Entertainment from library to living room.
+          </TextReveal>
         </h2>
 
         {/* =================================================
@@ -1026,36 +1781,11 @@ export default function Entertainment() {
                 description="Extending digital content across connected television environments and modern viewing ecosystems."
               />
 
-              <div
-                className="
-                  absolute
-
-                  inset-x-0
-                  bottom-0
-
-                  h-[22.5rem]
-
-                  overflow-hidden
-                "
-              >
-                <LoopingArtwork
-                  src={
-                    ASSETS.connectedTv
-                  }
-
-                  direction="right"
-
-                  reducedMotion={
-                    reducedMotion
-                  }
-
-                  distance={90}
-
-                  backgroundSize="contain"
-
-                  backgroundPosition="center bottom"
-                />
-              </div>
+              <ConnectedTvArtwork
+                reducedMotion={
+                  reducedMotion
+                }
+              />
             </article>
 
             {/* =================================================
@@ -1082,36 +1812,11 @@ export default function Entertainment() {
                 description="Structuring diverse content libraries for discovery, access, distribution and digital consumption."
               />
 
-              <div
-                className="
-                  absolute
-
-                  inset-x-0
-                  bottom-0
-
-                  h-[22.5rem]
-
-                  overflow-hidden
-                "
-              >
-                <LoopingArtwork
-                  src={
-                    ASSETS.contentAggregation
-                  }
-
-                  direction="left"
-
-                  reducedMotion={
-                    reducedMotion
-                  }
-
-                  distance={90}
-
-                  backgroundSize="contain"
-
-                  backgroundPosition="center bottom"
-                />
-              </div>
+              <ContentAggregationArtwork
+                reducedMotion={
+                  reducedMotion
+                }
+              />
             </article>
 
             {/* =================================================
@@ -1142,36 +1847,11 @@ export default function Entertainment() {
                 description="Digital subscription experiences designed around access, memberships and audience relationships."
               />
 
-              <div
-                className="
-                  absolute
-
-                  inset-x-0
-                  bottom-0
-
-                  h-[22.5rem]
-
-                  overflow-hidden
-                "
-              >
-                <LoopingArtwork
-                  src={
-                    ASSETS.subscriptionManagement
-                  }
-
-                  direction="up"
-
-                  reducedMotion={
-                    reducedMotion
-                  }
-
-                  distance={100}
-
-                  backgroundSize="contain"
-
-                  backgroundPosition="center bottom"
-                />
-              </div>
+              <SubscriptionManagementArtwork
+                reducedMotion={
+                  reducedMotion
+                }
+              />
             </article>
           </div>
         </div>
