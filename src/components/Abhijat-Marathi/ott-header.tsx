@@ -66,7 +66,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image2.png",
+    src: "/images/ott/Image2.png",
     left: "12.5rem",
     top: "6rem",
     zIndex: 20,
@@ -451,7 +451,7 @@ export default function OttHeader({
 
                 gap-1
 
-                rounded-[0.75rem]
+                rounded-[0.25rem]
 
                 px-4
 

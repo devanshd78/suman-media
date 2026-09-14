@@ -251,7 +251,7 @@ export default function ContactFormPage({
                 type="button"
                 onClick={() => setSelectedCategory(category)}
                 aria-pressed={isSelected}
-                className={`${inter.className} inline-flex h-12 w-full min-w-0 items-center justify-center rounded-lg border-2 px-2 text-center text-sm font-semibold leading-5 text-[#8F6C1A] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:text-base sm:leading-6 ${
+                className={`${inter.className} inline-flex h-12 w-full min-w-0 items-center justify-center rounded-[0.25rem] border-2 px-2 text-center text-sm font-semibold leading-5 text-[#8F6C1A] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:text-base sm:leading-6 ${
                   isSelected
                     ? "border-[#8F6C1A] bg-[#FFF9E8]"
                     : "border-[#D6D6D6] bg-white hover:border-[#8F6C1A]"
@@ -421,7 +421,7 @@ export default function ContactFormPage({
               <button
                 type="submit"
                 disabled={submitting}
-                className={`${inter.className} group inline-flex h-12 w-full items-center justify-center gap-1 rounded-xl bg-[#8F6C1A] p-0 text-sm font-semibold leading-5 text-white shadow-[0_2px_4px_-2px_rgba(0,0,0,0.08),0_4px_8px_-2px_rgba(0,0,0,0.04)] transition-colors hover:bg-[#765814] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] disabled:cursor-not-allowed disabled:opacity-60`}
+                className={`${inter.className} group inline-flex h-12 w-full items-center justify-center gap-1 rounded-[0.25rem] bg-[#8F6C1A] p-0 text-sm font-semibold leading-5 text-white shadow-[0_2px_4px_-2px_rgba(0,0,0,0.08),0_4px_8px_-2px_rgba(0,0,0,0.04)] transition-colors hover:bg-[#765814] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] disabled:cursor-not-allowed disabled:opacity-60`}
               >
                 <span>{submitting ? "Submitting…" : "Submit"}</span>
                 <span className="transition-transform group-hover:translate-x-0.5">

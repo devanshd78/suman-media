@@ -478,7 +478,7 @@ export function ContactPageContent({
 
           <Link
             href={careersCtaHref}
-            className={`${inter.className} group inline-flex items-center justify-center gap-1 rounded-lg p-0 text-sm font-semibold leading-5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white`}
+            className={`${inter.className} group inline-flex items-center justify-center gap-1 rounded-[0.25rem] p-0 text-sm font-semibold leading-5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white`}
           >
             <span>{careersCtaButtonLabel}</span>
             <SmallArrowRightIcon />

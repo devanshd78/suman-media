@@ -20,7 +20,9 @@ const ASSETS = {
     screen: "/images/ott/television/television-image.png",
   },
 
-  connectedTv: "/images/ott/connected-tv.png",
+  connectedTv: "/images/ott/television/television2.png",
+  contentAggregation: "/images/ott/Zingaat.png",
+  subscriptionManagement: "/images/ott/AppStore.png",
 } as const;
 
 /* =========================================================
@@ -77,7 +79,7 @@ function CardHeader({
         }}
       >
         <TextReveal>
-        {title}
+          {title}
         </TextReveal>
       </h3>
 
@@ -106,7 +108,7 @@ function CardHeader({
         }}
       >
         <TextReveal>
-        {description}
+          {description}
         </TextReveal>
       </p>
     </div>
@@ -146,17 +148,17 @@ function MobilePhone({
           reducedMotion
             ? false
             : {
-                y: 180,
-                opacity: 0,
-              }
+              y: 180,
+              opacity: 0,
+            }
         }
         whileInView={
           reducedMotion
             ? undefined
             : {
-                y: 0,
-                opacity: 1,
-              }
+              y: 0,
+              opacity: 1,
+            }
         }
         viewport={{
           once: true,
@@ -463,17 +465,17 @@ function SmartTelevision({
             reducedMotion
               ? false
               : {
-                  x: -220,
-                  opacity: 0,
-                }
+                x: -220,
+                opacity: 0,
+              }
           }
           whileInView={
             reducedMotion
               ? undefined
               : {
-                  x: 0,
-                  opacity: 1,
-                }
+                x: 0,
+                opacity: 1,
+              }
           }
           viewport={{
             once: true,
@@ -1189,19 +1191,19 @@ function ActiveSubscriptionsCard({
         reducedMotion
           ? false
           : {
-              y: 72,
-              scale: 0.96,
-              opacity: 0,
-            }
+            y: 72,
+            scale: 0.96,
+            opacity: 0,
+          }
       }
       whileInView={
         reducedMotion
           ? undefined
           : {
-              y: 0,
-              scale: 1,
-              opacity: 1,
-            }
+            y: 0,
+            scale: 1,
+            opacity: 1,
+          }
       }
       viewport={{
         once: true,
@@ -1294,10 +1296,9 @@ function ActiveSubscriptionsCard({
                   border
                   border-white
 
-                  ${
-                    index === 0
-                      ? ""
-                      : "-ml-[0.24rem]"
+                  ${index === 0
+                    ? ""
+                    : "-ml-[0.24rem]"
                   }
                 `}
               >
@@ -1382,19 +1383,19 @@ function TotalWatchViewsCard({
         reducedMotion
           ? false
           : {
-              y: 115,
-              scale: 0.97,
-              opacity: 0,
-            }
+            y: 115,
+            scale: 0.97,
+            opacity: 0,
+          }
       }
       whileInView={
         reducedMotion
           ? undefined
           : {
-              y: 0,
-              scale: 1,
-              opacity: 1,
-            }
+            y: 0,
+            scale: 1,
+            opacity: 1,
+          }
       }
       viewport={{
         once: true,
@@ -1643,7 +1644,7 @@ export default function Entertainment() {
           }}
         >
           <TextReveal>
-          Entertainment from library to living room.
+            Entertainment from library to living room.
           </TextReveal>
         </h2>
 

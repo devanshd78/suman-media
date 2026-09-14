@@ -3,7 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #18181b;
-  --site-header-offset: 88px;
+  --site-header-offset: 64px;
+  --site-action-radius: 4px;
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }

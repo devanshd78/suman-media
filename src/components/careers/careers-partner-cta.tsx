@@ -64,7 +64,7 @@ export function CareersPartnerCta({
 
         <Link
           href="/contact?type=partnership"
-          className={`${inter.className} group inline-flex min-h-12 items-center justify-center gap-1 rounded-[1rem] px-4 py-3 text-sm font-semibold leading-5 text-white transition-[background-color,transform] duration-200 hover:-translate-y-[1px] hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:text-base sm:leading-6`}
+          className={`${inter.className} group inline-flex min-h-12 items-center justify-center gap-1 rounded-[0.25rem] px-4 py-3 text-sm font-semibold leading-5 text-white transition-[background-color,transform] duration-200 hover:-translate-y-[1px] hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:text-base sm:leading-6`}
         >
           <span>Join as a Partner</span>
           <ArrowRightIcon />

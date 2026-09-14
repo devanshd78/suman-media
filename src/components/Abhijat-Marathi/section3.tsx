@@ -34,7 +34,7 @@ const HERO_SLIDES = [
             "Rahul, A Younger Man Falls in Love with a Girl Whose Father Generously Supports him with Housing and Education. However, the Story Takes a Dramatic Turn.",
     },
     {
-        image: "/images/ott/image2.png",
+        image: "/images/ott/Image2.png",
         badge: "Abhijat marathi cinema",
         title: "Mumbai Te Mauritius",
         description:

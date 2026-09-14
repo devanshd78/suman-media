@@ -20,7 +20,6 @@ import {
 } from "framer-motion";
 
 import {
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -39,13 +38,17 @@ type GalleryMedia = {
   alt: string;
   poster?: string;
   position?: string;
+  cropScale?: number;
+  cropOrigin?: string;
 };
 
 type GalleryGeometry = {
   height: number;
-  travel: number;
+  topTravel: number;
+  bottomTravel: number;
   initialScale: number;
   endFraction: number;
+  topStartOffset: number;
 };
 
 type CannesSectionProps = {
@@ -85,15 +88,15 @@ const FOCUS_MEDIA_PATH =
   "/cannes/cannes-red-carpet-interview.mp4";
 
 /*
- * The cards are consistently landscape (~1.46:1).
- * Portrait / near-square files produce the large black side areas shown
- * in the reference screenshot, so those items are removed after their
- * intrinsic dimensions are known. The highlighted red-carpet interview
- * remains allowed and is always placed first.
+ * The local fallback is curated to landscape media only.
+ * Portrait assets are intentionally not placed into this wall because the
+ * Cannes cards are cinematic landscape frames and aggressive portrait crops
+ * were the source of the empty/letterboxed-looking cards.
+ *
+ * The focus video itself is a 16:9 file with decorative side panels baked
+ * into the source. A card-level cropScale removes those baked panels without
+ * changing or re-encoding the original public asset.
  */
-const MIN_ACCEPTED_MEDIA_ASPECT = 1.15;
-const MAX_ACCEPTED_MEDIA_ASPECT = 2.2;
-
 const FALLBACK_CANNES_TOP_ROW: readonly GalleryMedia[] = [
   {
     key: "cannes-red-carpet-interview",
@@ -101,38 +104,9 @@ const FALLBACK_CANNES_TOP_ROW: readonly GalleryMedia[] = [
     src: FOCUS_MEDIA_PATH,
     alt: "Red carpet interview moment at Cannes",
     position: "center center",
+    cropScale: 1.95,
+    cropOrigin: "43% 27%",
   },
-  {
-    key: "cannes-red-carpet-guests-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-guests-01.jpg",
-    alt: "Guests greeting the audience on the Cannes red carpet",
-    position: "center 38%",
-  },
-  {
-    key: "cannes-pavilion-guests-02",
-    kind: "image",
-    src: "/cannes/cannes-pavilion-guests-02.jpg",
-    alt: "Guests meeting at the Cannes pavilion",
-    position: "center 42%",
-  },
-  {
-    key: "cannes-red-carpet-group-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-02.jpg",
-    alt: "Festival guests posing together on the Cannes red carpet",
-    position: "center 42%",
-  },
-  {
-    key: "cannes-red-carpet-portrait-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-portrait-01.jpg",
-    alt: "Festival guest in traditional attire on the Cannes red carpet",
-    position: "center 34%",
-  },
-];
-
-const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
   {
     key: "cannes-red-carpet-group-01",
     kind: "image",
@@ -141,10 +115,10 @@ const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
     position: "center 44%",
   },
   {
-    key: "cannes-riviera-portrait-01",
+    key: "cannes-pavilion-guests-02",
     kind: "image",
-    src: "/cannes/cannes-riviera-portrait-01.jpg",
-    alt: "Festival portrait overlooking the Cannes waterfront",
+    src: "/cannes/cannes-pavilion-guests-02.jpg",
+    alt: "Guests meeting at the Cannes pavilion",
     position: "center 42%",
   },
   {
@@ -155,11 +129,42 @@ const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
     position: "center center",
   },
   {
+    key: "cannes-red-carpet-group-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-group-02.jpg",
+    alt: "Festival guests posing together on the Cannes red carpet",
+    position: "center 42%",
+  },
+  {
     key: "cannes-pavilion-guests-01",
     kind: "image",
     src: "/cannes/cannes-pavilion-guests-01.jpg",
     alt: "Guests gathering at the Cannes pavilion",
     position: "center 38%",
+  },
+];
+
+const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
+  {
+    key: "cannes-interview-group-short",
+    kind: "video",
+    src: "/cannes/cannes-interview-group-short.mp4",
+    alt: "Cannes interview moment at the Bharat Pavilion",
+    position: "center center",
+  },
+  {
+    key: "cannes-riviera-portrait-01",
+    kind: "image",
+    src: "/cannes/cannes-riviera-portrait-01.jpg",
+    alt: "Festival portrait overlooking the Cannes waterfront",
+    position: "center 42%",
+  },
+  {
+    key: "cannes-interview-indoor",
+    kind: "video",
+    src: "/cannes/cannes-interview-indoor.mp4",
+    alt: "Cannes interview and pavilion moment",
+    position: "center center",
   },
   {
     key: "cannes-red-carpet-blue-look-01",
@@ -175,21 +180,13 @@ const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
     alt: "Traditional blue look on the Cannes red carpet",
     position: "center 48%",
   },
-  {
-    key: "cannes-interview-group-short",
-    kind: "video",
-    src: "/cannes/cannes-interview-group-short.mp4",
-    alt: "Cannes interview moment at the Bharat Pavilion",
-    position: "center center",
-  },
 ];
 
-/* Combined fallback is still useful for reduced-motion/static mode */
+/* Combined fallback is used by the reduced-motion/static gallery. */
 const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
   ...FALLBACK_CANNES_TOP_ROW,
   ...FALLBACK_CANNES_BOTTOM_ROW,
 ];
-
 
 /* ============================================================
    ROW HELPERS
@@ -209,7 +206,7 @@ function expandGalleryRow(
    */
   const expanded = [...row];
 
-  while (expanded.length < 5) {
+  while (expanded.length < 6) {
     expanded.push(
       row[expanded.length % row.length],
     );
@@ -218,16 +215,20 @@ function expandGalleryRow(
   return expanded;
 }
 
-function normalizeMediaPath(src: string) {
-  try {
-    return new URL(src, "http://localhost").pathname;
-  } catch {
-    return src.split("?")[0];
-  }
+function isFocusMedia(media: GalleryMedia) {
+  return media.src.split("?")[0].endsWith(FOCUS_MEDIA_PATH);
 }
 
-function isFocusMedia(media: GalleryMedia) {
-  return normalizeMediaPath(media.src) === FOCUS_MEDIA_PATH;
+function applyFocusCrop(media: GalleryMedia): GalleryMedia {
+  if (!isFocusMedia(media)) {
+    return media;
+  }
+
+  return {
+    ...media,
+    cropScale: media.cropScale ?? 1.95,
+    cropOrigin: media.cropOrigin ?? "43% 27%",
+  };
 }
 
 function prioritizeFocusMedia(
@@ -245,23 +246,6 @@ function prioritizeFocusMedia(
     ...media.slice(focusIndex + 1),
   ];
 }
-
-function hasAcceptedAspect(
-  width: number,
-  height: number,
-) {
-  if (width <= 0 || height <= 0) {
-    return true;
-  }
-
-  const ratio = width / height;
-
-  return (
-    ratio >= MIN_ACCEPTED_MEDIA_ASPECT &&
-    ratio <= MAX_ACCEPTED_MEDIA_ASPECT
-  );
-}
-
 
 /* ============================================================
    SANITY ROW BUILDER
@@ -303,7 +287,7 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
       (!item.mediaType && videoUrl)) &&
     videoUrl
   ) {
-    return {
+    return applyFocusCrop({
       key: item._key,
       kind: "video",
       src: videoUrl,
@@ -315,11 +299,11 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
         item.posterUrl?.trim() ||
         undefined,
       position,
-    };
+    });
   }
 
   if (imageUrl) {
-    return {
+    return applyFocusCrop({
       key: item._key,
       kind: "image",
       src: imageUrl,
@@ -328,7 +312,7 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
         item.caption?.trim() ||
         "Cannes 2026 moment",
       position,
-    };
+    });
   }
 
   return null;
@@ -364,9 +348,11 @@ const EASE: [number, number, number, number] = [
 
 const INITIAL_GEOMETRY: GalleryGeometry = {
   height: 0,
-  travel: 0,
-  initialScale: 1.28,
+  topTravel: 0,
+  bottomTravel: 0,
+  initialScale: 1.45,
   endFraction: 1.35 / 2.35,
+  topStartOffset: 0,
 };
 
 function clamp01(value: number) {
@@ -410,14 +396,12 @@ function GalleryVideo({
   loadMedia,
   reducedMotion,
   decorative,
-  onInvalidAspect,
 }: {
   media: GalleryMedia;
   active: boolean;
   loadMedia: boolean;
   reducedMotion: boolean;
   decorative: boolean;
-  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoInView = useInView(videoRef, {
@@ -453,25 +437,12 @@ function GalleryVideo({
       poster={media.poster}
       className={styles.video}
       style={{
-        objectPosition:
-          media.position ?? "center",
+        objectPosition: media.position ?? "center",
         objectFit: "cover",
-      }}
-      onLoadedMetadata={(event) => {
-        if (isFocusMedia(media)) {
-          return;
-        }
-
-        const video = event.currentTarget;
-
-        if (
-          !hasAcceptedAspect(
-            video.videoWidth,
-            video.videoHeight,
-          )
-        ) {
-          onInvalidAspect(media);
-        }
+        transform: media.cropScale
+          ? `scale(${media.cropScale})`
+          : undefined,
+        transformOrigin: media.cropOrigin ?? "center",
       }}
       autoPlay={shouldAutoplay}
       muted
@@ -503,14 +474,12 @@ function GalleryCard({
   loadMedia,
   active,
   reducedMotion,
-  onInvalidAspect,
 }: {
   media: GalleryMedia;
   decorative?: boolean;
   loadMedia: boolean;
   active: boolean;
   reducedMotion: boolean;
-  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   return (
     <figure
@@ -526,7 +495,6 @@ function GalleryCard({
           loadMedia={loadMedia}
           reducedMotion={reducedMotion}
           decorative={decorative}
-          onInvalidAspect={onInvalidAspect}
         />
       ) : (
         <Image
@@ -543,25 +511,12 @@ function GalleryCard({
           "
           className={styles.image}
           style={{
-            objectPosition:
-              media.position ?? "center",
+            objectPosition: media.position ?? "center",
             objectFit: "cover",
-          }}
-          onLoad={(event) => {
-            if (isFocusMedia(media)) {
-              return;
-            }
-
-            const image = event.currentTarget;
-
-            if (
-              !hasAcceptedAspect(
-                image.naturalWidth,
-                image.naturalHeight,
-              )
-            ) {
-              onInvalidAspect(media);
-            }
+            transform: media.cropScale
+              ? `scale(${media.cropScale})`
+              : undefined,
+            transformOrigin: media.cropOrigin ?? "center",
           }}
         />
       )}
@@ -580,7 +535,6 @@ function GalleryRow({
   loadMedia,
   active,
   reducedMotion,
-  onInvalidAspect,
 }: {
   media: readonly GalleryMedia[];
   x: MotionValue<number>;
@@ -588,7 +542,6 @@ function GalleryRow({
   loadMedia: boolean;
   active: boolean;
   reducedMotion: boolean;
-  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   return (
     <div
@@ -602,17 +555,22 @@ function GalleryRow({
         className={styles.track}
         style={{ x }}
       >
-        {media.map((item, index) => (
-          <GalleryCard
-            key={`${item.key}-${index}`}
-            media={item}
-            decorative={decorative}
-            loadMedia={loadMedia}
-            active={active}
-            reducedMotion={reducedMotion}
-            onInvalidAspect={onInvalidAspect}
-          />
-        ))}
+        {media.map((item, index) => {
+          const repeated = media
+            .slice(0, index)
+            .some((previous) => previous.key === item.key);
+
+          return (
+            <GalleryCard
+              key={`${item.key}-${index}`}
+              media={item}
+              decorative={decorative || repeated}
+              loadMedia={loadMedia}
+              active={active}
+              reducedMotion={reducedMotion}
+            />
+          );
+        })}
       </motion.div>
     </div>
   );
@@ -628,28 +586,6 @@ export function CannesSection({ content }: CannesSectionProps) {
 
   const reduceMotion = useReducedMotion() === true;
 
-  const [excludedMediaKeys, setExcludedMediaKeys] =
-    useState<Set<string>>(() => new Set());
-
-  const rejectWrongAspectMedia = useCallback(
-    (media: GalleryMedia) => {
-      if (isFocusMedia(media)) {
-        return;
-      }
-
-      setExcludedMediaKeys((current) => {
-        if (current.has(media.key)) {
-          return current;
-        }
-
-        const next = new Set(current);
-        next.add(media.key);
-        return next;
-      });
-    },
-    [],
-  );
-
   const cmsMedia =
     content?.media
       ?.map(toGalleryMedia)
@@ -658,52 +594,27 @@ export function CannesSection({ content }: CannesSectionProps) {
           item !== null,
       ) ?? [];
 
-  const orderedCmsMedia =
-    prioritizeFocusMedia(cmsMedia).filter(
-      (item) =>
-        !excludedMediaKeys.has(item.key),
-    );
+  const orderedCmsMedia = prioritizeFocusMedia(cmsMedia);
 
-  const fallbackTopRow =
-    FALLBACK_CANNES_TOP_ROW.filter(
-      (item) =>
-        !excludedMediaKeys.has(item.key),
-    );
+  const usingCmsMedia = orderedCmsMedia.length > 0;
 
-  const fallbackBottomRow =
-    FALLBACK_CANNES_BOTTOM_ROW.filter(
-      (item) =>
-        !excludedMediaKeys.has(item.key),
-    );
-
-  const usingCmsMedia =
-    orderedCmsMedia.length > 0;
-
-  const galleryMedia =
-    usingCmsMedia
-      ? orderedCmsMedia
-      : [
-        ...fallbackTopRow,
-        ...fallbackBottomRow,
-      ];
+  const galleryMedia = usingCmsMedia
+    ? orderedCmsMedia
+    : [...FALLBACK_CANNES_MEDIA];
 
   /*
-   * Correct visible order:
-   * - highlighted red-carpet interview first
-   * - then source/editor order
-   * - no leading clone before item 1
-   * - portrait / incompatible media disappears after metadata validation
+   * Fallback rows are curated and stable: six landscape cards on top and
+   * five unique landscape cards below, with the bottom row repeated only at
+   * the end when needed to keep both tracks equally robust. No post-load
+   * filtering is allowed to shrink a row and break the scroll geometry.
+   * Sanity media preserves editor order.
    */
   const galleryRows = usingCmsMedia
     ? buildGalleryRows(orderedCmsMedia)
     : [
-      expandGalleryRow(fallbackTopRow),
-      expandGalleryRow(
-        fallbackBottomRow.length > 0
-          ? fallbackBottomRow
-          : fallbackTopRow,
-      ),
-    ] as const;
+        expandGalleryRow(FALLBACK_CANNES_TOP_ROW),
+        expandGalleryRow(FALLBACK_CANNES_BOTTOM_ROW),
+      ] as const;
 
   const heading = content?.heading?.trim() || DEFAULT_HEADING;
   const description = content?.description?.trim() || DEFAULT_DESCRIPTION;
@@ -790,52 +701,75 @@ export function CannesSection({ content }: CannesSectionProps) {
 
       const compact = width < 1024;
 
+      /*
+       * Restore the original Cannes interaction:
+       * - the whole wall zooms from the centre
+       * - the top row travels left
+       * - the bottom row travels right
+       *
+       * Unlike the old implementation, the opening offset is calculated
+       * so the first real item (the red-carpet interview) stays in the
+       * opening composition instead of relying on a leading clone.
+       */
+      const openingWidth =
+        width >= 1024
+          ? card.offsetWidth * 2 + gap
+          : card.offsetWidth;
+
+      const topStartOffset = Math.max(
+        0,
+        (firstTrack.scrollWidth - openingWidth) / 2,
+      );
+
       const twoCardWidth =
         card.offsetWidth * 2 + gap;
 
       const desktopPairScale =
         twoCardWidth > 0
           ? (width * 0.92) / twoCardWidth
-          : 1.24;
+          : 1.4;
 
       const initialScale =
         width < 640
-          ? 1.06
+          ? 1.12
           : compact
-            ? 1.12
+            ? 1.22
             : Math.min(
-              1.32,
+              1.5,
               Math.max(
-                1.12,
+                1.18,
                 desktopPairScale,
               ),
             );
 
       /*
-       * Tracks are left-aligned now, so item 1 is the first visible card.
-       * Limit movement by the shortest row to guarantee that no black
-       * empty strip appears at the end of either row.
+       * Measure each row independently. Using the shortest row as a shared
+       * limit made the top interaction almost stop whenever that row lost an
+       * item. Independent travel keeps both rows balanced and fully visible.
        */
-      const availableTravels =
-        tracks.map((track) =>
-          Math.max(
-            0,
-            track.scrollWidth - width - 16,
-          ),
-        );
+      const topTrack = tracks[0];
+      const bottomTrack = tracks[1] ?? topTrack;
 
-      const safeOverflow =
-        availableTravels.length > 0
-          ? Math.min(...availableTravels)
-          : 0;
+      const topAvailable = Math.max(
+        0,
+        (topTrack.scrollWidth - width) / 2 - 16,
+      );
+      const bottomAvailable = Math.max(
+        0,
+        (bottomTrack.scrollWidth - width) / 2 - 16,
+      );
 
-      const travel = Math.min(
-        cardStep * (compact ? 0.85 : 1.35),
-        safeOverflow,
+      const topTravel = Math.min(
+        cardStep * (compact ? 1.1 : 1.75),
+        topAvailable,
+      );
+      const bottomTravel = Math.min(
+        cardStep * (compact ? 1.0 : 1.5),
+        bottomAvailable,
       );
 
       const scrollDistance = Math.round(
-        height * (compact ? 1.05 : 1.25),
+        height * (compact ? 1.1 : 1.35),
       );
 
       const totalHeight =
@@ -843,10 +777,12 @@ export function CannesSection({ content }: CannesSectionProps) {
 
       const next: GalleryGeometry = {
         height: totalHeight,
-        travel,
+        topTravel,
+        bottomTravel,
         initialScale,
         endFraction:
           scrollDistance / totalHeight,
+        topStartOffset,
       };
 
       setGeometry((current) =>
@@ -854,7 +790,10 @@ export function CannesSection({ content }: CannesSectionProps) {
           current.height - next.height,
         ) < 0.5 &&
           Math.abs(
-            current.travel - next.travel,
+            current.topTravel - next.topTravel,
+          ) < 0.5 &&
+          Math.abs(
+            current.bottomTravel - next.bottomTravel,
           ) < 0.5 &&
           Math.abs(
             current.initialScale -
@@ -863,7 +802,11 @@ export function CannesSection({ content }: CannesSectionProps) {
           Math.abs(
             current.endFraction -
             next.endFraction,
-          ) < 0.0001
+          ) < 0.0001 &&
+          Math.abs(
+            current.topStartOffset -
+            next.topStartOffset,
+          ) < 0.5
           ? current
           : next,
       );
@@ -985,28 +928,33 @@ export function CannesSection({ content }: CannesSectionProps) {
   );
 
   /* ==========================================================
-     ROW MOVEMENT
+     OPPOSING ROW MOVEMENT
 
-     Both rows start from their real first item so the visible sequence
-     is deterministic. The upper row travels slightly faster than the
-     lower row for depth, and both reverse naturally on scroll-up.
+     The top row opens on the first real media pair, then travels across the
+     full row toward the left. The bottom row starts centred and moves right.
+     Each row has its own measured travel distance, so a shorter row can never
+     throttle the other row. The smoothstep curve keeps the opening calm and
+     the reverse-scroll path perfectly deterministic.
      ========================================================== */
 
   const topX = useTransform(
     progress,
-    (value) =>
-      -geometry.travel *
-      value *
-      value,
+    (value) => {
+      const eased = value * value * (3 - 2 * value);
+
+      return (
+        geometry.topStartOffset * (1 - eased) -
+        geometry.topTravel * eased
+      );
+    },
   );
 
   const bottomX = useTransform(
     progress,
-    (value) =>
-      -geometry.travel *
-      0.72 *
-      value *
-      value,
+    (value) => {
+      const eased = value * value * (3 - 2 * value);
+      return geometry.bottomTravel * eased;
+    },
   );
 
   /* ==========================================================
@@ -1135,7 +1083,6 @@ export function CannesSection({ content }: CannesSectionProps) {
                   loadMedia={loadMedia}
                   active={sceneVisible}
                   reducedMotion={reduceMotion}
-                  onInvalidAspect={rejectWrongAspectMedia}
                 />
               ))}
             </div>
@@ -1162,19 +1109,17 @@ export function CannesSection({ content }: CannesSectionProps) {
                 loadMedia={loadMedia}
                 active={sceneVisible}
                 reducedMotion={reduceMotion}
-                onInvalidAspect={rejectWrongAspectMedia}
               />
 
-              {/* ROW 2 — SAME ORDER, SLOWER LEFT PARALLAX */}
+              {/* ROW 2 — MOVES RIGHT */}
 
               <GalleryRow
                 media={galleryRows[1]}
                 x={bottomX}
-                decorative
+                decorative={false}
                 loadMedia={loadMedia}
                 active={sceneVisible}
                 reducedMotion={reduceMotion}
-                onInvalidAspect={rejectWrongAspectMedia}
               />
             </motion.div>
           </div>

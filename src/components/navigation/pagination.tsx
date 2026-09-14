@@ -61,7 +61,7 @@ export function Pagination({
 
   const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
   const baseClass =
-    "inline-flex min-h-10 min-w-10 items-center justify-center rounded-md border px-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2";
+    "inline-flex min-h-10 min-w-10 items-center justify-center rounded-[0.25rem] border px-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2";
 
   return (
     <nav aria-label="Pagination" className="flex flex-wrap items-center justify-center gap-2">

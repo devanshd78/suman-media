@@ -31,7 +31,8 @@
 }
 
 .heading {
-    max-width: 86rem;
+    width: min(78%, 72rem);
+    max-width: 100%;
     margin: 0;
     color: #f9f9f9;
     font-family: inherit;
@@ -45,7 +46,8 @@
 }
 
 .description {
-    max-width: 89rem;
+    width: min(88%, 64rem);
+    max-width: 100%;
     margin: 1rem 0 0;
     color: #f9f9f9;
     font-family: inherit;
@@ -68,7 +70,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
     padding: 0.875rem 1.25rem;
     border-radius: 0.25rem;
     background: #fff;
@@ -133,10 +135,10 @@
     gap: var(--cannes-gap);
 
     /*
-     * Anchor the zoom to the first card instead of the centre.
-     * This is what makes item 1 stay item 1 in the opening frame.
+     * Original cinematic interaction: the complete two-row wall zooms
+     * around its horizontal centre while the tracks move independently.
      */
-    transform-origin: 0% 0%;
+    transform-origin: 50% 0%;
 }
 
 /* ============================================================
@@ -147,7 +149,7 @@
     display: flex;
     width: 100%;
     min-width: 0;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .track {
@@ -229,6 +231,14 @@
         padding-block: 80px;
     }
 
+    .heading {
+        width: min(86%, 62rem);
+    }
+
+    .description {
+        width: min(94%, 58rem);
+    }
+
     .scene {
         height: 210svh;
     }
@@ -246,10 +256,12 @@
     }
 
     .heading {
+        width: 100%;
         font-size: clamp(1.75rem, 6.4vw, 2.25rem);
     }
 
     .description {
+        width: 100%;
         line-height: 1.5;
     }
 
