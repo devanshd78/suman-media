@@ -175,7 +175,7 @@ function AnimatedWords({
               </motion.span>
 
               {index <
-              words.length - 1
+                words.length - 1
                 ? " "
                 : null}
             </span>
@@ -347,14 +347,19 @@ export function AboutSection({
               min-[390px]:text-[1.875rem]
               min-[390px]:leading-[2.25rem]
 
+              sm:max-w-[92%]
               sm:text-[2.125rem]
               sm:leading-[2.625rem]
               sm:tracking-[-0.03125rem]
 
+              md:max-w-[84%]
+
+              lg:max-w-[78%]
               lg:text-[2.5rem]
               lg:leading-[3rem]
 
-              xl:max-w-[65rem]
+              xl:max-w-[76%]
+              2xl:max-w-[74%]
             `}
           />
 
@@ -388,14 +393,19 @@ export function AboutSection({
               text-[#969696]
 
               sm:mt-7
+              sm:max-w-[96%]
               sm:text-[1.0625rem]
               sm:leading-[1.625rem]
 
+              md:max-w-[92%]
+
               lg:mt-8
+              lg:max-w-[88%]
               lg:text-[1.25rem]
               lg:leading-[1.75rem]
 
-              xl:max-w-[68rem]
+              xl:max-w-[86%]
+              2xl:max-w-[84%]
             `}
           />
 

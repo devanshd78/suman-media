@@ -21,6 +21,10 @@ import {
 
 import styles from "./industries-section.module.css";
 
+/* ============================================================
+   TYPES
+   ============================================================ */
+
 type IndustryItem = {
   key: string;
   number: string;
@@ -37,6 +41,10 @@ type IndustriesSectionProps = {
   description?: string | null;
   cta?: CmsCta | null;
 };
+
+/* ============================================================
+   INDUSTRIES
+   ============================================================ */
 
 const INDUSTRIES: IndustryItem[] = [
   {
@@ -111,6 +119,10 @@ const INDUSTRIES: IndustryItem[] = [
   },
 ];
 
+/* ============================================================
+   ICON
+   ============================================================ */
+
 function ArrowIcon() {
   return (
     <svg
@@ -131,6 +143,10 @@ function ArrowIcon() {
   );
 }
 
+/* ============================================================
+   INDUSTRY CARD
+   ============================================================ */
+
 function IndustryCard({
   industry,
 }: {
@@ -138,15 +154,12 @@ function IndustryCard({
 }) {
   return (
     <Link
-      href={`/services?industry=${encodeURIComponent(
-        industry.slug,
-      )}`}
+      href={`/services?industry=${encodeURIComponent(industry.slug)}`}
       data-rail-card
       data-industry-card
       className={styles.card}
     >
       <div className={styles.visual}>
-        {/* Original gradient background */}
         <Image
           src={industry.gradientImage}
           alt=""
@@ -157,36 +170,25 @@ function IndustryCard({
           className={styles.gradientBackground}
         />
 
-        {/*
-          Global contrast-reduction layer.
-
-          Figma:
-          fill: rgba(255, 255, 255, 0.20);
-          filter: blur(49.95000076293945px);
-        */}
         <div
           aria-hidden="true"
           className={styles.backgroundWash}
         />
 
-        {/* Existing central bloom */}
         <div
           aria-hidden="true"
           className={styles.bloom}
         />
 
-        {/* Existing texture */}
         <div
           aria-hidden="true"
           className={styles.noise}
         />
 
-        {/* Number */}
         <span className={styles.number}>
           {industry.number}
         </span>
 
-        {/* Main artwork */}
         <div
           aria-hidden="true"
           data-industry-artwork={industry.key}
@@ -207,6 +209,10 @@ function IndustryCard({
   );
 }
 
+/* ============================================================
+   INDUSTRIES SECTION
+   ============================================================ */
+
 export function IndustriesSection({
   eyebrow,
   heading,
@@ -214,22 +220,39 @@ export function IndustriesSection({
   cta,
 }: IndustriesSectionProps) {
   const section = useRef<HTMLElement>(null);
-
-  const content =
-    useRef<HTMLDivElement>(null);
-
-  const viewport =
-    useRef<HTMLDivElement>(null);
-
-  const track =
-    useRef<HTMLDivElement>(null);
+  const content = useRef<HTMLDivElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
 
   const rail = usePinnedRail({
     section,
     content,
     viewport,
     track,
+    minViewportWidth: 320,
+    minViewportHeight: 420,
+    requireFinePointer: false,
   });
+
+  const resolvedEyebrow =
+    eyebrow?.trim() ||
+    "Industries we work with";
+
+  const resolvedHeading =
+    heading?.trim() ||
+    "The Industries we work with?";
+
+  const resolvedDescription =
+    description?.trim() ||
+    "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
+
+  const resolvedCtaLabel =
+    cta?.label?.trim() ||
+    "Explore Capabilities";
+
+  const resolvedCtaHref =
+    cta?.href?.trim() ||
+    "/services";
 
   return (
     <section
@@ -258,39 +281,27 @@ export function IndustriesSection({
           <div className={styles.header}>
             <div>
               <p className={styles.eyebrow}>
-                {eyebrow?.trim() ||
-                  "Industries we work with"}
+                {resolvedEyebrow}
               </p>
 
               <h2
                 id="industries-heading"
                 className={styles.heading}
               >
-                {heading?.trim() ||
-                  "The Industries we work with?"}
+                {resolvedHeading}
               </h2>
             </div>
 
-            <div
-              className={styles.introduction}
-            >
-              <p
-                className={styles.description}
-              >
-                {description?.trim() ||
-                  "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology."}
+            <div className={styles.introduction}>
+              <p className={styles.description}>
+                {resolvedDescription}
               </p>
 
               <Link
-                href={
-                  cta?.href?.trim() ||
-                  "/services"
-                }
+                href={resolvedCtaHref}
                 className={styles.cta}
               >
-                {cta?.label?.trim() ||
-                  "Explore Capabilities"}
-
+                {resolvedCtaLabel}
                 <ArrowIcon />
               </Link>
             </div>
@@ -315,14 +326,12 @@ export function IndustriesSection({
                 x: rail.x,
               }}
             >
-              {INDUSTRIES.map(
-                (industry) => (
-                  <IndustryCard
-                    key={industry.key}
-                    industry={industry}
-                  />
-                ),
-              )}
+              {INDUSTRIES.map((industry) => (
+                <IndustryCard
+                  key={industry.key}
+                  industry={industry}
+                />
+              ))}
             </motion.div>
           </div>
         </div>

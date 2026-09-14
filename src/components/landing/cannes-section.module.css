@@ -3,35 +3,19 @@
    ============================================================ */
 
 .section {
-    /*
-   * Wider cinematic cards.
-   *
-   * Width and height are constrained independently so both rows
-   * remain visible on short laptops while the cards feel wider.
-   */
     --cannes-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
     --cannes-card-height: min(26vw, 27rem, calc((100svh - 4rem) * 0.44));
     --cannes-gap: clamp(0.75rem, 1.4vw, 1.5rem);
-
     --cannes-wall-height: calc(var(--cannes-card-height) * 2 + var(--cannes-gap));
 
     position: relative;
-
     width: 100%;
     min-width: 0;
     max-width: 100%;
-
     padding-block: 100px;
-
     background: #000;
     color: #f9f9f9;
-
     font-feature-settings: "liga" off, "clig" off;
-
-    /*
-   * Do not use overflow:hidden on an ancestor of the
-   * sticky stage. Clipping belongs on .stage instead.
-   */
     overflow: visible;
 }
 
@@ -41,32 +25,21 @@
 
 .content {
     box-sizing: border-box;
-
     width: 100%;
     margin-inline: auto;
-
-    padding-inline: clamp(1.25rem,
-            4vw,
-            4rem);
+    padding-inline: clamp(1.25rem, 4vw, 4rem);
 }
 
 .heading {
     max-width: 86rem;
     margin: 0;
-
     color: #f9f9f9;
-
     font-family: inherit;
-    font-size: clamp(2rem,
-            1.5rem + 1.25vw,
-            3rem);
-
+    font-size: clamp(2rem, 1.5rem + 1.25vw, 3rem);
     font-style: normal;
     font-weight: 600;
-
     line-height: 1.2;
     letter-spacing: -0.03125rem;
-
     overflow-wrap: break-word;
     text-wrap: balance;
 }
@@ -74,17 +47,11 @@
 .description {
     max-width: 89rem;
     margin: 1rem 0 0;
-
     color: #f9f9f9;
-
     font-family: inherit;
-    font-size: clamp(1rem,
-            0.94rem + 0.18vw,
-            1.125rem);
-
+    font-size: clamp(1rem, 0.94rem + 0.18vw, 1.125rem);
     font-style: normal;
     font-weight: 400;
-
     line-height: 1.6;
     overflow-wrap: break-word;
 }
@@ -95,35 +62,23 @@
 
 .cta {
     box-sizing: border-box;
-
     display: inline-flex;
-
     min-height: 3.5rem;
     max-width: 100%;
-
     align-items: center;
     justify-content: center;
-
     gap: 0.5rem;
-
     margin-top: 3.5rem;
     padding: 0.875rem 1.25rem;
-
     border-radius: 0.25rem;
-
     background: #fff;
     color: #8f6c1a;
-
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5rem;
-
     text-align: center;
     text-decoration: none;
-
-    transition:
-        background-color 200ms ease,
-        transform 200ms ease;
+    transition: background-color 200ms ease, transform 200ms ease;
 }
 
 .cta:focus-visible {
@@ -134,34 +89,19 @@
 .ctaArrow {
     display: inline-flex;
     flex-shrink: 0;
-
     transition: transform 250ms ease;
 }
 
 /* ============================================================
    SCROLL SCENE
-
-   The component measures and supplies the final height.
-
-   235svh is the initial desktop layout before measurement:
-   100svh stage + approximately 135svh of animation travel.
    ============================================================ */
 
 .scene {
     position: relative;
-
     width: 100%;
     min-width: 0;
-
     height: 235svh;
-
-    margin-top: clamp(3.5rem,
-            6vw,
-            6.25rem);
-
-    /*
-   * Keep this wrapper untransformed and unclipped.
-   */
+    margin-top: clamp(3.5rem, 6vw, 6.25rem);
     overflow: visible;
 }
 
@@ -172,71 +112,50 @@
 .stage {
     position: sticky;
     top: 0;
-
     width: 100%;
     height: 100svh;
-
     overflow: hidden;
     isolation: isolate;
-
     background: #000;
 }
 
 /* ============================================================
    ZOOMING IMAGE WALL
-
-   Exactly two rows.
-
-   The wall starts enlarged, then zooms out until both rows
-   fit within the stage.
    ============================================================ */
 
 .wall {
     position: absolute;
-
-    top: max(1.5rem,
-            calc((100% - var(--cannes-wall-height)) / 2));
-
+    top: max(1.5rem, calc((100% - var(--cannes-wall-height)) / 2));
     left: 0;
-
     display: flex;
     width: 100%;
-
     flex-direction: column;
     gap: var(--cannes-gap);
 
     /*
-   * Keep the upper edge stable during the zoom-out.
-   * The second row is revealed as the wall becomes smaller.
-   */
-    transform-origin: 50% 0%;
+     * Anchor the zoom to the first card instead of the centre.
+     * This is what makes item 1 stay item 1 in the opening frame.
+     */
+    transform-origin: 0% 0%;
 }
 
 /* ============================================================
    ROW LAYOUT
-
-   The row centers the track.
-   Framer Motion translates the inner track independently.
    ============================================================ */
 
 .row {
     display: flex;
-
     width: 100%;
     min-width: 0;
-
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .track {
     display: flex;
-
     width: max-content;
     max-width: none;
-
     flex: 0 0 auto;
     align-items: center;
-
     gap: var(--cannes-gap);
 }
 
@@ -246,30 +165,26 @@
 
 .card {
     position: relative;
-
     width: var(--cannes-card-width);
     height: var(--cannes-card-height);
-
     flex: 0 0 auto;
-
     margin: 0;
     overflow: hidden;
-
-    border-radius: clamp(0.75rem,
-            1.1vw,
-            1.25rem);
-
-    background: #292929;
+    border-radius: clamp(0.75rem, 1.1vw, 1.25rem);
+    background: #111;
 }
 
 .card .image,
 .card .video {
     display: block;
-
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    /*
+     * Every accepted asset fills the card edge-to-edge.
+     * No contain / letterboxing in this gallery.
+     */
+    object-fit: cover !important;
     object-position: center;
     background: #111;
 
@@ -283,15 +198,6 @@
     pointer-events: none;
 }
 
-/*
- * Three moving layers:
- *
- * 1. Complete wall scale
- * 2. Upper row translation
- * 3. Lower row translation
- *
- * Individual images are not continuously animated.
- */
 .scene[data-active="true"] .wall,
 .scene[data-active="true"] .track {
     will-change: transform;
@@ -299,8 +205,6 @@
 
 /* ============================================================
    CTA HOVER ONLY
-
-   No additional image hover zoom, tilt or rotation.
    ============================================================ */
 
 @media (hover: hover) and (pointer: fine) {
@@ -322,7 +226,6 @@
     .section {
         --cannes-card-width: min(64vw, calc((100svh - 3rem) * 0.7));
         --cannes-card-height: min(44vw, calc((100svh - 3rem) * 0.46));
-
         padding-block: 80px;
     }
 
@@ -339,14 +242,11 @@
     .section {
         --cannes-card-width: min(84vw, calc((100svh - 2rem) * 0.7));
         --cannes-card-height: min(58vw, calc((100svh - 2rem) * 0.47));
-
         padding-block: 64px;
     }
 
     .heading {
-        font-size: clamp(1.75rem,
-                6.4vw,
-                2.25rem);
+        font-size: clamp(1.75rem, 6.4vw, 2.25rem);
     }
 
     .description {
@@ -365,11 +265,6 @@
 
 /* ============================================================
    REDUCED-MOTION FALLBACK
-
-   All unique Cannes media items.
-   Three columns × two rows.
-
-   Smaller screens can scroll this static grid horizontally.
    ============================================================ */
 
 .scene[data-reduced="true"] {
@@ -379,9 +274,7 @@
 .reducedViewport {
     overflow-x: auto;
     overscroll-behavior-x: contain;
-
-    padding:
-        0.25rem clamp(1.25rem, 4vw, 4rem);
+    padding: 0.25rem clamp(1.25rem, 4vw, 4rem);
 }
 
 .reducedViewport:focus-visible {
@@ -391,19 +284,14 @@
 
 .reducedGrid {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: clamp(0.75rem,
-            1.5vw,
-            1.5rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.5vw, 1.5rem);
 }
 
 .reducedGrid .card {
     width: 100%;
     height: auto;
-    aspect-ratio: 1.4 / 1;
+    aspect-ratio: 1.46 / 1;
 }
 
 .reducedGrid .video {
@@ -413,9 +301,7 @@
 @media (max-width: 639px) {
     .reducedGrid {
         width: max-content;
-
-        grid-template-columns:
-            repeat(3, 72vw);
+        grid-template-columns: repeat(3, 72vw);
     }
 }
 

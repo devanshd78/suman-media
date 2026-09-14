@@ -13,7 +13,6 @@ import {
 } from "@/lib/fonts";
 
 import type {
-  CmsCta,
   CmsPartnerSection,
 } from "@/types/cms";
 
@@ -35,25 +34,6 @@ function ArrowRightIcon() {
     >
       <path
         d="M3.5 8h8M8.5 5l3 3-3 3"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ArrowUpRightIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 16 16"
-      className="h-4 w-4 shrink-0"
-      fill="none"
-    >
-      <path
-        d="M4 12 12 4M6.25 4H12v5.75"
         stroke="currentColor"
         strokeWidth="1.15"
         strokeLinecap="round"
@@ -98,27 +78,6 @@ const BENEFIT_VARIANTS: Variants = {
 };
 
 /* =========================================================
-   CTA FALLBACK
-   ========================================================= */
-
-function resolveCta(
-  cta?: CmsCta | null,
-): CmsCta {
-  if (
-    cta?.label?.trim() &&
-    cta?.href?.trim()
-  ) {
-    return cta;
-  }
-
-  return {
-    label: "Contact us",
-    href: "/contact",
-    style: "primary",
-  };
-}
-
-/* =========================================================
    PARTNER SECTION
    ========================================================= */
 
@@ -143,12 +102,12 @@ export function PartnerSection({
     benefits.length > 0
       ? benefits
       : DEFAULT_BENEFITS.map(
-          (title, index) => ({
-            _key: `reference-benefit-${index}`,
-            title,
-            href: null,
-          }),
-        );
+        (title, index) => ({
+          _key: `reference-benefit-${index}`,
+          title,
+          href: null,
+        }),
+      );
 
   const heading =
     content.heading?.trim() ||
@@ -158,9 +117,6 @@ export function PartnerSection({
     content.description?.trim() ||
     "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
 
-  const cta = resolveCta(
-    content.cta,
-  );
 
   return (
     <section
@@ -208,9 +164,9 @@ export function PartnerSection({
             shouldReduceMotion
               ? false
               : {
-                  opacity: 0,
-                  y: 24,
-                }
+                opacity: 0,
+                y: 24,
+              }
           }
           whileInView={{
             opacity: 1,
@@ -304,7 +260,10 @@ export function PartnerSection({
           </p>
 
           {/* ===============================================
-              CTA
+              ONLY NAVIGATING CTA
+
+              All benefit rows are display-only.
+              Contact us is the only redirect in this section.
 
               FIGMA
               border-radius: 4px
@@ -312,7 +271,7 @@ export function PartnerSection({
               =============================================== */}
 
           <Link
-            href={cta.href}
+            href="/contact"
             className={`
               ${body.className}
 
@@ -353,7 +312,7 @@ export function PartnerSection({
             }}
           >
             <span>
-              {cta.label}
+              Contact us
             </span>
 
             <span
@@ -387,62 +346,31 @@ export function PartnerSection({
             .map(
               (item, index) => {
                 const contentRow = (
-                  <>
-                    {/* =====================================
-                        BENEFIT TITLE
+                  <span
+                    className={`
+                      ${benefitFont.className}
 
-                        FIGMA
-                        Inter
-                        20px / 28px
-                        600
-                        #1A1A1A
-                        ===================================== */}
+                      text-[1rem]
+                      font-semibold
+                      leading-[1.5rem]
+                      text-[#1A1A1A]
 
-                    <span
-                      className={`
-                        ${benefitFont.className}
+                      sm:text-[1.125rem]
+                      sm:leading-[1.625rem]
 
-                        text-[1rem]
-                        font-semibold
-                        leading-[1.5rem]
-                        text-[#1A1A1A]
-
-                        sm:text-[1.125rem]
-                        sm:leading-[1.625rem]
-
-                        lg:text-[1.25rem]
-                        lg:leading-[1.75rem]
-                      `}
-                      style={{
-                        fontFeatureSettings:
-                          '"liga" off, "clig" off',
-                      }}
-                    >
-                      {item.title}
-                    </span>
-
-                    {item.href ? (
-                      <span
-                        className="
-                          ml-auto
-                          shrink-0
-                          text-[#1A1A1A]/45
-                          transition-[color,transform]
-                          duration-200
-
-                          group-hover:translate-x-0.5
-                          group-hover:-translate-y-0.5
-                          group-hover:text-[#1A1A1A]
-                        "
-                      >
-                        <ArrowUpRightIcon />
-                      </span>
-                    ) : null}
-                  </>
+                      lg:text-[1.25rem]
+                      lg:leading-[1.75rem]
+                    `}
+                    style={{
+                      fontFeatureSettings:
+                        '"liga" off, "clig" off',
+                    }}
+                  >
+                    {item.title}
+                  </span>
                 );
 
                 const rowClassName = `
-                  group
                   flex
                   min-h-[4rem]
                   w-full
@@ -487,24 +415,13 @@ export function PartnerSection({
                       amount: 0.55,
                     }}
                   >
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className={
-                          rowClassName
-                        }
-                      >
-                        {contentRow}
-                      </Link>
-                    ) : (
-                      <div
-                        className={
-                          rowClassName
-                        }
-                      >
-                        {contentRow}
-                      </div>
-                    )}
+                    <div
+                      className={
+                        rowClassName
+                      }
+                    >
+                      {contentRow}
+                    </div>
                   </motion.div>
                 );
               },

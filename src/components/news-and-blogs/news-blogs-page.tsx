@@ -8,11 +8,15 @@ import {
     useMemo,
     useRef,
     useState,
+    type FocusEvent as ReactFocusEvent,
     type PointerEvent as ReactPointerEvent,
 } from "react";
 
 import { inter, plusJakartaSans } from "@/lib/fonts";
-import type { InsightCategory, InsightListItem } from "@/types/news-and-blogs";
+import type {
+    InsightCategory,
+    InsightListItem,
+} from "@/types/news-and-blogs";
 
 import styles from "./news-blogs.module.css";
 
@@ -25,7 +29,7 @@ type FilterOption = {
     value: string;
 };
 
-const FILTERS: FilterOption[] = [
+const FILTERS: readonly FilterOption[] = [
     { label: "All Articles", value: "all" },
     { label: "Events", value: "Events" },
     { label: "New added", value: "New added" },
@@ -33,19 +37,11 @@ const FILTERS: FilterOption[] = [
     { label: "Case study", value: "Case study" },
 ];
 
-function ArrowRight() {
-    return (
-        <svg aria-hidden="true" viewBox="0 0 20 20" fill="none">
-            <path
-                d="M4 10h11M11 6l4 4-4 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-        </svg>
-    );
-}
+const DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+});
 
 function FilterRadio({ active }: { active: boolean }) {
     return (
@@ -92,39 +88,59 @@ function categoryLabel(post: InsightListItem) {
 
 function formatDate(value: string) {
     const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
 
-    return new Intl.DateTimeFormat("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    }).format(date);
+    if (Number.isNaN(date.getTime())) {
+        return value;
+    }
+
+    return DATE_FORMATTER.format(date);
 }
 
-
 function imagePosition(post: InsightListItem) {
-    if (typeof post.imageHotspotX !== "number" || typeof post.imageHotspotY !== "number") {
+    if (
+        typeof post.imageHotspotX !== "number" ||
+        typeof post.imageHotspotY !== "number"
+    ) {
         return "center";
     }
 
-    return `${Math.round(post.imageHotspotX * 100)}% ${Math.round(post.imageHotspotY * 100)}%`;
+    return `${Math.round(post.imageHotspotX * 100)}% ${Math.round(
+        post.imageHotspotY * 100,
+    )}%`;
 }
 
 function matchesFilter(post: InsightListItem, filter: string) {
-    if (filter === "all") return true;
+    if (filter === "all") {
+        return true;
+    }
 
     return (
         post.categories?.some(
-            (category: InsightCategory) => category.title.toLowerCase() === filter.toLowerCase(),
+            (category: InsightCategory) =>
+                category.title.toLowerCase() === filter.toLowerCase(),
         ) ?? false
     );
 }
 
-function Meta({ post, inverse = false }: { post: InsightListItem; inverse?: boolean }) {
+function Meta({
+    post,
+    inverse = false,
+}: {
+    post: InsightListItem;
+    inverse?: boolean;
+}) {
     return (
-        <div className={styles.meta} data-inverse={inverse ? "true" : "false"}>
-            <span className={styles.categoryPill}>{categoryLabel(post)}</span>
-            <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+        <div
+            className={styles.meta}
+            data-inverse={inverse ? "true" : "false"}
+        >
+            <span className={styles.categoryPill}>
+                {categoryLabel(post)}
+            </span>
+
+            <time dateTime={post.publishedAt}>
+                {formatDate(post.publishedAt)}
+            </time>
         </div>
     );
 }
@@ -132,7 +148,10 @@ function Meta({ post, inverse = false }: { post: InsightListItem; inverse?: bool
 function StandardCard({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.newsCard}>
-            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
+            <Link
+                href={`/news-and-blogs/${post.slug}`}
+                className={styles.cardLink}
+            >
                 <div className={styles.newsCardImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -144,6 +163,7 @@ function StandardCard({ post }: { post: InsightListItem }) {
                         className={styles.cardImage}
                     />
                 </div>
+
                 <div className={styles.cardBody}>
                     <Meta post={post} />
                     <h3>{post.title}</h3>
@@ -157,18 +177,22 @@ function StandardCard({ post }: { post: InsightListItem }) {
 function FeatureLarge({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.featureLarge}>
-            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
+            <Link
+                href={`/news-and-blogs/${post.slug}`}
+                className={styles.cardLink}
+            >
                 <div className={styles.featureLargeImageWrap}>
                     <Image
                         src={post.imageUrl}
                         alt={post.imageAlt?.trim() || post.title}
                         fill
                         loading="lazy"
-                        sizes="(max-width: 767px) 92vw, 62vw"
+                        sizes="(max-width: 767px) 92vw, 50vw"
                         style={{ objectPosition: imagePosition(post) }}
                         className={styles.cardImage}
                     />
                 </div>
+
                 <div className={styles.featureLargeBody}>
                     <Meta post={post} />
                     <h2>{post.title}</h2>
@@ -182,7 +206,10 @@ function FeatureLarge({ post }: { post: InsightListItem }) {
 function FeatureCompact({ post }: { post: InsightListItem }) {
     return (
         <article className={styles.featureCompact}>
-            <Link href={`/news-and-blogs/${post.slug}`} className={styles.compactLink}>
+            <Link
+                href={`/news-and-blogs/${post.slug}`}
+                className={styles.compactLink}
+            >
                 <div className={styles.featureCompactImageWrap}>
                     <Image
                         src={post.imageUrl}
@@ -194,6 +221,7 @@ function FeatureCompact({ post }: { post: InsightListItem }) {
                         className={styles.cardImage}
                     />
                 </div>
+
                 <div className={styles.featureCompactBody}>
                     <Meta post={post} />
                     <h3>{post.title}</h3>
@@ -212,280 +240,648 @@ export function NewsBlogsPage({ posts }: Props) {
 
     const pressRailRef = useRef<HTMLDivElement>(null);
     const pressDragStartRef = useRef({ x: 0, scrollLeft: 0 });
+    const pressPointerIdRef = useRef<number | null>(null);
     const pressDidDragRef = useRef(false);
     const suppressPressClickRef = useRef(false);
 
-    const hero = posts[0];
-    const featureLarge = posts[1] ?? posts[0];
-    const featureCompact = [posts[2] ?? posts[0], posts[3] ?? posts[1] ?? posts[0]].filter(Boolean);
-    const latestPool = posts.length > 4 ? posts.slice(4) : posts.slice(1);
+    const {
+        hero,
+        featureLarge,
+        featureCompact,
+        latestPool,
+        pressItems,
+    } = useMemo(() => {
+        const first = posts[0];
+        const large = posts[1] ?? first;
+
+        const compact = [
+            posts[2] ?? first,
+            posts[3] ?? posts[1] ?? first,
+        ].filter(
+            (post): post is InsightListItem => Boolean(post),
+        );
+
+        const latest =
+            posts.length > 4
+                ? posts.slice(4)
+                : posts.slice(1);
+
+        const pressPosts = posts.filter((post) =>
+            matchesFilter(post, "Press"),
+        );
+
+        return {
+            hero: first,
+            featureLarge: large,
+            featureCompact: compact,
+            latestPool: latest,
+            pressItems:
+                pressPosts.length > 0
+                    ? pressPosts
+                    : posts.slice(0, 4),
+        };
+    }, [posts]);
 
     const filteredLatest = useMemo(
-        () => latestPool.filter((post) => matchesFilter(post, filter)),
+        () =>
+            latestPool.filter((post) =>
+                matchesFilter(post, filter),
+            ),
         [filter, latestPool],
     );
 
-    const visibleLatest = filteredLatest.slice(0, visibleCount);
-    const pressPosts = posts.filter((post) => matchesFilter(post, "Press"));
-    const pressItems = pressPosts.length > 0 ? pressPosts : posts.slice(0, 4);
+    const visibleLatest = useMemo(
+        () => filteredLatest.slice(0, visibleCount),
+        [filteredLatest, visibleCount],
+    );
 
     const scrollPressToNearest = useCallback(() => {
         const rail = pressRailRef.current;
-        if (!rail) return;
 
-        const cards = Array.from(rail.querySelectorAll<HTMLElement>("[data-press-card]"));
-        if (!cards.length) return;
+        if (!rail) {
+            return;
+        }
 
-        const railLeft = rail.getBoundingClientRect().left;
+        const cards = Array.from(
+            rail.querySelectorAll<HTMLElement>(
+                "[data-press-card]",
+            ),
+        );
+
+        if (cards.length === 0) {
+            return;
+        }
+
+        const railLeft =
+            rail.getBoundingClientRect().left;
+
         let nearest = cards[0];
-        let nearestDistance = Number.POSITIVE_INFINITY;
+        let nearestDistance =
+            Number.POSITIVE_INFINITY;
 
         for (const card of cards) {
-            const distance = Math.abs(card.getBoundingClientRect().left - railLeft);
+            const distance = Math.abs(
+                card.getBoundingClientRect().left -
+                railLeft,
+            );
+
             if (distance < nearestDistance) {
                 nearest = card;
                 nearestDistance = distance;
             }
         }
 
-        const computed = window.getComputedStyle(rail);
-        const leftPadding = Number.parseFloat(computed.paddingLeft) || 0;
+        const computed =
+            window.getComputedStyle(rail);
+
+        const leftPadding =
+            Number.parseFloat(
+                computed.paddingLeft,
+            ) || 0;
+
         rail.scrollTo({
-            left: Math.max(0, nearest.offsetLeft - leftPadding),
-            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            left: Math.max(
+                0,
+                nearest.offsetLeft - leftPadding,
+            ),
+            behavior: window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches
+                ? "auto"
+                : "smooth",
         });
     }, []);
 
-    const advancePressCarousel = useCallback(() => {
-        const rail = pressRailRef.current;
-        if (!rail) return;
+    const advancePressCarousel =
+        useCallback(() => {
+            const rail = pressRailRef.current;
 
-        const cards = Array.from(rail.querySelectorAll<HTMLElement>("[data-press-card]"));
-        if (cards.length < 2) return;
-
-        const computed = window.getComputedStyle(rail);
-        const leftPadding = Number.parseFloat(computed.paddingLeft) || 0;
-        const currentLeft = rail.scrollLeft + leftPadding;
-        let currentIndex = 0;
-        let closestDistance = Number.POSITIVE_INFINITY;
-
-        cards.forEach((card, index) => {
-            const distance = Math.abs(card.offsetLeft - currentLeft);
-            if (distance < closestDistance) {
-                currentIndex = index;
-                closestDistance = distance;
+            if (!rail) {
+                return;
             }
-        });
 
-        const nextIndex = (currentIndex + 1) % cards.length;
-        const nextCard = cards[nextIndex];
-        rail.scrollTo({
-            left: nextIndex === 0 ? 0 : Math.max(0, nextCard.offsetLeft - leftPadding),
-            behavior: "smooth",
-        });
-    }, []);
+            const cards = Array.from(
+                rail.querySelectorAll<HTMLElement>(
+                    "[data-press-card]",
+                ),
+            );
+
+            if (cards.length < 2) {
+                return;
+            }
+
+            const computed =
+                window.getComputedStyle(rail);
+
+            const leftPadding =
+                Number.parseFloat(
+                    computed.paddingLeft,
+                ) || 0;
+
+            const currentLeft =
+                rail.scrollLeft + leftPadding;
+
+            let currentIndex = 0;
+            let closestDistance =
+                Number.POSITIVE_INFINITY;
+
+            cards.forEach((card, index) => {
+                const distance = Math.abs(
+                    card.offsetLeft - currentLeft,
+                );
+
+                if (distance < closestDistance) {
+                    currentIndex = index;
+                    closestDistance = distance;
+                }
+            });
+
+            const nextIndex =
+                (currentIndex + 1) % cards.length;
+
+            const nextCard = cards[nextIndex];
+
+            rail.scrollTo({
+                left:
+                    nextIndex === 0
+                        ? 0
+                        : Math.max(
+                            0,
+                            nextCard.offsetLeft -
+                            leftPadding,
+                        ),
+                behavior: "smooth",
+            });
+        }, []);
 
     useEffect(() => {
-        if (pressItems.length < 2 || pressDragging || pressPaused) return;
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (
+            pressItems.length < 2 ||
+            pressDragging ||
+            pressPaused ||
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)",
+            ).matches
+        ) {
+            return;
+        }
 
-        const timer = window.setInterval(advancePressCarousel, 4500);
-        return () => window.clearInterval(timer);
-    }, [advancePressCarousel, pressDragging, pressItems.length, pressPaused]);
+        const timer = window.setInterval(
+            advancePressCarousel,
+            4500,
+        );
 
-    const handlePressPointerDown = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
-        if (event.button !== 0) return;
-
-        const rail = pressRailRef.current;
-        if (!rail) return;
-
-        pressDidDragRef.current = false;
-        pressDragStartRef.current = {
-            x: event.clientX,
-            scrollLeft: rail.scrollLeft,
+        return () => {
+            window.clearInterval(timer);
         };
-        rail.setPointerCapture(event.pointerId);
-        setPressDragging(true);
-        setPressPaused(true);
-    }, []);
+    }, [
+        advancePressCarousel,
+        pressDragging,
+        pressItems.length,
+        pressPaused,
+    ]);
 
-    const handlePressPointerMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
-        if (!pressDragging) return;
+    const handlePressPointerDown =
+        useCallback(
+            (
+                event: ReactPointerEvent<HTMLDivElement>,
+            ) => {
+                if (
+                    event.pointerType === "mouse" &&
+                    event.button !== 0
+                ) {
+                    return;
+                }
 
-        const rail = pressRailRef.current;
-        if (!rail) return;
+                const rail = pressRailRef.current;
 
-        const delta = event.clientX - pressDragStartRef.current.x;
-        if (Math.abs(delta) > 4) pressDidDragRef.current = true;
-        rail.scrollLeft = pressDragStartRef.current.scrollLeft - delta;
-    }, [pressDragging]);
+                if (!rail) {
+                    return;
+                }
 
-    const finishPressDrag = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
-        const rail = pressRailRef.current;
-        if (!rail) return;
+                pressPointerIdRef.current =
+                    event.pointerId;
+                pressDidDragRef.current = false;
 
-        if (rail.hasPointerCapture(event.pointerId)) {
-            rail.releasePointerCapture(event.pointerId);
-        }
+                pressDragStartRef.current = {
+                    x: event.clientX,
+                    scrollLeft: rail.scrollLeft,
+                };
 
-        if (pressDidDragRef.current) {
-            suppressPressClickRef.current = true;
-            window.setTimeout(() => {
-                suppressPressClickRef.current = false;
-            }, 0);
-        }
+                rail.setPointerCapture(
+                    event.pointerId,
+                );
 
-        setPressDragging(false);
-        setPressPaused(false);
-        window.requestAnimationFrame(scrollPressToNearest);
-    }, [scrollPressToNearest]);
+                setPressDragging(true);
+                setPressPaused(true);
+            },
+            [],
+        );
 
-    if (!hero) return null;
+    const handlePressPointerMove =
+        useCallback(
+            (
+                event: ReactPointerEvent<HTMLDivElement>,
+            ) => {
+                if (
+                    pressPointerIdRef.current !==
+                    event.pointerId
+                ) {
+                    return;
+                }
+
+                const rail = pressRailRef.current;
+
+                if (!rail) {
+                    return;
+                }
+
+                const delta =
+                    event.clientX -
+                    pressDragStartRef.current.x;
+
+                if (Math.abs(delta) > 4) {
+                    pressDidDragRef.current = true;
+                }
+
+                rail.scrollLeft =
+                    pressDragStartRef.current.scrollLeft -
+                    delta;
+            },
+            [],
+        );
+
+    const finishPressDrag = useCallback(
+        (
+            event: ReactPointerEvent<HTMLDivElement>,
+        ) => {
+            if (
+                pressPointerIdRef.current !==
+                event.pointerId
+            ) {
+                return;
+            }
+
+            const rail = pressRailRef.current;
+
+            if (!rail) {
+                pressPointerIdRef.current = null;
+                setPressDragging(false);
+                return;
+            }
+
+            if (
+                rail.hasPointerCapture(
+                    event.pointerId,
+                )
+            ) {
+                rail.releasePointerCapture(
+                    event.pointerId,
+                );
+            }
+
+            if (pressDidDragRef.current) {
+                suppressPressClickRef.current = true;
+
+                window.setTimeout(() => {
+                    suppressPressClickRef.current = false;
+                }, 120);
+            }
+
+            pressPointerIdRef.current = null;
+            setPressDragging(false);
+            setPressPaused(false);
+
+            window.requestAnimationFrame(
+                scrollPressToNearest,
+            );
+        },
+        [scrollPressToNearest],
+    );
+
+    const handlePressBlur = useCallback(
+        (
+            event: ReactFocusEvent<HTMLDivElement>,
+        ) => {
+            const nextTarget =
+                event.relatedTarget;
+
+            if (
+                nextTarget instanceof Node &&
+                event.currentTarget.contains(
+                    nextTarget,
+                )
+            ) {
+                return;
+            }
+
+            setPressPaused(false);
+        },
+        [],
+    );
+
+    if (!hero || !featureLarge) {
+        return null;
+    }
 
     return (
-        <main className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}>
-            <section className={styles.hero} aria-labelledby="news-blogs-hero-title">
-                <Link href={`/news-and-blogs/${hero.slug}`} className={styles.heroLink}>
+        <main
+            className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}
+        >
+            <section
+                className={styles.hero}
+                aria-labelledby="news-blogs-hero-title"
+            >
+                <Link
+                    href={`/news-and-blogs/${hero.slug}`}
+                    className={styles.heroLink}
+                >
                     <Image
                         src={hero.imageUrl}
-                        alt={hero.imageAlt?.trim() || hero.title}
+                        alt={
+                            hero.imageAlt?.trim() ||
+                            hero.title
+                        }
                         fill
                         priority
                         sizes="100vw"
-                        style={{ objectPosition: imagePosition(hero) }}
+                        style={{
+                            objectPosition:
+                                imagePosition(hero),
+                        }}
                         className={styles.heroImage}
                     />
-                    <div className={styles.heroShade} aria-hidden="true" />
+
+                    <div
+                        className={styles.heroShade}
+                        aria-hidden="true"
+                    />
+
                     <div className={styles.heroCopy}>
                         <Meta post={hero} inverse />
-                        <h1 id="news-blogs-hero-title">{hero.title}</h1>
+
+                        <h1 id="news-blogs-hero-title">
+                            {hero.title}
+                        </h1>
+
                         <p>{hero.excerpt}</p>
                     </div>
                 </Link>
             </section>
 
-            <section className={styles.featured} aria-label="Featured articles">
-                <div className={styles.featuredGrid}>
-                    <FeatureLarge post={featureLarge} />
-                    <div className={styles.featureCompactStack}>
+            <section
+                className={styles.featured}
+                aria-label="Featured articles"
+            >
+                <div
+                    className={styles.featuredGrid}
+                >
+                    <FeatureLarge
+                        post={featureLarge}
+                    />
+
+                    <div
+                        className={
+                            styles.featureCompactStack
+                        }
+                    >
                         {featureCompact.map((post) => (
-                            <FeatureCompact key={post._id} post={post} />
+                            <FeatureCompact
+                                key={post._id}
+                                post={post}
+                            />
                         ))}
                     </div>
                 </div>
             </section>
 
-            <section className={styles.latestSection} aria-labelledby="latest-news-heading">
-                <div className={styles.sectionHeadingRow}>
-                    <h2 id="latest-news-heading">Latest News</h2>
-                    <div className={styles.filters} role="group" aria-label="Filter latest news">
+            <section
+                className={styles.latestSection}
+                aria-labelledby="latest-news-heading"
+            >
+                <div
+                    className={
+                        styles.sectionHeadingRow
+                    }
+                >
+                    <h2 id="latest-news-heading">
+                        Latest News
+                    </h2>
+
+                    <div
+                        className={styles.filters}
+                        role="group"
+                        aria-label="Filter latest news"
+                    >
                         {FILTERS.map((option) => {
-                            const active = filter === option.value;
+                            const active =
+                                filter === option.value;
+
                             return (
                                 <button
                                     key={option.value}
                                     type="button"
-                                    className={styles.filterButton}
-                                    data-active={active ? "true" : "false"}
+                                    className={
+                                        styles.filterButton
+                                    }
+                                    data-active={
+                                        active
+                                            ? "true"
+                                            : "false"
+                                    }
                                     aria-pressed={active}
                                     onClick={() => {
-                                        setFilter(option.value);
+                                        setFilter(
+                                            option.value,
+                                        );
                                         setVisibleCount(9);
                                     }}
                                 >
-                                    <FilterRadio active={active} />
-                                    <span>{option.label}</span>
+                                    <FilterRadio
+                                        active={active}
+                                    />
+
+                                    <span>
+                                        {option.label}
+                                    </span>
                                 </button>
                             );
                         })}
                     </div>
                 </div>
 
-                <div className={styles.newsGrid}>
-                    {visibleLatest.map((post) => (
-                        <StandardCard key={post._id} post={post} />
-                    ))}
-                </div>
+                {visibleLatest.length > 0 ? (
+                    <div className={styles.newsGrid}>
+                        {visibleLatest.map((post) => (
+                            <StandardCard
+                                key={post._id}
+                                post={post}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className={styles.emptyState}>
+                        No articles are available in this
+                        category yet.
+                    </p>
+                )}
 
-                {visibleLatest.length < filteredLatest.length ? (
+                {visibleLatest.length <
+                    filteredLatest.length ? (
                     <button
                         type="button"
                         className={styles.loadMore}
-                        onClick={() => setVisibleCount((count) => count + 6)}
+                        onClick={() =>
+                            setVisibleCount(
+                                (count) => count + 6,
+                            )
+                        }
                     >
                         load more
                     </button>
                 ) : null}
             </section>
 
-            <section className={styles.pressSection} aria-labelledby="press-heading">
-                <div className={styles.pressHeadingRow}>
-                    <h2 id="press-heading">Press</h2>
-                    <nav className={styles.pressLinks} aria-label="Press links">
-                        <Link href="/contact">Contact us</Link>
-                        <Link href="/contact">Contact us</Link>
-                        <Link href="/case-studies">case study</Link>
-                    </nav>
-                </div>
-
-                <div
-                    ref={pressRailRef}
-                    className={styles.pressRail}
-                    data-dragging={pressDragging ? "true" : "false"}
-                    data-lenis-prevent
-                    role="region"
-                    aria-label="Press carousel"
-                    tabIndex={0}
-                    onPointerEnter={() => setPressPaused(true)}
-                    onPointerLeave={() => {
-                        if (!pressDragging) setPressPaused(false);
-                    }}
-                    onFocusCapture={() => setPressPaused(true)}
-                    onBlurCapture={() => setPressPaused(false)}
-                    onPointerDown={handlePressPointerDown}
-                    onPointerMove={handlePressPointerMove}
-                    onPointerUp={finishPressDrag}
-                    onPointerCancel={finishPressDrag}
-                    onClickCapture={(event) => {
-                        if (!suppressPressClickRef.current) return;
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }}
+            {pressItems.length > 0 ? (
+                <section
+                    className={styles.pressSection}
+                    aria-labelledby="press-heading"
                 >
-                    {pressItems.map((post, index) => (
-                        <article
-                            className={styles.pressCard}
-                            key={`${post._id}-${index}`}
-                            data-press-card
-                        >
-                            <Link href={`/news-and-blogs/${post.slug}`} className={styles.cardLink}>
-                                <div className={styles.pressImageWrap}>
-                                    <Image
-                                        src={post.imageUrl}
-                                        alt={post.imageAlt?.trim() || post.title}
-                                        fill
-                                        loading="lazy"
-                                        sizes="(max-width: 767px) 86vw, 46vw"
-                                        style={{ objectPosition: imagePosition(post) }}
-                                        className={styles.cardImage}
-                                    />
-                                </div>
-                                <div className={styles.pressBody}>
-                                    <Meta post={post} />
-                                    <h3>{post.title}</h3>
-                                    <p>{post.excerpt}</p>
-                                </div>
-                            </Link>
-                        </article>
-                    ))}
-                </div>
-            </section>
+                    <div
+                        className={
+                            styles.pressHeadingRow
+                        }
+                    >
+                        <h2 id="press-heading">
+                            Press
+                        </h2>
 
-            <div className={styles.mobileViewAll}>
-                <Link href="#latest-news-heading">
-                    View all <ArrowRight />
-                </Link>
-            </div>
+                        <nav
+                            className={
+                                styles.pressLinks
+                            }
+                            aria-label="Press links"
+                        >
+                            <Link href="/contact">
+                                Contact us
+                            </Link>
+
+                            <Link href="/case-studies">
+                                Case study
+                            </Link>
+                        </nav>
+                    </div>
+
+                    <div
+                        ref={pressRailRef}
+                        className={styles.pressRail}
+                        data-dragging={
+                            pressDragging
+                                ? "true"
+                                : "false"
+                        }
+                        data-lenis-prevent
+                        role="region"
+                        aria-label="Press carousel"
+                        tabIndex={0}
+                        onPointerEnter={() =>
+                            setPressPaused(true)
+                        }
+                        onPointerLeave={() => {
+                            if (!pressDragging) {
+                                setPressPaused(false);
+                            }
+                        }}
+                        onFocusCapture={() =>
+                            setPressPaused(true)
+                        }
+                        onBlurCapture={
+                            handlePressBlur
+                        }
+                        onPointerDown={
+                            handlePressPointerDown
+                        }
+                        onPointerMove={
+                            handlePressPointerMove
+                        }
+                        onPointerUp={
+                            finishPressDrag
+                        }
+                        onPointerCancel={
+                            finishPressDrag
+                        }
+                        onClickCapture={(event) => {
+                            if (
+                                !suppressPressClickRef.current
+                            ) {
+                                return;
+                            }
+
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }}
+                    >
+                        {pressItems.map(
+                            (post, index) => (
+                                <article
+                                    className={
+                                        styles.pressCard
+                                    }
+                                    key={`${post._id}-${index}`}
+                                    data-press-card
+                                >
+                                    <Link
+                                        href={`/news-and-blogs/${post.slug}`}
+                                        className={
+                                            styles.cardLink
+                                        }
+                                    >
+                                        <div
+                                            className={
+                                                styles.pressImageWrap
+                                            }
+                                        >
+                                            <Image
+                                                src={post.imageUrl}
+                                                alt={
+                                                    post.imageAlt?.trim() ||
+                                                    post.title
+                                                }
+                                                fill
+                                                loading="lazy"
+                                                sizes="(max-width: 767px) 86vw, 46vw"
+                                                style={{
+                                                    objectPosition:
+                                                        imagePosition(
+                                                            post,
+                                                        ),
+                                                }}
+                                                className={
+                                                    styles.cardImage
+                                                }
+                                            />
+                                        </div>
+
+                                        <div
+                                            className={
+                                                styles.pressBody
+                                            }
+                                        >
+                                            <Meta post={post} />
+                                            <h3>
+                                                {post.title}
+                                            </h3>
+                                            <p>
+                                                {post.excerpt}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </article>
+                            ),
+                        )}
+                    </div>
+                </section>
+            ) : null}
         </main>
     );
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   motion,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -31,7 +32,6 @@ import styles from "./services-scroll-gallery.module.css";
 type Props = {
   eyebrow?: string | null;
   heading?: string | null;
-
   services: CmsFeaturedService[];
 };
 
@@ -40,24 +40,16 @@ type Item = {
   number: number;
 };
 
-type ScrollDirection = "down" | "up";
-
 type Geometry = {
   width: number;
   height: number;
-
   cardWidth: number;
   cardHeight: number;
-
   frontTop: number;
-
   step: number;
-
   perspective: number;
   spacing: number;
-
   stride: number;
-
   pinned: boolean;
 };
 
@@ -83,20 +75,13 @@ const COLORS = [
 const INITIAL: Geometry = {
   width: 0,
   height: 0,
-
   cardWidth: 0,
   cardHeight: 0,
-
   frontTop: 0,
-
   step: 0,
-
-  perspective: 2000,
-
-  spacing: 470,
-
-  stride: 1,
-
+  perspective: 1800,
+  spacing: 360,
+  stride: 560,
   pinned: false,
 };
 
@@ -108,21 +93,39 @@ const clamp = (
   value: number,
   min = 0,
   max = 1,
-) =>
-  Math.min(
-    max,
-    Math.max(
-      min,
-      value,
-    ),
-  );
+) => Math.min(max, Math.max(min, value));
+
+const lerp = (
+  from: number,
+  to: number,
+  progress: number,
+) => from + (to - from) * progress;
+
+const smoothstep = (value: number) => {
+  const t = clamp(value);
+  return t * t * (3 - 2 * t);
+};
+
+const easeInCubic = (value: number) => {
+  const t = clamp(value);
+  return t * t * t;
+};
+
+const fadeOutNearEnd = (value: number) => {
+  const t = clamp((value - 0.72) / 0.28);
+  return 1 - smoothstep(t);
+};
 
 /* ============================================================
    RESPONSIVE GEOMETRY
 
-   One exact vertical scroll distance controls the gallery.
+   IMPORTANT:
+   Animated stacking is now available at every practical viewport
+   size. Width/height no longer decide whether the component falls
+   back to a vertical list.
 
-   No additional empty scrolling after the cards finish.
+   The only normal reason to avoid the scroll-linked motion is the
+   user's reduced-motion preference (or a single service).
    ============================================================ */
 
 export function calculateServiceGeometry(
@@ -131,144 +134,121 @@ export function calculateServiceGeometry(
   count: number,
   reduced: boolean,
 ): Geometry {
-  const compact =
-    width < 900;
+  const safeWidth = Math.max(280, width);
+  const safeHeight = Math.max(420, height);
 
-  /* ==========================================================
-     RESPONSIVE CARD HEIGHT
-     ========================================================== */
+  const compact = safeWidth < 900;
+  const veryNarrow = safeWidth < 540;
+  const shortScreen = safeHeight < 680;
 
-  const cardHeight =
-    Math.min(
-      compact
-        ? 580
-        : 600,
+  /* Reserve enough room for the large heading above the card stack. */
+  const headingZone = Math.min(
+    compact ? 150 : 180,
+    Math.max(
+      compact ? 88 : 110,
+      safeHeight * (compact ? 0.18 : 0.2),
+    ),
+  );
 
-      Math.max(
-        compact
-          ? 450
-          : 325,
+  const bottomInset = compact ? 16 : 28;
 
-        height *
-        (
-          compact
-            ? 0.6
-            : 0.52
-        ),
-      ),
-    );
+  const availableCardHeight = Math.max(
+    250,
+    safeHeight - headingZone - bottomInset,
+  );
 
-  /* ==========================================================
-     FRONT CARD LOCATION
-     ========================================================== */
+  const desiredCardHeight =
+    safeHeight *
+    (compact
+      ? shortScreen
+        ? 0.58
+        : 0.62
+      : shortScreen
+        ? 0.5
+        : 0.56);
 
-  const frontTop =
-    height -
-    32 -
-    cardHeight;
+  const cardHeight = Math.min(
+    compact ? 570 : 620,
+    availableCardHeight,
+    Math.max(
+      veryNarrow ? 280 : 310,
+      desiredCardHeight,
+    ),
+  );
 
-  /* ==========================================================
-     BACK STACK LOCATION
-     ========================================================== */
+  const frontTop = Math.max(
+    headingZone,
+    safeHeight - bottomInset - cardHeight,
+  );
 
-  const backTop =
-    Math.min(
-      190,
+  /*
+   * Keep the back of the stack above the foreground card, but make
+   * the value adapt to short screens instead of disabling animation.
+   */
+  const desiredBackTop = Math.min(
+    compact ? 120 : 155,
+    Math.max(
+      compact ? 58 : 72,
+      safeHeight * (compact ? 0.1 : 0.12),
+    ),
+  );
 
-      Math.max(
-        100,
-        height * 0.18,
-      ),
-    );
+  const backTop = Math.min(
+    desiredBackTop,
+    Math.max(
+      24,
+      frontTop - Math.max(36, count * 7),
+    ),
+  );
 
-  /* ==========================================================
-     STACK STEP
-     ========================================================== */
+  const rawStep =
+    count > 1
+      ? (frontTop - backTop) / (count - 1)
+      : 0;
 
   const step =
     count > 1
-      ? Math.min(
-        42,
-
-        (
-          frontTop -
-          backTop
-        ) /
-        (
-          count -
-          1
-        ),
+      ? Math.max(
+        6,
+        Math.min(compact ? 26 : 38, rawStep),
       )
       : 0;
 
-  /* ==========================================================
-     SCROLL STRIDE
+  const horizontalInset = compact ? 14 : 44;
 
-     Previously this was extremely long and then the card also
-     had a completely static middle range.
+  const cardWidth = Math.min(
+    Math.max(240, safeWidth - horizontalInset * 2),
+    compact ? 820 : 1180,
+  );
 
-     Now:
-     - enough scrolling to read
-     - continuous visual response
-     - no giant dead scroll period
-     ========================================================== */
-
-  const stride =
-    Math.round(
-      Math.max(
-        620,
-
-        Math.min(
-          980,
-          height * 0.95,
-        ),
+  /*
+   * One scroll slice transitions exactly one foreground card into the
+   * next card. The stride scales with viewport height but is bounded so
+   * short laptops and tall phones both remain controllable.
+   */
+  const stride = Math.round(
+    Math.max(
+      compact ? 390 : 460,
+      Math.min(
+        compact ? 720 : 820,
+        safeHeight * (compact ? 0.76 : 0.8),
       ),
-    );
+    ),
+  );
 
   return {
-    width,
-    height,
-
-    cardWidth:
-      Math.min(
-        width -
-        (
-          compact
-            ? 28
-            : 88
-        ),
-
-        1400,
-      ),
-
+    width: safeWidth,
+    height: safeHeight,
+    cardWidth,
     cardHeight,
-
     frontTop,
-
-    step:
-      Math.max(
-        10,
-        step,
-      ),
-
-    perspective:
-      compact
-        ? 1400
-        : 2000,
-
-    spacing:
-      compact
-        ? 300
-        : 470,
-
+    step,
+    perspective: compact ? 1350 : 1900,
+    spacing: compact ? 220 : 360,
     stride,
-
     pinned:
       !reduced &&
-      count > 1 &&
-      width >= 360 &&
-      height >= 600 &&
-      step >= 12,
+      count > 1,
   };
 }
 
@@ -313,99 +293,51 @@ function CardContent({
   } = item;
 
   return (
-    <div
-      className={
-        styles.cardBody
-      }
-    >
-      {/* =====================================================
-          COPY
-          ===================================================== */}
-
+    <div className={styles.cardBody}>
       <div
-        className={
-          styles.copy
-        }
+        className={styles.copy}
         data-lenis-prevent
       >
-        <span
-          className={
-            styles.number
-          }
-        >
-          {String(
-            number,
-          ).padStart(
-            2,
-            "0",
-          )}
+        <span className={styles.number}>
+          {String(number).padStart(2, "0")}
         </span>
 
-        <div
-          className={
-            styles.details
-          }
-        >
+        <div className={styles.details}>
           <h3>
-            {service.title ||
-              `Service ${number}`}
+            {service.title || `Service ${number}`}
           </h3>
 
           {service.shortDescription ? (
             <p>
-              {
-                service.shortDescription
-              }
+              {service.shortDescription}
             </p>
           ) : null}
 
           {service.slug ? (
             <Link
               href={`/services/${service.slug}`}
-              tabIndex={
-                interactive
-                  ? 0
-                  : -1
-              }
-              className={
-                styles.cta
-              }
+              tabIndex={interactive ? 0 : -1}
+              className={styles.cta}
             >
               Explore Capabilities
-
               <Arrow />
             </Link>
           ) : null}
         </div>
       </div>
 
-      {/* =====================================================
-          IMAGE
-          ===================================================== */}
-
-      <div
-        className={
-          styles.image
-        }
-      >
+      <div className={styles.image}>
         {service.imageUrl ? (
           <Image
-            src={
-              service.imageUrl
-            }
+            src={service.imageUrl}
             alt={
               service.imageAlt?.trim() ||
               service.title
             }
             fill
             loading="lazy"
-            sizes="
-              (max-width: 899px) 94vw,
-              45vw
-            "
-            className={
-              styles.cover
-            }
+            sizes="(max-width: 899px) calc(100vw - 28px), 50vw"
+            className={styles.cover}
           />
         ) : null}
       </div>
@@ -416,23 +348,16 @@ function CardContent({
 /* ============================================================
    SERVICE FRAME
 
-   Each card gets exactly one scroll unit.
+   The transform is direction-independent.
 
-   IMPORTANT:
+   This is the key reliability change:
+   scrolling down and scrolling back up use the SAME MotionValue path,
+   so there is no state switch that can make cards pop, freeze, or fall
+   back into a line-by-line layout.
 
-   There is NO stored "furthest scroll position".
-
-   Therefore:
-
-   scroll down
-      ↓
-   08 → 07 → 06 → ...
-
-   scroll back up
-      ↑
-   ... → 06 → 07 → 08
-
-   Everything reconstructs naturally.
+   Each slice does two things together:
+   1. current foreground card exits
+   2. next stacked card arrives at the foreground
    ============================================================ */
 
 function ServiceFrame({
@@ -442,20 +367,13 @@ function ServiceFrame({
   progress,
   geometry,
   active,
-  direction,
 }: {
   item: Item;
-
   index: number;
   total: number;
-
-  progress:
-  MotionValue<number>;
-
+  progress: MotionValue<number>;
   geometry: Geometry;
-
   active: boolean;
-  direction: ScrollDirection;
 }) {
   const {
     cardHeight,
@@ -464,406 +382,141 @@ function ServiceFrame({
     step,
   } = geometry;
 
-  const isFirst =
-    index === 0;
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
 
-  const isLast =
-    index ===
-    total - 1;
-
-  /* ==========================================================
-     RESTING Z
-     ========================================================== */
-
-  const restZ =
-    -index *
-    spacing;
-
-  /* ==========================================================
-     PERSPECTIVE COMPENSATION
-     ========================================================== */
+  const restZ = -index * spacing;
 
   const ratio =
     perspective /
-    (
-      perspective -
-      restZ
-    );
+    (perspective - restZ);
 
   const restY =
-    (
-      cardHeight *
-      (
-        ratio -
-        1
-      ) /
-      2 -
-      index *
-      step
-    ) /
-    ratio;
+    isFirst
+      ? 0
+      : (
+        cardHeight * (ratio - 1) / 2 -
+        index * step
+      ) / ratio;
 
-  /* ==========================================================
-     LOCAL CARD PROGRESS
+  const y = useTransform(
+    progress,
+    (value) => {
+      if (isLast) {
+        if (isFirst) return 0;
 
-     progress:
-       0 → 8
+        const arrival = smoothstep(
+          value - (index - 1),
+        );
 
-     card 08:
-       local 0 → 1
+        return lerp(restY, 0, arrival);
+      }
 
-     card 07:
-       local 0 → 1 after progress reaches 1
+      if (value < index) {
+        if (isFirst) return 0;
 
-     etc.
+        const arrival = smoothstep(
+          value - (index - 1),
+        );
 
-     This value automatically decreases while scrolling upward.
-     ========================================================== */
+        return lerp(restY, 0, arrival);
+      }
 
-  const local =
-    useTransform(
-      progress,
+      const exit = clamp(value - index);
+      return cardHeight * 0.72 * easeInCubic(exit);
+    },
+  );
 
-      (
-        value,
-      ) =>
-        clamp(
-          value -
-          index,
-        ),
-    );
+  const z = useTransform(
+    progress,
+    (value) => {
+      if (isLast) {
+        if (isFirst) return 0;
 
-  /* ==========================================================
-     LAST CARD
+        const arrival = smoothstep(
+          value - (index - 1),
+        );
 
-     Last card does not fly away.
+        return lerp(restZ, 0, arrival);
+      }
 
-     It continuously moves from the back of the stack
-     to foreground.
+      if (value < index) {
+        if (isFirst) return 0;
 
-     It reaches foreground exactly when Services finishes.
-     ========================================================== */
+        const arrival = smoothstep(
+          value - (index - 1),
+        );
 
-  const lastY =
-    useTransform(
-      local,
+        return lerp(restZ, 0, arrival);
+      }
 
-      [
-        0,
-        0.55,
-        1,
-      ],
+      const exit = clamp(value - index);
+      return perspective * 0.82 * easeInCubic(exit);
+    },
+  );
 
-      [
-        restY,
+  const rotateX = useTransform(
+    progress,
+    (value) => {
+      if (isLast || value < index) {
+        return 0;
+      }
 
-        restY *
-        0.18,
+      const exit = clamp(value - index);
+      return 70 * easeInCubic(exit);
+    },
+  );
 
-        0,
-      ],
-    );
+  const opacity = useTransform(
+    progress,
+    (value) => {
+      if (isLast || value < index) {
+        return 1;
+      }
 
-  const lastZ =
-    useTransform(
-      local,
-
-      [
-        0,
-        0.55,
-        1,
-      ],
-
-      [
-        restZ,
-
-        restZ *
-        0.18,
-
-        0,
-      ],
-    );
-
-  /* ==========================================================
-     NORMAL CARD Y
-
-     No static hold.
-
-     rest
-       ↓
-     readable foreground
-       ↓
-     tiny continuous drift
-       ↓
-     exit
-     ========================================================== */
-
-  const normalY =
-    useTransform(
-      local,
-
-      [
-        0,
-        0.38,
-        0.68,
-        1,
-      ],
-
-      isFirst
-        ? [
-          0,
-
-          -cardHeight *
-          0.01,
-
-          -cardHeight *
-          0.035,
-
-          cardHeight *
-          0.68,
-        ]
-        : [
-          restY,
-
-          0,
-
-          -cardHeight *
-          0.035,
-
-          cardHeight *
-          0.68,
-        ],
-    );
-
-  /* ==========================================================
-     NORMAL CARD Z
-     ========================================================== */
-
-  const normalZ =
-    useTransform(
-      local,
-
-      [
-        0,
-        0.38,
-        0.68,
-        1,
-      ],
-
-      isFirst
-        ? [
-          0,
-
-          perspective *
-          0.01,
-
-          perspective *
-          0.035,
-
-          perspective *
-          0.82,
-        ]
-        : [
-          restZ,
-
-          0,
-
-          perspective *
-          0.035,
-
-          perspective *
-          0.82,
-        ],
-    );
-
-  /* ==========================================================
-     ROTATION
-     ========================================================== */
-
-  const normalRotateX =
-    useTransform(
-      local,
-
-      [
-        0,
-        0.38,
-        0.68,
-        1,
-      ],
-
-      [
-        0,
-        0,
-        3,
-        70,
-      ],
-    );
-
-  /* ==========================================================
-     OPACITY
-
-     Fade only near the end of the exit.
-     ========================================================== */
-
-  const normalOpacity =
-    useTransform(
-      local,
-
-      [
-        0,
-        0.72,
-        0.9,
-        1,
-      ],
-
-      [
-        1,
-        1,
-        1,
-        0,
-      ],
-    );
-
-  /* ==========================================================
-     REVERSE / SCROLL-UP RETURN
-
-     Forward motion is intentionally unchanged. While scrolling upward,
-     each exited card returns on its own scroll slice with a deliberately simple path:
-     it fades back in with only a light tilt, settles in the foreground, then
-     moves into the stack. The dramatic forward exit is not replayed in reverse.
-     Keeping one card per stride prevents several cards from popping back
-     at the same time.
-     ========================================================== */
-
-  const returnY =
-    useTransform(
-      local,
-      [0, 0.38, 0.68, 0.88, 1],
-      isFirst
-        ? [0, 0, 0, cardHeight * 0.18, cardHeight * 0.38]
-        : [restY, 0, 0, cardHeight * 0.18, cardHeight * 0.38],
-    );
-
-  const returnZ =
-    useTransform(
-      local,
-      [0, 0.38, 0.68, 0.88, 1],
-      isFirst
-        ? [0, 0, 0, perspective * 0.18, perspective * 0.34]
-        : [restZ, 0, 0, perspective * 0.18, perspective * 0.34],
-    );
-
-  const returnRotateX =
-    useTransform(
-      local,
-      [0, 0.68, 0.88, 1],
-      [0, 0, 6, 14],
-    );
-
-  const returnOpacity =
-    useTransform(
-      local,
-      [0, 0.94, 1],
-      [1, 1, 0],
-    );
-
-  const returning =
-    direction === "up" &&
-    !isLast;
-
-  const y =
-    isLast
-      ? lastY
-      : returning
-        ? returnY
-        : normalY;
-
-  const z =
-    isLast
-      ? lastZ
-      : returning
-        ? returnZ
-        : normalZ;
+      return fadeOutNearEnd(
+        value - index,
+      );
+    },
+  );
 
   return (
     <div
-      className={
-        styles.shell
-      }
+      className={styles.shell}
       style={{
-        width:
-          geometry.cardWidth,
-
-        height:
-          cardHeight,
-
-        top:
-          geometry.frontTop,
-
-        zIndex:
-          total -
-          index,
+        width: geometry.cardWidth,
+        height: cardHeight,
+        top: geometry.frontTop,
+        zIndex: total - index,
       }}
     >
       <motion.article
         data-service-frame
-        data-active={
-          active
-        }
-        aria-hidden={
-          !active
-        }
-        inert={
-          !active
-        }
+        data-active={active}
+        aria-hidden={!active}
+        inert={!active}
         style={{
           y,
           z,
-
-          rotateX:
-            isLast
-              ? 0
-              : returning
-                ? returnRotateX
-                : normalRotateX,
-
-          opacity:
-            isLast
-              ? 1
-              : returning
-                ? returnOpacity
-                : normalOpacity,
-
+          rotateX,
+          opacity,
           background:
             COLORS[
-            (
-              item.number -
-              1
-            ) %
-            COLORS.length
+            (item.number - 1) % COLORS.length
             ],
-
           color:
-            [3, 4, 6].includes(
-              item.number,
-            )
+            [3, 4, 6].includes(item.number)
               ? "#151515"
               : "#fff",
-
-          pointerEvents:
-            active
-              ? "auto"
-              : "none",
+          pointerEvents: active
+            ? "auto"
+            : "none",
         }}
-        className={
-          styles.frame
-        }
+        className={styles.frame}
       >
         <CardContent
           item={item}
-          interactive={
-            active
-          }
+          interactive={active}
         />
       </motion.article>
     </div>
@@ -879,373 +532,240 @@ export function ServicesScrollGallery({
   heading,
   services,
 }: Props) {
-  const rootRef =
-    useRef<HTMLDivElement>(
-      null,
-    );
+  const rootRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion() === true;
 
-  const [
-    geometry,
-    setGeometry,
-  ] =
-    useState<Geometry>(
-      INITIAL,
-    );
+  const [geometry, setGeometry] =
+    useState<Geometry>(INITIAL);
 
-  const [
-    active,
-    setActive,
-  ] =
+  const [active, setActive] =
     useState(0);
 
-  const [
-    scrollDirection,
-    setScrollDirection,
-  ] = useState<ScrollDirection>("down");
-
-  const previousProgressRef =
-    useRef(0);
-
-  /* ==========================================================
+  /* ----------------------------------------------------------
      SERVICES
 
-     Preserve:
-     08 as front card initially.
-     ========================================================== */
+     Preserve the existing visual order:
+     the highest-numbered service starts at the front.
+     ---------------------------------------------------------- */
 
-  const items =
-    useMemo(
-      () =>
-        services
-          .slice(
-            0,
-            8,
-          )
-          .map(
-            (
-              service,
-              index,
-            ) => ({
-              service,
+  const items = useMemo(
+    () =>
+      services
+        .slice(0, 8)
+        .map((service, index) => ({
+          service,
+          number: index + 1,
+        }))
+        .reverse(),
+    [services],
+  );
 
-              number:
-                index +
-                1,
-            }),
-          )
-          .reverse(),
-
-      [services],
-    );
-
-  const count =
-    items.length;
+  const count = items.length;
 
   const currentHeading =
     heading?.trim() ||
     "What we really do?";
 
-  /* ==========================================================
-     RESPONSIVE GEOMETRY
-     ========================================================== */
+  /* ----------------------------------------------------------
+     RESPONSIVE MEASUREMENT
+
+     ResizeObserver catches container/layout changes.
+     visualViewport catches mobile browser chrome/orientation changes.
+     ---------------------------------------------------------- */
 
   useEffect(() => {
-    const reduced =
-      matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      );
+    const root = rootRef.current;
+
+    if (!root) {
+      return;
+    }
 
     let frame = 0;
 
-    const measure =
-      () => {
-        frame = 0;
+    const measure = () => {
+      frame = 0;
 
-        const next =
-          calculateServiceGeometry(
-            document.documentElement
-              .clientWidth,
+      const rect = root.getBoundingClientRect();
 
-            document.documentElement
-              .clientHeight,
+      const width =
+        rect.width ||
+        document.documentElement.clientWidth ||
+        window.innerWidth;
 
-            count,
+      const height =
+        window.visualViewport?.height ||
+        window.innerHeight ||
+        document.documentElement.clientHeight;
 
-            reduced.matches,
-          );
+      const next = calculateServiceGeometry(
+        width,
+        height,
+        count,
+        shouldReduceMotion,
+      );
 
-        setGeometry(
-          (
-            old,
-          ) =>
-            Object.keys(
-              next,
-            ).every(
-              (
-                key,
-              ) =>
-                old[
-                key as keyof Geometry
-                ] ===
-                next[
-                key as keyof Geometry
-                ],
-            )
-              ? old
-              : next,
-        );
-      };
+      setGeometry((old) => {
+        const unchanged =
+          old.width === next.width &&
+          old.height === next.height &&
+          old.cardWidth === next.cardWidth &&
+          old.cardHeight === next.cardHeight &&
+          old.frontTop === next.frontTop &&
+          old.step === next.step &&
+          old.perspective === next.perspective &&
+          old.spacing === next.spacing &&
+          old.stride === next.stride &&
+          old.pinned === next.pinned;
 
-    const schedule =
-      () => {
-        if (!frame) {
-          frame =
-            requestAnimationFrame(
-              measure,
-            );
-        }
-      };
+        return unchanged
+          ? old
+          : next;
+      });
+    };
+
+    const schedule = () => {
+      if (!frame) {
+        frame = requestAnimationFrame(measure);
+      }
+    };
+
+    const observer = new ResizeObserver(schedule);
+    observer.observe(root);
+
+    window.addEventListener("resize", schedule, {
+      passive: true,
+    });
+
+    window.visualViewport?.addEventListener(
+      "resize",
+      schedule,
+      { passive: true },
+    );
 
     schedule();
 
-    window.addEventListener(
-      "resize",
-      schedule,
-      {
-        passive: true,
-      },
-    );
-
-    reduced.addEventListener(
-      "change",
-      schedule,
-    );
-
     return () => {
-      cancelAnimationFrame(
-        frame,
-      );
+      cancelAnimationFrame(frame);
+      observer.disconnect();
 
       window.removeEventListener(
         "resize",
         schedule,
       );
 
-      reduced.removeEventListener(
-        "change",
+      window.visualViewport?.removeEventListener(
+        "resize",
         schedule,
       );
     };
-  }, [count]);
+  }, [count, shouldReduceMotion]);
 
-  /* ==========================================================
+  /* ----------------------------------------------------------
      SCROLL PROGRESS
 
-     THIS is the major correction.
+     There are count - 1 transitions:
+     front card 1 -> card 2 -> ... -> final card.
+     ---------------------------------------------------------- */
 
-     Old:
-       scroll →
-       furthest.current →
-       Math.max(previous progress)
-       ↓
-       impossible to rewind
+  const { scrollYProgress } = useScroll({
+    target: rootRef,
+    offset: ["start start", "end end"],
+  });
 
-     New:
-       real scrollYProgress
-       ↓
-       progress 0 → number of cards
-       ↓
-       fully reversible
-     ========================================================== */
+  const transitionCount = Math.max(
+    1,
+    count - 1,
+  );
 
-  const {
+  const progress = useTransform(
     scrollYProgress,
-  } =
-    useScroll({
-      target:
-        rootRef,
-
-      offset: [
-        "start start",
-        "end end",
-      ],
-    });
-
-  const progress =
-    useTransform(
-      scrollYProgress,
-
-      [
-        0,
-        1,
-      ],
-
-      [
-        0,
-        Math.max(
-          1,
-          count,
-        ),
-      ],
-    );
-
-  /* ==========================================================
-     ACTIVE CARD
-
-     React updates ONLY when the active service changes.
-
-     Card transform itself remains MotionValue-based.
-     ========================================================== */
+    [0, 1],
+    [0, transitionCount],
+  );
 
   useMotionValueEvent(
     progress,
-
     "change",
-
-    (
-      value,
-    ) => {
-      const previousProgress =
-        previousProgressRef.current;
-
-      if (Math.abs(value - previousProgress) > 0.002) {
-        const nextDirection: ScrollDirection =
-          value < previousProgress ? "up" : "down";
-
-        setScrollDirection((current) =>
-          current === nextDirection ? current : nextDirection,
-        );
-      }
-
-      previousProgressRef.current = value;
-
-      if (
-        count <= 0
-      ) {
+    (value) => {
+      if (!count) {
         return;
       }
 
-      const next =
-        Math.min(
-          count -
-          1,
+      const next = Math.min(
+        count - 1,
+        Math.max(
+          0,
+          Math.round(value),
+        ),
+      );
 
-          Math.max(
-            0,
-
-            Math.floor(
-              value,
-            ),
-          ),
-        );
-
-      setActive(
-        (
-          previous,
-        ) =>
-          previous ===
-            next
-            ? previous
-            : next,
+      setActive((previous) =>
+        previous === next
+          ? previous
+          : next,
       );
     },
   );
-
-  /* ==========================================================
-     EMPTY
-     ========================================================== */
 
   if (!count) {
     return null;
   }
 
-  /* ==========================================================
-     HEADING
-     ========================================================== */
+  const headingMarkup = (
+    <h2
+      id="services-heading"
+      className={styles.heading}
+    >
+      {currentHeading.toLowerCase() ===
+        "what we really do?" ? (
+        <>
+          What we
+          <br />
+          really do?
+        </>
+      ) : (
+        currentHeading
+      )}
+    </h2>
+  );
 
-  const headingMarkup =
-    (
-      <h2
-        id="services-heading"
-        className={
-          styles.heading
-        }
-      >
-        {currentHeading.toLowerCase() ===
-          "what we really do?" ? (
-          <>
-            What we
-            <br />
-            really do?
-          </>
-        ) : (
-          currentHeading
-        )}
-      </h2>
-    );
-
-  /* ==========================================================
-     EXACT SCROLL HEIGHT
-
-     No:
-
-       + geometry.height * 0.35
-
-     No artificial final dead scroll.
-
-     stageHeight + travelDistance
-
-     where:
-
-       travelDistance =
-         count × stride
-     ========================================================== */
+  const measurementsReady =
+    geometry.width > 0 &&
+    geometry.height > 0;
 
   const scrollHeight =
     geometry.height +
-    count *
+    Math.max(0, count - 1) *
     geometry.stride;
-
-  /* ==========================================================
-     RENDER
-     ========================================================== */
 
   return (
     <div
       ref={rootRef}
       data-motion-managed
       data-services-gallery
-      data-pinned={
-        geometry.pinned
-      }
-      className={
-        styles.root
-      }
+      data-pinned={geometry.pinned}
+      className={styles.root}
       style={{
         height:
-          geometry.pinned
+          measurementsReady && geometry.pinned
             ? scrollHeight
             : undefined,
       }}
     >
-      {/* =====================================================
-          PINNED 3D MODE
-          ===================================================== */}
-
-      {geometry.pinned ? (
+      {/* Avoid a first-paint vertical list before geometry is measured. */}
+      {!measurementsReady ? (
+        <div className={styles.loadingStage}>
+          {headingMarkup}
+        </div>
+      ) : geometry.pinned ? (
         <div
-          className={
-            styles.stage
-          }
+          className={styles.stage}
           style={{
-            height:
-              geometry.height,
+            height: geometry.height,
           }}
         >
           {eyebrow ? (
-            <span
-              className="sr-only"
-            >
+            <span className="sr-only">
               {eyebrow}
             </span>
           ) : null}
@@ -1253,85 +773,57 @@ export function ServicesScrollGallery({
           {headingMarkup}
 
           <div
-            className={
-              styles.scene
-            }
+            className={styles.scene}
             style={{
               perspective:
                 geometry.perspective,
-
               perspectiveOrigin:
                 `50% ${geometry.frontTop +
-                geometry.cardHeight /
-                2
+                geometry.cardHeight / 2
                 }px`,
             }}
           >
-            {items.map(
-              (
-                item,
-                index,
-              ) => (
-                <ServiceFrame
-                  key={`${item.service._id}-${item.number}`}
-                  item={
-                    item
-                  }
-                  index={
-                    index
-                  }
-                  total={
-                    count
-                  }
-                  progress={
-                    progress
-                  }
-                  geometry={
-                    geometry
-                  }
-                  active={
-                    index ===
-                    active
-                  }
-                  direction={scrollDirection}
-                />
-              ),
-            )}
+            {items.map((item, index) => (
+              <ServiceFrame
+                key={`${item.service._id}-${item.number}`}
+                item={item}
+                index={index}
+                total={count}
+                progress={progress}
+                geometry={geometry}
+                active={index === active}
+              />
+            ))}
           </div>
         </div>
       ) : (
-        /* ===================================================
-           RESPONSIVE STATIC FALLBACK
+        /*
+         * Reduced-motion / single-card fallback.
+         * It is horizontal, not a vertical line of every card.
+         */
+        <div className={styles.staticList}>
+          {eyebrow ? (
+            <span className="sr-only">
+              {eyebrow}
+            </span>
+          ) : null}
 
-           Small/short screens retain readable cards.
-           =================================================== */
-
-        <div
-          className={
-            styles.staticList
-          }
-        >
           {headingMarkup}
 
-          {items.map(
-            (
-              item,
-            ) => (
+          <div
+            className={styles.staticRail}
+            aria-label="Services"
+          >
+            {items.map((item) => (
               <article
                 key={`${item.service._id}-${item.number}`}
-                className={
-                  styles.staticCard
-                }
+                className={styles.staticCard}
                 style={{
                   background:
                     COLORS[
-                    (
-                      item.number -
-                      1
-                    ) %
+                    (item.number - 1) %
                     COLORS.length
                     ],
-
                   color:
                     [3, 4, 6].includes(
                       item.number,
@@ -1340,45 +832,27 @@ export function ServicesScrollGallery({
                       : "#fff",
                 }}
               >
-                <CardContent
-                  item={
-                    item
-                  }
-                />
+                <CardContent item={item} />
               </article>
-            ),
-          )}
+            ))}
+          </div>
         </div>
       )}
-
-      {/* =====================================================
-          ACCESSIBILITY NAVIGATION
-          ===================================================== */}
 
       {geometry.pinned ? (
         <nav
           className="sr-only"
           aria-label="All services"
         >
-          {items.map(
-            (
-              item,
-            ) =>
-              item.service
-                .slug ? (
-                <Link
-                  key={
-                    item.number
-                  }
-                  href={`/services/${item.service.slug}`}
-                >
-                  {
-                    item
-                      .service
-                      .title
-                  }
-                </Link>
-              ) : null,
+          {items.map((item) =>
+            item.service.slug ? (
+              <Link
+                key={item.number}
+                href={`/services/${item.service.slug}`}
+              >
+                {item.service.title}
+              </Link>
+            ) : null,
           )}
         </nav>
       ) : null}

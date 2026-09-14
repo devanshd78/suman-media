@@ -298,7 +298,12 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
   const designCredit = footer?.designCredit?.trim() || "Design Courtesy NOWT";
 
   return (
-    <footer className="relative isolate w-full overflow-hidden bg-white text-black">
+    <footer
+      className="relative isolate w-full overflow-hidden text-black"
+      style={{
+        background: "linear-gradient(180deg, #F5F1EB 67.87%, #FFEABF 100%)",
+      }}
+    >
       <div className="w-full px-5 pt-10 sm:px-8 sm:pt-12 lg:px-[3.5rem] lg:pt-14 xl:px-[4rem]">
         <div className="grid gap-10 pb-9 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-8 xl:gap-14 lg:pb-11">
           <div className="max-w-[31rem]">
@@ -362,7 +367,7 @@ export function Footer({ settings }: { settings?: CmsSiteSettings | null }) {
         </div>
       </div>
 
-      <div className="relative border-t border-black/[0.03] bg-[linear-gradient(180deg,#ffffff_0%,#fff9ec_30%,#ffedbf_100%)] px-5 pb-7 pt-12 sm:px-8 sm:pt-14 lg:px-[3.5rem] lg:pb-8 lg:pt-16 xl:px-[4rem]">
+      <div className="relative bg-transparent px-5 pb-7 pt-12 sm:px-8 sm:pt-14 lg:px-[3.5rem] lg:pb-8 lg:pt-16 xl:px-[4rem]">
         <p
           className={`${devanagari.className} mx-auto max-w-[92rem] text-center text-[clamp(2.75rem,7.2vw,7.4rem)] font-extrabold leading-[0.95] tracking-[-0.055em] text-black`}
           lang="mr"
