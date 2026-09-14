@@ -320,7 +320,7 @@ export async function CareersSection() {
 
             gap-2
 
-            rounded-xl
+            rounded-[0.25rem]
 
             bg-[#8F6C1A]
 

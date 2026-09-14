@@ -19,9 +19,9 @@ const ASSETS = {
     screen: "/images/ott/television/television-image.png",
   },
 
-  connectedTv: "/images/ott/connected-tv.png",
-  contentAggregation: "/images/ott/content-aggregation.png",
-  subscriptionManagement: "/images/ott/subscription-management.png",
+  connectedTv: "/images/ott/television/television2.png",
+  contentAggregation: "/images/ott/Zingaat.png",
+  subscriptionManagement: "/images/ott/AppStore.png",
 } as const;
 
 /* =========================================================

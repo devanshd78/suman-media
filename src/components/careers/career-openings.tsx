@@ -194,7 +194,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
 
                     <Link
                       href={safeApplyHref(job.applyUrl)}
-                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-[0.25rem] bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto`}
                     >
                       <span>Apply now</span>
                       <CaretRightIcon aria-hidden="true" size={18} weight="bold" />

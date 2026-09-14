@@ -23,7 +23,7 @@ export default function GlobalError({
             <button
               type="button"
               onClick={reset}
-              className="mt-6 rounded-md bg-zinc-950 px-4 py-2 text-white"
+              className="mt-6 rounded-[0.25rem] bg-zinc-950 px-4 py-2 text-white"
             >
               Reload
             </button>

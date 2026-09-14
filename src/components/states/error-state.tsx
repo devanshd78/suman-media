@@ -26,7 +26,7 @@ export function ErrorState({
   compact,
 }: ErrorStateProps) {
   const actionClass =
-    "inline-flex min-h-10 items-center justify-center rounded-md bg-zinc-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2";
+    "inline-flex min-h-10 items-center justify-center rounded-[0.25rem] bg-zinc-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2";
 
   const action = onRetry ? (
     <button type="button" onClick={onRetry} className={actionClass}>

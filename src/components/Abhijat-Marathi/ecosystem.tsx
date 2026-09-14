@@ -633,7 +633,7 @@ function PartnershipBanner() {
             items-center
             justify-center
             gap-1
-            rounded-[0.5rem]
+            rounded-[0.25rem]
             text-white
             transition-opacity
             duration-200

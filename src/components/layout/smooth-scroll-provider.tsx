@@ -4,7 +4,7 @@ import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
-const HEADER_OFFSET_PX = 88;
+const HEADER_OFFSET_PX = 64;
 const SCROLL_DURATION_SECONDS = 0.85;
 
 function getHashTarget(hash: string) {

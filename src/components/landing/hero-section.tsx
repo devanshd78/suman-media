@@ -461,6 +461,10 @@ export function HeroSection({
             mt-2
             w-full
             max-w-full
+            sm:max-w-[92%]
+            md:max-w-[84%]
+            lg:max-w-[78%]
+            xl:max-w-[74%]
 
             break-words
 
@@ -601,7 +605,7 @@ export function HeroSection({
               justify-center
               gap-2.5
 
-              rounded-[0.5rem]
+              rounded-[0.25rem]
               bg-[#FFFFFF]
 
               px-4

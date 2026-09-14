@@ -1060,7 +1060,7 @@ export function NewsBlogsSection({
             items-center
             justify-center
 
-            rounded-lg
+            rounded-[0.25rem]
 
             bg-[#8F6C1A]
             text-white
@@ -1107,7 +1107,7 @@ export function NewsBlogsSection({
             items-center
             justify-center
 
-            rounded-lg
+            rounded-[0.25rem]
 
             bg-[#8F6C1A]
             text-white

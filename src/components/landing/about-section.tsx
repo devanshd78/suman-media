@@ -429,7 +429,7 @@ export function AboutSection({
               justify-center
               gap-1.5
 
-              rounded-[0.5rem]
+              rounded-[0.25rem]
 
               px-6
               py-3
