@@ -1,5 +1,7 @@
 "use client";
 
+import { TextReveal } from "@/components/ui/scroll-text-reveal";
+
 import Image from "@/components/ui/image";
 import Link from "next/link";
 
@@ -35,6 +37,7 @@ type NewsBlogCardData = {
 };
 
 type NewsBlogsSectionProps = {
+  revealText?: boolean;
   eyebrow?: string | null;
   heading?: string | null;
   cta?: CmsCta | null;
@@ -149,8 +152,10 @@ function ArrowIcon({
 
 function NewsBlogCard({
   article,
+  revealText = false,
 }: {
   article: NewsBlogCardData;
+  revealText?: boolean;
 }) {
   return (
     <article
@@ -255,7 +260,9 @@ function NewsBlogCard({
               sm:leading-[1.75rem]
             `}
           >
+            <TextReveal enabled={revealText}>
             {article.title}
+            </TextReveal>
           </h3>
 
           {/* =================================================
@@ -298,7 +305,9 @@ function NewsBlogCard({
                 sm:leading-[1.5rem]
               `}
             >
+              <TextReveal enabled={revealText}>
               {article.description}
+              </TextReveal>
             </p>
 
             <span
@@ -331,7 +340,9 @@ function NewsBlogCard({
                 sm:leading-[1.5rem]
               `}
             >
+              <TextReveal enabled={revealText}>
               learn more
+              </TextReveal>
             </span>
           </div>
         </div>
@@ -349,6 +360,7 @@ export function NewsBlogsSection({
   heading,
   cta,
   articles,
+  revealText = false,
 }: NewsBlogsSectionProps) {
   const cmsNewsBlogs: NewsBlogCardData[] =
     articles
@@ -785,7 +797,9 @@ export function NewsBlogsSection({
               [font-feature-settings:'liga'_off,'clig'_off]
             `}
           >
+            <TextReveal enabled={revealText}>
             {sectionEyebrow}
+            </TextReveal>
           </p>
 
           {/* =================================================
@@ -820,7 +834,9 @@ export function NewsBlogsSection({
               lg:leading-[3rem]
             `}
           >
+            <TextReveal enabled={revealText}>
             {sectionHeading}
+            </TextReveal>
           </h2>
         </div>
 
@@ -857,7 +873,9 @@ export function NewsBlogsSection({
           `}
         >
           <span>
+            <TextReveal enabled={revealText}>
             {sectionCtaLabel}
+            </TextReveal>
           </span>
 
           <span
@@ -1020,6 +1038,7 @@ export function NewsBlogsSection({
             <NewsBlogCard
               key={article.id}
               article={article}
+              revealText={revealText}
             />
           ),
         )}

@@ -1,6 +1,10 @@
 "use client";
 
+import { TextReveal } from "@/components/ui/scroll-text-reveal";
+
+import Image from "next/image";
 import Link from "next/link";
+import { useCallback, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -151,6 +155,19 @@ export default function OttHeader({
   const prefersReducedMotion =
     Boolean(useReducedMotion());
 
+  const [loadedImages, setLoadedImages] =
+    useState<Set<string>>(() => new Set());
+
+  const markImageLoaded = useCallback((src: string) => {
+    setLoadedImages((current) => {
+      if (current.has(src)) return current;
+
+      const next = new Set(current);
+      next.add(src);
+      return next;
+    });
+  }, []);
+
   return (
     <section
       aria-labelledby="ott-header-title"
@@ -217,7 +234,9 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
+            <TextReveal>
             OTT, DIGITAL PLATFORM &amp; STREAMING
+            </TextReveal>
           </p>
 
           {/* =================================================
@@ -255,6 +274,7 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
+            <TextReveal>
             Building Digital Platforms for the
 
             <br
@@ -273,6 +293,7 @@ export default function OttHeader({
             </span>
 
             Next Generation of Entertainment
+            </TextReveal>
           </h1>
 
           {/* =================================================
@@ -306,6 +327,7 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
+            <TextReveal>
             From Marathi OTT to connected-screen
             experiences, Suman builds and enables digital
 
@@ -326,6 +348,7 @@ export default function OttHeader({
 
             platforms that bring content to audiences
             across devices and markets.
+            </TextReveal>
           </p>
 
           {/* =================================================
@@ -397,7 +420,9 @@ export default function OttHeader({
                       "'liga' off, 'clig' off",
                   }}
                 >
+                  <TextReveal>
                   Learn more
+                  </TextReveal>
                 </span>
 
                 <span
@@ -457,7 +482,9 @@ export default function OttHeader({
                     "'liga' off, 'clig' off",
                 }}
               >
+                <TextReveal>
                 Join now
+                </TextReveal>
               </span>
 
               <ChevronRight />
@@ -538,6 +565,12 @@ export default function OttHeader({
                     image.center,
                   );
 
+                const imageIsLoaded =
+                  loadedImages.has(image.src);
+
+                const hiddenY =
+                  isCenter ? 340 : 300;
+
                 return (
                   <motion.div
                     key={image.src}
@@ -545,11 +578,8 @@ export default function OttHeader({
                     /* =========================================
                        FINAL ABSOLUTE POSITION
 
-                       Do NOT animate top itself.
-
-                       top stays fixed to Figma position,
-                       while transform:y animates relative
-                       to that exact position.
+                       Keep the Figma geometry exactly the same.
+                       Only transform/opacity animate.
                     ========================================== */
 
                     className="
@@ -563,112 +593,146 @@ export default function OttHeader({
                     "
 
                     style={{
-                      left:
-                        image.left,
+                      left: image.left,
+                      top: image.top,
+                      zIndex: image.zIndex,
 
-                      top:
-                        image.top,
-
-                      zIndex:
-                        image.zIndex,
-
-                      height:
-                        isCenter
-                          ? "30.6875rem"
-                          : "26.6875rem",
-
-                      backgroundImage:
-                        `url("${image.src}")`,
-
-                      backgroundRepeat:
-                        "no-repeat",
-
-                      backgroundPosition:
-                        isCenter
-                          ? "-0.289px -29.077px"
-                          : "50% 50%",
-
-                      backgroundSize:
-                        isCenter
-                          ? "100% 107.152%"
-                          : "cover",
+                      height: isCenter
+                        ? "30.6875rem"
+                        : "26.6875rem",
 
                       boxShadow:
                         "16px 0 16px 0 rgba(0,0,0,0.20), -16px 0 20px 0 rgba(0,0,0,0.20)",
 
-                      willChange:
-                        prefersReducedMotion
-                          ? undefined
-                          : "transform, opacity",
+                      backgroundColor: "#171717",
+
+                      backfaceVisibility: "hidden",
+
+                      willChange: prefersReducedMotion
+                        ? undefined
+                        : "transform, opacity",
                     }}
 
-                    /* =========================================
-                       START
-
-                       All cards begin BELOW their actual
-                       final positions.
-
-                       Center travels slightly farther,
-                       giving the main poster a stronger
-                       entrance.
-                    ========================================== */
-
+                    /*
+                     * Important: do not reveal/animate a card until its
+                     * image has finished loading. This removes the blank
+                     * card / late image pop-in seen on slower production
+                     * connections.
+                     */
                     initial={
                       prefersReducedMotion
                         ? false
                         : {
-                          /*
-                           * Start well below the final stack.
-                           *
-                           * Center travels slightly farther so it feels
-                           * like the main poster is rising into position.
-                           */
-                          y: isCenter ? 340 : 300,
-
+                          y: hiddenY,
                           opacity: 0,
                         }
                     }
 
-                    animate={{
-                      y: 0,
-                      opacity: 1,
-                    }}
+                    animate={
+                      imageIsLoaded
+                        ? {
+                          y: 0,
+                          opacity: 1,
+                        }
+                        : {
+                          y: prefersReducedMotion
+                            ? 0
+                            : hiddenY,
+                          opacity: 0,
+                        }
+                    }
 
                     transition={
                       prefersReducedMotion
-                        ? {
-                          duration: 0,
-                        }
+                        ? { duration: 0 }
                         : {
                           delay: image.delay,
 
-                          /*
-                           * Slow vertical rise.
-                           */
                           y: {
                             duration: 2.4,
-
-                            /*
-                             * Smooth cinematic deceleration:
-                             *
-                             * fast enough at the start,
-                             * then very gently settles at the top.
-                             */
                             ease: [0.22, 1, 0.36, 1],
                           },
 
-                          /*
-                           * Fade finishes slightly earlier than movement,
-                           * which makes the cards feel solid while
-                           * they're still gliding upward.
-                           */
                           opacity: {
-                            duration: 1.5,
+                            duration: 0.55,
                             ease: "easeOut",
                           },
                         }
                     }
-                  />
+                  >
+                    {isCenter ? (
+                      /*
+                       * Keep the original center-poster crop without
+                       * assigning a custom height to an Image using fill.
+                       * The wrapper owns the oversized geometry; the image
+                       * simply fills that wrapper. This is valid in Next.js.
+                       */
+                      <div
+                        className="absolute"
+                        style={{
+                          left: "-0.289px",
+                          top: "-29.077px",
+                          width: "100%",
+                          height: "107.152%",
+                        }}
+                      >
+                        <Image
+                          src={image.src}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1280px) 372px, (min-width: 768px) 291px, 205px"
+                          quality={75}
+                          loading="eager"
+                          fetchPriority="high"
+                          draggable={false}
+                          onLoad={() =>
+                            markImageLoaded(image.src)
+                          }
+                          onError={() => {
+                            console.error(
+                              `[OttHeader] Failed to load ${image.src}. ` +
+                                "Check that the file exists in public/images/ott and that filename casing matches production exactly.",
+                            );
+                          }}
+                          className="
+                            pointer-events-none
+                            select-none
+                          "
+                          style={{
+                            objectFit: "fill",
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <Image
+                        src={image.src}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1280px) 372px, (min-width: 768px) 291px, 205px"
+                        quality={75}
+                        loading="eager"
+                        fetchPriority="auto"
+                        draggable={false}
+                        onLoad={() =>
+                          markImageLoaded(image.src)
+                        }
+                        onError={() => {
+                          console.error(
+                            `[OttHeader] Failed to load ${image.src}. ` +
+                              "Check that the file exists in public/images/ott and that filename casing matches production exactly.",
+                          );
+                        }}
+                        className="
+                          pointer-events-none
+                          select-none
+                        "
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: "50% 50%",
+                        }}
+                      />
+                    )}
+                  </motion.div>
                 );
               },
             )}

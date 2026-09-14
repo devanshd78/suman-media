@@ -1,5 +1,7 @@
 "use client";
 
+import { TextReveal } from "@/components/ui/scroll-text-reveal";
+
 import Image from "next/image";
 import {
     motion,
@@ -75,17 +77,33 @@ function MediaVideo({
         const video = videoRef.current;
         if (!video) return;
 
-        // The stage clips incoming/outgoing devices. Play only the visible videos.
+        const loadVideo = () => {
+            if (video.getAttribute("src")) return;
+            video.src = VIDEO_SRC;
+            video.preload = "metadata";
+            video.load();
+        };
+
+        const preloadObserver = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            loadVideo();
+            preloadObserver.disconnect();
+        }, { rootMargin: "400px" });
+
+        // Assign the source near the scene; only visible devices play the video.
         const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !prefersReducedMotion) {
-                void video.play().catch(() => {});
+            if (entry.isIntersecting) {
+                loadVideo();
+                if (!prefersReducedMotion) void video.play().catch(() => {});
             } else {
                 video.pause();
             }
         }, { threshold: 0.1 });
 
+        preloadObserver.observe(video);
         observer.observe(video);
         return () => {
+            preloadObserver.disconnect();
             observer.disconnect();
             video.pause();
         };
@@ -94,12 +112,10 @@ function MediaVideo({
     return (
         <video
             ref={videoRef}
-            src={VIDEO_SRC}
-            autoPlay={!prefersReducedMotion}
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             disablePictureInPicture
             className={`
         absolute
@@ -135,7 +151,6 @@ function EcosystemHeading() {
                 className="
           w-full
           text-center
-          text-[clamp(1.75rem,4vw,2.5rem)]
           font-semibold
           leading-[1.2]
           tracking-[-0.03125rem]
@@ -148,7 +163,9 @@ function EcosystemHeading() {
                         "'liga' off, 'clig' off",
                 }}
             >
+              <TextReveal>
                 One Ecosystem. Every Screen.
+              </TextReveal>
             </h2>
 
             <p
@@ -170,9 +187,11 @@ function EcosystemHeading() {
                         "'liga' off, 'clig' off",
                 }}
             >
+              <TextReveal>
                 From the platform users open to the screens they
                 watch on, we create the technology and experiences
                 that connect content with audiences.
+              </TextReveal>
             </p>
         </div>
     );
@@ -228,12 +247,12 @@ function Television() {
         <div className={styles.television}>
             {/* TV FRAME */}
 
-            <Image
+            <Image loading="lazy"
                 src={TV_FRAME}
                 alt="Television entertainment setup"
                 fill
                 unoptimized
-                priority
+
                 sizes="96vw"
                 className="
           pointer-events-none
@@ -265,7 +284,7 @@ function LandscapeMobile() {
         <div className={styles.phone}>
             {/* PHONE FRAME */}
 
-            <Image
+            <Image loading="lazy"
                 src={MOBILE_FRAME}
                 alt="Landscape mobile"
                 width={328}
@@ -312,7 +331,7 @@ function Tablet() {
         <div className={styles.tablet}>
             {/* TABLET FRAME */}
 
-            <Image
+            <Image loading="lazy"
                 src={TABLET_FRAME}
                 alt="Tablet"
                 width={1008}
@@ -404,7 +423,9 @@ function EcosystemStats() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
+                          <TextReveal>
                             {stat.value}
+                          </TextReveal>
                         </p>
 
                         {/* LABEL */}
@@ -430,7 +451,9 @@ function EcosystemStats() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
+                          <TextReveal>
                             {stat.label}
+                          </TextReveal>
                         </p>
                     </div>
                 ),
@@ -555,7 +578,7 @@ function PartnershipBanner() {
         >
             {/* BACKGROUND */}
 
-            <Image
+            <Image loading="lazy"
                 src={
                     PARTNER_BACKGROUND
                 }
@@ -619,9 +642,11 @@ function PartnershipBanner() {
                             "'liga' off, 'clig' off",
                     }}
                 >
+                  <TextReveal>
                     Have a story worth telling?
                     Let&apos;s bring it to the
                     world.
+                  </TextReveal>
                 </h3>
 
                 {/* JOIN AS PARTNER */}
@@ -656,7 +681,9 @@ function PartnershipBanner() {
                                 'var(--Font-family-Body, "Plus Jakarta Sans")',
                         }}
                     >
+                      <TextReveal>
                         Join as a Partner
+                      </TextReveal>
                     </span>
 
                     <svg
@@ -692,7 +719,7 @@ function PartnershipBanner() {
                         "luminosity",
                 }}
             >
-                <Image
+                <Image loading="lazy"
                     src={ABHIJAT_LOGO}
                     alt="Abhijat Marathi"
                     fill

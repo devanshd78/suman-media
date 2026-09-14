@@ -1,0 +1,29 @@
+.word {
+  white-space: nowrap;
+}
+
+.character {
+  --character-progress: clamp(
+    0,
+    (var(--reveal-progress, 0) - var(--character-start)) / var(--character-duration),
+    1
+  );
+  display: inline-block;
+  opacity: calc(0.08 + 0.92 * var(--character-progress));
+  filter: blur(calc(8px * (1 - var(--character-progress))));
+}
+
+/* Keep text clear during keyboard navigation and when printing. */
+.reveal:focus-within .character,
+:global(a:focus-visible) .character,
+:global(button:focus-visible) .character {
+  opacity: 1;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .character {
+    opacity: 1;
+    filter: none;
+  }
+}

@@ -1,5 +1,8 @@
 "use client";
 
+import { TextReveal } from "@/components/ui/scroll-text-reveal";
+import { useNearViewport } from "@/hooks/use-near-viewport";
+
 import Image from "next/image";
 import {
     AnimatePresence,
@@ -538,7 +541,7 @@ function ContentCard({
           bg-[#EAEAEA]
         "
             >
-                <Image
+                <Image loading="lazy"
                     src={item.image}
                     alt={item.title}
                     fill
@@ -650,7 +653,9 @@ function ContentCard({
                                     'var(--Font-family-Body, "Plus Jakarta Sans")',
                             }}
                         >
+                          <TextReveal>
                             Watch now
+                          </TextReveal>
                         </span>
                     </button>
                 </div>
@@ -692,7 +697,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
+                  <TextReveal>
                     {item.title}
+                  </TextReveal>
                 </p>
 
                 <p
@@ -718,7 +725,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
+                  <TextReveal>
                     {item.category}
+                  </TextReveal>
                 </p>
             </div>
         </article>
@@ -771,7 +780,7 @@ function MusicContentCard({
           bg-[#EAEAEA]
         "
       >
-        <Image
+        <Image loading="lazy"
           src={item.image}
           alt={item.title}
           fill
@@ -872,7 +881,9 @@ function MusicContentCard({
                   'var(--Font-family-Body, "Plus Jakarta Sans")',
               }}
             >
+              <TextReveal>
               Stream now
+              </TextReveal>
             </span>
           </button>
         </div>
@@ -910,7 +921,9 @@ function MusicContentCard({
               "'liga' off, 'clig' off",
           }}
         >
+          <TextReveal>
           {item.title}
+          </TextReveal>
         </p>
 
         <p
@@ -934,7 +947,9 @@ function MusicContentCard({
               "'liga' off, 'clig' off",
           }}
         >
+          <TextReveal>
           {item.category}
+          </TextReveal>
         </p>
       </div>
     </article>
@@ -1057,7 +1072,9 @@ function HeroBadge({
                         'var(--Font-family-Body, "Plus Jakarta Sans")',
                 }}
             >
+              <TextReveal>
                 {label}
+              </TextReveal>
             </span>
 
             <div
@@ -1074,7 +1091,7 @@ function HeroBadge({
                         "luminosity",
                 }}
             >
-                <Image
+                <Image loading="lazy"
                     src={LOGO}
                     alt=""
                     fill
@@ -1153,7 +1170,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
+                  <TextReveal>
                     {primaryLabel}
+                  </TextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1207,7 +1226,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
+                  <TextReveal>
                     Learn more
+                  </TextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1221,6 +1242,7 @@ function HeroButtons({
 ========================================================= */
 
 export default function Section3() {
+    const { ref, isNearViewport } = useNearViewport<HTMLElement>();
     const prefersReducedMotion =
         Boolean(useReducedMotion());
 
@@ -1239,6 +1261,7 @@ export default function Section3() {
     ] = useState(0);
 
     const heroMotionEnabled =
+        isNearViewport &&
         isPlaying &&
         !prefersReducedMotion;
 
@@ -1262,6 +1285,7 @@ export default function Section3() {
     ] = useState(0);
 
     const showMotionEnabled =
+        isNearViewport &&
         isShowPlaying &&
         !prefersReducedMotion;
 
@@ -1285,6 +1309,7 @@ export default function Section3() {
     ] = useState(0);
 
     const musicMotionEnabled =
+        isNearViewport &&
         isMusicPlaying &&
         !prefersReducedMotion;
 
@@ -1379,6 +1404,7 @@ export default function Section3() {
 
     return (
         <section
+            ref={ref}
             aria-labelledby="abhijat-universe-heading"
             className="
         w-full
@@ -1449,7 +1475,7 @@ export default function Section3() {
                 shrink-0
               "
                         >
-                            <Image
+                            <Image loading="lazy"
                                 src={LOGO}
                                 alt="Abhijat Marathi OTT"
                                 fill
@@ -1484,10 +1510,12 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
+                          <TextReveal>
                             Welcome to the Abhijat
                             <br className="hidden sm:block" />
                             {" "}
                             marathi universe
+                          </TextReveal>
                         </h2>
                     </div>
 
@@ -1515,10 +1543,12 @@ export default function Section3() {
                                 "'liga' off, 'clig' off",
                         }}
                     >
+                      <TextReveal>
                         From Marathi OTT to connected-screen
                         experiences, Suman builds and enables
                         digital platforms that bring content to
                         audiences across devices and markets.
+                      </TextReveal>
                     </p>
                 </div>
             </div>
@@ -1613,7 +1643,7 @@ export default function Section3() {
                             },
                         }}
                     >
-                        <Image
+                        <Image loading="lazy"
                             src={
                                 currentHero.image
                             }
@@ -1624,9 +1654,7 @@ export default function Section3() {
                             fill
                             unoptimized
 
-                            priority={
-                                activeHero === 0
-                            }
+
 
                             sizes="
                 (min-width: 1440px) 1440px,
@@ -1830,9 +1858,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
+                              <TextReveal>
                                 {
                                     currentHero.title
                                 }
+                              </TextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -1868,9 +1898,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
+                          <TextReveal>
                             {
                                 currentHero.description
                             }
+                          </TextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2004,7 +2036,7 @@ export default function Section3() {
                             },
                         }}
                     >
-                        <Image
+                        <Image loading="lazy"
                             src={
                                 currentShowHero.image
                             }
@@ -2016,9 +2048,7 @@ export default function Section3() {
                             fill
                             unoptimized
 
-                            priority={
-                                activeShowHero === 0
-                            }
+
 
                             sizes="100vw"
 
@@ -2230,9 +2260,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
+                              <TextReveal>
                                 {
                                     currentShowHero.title
                                 }
+                              </TextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -2268,9 +2300,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
+                          <TextReveal>
                             {
                                 currentShowHero.description
                             }
+                          </TextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2454,7 +2488,7 @@ export default function Section3() {
                                 },
                             }}
                         >
-                            <Image
+                            <Image loading="lazy"
                                 src={
                                     currentMusicHero.image
                                 }
@@ -2466,9 +2500,7 @@ export default function Section3() {
                                 fill
                                 unoptimized
 
-                                priority={
-                                    activeMusicHero === 0
-                                }
+
 
                                 sizes="100vw"
 
@@ -2680,9 +2712,11 @@ export default function Section3() {
                                             "'liga' off, 'clig' off",
                                     }}
                                 >
+                                  <TextReveal>
                                     {
                                         currentMusicHero.title
                                     }
+                                  </TextReveal>
                                 </h3>
 
                                 <HeroButtons
@@ -2720,9 +2754,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
+                              <TextReveal>
                                 {
                                     currentMusicHero.description
                                 }
+                              </TextReveal>
                             </p>
                         </motion.div>
                     </AnimatePresence>
@@ -2790,7 +2826,9 @@ export default function Section3() {
                         lineHeight: "var(--Line-height-Heading-2, 2.5rem)",
                     }}
                 >
+                  <TextReveal>
                     Experience Authentic Marathi Entertainment Anywhere, Anytime.
+                  </TextReveal>
                 </h2>
 
                 <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
@@ -2813,7 +2851,7 @@ export default function Section3() {
                             className="flex min-h-[7.1875rem] items-center"
                         >
                             <div className="relative w-[8.25rem] shrink-0 self-stretch overflow-hidden rounded-l-[0.75rem] bg-[#D3D3D3]">
-                                <Image
+                                <Image loading="lazy"
                                     src={platform.image}
                                     alt={platform.alt}
                                     fill
@@ -2835,7 +2873,9 @@ export default function Section3() {
                                     lineHeight: "var(--Line-height-Small, 1.5rem)",
                                 }}
                             >
+                              <TextReveal>
                                 {platform.description}
+                              </TextReveal>
                             </p>
                         </article>
                     ))}
