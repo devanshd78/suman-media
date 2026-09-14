@@ -88,7 +88,26 @@ export function TestimonialSection({
                     {personName}
                   </p>
                 ) : null}
-                <p className={`${inter.className} text-[0.75rem] font-semibold leading-5 text-[rgba(0,6,38,0.90)] sm:text-[0.8125rem]`}>
+                <p
+                  className={`
+    ${inter.className}
+
+    text-[0.875rem]
+    font-semibold
+    leading-[1.375rem]
+    text-[rgba(0,6,38,0.90)]
+
+    sm:text-[1rem]
+    sm:leading-[1.5rem]
+
+    lg:text-[1.0625rem]
+    lg:leading-[1.625rem]
+  `}
+                  style={{
+                    fontFeatureSettings:
+                      '"liga" off, "clig" off',
+                  }}
+                >
                   {personRole}
                   {personRole && companyName ? " at " : null}
                   {companyName}

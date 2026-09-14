@@ -391,6 +391,38 @@ const DESKTOP_QUERY =
 const CLOSE_DELAY_MS = 140;
 
 const TOP_THRESHOLD_PX = 24;
+const DIRECTION_TRIGGER_PX = 12;
+
+/* ============================================================
+   HEADER MODES
+
+   overlay:
+   - transparent over a page hero at the very top
+   - light Contact us button at the very top
+   - hides directly when scrolling down
+   - returns as the solid header when scrolling up
+
+   solid:
+   - white header from the first render
+   - gold Contact us button at all times
+
+   Add any full-bleed hero route that needs the overlay treatment here.
+   Article/detail pages are intentionally not matched by prefix.
+   ============================================================ */
+
+export type HeaderVariant =
+  | "auto"
+  | "overlay"
+  | "solid";
+
+const OVERLAY_HEADER_ROUTES = new Set([
+  "/",
+  "/news-and-blogs",
+]);
+
+function routeUsesOverlayHeader(pathname: string) {
+  return OVERLAY_HEADER_ROUTES.has(pathname);
+}
 
 /* ============================================================
    LOGO
@@ -764,12 +796,23 @@ function DropdownPanel({
    HEADER
    ============================================================ */
 
-export function Header() {
+export function Header({
+  variant = "auto",
+}: {
+  variant?: HeaderVariant;
+} = {}) {
   const pathname =
     usePathname();
 
-  const isLandingPage =
-    pathname === "/";
+  const resolvedVariant =
+    variant === "auto"
+      ? routeUsesOverlayHeader(pathname)
+        ? "overlay"
+        : "solid"
+      : variant;
+
+  const usesOverlayHeader =
+    resolvedVariant === "overlay";
 
   const reduceMotion =
     useReducedMotion() === true;
@@ -801,6 +844,31 @@ export function Header() {
   const [
     dropdownSurfaceVisible,
     setDropdownSurfaceVisible,
+  ] =
+    useState(false);
+
+  /*
+   * At the very top of the homepage the navigation can sit over the Hero.
+   * As soon as a mouse user hovers the header we intentionally switch to
+   * the solid white navigation treatment from the reference image.
+   */
+  const [
+    headerHovered,
+    setHeaderHovered,
+  ] =
+    useState(false);
+
+  /*
+   * Overlay pages must not change into the solid header while the
+   * user is scrolling DOWN. That was the source of the brief
+   * "second header" flash before the hide animation.
+   *
+   * This becomes true only when the user scrolls UP after leaving
+   * the top. It resets when the page reaches the top again.
+   */
+  const [
+    scrollReturnSurfaceVisible,
+    setScrollReturnSurfaceVisible,
   ] =
     useState(false);
 
@@ -859,35 +927,36 @@ export function Header() {
     >(null);
 
   /* ==========================================================
-     TOP VISUAL STATE
+     VISUAL STATE
 
-     HOME + TOP:
-       transparent
-       white logo
-       white nav
+     OVERLAY HEADER
+       top + idle:
+         transparent / white nav / light Contact us
 
-     EVERYTHING ELSE:
-       current white header
-       normal logo
-       dark nav
+       scroll DOWN:
+         hide this same transparent header directly
+         (do not swap to the solid header first)
+
+       scroll UP after leaving the top:
+         solid white / dark nav / gold Contact us
+
+     SOLID HEADER
+       always white / dark nav / gold Contact us
      ========================================================== */
 
   const navigationSurfaceVisible =
     menuOpen ||
-    dropdownSurfaceVisible;
+    dropdownSurfaceVisible ||
+    headerHovered;
 
-  /*
-   * The homepage is transparent only when nothing in the
-   * navigation needs a solid surface.
-   *
-   * Opening a desktop dropdown now creates one continuous
-   * white patch behind the header row + dropdown and switches
-   * the logo/nav text to their dark versions.
-   */
+  const solidSurfaceVisible =
+    !usesOverlayHeader ||
+    navigationSurfaceVisible ||
+    scrollReturnSurfaceVisible;
+
   const transparentAtTop =
-    isLandingPage &&
-    !isScrolled &&
-    !navigationSurfaceVisible;
+    usesOverlayHeader &&
+    !solidSurfaceVisible;
 
   const topTextColor =
     transparentAtTop
@@ -1011,6 +1080,14 @@ export function Header() {
             false,
           );
 
+          setHeaderHovered(
+            false,
+          );
+
+          setScrollReturnSurfaceVisible(
+            false,
+          );
+
           setIsScrolled(
             Math.max(
               0,
@@ -1053,6 +1130,14 @@ export function Header() {
         );
 
         setDropdownSurfaceVisible(
+          false,
+        );
+
+        setHeaderHovered(
+          false,
+        );
+
+        setScrollReturnSurfaceVisible(
           false,
         );
       };
@@ -1280,19 +1365,16 @@ export function Header() {
   /* ==========================================================
      DIRECTION-AWARE HEADER
 
-     PRESERVED BEHAVIOR:
+     Critical behavior for overlay pages:
 
-     scroll down
-       → hide
+     1. At the top, the overlay header is visible.
+     2. Scroll DOWN -> that same overlay header hides directly.
+        We DO NOT activate the solid surface on the way down.
+     3. Scroll UP -> activate the solid surface first, then reveal
+        the header on the next animation frame.
+     4. Back at the top -> reset to the overlay treatment.
 
-     scroll up
-       → show
-
-     near top
-       → always show
-
-     ONLY addition:
-       update isScrolled when threshold changes.
+     Solid pages keep the solid treatment for every state.
      ========================================================== */
 
   useEffect(() => {
@@ -1309,18 +1391,11 @@ export function Header() {
         window.scrollY,
       );
 
-    let accumulated =
-      0;
+    let accumulated = 0;
+    let direction = 0;
+    let frame = 0;
+    let revealFrame = 0;
 
-    let direction =
-      0;
-
-    let frame =
-      0;
-
-    /*
-     * Prevent repeated React state writes.
-     */
     let previousScrolled =
       previous >
       TOP_THRESHOLD_PX;
@@ -1329,120 +1404,160 @@ export function Header() {
       previousScrolled,
     );
 
-    const update =
-      () => {
-        frame =
-          0;
+    if (
+      usesOverlayHeader &&
+      previous <= TOP_THRESHOLD_PX
+    ) {
+      setScrollReturnSurfaceVisible(
+        false,
+      );
+    }
 
-        const y =
-          Math.max(
-            0,
-            window.scrollY,
-          );
+    const showHeader = () => {
+      header.dataset.hidden =
+        "false";
+    };
 
-        const delta =
-          y -
-          previous;
+    const update = () => {
+      frame = 0;
 
-        previous =
-          y;
+      const y =
+        Math.max(
+          0,
+          window.scrollY,
+        );
 
-        /* ====================================================
-           UPDATE TOP / SCROLLED VISUAL STATE
+      const delta =
+        y - previous;
 
-           React only updates when boolean changes.
-           ==================================================== */
+      previous = y;
 
-        const nextScrolled =
-          y >
-          TOP_THRESHOLD_PX;
+      const nextScrolled =
+        y >
+        TOP_THRESHOLD_PX;
 
-        if (
-          nextScrolled !==
-          previousScrolled
-        ) {
-          previousScrolled =
-            nextScrolled;
+      if (
+        nextScrolled !==
+        previousScrolled
+      ) {
+        previousScrolled =
+          nextScrolled;
 
-          setIsScrolled(
-            nextScrolled,
-          );
-        }
+        setIsScrolled(
+          nextScrolled,
+        );
+      }
 
-        /* ====================================================
-           EXISTING DIRECTION LOGIC
-           ==================================================== */
+      header.dataset.scrolled =
+        String(
+          nextScrolled,
+        );
 
-        const nextDirection =
-          Math.sign(
-            delta,
-          );
+      /*
+       * Returning to the top restores the hero/overlay version.
+       * This reset is intentionally independent from isScrolled so
+       * scrolling down never changes the header surface before hide.
+       */
+      if (
+        usesOverlayHeader &&
+        y <= TOP_THRESHOLD_PX
+      ) {
+        setScrollReturnSurfaceVisible(
+          false,
+        );
 
-        if (
-          nextDirection &&
-          nextDirection !==
-          direction
-        ) {
-          accumulated =
-            0;
+        accumulated = 0;
+        direction = 0;
+        showHeader();
+        return;
+      }
 
-          direction =
-            nextDirection;
-        }
+      const interactionKeepsHeaderOpen =
+        menuOpen ||
+        Boolean(openDropdown) ||
+        header.contains(
+          document.activeElement,
+        );
 
-        accumulated +=
-          Math.abs(
-            delta,
-          );
+      if (interactionKeepsHeaderOpen) {
+        accumulated = 0;
+        showHeader();
+        return;
+      }
 
-        header.dataset.scrolled =
-          String(
-            nextScrolled,
-          );
+      if (delta === 0) {
+        return;
+      }
 
+      const nextDirection =
+        Math.sign(delta);
+
+      if (
+        nextDirection !==
+        direction
+      ) {
+        accumulated = 0;
+        direction = nextDirection;
+      }
+
+      accumulated +=
+        Math.abs(delta);
+
+      if (
+        accumulated <=
+        DIRECTION_TRIGGER_PX
+      ) {
+        return;
+      }
+
+      accumulated = 0;
+
+      if (direction > 0) {
         /*
-         * Always visible close to the top.
+         * Scroll DOWN.
          *
-         * Also keep visible while:
-         * - mobile menu open
-         * - desktop dropdown open
-         * - keyboard focus is inside header
+         * Do not modify scrollReturnSurfaceVisible here. On the
+         * initial descent it is false, therefore the overlay header
+         * simply animates out without flashing the solid/gold state.
          */
-        if (
-          y < 100 ||
-          menuOpen ||
-          openDropdown ||
-          header.contains(
-            document.activeElement,
-          )
-        ) {
-          header.dataset.hidden =
-            "false";
-        } else if (
-          accumulated >
-          12
-        ) {
-          /*
-           * Down = hidden
-           * Up   = visible
-           */
-          header.dataset.hidden =
-            String(
-              direction >
-              0,
-            );
-        }
-      };
+        header.dataset.hidden =
+          "true";
+        return;
+      }
 
-    const schedule =
-      () => {
-        if (!frame) {
-          frame =
+      if (direction < 0) {
+        if (usesOverlayHeader) {
+          /*
+           * Set the solid return surface before un-hiding.
+           * The next RAF gives React a paint opportunity so the
+           * returning header never flashes the transparent version.
+           */
+          setScrollReturnSurfaceVisible(
+            true,
+          );
+
+          cancelAnimationFrame(
+            revealFrame,
+          );
+
+          revealFrame =
             requestAnimationFrame(
-              update,
+              showHeader,
             );
+        } else {
+          showHeader();
         }
-      };
+      }
+    };
+
+    const schedule = () => {
+      if (!frame) {
+        frame =
+          requestAnimationFrame(
+            update,
+          );
+      }
+    };
 
     schedule();
 
@@ -1455,8 +1570,9 @@ export function Header() {
     );
 
     return () => {
+      cancelAnimationFrame(frame);
       cancelAnimationFrame(
-        frame,
+        revealFrame,
       );
 
       window.removeEventListener(
@@ -1468,6 +1584,7 @@ export function Header() {
     menuOpen,
     openDropdown,
     pathname,
+    usesOverlayHeader,
   ]);
 
   /* ==========================================================
@@ -1494,14 +1611,14 @@ export function Header() {
 
           IMPORTANT:
 
-          Homepage:
-          no spacer, because transparent header overlays Hero.
+          Overlay-header routes:
+          no spacer, because the header sits over the page hero.
 
-          Internal pages:
-          preserve existing spacer.
+          Solid-header routes:
+          preserve the spacer so content starts below the fixed header.
           ===================================================== */}
 
-      {!isLandingPage ? (
+      {!usesOverlayHeader ? (
         <div
           aria-hidden="true"
           className={
@@ -1517,6 +1634,14 @@ export function Header() {
       <header
         ref={headerRef}
         data-site-header
+        data-header-variant={
+          resolvedVariant
+        }
+        data-surface={
+          transparentAtTop
+            ? "overlay"
+            : "solid"
+        }
         data-menu-open={
           menuOpen ||
           Boolean(
@@ -1564,9 +1689,16 @@ export function Header() {
               ? undefined
               : "background-color 280ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms ease, border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
-        onPointerEnter={
-          cancelClose
-        }
+        onPointerEnter={(event) => {
+          cancelClose();
+
+          if (
+            event.pointerType ===
+            "mouse"
+          ) {
+            setHeaderHovered(true);
+          }
+        }}
         onPointerLeave={(
           event,
         ) => {
@@ -1574,6 +1706,7 @@ export function Header() {
             event.pointerType ===
             "mouse"
           ) {
+            setHeaderHovered(false);
             scheduleClose();
           }
         }}
@@ -1831,7 +1964,8 @@ export function Header() {
             {/* ===============================================
                 CONTACT
 
-                Keep existing white/gold CTA.
+                Transparent Hero state uses the light CTA.
+                Hover/scrolled/internal states use the solid gold CTA.
                 =============================================== */}
 
             <Link
@@ -2159,4 +2293,19 @@ export function Header() {
       </header>
     </>
   );
+}
+
+/* ============================================================
+   EXPLICIT VARIANTS
+
+   Use these when a page/layout should opt in directly instead of
+   relying on the automatic route list above.
+   ============================================================ */
+
+export function OverlayHeader() {
+  return <Header variant="overlay" />;
+}
+
+export function SolidHeader() {
+  return <Header variant="solid" />;
 }

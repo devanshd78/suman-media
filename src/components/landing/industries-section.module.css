@@ -1,18 +1,13 @@
 .section {
-  --industry-side: clamp(1.25rem, 4vw, 4rem);
-  --industry-top: clamp(2.5rem, 5svh, 4.5rem);
-  --industry-bottom: 2rem;
-  --industry-gap: clamp(1.75rem, 4svh, 3.5rem);
+  --industry-side: 1.25rem;
+  --industry-gap: 1rem;
 
   position: relative;
-
   width: 100%;
   min-width: 0;
-
   padding: 0;
-
   background: #fff;
-
+  color: #000;
   font-feature-settings: "liga" off, "clig" off;
 }
 
@@ -23,14 +18,14 @@
 
 .content {
   width: 100%;
-  padding: 64px 0;
+  padding: 1.5rem 0 1.25rem;
 }
 
 .section[data-pinned="true"] .sticky {
   position: sticky;
   top: 0;
+  overflow: hidden;
 }
-
 
 /* =========================================================
    HEADER
@@ -38,81 +33,74 @@
 
 .header {
   display: grid;
-  gap: 1.75rem;
-
   width: 100%;
+  gap: 0.75rem;
   padding-inline: var(--industry-side);
 }
 
 .eyebrow {
-  margin: 0 0 1rem;
-
+  margin: 0 0 0.5rem;
   color: #b8b8b8;
-
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 0.75rem;
   font-weight: 600;
+  line-height: 1.125rem;
 }
 
 .heading {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
 
-  max-width: 26rem;
-
   color: #000;
-
-  font-size:
-    clamp(2rem,
-      1.25rem + 1.65vw,
-      2.75rem);
-
-  font-weight: 400;
-  line-height: 1.2;
-
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 1.75rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2.125rem;
   letter-spacing: -0.03125rem;
+
+  font-feature-settings: "liga" off, "clig" off;
+  overflow-wrap: anywhere;
 }
 
 .introduction {
+  width: 100%;
   min-width: 0;
-  max-width: 36rem;
+  max-width: 100%;
 }
 
 .description {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
 
-  color: #b8b8b8;
+  color: #969696;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
 
-  font-size:
-    clamp(1rem,
-      0.925rem + 0.2vw,
-      1.125rem);
-
-  line-height: 1.5;
+  font-feature-settings: "liga" off, "clig" off;
+  overflow-wrap: anywhere;
 }
 
 .cta {
   display: inline-flex;
-
-  min-height: 2.75rem;
-
-  margin-top: 0.75rem;
-
+  min-height: 2.5rem;
+  margin-top: 0.5rem;
   align-items: center;
-
   gap: 0.5rem;
 
   color: #8f6c1a;
-
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.25rem;
 }
 
 .cta svg {
   flex-shrink: 0;
-
-  transition:
-    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .cta:hover svg {
@@ -124,24 +112,21 @@
   outline-offset: 3px;
 }
 
-
 /* =========================================================
    HORIZONTAL VIEWPORT
    ========================================================= */
 
 .viewport {
+  width: 100%;
   margin-top: var(--industry-gap);
-
   overflow-x: auto;
   overflow-y: hidden;
-
   overscroll-behavior-x: contain;
-
   scroll-snap-type: x proximity;
-  scroll-padding-inline:
-    var(--industry-side);
-
+  scroll-padding-inline: var(--industry-side);
   scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .viewport::-webkit-scrollbar {
@@ -156,24 +141,17 @@
 .section[data-pinned="true"] .viewport {
   overflow: clip;
   scroll-snap-type: none;
+  touch-action: pan-y;
 }
 
 .track {
   display: flex;
-
   width: max-content;
-
   align-items: flex-start;
-
-  gap:
-    clamp(1.25rem,
-      1.6vw,
-      1.5rem);
-
-  padding-inline:
-    var(--industry-side);
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  padding-inline: var(--industry-side);
+  will-change: transform;
 }
-
 
 /* =========================================================
    CARD
@@ -181,16 +159,14 @@
 
 .card {
   display: block;
-
-  width: min(82vw, 23.5rem);
+  width: min(58vw, 17rem);
   min-width: 0;
-
   flex: 0 0 auto;
 
   background: #fff;
   color: #000;
-
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .card:focus-visible {
@@ -198,198 +174,99 @@
   outline-offset: -2px;
 }
 
-
-/* =========================================================
-   VISUAL
-   ========================================================= */
-
 .visual {
   position: relative;
-
   display: grid;
   place-items: center;
-
   width: 100%;
-
   aspect-ratio: 1;
-
   overflow: hidden;
-
   isolation: isolate;
 }
 
-
-/* =========================================================
-   GRADIENT BACKGROUND PNG
-   ========================================================= */
-
 .gradientBackground {
   position: absolute !important;
-
   inset: 0;
-
   z-index: 0;
 
   width: 100% !important;
   height: 100% !important;
-
   object-fit: cover;
   object-position: center;
 
   pointer-events: none;
-
   -webkit-user-select: none;
   user-select: none;
-
   transform: translateZ(0);
 }
 
-
-/* =========================================================
-   WHITE CONTRAST REDUCTION / WASH
-
-   Figma:
-   fill: rgba(255,255,255,0.20)
-   filter: blur(49.95000076293945px)
-   ========================================================= */
-
+/* Figma contrast reduction layer. */
 .backgroundWash {
   position: absolute;
-
-  /*
-   * Larger than card so the blur never produces
-   * transparent/darker edges inside the card.
-   */
-  inset: -12%;
-
+  inset: -14%;
   z-index: 1;
 
-  background:
-    rgba(255,
-      255,
-      255,
-      0.2);
-
-  -webkit-filter:
-    blur(49.95000076293945px);
-
-  filter:
-    blur(49.95000076293945px);
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-filter: blur(42px);
+  filter: blur(42px);
 
   pointer-events: none;
-
   transform: translateZ(0);
 }
-
-
-/* =========================================================
-   CENTRAL WHITE BLOOM
-   ========================================================= */
 
 .bloom {
   position: absolute;
-
   inset: 15%;
-
   z-index: 2;
-
   border-radius: 50%;
 
-  background:
-    rgba(255,
-      255,
-      255,
-      0.18);
-
-  -webkit-filter:
-    blur(3.8rem);
-
-  filter:
-    blur(3.8rem);
+  background: rgba(255, 255, 255, 0.18);
+  -webkit-filter: blur(3.8rem);
+  filter: blur(3.8rem);
 
   pointer-events: none;
-
   transform: translateZ(0);
 }
 
-
-/* =========================================================
-   NOISE TEXTURE
-   ========================================================= */
-
 .noise {
   position: absolute;
-
   inset: 0;
-
   z-index: 3;
-
   pointer-events: none;
 
-  opacity: 0.22;
-
+  opacity: 0.18;
   mix-blend-mode: soft-light;
 
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"
-    );
-
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
   background-repeat: repeat;
-
-  background-size:
-    160px 160px;
+  background-size: 160px 160px;
 }
-
-
-/* =========================================================
-   CARD NUMBER
-   ========================================================= */
 
 .number {
   position: absolute;
-
-  top: 1.25rem;
-  left: 1.25rem;
-
+  top: 1rem;
+  left: 1rem;
   z-index: 5;
 
-  color:
-    rgb(0 9 51 / 0.6);
-
-  font-size: 0.875rem;
+  color: rgb(0 9 51 / 0.6);
+  font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.25;
 }
 
-
-/* =========================================================
-   SVG ARTWORK
-   ========================================================= */
-
 .artwork {
   position: relative;
-
   z-index: 4;
 
   display: grid;
   place-items: center;
+  width: 66%;
+  height: 66%;
 
-  width: 70%;
-  height: 70%;
-
-  transform:
-    translateZ(0) rotate(0deg) scale(1);
-
+  transform: translateZ(0) rotate(0deg) scale(1);
   transform-origin: center;
-
-  transition:
-    transform 820ms cubic-bezier(0.16,
-      1,
-      0.3,
-      1);
-
+  transition: transform 820ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-
   backface-visibility: hidden;
 }
 
@@ -399,93 +276,318 @@
 }
 
 .artwork[data-industry-artwork="investors"] {
-  width: 64%;
-  height: 72%;
+  width: 60%;
+  height: 68%;
 }
-
-
-/* =========================================================
-   CARD CONTENT
-   ========================================================= */
 
 .cardTitle {
   display: flex;
-
-  min-height: 3.75rem;
-
+  min-height: 2.5rem;
   margin: 0;
-
-  padding: 1rem 0 0;
-
+  padding: 0.625rem 0 0;
   align-items: flex-start;
 
   color: #000;
-
-  font-size:
-    clamp(1.125rem,
-      1rem + 0.2vw,
-      1.25rem);
-
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.35;
 }
 
 .cardDescription {
-  min-height: 3rem;
-
+  min-height: 2.25rem;
+  max-width: 30ch;
   margin: 0;
 
-  max-width: 30ch;
-
   color: #555b68;
-
-  font-size: 1rem;
+  font-size: 0.8125rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.35;
 }
 
-
 /* =========================================================
-   DESKTOP HEADER
+   VERY SMALL PHONES
+   Keeps the complete pinned panel inside ~568px-tall screens.
    ========================================================= */
 
-@media (min-width: 900px) {
+@media (max-width: 359px) {
+  .section {
+    --industry-side: 1rem;
+    --industry-gap: 0.625rem;
+  }
+
+  .content {
+    padding: 1rem 0 0.75rem;
+  }
+
   .header {
-    grid-template-columns:
-      minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 0.5rem;
+  }
 
+  .eyebrow {
+    margin-bottom: 0.35rem;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+    line-height: 1.85rem;
+  }
+
+  .description {
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+  }
+
+  .cta {
+    min-height: 2.125rem;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .card {
+    width: min(54vw, 10.5rem);
+  }
+
+  .cardTitle {
+    min-height: 2.125rem;
+    padding-top: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .cardDescription {
+    min-height: 2rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* =========================================================
+   SMALL / TABLET
+   ========================================================= */
+
+@media (min-width: 640px) {
+  .section {
+    --industry-side: 2rem;
+    --industry-gap: 1.25rem;
+  }
+
+  .content {
+    padding: 2rem 0;
+  }
+
+  .header {
+    gap: 1rem;
+  }
+
+  .eyebrow {
+    font-size: 0.8125rem;
+    line-height: 1.1875rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .card {
+    width: min(44vw, 20rem);
+  }
+
+  .cardTitle {
+    min-height: 3rem;
+    padding-top: 0.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.4;
+  }
+
+  .cardDescription {
+    min-height: 2.5rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     align-items: start;
-
-    gap:
-      clamp(2rem,
-        5vw,
-        5rem);
+    gap: clamp(1.5rem, 4vw, 3rem);
   }
 
   .introduction {
     justify-self: end;
   }
+
+  .card {
+    width: min(38vw, 21rem);
+  }
 }
 
-
 /* =========================================================
-   DESKTOP
+   LAPTOP / DESKTOP
    ========================================================= */
 
-@media (min-width: 1024px) {
-  .content {
-    padding-block: 100px;
+@media (min-width: 900px) {
+  .section {
+    --industry-gap: clamp(1.25rem, 3svh, 2.25rem);
+  }
+
+  .heading {
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+  }
+
+  .description {
+    font-size: 1.125rem;
+    line-height: 1.625rem;
   }
 
   .card {
-    width:
-      clamp(15rem,
-        min(24vw,
-          calc(100svh - 33rem)),
+    width: clamp(14rem,
+        min(24vw, calc(100svh - 22rem)),
+        26rem);
+  }
+
+  .backgroundWash {
+    inset: -12%;
+    -webkit-filter: blur(49.95000076293945px);
+    filter: blur(49.95000076293945px);
+  }
+
+  .noise {
+    opacity: 0.22;
+  }
+
+  .artwork {
+    width: 70%;
+    height: 70%;
+  }
+
+  .artwork[data-industry-artwork="investors"] {
+    width: 64%;
+    height: 72%;
+  }
+
+  .number {
+    top: 1.25rem;
+    left: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .cardTitle {
+    min-height: 3.75rem;
+    padding-top: 1rem;
+    font-size: clamp(1.125rem, 1rem + 0.2vw, 1.25rem);
+    line-height: 1.5;
+  }
+
+  .cardDescription {
+    min-height: 3rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    --industry-side: 3.5rem;
+  }
+
+  .content {
+    padding-block: clamp(2rem, 5svh, 4.5rem);
+  }
+
+  .heading {
+    color: #000;
+    font-feature-settings: "liga" off, "clig" off;
+    font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+    font-size: var(--Font-size-Heading-1, 40px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--Line-height-Heading-1, 48px);
+    letter-spacing: -0.5px;
+  }
+
+  .description {
+    color: #969696;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .card {
+    width: clamp(15rem,
+        min(24vw, calc(100svh - 22rem)),
         26rem);
   }
 }
 
+/* =========================================================
+   SHORT LANDSCAPE / SHORT LAPTOPS
+   The old implementation disabled pinning here because the natural
+   content height exceeded the viewport. Compact the panel instead.
+   ========================================================= */
+
+@media (min-width: 768px) and (max-height: 640px) {
+  .section {
+    --industry-gap: 0.75rem;
+  }
+
+  .content {
+    padding: 1.125rem 0 1rem;
+  }
+
+  .header {
+    gap: 1.25rem;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.35rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+    line-height: 2.35rem;
+    letter-spacing: -0.025rem;
+  }
+
+  .description {
+    font-size: 0.9375rem;
+    line-height: 1.35rem;
+  }
+
+  .cta {
+    min-height: 2.25rem;
+    margin-top: 0.35rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+  }
+
+  .card {
+    width: clamp(12rem,
+        min(20vw, calc(100svh - 17rem)),
+        19rem);
+  }
+
+  .cardTitle {
+    min-height: 2.5rem;
+    padding-top: 0.625rem;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .cardDescription {
+    min-height: 2.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+}
 
 /* =========================================================
    DESKTOP HOVER
@@ -494,74 +596,49 @@
 @media (hover: hover) and (pointer: fine) {
   .cardDescription {
     opacity: 0;
-
-    transform:
-      translateY(5px);
-
+    transform: translateY(5px);
     transition:
       opacity 520ms ease,
-      transform 680ms cubic-bezier(0.22,
-        1,
-        0.36,
-        1);
+      transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .card:hover .artwork,
   .card:focus-visible .artwork {
-    transform:
-      translateZ(0) rotate(-3deg) scale(1.018);
+    transform: translateZ(0) rotate(-3deg) scale(1.018);
   }
 
   .card:hover .cardDescription,
   .card:focus-visible .cardDescription {
     opacity: 1;
-
-    transform:
-      translateY(0);
+    transform: translateY(0);
   }
 }
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 639px) {
-  .artwork {
-    width: 66%;
-    height: 66%;
-  }
-
-  .artwork[data-industry-artwork="investors"] {
-    width: 60%;
-    height: 68%;
-  }
-
-  .noise {
-    opacity: 0.18;
-  }
-
-  /*
-   * Slightly reduce blur radius on small screens.
-   * Visually nearly identical but cheaper to composite.
-   */
-  .backgroundWash {
-    inset: -14%;
-
-    -webkit-filter:
-      blur(42px);
-
-    filter:
-      blur(42px);
-  }
-}
-
 
 /* =========================================================
    REDUCED MOTION
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto !important;
+  }
+
+  .sticky {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .viewport {
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+  }
+
+  .track {
+    transform: none !important;
+    will-change: auto;
+  }
 
   .artwork,
   .cta svg,

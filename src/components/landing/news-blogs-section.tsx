@@ -398,6 +398,16 @@ export function NewsBlogsSection({
   const scrollerRef =
     useRef<HTMLDivElement>(null);
 
+  const dragRef = useRef({
+    pointerId: -1,
+    startX: 0,
+    startScrollLeft: 0,
+    moved: false,
+  });
+
+  const suppressClickRef =
+    useRef(false);
+
   const [
     canScrollPrevious,
     setCanScrollPrevious,
@@ -407,6 +417,27 @@ export function NewsBlogsSection({
     canScrollNext,
     setCanScrollNext,
   ] = useState(true);
+
+  const [
+    isDragging,
+    setIsDragging,
+  ] = useState(false);
+
+  const getCards =
+    useCallback(() => {
+      const scroller =
+        scrollerRef.current;
+
+      if (!scroller) {
+        return [] as HTMLElement[];
+      }
+
+      return Array.from(
+        scroller.querySelectorAll<HTMLElement>(
+          "[data-news-blog-card]",
+        ),
+      );
+    }, []);
 
   /* ==========================================================
      UPDATE NAV STATE
@@ -437,6 +468,139 @@ export function NewsBlogsSection({
         maxScroll - 4,
       );
     }, []);
+
+  /* ==========================================================
+     DRAG / SNAP HELPERS
+     ========================================================== */
+
+  const snapToNearestCard =
+    useCallback(
+      (
+        behavior: ScrollBehavior =
+          "smooth",
+      ) => {
+        const scroller =
+          scrollerRef.current;
+        const cards = getCards();
+
+        if (
+          !scroller ||
+          cards.length === 0
+        ) {
+          return;
+        }
+
+        const scrollerRect =
+          scroller.getBoundingClientRect();
+
+        let nearestLeft =
+          scroller.scrollLeft;
+        let nearestDistance =
+          Number.POSITIVE_INFINITY;
+
+        cards.forEach((card) => {
+          const cardRect =
+            card.getBoundingClientRect();
+
+          const cardLeft =
+            scroller.scrollLeft +
+            cardRect.left -
+            scrollerRect.left;
+
+          const distance =
+            Math.abs(
+              cardRect.left -
+              scrollerRect.left,
+            );
+
+          if (
+            distance <
+            nearestDistance
+          ) {
+            nearestDistance =
+              distance;
+            nearestLeft =
+              cardLeft;
+          }
+        });
+
+        const maxScroll =
+          Math.max(
+            0,
+            scroller.scrollWidth -
+            scroller.clientWidth,
+          );
+
+        scroller.scrollTo({
+          left: Math.min(
+            maxScroll,
+            Math.max(
+              0,
+              nearestLeft,
+            ),
+          ),
+          behavior,
+        });
+      },
+      [getCards],
+    );
+
+  const finishDrag =
+    useCallback(
+      (pointerId: number) => {
+        const scroller =
+          scrollerRef.current;
+
+        if (
+          !scroller ||
+          dragRef.current.pointerId !==
+          pointerId
+        ) {
+          return;
+        }
+
+        if (
+          scroller.hasPointerCapture(
+            pointerId,
+          )
+        ) {
+          scroller.releasePointerCapture(
+            pointerId,
+          );
+        }
+
+        const moved =
+          dragRef.current.moved;
+
+        dragRef.current.pointerId =
+          -1;
+        dragRef.current.moved =
+          false;
+
+        setIsDragging(false);
+
+        if (moved) {
+          suppressClickRef.current =
+            true;
+
+          window.requestAnimationFrame(
+            () => {
+              snapToNearestCard();
+              updateScrollState();
+            },
+          );
+
+          window.setTimeout(() => {
+            suppressClickRef.current =
+              false;
+          }, 120);
+        }
+      },
+      [
+        snapToNearestCard,
+        updateScrollState,
+      ],
+    );
 
   /* ==========================================================
      SCROLL / RESIZE OBSERVER
@@ -734,6 +898,108 @@ export function NewsBlogsSection({
       <div
         ref={scrollerRef}
         data-landing-parallax-layer="reverse"
+        data-dragging={isDragging}
+        role="region"
+        aria-label="News and Blogs carousel"
+        tabIndex={0}
+        onClickCapture={(event) => {
+          if (
+            !suppressClickRef.current
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+          suppressClickRef.current =
+            false;
+        }}
+        onDragStart={(event) => {
+          event.preventDefault();
+        }}
+        onPointerDown={(event) => {
+          if (
+            event.pointerType ===
+            "mouse" &&
+            event.button !== 0
+          ) {
+            return;
+          }
+
+          const scroller =
+            scrollerRef.current;
+
+          if (!scroller) {
+            return;
+          }
+
+          dragRef.current = {
+            pointerId:
+              event.pointerId,
+            startX: event.clientX,
+            startScrollLeft:
+              scroller.scrollLeft,
+            moved: false,
+          };
+
+          scroller.setPointerCapture(
+            event.pointerId,
+          );
+
+          setIsDragging(true);
+        }}
+        onPointerMove={(event) => {
+          const scroller =
+            scrollerRef.current;
+          const drag =
+            dragRef.current;
+
+          if (
+            !scroller ||
+            drag.pointerId !==
+            event.pointerId
+          ) {
+            return;
+          }
+
+          const delta =
+            event.clientX -
+            drag.startX;
+
+          if (
+            Math.abs(delta) > 6
+          ) {
+            drag.moved = true;
+          }
+
+          if (drag.moved) {
+            scroller.scrollLeft =
+              drag.startScrollLeft -
+              delta;
+          }
+        }}
+        onPointerUp={(event) => {
+          finishDrag(
+            event.pointerId,
+          );
+        }}
+        onPointerCancel={(event) => {
+          finishDrag(
+            event.pointerId,
+          );
+        }}
+        onLostPointerCapture={(event) => {
+          if (
+            dragRef.current.pointerId ===
+            event.pointerId
+          ) {
+            dragRef.current.pointerId =
+              -1;
+            dragRef.current.moved =
+              false;
+            setIsDragging(false);
+          }
+        }}
         className="
           news-blogs-track
 
@@ -753,6 +1019,10 @@ export function NewsBlogsSection({
           overscroll-x-contain
 
           scroll-smooth
+
+          cursor-grab
+          select-none
+          [touch-action:pan-y]
 
           pb-1
 
@@ -891,6 +1161,16 @@ export function NewsBlogsSection({
         .news-blogs-track {
           -ms-overflow-style: none;
           -webkit-overflow-scrolling: touch;
+        }
+
+        .news-blogs-track[data-dragging="true"] {
+          cursor: grabbing;
+          scroll-behavior: auto;
+          scroll-snap-type: none;
+        }
+
+        .news-blogs-track[data-dragging="true"] a {
+          pointer-events: none;
         }
 
         .news-blogs-track::-webkit-scrollbar {

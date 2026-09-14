@@ -330,7 +330,8 @@ export function AchievementRevealGrid({
             relative
             z-[2]
             mt-10
-            max-w-[67rem]
+            w-full
+            max-w-full
 
             sm:mt-12
 
@@ -340,19 +341,28 @@ export function AchievementRevealGrid({
           <h2
             id="achievement-heading"
             className="
-              max-w-[64rem]
+              w-full
+              max-w-full
+
               text-[2rem]
               font-semibold
               leading-[1.1]
               tracking-[-0.035em]
               text-[#8F6C1A]
 
+              sm:max-w-[92%]
               sm:text-[2.75rem]
 
+              md:max-w-[84%]
+
+              lg:max-w-[78%]
               lg:text-[3.6rem]
               lg:leading-[1.08]
 
+              xl:max-w-[76%]
               xl:text-[4rem]
+
+              2xl:max-w-[74%]
             "
           >
             {heading}
@@ -362,13 +372,24 @@ export function AchievementRevealGrid({
             <p
               className="
                 mt-5
-                max-w-[48rem]
+                w-full
+                max-w-full
+
                 text-sm
                 leading-6
                 text-[#8F6C1A]
 
+                sm:max-w-[96%]
                 sm:text-base
                 sm:leading-7
+
+                md:max-w-[92%]
+
+                lg:max-w-[88%]
+
+                xl:max-w-[86%]
+
+                2xl:max-w-[84%]
               "
             >
               {description}
@@ -403,7 +424,7 @@ export function AchievementRevealGrid({
     lg:mt-11
   "
           >
-<span>{ctaLabel}</span>
+            <span>{ctaLabel}</span>
             <ArrowRightIcon />
           </Link>
         </div>

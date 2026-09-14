@@ -20,6 +20,7 @@ import {
 } from "framer-motion";
 
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -38,7 +39,6 @@ type GalleryMedia = {
   alt: string;
   poster?: string;
   position?: string;
-  fit?: "cover" | "contain";
 };
 
 type GalleryGeometry = {
@@ -46,7 +46,6 @@ type GalleryGeometry = {
   travel: number;
   initialScale: number;
   endFraction: number;
-  topStartOffset: number;
 };
 
 type CannesSectionProps = {
@@ -82,153 +81,108 @@ const DEFAULT_CTA = {
    Do NOT use even/odd splitting.
    ============================================================ */
 
+const FOCUS_MEDIA_PATH =
+  "/cannes/cannes-red-carpet-interview.mp4";
+
+/*
+ * The cards are consistently landscape (~1.46:1).
+ * Portrait / near-square files produce the large black side areas shown
+ * in the reference screenshot, so those items are removed after their
+ * intrinsic dimensions are known. The highlighted red-carpet interview
+ * remains allowed and is always placed first.
+ */
+const MIN_ACCEPTED_MEDIA_ASPECT = 1.15;
+const MAX_ACCEPTED_MEDIA_ASPECT = 2.2;
+
 const FALLBACK_CANNES_TOP_ROW: readonly GalleryMedia[] = [
+  {
+    key: "cannes-red-carpet-interview",
+    kind: "video",
+    src: FOCUS_MEDIA_PATH,
+    alt: "Red carpet interview moment at Cannes",
+    position: "center center",
+  },
   {
     key: "cannes-red-carpet-guests-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-guests-01.jpg",
     alt: "Guests greeting the audience on the Cannes red carpet",
     position: "center 38%",
-    fit: "contain",
   },
-
-  {
-    key: "cannes-interview-indoor",
-    kind: "video",
-    src: "/cannes/cannes-interview-indoor.mp4",
-    alt: "Cannes interview and pavilion moment",
-    fit: "contain",
-  },
-
-  {
-    key: "cannes-red-carpet-interview",
-    kind: "video",
-    src: "/cannes/cannes-red-carpet-interview.mp4",
-    alt: "Red carpet interview moment at Cannes",
-    fit: "contain",
-  },
-
   {
     key: "cannes-pavilion-guests-02",
     kind: "image",
     src: "/cannes/cannes-pavilion-guests-02.jpg",
     alt: "Guests meeting at the Cannes pavilion",
     position: "center 42%",
-    fit: "contain",
   },
-
   {
     key: "cannes-red-carpet-group-02",
     kind: "image",
     src: "/cannes/cannes-red-carpet-group-02.jpg",
     alt: "Festival guests posing together on the Cannes red carpet",
     position: "center 42%",
-    fit: "contain",
   },
-
-  {
-    key: "cannes-red-carpet-portrait-video",
-    kind: "video",
-    src: "/cannes/cannes-red-carpet-portrait-video.mp4",
-    alt: "Close-up Cannes red carpet portrait moment",
-    position: "center center",
-    fit: "contain",
-  },
-
   {
     key: "cannes-red-carpet-portrait-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-portrait-01.jpg",
     alt: "Festival guest in traditional attire on the Cannes red carpet",
     position: "center 34%",
-    fit: "contain",
   },
 ];
 
-
 const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
-  {
-    key: "cannes-red-carpet-blue-look-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
-    alt: "Traditional blue look on the Cannes red carpet",
-    position: "center 48%",
-    fit: "contain",
-  },
-
-  {
-    key: "cannes-red-carpet-walk",
-    kind: "video",
-    src: "/cannes/cannes-red-carpet-walk.mp4",
-    alt: "Cannes red carpet walk",
-    position: "center center",
-    fit: "contain",
-  },
-
   {
     key: "cannes-red-carpet-group-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-group-01.jpg",
     alt: "Guests representing Indian culture on the Cannes red carpet",
     position: "center 44%",
-    fit: "contain",
   },
-
   {
     key: "cannes-riviera-portrait-01",
     kind: "image",
     src: "/cannes/cannes-riviera-portrait-01.jpg",
     alt: "Festival portrait overlooking the Cannes waterfront",
     position: "center 42%",
-    fit: "contain",
   },
-
   {
     key: "cannes-interview-group",
     kind: "video",
     src: "/cannes/cannes-interview-group.mp4",
     alt: "Cannes festival interview with guests",
     position: "center center",
-    fit: "contain",
   },
-
-  {
-    key: "cannes-red-carpet-group-02-bottom",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-02.jpg",
-    alt: "Cannes red carpet group moment",
-    position: "center 42%",
-    fit: "contain",
-  },
-
-  {
-    key: "cannes-interview-group-short",
-    kind: "video",
-    src: "/cannes/cannes-interview-group-short.mp4",
-    alt: "Cannes interview moment at the Bharat Pavilion",
-    position: "center center",
-    fit: "contain",
-  },
-
   {
     key: "cannes-pavilion-guests-01",
     kind: "image",
     src: "/cannes/cannes-pavilion-guests-01.jpg",
     alt: "Guests gathering at the Cannes pavilion",
     position: "center 38%",
-    fit: "contain",
   },
-
   {
     key: "cannes-red-carpet-blue-look-01",
     kind: "image",
     src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
     alt: "Traditional blue look presented on the Cannes red carpet",
     position: "center 48%",
-    fit: "contain",
+  },
+  {
+    key: "cannes-red-carpet-blue-look-02",
+    kind: "image",
+    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
+    alt: "Traditional blue look on the Cannes red carpet",
+    position: "center 48%",
+  },
+  {
+    key: "cannes-interview-group-short",
+    kind: "video",
+    src: "/cannes/cannes-interview-group-short.mp4",
+    alt: "Cannes interview moment at the Bharat Pavilion",
+    position: "center center",
   },
 ];
-
 
 /* Combined fallback is still useful for reduced-motion/static mode */
 const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
@@ -248,28 +202,64 @@ function expandGalleryRow(
     return [];
   }
 
+  /*
+   * IMPORTANT: never prepend a clone.
+   * The first real media item must remain the first visible card.
+   * If a short CMS row needs extra width, repeat items only at the end.
+   */
   const expanded = [...row];
 
-  /*
-   * Maintain enough cards for wide screens.
-   */
-  while (expanded.length < 4) {
+  while (expanded.length < 5) {
     expanded.push(
       row[expanded.length % row.length],
     );
   }
 
-  /*
-   * Add one clone to each side.
-   *
-   * This allows the horizontal movement to happen without
-   * revealing empty space at either edge.
-   */
+  return expanded;
+}
+
+function normalizeMediaPath(src: string) {
+  try {
+    return new URL(src, "http://localhost").pathname;
+  } catch {
+    return src.split("?")[0];
+  }
+}
+
+function isFocusMedia(media: GalleryMedia) {
+  return normalizeMediaPath(media.src) === FOCUS_MEDIA_PATH;
+}
+
+function prioritizeFocusMedia(
+  media: readonly GalleryMedia[],
+): GalleryMedia[] {
+  const focusIndex = media.findIndex(isFocusMedia);
+
+  if (focusIndex <= 0) {
+    return [...media];
+  }
+
   return [
-    expanded[expanded.length - 1],
-    ...expanded,
-    expanded[0],
+    media[focusIndex],
+    ...media.slice(0, focusIndex),
+    ...media.slice(focusIndex + 1),
   ];
+}
+
+function hasAcceptedAspect(
+  width: number,
+  height: number,
+) {
+  if (width <= 0 || height <= 0) {
+    return true;
+  }
+
+  const ratio = width / height;
+
+  return (
+    ratio >= MIN_ACCEPTED_MEDIA_ASPECT &&
+    ratio <= MAX_ACCEPTED_MEDIA_ASPECT
+  );
 }
 
 
@@ -292,28 +282,39 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
   const imageUrl = item.imageUrl?.trim();
 
   const hotspotPosition =
-    typeof item.imageHotspotX === "number" && typeof item.imageHotspotY === "number"
-      ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(item.imageHotspotY * 100)}%`
+    typeof item.imageHotspotX === "number" &&
+      typeof item.imageHotspotY === "number"
+      ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(
+        item.imageHotspotY * 100,
+      )}%`
       : undefined;
 
-  const position = item.objectPosition?.trim() || hotspotPosition;
-  const requestedFit =
-    item.objectFit === "contain" || item.objectFit === "cover"
-      ? item.objectFit
-      : undefined;
+  const position =
+    item.objectPosition?.trim() ||
+    hotspotPosition;
 
-  // Prefer an explicitly selected video. Also accept a valid video URL when
-  // older Sanity content predates the mediaType field. Videos default to
-  // contain so faces and full portrait footage are never cropped away.
-  if ((item.mediaType === "video" || (!item.mediaType && videoUrl)) && videoUrl) {
+  /*
+   * Cannes cards are intentionally edge-to-edge.
+   * CMS `contain` is ignored here because it creates the black side bars
+   * visible in the supplied screenshot.
+   */
+  if (
+    (item.mediaType === "video" ||
+      (!item.mediaType && videoUrl)) &&
+    videoUrl
+  ) {
     return {
       key: item._key,
       kind: "video",
       src: videoUrl,
-      alt: item.videoLabel?.trim() || item.caption?.trim() || "Cannes 2026 video moment",
-      poster: item.posterUrl?.trim() || undefined,
+      alt:
+        item.videoLabel?.trim() ||
+        item.caption?.trim() ||
+        "Cannes 2026 video moment",
+      poster:
+        item.posterUrl?.trim() ||
+        undefined,
       position,
-      fit: requestedFit || "contain",
     };
   }
 
@@ -322,13 +323,11 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
       key: item._key,
       kind: "image",
       src: imageUrl,
-      alt: item.imageAlt?.trim() || item.caption?.trim() || "Cannes 2026 moment",
+      alt:
+        item.imageAlt?.trim() ||
+        item.caption?.trim() ||
+        "Cannes 2026 moment",
       position,
-      // The Cannes wall prioritizes the whole frame by default so faces,
-      // full outfits and group compositions are not cropped. Editors can
-      // explicitly switch an item to `cover` in Sanity when edge-to-edge
-      // framing is more important.
-      fit: requestedFit || "contain",
     };
   }
 
@@ -366,9 +365,8 @@ const EASE: [number, number, number, number] = [
 const INITIAL_GEOMETRY: GalleryGeometry = {
   height: 0,
   travel: 0,
-  initialScale: 1.45,
+  initialScale: 1.28,
   endFraction: 1.35 / 2.35,
-  topStartOffset: 0,
 };
 
 function clamp01(value: number) {
@@ -412,26 +410,36 @@ function GalleryVideo({
   loadMedia,
   reducedMotion,
   decorative,
+  onInvalidAspect,
 }: {
   media: GalleryMedia;
   active: boolean;
   loadMedia: boolean;
   reducedMotion: boolean;
   decorative: boolean;
+  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const videoInView = useInView(videoRef, { margin: "160px 0px 160px 0px" });
-  const shouldAutoplay = loadMedia && active && videoInView && !reducedMotion;
+  const videoInView = useInView(videoRef, {
+    margin: "160px 0px 160px 0px",
+  });
+
+  const shouldAutoplay =
+    loadMedia &&
+    active &&
+    videoInView &&
+    !reducedMotion;
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !loadMedia) return;
+
+    if (!video || !loadMedia) {
+      return;
+    }
 
     if (shouldAutoplay) {
       void video.play().catch(() => {
-        // Muted autoplay is allowed by modern browsers, but playback can
-        // still be blocked by user/browser policy. Failing silently keeps
-        // the media wall stable and the first frame visible.
+        /* Browser autoplay policy can still reject playback. */
       });
     } else {
       video.pause();
@@ -445,18 +453,45 @@ function GalleryVideo({
       poster={media.poster}
       className={styles.video}
       style={{
-        objectPosition: media.position ?? "center",
-        objectFit: media.fit ?? "contain",
+        objectPosition:
+          media.position ?? "center",
+        objectFit: "cover",
+      }}
+      onLoadedMetadata={(event) => {
+        if (isFocusMedia(media)) {
+          return;
+        }
+
+        const video = event.currentTarget;
+
+        if (
+          !hasAcceptedAspect(
+            video.videoWidth,
+            video.videoHeight,
+          )
+        ) {
+          onInvalidAspect(media);
+        }
       }}
       autoPlay={shouldAutoplay}
       muted
       loop
       playsInline
       preload={loadMedia ? "metadata" : "none"}
-      controls={reducedMotion && !decorative}
-      aria-hidden={decorative ? true : undefined}
-      aria-label={decorative ? undefined : media.alt}
-      tabIndex={reducedMotion && !decorative ? 0 : -1}
+      controls={
+        reducedMotion && !decorative
+      }
+      aria-hidden={
+        decorative ? true : undefined
+      }
+      aria-label={
+        decorative ? undefined : media.alt
+      }
+      tabIndex={
+        reducedMotion && !decorative
+          ? 0
+          : -1
+      }
       disablePictureInPicture
     />
   );
@@ -468,15 +503,22 @@ function GalleryCard({
   loadMedia,
   active,
   reducedMotion,
+  onInvalidAspect,
 }: {
   media: GalleryMedia;
   decorative?: boolean;
   loadMedia: boolean;
   active: boolean;
   reducedMotion: boolean;
+  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   return (
-    <figure className={styles.card} aria-hidden={decorative ? true : undefined}>
+    <figure
+      className={styles.card}
+      aria-hidden={
+        decorative ? true : undefined
+      }
+    >
       {media.kind === "video" ? (
         <GalleryVideo
           media={media}
@@ -484,6 +526,7 @@ function GalleryCard({
           loadMedia={loadMedia}
           reducedMotion={reducedMotion}
           decorative={decorative}
+          onInvalidAspect={onInvalidAspect}
         />
       ) : (
         <Image
@@ -500,8 +543,25 @@ function GalleryCard({
           "
           className={styles.image}
           style={{
-            objectPosition: media.position ?? "center",
-            objectFit: media.fit ?? "cover",
+            objectPosition:
+              media.position ?? "center",
+            objectFit: "cover",
+          }}
+          onLoad={(event) => {
+            if (isFocusMedia(media)) {
+              return;
+            }
+
+            const image = event.currentTarget;
+
+            if (
+              !hasAcceptedAspect(
+                image.naturalWidth,
+                image.naturalHeight,
+              )
+            ) {
+              onInvalidAspect(media);
+            }
           }}
         />
       )}
@@ -520,6 +580,7 @@ function GalleryRow({
   loadMedia,
   active,
   reducedMotion,
+  onInvalidAspect,
 }: {
   media: readonly GalleryMedia[];
   x: MotionValue<number>;
@@ -527,9 +588,15 @@ function GalleryRow({
   loadMedia: boolean;
   active: boolean;
   reducedMotion: boolean;
+  onInvalidAspect: (media: GalleryMedia) => void;
 }) {
   return (
-    <div className={styles.row} aria-hidden={decorative ? true : undefined}>
+    <div
+      className={styles.row}
+      aria-hidden={
+        decorative ? true : undefined
+      }
+    >
       <motion.div
         data-cannes-row-track
         className={styles.track}
@@ -539,12 +606,11 @@ function GalleryRow({
           <GalleryCard
             key={`${item.key}-${index}`}
             media={item}
-            decorative={
-              decorative || index === 0 || index === media.length - 1
-            }
+            decorative={decorative}
             loadMedia={loadMedia}
             active={active}
             reducedMotion={reducedMotion}
+            onInvalidAspect={onInvalidAspect}
           />
         ))}
       </motion.div>
@@ -562,34 +628,80 @@ export function CannesSection({ content }: CannesSectionProps) {
 
   const reduceMotion = useReducedMotion() === true;
 
+  const [excludedMediaKeys, setExcludedMediaKeys] =
+    useState<Set<string>>(() => new Set());
+
+  const rejectWrongAspectMedia = useCallback(
+    (media: GalleryMedia) => {
+      if (isFocusMedia(media)) {
+        return;
+      }
+
+      setExcludedMediaKeys((current) => {
+        if (current.has(media.key)) {
+          return current;
+        }
+
+        const next = new Set(current);
+        next.add(media.key);
+        return next;
+      });
+    },
+    [],
+  );
+
   const cmsMedia =
     content?.media
       ?.map(toGalleryMedia)
-      .filter((item): item is GalleryMedia => item !== null) ?? [];
+      .filter(
+        (item): item is GalleryMedia =>
+          item !== null,
+      ) ?? [];
+
+  const orderedCmsMedia =
+    prioritizeFocusMedia(cmsMedia).filter(
+      (item) =>
+        !excludedMediaKeys.has(item.key),
+    );
+
+  const fallbackTopRow =
+    FALLBACK_CANNES_TOP_ROW.filter(
+      (item) =>
+        !excludedMediaKeys.has(item.key),
+    );
+
+  const fallbackBottomRow =
+    FALLBACK_CANNES_BOTTOM_ROW.filter(
+      (item) =>
+        !excludedMediaKeys.has(item.key),
+    );
 
   const usingCmsMedia =
-    cmsMedia.length > 0;
+    orderedCmsMedia.length > 0;
 
   const galleryMedia =
     usingCmsMedia
-      ? cmsMedia
-      : [...FALLBACK_CANNES_MEDIA];
+      ? orderedCmsMedia
+      : [
+        ...fallbackTopRow,
+        ...fallbackBottomRow,
+      ];
 
   /*
-   * Local fallback has an exact designed row order.
-   *
-   * Sanity preserves editor order:
-   * first half → first row
-   * second half → second row.
+   * Correct visible order:
+   * - highlighted red-carpet interview first
+   * - then source/editor order
+   * - no leading clone before item 1
+   * - portrait / incompatible media disappears after metadata validation
    */
   const galleryRows = usingCmsMedia
-    ? buildGalleryRows(cmsMedia)
+    ? buildGalleryRows(orderedCmsMedia)
     : [
+      expandGalleryRow(fallbackTopRow),
       expandGalleryRow(
-        FALLBACK_CANNES_TOP_ROW,
-      ),
-      expandGalleryRow(
-        FALLBACK_CANNES_BOTTOM_ROW,
+        fallbackBottomRow.length > 0
+          ? fallbackBottomRow
+          : fallbackTopRow,
       ),
     ] as const;
 
@@ -631,16 +743,21 @@ export function CannesSection({ content }: CannesSectionProps) {
 
     const stage = stageRef.current;
 
-    const track =
-      stage?.querySelector<HTMLElement>(
-        "[data-cannes-row-track]",
-      );
+    const tracks = stage
+      ? Array.from(
+        stage.querySelectorAll<HTMLElement>(
+          "[data-cannes-row-track]",
+        ),
+      )
+      : [];
 
-    const card = track?.firstElementChild;
+    const firstTrack = tracks[0];
+    const card =
+      firstTrack?.firstElementChild;
 
     if (
       !stage ||
-      !track ||
+      !firstTrack ||
       !(card instanceof HTMLElement)
     ) {
       return;
@@ -665,31 +782,13 @@ export function CannesSection({ content }: CannesSectionProps) {
 
       const gap =
         Number.parseFloat(
-          getComputedStyle(track).columnGap,
+          getComputedStyle(firstTrack).columnGap,
         ) || 0;
 
-      const cardStep = card.offsetWidth + gap;
+      const cardStep =
+        card.offsetWidth + gap;
 
-      /*
-       * Limit horizontal travel to the available row width.
-       * This prevents black gaps at the left or right edges.
-       */
       const compact = width < 1024;
-
-      /*
-       * DESKTOP START FRAME
-       * -------------------
-       * The previous 2.05x zoom made one card sit in the centre with
-       * two partial cards at the sides. For row 1 we want TWO complete
-       * cards to be the dominant starting composition.
-       *
-       * 1) Shift row 1 by half a card step so the viewport centre sits
-       *    between two cards instead of through the centre of one card.
-       * 2) Derive the initial scale from the measured card width so two
-       *    cards occupy about 92% of the stage width.
-       */
-      const topStartOffset =
-        width >= 1024 ? -(cardStep / 2) : 0;
 
       const twoCardWidth =
         card.offsetWidth * 2 + gap;
@@ -697,89 +796,119 @@ export function CannesSection({ content }: CannesSectionProps) {
       const desktopPairScale =
         twoCardWidth > 0
           ? (width * 0.92) / twoCardWidth
-          : 1.4;
+          : 1.24;
 
       const initialScale =
         width < 640
-          ? 1.12
+          ? 1.06
           : compact
-            ? 1.22
+            ? 1.12
             : Math.min(
-              1.5,
-              Math.max(1.18, desktopPairScale),
+              1.32,
+              Math.max(
+                1.12,
+                desktopPairScale,
+              ),
             );
 
-      const safeOverflow = Math.max(
-        0,
-        (track.scrollWidth - width) / 2 -
-        Math.abs(topStartOffset) -
-        16,
-      );
+      /*
+       * Tracks are left-aligned now, so item 1 is the first visible card.
+       * Limit movement by the shortest row to guarantee that no black
+       * empty strip appears at the end of either row.
+       */
+      const availableTravels =
+        tracks.map((track) =>
+          Math.max(
+            0,
+            track.scrollWidth - width - 16,
+          ),
+        );
+
+      const safeOverflow =
+        availableTravels.length > 0
+          ? Math.min(...availableTravels)
+          : 0;
 
       const travel = Math.min(
-        cardStep * (compact ? 1.15 : 1.8),
+        cardStep * (compact ? 0.85 : 1.35),
         safeOverflow,
       );
 
-      /*
-       * The scroll scene consists of:
-       *
-       * one visible stage
-       * +
-       * the distance used by the zoom/row animation.
-       *
-       * No additional inactive hold is appended.
-       */
       const scrollDistance = Math.round(
-        height * (compact ? 1.1 : 1.35),
+        height * (compact ? 1.05 : 1.25),
       );
 
-      const totalHeight = height + scrollDistance;
+      const totalHeight =
+        height + scrollDistance;
 
       const next: GalleryGeometry = {
         height: totalHeight,
         travel,
-
         initialScale,
-
         endFraction:
           scrollDistance / totalHeight,
-
-        topStartOffset,
       };
 
       setGeometry((current) =>
-        Math.abs(current.height - next.height) < 0.5 &&
-          Math.abs(current.travel - next.travel) < 0.5 &&
-          Math.abs(current.initialScale - next.initialScale) < 0.0001 &&
+        Math.abs(
+          current.height - next.height,
+        ) < 0.5 &&
           Math.abs(
-            current.endFraction - next.endFraction,
+            current.travel - next.travel,
+          ) < 0.5 &&
+          Math.abs(
+            current.initialScale -
+            next.initialScale,
           ) < 0.0001 &&
           Math.abs(
-            current.topStartOffset - next.topStartOffset,
-          ) < 0.5
+            current.endFraction -
+            next.endFraction,
+          ) < 0.0001
           ? current
           : next,
       );
     };
 
     const scheduleMeasure = () => {
-      if (!disposed && frame === null) {
-        frame = requestAnimationFrame(measure);
+      if (
+        !disposed &&
+        frame === null
+      ) {
+        frame = requestAnimationFrame(
+          measure,
+        );
       }
     };
 
     scheduleMeasure();
 
-    const observer = new ResizeObserver(
-      scheduleMeasure,
-    );
+    const observer =
+      new ResizeObserver(
+        scheduleMeasure,
+      );
 
     observer.observe(stage);
-    observer.observe(track);
-    observer.observe(card);
+
+    tracks.forEach((track) => {
+      observer.observe(track);
+
+      const firstCard =
+        track.firstElementChild;
+
+      if (
+        firstCard instanceof HTMLElement
+      ) {
+        observer.observe(firstCard);
+      }
+    });
 
     window.addEventListener(
+      "resize",
+      scheduleMeasure,
+      { passive: true },
+    );
+
+    window.visualViewport?.addEventListener(
       "resize",
       scheduleMeasure,
       { passive: true },
@@ -798,8 +927,17 @@ export function CannesSection({ content }: CannesSectionProps) {
         "resize",
         scheduleMeasure,
       );
+
+      window.visualViewport?.removeEventListener(
+        "resize",
+        scheduleMeasure,
+      );
     };
-  }, [reduceMotion]);
+  }, [
+    reduceMotion,
+    galleryRows[0].length,
+    galleryRows[1].length,
+  ]);
 
   /* ==========================================================
      SCROLL PROGRESS
@@ -847,25 +985,28 @@ export function CannesSection({ content }: CannesSectionProps) {
   );
 
   /* ==========================================================
-     OPPOSING ROW MOVEMENT
+     ROW MOVEMENT
 
-     The horizontal movement starts gently and increases
-     as the wall zooms out.
-
-     Both values reverse naturally when scrolling upward.
+     Both rows start from their real first item so the visible sequence
+     is deterministic. The upper row travels slightly faster than the
+     lower row for depth, and both reverse naturally on scroll-up.
      ========================================================== */
 
   const topX = useTransform(
     progress,
     (value) =>
-      geometry.topStartOffset -
-      geometry.travel * value * value,
+      -geometry.travel *
+      value *
+      value,
   );
 
   const bottomX = useTransform(
     progress,
     (value) =>
-      geometry.travel * value * value,
+      -geometry.travel *
+      0.72 *
+      value *
+      value,
   );
 
   /* ==========================================================
@@ -994,6 +1135,7 @@ export function CannesSection({ content }: CannesSectionProps) {
                   loadMedia={loadMedia}
                   active={sceneVisible}
                   reducedMotion={reduceMotion}
+                  onInvalidAspect={rejectWrongAspectMedia}
                 />
               ))}
             </div>
@@ -1020,9 +1162,10 @@ export function CannesSection({ content }: CannesSectionProps) {
                 loadMedia={loadMedia}
                 active={sceneVisible}
                 reducedMotion={reduceMotion}
+                onInvalidAspect={rejectWrongAspectMedia}
               />
 
-              {/* ROW 2 — MOVES RIGHT */}
+              {/* ROW 2 — SAME ORDER, SLOWER LEFT PARALLAX */}
 
               <GalleryRow
                 media={galleryRows[1]}
@@ -1031,6 +1174,7 @@ export function CannesSection({ content }: CannesSectionProps) {
                 loadMedia={loadMedia}
                 active={sceneVisible}
                 reducedMotion={reduceMotion}
+                onInvalidAspect={rejectWrongAspectMedia}
               />
             </motion.div>
           </div>

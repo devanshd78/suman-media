@@ -264,7 +264,7 @@ function SlideCard({
           fill
           loading="lazy"
           draggable={false}
-          sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) calc(100vw - 4rem), 75vw"
+          sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 767px) 84vw, (max-width: 1023px) 76vw, (max-width: 1279px) 68vw, (max-width: 1535px) 64vw, 60vw"
           className={styles.image}
           style={{ objectPosition: slide.imagePosition ?? "center center" }}
         />

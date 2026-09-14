@@ -115,7 +115,6 @@
     border-color: #8f6c1a;
     background: #8f6c1a;
     color: #fff;
-
     cursor: not-allowed;
     opacity: 0.38;
 }
@@ -181,8 +180,9 @@
 /* =========================================================
    SLIDE WIDTH
 
-   Mobile/tablet stay comfortably inside the viewport.
-   Desktop is approximately 3/4 of the screen as requested.
+   Mobile keeps a comfortable near-full card for touch.
+   Desktop is deliberately narrower so the active card no longer
+   dominates 80-90% of the viewport and the next card remains visible.
    ========================================================= */
 
 .slide {
@@ -383,6 +383,11 @@
         --client-side: 2rem;
     }
 
+    .slide {
+        width: 84vw;
+        flex-basis: 84vw;
+    }
+
     .visual {
         height: 29rem;
     }
@@ -393,6 +398,11 @@
 }
 
 @media (min-width: 768px) {
+    .slide {
+        width: 76vw;
+        flex-basis: 76vw;
+    }
+
     .visual {
         height: 33rem;
     }
@@ -416,8 +426,8 @@
     }
 
     .slide {
-        width: 75vw;
-        flex-basis: 75vw;
+        width: min(68vw, 68rem);
+        flex-basis: min(68vw, 68rem);
     }
 
     /* Tall media only. The section/viewport remains natural height. */
@@ -437,6 +447,20 @@
     .actions {
         justify-content: flex-end;
         flex-wrap: nowrap;
+    }
+}
+
+@media (min-width: 1280px) {
+    .slide {
+        width: min(64vw, 68rem);
+        flex-basis: min(64vw, 68rem);
+    }
+}
+
+@media (min-width: 1536px) {
+    .slide {
+        width: min(60vw, 68rem);
+        flex-basis: min(60vw, 68rem);
     }
 }
 

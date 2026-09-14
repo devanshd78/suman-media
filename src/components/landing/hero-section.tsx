@@ -496,29 +496,32 @@ export function HeroSection({
           split="words"
           delay={0.85}
           stagger={0.045}
-          reducedMotion={
-            shouldReduceMotion
-          }
+          reducedMotion={shouldReduceMotion}
           className={`landing-lead
-            ${plusJakartaSans.className}
+    ${plusJakartaSans.className}
 
-            mt-3
-            w-full
-            max-w-[32.125rem]
+    mt-3
 
-            text-[0.9375rem]
-            font-normal
-            leading-[1.5rem]
-            text-[#B8B8B8]
+    w-full
+    max-w-full
 
-            sm:mt-4
-            sm:text-[1.0625rem]
-            sm:leading-[1.625rem]
+    text-[0.9375rem]
+    font-normal
+    leading-[1.5rem]
+    text-[#B8B8B8]
 
-            lg:text-[1.25rem]
-            lg:leading-[1.75rem]
-            lg:text-[#969696]
-          `}
+    sm:mt-4
+    sm:max-w-[85%]
+    sm:text-[1.0625rem]
+    sm:leading-[1.625rem]
+
+    md:max-w-[60%]
+
+    lg:max-w-[40%]
+    lg:text-[1.25rem]
+    lg:leading-[1.75rem]
+    lg:text-[#969696]
+  `}
         />
 
         {/* ====================================================
