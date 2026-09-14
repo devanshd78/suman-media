@@ -343,36 +343,36 @@ const SHOW_CONTENT_ITEMS = [
 ========================================================= */
 
 const MUSIC_CONTENT_ITEMS = [
-  {
-    title: "Na Sangatach Aaj",
-    category: "Music",
-    image: "/images/ott/Na Sangatach Aaj.png",
-  },
-  {
-    title: "Shaky",
-    category: "Music",
-    image: "/images/ott/Shaky.png",
-  },
-  {
-    title: "Nauvari pahija",
-    category: "Music",
-    image: "/images/ott/Nauvari pahija.png",
-  },
-  {
-    title: "Govyachya",
-    category: "Music",
-    image: "/images/ott/Govyachya.png",
-  },
-  {
-    title: "Zingaat",
-    category: "Music",
-    image: "/images/ott/Zingaat.png",
-  },
-  {
-    title: "Alka",
-    category: "Music",
-    image: "/images/ott/Alka.png",
-  },
+    {
+        title: "Na Sangatach Aaj",
+        category: "Music",
+        image: "/images/ott/Na Sangatach Aaj.png",
+    },
+    {
+        title: "Shaky",
+        category: "Music",
+        image: "/images/ott/Shaky.png",
+    },
+    {
+        title: "Nauvari pahija",
+        category: "Music",
+        image: "/images/ott/Nauvari pahija.png",
+    },
+    {
+        title: "Govyachya",
+        category: "Music",
+        image: "/images/ott/Govyachya.png",
+    },
+    {
+        title: "Zingaat",
+        category: "Music",
+        image: "/images/ott/Zingaat.png",
+    },
+    {
+        title: "Alka",
+        category: "Music",
+        image: "/images/ott/Alka.png",
+    },
 ] as const;
 
 /* =========================================================
@@ -653,9 +653,9 @@ function ContentCard({
                                     'var(--Font-family-Body, "Plus Jakarta Sans")',
                             }}
                         >
-                          <TextReveal>
-                            Watch now
-                          </TextReveal>
+                            <TextReveal>
+                                Watch now
+                            </TextReveal>
                         </span>
                     </button>
                 </div>
@@ -697,9 +697,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                  <TextReveal>
-                    {item.title}
-                  </TextReveal>
+                    <TextReveal>
+                        {item.title}
+                    </TextReveal>
                 </p>
 
                 <p
@@ -725,9 +725,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                  <TextReveal>
-                    {item.category}
-                  </TextReveal>
+                    <TextReveal>
+                        {item.category}
+                    </TextReveal>
                 </p>
             </div>
         </article>
@@ -744,13 +744,13 @@ function ContentCard({
 ========================================================= */
 
 function MusicContentCard({
-  item,
+    item,
 }: {
-  item: CarouselItem;
+    item: CarouselItem;
 }) {
-  return (
-    <article
-      className="
+    return (
+        <article
+            className="
         group/music-card
 
         flex
@@ -762,11 +762,11 @@ function MusicContentCard({
 
         gap-[1.5rem]
       "
-    >
-      {/* IMAGE */}
+        >
+            {/* IMAGE */}
 
-      <div
-        className="
+            <div
+                className="
           relative
 
           min-h-0
@@ -779,20 +779,20 @@ function MusicContentCard({
 
           bg-[#EAEAEA]
         "
-      >
-        <Image loading="lazy"
-          src={item.image}
-          alt={item.title}
-          fill
-          unoptimized
-          sizes="260px"
-          className="object-cover object-center"
-        />
+            >
+                <Image loading="lazy"
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    unoptimized
+                    sizes="260px"
+                    className="object-cover object-center"
+                />
 
-        {/* HOVER OVERLAY */}
+                {/* HOVER OVERLAY */}
 
-        <div
-          className="
+                <div
+                    className="
             pointer-events-none
 
             absolute
@@ -806,12 +806,12 @@ function MusicContentCard({
 
             group-hover/music-card:bg-black/10
           "
-        />
+                />
 
-        {/* WATCH NOW */}
+                {/* WATCH NOW */}
 
-        <div
-          className="
+                <div
+                    className="
             pointer-events-none
 
             absolute
@@ -829,10 +829,10 @@ function MusicContentCard({
 
             group-hover/music-card:opacity-100
           "
-        >
-          <button
-            type="button"
-            className="
+                >
+                    <button
+                        type="button"
+                        className="
               pointer-events-auto
 
               flex
@@ -863,11 +863,11 @@ function MusicContentCard({
               focus-visible:ring-2
               focus-visible:ring-black/30
             "
-          >
-            <WatchNowPlayIcon />
+                    >
+                        <WatchNowPlayIcon />
 
-            <span
-              className="
+                        <span
+                            className="
                 whitespace-nowrap
 
                 text-[0.875rem]
@@ -876,32 +876,32 @@ function MusicContentCard({
 
                 text-black
               "
-              style={{
-                fontFamily:
-                  'var(--Font-family-Body, "Plus Jakarta Sans")',
-              }}
-            >
-              <TextReveal>
-              Stream now
-              </TextReveal>
-            </span>
-          </button>
-        </div>
-      </div>
+                            style={{
+                                fontFamily:
+                                    'var(--Font-family-Body, "Plus Jakarta Sans")',
+                            }}
+                        >
+                            <TextReveal>
+                                Stream now
+                            </TextReveal>
+                        </span>
+                    </button>
+                </div>
+            </div>
 
-      {/* TEXT */}
+            {/* TEXT */}
 
-      <div
-        className="
+            <div
+                className="
           flex
           w-full
           flex-col
 
           gap-[0.25rem]
         "
-      >
-        <p
-          className="
+            >
+                <p
+                    className="
             line-clamp-1
 
             w-full
@@ -913,21 +913,21 @@ function MusicContentCard({
 
             text-[#1A1A1A]
           "
-          style={{
-            fontFamily:
-              'var(--Font-family-Body, "Plus Jakarta Sans")',
+                    style={{
+                        fontFamily:
+                            'var(--Font-family-Body, "Plus Jakarta Sans")',
 
-            fontFeatureSettings:
-              "'liga' off, 'clig' off",
-          }}
-        >
-          <TextReveal>
-          {item.title}
-          </TextReveal>
-        </p>
+                        fontFeatureSettings:
+                            "'liga' off, 'clig' off",
+                    }}
+                >
+                    <TextReveal>
+                        {item.title}
+                    </TextReveal>
+                </p>
 
-        <p
-          className="
+                <p
+                    className="
             line-clamp-1
 
             w-full
@@ -939,21 +939,21 @@ function MusicContentCard({
 
             text-[#969696]
           "
-          style={{
-            fontFamily:
-              'var(--Font-family-Body, "Plus Jakarta Sans")',
+                    style={{
+                        fontFamily:
+                            'var(--Font-family-Body, "Plus Jakarta Sans")',
 
-            fontFeatureSettings:
-              "'liga' off, 'clig' off",
-          }}
-        >
-          <TextReveal>
-          {item.category}
-          </TextReveal>
-        </p>
-      </div>
-    </article>
-  );
+                        fontFeatureSettings:
+                            "'liga' off, 'clig' off",
+                    }}
+                >
+                    <TextReveal>
+                        {item.category}
+                    </TextReveal>
+                </p>
+            </div>
+        </article>
+    );
 }
 
 /* =========================================================
@@ -961,30 +961,30 @@ function MusicContentCard({
 ========================================================= */
 
 function MusicContentGroup({
-  copy,
+    copy,
 }: {
-  copy: number;
+    copy: number;
 }) {
-  return (
-    <div
-      aria-hidden={copy === 1}
-      className="
+    return (
+        <div
+            aria-hidden={copy === 1}
+            className="
         flex
         shrink-0
 
         gap-[1.5rem]
       "
-    >
-      {MUSIC_CONTENT_ITEMS.map(
-        (item, index) => (
-          <MusicContentCard
-            key={`music-${copy}-${index}-${item.image}`}
-            item={item}
-          />
-        ),
-      )}
-    </div>
-  );
+        >
+            {MUSIC_CONTENT_ITEMS.map(
+                (item, index) => (
+                    <MusicContentCard
+                        key={`music-${copy}-${index}-${item.image}`}
+                        item={item}
+                    />
+                ),
+            )}
+        </div>
+    );
 }
 
 /* =========================================================
@@ -1072,9 +1072,9 @@ function HeroBadge({
                         'var(--Font-family-Body, "Plus Jakarta Sans")',
                 }}
             >
-              <TextReveal>
-                {label}
-              </TextReveal>
+                <TextReveal>
+                    {label}
+                </TextReveal>
             </span>
 
             <div
@@ -1170,9 +1170,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
-                  <TextReveal>
-                    {primaryLabel}
-                  </TextReveal>
+                    <TextReveal>
+                        {primaryLabel}
+                    </TextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1226,9 +1226,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
-                  <TextReveal>
-                    Learn more
-                  </TextReveal>
+                    <TextReveal>
+                        Learn more
+                    </TextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1423,7 +1423,7 @@ export default function Section3() {
 
     flex
     w-full
-    max-w-[90rem]
+    max-w-none
     flex-col
     items-center
 
@@ -1510,12 +1510,12 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                          <TextReveal>
-                            Welcome to the Abhijat
-                            <br className="hidden sm:block" />
-                            {" "}
-                            marathi universe
-                          </TextReveal>
+                            <TextReveal>
+                                Welcome to the Abhijat
+                                <br className="hidden sm:block" />
+                                {" "}
+                                marathi universe
+                            </TextReveal>
                         </h2>
                     </div>
 
@@ -1543,12 +1543,12 @@ export default function Section3() {
                                 "'liga' off, 'clig' off",
                         }}
                     >
-                      <TextReveal>
-                        From Marathi OTT to connected-screen
-                        experiences, Suman builds and enables
-                        digital platforms that bring content to
-                        audiences across devices and markets.
-                      </TextReveal>
+                        <TextReveal>
+                            From Marathi OTT to connected-screen
+                            experiences, Suman builds and enables
+                            digital platforms that bring content to
+                            audiences across devices and markets.
+                        </TextReveal>
                     </p>
                 </div>
             </div>
@@ -1566,7 +1566,7 @@ export default function Section3() {
           flex
           h-[32rem]
           w-full
-          max-w-[90rem]
+          max-w-none
 
           flex-col
           items-center
@@ -1858,11 +1858,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                              <TextReveal>
-                                {
-                                    currentHero.title
-                                }
-                              </TextReveal>
+                                <TextReveal>
+                                    {
+                                        currentHero.title
+                                    }
+                                </TextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -1898,11 +1898,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                          <TextReveal>
-                            {
-                                currentHero.description
-                            }
-                          </TextReveal>
+                            <TextReveal>
+                                {
+                                    currentHero.description
+                                }
+                            </TextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2260,11 +2260,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                              <TextReveal>
-                                {
-                                    currentShowHero.title
-                                }
-                              </TextReveal>
+                                <TextReveal>
+                                    {
+                                        currentShowHero.title
+                                    }
+                                </TextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -2300,11 +2300,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                          <TextReveal>
-                            {
-                                currentShowHero.description
-                            }
-                          </TextReveal>
+                            <TextReveal>
+                                {
+                                    currentShowHero.description
+                                }
+                            </TextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2712,11 +2712,11 @@ export default function Section3() {
                                             "'liga' off, 'clig' off",
                                     }}
                                 >
-                                  <TextReveal>
-                                    {
-                                        currentMusicHero.title
-                                    }
-                                  </TextReveal>
+                                    <TextReveal>
+                                        {
+                                            currentMusicHero.title
+                                        }
+                                    </TextReveal>
                                 </h3>
 
                                 <HeroButtons
@@ -2754,11 +2754,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                              <TextReveal>
-                                {
-                                    currentMusicHero.description
-                                }
-                              </TextReveal>
+                                <TextReveal>
+                                    {
+                                        currentMusicHero.description
+                                    }
+                                </TextReveal>
                             </p>
                         </motion.div>
                     </AnimatePresence>
@@ -2777,7 +2777,7 @@ export default function Section3() {
             ====================================================== */}
 
             <div
-              className="
+                className="
                 section3-marquee
 
                 w-full
@@ -2789,8 +2789,8 @@ export default function Section3() {
                 pb-[6.25rem]
               "
             >
-              <div
-                className="
+                <div
+                    className="
                   section3-marquee-track
                   section3-marquee-track-music
 
@@ -2801,18 +2801,18 @@ export default function Section3() {
 
                   will-change-transform
                 "
-              >
-                <MusicContentGroup copy={0} />
+                >
+                    <MusicContentGroup copy={0} />
 
-                <MusicContentGroup copy={1} />
-              </div>
+                    <MusicContentGroup copy={1} />
+                </div>
             </div>
 
             {/* ENTERTAINMENT ANYWHERE */}
 
             <section
                 aria-labelledby="abhijat-anywhere-heading"
-                className="mx-auto flex w-full max-w-[90rem] flex-col items-center gap-[3.5rem] self-stretch bg-white px-5 py-16 md:px-8 lg:min-h-[28.1875rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+                className="mx-auto flex w-full max-w-none flex-col items-center gap-[3.5rem] self-stretch bg-white px-5 py-16 md:px-8 lg:min-h-[28.1875rem] lg:px-[3.5rem] lg:py-[6.25rem]"
             >
                 <h2
                     id="abhijat-anywhere-heading"
@@ -2826,9 +2826,9 @@ export default function Section3() {
                         lineHeight: "var(--Line-height-Heading-2, 2.5rem)",
                     }}
                 >
-                  <TextReveal>
-                    Experience Authentic Marathi Entertainment Anywhere, Anytime.
-                  </TextReveal>
+                    <TextReveal>
+                        Experience Authentic Marathi Entertainment Anywhere, Anytime.
+                    </TextReveal>
                 </h2>
 
                 <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
@@ -2873,9 +2873,9 @@ export default function Section3() {
                                     lineHeight: "var(--Line-height-Small, 1.5rem)",
                                 }}
                             >
-                              <TextReveal>
-                                {platform.description}
-                              </TextReveal>
+                                <TextReveal>
+                                    {platform.description}
+                                </TextReveal>
                             </p>
                         </article>
                     ))}

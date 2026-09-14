@@ -139,6 +139,7 @@ function EcosystemHeading() {
             className="
         flex
         w-full
+        max-w-none
         shrink-0
         flex-col
         items-center
