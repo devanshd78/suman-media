@@ -41,47 +41,59 @@
 
 
 /* ============================================================
-   HEADING / DESCRIPTION CONTENT
+   CONTENT
+
+   Same page gutter system as About:
+
+   Mobile  = 20px
+   Tablet  = 32px
+   Desktop = 56px
    ============================================================ */
 
-/*
- * Main content wrapper.
- *
- * It fills the available section width but stops growing
- * once it reaches the maximum page-content width.
- *
- * The horizontal padding remains responsive.
- */
 .content {
     box-sizing: border-box;
 
     width: 100%;
-    max-width: 90rem;
+    max-width: 100%;
 
-    margin-inline: auto;
+    margin: 0;
 
-    padding-inline:
-        clamp(1.25rem,
-            4vw,
-            4rem);
+    padding-inline: 1.25rem;
+}
+
+
+/* ============================================================
+   TEXT BLOCK
+   ============================================================ */
+
+.textBlock {
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
 }
 
 
 /* ============================================================
    HEADING
 
-   FILL behaviour:
-   width: 100%
+   Desktop:
+   approximately 40% of available content width.
 
-   Maximum readable/design width:
-   max-width: 72rem
+   Tablet:
+   70%.
+
+   Mobile:
+   full width.
    ============================================================ */
 
 .heading {
     box-sizing: border-box;
 
     width: 100%;
-    max-width: 72rem;
+    max-width: 70%;
 
     margin: 0;
 
@@ -99,23 +111,14 @@
 
     line-height: 1.2;
 
-    letter-spacing:
-        -0.03125rem;
+    letter-spacing: -0.03125rem;
 
     overflow-wrap: break-word;
-
-    /*
-     * More natural than text-wrap: balance here because balance
-     * can make a heading visually narrower than its container.
-     */
 }
 
 
 /* ============================================================
    DESCRIPTION
-
-   Also fills available width, but has a slightly smaller
-   maximum reading width.
    ============================================================ */
 
 .description {
@@ -124,8 +127,7 @@
     width: 100%;
     max-width: 64rem;
 
-    margin:
-        1rem 0 0;
+    margin: 1rem 0 0;
 
     color: #f9f9f9;
 
@@ -146,7 +148,7 @@
 
 
 /* ============================================================
-   CANNES BUTTON
+   CANNES CTA
    ============================================================ */
 
 .cta {
@@ -204,7 +206,7 @@
 /* ============================================================
    SCROLL SCENE
 
-   Animation sizing remains unchanged.
+   ANIMATION UNCHANGED
    ============================================================ */
 
 .scene {
@@ -226,6 +228,8 @@
 
 /* ============================================================
    STICKY VIEWPORT
+
+   ANIMATION UNCHANGED
    ============================================================ */
 
 .stage {
@@ -247,7 +251,7 @@
 /* ============================================================
    ZOOMING IMAGE WALL
 
-   Animation behaviour unchanged.
+   ANIMATION UNCHANGED
    ============================================================ */
 
 .wall {
@@ -265,19 +269,16 @@
 
     flex-direction: column;
 
-    gap:
-        var(--cannes-gap);
+    gap: var(--cannes-gap);
 
-    /*
-     * Keep the original cinematic zoom origin.
-     */
-    transform-origin:
-        50% 0%;
+    transform-origin: 50% 0%;
 }
 
 
 /* ============================================================
    ROW LAYOUT
+
+   ANIMATION UNCHANGED
    ============================================================ */
 
 .row {
@@ -299,23 +300,21 @@
 
     align-items: center;
 
-    gap:
-        var(--cannes-gap);
+    gap: var(--cannes-gap);
 }
 
 
 /* ============================================================
    CANNES MEDIA CARDS
+
+   ANIMATION / DIMENSIONS UNCHANGED
    ============================================================ */
 
 .card {
     position: relative;
 
-    width:
-        var(--cannes-card-width);
-
-    height:
-        var(--cannes-card-height);
+    width: var(--cannes-card-width);
+    height: var(--cannes-card-height);
 
     flex: 0 0 auto;
 
@@ -338,17 +337,13 @@
     width: 100%;
     height: 100%;
 
-    object-fit:
-        cover !important;
-
-    object-position:
-        center;
+    object-fit: cover !important;
+    object-position: center;
 
     background: #111;
 
     -webkit-user-select: none;
     user-select: none;
-
 }
 
 .card .video {
@@ -360,6 +355,8 @@
 
 /* ============================================================
    ACTIVE SCROLL PERFORMANCE
+
+   ANIMATION UNCHANGED
    ============================================================ */
 
 .scene[data-active="true"] .wall,
@@ -375,8 +372,7 @@
 @media (hover: hover) and (pointer: fine) {
 
     .cta:hover {
-        background:
-            #f3f1eb;
+        background: #f3f1eb;
 
         transform:
             translateY(-1px);
@@ -391,6 +387,14 @@
 
 /* ============================================================
    TABLET
+   640px — 1023px
+
+   Padding:
+   X = 32px
+   Y = 80px
+
+   Heading:
+   70%
    ============================================================ */
 
 @media (min-width: 640px) and (max-width: 1023px) {
@@ -404,27 +408,16 @@
             min(44vw,
                 calc((100svh - 3rem) * 0.46));
 
-        padding-block:
-            80px;
+        padding-block: 80px;
     }
 
-    /*
-     * Content still fills the screen.
-     * Maximum width keeps it controlled.
-     */
     .content {
-        width: 100%;
-        max-width: 90rem;
-
-        padding-inline:
-            clamp(2rem,
-                4vw,
-                3rem);
+        padding-inline: 2rem;
     }
 
     .heading {
         width: 100%;
-        max-width: 62rem;
+        max-width: 70%;
     }
 
     .description {
@@ -432,15 +425,46 @@
         max-width: 58rem;
     }
 
+    /*
+     * Original animation sizing preserved.
+     */
     .scene {
-        height:
-            210svh;
+        height: 210svh;
+    }
+}
+
+
+/* ============================================================
+   DESKTOP
+   1024px+
+
+   Padding X = 56px
+   Heading = 40%
+   ============================================================ */
+
+@media (min-width: 1024px) {
+
+    .content {
+        padding-inline: 3.5rem;
+    }
+
+    .heading {
+        width: 100%;
+        max-width: 80%;
     }
 }
 
 
 /* ============================================================
    MOBILE
+   <= 639px
+
+   Padding:
+   X = 20px
+   Y = 64px
+
+   Heading:
+   100%
    ============================================================ */
 
 @media (max-width: 639px) {
@@ -454,21 +478,13 @@
             min(58vw,
                 calc((100svh - 2rem) * 0.47));
 
-        padding-block:
-            64px;
+        padding-block: 64px;
     }
 
     .content {
-        width: 100%;
-        max-width: 100%;
-
-        padding-inline:
-            1.25rem;
+        padding-inline: 1.25rem;
     }
 
-    /*
-     * True fill on mobile.
-     */
     .heading {
         width: 100%;
         max-width: 100%;
@@ -483,57 +499,54 @@
         width: 100%;
         max-width: 100%;
 
-        line-height:
-            1.5;
+        line-height: 1.5;
     }
 
     .cta {
-        margin-top:
-            2rem;
+        margin-top: 2rem;
     }
 
+    /*
+     * Original animation sizing preserved.
+     */
     .scene {
-        height:
-            210svh;
+        height: 210svh;
 
-        margin-top:
-            3rem;
+        margin-top: 3rem;
     }
 }
 
 
 /* ============================================================
    VERY SMALL MOBILE
+   <= 399px
+
+   Keep same 20px page gutter.
+   Only typography / CTA dimensions change.
    ============================================================ */
 
 @media (max-width: 399px) {
 
-    .content {
-        padding-inline:
-            1rem;
-    }
-
     .heading {
+        width: 100%;
+        max-width: 100%;
+
         font-size:
             clamp(1.625rem,
                 7vw,
                 2rem);
 
-        line-height:
-            1.22;
+        line-height: 1.22;
     }
 
     .description {
-        font-size:
-            0.9375rem;
+        font-size: 0.9375rem;
 
-        line-height:
-            1.5;
+        line-height: 1.5;
     }
 
     .cta {
-        min-height:
-            3.25rem;
+        min-height: 3.25rem;
 
         width: fit-content;
         max-width: 100%;
@@ -541,57 +554,50 @@
         padding:
             0.75rem 1rem;
 
-        font-size:
-            0.9375rem;
+        font-size: 0.9375rem;
     }
 }
 
 
 /* ============================================================
    LARGE DESKTOP
+   1440px+
 
-   Text continues to fill its assigned area, but the maximum
-   widths prevent overly long lines on ultra-wide monitors.
+   Important:
+   heading stays at 40%.
+
+   Do NOT override it with rem values.
    ============================================================ */
 
 @media (min-width: 1440px) {
 
-    .content {
-        max-width:
-            96rem;
-    }
-
     .heading {
-        max-width:
-            72rem;
+        width: 100%;
+        max-width: 80%;
     }
 
     .description {
-        max-width:
-            64rem;
+        max-width: 64rem;
     }
 }
 
 
 /* ============================================================
    EXTRA LARGE / ULTRAWIDE
+   1920px+
+
+   Heading still stays 40%.
    ============================================================ */
 
 @media (min-width: 1920px) {
 
-    .content {
-        max-width:
-            104rem;
-    }
-
     .heading {
-        max-width:
-            76rem;
+        width: 100%;
+        max-width: 80%;
     }
 
     .description {
-        max-width:
-            68rem;
+        max-width: 68rem;
     }
 }
 
@@ -604,25 +610,31 @@
     height: auto;
 }
 
+
+/* ============================================================
+   REDUCED VIEWPORT
+   ============================================================ */
+
 .reducedViewport {
     overflow-x: auto;
 
-    overscroll-behavior-x:
-        contain;
+    overscroll-behavior-x: contain;
 
     padding:
-        0.25rem clamp(1.25rem,
-            4vw,
-            4rem);
+        0.25rem 1.25rem;
 }
 
 .reducedViewport:focus-visible {
     outline:
         2px solid #fff;
 
-    outline-offset:
-        -2px;
+    outline-offset: -2px;
 }
+
+
+/* ============================================================
+   REDUCED GRID
+   ============================================================ */
 
 .reducedGrid {
     display: grid;
@@ -642,12 +654,35 @@
 
     height: auto;
 
-    aspect-ratio:
-        1.46 / 1;
+    aspect-ratio: 1.46 / 1;
 }
 
 .reducedGrid .video {
     pointer-events: auto;
+}
+
+
+/* ============================================================
+   REDUCED VIEWPORT — TABLET
+   ============================================================ */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+
+    .reducedViewport {
+        padding-inline: 2rem;
+    }
+}
+
+
+/* ============================================================
+   REDUCED VIEWPORT — DESKTOP
+   ============================================================ */
+
+@media (min-width: 1024px) {
+
+    .reducedViewport {
+        padding-inline: 3.5rem;
+    }
 }
 
 
@@ -658,8 +693,7 @@
 @media (max-width: 639px) {
 
     .reducedGrid {
-        width:
-            max-content;
+        width: max-content;
 
         grid-template-columns:
             repeat(3,
@@ -676,10 +710,7 @@
 
     .cta,
     .ctaArrow {
-        transform:
-            none !important;
-
-        transition:
-            none !important;
+        transform: none !important;
+        transition: none !important;
     }
 }
