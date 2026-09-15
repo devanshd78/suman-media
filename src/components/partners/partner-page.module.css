@@ -306,7 +306,6 @@
   gap: clamp(8px, 0.9vw, 14px);
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scrollbar-width: none;
 }
 
 .filmStrip::-webkit-scrollbar {
@@ -372,7 +371,6 @@
   overflow-x: auto;
   padding: 32px var(--partner-pad);
   background: #fff;
-  scrollbar-width: none;
 }
 
 .partnerLogoStrip::-webkit-scrollbar {
@@ -753,7 +751,6 @@
   overscroll-behavior-x: contain;
   padding-inline: var(--partner-pad);
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
 }
 
 .mediaRail::-webkit-scrollbar {
@@ -2151,7 +2148,6 @@
 .ecosystemIdentity h3,
 .studioShowcase h3,
 .finalCtaCopy h2 {
-  text-wrap: balance;
 }
 
 .heroIntro>p,

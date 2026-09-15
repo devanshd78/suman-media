@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, type ReactNode } from "react";
 
 const HEADER_OFFSET_PX = 64;
-const SCROLL_DURATION_SECONDS = 0.85;
+const SCROLL_DURATION_SECONDS = 0.72;
 
 function getHashTarget(hash: string) {
   if (!hash || hash === "#") return null;
@@ -18,60 +18,108 @@ function getHashTarget(hash: string) {
   }
 }
 
-export function SmoothScrollProvider({ children }: { children: ReactNode }) {
+function nativeScrollToTarget(
+  target: HTMLElement,
+  behavior: ScrollBehavior,
+) {
+  const top =
+    window.scrollY +
+    target.getBoundingClientRect().top -
+    HEADER_OFFSET_PX;
+
+  window.scrollTo({
+    top: Math.max(0, top),
+    behavior,
+  });
+}
+
+export function SmoothScrollProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const pathname = usePathname();
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
     const coarsePointer = window.matchMedia("(pointer: coarse)");
+    const root = document.documentElement;
 
-    // Native touch scrolling is already heavily optimized by mobile browsers.
-    // Avoid putting Lenis in front of it; this keeps long sticky/3D sections
-    // responsive on phones and tablets while desktop wheel/trackpad scrolling
-    // still receives the premium smoothing layer.
-    if (reducedMotion.matches || coarsePointer.matches) return;
+    const useLenis =
+      !reducedMotion.matches &&
+      !coarsePointer.matches;
 
-    const lenis = new Lenis({
-      duration: SCROLL_DURATION_SECONDS,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      syncTouch: false,
-      wheelMultiplier: 1,
-      touchMultiplier: 1,
-    });
+    let lenis: Lenis | null = null;
 
-    lenisRef.current = lenis;
-    let animationFrame = 0;
+    if (useLenis) {
+      lenis = new Lenis({
+        autoRaf: true,
+        duration: SCROLL_DURATION_SECONDS,
+        easing: (t: number) =>
+          Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        syncTouch: false,
+        wheelMultiplier: 1,
+        touchMultiplier: 1,
+        stopInertiaOnNavigate: true,
+      });
 
-    const raf = (time: number) => {
-      lenis.raf(time);
-      animationFrame = window.requestAnimationFrame(raf);
-    };
+      lenisRef.current = lenis;
+      root.dataset.scrollEngine = "lenis";
+    } else {
+      root.dataset.scrollEngine = "native";
+    }
 
-    animationFrame = window.requestAnimationFrame(raf);
-
-    const scrollToHash = (hash: string, immediate = false) => {
+    const scrollToHash = (
+      hash: string,
+      immediate = false,
+    ) => {
       const destination = getHashTarget(hash);
       if (!destination) return false;
 
-      lenis.scrollTo(destination, {
-        offset: -HEADER_OFFSET_PX,
-        duration: immediate ? 0 : SCROLL_DURATION_SECONDS,
-        immediate,
-      });
+      if (lenis) {
+        lenis.scrollTo(destination, {
+          offset: -HEADER_OFFSET_PX,
+          duration: immediate
+            ? 0
+            : SCROLL_DURATION_SECONDS,
+          immediate,
+        });
+      } else {
+        nativeScrollToTarget(
+          destination,
+          immediate || reducedMotion.matches
+            ? "auto"
+            : "smooth",
+        );
+      }
+
       return true;
     };
 
     const handleAnchorClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) return;
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
 
       const target = event.target;
       if (!(target instanceof Element)) return;
 
       const anchor = target.closest<HTMLAnchorElement>("a[href]");
-      if (!anchor || anchor.target === "_blank" || anchor.hasAttribute("download")) {
+      if (
+        !anchor ||
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download")
+      ) {
         return;
       }
 
@@ -82,18 +130,14 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      // Intercept hash navigation only when it stays on the current page.
-      // Cross-page links remain normal Next.js navigation; the pathname effect
-      // below smoothly resolves their hash after the destination mounts.
       if (
         url.origin !== window.location.origin ||
         url.pathname !== window.location.pathname ||
-        !url.hash
+        !url.hash ||
+        !getHashTarget(url.hash)
       ) {
         return;
       }
-
-      if (!getHashTarget(url.hash)) return;
 
       event.preventDefault();
       scrollToHash(url.hash);
@@ -109,38 +153,56 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     document.addEventListener("click", handleAnchorClick);
     window.addEventListener("hashchange", handleHashChange);
 
-    // Handle a direct visit such as /#faq after the Lenis instance exists.
     const initialHashFrame = window.requestAnimationFrame(() => {
-      if (window.location.hash) scrollToHash(window.location.hash, true);
+      if (window.location.hash) {
+        scrollToHash(window.location.hash, true);
+      }
     });
 
     return () => {
       document.removeEventListener("click", handleAnchorClick);
       window.removeEventListener("hashchange", handleHashChange);
       window.cancelAnimationFrame(initialHashFrame);
-      window.cancelAnimationFrame(animationFrame);
-      lenis.destroy();
+
+      lenis?.destroy();
       lenisRef.current = null;
+
+      if (
+        root.dataset.scrollEngine ===
+        (useLenis ? "lenis" : "native")
+      ) {
+        delete root.dataset.scrollEngine;
+      }
     };
   }, []);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
+      const destination = getHashTarget(window.location.hash);
       const lenis = lenisRef.current;
-      if (!lenis) return;
 
-      lenis.resize();
+      if (lenis) {
+        lenis.resize();
 
-      // Next.js can navigate to /some-page#section. Once the destination route
-      // has rendered, finish that navigation with the same smooth behaviour.
-      if (window.location.hash) {
-        const destination = getHashTarget(window.location.hash);
         if (destination) {
           lenis.scrollTo(destination, {
             offset: -HEADER_OFFSET_PX,
             duration: SCROLL_DURATION_SECONDS,
           });
         }
+
+        return;
+      }
+
+      if (destination) {
+        const reducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        nativeScrollToTarget(
+          destination,
+          reducedMotion ? "auto" : "smooth",
+        );
       }
     });
 

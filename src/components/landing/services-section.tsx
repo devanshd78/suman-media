@@ -79,6 +79,7 @@ function PartnersStrip() {
     <div
       role="group"
       aria-label="Selected industry partners"
+      data-lenis-prevent-horizontal
       className="
         flex
         min-h-[8rem]
@@ -88,12 +89,10 @@ function PartnersStrip() {
         gap-8
         overflow-x-auto
         overscroll-x-contain
-        scroll-smooth
         bg-black
         px-6
         py-10
 
-        [scrollbar-width:none]
 
         sm:min-h-[9rem]
         sm:gap-12

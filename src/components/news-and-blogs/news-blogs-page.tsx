@@ -29,6 +29,8 @@ type FilterOption = {
     value: string;
 };
 
+const PRESS_DRAG_THRESHOLD = 7;
+
 const FILTERS: readonly FilterOption[] = [
     { label: "All Articles", value: "all" },
     { label: "Events", value: "Events" },
@@ -312,25 +314,6 @@ export function NewsBlogsPage({ posts }: Props) {
             return;
         }
 
-        const railLeft =
-            rail.getBoundingClientRect().left;
-
-        let nearest = cards[0];
-        let nearestDistance =
-            Number.POSITIVE_INFINITY;
-
-        for (const card of cards) {
-            const distance = Math.abs(
-                card.getBoundingClientRect().left -
-                railLeft,
-            );
-
-            if (distance < nearestDistance) {
-                nearest = card;
-                nearestDistance = distance;
-            }
-        }
-
         const computed =
             window.getComputedStyle(rail);
 
@@ -338,6 +321,24 @@ export function NewsBlogsPage({ posts }: Props) {
             Number.parseFloat(
                 computed.paddingLeft,
             ) || 0;
+
+        const currentLeft =
+            rail.scrollLeft + leftPadding;
+
+        let nearest = cards[0];
+        let nearestDistance =
+            Number.POSITIVE_INFINITY;
+
+        for (const card of cards) {
+            const distance = Math.abs(
+                card.offsetLeft - currentLeft,
+            );
+
+            if (distance < nearestDistance) {
+                nearest = card;
+                nearestDistance = distance;
+            }
+        }
 
         rail.scrollTo({
             left: Math.max(
@@ -459,6 +460,7 @@ export function NewsBlogsPage({ posts }: Props) {
                     return;
                 }
 
+                suppressPressClickRef.current = false;
                 pressPointerIdRef.current =
                     event.pointerId;
                 pressDidDragRef.current = false;
@@ -468,11 +470,6 @@ export function NewsBlogsPage({ posts }: Props) {
                     scrollLeft: rail.scrollLeft,
                 };
 
-                rail.setPointerCapture(
-                    event.pointerId,
-                );
-
-                setPressDragging(true);
                 setPressPaused(true);
             },
             [],
@@ -500,8 +497,26 @@ export function NewsBlogsPage({ posts }: Props) {
                     event.clientX -
                     pressDragStartRef.current.x;
 
-                if (Math.abs(delta) > 4) {
+                if (!pressDidDragRef.current) {
+                    if (
+                        Math.abs(delta) <
+                        PRESS_DRAG_THRESHOLD
+                    ) {
+                        return;
+                    }
+
                     pressDidDragRef.current = true;
+                    setPressDragging(true);
+
+                    if (
+                        !rail.hasPointerCapture(
+                            event.pointerId,
+                        )
+                    ) {
+                        rail.setPointerCapture(
+                            event.pointerId,
+                        );
+                    }
                 }
 
                 rail.scrollLeft =
@@ -540,7 +555,10 @@ export function NewsBlogsPage({ posts }: Props) {
                 );
             }
 
-            if (pressDidDragRef.current) {
+            const didDrag =
+                pressDidDragRef.current;
+
+            if (didDrag) {
                 suppressPressClickRef.current = true;
 
                 window.setTimeout(() => {
@@ -549,12 +567,15 @@ export function NewsBlogsPage({ posts }: Props) {
             }
 
             pressPointerIdRef.current = null;
+            pressDidDragRef.current = false;
             setPressDragging(false);
             setPressPaused(false);
 
-            window.requestAnimationFrame(
-                scrollPressToNearest,
-            );
+            if (didDrag) {
+                window.requestAnimationFrame(
+                    scrollPressToNearest,
+                );
+            }
         },
         [scrollPressToNearest],
     );
@@ -780,7 +801,7 @@ export function NewsBlogsPage({ posts }: Props) {
                                 ? "true"
                                 : "false"
                         }
-                        data-lenis-prevent
+                        data-lenis-prevent-horizontal
                         role="region"
                         aria-label="Press carousel"
                         tabIndex={0}

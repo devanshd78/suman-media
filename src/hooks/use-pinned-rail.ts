@@ -13,14 +13,6 @@ type RailOptions = {
   content: RefObject<HTMLDivElement | null>;
   viewport: RefObject<HTMLDivElement | null>;
   track: RefObject<HTMLDivElement | null>;
-
-  /**
-   * Defaults preserve the older desktop-only behaviour for any other
-   * component that already uses this shared hook.
-   *
-   * Industries overrides these values so its animation can run across
-   * phones, tablets, touch laptops and desktops when the layout fits.
-   */
   minViewportWidth?: number;
   minViewportHeight?: number;
   requireFinePointer?: boolean;
@@ -49,13 +41,10 @@ function sameGeometry(a: RailGeometry, b: RailGeometry) {
 /**
  * Converts ordinary page Y-scroll into horizontal rail movement.
  *
- * Important implementation rules:
- * - no wheel interception
- * - no second smooth-scroll engine
- * - no spring layered over Lenis
- * - reversible: scrolling back up moves the rail back naturally
- * - the pinned mode is enabled only when the complete panel fits vertically
- * - reduced-motion users retain a normal horizontal swipe/scroll rail
+ * The scroll path is deliberately based on native window.scrollY. The section
+ * offset is measured only when layout changes, so ordinary scroll frames do
+ * not force layout with getBoundingClientRect(). This keeps the pinned rail in
+ * sync with Lenis without layering a second smoothing engine on top of it.
  */
 export function usePinnedRail({
   section,
@@ -71,8 +60,8 @@ export function usePinnedRail({
   const [geometry, setGeometry] =
     useState<RailGeometry>(INITIAL);
 
-  const geometryRef =
-    useRef<RailGeometry>(INITIAL);
+  const geometryRef = useRef<RailGeometry>(INITIAL);
+  const sectionTopRef = useRef(0);
 
   useEffect(() => {
     const root = section.current;
@@ -95,6 +84,13 @@ export function usePinnedRail({
     let measureFrame = 0;
     let scrollFrame = 0;
     let disposed = false;
+    let lastComplete: boolean | null = null;
+
+    const setRailComplete = (complete: boolean) => {
+      if (lastComplete === complete) return;
+      lastComplete = complete;
+      root.dataset.railComplete = String(complete);
+    };
 
     const updateScroll = () => {
       scrollFrame = 0;
@@ -102,18 +98,14 @@ export function usePinnedRail({
       const current = geometryRef.current;
 
       if (!current.pinned) {
-        x.set(0);
-        root.dataset.railComplete = "false";
+        if (x.get() !== 0) x.set(0);
+        setRailComplete(false);
         return;
       }
 
-      /*
-       * Read the section position live. This avoids stale offsets when
-       * CMS text, fonts or sections above Industries change height.
-       */
       const travelled = Math.max(
         0,
-        -root.getBoundingClientRect().top,
+        window.scrollY - sectionTopRef.current,
       );
 
       const clampedTravel = Math.min(
@@ -121,38 +113,36 @@ export function usePinnedRail({
         travelled,
       );
 
-      x.set(-clampedTravel);
+      const nextX = -clampedTravel;
+      if (Math.abs(x.get() - nextX) > 0.1) {
+        x.set(nextX);
+      }
 
-      root.dataset.railComplete = String(
+      setRailComplete(
         clampedTravel >= current.distance - 1,
       );
     };
 
     const scheduleScroll = () => {
       if (!disposed && !scrollFrame) {
-        scrollFrame = window.requestAnimationFrame(
-          updateScroll,
-        );
+        scrollFrame = window.requestAnimationFrame(updateScroll);
       }
     };
 
     const measure = () => {
       measureFrame = 0;
 
-      if (disposed) {
-        return;
-      }
+      if (disposed) return;
 
       const viewportWidth =
         document.documentElement.clientWidth;
-
       const viewportHeight =
         document.documentElement.clientHeight;
 
-      const naturalHeight = Math.ceil(
-        panel.getBoundingClientRect().height,
-      );
+      sectionTopRef.current =
+        window.scrollY + root.getBoundingClientRect().top;
 
+      const naturalHeight = Math.ceil(panel.offsetHeight);
       const distance = Math.max(
         0,
         rail.scrollWidth - windowElement.clientWidth,
@@ -161,13 +151,6 @@ export function usePinnedRail({
       const pointerAllowed =
         !requireFinePointer || finePointer.matches;
 
-      /*
-       * The old hook disabled the animation below desktop/fine-pointer
-       * sizes. The responsive mode now allows any viewport requested by
-       * the caller, but it still refuses to pin if the actual rendered
-       * panel cannot fit vertically. This prevents clipping on extremely
-       * short browser windows while keeping the fallback horizontal.
-       */
       const pinned =
         !reducedMotion.matches &&
         pointerAllowed &&
@@ -185,18 +168,15 @@ export function usePinnedRail({
       geometryRef.current = next;
 
       if (pinned) {
-        /* Native horizontal scroll must not offset the animated rail. */
         if (windowElement.scrollLeft !== 0) {
           windowElement.scrollLeft = 0;
         }
-      } else {
+      } else if (x.get() !== 0) {
         x.set(0);
       }
 
       setGeometry((current) =>
-        sameGeometry(current, next)
-          ? current
-          : next,
+        sameGeometry(current, next) ? current : next,
       );
 
       scheduleScroll();
@@ -204,30 +184,22 @@ export function usePinnedRail({
 
     const scheduleMeasure = () => {
       if (!disposed && !measureFrame) {
-        measureFrame = window.requestAnimationFrame(
-          measure,
-        );
+        measureFrame = window.requestAnimationFrame(measure);
       }
     };
 
     const revealFocusedCard = (event: FocusEvent) => {
       const card =
         event.target instanceof HTMLElement
-          ? event.target.closest<HTMLElement>(
-            "[data-rail-card]",
-          )
+          ? event.target.closest<HTMLElement>("[data-rail-card]")
           : null;
 
       const current = geometryRef.current;
-
-      if (!card || !current.pinned) {
-        return;
-      }
+      if (!card || !current.pinned) return;
 
       const trackStyle = window.getComputedStyle(rail);
-      const leftPadding = Number.parseFloat(
-        trackStyle.paddingLeft || "0",
-      );
+      const leftPadding =
+        Number.parseFloat(trackStyle.paddingLeft || "0") || 0;
 
       const cardOffset = Math.max(
         0,
@@ -239,57 +211,39 @@ export function usePinnedRail({
         cardOffset,
       );
 
-      const rootTop =
-        window.scrollY + root.getBoundingClientRect().top;
-
       window.scrollTo({
-        top: rootTop + targetDistance,
+        top: sectionTopRef.current + targetDistance,
         behavior: "auto",
       });
 
       scheduleScroll();
     };
 
-    const observer = new ResizeObserver(
-      scheduleMeasure,
-    );
+    const observer = new ResizeObserver(scheduleMeasure);
 
     observer.observe(panel);
     observer.observe(windowElement);
     observer.observe(rail);
+    observer.observe(document.body);
 
-    window.addEventListener(
-      "scroll",
-      scheduleScroll,
-      { passive: true },
-    );
-
-    window.addEventListener(
-      "resize",
-      scheduleMeasure,
-      { passive: true },
-    );
-
+    window.addEventListener("scroll", scheduleScroll, {
+      passive: true,
+    });
+    window.addEventListener("resize", scheduleMeasure, {
+      passive: true,
+    });
+    window.addEventListener("pageshow", scheduleMeasure, {
+      passive: true,
+    });
     window.visualViewport?.addEventListener(
       "resize",
       scheduleMeasure,
       { passive: true },
     );
 
-    reducedMotion.addEventListener(
-      "change",
-      scheduleMeasure,
-    );
-
-    finePointer.addEventListener(
-      "change",
-      scheduleMeasure,
-    );
-
-    rail.addEventListener(
-      "focusin",
-      revealFocusedCard,
-    );
+    reducedMotion.addEventListener("change", scheduleMeasure);
+    finePointer.addEventListener("change", scheduleMeasure);
+    rail.addEventListener("focusin", revealFocusedCard);
 
     document.fonts?.ready
       .then(scheduleMeasure)
@@ -302,38 +256,19 @@ export function usePinnedRail({
 
       window.cancelAnimationFrame(measureFrame);
       window.cancelAnimationFrame(scrollFrame);
-
       observer.disconnect();
 
-      window.removeEventListener(
-        "scroll",
-        scheduleScroll,
-      );
-
-      window.removeEventListener(
-        "resize",
-        scheduleMeasure,
-      );
-
+      window.removeEventListener("scroll", scheduleScroll);
+      window.removeEventListener("resize", scheduleMeasure);
+      window.removeEventListener("pageshow", scheduleMeasure);
       window.visualViewport?.removeEventListener(
         "resize",
         scheduleMeasure,
       );
 
-      reducedMotion.removeEventListener(
-        "change",
-        scheduleMeasure,
-      );
-
-      finePointer.removeEventListener(
-        "change",
-        scheduleMeasure,
-      );
-
-      rail.removeEventListener(
-        "focusin",
-        revealFocusedCard,
-      );
+      reducedMotion.removeEventListener("change", scheduleMeasure);
+      finePointer.removeEventListener("change", scheduleMeasure);
+      rail.removeEventListener("focusin", revealFocusedCard);
     };
   }, [
     section,

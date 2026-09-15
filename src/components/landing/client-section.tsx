@@ -179,6 +179,8 @@ const UI_EASE = [0.22, 1, 0.36, 1] as const;
  */
 const AUTOPLAY_DELAY = 4500;
 
+const DRAG_THRESHOLD = 7;
+
 /*
  * Wait until native smooth scrolling settles,
  * then silently recenter if we're in a clone group.
@@ -608,14 +610,11 @@ export function ClientsSection() {
         return MIDDLE_START_INDEX;
       }
 
-      const viewportRect =
-        viewport.getBoundingClientRect();
-
       const inset =
         getScrollInset();
 
       const targetLeft =
-        viewportRect.left +
+        viewport.scrollLeft +
         inset;
 
       let nearestIndex =
@@ -626,12 +625,9 @@ export function ClientsSection() {
 
       cards.forEach(
         (card, index) => {
-          const rect =
-            card.getBoundingClientRect();
-
           const distance =
             Math.abs(
-              rect.left -
+              card.offsetLeft -
               targetLeft,
             );
 
@@ -757,13 +753,10 @@ export function ClientsSection() {
         viewport.style.scrollSnapType =
           "none";
 
-        viewport.scrollLeft =
-          left;
-
-        /*
-         * Force browser layout before restoring CSS.
-         */
-        viewport.getBoundingClientRect();
+        viewport.scrollTo({
+          left,
+          behavior: "auto",
+        });
 
         viewport.style.scrollBehavior =
           previousBehavior;
@@ -1062,8 +1055,7 @@ export function ClientsSection() {
 
         if (
           !viewport ||
-          dragRef.current
-            .pointerId !==
+          dragRef.current.pointerId !==
           pointerId
         ) {
           return;
@@ -1084,31 +1076,26 @@ export function ClientsSection() {
 
         dragRef.current.pointerId =
           -1;
-
         dragRef.current.moved =
           false;
 
         setIsDragging(false);
 
-        /*
-         * Prevent accidental button/link click after dragging.
-         */
-        if (moved) {
-          suppressClickRef.current =
-            true;
-
-          window.setTimeout(
-            () => {
-              suppressClickRef.current =
-                false;
-            },
-            80,
-          );
+        if (!moved) {
+          return;
         }
 
-        /*
-         * Snap to nearest card.
-         */
+        suppressClickRef.current =
+          true;
+
+        window.setTimeout(
+          () => {
+            suppressClickRef.current =
+              false;
+          },
+          120,
+        );
+
         window.requestAnimationFrame(
           () => {
             const nearestIndex =
@@ -1290,6 +1277,7 @@ export function ClientsSection() {
           data-ready={
             isReady
           }
+          data-lenis-prevent-horizontal
           role="region"
           aria-label="Business ecosystem carousel"
           tabIndex={0}
@@ -1364,15 +1352,12 @@ export function ClientsSection() {
           }}
 
           /* ---------------------------------------------
-             START DRAG
+             START POINTER GESTURE
              --------------------------------------------- */
 
           onPointerDown={(
             event,
           ) => {
-            /*
-             * Only primary mouse button.
-             */
             if (
               event.pointerType ===
               "mouse" &&
@@ -1388,27 +1373,24 @@ export function ClientsSection() {
               return;
             }
 
+            suppressClickRef.current =
+              false;
+
             dragRef.current = {
               pointerId:
                 event.pointerId,
-
               startX:
                 event.clientX,
-
               startScrollLeft:
                 viewport.scrollLeft,
-
               moved: false,
             };
+          }}
 
-            viewport.setPointerCapture(
-              event.pointerId,
-            );
-
-            /*
-             * Autoplay stops while dragging.
-             */
-            setIsDragging(true);
+          onDragStart={(
+            event,
+          ) => {
+            event.preventDefault();
           }}
 
           /* ---------------------------------------------
@@ -1436,12 +1418,26 @@ export function ClientsSection() {
               event.clientX -
               drag.startX;
 
-            if (
-              Math.abs(delta) >
-              6
-            ) {
-              drag.moved =
-                true;
+            if (!drag.moved) {
+              if (
+                Math.abs(delta) <
+                DRAG_THRESHOLD
+              ) {
+                return;
+              }
+
+              drag.moved = true;
+              setIsDragging(true);
+
+              if (
+                !viewport.hasPointerCapture(
+                  event.pointerId,
+                )
+              ) {
+                viewport.setPointerCapture(
+                  event.pointerId,
+                );
+              }
             }
 
             viewport.scrollLeft =

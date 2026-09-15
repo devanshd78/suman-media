@@ -307,34 +307,56 @@ function MediaRail({
     const rail = railRef.current;
     if (!rail) return;
 
+    let frame = 0;
+
     const syncIndex = () => {
+      frame = 0;
+
       const cards = Array.from(
         rail.querySelectorAll<HTMLElement>("[data-media-index]"),
       );
       if (!cards.length) return;
 
-      const railLeft = rail.getBoundingClientRect().left;
+      const railStyles = window.getComputedStyle(rail);
+      const leftPadding =
+        Number.parseFloat(railStyles.paddingLeft) || 0;
+      const currentLeft = rail.scrollLeft + leftPadding;
+
       let closestIndex = 0;
       let closestDistance = Number.POSITIVE_INFINITY;
 
       cards.forEach((card, index) => {
-        const distance = Math.abs(card.getBoundingClientRect().left - railLeft);
+        const distance = Math.abs(
+          card.offsetLeft - currentLeft,
+        );
+
         if (distance < closestDistance) {
           closestDistance = distance;
           closestIndex = index;
         }
       });
 
-      setRailIndex(closestIndex);
+      setRailIndex((current) =>
+        current === closestIndex
+          ? current
+          : closestIndex,
+      );
     };
 
-    rail.addEventListener("scroll", syncIndex, { passive: true });
-    window.addEventListener("resize", syncIndex);
-    syncIndex();
+    const scheduleSync = () => {
+      if (!frame) {
+        frame = window.requestAnimationFrame(syncIndex);
+      }
+    };
+
+    rail.addEventListener("scroll", scheduleSync, { passive: true });
+    window.addEventListener("resize", scheduleSync, { passive: true });
+    scheduleSync();
 
     return () => {
-      rail.removeEventListener("scroll", syncIndex);
-      window.removeEventListener("resize", syncIndex);
+      window.cancelAnimationFrame(frame);
+      rail.removeEventListener("scroll", scheduleSync);
+      window.removeEventListener("resize", scheduleSync);
     };
   }, [showOttControls, showFilmyControls]);
 
@@ -351,7 +373,7 @@ function MediaRail({
         role="region"
         aria-label={label}
         tabIndex={0}
-        data-lenis-prevent
+        data-lenis-prevent-horizontal
       >
         {items.map((item, index) => (
           <figure
@@ -677,7 +699,7 @@ export function PartnerPageContent() {
           className={styles.filmStrip}
           role="group"
           aria-label="Suman creative work carousel. Select an image to show it in the large frame."
-          data-lenis-prevent
+          data-lenis-prevent-horizontal
         >
           {FILM_STRIP.map((item, index) => {
             const isActive = index === activeFilmIndex;

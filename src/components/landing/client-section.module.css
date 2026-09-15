@@ -86,10 +86,8 @@
     scroll-padding-inline: var(--client-side);
     scroll-behavior: smooth;
 
-    scrollbar-width: none;
 
     -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
 
     cursor: grab;
 

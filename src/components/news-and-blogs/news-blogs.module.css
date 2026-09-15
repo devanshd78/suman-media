@@ -127,7 +127,6 @@
     font-weight: 600;
     line-height: 3rem;
     letter-spacing: -0.03125rem;
-    text-wrap: balance;
 }
 
 .heroCopy p {
@@ -416,10 +415,8 @@
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    scrollbar-width: none;
     cursor: grab;
     touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
     -webkit-user-select: none;
     user-select: none;
 }

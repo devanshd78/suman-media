@@ -412,7 +412,8 @@ function GalleryVideo({
     loadMedia &&
     active &&
     videoInView &&
-    !reducedMotion;
+    !reducedMotion &&
+    !decorative;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -501,7 +502,7 @@ function GalleryCard({
           src={media.src}
           alt={decorative ? "" : media.alt}
           fill
-          loading={loadMedia ? "eager" : "lazy"}
+          loading="lazy"
           decoding="async"
           draggable={false}
           sizes="

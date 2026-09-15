@@ -308,7 +308,6 @@
   scroll-snap-type:
     x mandatory;
 
-  scrollbar-width: none;
 }
 
 .staticRail::-webkit-scrollbar {

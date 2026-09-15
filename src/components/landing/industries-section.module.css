@@ -211,12 +211,9 @@
   scroll-padding-inline:
     var(--industry-side);
 
-  scrollbar-width: none;
 
   -ms-overflow-style: none;
 
-  -webkit-overflow-scrolling:
-    touch;
 }
 
 .viewport::-webkit-scrollbar {

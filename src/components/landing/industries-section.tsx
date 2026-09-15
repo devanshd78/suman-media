@@ -397,11 +397,7 @@ export function IndustriesSection({
           <div
             ref={viewport}
             className={styles.viewport}
-            data-lenis-prevent={
-              rail.pinned
-                ? undefined
-                : true
-            }
+            data-lenis-prevent-horizontal
             role="region"
             aria-label="Industries"
             tabIndex={0}

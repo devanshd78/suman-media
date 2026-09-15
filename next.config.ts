@@ -95,6 +95,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/Abhijat-Marathi",
+        destination: "/abhijat-marathi",
+        permanent: true,
+      },
+      {
         source: "/insights",
         destination: "/news-and-blogs",
         permanent: true,

@@ -1074,6 +1074,7 @@ export function NewsBlogsSection({
         data-dragging={
           isDragging
         }
+        data-lenis-prevent-horizontal
         role="region"
         aria-label="News and Blogs carousel"
         tabIndex={0}
@@ -1474,8 +1475,6 @@ export function NewsBlogsSection({
       <style>{`
         .news-blogs-track {
           -ms-overflow-style: none;
-          scrollbar-width: none;
-          -webkit-overflow-scrolling: touch;
         }
 
         .news-blogs-track::-webkit-scrollbar {

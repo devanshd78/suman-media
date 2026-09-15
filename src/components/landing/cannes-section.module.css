@@ -108,7 +108,6 @@
      * More natural than text-wrap: balance here because balance
      * can make a heading visually narrower than its container.
      */
-    text-wrap: pretty;
 }
 
 
@@ -350,7 +349,6 @@
     -webkit-user-select: none;
     user-select: none;
 
-    -webkit-user-drag: none;
 }
 
 .card .video {
