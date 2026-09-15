@@ -1,7 +1,6 @@
 "use client";
 
 import { TextReveal } from "@/components/ui/scroll-text-reveal";
-
 import Image from "@/components/ui/image";
 import Link from "next/link";
 
@@ -10,7 +9,10 @@ import {
   plusJakartaSans,
 } from "@/lib/fonts";
 
-import type { CmsCta, CmsFeaturedInsight } from "@/types/cms";
+import type {
+  CmsCta,
+  CmsFeaturedInsight,
+} from "@/types/cms";
 
 import {
   useCallback,
@@ -45,72 +47,102 @@ type NewsBlogsSectionProps = {
 };
 
 /* ============================================================
+   CONFIG
+   ============================================================ */
+
+/*
+ * Pointer movement below this amount is treated as a normal click.
+ *
+ * Once movement exceeds this threshold, the interaction becomes
+ * a carousel drag and link navigation is suppressed for that gesture.
+ */
+const DRAG_THRESHOLD = 7;
+
+/* ============================================================
    NEWS & BLOGS FALLBACK
-
-   Sanity featured articles are used when available. These local
-   cards are rendered only when Sanity has no valid featured posts.
-
-   Images intentionally reuse the exact Cannes fallback assets from
-   /public/cannes so the landing page and News & Blogs page stay visually
-   consistent whenever Sanity has not published featured articles.
    ============================================================ */
 
 const FALLBACK_NEWS_BLOGS: NewsBlogCardData[] = [
   {
     id: "fallback-news-cannes-1",
-    image: "/cannes/cannes-red-carpet-group-01.jpg",
-    imagePosition: "center 46%",
-    title: "Abhijat Marathi at Cannes 2026",
+    image:
+      "/cannes/cannes-red-carpet-group-01.jpg",
+    imagePosition:
+      "center 46%",
+    title:
+      "Abhijat Marathi at Cannes 2026",
     description:
       "A look at Abhijat Marathi's Cannes 2026 presence, from the Bharat Pavilion to red-carpet moments celebrating Marathi culture on a global stage.",
-    href: "/news-and-blogs/abhijat-marathi-at-cannes-2026",
+    href:
+      "/news-and-blogs/abhijat-marathi-at-cannes-2026",
   },
   {
     id: "fallback-news-cannes-2",
-    image: "/cannes/cannes-riviera-portrait-01.jpg",
-    imagePosition: "34% 46%",
-    title: "Prajakta Mali Cannes Moments 2026",
+    image:
+      "/cannes/cannes-riviera-portrait-01.jpg",
+    imagePosition:
+      "34% 46%",
+    title:
+      "Prajakta Mali Cannes Moments 2026",
     description:
       "Selected photographs from Cannes 2026 featuring Marathi culture, fashion and the international festival atmosphere.",
-    href: "/news-and-blogs/prajakta-mali-cannes-moments-2026",
+    href:
+      "/news-and-blogs/prajakta-mali-cannes-moments-2026",
   },
   {
     id: "fallback-news-cannes-3",
-    image: "/cannes/cannes-pavilion-guests-01.jpg",
-    imagePosition: "center 34%",
-    title: "Inside the Bharat Pavilion at Cannes",
+    image:
+      "/cannes/cannes-pavilion-guests-01.jpg",
+    imagePosition:
+      "center 34%",
+    title:
+      "Inside the Bharat Pavilion at Cannes",
     description:
       "Conversations, meetings and cultural exchange from the Bharat Pavilion during Cannes 2026.",
-    href: "/news-and-blogs/inside-bharat-pavilion-cannes-2026",
+    href:
+      "/news-and-blogs/inside-bharat-pavilion-cannes-2026",
   },
   {
     id: "fallback-news-cannes-4",
-    image: "/cannes/cannes-red-carpet-blue-look-01.jpg",
-    imagePosition: "64% 50%",
-    title: "Marathi Culture on the Cannes Red Carpet",
+    image:
+      "/cannes/cannes-red-carpet-blue-look-01.jpg",
+    imagePosition:
+      "64% 50%",
+    title:
+      "Marathi Culture on the Cannes Red Carpet",
     description:
       "A Cannes red-carpet moment bringing regional identity, fashion and Marathi culture into an international festival setting.",
-    href: "/news-and-blogs/marathi-culture-cannes-red-carpet",
+    href:
+      "/news-and-blogs/marathi-culture-cannes-red-carpet",
   },
   {
     id: "fallback-news-cannes-5",
-    image: "/cannes/cannes-red-carpet-group-02.jpg",
-    imagePosition: "center 43%",
-    title: "India at Cannes: Red Carpet Moments",
+    image:
+      "/cannes/cannes-red-carpet-group-02.jpg",
+    imagePosition:
+      "center 43%",
+    title:
+      "India at Cannes: Red Carpet Moments",
     description:
       "Festival guests and cultural representatives come together for a series of memorable Cannes 2026 red-carpet moments.",
-    href: "/news-and-blogs/india-at-cannes-red-carpet-moments",
+    href:
+      "/news-and-blogs/india-at-cannes-red-carpet-moments",
   },
   {
     id: "fallback-news-cannes-6",
-    image: "/cannes/cannes-pavilion-guests-02.jpg",
-    imagePosition: "center 34%",
-    title: "People and Conversations at Cannes 2026",
+    image:
+      "/cannes/cannes-pavilion-guests-02.jpg",
+    imagePosition:
+      "center 34%",
+    title:
+      "People and Conversations at Cannes 2026",
     description:
       "A closer look at the meetings, conversations and connections created around the Bharat Pavilion at Cannes 2026.",
-    href: "/news-and-blogs/people-and-conversations-cannes-2026",
+    href:
+      "/news-and-blogs/people-and-conversations-cannes-2026",
   },
 ];
+
 /* ============================================================
    ICON
    ============================================================ */
@@ -174,8 +206,13 @@ function NewsBlogCard({
         xl:w-[59%]
       "
     >
+      {/* =====================================================
+          COMPLETE CARD IS A REAL NEXT.JS LINK
+          ===================================================== */}
+
       <Link
         href={article.href}
+        draggable={false}
         className="
           group
           block
@@ -193,8 +230,10 @@ function NewsBlogCard({
         <div
           className="
             relative
+
             aspect-[1.91/1]
             w-full
+
             overflow-hidden
 
             bg-[#EEE9DC]
@@ -206,13 +245,18 @@ function NewsBlogCard({
             fill
             loading="lazy"
             quality={84}
+            draggable={false}
             sizes="
               (max-width: 639px) 86vw,
               (max-width: 767px) 72vw,
               (max-width: 1023px) 68vw,
               59vw
             "
-            style={{ objectPosition: article.imagePosition ?? "center" }}
+            style={{
+              objectPosition:
+                article.imagePosition ??
+                "center",
+            }}
             className="
               select-none
               object-cover
@@ -239,10 +283,6 @@ function NewsBlogCard({
         >
           {/* =================================================
               TITLE
-
-              Inter
-              20 / 28
-              600
               ================================================= */}
 
           <h3
@@ -252,6 +292,7 @@ function NewsBlogCard({
               text-[1.125rem]
               font-semibold
               leading-[1.625rem]
+
               text-black
 
               [font-feature-settings:'liga'_off,'clig'_off]
@@ -260,13 +301,15 @@ function NewsBlogCard({
               sm:leading-[1.75rem]
             `}
           >
-            <TextReveal enabled={revealText}>
-            {article.title}
+            <TextReveal
+              enabled={revealText}
+            >
+              {article.title}
             </TextReveal>
           </h3>
 
           {/* =================================================
-              DESCRIPTION / CTA
+              DESCRIPTION / LEARN MORE
               ================================================= */}
 
           <div
@@ -275,6 +318,7 @@ function NewsBlogCard({
 
               flex
               w-full
+
               items-start
               justify-between
 
@@ -290,6 +334,7 @@ function NewsBlogCard({
 
                 line-clamp-2
                 min-w-0
+
                 max-w-[72%]
 
                 text-[0.875rem]
@@ -305,8 +350,10 @@ function NewsBlogCard({
                 sm:leading-[1.5rem]
               `}
             >
-              <TextReveal enabled={revealText}>
-              {article.description}
+              <TextReveal
+                enabled={revealText}
+              >
+                {article.description}
               </TextReveal>
             </p>
 
@@ -340,8 +387,10 @@ function NewsBlogCard({
                 sm:leading-[1.5rem]
               `}
             >
-              <TextReveal enabled={revealText}>
-              learn more
+              <TextReveal
+                enabled={revealText}
+              >
+                learn more
               </TextReveal>
             </span>
           </div>
@@ -362,25 +411,57 @@ export function NewsBlogsSection({
   articles,
   revealText = false,
 }: NewsBlogsSectionProps) {
-  const cmsNewsBlogs: NewsBlogCardData[] =
+  /* ==========================================================
+     CMS ARTICLES
+     ========================================================== */
+
+  const cmsNewsBlogs:
+    NewsBlogCardData[] =
     articles
       ?.filter(
         (item) =>
-          Boolean(item?.title?.trim()) &&
-          Boolean(item?.slug?.trim()) &&
-          Boolean(item?.excerpt?.trim()) &&
-          Boolean(item?.imageUrl?.trim()),
+          Boolean(
+            item?.title?.trim(),
+          ) &&
+          Boolean(
+            item?.slug?.trim(),
+          ) &&
+          Boolean(
+            item?.excerpt?.trim(),
+          ) &&
+          Boolean(
+            item?.imageUrl?.trim(),
+          ),
       )
       .map((item) => ({
-        id: item._id,
-        image: item.imageUrl,
+        id:
+          item._id,
+
+        image:
+          item.imageUrl,
+
         imagePosition:
-          typeof item.imageHotspotX === "number" && typeof item.imageHotspotY === "number"
-            ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(item.imageHotspotY * 100)}%`
+          typeof item.imageHotspotX ===
+            "number" &&
+            typeof item.imageHotspotY ===
+            "number"
+            ? `${Math.round(
+              item.imageHotspotX *
+              100,
+            )}% ${Math.round(
+              item.imageHotspotY *
+              100,
+            )}%`
             : undefined,
-        title: item.title,
-        description: item.excerpt,
-        href: `/news-and-blogs/${item.slug}`,
+
+        title:
+          item.title,
+
+        description:
+          item.excerpt,
+
+        href:
+          `/news-and-blogs/${item.slug}`,
       })) ?? [];
 
   const visibleNewsBlogs =
@@ -388,40 +469,71 @@ export function NewsBlogsSection({
       ? cmsNewsBlogs
       : FALLBACK_NEWS_BLOGS;
 
+  /* ==========================================================
+     SECTION CONTENT
+     ========================================================== */
+
   const sectionEyebrow =
-    eyebrow?.trim() || "LATEST ANNOUNCEMENTS";
+    eyebrow?.trim() ||
+    "LATEST ANNOUNCEMENTS";
+
   const sectionHeading =
-    heading?.trim() || "News & Blogs";
-  const sectionCtaLabel = cta?.label?.trim() || "view all";
-  const sectionCtaHref = cta?.href?.trim() || "/news-and-blogs";
+    heading?.trim() ||
+    "News & Blogs";
+
+  const sectionCtaLabel =
+    cta?.label?.trim() ||
+    "view all";
+
+  const sectionCtaHref =
+    cta?.href?.trim() ||
+    "/news-and-blogs";
+
+  /* ==========================================================
+     REFS
+     ========================================================== */
 
   const scrollerRef =
-    useRef<HTMLDivElement>(null);
+    useRef<HTMLDivElement>(
+      null,
+    );
 
-  const dragRef = useRef({
-    pointerId: -1,
-    startX: 0,
-    startScrollLeft: 0,
-    moved: false,
-  });
+  const dragRef =
+    useRef({
+      pointerId: -1,
+      startX: 0,
+      startScrollLeft: 0,
+      moved: false,
+    });
 
   const suppressClickRef =
     useRef(false);
 
+  /* ==========================================================
+     STATE
+     ========================================================== */
+
   const [
     canScrollPrevious,
     setCanScrollPrevious,
-  ] = useState(false);
+  ] =
+    useState(false);
 
   const [
     canScrollNext,
     setCanScrollNext,
-  ] = useState(true);
+  ] =
+    useState(true);
 
   const [
     isDragging,
     setIsDragging,
-  ] = useState(false);
+  ] =
+    useState(false);
+
+  /* ==========================================================
+     GET CARDS
+     ========================================================== */
 
   const getCards =
     useCallback(() => {
@@ -440,7 +552,7 @@ export function NewsBlogsSection({
     }, []);
 
   /* ==========================================================
-     UPDATE NAV STATE
+     UPDATE NAVIGATION STATE
      ========================================================== */
 
   const updateScrollState =
@@ -453,8 +565,11 @@ export function NewsBlogsSection({
       }
 
       const maxScroll =
-        scroller.scrollWidth -
-        scroller.clientWidth;
+        Math.max(
+          0,
+          scroller.scrollWidth -
+          scroller.clientWidth,
+        );
 
       const left =
         scroller.scrollLeft;
@@ -470,18 +585,21 @@ export function NewsBlogsSection({
     }, []);
 
   /* ==========================================================
-     DRAG / SNAP HELPERS
+     SNAP TO NEAREST CARD
      ========================================================== */
 
   const snapToNearestCard =
     useCallback(
       (
-        behavior: ScrollBehavior =
+        behavior:
+          ScrollBehavior =
           "smooth",
       ) => {
         const scroller =
           scrollerRef.current;
-        const cards = getCards();
+
+        const cards =
+          getCards();
 
         if (
           !scroller ||
@@ -495,34 +613,38 @@ export function NewsBlogsSection({
 
         let nearestLeft =
           scroller.scrollLeft;
+
         let nearestDistance =
           Number.POSITIVE_INFINITY;
 
-        cards.forEach((card) => {
-          const cardRect =
-            card.getBoundingClientRect();
+        cards.forEach(
+          (card) => {
+            const cardRect =
+              card.getBoundingClientRect();
 
-          const cardLeft =
-            scroller.scrollLeft +
-            cardRect.left -
-            scrollerRect.left;
-
-          const distance =
-            Math.abs(
+            const cardLeft =
+              scroller.scrollLeft +
               cardRect.left -
-              scrollerRect.left,
-            );
+              scrollerRect.left;
 
-          if (
-            distance <
-            nearestDistance
-          ) {
-            nearestDistance =
-              distance;
-            nearestLeft =
-              cardLeft;
-          }
-        });
+            const distance =
+              Math.abs(
+                cardRect.left -
+                scrollerRect.left,
+              );
+
+            if (
+              distance <
+              nearestDistance
+            ) {
+              nearestDistance =
+                distance;
+
+              nearestLeft =
+                cardLeft;
+            }
+          },
+        );
 
         const maxScroll =
           Math.max(
@@ -532,33 +654,56 @@ export function NewsBlogsSection({
           );
 
         scroller.scrollTo({
-          left: Math.min(
-            maxScroll,
-            Math.max(
-              0,
-              nearestLeft,
+          left:
+            Math.min(
+              maxScroll,
+              Math.max(
+                0,
+                nearestLeft,
+              ),
             ),
-          ),
+
           behavior,
         });
       },
       [getCards],
     );
 
+  /* ==========================================================
+     FINISH POINTER INTERACTION
+
+     IMPORTANT:
+     - click => no suppression, Link redirects
+     - drag  => suppress the release click, then snap
+     ========================================================== */
+
   const finishDrag =
     useCallback(
-      (pointerId: number) => {
+      (
+        pointerId: number,
+      ) => {
         const scroller =
           scrollerRef.current;
 
         if (
           !scroller ||
-          dragRef.current.pointerId !==
+          dragRef.current
+            .pointerId !==
           pointerId
         ) {
           return;
         }
 
+        /*
+         * Capture whether this was actually a drag BEFORE
+         * releasing pointer capture.
+         */
+        const moved =
+          dragRef.current.moved;
+
+        /*
+         * Only real drags capture the pointer now.
+         */
         if (
           scroller.hasPointerCapture(
             pointerId,
@@ -569,32 +714,56 @@ export function NewsBlogsSection({
           );
         }
 
-        const moved =
-          dragRef.current.moved;
-
         dragRef.current.pointerId =
           -1;
+
         dragRef.current.moved =
           false;
 
         setIsDragging(false);
 
-        if (moved) {
-          suppressClickRef.current =
-            true;
+        /*
+         * Normal click.
+         *
+         * Do nothing here.
+         *
+         * The browser is now free to dispatch the normal click
+         * to the card's Next.js <Link>.
+         */
+        if (!moved) {
+          return;
+        }
 
-          window.requestAnimationFrame(
-            () => {
-              snapToNearestCard();
-              updateScrollState();
-            },
-          );
+        /*
+         * Actual drag.
+         *
+         * Prevent the pointer release from accidentally opening
+         * the link underneath it.
+         */
+        suppressClickRef.current =
+          true;
 
-          window.setTimeout(() => {
+        window.requestAnimationFrame(
+          () => {
+            snapToNearestCard(
+              "smooth",
+            );
+
+            updateScrollState();
+          },
+        );
+
+        /*
+         * Only suppress this drag's accidental click.
+         * The next real click should navigate normally.
+         */
+        window.setTimeout(
+          () => {
             suppressClickRef.current =
               false;
-          }, 120);
-        }
+          },
+          150,
+        );
       },
       [
         snapToNearestCard,
@@ -659,10 +828,12 @@ export function NewsBlogsSection({
         scheduleUpdate,
       );
     };
-  }, [updateScrollState]);
+  }, [
+    updateScrollState,
+  ]);
 
   /* ==========================================================
-     SCROLL BUTTONS
+     PREVIOUS / NEXT BUTTONS
      ========================================================== */
 
   const scrollCards =
@@ -709,7 +880,8 @@ export function NewsBlogsSection({
             direction *
             amount,
 
-          behavior: "smooth",
+          behavior:
+            "smooth",
         });
       },
       [],
@@ -727,9 +899,12 @@ export function NewsBlogsSection({
         landing-section-transition
 
         relative
+
         mx-auto
+
         w-full
         max-w-full
+
         overflow-hidden
 
         bg-white
@@ -753,8 +928,11 @@ export function NewsBlogsSection({
       <div
         className="
           flex
+
           w-full
+
           flex-col
+
           items-start
 
           gap-6
@@ -766,7 +944,7 @@ export function NewsBlogsSection({
         "
       >
         {/* ===================================================
-            LEFT
+            LEFT HEADER
             =================================================== */}
 
         <div
@@ -775,15 +953,6 @@ export function NewsBlogsSection({
             max-w-[45rem]
           "
         >
-          {/* =================================================
-              EYEBROW
-
-              Plus Jakarta Sans
-              14 / 20
-              600
-              #B8B8B8
-              ================================================= */}
-
           <p
             className={`
               ${plusJakartaSans.className}
@@ -797,22 +966,18 @@ export function NewsBlogsSection({
               [font-feature-settings:'liga'_off,'clig'_off]
             `}
           >
-            <TextReveal enabled={revealText}>
-            {sectionEyebrow}
+            <TextReveal
+              enabled={revealText}
+            >
+              {sectionEyebrow}
             </TextReveal>
           </p>
 
-          {/* =================================================
-              HEADING
-
-              Plus Jakarta Sans
-              40 / 48
-              600
-              ================================================= */}
-
           <h2
             id="news-blogs-heading"
-            className={`landing-title
+            className={`
+              landing-title
+
               ${plusJakartaSans.className}
 
               mt-1
@@ -834,8 +999,10 @@ export function NewsBlogsSection({
               lg:leading-[3rem]
             `}
           >
-            <TextReveal enabled={revealText}>
-            {sectionHeading}
+            <TextReveal
+              enabled={revealText}
+            >
+              {sectionHeading}
             </TextReveal>
           </h2>
         </div>
@@ -845,7 +1012,9 @@ export function NewsBlogsSection({
             =================================================== */}
 
         <Link
-          href={sectionCtaHref}
+          href={
+            sectionCtaHref
+          }
           className={`
             ${inter.className}
 
@@ -853,7 +1022,9 @@ export function NewsBlogsSection({
 
             inline-flex
             shrink-0
+
             items-center
+
             gap-1
 
             py-2
@@ -873,8 +1044,10 @@ export function NewsBlogsSection({
           `}
         >
           <span>
-            <TextReveal enabled={revealText}>
-            {sectionCtaLabel}
+            <TextReveal
+              enabled={revealText}
+            >
+              {sectionCtaLabel}
             </TextReveal>
           </span>
 
@@ -892,17 +1065,29 @@ export function NewsBlogsSection({
       </div>
 
       {/* =====================================================
-          CARDS
+          CAROUSEL
           ===================================================== */}
 
       <div
         ref={scrollerRef}
         data-landing-parallax-layer="reverse"
-        data-dragging={isDragging}
+        data-dragging={
+          isDragging
+        }
         role="region"
         aria-label="News and Blogs carousel"
         tabIndex={0}
-        onClickCapture={(event) => {
+
+        /* ===================================================
+           CLICK
+
+           Suppress only the synthetic/accidental click after
+           an actual horizontal drag.
+           =================================================== */
+
+        onClickCapture={(
+          event,
+        ) => {
           if (
             !suppressClickRef.current
           ) {
@@ -911,13 +1096,39 @@ export function NewsBlogsSection({
 
           event.preventDefault();
           event.stopPropagation();
+
           suppressClickRef.current =
             false;
         }}
-        onDragStart={(event) => {
+
+        /* ===================================================
+           NATIVE HTML DRAG
+
+           Stops browser image ghost dragging without affecting
+           the normal click/navigation lifecycle.
+           =================================================== */
+
+        onDragStart={(
+          event,
+        ) => {
           event.preventDefault();
         }}
-        onPointerDown={(event) => {
+
+        /* ===================================================
+           POINTER DOWN
+
+           IMPORTANT:
+           DO NOT CAPTURE THE POINTER HERE.
+
+           At this point it may simply be a normal Link click.
+           =================================================== */
+
+        onPointerDown={(
+          event,
+        ) => {
+          /*
+           * Mouse must use the primary button.
+           */
           if (
             event.pointerType ===
             "mouse" &&
@@ -933,24 +1144,45 @@ export function NewsBlogsSection({
             return;
           }
 
+          /*
+           * Clear any stale suppression from a previous gesture.
+           */
+          suppressClickRef.current =
+            false;
+
           dragRef.current = {
             pointerId:
               event.pointerId,
-            startX: event.clientX,
+
+            startX:
+              event.clientX,
+
             startScrollLeft:
               scroller.scrollLeft,
-            moved: false,
+
+            moved:
+              false,
           };
 
-          scroller.setPointerCapture(
-            event.pointerId,
-          );
-
-          setIsDragging(true);
+          /*
+           * NO setPointerCapture() here.
+           *
+           * This is the important redirect fix.
+           */
         }}
-        onPointerMove={(event) => {
+
+        /* ===================================================
+           POINTER MOVE
+
+           Only become a drag after moving DRAG_THRESHOLD px.
+           =================================================== */
+
+        onPointerMove={(
+          event,
+        ) => {
           const scroller =
             scrollerRef.current;
+
           const drag =
             dragRef.current;
 
@@ -966,46 +1198,111 @@ export function NewsBlogsSection({
             event.clientX -
             drag.startX;
 
-          if (
-            Math.abs(delta) > 6
-          ) {
-            drag.moved = true;
+          /*
+           * Still potentially a click.
+           */
+          if (!drag.moved) {
+            if (
+              Math.abs(delta) <
+              DRAG_THRESHOLD
+            ) {
+              return;
+            }
+
+            /*
+             * Horizontal drag confirmed.
+             */
+            drag.moved =
+              true;
+
+            setIsDragging(
+              true,
+            );
+
+            /*
+             * Capture ONLY now.
+             *
+             * Normal card clicks never enter this branch.
+             */
+            if (
+              !scroller.hasPointerCapture(
+                event.pointerId,
+              )
+            ) {
+              scroller.setPointerCapture(
+                event.pointerId,
+              );
+            }
           }
 
-          if (drag.moved) {
-            scroller.scrollLeft =
-              drag.startScrollLeft -
-              delta;
-          }
+          /*
+           * Perform the horizontal drag.
+           */
+          scroller.scrollLeft =
+            drag.startScrollLeft -
+            delta;
         }}
-        onPointerUp={(event) => {
+
+        /* ===================================================
+           POINTER RELEASE
+           =================================================== */
+
+        onPointerUp={(
+          event,
+        ) => {
           finishDrag(
             event.pointerId,
           );
         }}
-        onPointerCancel={(event) => {
+
+        onPointerCancel={(
+          event,
+        ) => {
           finishDrag(
             event.pointerId,
           );
         }}
-        onLostPointerCapture={(event) => {
+
+        /* ===================================================
+           LOST CAPTURE
+
+           Normally fires only for a confirmed drag because
+           normal clicks never request pointer capture.
+           =================================================== */
+
+        onLostPointerCapture={(
+          event,
+        ) => {
           if (
-            dragRef.current.pointerId ===
+            dragRef.current
+              .pointerId !==
             event.pointerId
           ) {
-            dragRef.current.pointerId =
-              -1;
-            dragRef.current.moved =
-              false;
-            setIsDragging(false);
+            return;
           }
+
+          dragRef.current.pointerId =
+            -1;
+
+          dragRef.current.moved =
+            false;
+
+          setIsDragging(
+            false,
+          );
         }}
+
+        /* ===================================================
+           STYLES
+           =================================================== */
+
         className="
           news-blogs-track
 
           mt-10
 
           flex
+
           w-full
 
           snap-x
@@ -1021,7 +1318,9 @@ export function NewsBlogsSection({
           scroll-smooth
 
           cursor-grab
+
           select-none
+
           [touch-action:pan-y]
 
           pb-1
@@ -1038,7 +1337,9 @@ export function NewsBlogsSection({
             <NewsBlogCard
               key={article.id}
               article={article}
-              revealText={revealText}
+              revealText={
+                revealText
+              }
             />
           ),
         )}
@@ -1053,14 +1354,19 @@ export function NewsBlogsSection({
           mt-8
 
           flex
+
           w-full
+
           justify-end
+
           gap-2
 
           sm:mt-10
         "
       >
-        {/* PREVIOUS */}
+        {/* ===================================================
+            PREVIOUS
+            =================================================== */}
 
         <button
           type="button"
@@ -1073,9 +1379,12 @@ export function NewsBlogsSection({
           aria-label="Previous News & Blog article"
           className="
             inline-flex
+
             h-12
             w-12
+
             shrink-0
+
             items-center
             justify-center
 
@@ -1107,7 +1416,9 @@ export function NewsBlogsSection({
           />
         </button>
 
-        {/* NEXT */}
+        {/* ===================================================
+            NEXT
+            =================================================== */}
 
         <button
           type="button"
@@ -1120,9 +1431,12 @@ export function NewsBlogsSection({
           aria-label="Next News & Blog article"
           className="
             inline-flex
+
             h-12
             w-12
+
             shrink-0
+
             items-center
             justify-center
 
@@ -1154,32 +1468,42 @@ export function NewsBlogsSection({
       </div>
 
       {/* =====================================================
-          CSS
+          LOCAL CAROUSEL CSS
           ===================================================== */}
 
       <style>{`
         .news-blogs-track {
           -ms-overflow-style: none;
+          scrollbar-width: none;
           -webkit-overflow-scrolling: touch;
-        }
-
-        .news-blogs-track[data-dragging="true"] {
-          cursor: grabbing;
-          scroll-behavior: auto;
-          scroll-snap-type: none;
-        }
-
-        .news-blogs-track[data-dragging="true"] a {
-          pointer-events: none;
         }
 
         .news-blogs-track::-webkit-scrollbar {
           display: none;
         }
 
-        @media (
-          prefers-reduced-motion: reduce
-        ) {
+        /*
+         * Disable native snap + smooth behavior only while
+         * the user is actively dragging.
+         */
+        .news-blogs-track[data-dragging="true"] {
+          cursor: grabbing;
+          scroll-behavior: auto;
+          scroll-snap-type: none;
+        }
+
+        /*
+         * Once drag intent has been confirmed, links should
+         * not react to pointer interaction.
+         *
+         * Before that point the links remain completely normal,
+         * which is why clicking now redirects correctly.
+         */
+        .news-blogs-track[data-dragging="true"] a {
+          pointer-events: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
           .news-blogs-track {
             scroll-behavior: auto;
           }

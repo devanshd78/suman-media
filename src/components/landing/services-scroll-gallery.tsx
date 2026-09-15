@@ -103,16 +103,21 @@ const lerp = (
 
 const smoothstep = (value: number) => {
   const t = clamp(value);
+
   return t * t * (3 - 2 * t);
 };
 
 const easeInCubic = (value: number) => {
   const t = clamp(value);
+
   return t * t * t;
 };
 
 const fadeOutNearEnd = (value: number) => {
-  const t = clamp((value - 0.72) / 0.28);
+  const t = clamp(
+    (value - 0.72) / 0.28,
+  );
+
   return 1 - smoothstep(t);
 };
 
@@ -120,12 +125,7 @@ const fadeOutNearEnd = (value: number) => {
    RESPONSIVE GEOMETRY
 
    IMPORTANT:
-   Animated stacking is now available at every practical viewport
-   size. Width/height no longer decide whether the component falls
-   back to a vertical list.
-
-   The only normal reason to avoid the scroll-linked motion is the
-   user's reduced-motion preference (or a single service).
+   Animation values are intentionally unchanged.
    ============================================================ */
 
 export function calculateServiceGeometry(
@@ -134,104 +134,181 @@ export function calculateServiceGeometry(
   count: number,
   reduced: boolean,
 ): Geometry {
-  const safeWidth = Math.max(280, width);
-  const safeHeight = Math.max(420, height);
+  const safeWidth = Math.max(
+    280,
+    width,
+  );
+
+  const safeHeight = Math.max(
+    420,
+    height,
+  );
 
   const compact = safeWidth < 900;
-  const veryNarrow = safeWidth < 540;
-  const shortScreen = safeHeight < 680;
 
-  /* Reserve enough room for the large heading above the card stack. */
+  const veryNarrow =
+    safeWidth < 540;
+
+  const shortScreen =
+    safeHeight < 680;
+
+  /*
+   * Reserve space for heading.
+   */
   const headingZone = Math.min(
     compact ? 150 : 180,
+
     Math.max(
       compact ? 88 : 110,
-      safeHeight * (compact ? 0.18 : 0.2),
+
+      safeHeight *
+      (compact
+        ? 0.18
+        : 0.2),
     ),
   );
 
-  const bottomInset = compact ? 16 : 28;
+  const bottomInset =
+    compact ? 16 : 28;
 
-  const availableCardHeight = Math.max(
-    250,
-    safeHeight - headingZone - bottomInset,
-  );
+  const availableCardHeight =
+    Math.max(
+      250,
+
+      safeHeight -
+      headingZone -
+      bottomInset,
+    );
 
   const desiredCardHeight =
     safeHeight *
-    (compact
-      ? shortScreen
-        ? 0.58
-        : 0.62
-      : shortScreen
-        ? 0.5
-        : 0.56);
+    (
+      compact
+        ? shortScreen
+          ? 0.58
+          : 0.62
+        : shortScreen
+          ? 0.5
+          : 0.56
+    );
 
   const cardHeight = Math.min(
     compact ? 570 : 620,
+
     availableCardHeight,
+
     Math.max(
-      veryNarrow ? 280 : 310,
+      veryNarrow
+        ? 280
+        : 310,
+
       desiredCardHeight,
     ),
   );
 
   const frontTop = Math.max(
     headingZone,
-    safeHeight - bottomInset - cardHeight,
+
+    safeHeight -
+    bottomInset -
+    cardHeight,
   );
 
   /*
-   * Keep the back of the stack above the foreground card, but make
-   * the value adapt to short screens instead of disabling animation.
+   * Keep the back cards above the foreground card.
    */
-  const desiredBackTop = Math.min(
-    compact ? 120 : 155,
-    Math.max(
-      compact ? 58 : 72,
-      safeHeight * (compact ? 0.1 : 0.12),
-    ),
-  );
+  const desiredBackTop =
+    Math.min(
+      compact ? 120 : 155,
+
+      Math.max(
+        compact ? 58 : 72,
+
+        safeHeight *
+        (
+          compact
+            ? 0.1
+            : 0.12
+        ),
+      ),
+    );
 
   const backTop = Math.min(
     desiredBackTop,
+
     Math.max(
       24,
-      frontTop - Math.max(36, count * 7),
+
+      frontTop -
+      Math.max(
+        36,
+        count * 7,
+      ),
     ),
   );
 
   const rawStep =
     count > 1
-      ? (frontTop - backTop) / (count - 1)
+      ? (
+        frontTop -
+        backTop
+      ) /
+      (count - 1)
       : 0;
 
   const step =
     count > 1
       ? Math.max(
         6,
-        Math.min(compact ? 26 : 38, rawStep),
+
+        Math.min(
+          compact
+            ? 26
+            : 38,
+
+          rawStep,
+        ),
       )
       : 0;
 
-  const horizontalInset = compact ? 14 : 44;
+  const horizontalInset =
+    compact ? 14 : 44;
 
   const cardWidth = Math.min(
-    Math.max(240, safeWidth - horizontalInset * 2),
-    compact ? 820 : 1180,
+    Math.max(
+      240,
+
+      safeWidth -
+      horizontalInset * 2,
+    ),
+
+    compact
+      ? 820
+      : 1180,
   );
 
   /*
-   * One scroll slice transitions exactly one foreground card into the
-   * next card. The stride scales with viewport height but is bounded so
-   * short laptops and tall phones both remain controllable.
+   * Scroll distance per transition.
+   *
+   * UNCHANGED.
    */
   const stride = Math.round(
     Math.max(
-      compact ? 390 : 460,
+      compact
+        ? 390
+        : 460,
+
       Math.min(
-        compact ? 720 : 820,
-        safeHeight * (compact ? 0.76 : 0.8),
+        compact
+          ? 720
+          : 820,
+
+        safeHeight *
+        (
+          compact
+            ? 0.76
+            : 0.8
+        ),
       ),
     ),
   );
@@ -243,9 +320,19 @@ export function calculateServiceGeometry(
     cardHeight,
     frontTop,
     step,
-    perspective: compact ? 1350 : 1900,
-    spacing: compact ? 220 : 360,
+
+    perspective:
+      compact
+        ? 1350
+        : 1900,
+
+    spacing:
+      compact
+        ? 220
+        : 360,
+
     stride,
+
     pinned:
       !reduced &&
       count > 1,
@@ -278,6 +365,17 @@ function Arrow() {
 
 /* ============================================================
    CARD CONTENT
+
+   IMPORTANT FIX:
+
+   There is intentionally NO:
+   data-lenis-prevent
+
+   on the left content.
+
+   This allows wheel / trackpad / touch scrolling to continue
+   controlling the page and therefore the existing stack
+   animation even when the pointer is over the text side.
    ============================================================ */
 
 function CardContent({
@@ -293,43 +391,77 @@ function CardContent({
   } = item;
 
   return (
-    <div className={styles.cardBody}>
+    <div
+      className={
+        styles.cardBody
+      }
+    >
       <div
-        className={styles.copy}
-        data-lenis-prevent
+        className={
+          styles.copy
+        }
       >
-        <span className={styles.number}>
-          {String(number).padStart(2, "0")}
+        <span
+          className={
+            styles.number
+          }
+        >
+          {String(
+            number,
+          ).padStart(
+            2,
+            "0",
+          )}
         </span>
 
-        <div className={styles.details}>
+        <div
+          className={
+            styles.details
+          }
+        >
           <h3>
-            {service.title || `Service ${number}`}
+            {service.title ||
+              `Service ${number}`}
           </h3>
 
           {service.shortDescription ? (
             <p>
-              {service.shortDescription}
+              {
+                service.shortDescription
+              }
             </p>
           ) : null}
 
           {service.slug ? (
             <Link
               href={`/services/${service.slug}`}
-              tabIndex={interactive ? 0 : -1}
-              className={styles.cta}
+              tabIndex={
+                interactive
+                  ? 0
+                  : -1
+              }
+              className={
+                styles.cta
+              }
             >
               Explore Capabilities
+
               <Arrow />
             </Link>
           ) : null}
         </div>
       </div>
 
-      <div className={styles.image}>
+      <div
+        className={
+          styles.image
+        }
+      >
         {service.imageUrl ? (
           <Image
-            src={service.imageUrl}
+            src={
+              service.imageUrl
+            }
             alt={
               service.imageAlt?.trim() ||
               service.title
@@ -337,7 +469,9 @@ function CardContent({
             fill
             loading="lazy"
             sizes="(max-width: 899px) calc(100vw - 28px), 50vw"
-            className={styles.cover}
+            className={
+              styles.cover
+            }
           />
         ) : null}
       </div>
@@ -348,16 +482,7 @@ function CardContent({
 /* ============================================================
    SERVICE FRAME
 
-   The transform is direction-independent.
-
-   This is the key reliability change:
-   scrolling down and scrolling back up use the SAME MotionValue path,
-   so there is no state switch that can make cards pop, freeze, or fall
-   back into a line-by-line layout.
-
-   Each slice does two things together:
-   1. current foreground card exits
-   2. next stacked card arrives at the foreground
+   ANIMATION IS UNCHANGED.
    ============================================================ */
 
 function ServiceFrame({
@@ -382,141 +507,272 @@ function ServiceFrame({
     step,
   } = geometry;
 
-  const isFirst = index === 0;
-  const isLast = index === total - 1;
+  const isFirst =
+    index === 0;
 
-  const restZ = -index * spacing;
+  const isLast =
+    index === total - 1;
+
+  const restZ =
+    -index * spacing;
 
   const ratio =
     perspective /
-    (perspective - restZ);
+    (
+      perspective -
+      restZ
+    );
 
   const restY =
     isFirst
       ? 0
       : (
-        cardHeight * (ratio - 1) / 2 -
+        cardHeight *
+        (ratio - 1) /
+        2 -
         index * step
-      ) / ratio;
+      ) /
+      ratio;
+
+  /* ==========================================================
+     Y
+     ========================================================== */
 
   const y = useTransform(
     progress,
+
     (value) => {
       if (isLast) {
-        if (isFirst) return 0;
+        if (isFirst) {
+          return 0;
+        }
 
-        const arrival = smoothstep(
-          value - (index - 1),
+        const arrival =
+          smoothstep(
+            value -
+            (index - 1),
+          );
+
+        return lerp(
+          restY,
+          0,
+          arrival,
         );
-
-        return lerp(restY, 0, arrival);
       }
 
       if (value < index) {
-        if (isFirst) return 0;
+        if (isFirst) {
+          return 0;
+        }
 
-        const arrival = smoothstep(
-          value - (index - 1),
+        const arrival =
+          smoothstep(
+            value -
+            (index - 1),
+          );
+
+        return lerp(
+          restY,
+          0,
+          arrival,
+        );
+      }
+
+      const exit =
+        clamp(
+          value -
+          index,
         );
 
-        return lerp(restY, 0, arrival);
-      }
-
-      const exit = clamp(value - index);
-      return cardHeight * 0.72 * easeInCubic(exit);
-    },
-  );
-
-  const z = useTransform(
-    progress,
-    (value) => {
-      if (isLast) {
-        if (isFirst) return 0;
-
-        const arrival = smoothstep(
-          value - (index - 1),
-        );
-
-        return lerp(restZ, 0, arrival);
-      }
-
-      if (value < index) {
-        if (isFirst) return 0;
-
-        const arrival = smoothstep(
-          value - (index - 1),
-        );
-
-        return lerp(restZ, 0, arrival);
-      }
-
-      const exit = clamp(value - index);
-      return perspective * 0.82 * easeInCubic(exit);
-    },
-  );
-
-  const rotateX = useTransform(
-    progress,
-    (value) => {
-      if (isLast || value < index) {
-        return 0;
-      }
-
-      const exit = clamp(value - index);
-      return 70 * easeInCubic(exit);
-    },
-  );
-
-  const opacity = useTransform(
-    progress,
-    (value) => {
-      if (isLast || value < index) {
-        return 1;
-      }
-
-      return fadeOutNearEnd(
-        value - index,
+      return (
+        cardHeight *
+        0.72 *
+        easeInCubic(exit)
       );
     },
   );
 
+  /* ==========================================================
+     Z
+     ========================================================== */
+
+  const z = useTransform(
+    progress,
+
+    (value) => {
+      if (isLast) {
+        if (isFirst) {
+          return 0;
+        }
+
+        const arrival =
+          smoothstep(
+            value -
+            (index - 1),
+          );
+
+        return lerp(
+          restZ,
+          0,
+          arrival,
+        );
+      }
+
+      if (value < index) {
+        if (isFirst) {
+          return 0;
+        }
+
+        const arrival =
+          smoothstep(
+            value -
+            (index - 1),
+          );
+
+        return lerp(
+          restZ,
+          0,
+          arrival,
+        );
+      }
+
+      const exit =
+        clamp(
+          value -
+          index,
+        );
+
+      return (
+        perspective *
+        0.82 *
+        easeInCubic(exit)
+      );
+    },
+  );
+
+  /* ==========================================================
+     ROTATION
+     ========================================================== */
+
+  const rotateX =
+    useTransform(
+      progress,
+
+      (value) => {
+        if (
+          isLast ||
+          value < index
+        ) {
+          return 0;
+        }
+
+        const exit =
+          clamp(
+            value -
+            index,
+          );
+
+        return (
+          70 *
+          easeInCubic(exit)
+        );
+      },
+    );
+
+  /* ==========================================================
+     OPACITY
+     ========================================================== */
+
+  const opacity =
+    useTransform(
+      progress,
+
+      (value) => {
+        if (
+          isLast ||
+          value < index
+        ) {
+          return 1;
+        }
+
+        return fadeOutNearEnd(
+          value -
+          index,
+        );
+      },
+    );
+
+  /* ==========================================================
+     RENDER
+     ========================================================== */
+
   return (
     <div
-      className={styles.shell}
+      className={
+        styles.shell
+      }
       style={{
-        width: geometry.cardWidth,
-        height: cardHeight,
-        top: geometry.frontTop,
-        zIndex: total - index,
+        width:
+          geometry.cardWidth,
+
+        height:
+          cardHeight,
+
+        top:
+          geometry.frontTop,
+
+        zIndex:
+          total -
+          index,
       }}
     >
       <motion.article
         data-service-frame
-        data-active={active}
-        aria-hidden={!active}
-        inert={!active}
+        data-active={
+          active
+        }
+        aria-hidden={
+          !active
+        }
+        inert={
+          !active
+        }
         style={{
           y,
           z,
           rotateX,
           opacity,
+
           background:
             COLORS[
-            (item.number - 1) % COLORS.length
+            (
+              item.number -
+              1
+            ) %
+            COLORS.length
             ],
+
           color:
-            [3, 4, 6].includes(item.number)
+            [3, 4, 6].includes(
+              item.number,
+            )
               ? "#151515"
               : "#fff",
-          pointerEvents: active
-            ? "auto"
-            : "none",
+
+          pointerEvents:
+            active
+              ? "auto"
+              : "none",
         }}
-        className={styles.frame}
+        className={
+          styles.frame
+        }
       >
         <CardContent
           item={item}
-          interactive={active}
+          interactive={
+            active
+          }
         />
       </motion.article>
     </div>
@@ -532,49 +788,72 @@ export function ServicesScrollGallery({
   heading,
   services,
 }: Props) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const shouldReduceMotion = useReducedMotion() === true;
+  const rootRef =
+    useRef<HTMLDivElement>(
+      null,
+    );
 
-  const [geometry, setGeometry] =
-    useState<Geometry>(INITIAL);
+  const shouldReduceMotion =
+    useReducedMotion() ===
+    true;
 
-  const [active, setActive] =
+  const [
+    geometry,
+    setGeometry,
+  ] =
+    useState<Geometry>(
+      INITIAL,
+    );
+
+  const [
+    active,
+    setActive,
+  ] =
     useState(0);
 
-  /* ----------------------------------------------------------
+  /* ==========================================================
      SERVICES
 
-     Preserve the existing visual order:
-     the highest-numbered service starts at the front.
-     ---------------------------------------------------------- */
+     Preserve current ordering.
+     ========================================================== */
 
-  const items = useMemo(
-    () =>
-      services
-        .slice(0, 8)
-        .map((service, index) => ({
-          service,
-          number: index + 1,
-        }))
-        .reverse(),
-    [services],
-  );
+  const items =
+    useMemo(
+      () =>
+        services
+          .slice(0, 8)
+          .map(
+            (
+              service,
+              index,
+            ) => ({
+              service,
+              number:
+                index +
+                1,
+            }),
+          )
+          .reverse(),
 
-  const count = items.length;
+      [services],
+    );
+
+  const count =
+    items.length;
 
   const currentHeading =
     heading?.trim() ||
     "What we really do?";
 
-  /* ----------------------------------------------------------
+  /* ==========================================================
      RESPONSIVE MEASUREMENT
 
-     ResizeObserver catches container/layout changes.
-     visualViewport catches mobile browser chrome/orientation changes.
-     ---------------------------------------------------------- */
+     UNCHANGED.
+     ========================================================== */
 
   useEffect(() => {
-    const root = rootRef.current;
+    const root =
+      rootRef.current;
 
     if (!root) {
       return;
@@ -582,70 +861,111 @@ export function ServicesScrollGallery({
 
     let frame = 0;
 
-    const measure = () => {
-      frame = 0;
+    const measure =
+      () => {
+        frame = 0;
 
-      const rect = root.getBoundingClientRect();
+        const rect =
+          root.getBoundingClientRect();
 
-      const width =
-        rect.width ||
-        document.documentElement.clientWidth ||
-        window.innerWidth;
+        const width =
+          rect.width ||
+          document
+            .documentElement
+            .clientWidth ||
+          window.innerWidth;
 
-      const height =
-        window.visualViewport?.height ||
-        window.innerHeight ||
-        document.documentElement.clientHeight;
+        const height =
+          window
+            .visualViewport
+            ?.height ||
+          window.innerHeight ||
+          document
+            .documentElement
+            .clientHeight;
 
-      const next = calculateServiceGeometry(
-        width,
-        height,
-        count,
-        shouldReduceMotion,
+        const next =
+          calculateServiceGeometry(
+            width,
+            height,
+            count,
+            shouldReduceMotion,
+          );
+
+        setGeometry(
+          (old) => {
+            const unchanged =
+              old.width ===
+              next.width &&
+              old.height ===
+              next.height &&
+              old.cardWidth ===
+              next.cardWidth &&
+              old.cardHeight ===
+              next.cardHeight &&
+              old.frontTop ===
+              next.frontTop &&
+              old.step ===
+              next.step &&
+              old.perspective ===
+              next.perspective &&
+              old.spacing ===
+              next.spacing &&
+              old.stride ===
+              next.stride &&
+              old.pinned ===
+              next.pinned;
+
+            return unchanged
+              ? old
+              : next;
+          },
+        );
+      };
+
+    const schedule =
+      () => {
+        if (!frame) {
+          frame =
+            requestAnimationFrame(
+              measure,
+            );
+        }
+      };
+
+    const observer =
+      new ResizeObserver(
+        schedule,
       );
 
-      setGeometry((old) => {
-        const unchanged =
-          old.width === next.width &&
-          old.height === next.height &&
-          old.cardWidth === next.cardWidth &&
-          old.cardHeight === next.cardHeight &&
-          old.frontTop === next.frontTop &&
-          old.step === next.step &&
-          old.perspective === next.perspective &&
-          old.spacing === next.spacing &&
-          old.stride === next.stride &&
-          old.pinned === next.pinned;
+    observer.observe(
+      root,
+    );
 
-        return unchanged
-          ? old
-          : next;
-      });
-    };
-
-    const schedule = () => {
-      if (!frame) {
-        frame = requestAnimationFrame(measure);
-      }
-    };
-
-    const observer = new ResizeObserver(schedule);
-    observer.observe(root);
-
-    window.addEventListener("resize", schedule, {
-      passive: true,
-    });
-
-    window.visualViewport?.addEventListener(
+    window.addEventListener(
       "resize",
       schedule,
-      { passive: true },
+      {
+        passive: true,
+      },
     );
+
+    window.visualViewport
+      ?.addEventListener(
+        "resize",
+        schedule,
+        {
+          passive: true,
+        },
+      );
 
     schedule();
 
     return () => {
-      cancelAnimationFrame(frame);
+      cancelAnimationFrame(
+        frame,
+      );
+
       observer.disconnect();
 
       window.removeEventListener(
@@ -653,56 +973,89 @@ export function ServicesScrollGallery({
         schedule,
       );
 
-      window.visualViewport?.removeEventListener(
-        "resize",
-        schedule,
-      );
+      window.visualViewport
+        ?.removeEventListener(
+          "resize",
+          schedule,
+        );
     };
-  }, [count, shouldReduceMotion]);
+  }, [
+    count,
+    shouldReduceMotion,
+  ]);
 
-  /* ----------------------------------------------------------
+  /* ==========================================================
      SCROLL PROGRESS
 
-     There are count - 1 transitions:
-     front card 1 -> card 2 -> ... -> final card.
-     ---------------------------------------------------------- */
+     UNCHANGED.
+     ========================================================== */
 
-  const { scrollYProgress } = useScroll({
-    target: rootRef,
-    offset: ["start start", "end end"],
-  });
-
-  const transitionCount = Math.max(
-    1,
-    count - 1,
-  );
-
-  const progress = useTransform(
+  const {
     scrollYProgress,
-    [0, 1],
-    [0, transitionCount],
-  );
+  } =
+    useScroll({
+      target:
+        rootRef,
+
+      offset: [
+        "start start",
+        "end end",
+      ],
+    });
+
+  const transitionCount =
+    Math.max(
+      1,
+      count - 1,
+    );
+
+  const progress =
+    useTransform(
+      scrollYProgress,
+
+      [0, 1],
+
+      [
+        0,
+        transitionCount,
+      ],
+    );
+
+  /* ==========================================================
+     ACTIVE CARD
+
+     UNCHANGED.
+     ========================================================== */
 
   useMotionValueEvent(
     progress,
+
     "change",
+
     (value) => {
       if (!count) {
         return;
       }
 
-      const next = Math.min(
-        count - 1,
-        Math.max(
-          0,
-          Math.round(value),
-        ),
-      );
+      const next =
+        Math.min(
+          count - 1,
 
-      setActive((previous) =>
-        previous === next
-          ? previous
-          : next,
+          Math.max(
+            0,
+
+            Math.round(
+              value,
+            ),
+          ),
+        );
+
+      setActive(
+        (previous) =>
+          previous ===
+            next
+            ? previous
+            : next,
       );
     },
   );
@@ -711,61 +1064,102 @@ export function ServicesScrollGallery({
     return null;
   }
 
-  const headingMarkup = (
-    <h2
-      id="services-heading"
-      className={styles.heading}
-    >
-      {currentHeading.toLowerCase() ===
-        "what we really do?" ? (
-        <>
-          What we
-          <br />
-          really do?
-        </>
-      ) : (
-        currentHeading
-      )}
-    </h2>
-  );
+  /* ==========================================================
+     HEADING
+     ========================================================== */
+
+  const headingMarkup =
+    (
+      <h2
+        id="services-heading"
+        className={
+          styles.heading
+        }
+      >
+        {currentHeading.toLowerCase() ===
+          "what we really do?" ? (
+          <>
+            What we
+            <br />
+            really do?
+          </>
+        ) : (
+          currentHeading
+        )}
+      </h2>
+    );
 
   const measurementsReady =
     geometry.width > 0 &&
     geometry.height > 0;
 
+  /* ==========================================================
+     TOTAL SCROLL HEIGHT
+
+     UNCHANGED.
+     ========================================================== */
+
   const scrollHeight =
     geometry.height +
-    Math.max(0, count - 1) *
+    Math.max(
+      0,
+      count - 1,
+    ) *
     geometry.stride;
+
+  /* ==========================================================
+     RENDER
+     ========================================================== */
 
   return (
     <div
       ref={rootRef}
       data-motion-managed
       data-services-gallery
-      data-pinned={geometry.pinned}
-      className={styles.root}
+      data-pinned={
+        geometry.pinned
+      }
+      className={
+        styles.root
+      }
       style={{
         height:
-          measurementsReady && geometry.pinned
+          measurementsReady &&
+            geometry.pinned
             ? scrollHeight
             : undefined,
       }}
     >
-      {/* Avoid a first-paint vertical list before geometry is measured. */}
       {!measurementsReady ? (
-        <div className={styles.loadingStage}>
+        /* -----------------------------------------------
+           Initial measuring state
+           ----------------------------------------------- */
+
+        <div
+          className={
+            styles.loadingStage
+          }
+        >
           {headingMarkup}
         </div>
       ) : geometry.pinned ? (
+        /* -----------------------------------------------
+           Animated / sticky version
+           ----------------------------------------------- */
+
         <div
-          className={styles.stage}
+          className={
+            styles.stage
+          }
           style={{
-            height: geometry.height,
+            height:
+              geometry.height,
           }}
         >
           {eyebrow ? (
-            <span className="sr-only">
+            <span
+              className="sr-only"
+            >
               {eyebrow}
             </span>
           ) : null}
@@ -773,37 +1167,65 @@ export function ServicesScrollGallery({
           {headingMarkup}
 
           <div
-            className={styles.scene}
+            className={
+              styles.scene
+            }
             style={{
               perspective:
                 geometry.perspective,
+
               perspectiveOrigin:
                 `50% ${geometry.frontTop +
-                geometry.cardHeight / 2
+                geometry.cardHeight /
+                2
                 }px`,
             }}
           >
-            {items.map((item, index) => (
-              <ServiceFrame
-                key={`${item.service._id}-${item.number}`}
-                item={item}
-                index={index}
-                total={count}
-                progress={progress}
-                geometry={geometry}
-                active={index === active}
-              />
-            ))}
+            {items.map(
+              (
+                item,
+                index,
+              ) => (
+                <ServiceFrame
+                  key={`${item.service._id}-${item.number}`}
+                  item={
+                    item
+                  }
+                  index={
+                    index
+                  }
+                  total={
+                    count
+                  }
+                  progress={
+                    progress
+                  }
+                  geometry={
+                    geometry
+                  }
+                  active={
+                    index ===
+                    active
+                  }
+                />
+              ),
+            )}
           </div>
         </div>
       ) : (
-        /*
-         * Reduced-motion / single-card fallback.
-         * It is horizontal, not a vertical line of every card.
-         */
-        <div className={styles.staticList}>
+        /* -----------------------------------------------
+           Reduced-motion / one-card fallback
+           ----------------------------------------------- */
+
+        <div
+          className={
+            styles.staticList
+          }
+        >
           {eyebrow ? (
-            <span className="sr-only">
+            <span
+              className="sr-only"
+            >
               {eyebrow}
             </span>
           ) : null}
@@ -811,48 +1233,74 @@ export function ServicesScrollGallery({
           {headingMarkup}
 
           <div
-            className={styles.staticRail}
+            className={
+              styles.staticRail
+            }
             aria-label="Services"
           >
-            {items.map((item) => (
-              <article
-                key={`${item.service._id}-${item.number}`}
-                className={styles.staticCard}
-                style={{
-                  background:
-                    COLORS[
-                    (item.number - 1) %
-                    COLORS.length
-                    ],
-                  color:
-                    [3, 4, 6].includes(
-                      item.number,
-                    )
-                      ? "#151515"
-                      : "#fff",
-                }}
-              >
-                <CardContent item={item} />
-              </article>
-            ))}
+            {items.map(
+              (item) => (
+                <article
+                  key={`${item.service._id}-${item.number}`}
+                  className={
+                    styles.staticCard
+                  }
+                  style={{
+                    background:
+                      COLORS[
+                      (
+                        item.number -
+                        1
+                      ) %
+                      COLORS.length
+                      ],
+
+                    color:
+                      [3, 4, 6].includes(
+                        item.number,
+                      )
+                        ? "#151515"
+                        : "#fff",
+                  }}
+                >
+                  <CardContent
+                    item={
+                      item
+                    }
+                  />
+                </article>
+              ),
+            )}
           </div>
         </div>
       )}
+
+      {/* =====================================================
+          Accessibility links for the animated version
+          ===================================================== */}
 
       {geometry.pinned ? (
         <nav
           className="sr-only"
           aria-label="All services"
         >
-          {items.map((item) =>
-            item.service.slug ? (
-              <Link
-                key={item.number}
-                href={`/services/${item.service.slug}`}
-              >
-                {item.service.title}
-              </Link>
-            ) : null,
+          {items.map(
+            (item) =>
+              item.service
+                .slug ? (
+                <Link
+                  key={
+                    item.number
+                  }
+                  href={`/services/${item.service.slug}`}
+                >
+                  {
+                    item
+                      .service
+                      .title
+                  }
+                </Link>
+              ) : null,
           )}
         </nav>
       ) : null}

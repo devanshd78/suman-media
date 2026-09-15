@@ -6,7 +6,7 @@ Date: 2026-09-14
 
 - Header height and page-anchor offset are now consistently 64px.
 - Header gutters match the landing page gutters: 20px mobile, 32px small/tablet, 56px desktop.
-- `/`, `/news-and-blogs`, and `/Abhijat-Marathi` use the overlay header treatment; normal pages remain solid.
+- `/`, `/news-and-blogs`, and `/abhijat-marathi` use the overlay header treatment; normal pages remain solid.
 - Header Contact us and other primary action controls use the shared 4px action radius.
 - Hero heading now has a controlled responsive max width and both hero CTAs use 4px radius.
 - Landing/About/News navigation and major Careers/Contact/OTT action buttons use the same 4px action radius.

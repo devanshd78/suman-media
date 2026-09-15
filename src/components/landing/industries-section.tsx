@@ -3,7 +3,11 @@
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import {
+  memo,
+  useRef,
+  type ReactNode,
+} from "react";
 
 import { usePinnedRail } from "@/hooks/use-pinned-rail";
 import { plusJakartaSans } from "@/lib/fonts";
@@ -44,9 +48,12 @@ type IndustriesSectionProps = {
 
 /* ============================================================
    INDUSTRIES
+
+   Static data is intentionally defined outside the component.
+   Nothing here needs to be recreated while scrolling.
    ============================================================ */
 
-const INDUSTRIES: IndustryItem[] = [
+const INDUSTRIES: readonly IndustryItem[] = [
   {
     key: "entertainment",
     number: "01",
@@ -145,69 +152,113 @@ function ArrowIcon() {
 
 /* ============================================================
    INDUSTRY CARD
+
+   IMPORTANT PERFORMANCE OPTIMISATION:
+
+   memo() prevents all seven cards — including their large SVG
+   trees — from rerendering if the parent happens to rerender
+   during rail measurements/state updates.
+
+   Industry objects are module-level constants, so the prop
+   references remain stable.
    ============================================================ */
 
-function IndustryCard({
-  industry,
-}: {
-  industry: IndustryItem;
-}) {
-  return (
-    <Link
-      href={`/services?industry=${encodeURIComponent(industry.slug)}`}
-      data-rail-card
-      data-industry-card
-      className={styles.card}
-    >
-      <div className={styles.visual}>
-        <Image
-          src={industry.gradientImage}
-          alt=""
-          aria-hidden="true"
-          fill
-          loading="lazy"
-          sizes="(max-width: 1023px) 82vw, 26rem"
-          className={styles.gradientBackground}
-        />
+const IndustryCard = memo(
+  function IndustryCard({
+    industry,
+  }: {
+    industry: IndustryItem;
+  }) {
+    return (
+      <Link
+        href={`/services?industry=${encodeURIComponent(
+          industry.slug,
+        )}`}
+        data-rail-card
+        data-industry-card
+        className={styles.card}
+      >
+        <div className={styles.visual}>
+          {/* -----------------------------------------------
+              Background image
+              ----------------------------------------------- */}
 
-        <div
-          aria-hidden="true"
-          className={styles.backgroundWash}
-        />
+          <Image
+            src={industry.gradientImage}
+            alt=""
+            aria-hidden="true"
+            fill
+            loading="lazy"
+            draggable={false}
+            sizes="(max-width: 359px) 54vw, (max-width: 639px) 58vw, (max-width: 767px) 44vw, (max-width: 1023px) 38vw, 26rem"
+            className={styles.gradientBackground}
+          />
 
-        <div
-          aria-hidden="true"
-          className={styles.bloom}
-        />
+          {/* -----------------------------------------------
+              Lightweight contrast wash
 
-        <div
-          aria-hidden="true"
-          className={styles.noise}
-        />
+              No CSS blur/filter.
+              ----------------------------------------------- */}
 
-        <span className={styles.number}>
-          {industry.number}
-        </span>
+          <div
+            aria-hidden="true"
+            className={styles.backgroundWash}
+          />
 
-        <div
-          aria-hidden="true"
-          data-industry-artwork={industry.key}
-          className={styles.artwork}
-        >
-          {industry.artwork}
+          {/* -----------------------------------------------
+              Lightweight bloom
+
+              Previously a huge blurred DOM layer.
+              Now rendered directly as a radial gradient.
+              ----------------------------------------------- */}
+
+          <div
+            aria-hidden="true"
+            className={styles.bloom}
+          />
+
+          {/* -----------------------------------------------
+              Very lightweight texture
+              ----------------------------------------------- */}
+
+          <div
+            aria-hidden="true"
+            className={styles.noise}
+          />
+
+          <span className={styles.number}>
+            {industry.number}
+          </span>
+
+          {/* -----------------------------------------------
+              Artwork
+
+              Existing artwork is completely unchanged.
+              ----------------------------------------------- */}
+
+          <div
+            aria-hidden="true"
+            data-industry-artwork={industry.key}
+            className={styles.artwork}
+          >
+            {industry.artwork}
+          </div>
         </div>
-      </div>
 
-      <h3 className={styles.cardTitle}>
-        {industry.title}
-      </h3>
+        <h3 className={styles.cardTitle}>
+          {industry.title}
+        </h3>
 
-      <p className={styles.cardDescription}>
-        {industry.description}
-      </p>
-    </Link>
-  );
-}
+        <p className={styles.cardDescription}>
+          {industry.description}
+        </p>
+      </Link>
+    );
+  },
+);
+
+IndustryCard.displayName =
+  "IndustryCard";
 
 /* ============================================================
    INDUSTRIES SECTION
@@ -219,20 +270,39 @@ export function IndustriesSection({
   description,
   cta,
 }: IndustriesSectionProps) {
-  const section = useRef<HTMLElement>(null);
-  const content = useRef<HTMLDivElement>(null);
-  const viewport = useRef<HTMLDivElement>(null);
-  const track = useRef<HTMLDivElement>(null);
+  const section =
+    useRef<HTMLElement>(null);
+
+  const content =
+    useRef<HTMLDivElement>(null);
+
+  const viewport =
+    useRef<HTMLDivElement>(null);
+
+  const track =
+    useRef<HTMLDivElement>(null);
+
+  /* ==========================================================
+     PINNED RAIL
+
+     Animation logic intentionally unchanged.
+     ========================================================== */
 
   const rail = usePinnedRail({
     section,
     content,
     viewport,
     track,
+
     minViewportWidth: 320,
     minViewportHeight: 420,
+
     requireFinePointer: false,
   });
+
+  /* ==========================================================
+     CMS CONTENT
+     ========================================================== */
 
   const resolvedEyebrow =
     eyebrow?.trim() ||
@@ -254,6 +324,10 @@ export function IndustriesSection({
     cta?.href?.trim() ||
     "/services";
 
+  /* ==========================================================
+     RENDER
+     ========================================================== */
+
   return (
     <section
       ref={section}
@@ -266,6 +340,10 @@ export function IndustriesSection({
         height: rail.sectionHeight,
       }}
     >
+      {/* =====================================================
+          STICKY VIEWPORT
+          ===================================================== */}
+
       <div
         className={styles.sticky}
         style={{
@@ -278,6 +356,10 @@ export function IndustriesSection({
           ref={content}
           className={styles.content}
         >
+          {/* =================================================
+              HEADER
+              ================================================= */}
+
           <div className={styles.header}>
             <div>
               <p className={styles.eyebrow}>
@@ -302,10 +384,15 @@ export function IndustriesSection({
                 className={styles.cta}
               >
                 {resolvedCtaLabel}
+
                 <ArrowIcon />
               </Link>
             </div>
           </div>
+
+          {/* =================================================
+              HORIZONTAL RAIL
+              ================================================= */}
 
           <div
             ref={viewport}
@@ -319,6 +406,15 @@ export function IndustriesSection({
             aria-label="Industries"
             tabIndex={0}
           >
+            {/* ===============================================
+                ONLY THE TRACK MOVES.
+
+                x remains the same MotionValue from
+                usePinnedRail.
+
+                No React state is introduced for scrolling.
+                =============================================== */}
+
             <motion.div
               ref={track}
               className={styles.track}
@@ -326,12 +422,14 @@ export function IndustriesSection({
                 x: rail.x,
               }}
             >
-              {INDUSTRIES.map((industry) => (
-                <IndustryCard
-                  key={industry.key}
-                  industry={industry}
-                />
-              ))}
+              {INDUSTRIES.map(
+                (industry) => (
+                  <IndustryCard
+                    key={industry.key}
+                    industry={industry}
+                  />
+                ),
+              )}
             </motion.div>
           </div>
         </div>

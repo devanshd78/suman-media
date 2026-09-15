@@ -28,7 +28,6 @@ import type {
 const DEFAULT_HERO_VIDEO =
   "/videos/MediaVedio.mp4";
 
-
 const DEFAULT_HEADING =
   "Abhijat Marathi OTT";
 
@@ -97,10 +96,11 @@ function AnimatedText({
       ? motion.h1
       : motion.p;
 
-  const words = text
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
+  const words =
+    text
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
 
   const unitCount =
     split === "characters"
@@ -110,8 +110,8 @@ function AnimatedText({
       : words.length;
 
   /*
-   * Prevent extremely long CMS text from creating
-   * an excessively long stagger sequence.
+   * Prevent very long CMS text from producing an
+   * excessively long stagger sequence.
    */
   const effectiveStagger =
     Math.min(
@@ -128,7 +128,9 @@ function AnimatedText({
 
     visible: {
       transition: {
-        delayChildren: delay,
+        delayChildren:
+          delay,
+
         staggerChildren:
           effectiveStagger,
       },
@@ -145,8 +147,13 @@ function AnimatedText({
           : "hidden"
       }
       whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={containerVariants}
+      viewport={{
+        once: true,
+        amount: 0.1,
+      }}
+      variants={
+        containerVariants
+      }
       style={{
         fontFeatureSettings:
           '"liga" off, "clig" off',
@@ -187,16 +194,14 @@ function AnimatedText({
                         <motion.span
                           className="
                             inline-block
-                                    "
+                          "
                           variants={
                             reducedMotion
                               ? undefined
                               : textUnitVariants
                           }
                         >
-                          {
-                            character
-                          }
+                          {character}
                         </motion.span>
                       </span>
                     ),
@@ -213,7 +218,7 @@ function AnimatedText({
                   <motion.span
                     className="
                       inline-block
-                        "
+                    "
                     variants={
                       reducedMotion
                         ? undefined
@@ -274,11 +279,12 @@ export function HeroSection({
   content?: CmsHero | null;
 }) {
   const shouldReduceMotion =
-    useReducedMotion() ?? false;
+    useReducedMotion() ??
+    false;
 
-  /* ----------------------------------------------------------
+  /* ==========================================================
      CMS CONTENT
-     ---------------------------------------------------------- */
+     ========================================================== */
 
   const videoUrl =
     textOrFallback(
@@ -300,25 +306,34 @@ export function HeroSection({
 
   const learnMoreLabel =
     textOrFallback(
-      content?.learnMoreCta
+      content
+        ?.learnMoreCta
         ?.label,
       "Learn more",
     );
 
   const learnMoreHref =
-    "/Abhijat-Marathi";
+    "/abhijat-marathi";
 
   const joinNowLabel =
     textOrFallback(
-      content?.joinNowCta?.label,
+      content
+        ?.joinNowCta
+        ?.label,
       "Join now",
     );
 
   const joinNowHref =
     textOrFallback(
-      content?.joinNowCta?.href,
+      content
+        ?.joinNowCta
+        ?.href,
       "/contact",
     );
+
+  /* ==========================================================
+     RENDER
+     ========================================================== */
 
   return (
     <section
@@ -329,11 +344,15 @@ export function HeroSection({
         landing-section-transition
 
         relative
+
         flex
         min-h-[100svh]
         w-full
+
         items-end
+
         overflow-hidden
+
         bg-black
         text-white
 
@@ -353,13 +372,15 @@ export function HeroSection({
         lg:pt-[8rem]
       "
     >
-      {/* ======================================================
+      {/* =====================================================
           BACKGROUND VIDEO
-          ====================================================== */}
+          ===================================================== */}
 
       <video
         key={videoUrl}
-        autoPlay={!shouldReduceMotion}
+        autoPlay={
+          !shouldReduceMotion
+        }
         muted
         loop
         playsInline
@@ -368,11 +389,15 @@ export function HeroSection({
         tabIndex={-1}
         className="
           pointer-events-none
+
           absolute
           inset-0
+
           h-full
           w-full
+
           select-none
+
           object-cover
           object-center
         "
@@ -383,18 +408,15 @@ export function HeroSection({
         />
       </video>
 
-      {/* ======================================================
-          VIDEO OVERLAYS
-
-          Bottom gradient provides text readability.
-          Radial gradient darkens the sides without making
-          the entire video look artificially dark.
-          ====================================================== */}
+      {/* =====================================================
+          VIDEO OVERLAY — BOTTOM READABILITY
+          ===================================================== */}
 
       <div
         aria-hidden="true"
         className="
           pointer-events-none
+
           absolute
           inset-0
 
@@ -402,10 +424,15 @@ export function HeroSection({
         "
       />
 
+      {/* =====================================================
+          VIDEO OVERLAY — SIDE DARKENING
+          ===================================================== */}
+
       <div
         aria-hidden="true"
         className="
           pointer-events-none
+
           absolute
           inset-0
 
@@ -413,9 +440,9 @@ export function HeroSection({
         "
       />
 
-      {/* ======================================================
+      {/* =====================================================
           HERO CONTENT
-          ====================================================== */}
+          ===================================================== */}
 
       <div
         data-landing-text-reveal-skip
@@ -424,27 +451,17 @@ export function HeroSection({
           z-10
 
           flex
+
           w-full
           max-w-full
+
           flex-col
           items-start
         "
       >
-        {/* ====================================================
-            EYEBROW
-
-            Plus Jakarta / Inter
-            14px desktop
-            600
-            20px
-            inverse white
-            ==================================================== */}
-
-
-
-        {/* ====================================================
+        {/* ===================================================
             MAIN HEADING
-            ==================================================== */}
+            =================================================== */}
 
         <AnimatedText
           as="h1"
@@ -455,44 +472,48 @@ export function HeroSection({
           reducedMotion={
             shouldReduceMotion
           }
-          className={`landing-hero-title
+          className={`
+            landing-hero-title
             ${plusJakartaSans.className}
 
             mt-2
+
             w-full
             max-w-full
-            sm:max-w-[92%]
-            md:max-w-[84%]
-            lg:max-w-[78%]
-            xl:max-w-[74%]
 
             break-words
 
             text-[2.5rem]
             font-semibold
             leading-[1.08]
+
             tracking-[-0.03125rem]
+
             text-[#F9F9F9]
 
             min-[390px]:text-[2.75rem]
 
             sm:mt-2.5
+            sm:max-w-[92%]
             sm:text-[3rem]
             sm:leading-[1.08]
 
+            md:max-w-[84%]
             md:text-[3.25rem]
 
+            lg:max-w-[78%]
             lg:text-[3.5rem]
             lg:leading-[4rem]
             lg:tracking-[-0.0625rem]
 
+            xl:max-w-[74%]
             xl:text-[3.75rem]
           `}
         />
 
-        {/* ====================================================
+        {/* ===================================================
             DESCRIPTION
-            ==================================================== */}
+            =================================================== */}
 
         <AnimatedText
           as="p"
@@ -500,66 +521,72 @@ export function HeroSection({
           split="words"
           delay={0.85}
           stagger={0.045}
-          reducedMotion={shouldReduceMotion}
-          className={`landing-lead
-    ${plusJakartaSans.className}
+          reducedMotion={
+            shouldReduceMotion
+          }
+          className={`
+            landing-lead
+            ${plusJakartaSans.className}
 
-    mt-3
+            mt-3
 
-    w-full
-    max-w-full
+            w-full
+            max-w-full
 
-    text-[0.9375rem]
-    font-normal
-    leading-[1.5rem]
-    text-[#B8B8B8]
+            text-[0.9375rem]
+            font-normal
+            leading-[1.5rem]
 
-    sm:mt-4
-    sm:max-w-[85%]
-    sm:text-[1.0625rem]
-    sm:leading-[1.625rem]
+            text-[#B8B8B8]
 
-    md:max-w-[60%]
+            sm:mt-4
+            sm:max-w-[85%]
+            sm:text-[1.0625rem]
+            sm:leading-[1.625rem]
 
-    lg:max-w-[40%]
-    lg:text-[1.25rem]
-    lg:leading-[1.75rem]
-    lg:text-[#969696]
-  `}
+            md:max-w-[60%]
+
+            lg:max-w-[40%]
+            lg:text-[1.25rem]
+            lg:leading-[1.75rem]
+            lg:text-[#969696]
+          `}
         />
 
-        {/* ====================================================
+        {/* ===================================================
             CTA GROUP
 
             Mobile:
-            stacked for correct width / touch area.
+            1 column
+            12px vertical gap
 
-            Tablet+:
-            side by side.
+            Tablet:
+            2 columns
+            12px horizontal gap
 
-            First button:
-            #FFF
-            4px radius
-
-            Second button:
-            transparent
-            ==================================================== */}
+            Desktop:
+            2 columns
+            16px horizontal gap
+            =================================================== */}
 
         <motion.div
           className="
             mt-6
 
             grid
+
             w-full
             max-w-[28rem]
+
             grid-cols-1
 
-            gap-2
+            gap-3
 
             sm:grid-cols-2
-            sm:gap-0
+            sm:gap-3
 
             lg:mt-7
+            lg:gap-4
           "
           initial={
             shouldReduceMotion
@@ -587,34 +614,42 @@ export function HeroSection({
               }
           }
         >
-          {/* ==================================================
+          {/* =================================================
               PRIMARY CTA
-              ================================================== */}
+              ================================================= */}
 
           <Link
-            href={learnMoreHref}
+            href={
+              learnMoreHref
+            }
             className={`
               ${inter.className}
 
               group
 
               inline-flex
+
               min-h-[3.5rem]
               w-full
+
               items-center
               justify-center
+
               gap-2.5
 
               rounded-[0.25rem]
+
               bg-[#FFFFFF]
 
               px-4
               py-4
 
               text-center
+
               text-[1rem]
               font-semibold
               leading-[1.5rem]
+
               text-[#8F6C1A]
 
               transition-[background-color,transform]
@@ -642,7 +677,9 @@ export function HeroSection({
               aria-hidden="true"
               className="
                 inline-flex
+
                 shrink-0
+
                 items-center
                 justify-center
 
@@ -656,36 +693,42 @@ export function HeroSection({
             </span>
           </Link>
 
-          {/* ==================================================
+          {/* =================================================
               SECONDARY CTA
-
-              Transparent — no permanent background.
-              ================================================== */}
+              ================================================= */}
 
           <Link
-            href={joinNowHref}
+            href={
+              joinNowHref
+            }
             className={`
               ${inter.className}
 
               group
 
               inline-flex
+
               min-h-[3.5rem]
               w-full
+
               items-center
               justify-center
+
               gap-2.5
 
               rounded-[0.25rem]
+
               bg-transparent
 
               px-4
               py-4
 
               text-center
+
               text-[1rem]
               font-semibold
               leading-[1.5rem]
+
               text-[#F9F9F9]
 
               transition-[background-color,transform]
@@ -712,7 +755,9 @@ export function HeroSection({
               aria-hidden="true"
               className="
                 inline-flex
+
                 shrink-0
+
                 items-center
                 justify-center
 

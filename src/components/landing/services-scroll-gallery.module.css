@@ -1,84 +1,180 @@
 .root {
   position: relative;
+
   width: 100%;
   min-width: 0;
+
   background: #000;
 }
+
+/* =========================================================
+   STICKY STAGE
+   ========================================================= */
 
 .stage {
   position: sticky;
   top: 0;
+
   width: 100%;
+
   overflow: clip;
+
   background: #000;
 }
 
 .loadingStage {
   min-height: 100svh;
+
   overflow: hidden;
+
   background: #000;
 }
+
+/* =========================================================
+   HEADING
+   ========================================================= */
 
 .heading {
   position: relative;
   z-index: 0;
+
   margin: 0;
-  padding: clamp(3.25rem, 6.5svh, 5.5rem) 1rem 0;
+
+  padding:
+    clamp(3.25rem,
+      6.5svh,
+      5.5rem) 1rem 0;
+
   color: #fff;
+
   text-align: center;
-  font-size: clamp(3.25rem, 8vw, 9rem);
+
+  font-size: clamp(3.25rem,
+      8vw,
+      9rem);
+
   font-weight: 600;
+
   line-height: 0.9;
+
   letter-spacing: -0.055em;
 }
 
+/* =========================================================
+   3D SCENE
+
+   Animation properties are unchanged.
+   ========================================================= */
+
 .scene {
   position: absolute;
+
   inset: 0;
+
   pointer-events: none;
 }
 
 .shell {
   position: absolute;
+
   left: 50%;
-  max-width: min(86vw, 74rem);
+
+  max-width: min(86vw,
+      74rem);
+
   transform: translateX(-50%);
+
   transform-style: preserve-3d;
+
   pointer-events: none;
 }
 
 .frame {
   width: 100%;
   height: 100%;
+
   transform-origin: 50% 0;
+
   backface-visibility: hidden;
+
   border-radius: 5px;
+
   overflow: hidden;
-  box-shadow: 0 20px 70px rgb(0 0 0 / 0.2);
+
+  box-shadow:
+    0 20px 70px rgb(0 0 0 / 0.2);
+
+  /*
+   * Active card remains interactive.
+   */
   pointer-events: auto;
 }
 
+/* =========================================================
+   CARD
+   ========================================================= */
+
 .cardBody {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+  grid-template-columns:
+    minmax(0, 1fr) minmax(0, 1fr);
+
   width: 100%;
   height: 100%;
 }
 
+/* =========================================================
+   LEFT TEXT SIDE
+
+   FIX:
+   This must NOT become its own vertical scroll container.
+
+   Previously:
+   overflow-y: auto;
+   overscroll-behavior: contain;
+
+   Those values, together with data-lenis-prevent, caused page
+   scrolling to stop whenever the mouse was over this side.
+
+   Now wheel/trackpad/touch events naturally continue to the
+   document and drive the exact same sticky animation.
+   ========================================================= */
+
 .copy {
   display: flex;
+
   min-width: 0;
   min-height: 0;
+
   flex-direction: column;
+
   gap: 1rem;
-  padding: clamp(1rem, 2.2vw, 2.5rem);
-  overflow-y: auto;
-  overscroll-behavior: contain;
+
+  padding:
+    clamp(1rem,
+      2.2vw,
+      2.5rem);
+
+  /*
+   * Do NOT make this:
+   * overflow-y: auto;
+   */
+  overflow: hidden;
+
+  /*
+   * Do not trap scroll inside the copy.
+   */
+  overscroll-behavior: auto;
 }
 
 .number {
-  font-size: clamp(1.75rem, 2.8vw, 3rem);
+  font-size: clamp(1.75rem,
+      2.8vw,
+      3rem);
+
   font-weight: 600;
+
   line-height: 1.15;
 }
 
@@ -88,46 +184,84 @@
 
 .details h3 {
   margin: 0;
-  font-size: clamp(1.375rem, 1rem + 1.3vw, 2.5rem);
+
+  font-size: clamp(1.375rem,
+      1rem + 1.3vw,
+      2.5rem);
+
   font-weight: 600;
+
   line-height: 1.15;
+
   letter-spacing: -0.035em;
 }
 
 .details p {
-  margin: 0.8rem 0 0;
-  font-size: clamp(1rem, 0.9rem + 0.25vw, 1.2rem);
+  margin:
+    0.8rem 0 0;
+
+  font-size: clamp(1rem,
+      0.9rem + 0.25vw,
+      1.2rem);
+
   line-height: 1.5;
+
   opacity: 0.88;
 }
 
+/* =========================================================
+   CTA
+   ========================================================= */
+
 .cta {
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
+
   gap: 0.5rem;
+
   min-height: 2.75rem;
+
   margin-top: 1rem;
-  padding: 0.625rem 1rem;
+
+  padding:
+    0.625rem 1rem;
+
   border-radius: 0.25rem;
+
   color: #8f6c1a;
+
   background: #fff;
+
   font-size: 0.875rem;
+
   font-weight: 600;
+
   line-height: 1.4;
 }
 
 .cta:focus-visible {
-  outline: 2px solid currentColor;
+  outline:
+    2px solid currentColor;
+
   outline-offset: 3px;
 }
 
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
 .image {
   position: relative;
+
   min-width: 0;
   min-height: 0;
+
   overflow: hidden;
-  background: rgb(0 0 0 / 0.1);
+
+  background:
+    rgb(0 0 0 / 0.1);
 }
 
 .cover {
@@ -136,33 +270,44 @@
 
 /* =========================================================
    REDUCED-MOTION / SINGLE-CARD FALLBACK
-
-   Never stack every service vertically. The fallback remains a
-   horizontal snap rail, so the page does not suddenly become six or
-   eight cards long on a specific viewport/OS setting.
    ========================================================= */
 
 .staticList {
   width: 100%;
+
   padding-block: 64px;
+
   background: #000;
 }
 
 .staticList .heading {
   padding-top: 0;
-  padding-inline: 1.25rem;
+
+  padding-inline:
+    1.25rem;
 }
 
 .staticRail {
   display: flex;
+
   width: 100%;
+
   gap: 1rem;
+
   margin-top: 2.5rem;
-  padding-inline: 1.25rem;
+
+  padding-inline:
+    1.25rem;
+
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
+
+  overscroll-behavior-x:
+    contain;
+
+  scroll-snap-type:
+    x mandatory;
+
   scrollbar-width: none;
 }
 
@@ -171,20 +316,27 @@
 }
 
 .staticCard {
-  flex: 0 0 min(88vw, 68rem);
+  flex:
+    0 0 min(88vw,
+      68rem);
+
   min-width: 0;
+
   overflow: hidden;
+
   border-radius: 5px;
+
   scroll-snap-align: center;
 }
 
 .staticCard .cardBody {
   min-height: 23rem;
+
   height: auto;
 }
 
 /* =========================================================
-   RESPONSIVE
+   DESKTOP
    ========================================================= */
 
 @media (min-width: 1024px) {
@@ -194,27 +346,47 @@
 
   .staticRail {
     gap: 1.5rem;
-    padding-inline: 3.5rem;
+
+    padding-inline:
+      3.5rem;
   }
 
   .staticCard {
-    flex-basis: min(72vw, 68rem);
+    flex-basis:
+      min(72vw,
+        68rem);
   }
 }
 
+/* =========================================================
+   TABLET / MOBILE
+   ========================================================= */
+
 @media (max-width: 899px) {
   .shell {
-    max-width: calc(100vw - 28px);
+    max-width:
+      calc(100vw - 28px);
   }
 
   .heading {
-    padding-top: clamp(2.75rem, 5.5svh, 4.25rem);
-    font-size: clamp(3rem, 12vw, 6rem);
+    padding-top:
+      clamp(2.75rem,
+        5.5svh,
+        4.25rem);
+
+    font-size:
+      clamp(3rem,
+        12vw,
+        6rem);
   }
 
   .cardBody {
-    grid-template-columns: 1fr;
-    grid-template-rows: 34% minmax(0, 1fr);
+    grid-template-columns:
+      1fr;
+
+    grid-template-rows:
+      34% minmax(0,
+        1fr);
   }
 
   .image {
@@ -223,8 +395,19 @@
 
   .copy {
     grid-row: 2;
+
     gap: 0.5rem;
-    padding: 1rem 1.25rem;
+
+    padding:
+      1rem 1.25rem;
+
+    /*
+     * Keep page scrolling active on mobile too.
+     */
+    overflow: hidden;
+
+    overscroll-behavior:
+      auto;
   }
 
   .number {
@@ -232,95 +415,155 @@
   }
 
   .details h3 {
-    font-size: clamp(1.35rem, 4.3vw, 2rem);
+    font-size:
+      clamp(1.35rem,
+        4.3vw,
+        2rem);
   }
 
   .details p {
-    margin-top: 0.5rem;
+    margin-top:
+      0.5rem;
+
     font-size: 1rem;
+
     line-height: 1.4;
   }
 
   .cta {
-    margin-top: 0.75rem;
+    margin-top:
+      0.75rem;
   }
 
   .staticCard .cardBody {
     display: flex;
+
     min-height: 0;
-    flex-direction: column-reverse;
+
+    flex-direction:
+      column-reverse;
   }
 
   .staticCard .image {
     height: 15rem;
   }
 
+  /*
+   * The static fallback is not part of the sticky stack,
+   * so normal overflow is fine here.
+   */
   .staticCard .copy {
     overflow: visible;
   }
 }
 
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
 @media (max-width: 539px) {
   .heading {
-    padding-inline: 0.75rem;
-    font-size: clamp(2.75rem, 13vw, 4.5rem);
+    padding-inline:
+      0.75rem;
+
+    font-size:
+      clamp(2.75rem,
+        13vw,
+        4.5rem);
   }
 
   .copy {
-    padding: 0.875rem 1rem;
+    padding:
+      0.875rem 1rem;
   }
 
   .details h3 {
-    font-size: clamp(1.2rem, 5.5vw, 1.65rem);
+    font-size:
+      clamp(1.2rem,
+        5.5vw,
+        1.65rem);
   }
 
   .details p {
-    font-size: 0.9375rem;
+    font-size:
+      0.9375rem;
   }
 
   .staticRail {
-    padding-inline: 0.875rem;
+    padding-inline:
+      0.875rem;
   }
 
   .staticCard {
-    flex-basis: calc(100vw - 1.75rem);
+    flex-basis:
+      calc(100vw - 1.75rem);
   }
 }
 
+/* =========================================================
+   SHORT SCREENS
+   ========================================================= */
+
 @media (max-height: 600px) {
   .heading {
-    padding-top: 1.5rem;
-    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    padding-top:
+      1.5rem;
+
+    font-size:
+      clamp(2.5rem,
+        8vw,
+        5.5rem);
   }
 
   .copy {
     gap: 0.35rem;
-    padding-block: 0.75rem;
+
+    padding-block:
+      0.75rem;
   }
 
   .number {
-    font-size: 1.35rem;
+    font-size:
+      1.35rem;
   }
 
   .details h3 {
-    font-size: clamp(1.15rem, 2.4vw, 1.75rem);
+    font-size:
+      clamp(1.15rem,
+        2.4vw,
+        1.75rem);
   }
 
   .details p {
-    margin-top: 0.35rem;
-    font-size: 0.9rem;
-    line-height: 1.32;
+    margin-top:
+      0.35rem;
+
+    font-size:
+      0.9rem;
+
+    line-height:
+      1.32;
   }
 
   .cta {
-    min-height: 2.35rem;
-    margin-top: 0.5rem;
-    padding: 0.45rem 0.8rem;
+    min-height:
+      2.35rem;
+
+    margin-top:
+      0.5rem;
+
+    padding:
+      0.45rem 0.8rem;
   }
 }
 
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
   .staticRail {
-    scroll-behavior: auto;
+    scroll-behavior:
+      auto;
   }
 }

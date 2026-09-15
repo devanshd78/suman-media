@@ -35,56 +35,40 @@ type PartnerLogo = {
 
 /* ============================================================
    PARTNERS
-
-   These are local SVG files.
-
-   We intentionally use normal <img> rather than
-   next/image because:
-
-   - SVG is already vector based
-   - next/image cannot improve SVG quality
-   - the previous version used `unoptimized`
-   - native intrinsic dimensions + CSS height:auto/width:auto
-     avoids Next.js aspect-ratio warnings
    ============================================================ */
 
-const PARTNER_LOGOS: readonly PartnerLogo[] =
-  [
-    {
-      src: "/images/landing/partners/partner1.svg",
-      alt: "Laminar",
-      width: 216,
-      height: 56,
-    },
-
-    {
-      src: "/images/landing/partners/partner2.svg",
-      alt: "AWS",
-      width: 112,
-      height: 64,
-    },
-
-    {
-      src: "/images/landing/partners/partner3.svg",
-      alt: "Festival de Cannes",
-      width: 168,
-      height: 64,
-    },
-
-    {
-      src: "/images/landing/partners/partner4.svg",
-      alt: "Zee Marathi",
-      width: 144,
-      height: 64,
-    },
-
-    {
-      src: "/images/landing/partners/partner5.svg",
-      alt: "Government of Maharashtra",
-      width: 92,
-      height: 64,
-    },
-  ];
+const PARTNER_LOGOS: readonly PartnerLogo[] = [
+  {
+    src: "/images/landing/partners/partner1.svg",
+    alt: "Laminar",
+    width: 216,
+    height: 56,
+  },
+  {
+    src: "/images/landing/partners/partner2.svg",
+    alt: "AWS",
+    width: 112,
+    height: 64,
+  },
+  {
+    src: "/images/landing/partners/partner3.svg",
+    alt: "Festival de Cannes",
+    width: 168,
+    height: 64,
+  },
+  {
+    src: "/images/landing/partners/partner4.svg",
+    alt: "Zee Marathi",
+    width: 144,
+    height: 64,
+  },
+  {
+    src: "/images/landing/partners/partner5.svg",
+    alt: "Government of Maharashtra",
+    width: 92,
+    height: 64,
+  },
+];
 
 /* ============================================================
    PARTNERS STRIP
@@ -126,15 +110,12 @@ function PartnersStrip() {
         [&::-webkit-scrollbar]:hidden
       "
       style={{
-        transform: "rotate(0.003deg)",
+        transform:
+          "rotate(0.003deg)",
       }}
     >
       {PARTNER_LOGOS.map(
         (partner) => (
-          /*
-           * Local SVG logo:
-           * Next/Image optimisation is unnecessary.
-           */
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={partner.src}
@@ -151,7 +132,6 @@ function PartnersStrip() {
               object-contain
 
               md:h-14
-
               lg:h-16
             "
           />
@@ -170,12 +150,6 @@ export function ServicesSection({
   heading,
   services,
 }: ServicesSectionProps) {
-  /*
-   * Do not filter by shortDescription or slug.
-   *
-   * Optional CMS fields should not remove an
-   * otherwise valid service from the gallery.
-   */
   const visibleServices =
     services.slice(
       0,
@@ -183,7 +157,8 @@ export function ServicesSection({
     );
 
   if (
-    visibleServices.length === 0
+    visibleServices.length ===
+    0
   ) {
     return null;
   }

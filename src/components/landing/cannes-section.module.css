@@ -3,60 +3,148 @@
    ============================================================ */
 
 .section {
-    --cannes-card-width: min(38vw, 40rem, calc((100svh - 4rem) * 0.68));
-    --cannes-card-height: min(26vw, 27rem, calc((100svh - 4rem) * 0.44));
-    --cannes-gap: clamp(0.75rem, 1.4vw, 1.5rem);
-    --cannes-wall-height: calc(var(--cannes-card-height) * 2 + var(--cannes-gap));
+    --cannes-card-width:
+        min(38vw,
+            40rem,
+            calc((100svh - 4rem) * 0.68));
+
+    --cannes-card-height:
+        min(26vw,
+            27rem,
+            calc((100svh - 4rem) * 0.44));
+
+    --cannes-gap:
+        clamp(0.75rem,
+            1.4vw,
+            1.5rem);
+
+    --cannes-wall-height:
+        calc(var(--cannes-card-height) * 2 + var(--cannes-gap));
 
     position: relative;
+
     width: 100%;
     min-width: 0;
     max-width: 100%;
+
     padding-block: 100px;
+
     background: #000;
     color: #f9f9f9;
-    font-feature-settings: "liga" off, "clig" off;
+
+    font-feature-settings:
+        "liga" off,
+        "clig" off;
+
     overflow: visible;
 }
 
+
 /* ============================================================
-   HEADING AND DESCRIPTION
+   HEADING / DESCRIPTION CONTENT
    ============================================================ */
 
+/*
+ * Main content wrapper.
+ *
+ * It fills the available section width but stops growing
+ * once it reaches the maximum page-content width.
+ *
+ * The horizontal padding remains responsive.
+ */
 .content {
     box-sizing: border-box;
+
     width: 100%;
+    max-width: 90rem;
+
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 4rem);
+
+    padding-inline:
+        clamp(1.25rem,
+            4vw,
+            4rem);
 }
+
+
+/* ============================================================
+   HEADING
+
+   FILL behaviour:
+   width: 100%
+
+   Maximum readable/design width:
+   max-width: 72rem
+   ============================================================ */
 
 .heading {
-    width: min(78%, 72rem);
-    max-width: 100%;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 72rem;
+
     margin: 0;
+
     color: #f9f9f9;
+
     font-family: inherit;
-    font-size: clamp(2rem, 1.5rem + 1.25vw, 3rem);
+
+    font-size:
+        clamp(2rem,
+            1.5rem + 1.25vw,
+            3rem);
+
     font-style: normal;
     font-weight: 600;
+
     line-height: 1.2;
-    letter-spacing: -0.03125rem;
+
+    letter-spacing:
+        -0.03125rem;
+
     overflow-wrap: break-word;
-    text-wrap: balance;
+
+    /*
+     * More natural than text-wrap: balance here because balance
+     * can make a heading visually narrower than its container.
+     */
+    text-wrap: pretty;
 }
 
+
+/* ============================================================
+   DESCRIPTION
+
+   Also fills available width, but has a slightly smaller
+   maximum reading width.
+   ============================================================ */
+
 .description {
-    width: min(88%, 64rem);
-    max-width: 100%;
-    margin: 1rem 0 0;
+    box-sizing: border-box;
+
+    width: 100%;
+    max-width: 64rem;
+
+    margin:
+        1rem 0 0;
+
     color: #f9f9f9;
+
     font-family: inherit;
-    font-size: clamp(1rem, 0.94rem + 0.18vw, 1.125rem);
+
+    font-size:
+        clamp(1rem,
+            0.94rem + 0.18vw,
+            1.125rem);
+
     font-style: normal;
     font-weight: 400;
+
     line-height: 1.6;
+
     overflow-wrap: break-word;
 }
+
 
 /* ============================================================
    CANNES BUTTON
@@ -64,48 +152,78 @@
 
 .cta {
     box-sizing: border-box;
+
     display: inline-flex;
+
     min-height: 3.5rem;
     max-width: 100%;
+
     align-items: center;
     justify-content: center;
+
     gap: 0.5rem;
+
     margin-top: 2.5rem;
-    padding: 0.875rem 1.25rem;
+
+    padding:
+        0.875rem 1.25rem;
+
     border-radius: 0.25rem;
+
     background: #fff;
     color: #8f6c1a;
+
     font-size: 1rem;
     font-weight: 600;
     line-height: 1.5rem;
+
     text-align: center;
     text-decoration: none;
-    transition: background-color 200ms ease, transform 200ms ease;
+
+    transition:
+        background-color 200ms ease,
+        transform 200ms ease;
 }
 
 .cta:focus-visible {
-    outline: 2px solid #fff;
+    outline:
+        2px solid #fff;
+
     outline-offset: 5px;
 }
 
 .ctaArrow {
     display: inline-flex;
+
     flex-shrink: 0;
-    transition: transform 250ms ease;
+
+    transition:
+        transform 250ms ease;
 }
+
 
 /* ============================================================
    SCROLL SCENE
+
+   Animation sizing remains unchanged.
    ============================================================ */
 
 .scene {
     position: relative;
+
     width: 100%;
     min-width: 0;
+
     height: 235svh;
-    margin-top: clamp(3.5rem, 6vw, 6.25rem);
+
+    margin-top:
+        clamp(3.5rem,
+            6vw,
+            6.25rem);
+
     overflow: visible;
 }
+
 
 /* ============================================================
    STICKY VIEWPORT
@@ -113,33 +231,51 @@
 
 .stage {
     position: sticky;
+
     top: 0;
+
     width: 100%;
     height: 100svh;
+
     overflow: hidden;
+
     isolation: isolate;
+
     background: #000;
 }
 
+
 /* ============================================================
    ZOOMING IMAGE WALL
+
+   Animation behaviour unchanged.
    ============================================================ */
 
 .wall {
     position: absolute;
-    top: max(1.5rem, calc((100% - var(--cannes-wall-height)) / 2));
+
+    top:
+        max(1.5rem,
+            calc((100% - var(--cannes-wall-height)) / 2));
+
     left: 0;
+
     display: flex;
+
     width: 100%;
+
     flex-direction: column;
-    gap: var(--cannes-gap);
+
+    gap:
+        var(--cannes-gap);
 
     /*
-     * Original cinematic interaction: the complete two-row wall zooms
-     * around its horizontal centre while the tracks move independently.
+     * Keep the original cinematic zoom origin.
      */
-    transform-origin: 50% 0%;
+    transform-origin:
+        50% 0%;
 }
+
 
 /* ============================================================
    ROW LAYOUT
@@ -147,19 +283,27 @@
 
 .row {
     display: flex;
+
     width: 100%;
     min-width: 0;
+
     justify-content: center;
 }
 
 .track {
     display: flex;
+
     width: max-content;
     max-width: none;
+
     flex: 0 0 auto;
+
     align-items: center;
-    gap: var(--cannes-gap);
+
+    gap:
+        var(--cannes-gap);
 }
+
 
 /* ============================================================
    CANNES MEDIA CARDS
@@ -167,113 +311,292 @@
 
 .card {
     position: relative;
-    width: var(--cannes-card-width);
-    height: var(--cannes-card-height);
+
+    width:
+        var(--cannes-card-width);
+
+    height:
+        var(--cannes-card-height);
+
     flex: 0 0 auto;
+
     margin: 0;
+
     overflow: hidden;
-    border-radius: clamp(0.75rem, 1.1vw, 1.25rem);
+
+    border-radius:
+        clamp(0.75rem,
+            1.1vw,
+            1.25rem);
+
     background: #111;
 }
 
 .card .image,
 .card .video {
     display: block;
+
     width: 100%;
     height: 100%;
 
-    /*
-     * Every accepted asset fills the card edge-to-edge.
-     * No contain / letterboxing in this gallery.
-     */
-    object-fit: cover !important;
-    object-position: center;
+    object-fit:
+        cover !important;
+
+    object-position:
+        center;
+
     background: #111;
 
     -webkit-user-select: none;
     user-select: none;
+
     -webkit-user-drag: none;
 }
 
 .card .video {
     border: 0;
+
     pointer-events: none;
 }
+
+
+/* ============================================================
+   ACTIVE SCROLL PERFORMANCE
+   ============================================================ */
 
 .scene[data-active="true"] .wall,
 .scene[data-active="true"] .track {
     will-change: transform;
 }
 
+
 /* ============================================================
-   CTA HOVER ONLY
+   CTA HOVER
    ============================================================ */
 
 @media (hover: hover) and (pointer: fine) {
+
     .cta:hover {
-        background: #f3f1eb;
-        transform: translateY(-1px);
+        background:
+            #f3f1eb;
+
+        transform:
+            translateY(-1px);
     }
 
     .cta:hover .ctaArrow {
-        transform: translateX(3px);
+        transform:
+            translateX(3px);
     }
 }
+
 
 /* ============================================================
    TABLET
    ============================================================ */
 
 @media (min-width: 640px) and (max-width: 1023px) {
+
     .section {
-        --cannes-card-width: min(64vw, calc((100svh - 3rem) * 0.7));
-        --cannes-card-height: min(44vw, calc((100svh - 3rem) * 0.46));
-        padding-block: 80px;
+        --cannes-card-width:
+            min(64vw,
+                calc((100svh - 3rem) * 0.7));
+
+        --cannes-card-height:
+            min(44vw,
+                calc((100svh - 3rem) * 0.46));
+
+        padding-block:
+            80px;
+    }
+
+    /*
+     * Content still fills the screen.
+     * Maximum width keeps it controlled.
+     */
+    .content {
+        width: 100%;
+        max-width: 90rem;
+
+        padding-inline:
+            clamp(2rem,
+                4vw,
+                3rem);
     }
 
     .heading {
-        width: min(86%, 62rem);
+        width: 100%;
+        max-width: 62rem;
     }
 
     .description {
-        width: min(94%, 58rem);
+        width: 100%;
+        max-width: 58rem;
     }
 
     .scene {
-        height: 210svh;
+        height:
+            210svh;
     }
 }
+
 
 /* ============================================================
    MOBILE
    ============================================================ */
 
 @media (max-width: 639px) {
+
     .section {
-        --cannes-card-width: min(84vw, calc((100svh - 2rem) * 0.7));
-        --cannes-card-height: min(58vw, calc((100svh - 2rem) * 0.47));
-        padding-block: 64px;
+        --cannes-card-width:
+            min(84vw,
+                calc((100svh - 2rem) * 0.7));
+
+        --cannes-card-height:
+            min(58vw,
+                calc((100svh - 2rem) * 0.47));
+
+        padding-block:
+            64px;
     }
 
+    .content {
+        width: 100%;
+        max-width: 100%;
+
+        padding-inline:
+            1.25rem;
+    }
+
+    /*
+     * True fill on mobile.
+     */
     .heading {
         width: 100%;
-        font-size: clamp(1.75rem, 6.4vw, 2.25rem);
+        max-width: 100%;
+
+        font-size:
+            clamp(1.75rem,
+                6.4vw,
+                2.25rem);
     }
 
     .description {
         width: 100%;
-        line-height: 1.5;
+        max-width: 100%;
+
+        line-height:
+            1.5;
     }
 
     .cta {
-        margin-top: 2rem;
+        margin-top:
+            2rem;
     }
 
     .scene {
-        height: 210svh;
-        margin-top: 3rem;
+        height:
+            210svh;
+
+        margin-top:
+            3rem;
     }
 }
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 399px) {
+
+    .content {
+        padding-inline:
+            1rem;
+    }
+
+    .heading {
+        font-size:
+            clamp(1.625rem,
+                7vw,
+                2rem);
+
+        line-height:
+            1.22;
+    }
+
+    .description {
+        font-size:
+            0.9375rem;
+
+        line-height:
+            1.5;
+    }
+
+    .cta {
+        min-height:
+            3.25rem;
+
+        width: fit-content;
+        max-width: 100%;
+
+        padding:
+            0.75rem 1rem;
+
+        font-size:
+            0.9375rem;
+    }
+}
+
+
+/* ============================================================
+   LARGE DESKTOP
+
+   Text continues to fill its assigned area, but the maximum
+   widths prevent overly long lines on ultra-wide monitors.
+   ============================================================ */
+
+@media (min-width: 1440px) {
+
+    .content {
+        max-width:
+            96rem;
+    }
+
+    .heading {
+        max-width:
+            72rem;
+    }
+
+    .description {
+        max-width:
+            64rem;
+    }
+}
+
+
+/* ============================================================
+   EXTRA LARGE / ULTRAWIDE
+   ============================================================ */
+
+@media (min-width: 1920px) {
+
+    .content {
+        max-width:
+            104rem;
+    }
+
+    .heading {
+        max-width:
+            76rem;
+    }
+
+    .description {
+        max-width:
+            68rem;
+    }
+}
+
 
 /* ============================================================
    REDUCED-MOTION FALLBACK
@@ -285,43 +608,80 @@
 
 .reducedViewport {
     overflow-x: auto;
-    overscroll-behavior-x: contain;
-    padding: 0.25rem clamp(1.25rem, 4vw, 4rem);
+
+    overscroll-behavior-x:
+        contain;
+
+    padding:
+        0.25rem clamp(1.25rem,
+            4vw,
+            4rem);
 }
 
 .reducedViewport:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: -2px;
+    outline:
+        2px solid #fff;
+
+    outline-offset:
+        -2px;
 }
 
 .reducedGrid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(0.75rem, 1.5vw, 1.5rem);
+
+    grid-template-columns:
+        repeat(3,
+            minmax(0, 1fr));
+
+    gap:
+        clamp(0.75rem,
+            1.5vw,
+            1.5rem);
 }
 
 .reducedGrid .card {
     width: 100%;
+
     height: auto;
-    aspect-ratio: 1.46 / 1;
+
+    aspect-ratio:
+        1.46 / 1;
 }
 
 .reducedGrid .video {
     pointer-events: auto;
 }
 
+
+/* ============================================================
+   REDUCED GRID — MOBILE
+   ============================================================ */
+
 @media (max-width: 639px) {
+
     .reducedGrid {
-        width: max-content;
-        grid-template-columns: repeat(3, 72vw);
+        width:
+            max-content;
+
+        grid-template-columns:
+            repeat(3,
+                72vw);
     }
 }
+
+
+/* ============================================================
+   USER REDUCED MOTION
+   ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
 
     .cta,
     .ctaArrow {
-        transform: none !important;
-        transition: none !important;
+        transform:
+            none !important;
+
+        transition:
+            none !important;
     }
 }

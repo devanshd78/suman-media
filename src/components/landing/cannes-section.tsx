@@ -612,9 +612,9 @@ export function CannesSection({ content }: CannesSectionProps) {
   const galleryRows = usingCmsMedia
     ? buildGalleryRows(orderedCmsMedia)
     : [
-        expandGalleryRow(FALLBACK_CANNES_TOP_ROW),
-        expandGalleryRow(FALLBACK_CANNES_BOTTOM_ROW),
-      ] as const;
+      expandGalleryRow(FALLBACK_CANNES_TOP_ROW),
+      expandGalleryRow(FALLBACK_CANNES_BOTTOM_ROW),
+    ] as const;
 
   const heading = content?.heading?.trim() || DEFAULT_HEADING;
   const description = content?.description?.trim() || DEFAULT_DESCRIPTION;
@@ -977,72 +977,74 @@ export function CannesSection({ content }: CannesSectionProps) {
           ===================================================== */}
 
       <div className={styles.content}>
-        <motion.h2
-          id="abhijat-marathi-cannes-heading"
-          className={styles.heading}
-          initial={
-            reduceMotion
-              ? false
-              : {
-                opacity: 0,
-                y: 22,
-              }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.7,
-            ease: EASE,
-          }}
-        >
-          {heading}
-        </motion.h2>
+        <div className={styles.textBlock}>
+          <motion.h2
+            id="abhijat-marathi-cannes-heading"
+            className={styles.heading}
+            initial={
+              reduceMotion
+                ? false
+                : {
+                  opacity: 0,
+                  y: 22,
+                }
+            }
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.7,
+              ease: EASE,
+            }}
+          >
+            {heading}
+          </motion.h2>
 
-        <motion.p
-          className={styles.description}
-          initial={
-            reduceMotion
-              ? false
-              : {
-                opacity: 0,
-                y: 18,
-              }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.65,
-            ease: EASE,
-          }}
-        >
-          {description}
-        </motion.p>
+          <motion.p
+            className={styles.description}
+            initial={
+              reduceMotion
+                ? false
+                : {
+                  opacity: 0,
+                  y: 18,
+                }
+            }
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.65,
+              ease: EASE,
+            }}
+          >
+            {description}
+          </motion.p>
 
-        <Link
-          href={ctaHref}
-          className={`
-            ${inter.className}
-            ${styles.cta}
-          `}
-        >
-          <span>{ctaLabel}</span>
+          <Link
+            href={ctaHref}
+            className={`
+        ${inter.className}
+        ${styles.cta}
+      `}
+          >
+            <span>{ctaLabel}</span>
 
-          <span className={styles.ctaArrow}>
-            <CaretRightIcon />
-          </span>
-        </Link>
+            <span className={styles.ctaArrow}>
+              <CaretRightIcon />
+            </span>
+          </Link>
+        </div>
       </div>
 
       {/* =====================================================

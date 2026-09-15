@@ -418,7 +418,7 @@ export type HeaderVariant =
 const OVERLAY_HEADER_ROUTES = new Set([
   "/",
   "/news-and-blogs",
-  "/Abhijat-Marathi",
+  "/abhijat-marathi",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
