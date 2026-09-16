@@ -17,7 +17,7 @@ import styles from "./ecosystem-scroll.module.css";
 ========================================================= */
 
 const VIDEO_SRC =
-    "/videos/MediaVedio.mp4";
+    "/videos/MediaVedio1.mp4";
 
 const TV_FRAME =
     "/images/ott/television/television2.png";
@@ -94,7 +94,7 @@ function MediaVideo({
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
                 loadVideo();
-                if (!prefersReducedMotion) void video.play().catch(() => {});
+                if (!prefersReducedMotion) void video.play().catch(() => { });
             } else {
                 video.pause();
             }
@@ -164,9 +164,9 @@ function EcosystemHeading() {
                         "'liga' off, 'clig' off",
                 }}
             >
-              <TextReveal>
-                One Ecosystem. Every Screen.
-              </TextReveal>
+                <TextReveal>
+                    One Ecosystem. Every Screen.
+                </TextReveal>
             </h2>
 
             <p
@@ -188,11 +188,11 @@ function EcosystemHeading() {
                         "'liga' off, 'clig' off",
                 }}
             >
-              <TextReveal>
-                From the platform users open to the screens they
-                watch on, we create the technology and experiences
-                that connect content with audiences.
-              </TextReveal>
+                <TextReveal>
+                    From the platform users open to the screens they
+                    watch on, we create the technology and experiences
+                    that connect content with audiences.
+                </TextReveal>
             </p>
         </div>
     );
@@ -424,9 +424,9 @@ function EcosystemStats() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                          <TextReveal>
-                            {stat.value}
-                          </TextReveal>
+                            <TextReveal>
+                                {stat.value}
+                            </TextReveal>
                         </p>
 
                         {/* LABEL */}
@@ -452,9 +452,9 @@ function EcosystemStats() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                          <TextReveal>
-                            {stat.label}
-                          </TextReveal>
+                            <TextReveal>
+                                {stat.label}
+                            </TextReveal>
                         </p>
                     </div>
                 ),
@@ -643,11 +643,11 @@ function PartnershipBanner() {
                             "'liga' off, 'clig' off",
                     }}
                 >
-                  <TextReveal>
-                    Have a story worth telling?
-                    Let&apos;s bring it to the
-                    world.
-                  </TextReveal>
+                    <TextReveal>
+                        Have a story worth telling?
+                        Let&apos;s bring it to the
+                        world.
+                    </TextReveal>
                 </h3>
 
                 {/* JOIN AS PARTNER */}
@@ -682,9 +682,9 @@ function PartnershipBanner() {
                                 'var(--Font-family-Body, "Plus Jakarta Sans")',
                         }}
                     >
-                      <TextReveal>
-                        Join as a Partner
-                      </TextReveal>
+                        <TextReveal>
+                            Join as a Partner
+                        </TextReveal>
                     </span>
 
                     <svg
