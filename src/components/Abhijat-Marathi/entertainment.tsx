@@ -20,7 +20,7 @@ const ASSETS = {
     screen: "/images/ott/television/television-image.png",
   },
 
-  connectedTv: "/images/ott/television/television2.png",
+  connectedTv: "/images/ott/connected-tv.png",
   contentAggregation: "/images/ott/Zingaat.png",
   subscriptionManagement: "/images/ott/AppStore.png",
 } as const;
@@ -859,18 +859,21 @@ function ConnectedTvArtwork({
         <motion.div
           variants={reducedMotion ? undefined : rightVariants}
           className="
-            absolute
-            right-[3rem]
-            top-[0.70rem]
+    absolute
 
-            h-[14.8816rem]
-            w-[7.25rem]
+    right-[1rem]
+    top-[1rem]
 
-            shrink-0
-            overflow-hidden
-          "
+    flex
+    h-[16rem]
+    w-[12rem]
+
+    items-center
+    justify-center
+
+    shrink-0
+  "
           style={{
-            aspectRatio: "19 / 39",
             willChange: "transform",
           }}
           aria-hidden="true"
@@ -880,18 +883,15 @@ function ConnectedTvArtwork({
             alt=""
             draggable={false}
             className="
-              pointer-events-none
-              absolute
-              top-0
+      pointer-events-none
 
-              h-full
-              max-w-none
-              select-none
-            "
-            style={{
-              left: "-67.5px",
-              width: "205.229%",
-            }}
+      h-full
+      w-full
+
+      select-none
+      object-contain
+      object-center
+    "
           />
         </motion.div>
       </motion.div>
