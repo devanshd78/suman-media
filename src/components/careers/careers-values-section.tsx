@@ -294,11 +294,12 @@ export function CareersValuesSection({
           <div
             className={
               shouldReduceMotion
-                ? "relative flex w-full items-center overflow-hidden px-5 py-8 sm:px-8 lg:px-[3.5rem]"
-                : "sticky top-0 flex h-[100svh] w-full items-center overflow-hidden px-5 sm:px-8 lg:px-[3.5rem]"
+                ? "relative flex w-full items-center overflow-hidden py-8"
+                : "sticky top-0 flex h-[100svh] w-full items-center overflow-hidden"
             }
           >
-            <div className="mx-auto w-full max-w-[83rem] overflow-hidden">
+            {/* Full width — no max-width and no horizontal padding */}
+            <div className="w-full overflow-hidden">
               <motion.div
                 className={
                   shouldReduceMotion
@@ -318,29 +319,49 @@ export function CareersValuesSection({
                     className="w-full shrink-0"
                     aria-label={`Culture highlight ${index + 1} of ${slides.length}`}
                   >
-                    <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]">
-                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden lg:aspect-auto lg:h-[38.75rem] lg:w-[38rem]">
+                    {/* Mobile = stacked, Desktop = image + content */}
+                    <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row">
+
+                      {/* Image */}
+                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden sm:aspect-[16/9] lg:aspect-auto lg:h-full lg:w-[55%] xl:w-[58%]">
                         <Image
                           src={slide.imageUrl}
                           alt={slide.imageAlt || slide.title}
                           fill
-                          sizes="(max-width: 1023px) 100vw, 38rem"
+                          sizes="(max-width: 1023px) 100vw, 58vw"
                           draggable={false}
                           className="select-none object-cover object-center"
                         />
                       </div>
 
+                      {/* Content */}
                       <div
-                        className="flex min-h-[12rem] w-full min-w-0 flex-1 self-stretch flex-col items-start justify-between p-5 sm:min-h-[15rem] lg:min-h-0"
+                        className="
+                  flex
+                  min-h-[14rem]
+                  w-full
+                  min-w-0
+                  flex-1
+                  flex-col
+                  items-start
+                  justify-between
+                  p-5
+                  sm:min-h-[16rem]
+                  sm:p-8
+                  lg:min-h-0
+                  lg:w-auto
+                  lg:p-10
+                  xl:p-12
+                "
                         style={{
                           backgroundColor:
                             SLIDE_PANEL_COLORS[
-                              index % SLIDE_PANEL_COLORS.length
+                            index % SLIDE_PANEL_COLORS.length
                             ],
                         }}
                       >
                         <p
-                          className={`${exo2.className} text-[4rem] font-semibold leading-none tracking-[-0.0625rem] text-black sm:text-[6rem]`}
+                          className={`${exo2.className} text-[3.5rem] font-semibold leading-none tracking-[-0.0625rem] text-black sm:text-[5rem] lg:text-[6rem]`}
                           aria-hidden="true"
                         >
                           {String(index + 1).padStart(2, "0")}
@@ -350,15 +371,16 @@ export function CareersValuesSection({
                           <TextReveal
                             as="h3"
                             text={slide.title}
-                            className={`${inter.className} text-xl font-semibold leading-7 text-black`}
+                            className={`${inter.className} text-xl font-semibold leading-7 text-black sm:text-2xl`}
                             style={{
                               fontFeatureSettings: '"liga" off, "clig" off',
                             }}
                           />
+
                           <TextReveal
                             as="p"
                             text={slide.description}
-                            className={`${inter.className} text-base font-normal leading-6 text-black`}
+                            className={`${inter.className} max-w-xl text-base font-normal leading-6 text-black`}
                             style={{
                               fontFeatureSettings: '"liga" off, "clig" off',
                             }}
