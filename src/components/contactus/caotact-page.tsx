@@ -312,7 +312,7 @@ export function ContactPageContent({
             alt=""
             fill
             sizes="100vw"
-            className="select-none object-cover object-bottom"
+            className="select-none object-contain object-bottom"
           />
         </div>
 

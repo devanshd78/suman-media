@@ -128,7 +128,12 @@
 }
 
 .connectedWorld {
-  background-color: #0b0d19;
+  /*
+   * The connected-world artwork is now displayed with object-fit: contain so
+   * the full globe stays visible at every aspect ratio. Pure black fills any
+   * side/top space created by contain and matches the requested dark section.
+   */
+  background-color: #000;
 }
 
 

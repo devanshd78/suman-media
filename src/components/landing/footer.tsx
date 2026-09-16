@@ -40,14 +40,50 @@ function DiagonalArrowIcon() {
 
 function PartnerIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none">
-      <path
-        d="M8.25 11.25a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM15.75 10.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5ZM3.75 18.5c.5-3 2.1-4.5 4.5-4.5s4 1.5 4.5 4.5M13 14.25c.7-.65 1.6-.95 2.75-.95 2.05 0 3.45 1.2 4 3.6"
-        stroke="currentColor"
-        strokeWidth="1.35"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+    >
+      <g clipPath="url(#footer-partner-icon-clip)">
+        <path
+          d="M7.875 15C10.5674 15 12.75 12.8174 12.75 10.125C12.75 7.43261 10.5674 5.25 7.875 5.25C5.18261 5.25 3 7.43261 3 10.125C3 12.8174 5.18261 15 7.875 15Z"
+          stroke="#1A1A1A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M0.959045 18.75C1.70819 17.5982 2.73317 16.6517 3.94092 15.9965C5.14867 15.3412 6.50095 14.998 7.87498 14.998C9.24902 14.998 10.6013 15.3412 11.809 15.9965C13.0168 16.6517 14.0418 17.5982 14.7909 18.75"
+          stroke="#1A1A1A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.125 15C17.499 14.9992 18.8513 15.3418 20.0592 15.9967C21.267 16.6517 22.292 17.5981 23.0409 18.75"
+          stroke="#1A1A1A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.3147 5.59687C14.9816 5.3309 15.6989 5.2155 16.4156 5.25893C17.1322 5.30235 17.8304 5.50352 18.4602 5.84806C19.0901 6.19261 19.6361 6.67202 20.0592 7.25204C20.4823 7.83207 20.7721 8.49838 20.9078 9.20338C21.0435 9.90838 21.0219 10.6346 20.8444 11.3303C20.6669 12.026 20.3379 12.6738 19.881 13.2276C19.4241 13.7814 18.8505 14.2274 18.2012 14.5338C17.5519 14.8402 16.843 14.9994 16.125 15"
+          stroke="#1A1A1A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="footer-partner-icon-clip">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

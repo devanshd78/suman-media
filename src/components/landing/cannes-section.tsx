@@ -202,13 +202,27 @@ function expandGalleryRow(
   /*
    * IMPORTANT: never prepend a clone.
    * The first real media item must remain the first visible card.
-   * If a short CMS row needs extra width, repeat items only at the end.
+   *
+   * Keep at least six cards for the existing composition, then append two
+   * decorative continuation cards. Those two trailing cards act as a visual
+   * buffer when the rows move in opposite directions, so a wide viewport can
+   * never reveal an empty black slot at either edge near the end of the scroll.
+   * GalleryRow already marks repeated keys as decorative, so accessibility and
+   * autoplay behaviour remain unchanged.
    */
   const expanded = [...row];
 
   while (expanded.length < 6) {
     expanded.push(
       row[expanded.length % row.length],
+    );
+  }
+
+  const bufferStart = expanded.length;
+
+  for (let index = 0; index < 2; index += 1) {
+    expanded.push(
+      row[(bufferStart + index) % row.length],
     );
   }
 

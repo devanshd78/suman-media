@@ -49,6 +49,23 @@
   overflow: hidden;
 }
 
+/*
+ * On large screens the sticky viewport is often much taller than the
+ * industries content. Center the complete composition vertically instead of
+ * leaving a large empty area below it. This does not change the horizontal
+ * rail animation or its measured travel distance.
+ */
+@media (min-width: 1024px) and (min-height: 720px) {
+  .sticky {
+    display: flex;
+    align-items: center;
+  }
+
+  .content {
+    flex: 0 0 auto;
+  }
+}
+
 /* =========================================================
    HEADER
    ========================================================= */
@@ -273,6 +290,16 @@
  */
 .section[data-pinned="true"] .track {
   will-change: transform;
+}
+
+/*
+ * If an ultra-wide viewport is wide enough for the complete rail, pinning is
+ * disabled by usePinnedRail. Center that natural rail instead of anchoring it
+ * to the left edge. When the rail is wider than the viewport, auto margins
+ * collapse and normal horizontal scrolling remains unchanged.
+ */
+.section:not([data-pinned="true"]) .track {
+  margin-inline: auto;
 }
 
 /* =========================================================

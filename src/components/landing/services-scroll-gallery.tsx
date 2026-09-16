@@ -1,5 +1,6 @@
 "use client";
 
+import { TextReveal } from "@/components/motion/text-reveal";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 
@@ -1068,26 +1069,44 @@ export function ServicesScrollGallery({
      HEADING
      ========================================================== */
 
-  const headingMarkup =
-    (
-      <h2
-        id="services-heading"
-        className={
-          styles.heading
-        }
-      >
-        {currentHeading.toLowerCase() ===
-          "what we really do?" ? (
-          <>
-            What we
-            <br />
-            really do?
-          </>
-        ) : (
-          currentHeading
-        )}
-      </h2>
-    );
+  const headingText =
+    currentHeading.toLowerCase() ===
+      "what we really do?"
+      ? "What we\nreally do?"
+      : currentHeading;
+
+  const staticHeadingMarkup = (
+    <h2
+      id="services-heading"
+      className={styles.heading}
+    >
+      {headingText.split("\n").map((line, index) => (
+        <span
+          key={`${line}-${index}`}
+          className={index > 0 ? "block" : undefined}
+        >
+          {line}
+        </span>
+      ))}
+    </h2>
+  );
+
+  const animatedHeadingMarkup = (
+    <TextReveal
+      as="h2"
+      id="services-heading"
+      className={styles.heading}
+      text={headingText}
+      split="words"
+      effect="mask"
+      amount={0.2}
+      delay={0.05}
+      duration={0.72}
+      stagger={0.09}
+      distance={28}
+      once
+    />
+  );
 
   const measurementsReady =
     geometry.width > 0 &&
@@ -1140,7 +1159,7 @@ export function ServicesScrollGallery({
             styles.loadingStage
           }
         >
-          {headingMarkup}
+          {staticHeadingMarkup}
         </div>
       ) : geometry.pinned ? (
         /* -----------------------------------------------
@@ -1164,7 +1183,7 @@ export function ServicesScrollGallery({
             </span>
           ) : null}
 
-          {headingMarkup}
+          {animatedHeadingMarkup}
 
           <div
             className={
@@ -1230,7 +1249,7 @@ export function ServicesScrollGallery({
             </span>
           ) : null}
 
-          {headingMarkup}
+          {animatedHeadingMarkup}
 
           <div
             className={
