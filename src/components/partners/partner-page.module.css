@@ -3814,3 +3814,720 @@
     transition: none !important;
   }
 }
+
+/* =========================================================
+   PARTNER PAGE — FULL-WIDTH / RESPONSIVE FINAL OVERRIDES
+
+   Only adjusts:
+   - top partner header width + vertical spacing
+   - brand logo strip width + spacing
+   - Who Can Partner width + vertical spacing
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   TOP PARTNER HEADER
+
+   Navbar spacing is NOT added again here.
+   The page/header layout should own the navbar height.
+   --------------------------------------------------------- */
+
+.hero {
+  width: 100%;
+  max-width: none;
+  padding-top: 0;
+  background: #fff;
+}
+
+.heroInner {
+  display: flex;
+
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+
+  margin: 0;
+
+  /* Reduced top + bottom spacing */
+  padding: 3.5rem var(--Spacing-56, 3.5rem);
+
+  flex-direction: column;
+  align-items: center;
+
+  gap: var(--Spacing-56, 3.5rem);
+}
+
+.heroTitleBlock,
+.heroIntro {
+  width: 100%;
+  min-width: 0;
+  align-self: stretch;
+}
+
+/* Keep the frame full-width even on large / ultra-wide screens. */
+@media (min-width: 1440px) {
+  .heroInner {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    padding-left: var(--Spacing-56, 3.5rem);
+    padding-right: var(--Spacing-56, 3.5rem);
+  }
+}
+
+/* ---------------------------------------------------------
+   PARTNER BRAND LOGOS — FULL WIDTH
+   --------------------------------------------------------- */
+
+.partnerLogoStrip {
+  display: flex;
+
+  width: 100%;
+  max-width: none;
+  min-height: 7rem;
+
+  margin: 0;
+
+  padding: 1.5rem var(--Spacing-56, 3.5rem);
+
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(2rem, 5vw, 4.5rem);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: #fff;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  transform: none;
+}
+
+.partnerLogoStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.partnerLogo {
+  display: block;
+
+  width: auto;
+  max-width: 13.5rem;
+
+  height: 4rem;
+  max-height: 4rem;
+
+  flex: 0 0 auto;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+/* ---------------------------------------------------------
+   WHO CAN PARTNER — FULL WIDTH
+   --------------------------------------------------------- */
+
+.whoSection {
+  display: flex;
+
+  width: 100%;
+  max-width: none;
+
+  margin: 0;
+
+  /* Reduced top + bottom spacing */
+  padding: 3.5rem var(--Spacing-56, 3.5rem);
+
+  flex-direction: column;
+  align-items: center;
+
+  gap: var(--Spacing-56, 3.5rem);
+
+  background: var(--BrandPrimary-50, #F5F1EB);
+}
+
+.centeredHeading {
+  width: 100%;
+  max-width: 56rem;
+
+  margin: 0;
+
+  text-align: center;
+}
+
+.partnerTypeGrid {
+  display: grid;
+
+  width: 100%;
+  max-width: none;
+
+  margin: 0;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  column-gap: var(--Spacing-56, 3.5rem);
+  row-gap: var(--Spacing-56, 3.5rem);
+}
+
+/* ---------------------------------------------------------
+   TABLET
+   --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .heroInner {
+    width: 100%;
+    max-width: none;
+
+    padding: 3rem 2rem;
+
+    gap: 2.5rem;
+  }
+
+  .partnerLogoStrip {
+    width: 100%;
+    max-width: none;
+
+    min-height: 6.5rem;
+
+    padding: 1.5rem 2rem;
+
+    justify-content: flex-start;
+
+    gap: 3rem;
+
+    scroll-padding-inline: 2rem;
+  }
+
+  .partnerLogo {
+    height: 3.25rem;
+    max-height: 3.25rem;
+    max-width: 11rem;
+  }
+
+  .whoSection {
+    width: 100%;
+    max-width: none;
+
+    padding: 3rem 2rem;
+
+    gap: 3rem;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    column-gap: 2.5rem;
+    row-gap: 2.5rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 639px) {
+  .heroInner {
+    padding: 2.5rem 1.25rem;
+
+    gap: 2rem;
+  }
+
+  .partnerLogoStrip {
+    min-height: 5.75rem;
+
+    padding: 1.25rem 1.25rem;
+
+    justify-content: flex-start;
+
+    gap: 2rem;
+
+    scroll-padding-inline: 1.25rem;
+  }
+
+  .partnerLogo {
+    height: 2.75rem;
+    max-height: 2.75rem;
+    max-width: 9.5rem;
+  }
+
+  .whoSection {
+    padding: 2.5rem 1.25rem;
+
+    gap: 2.5rem;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: 1fr;
+
+    column-gap: 0;
+    row-gap: 2rem;
+  }
+}
+
+
+/* =========================================================
+   PARTNER PAGE — COMPACT SPACING + CENTERED HERO
+   Final override: intentionally placed last.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   HERO — centered and tighter
+   --------------------------------------------------------- */
+
+.hero {
+  width: 100%;
+  max-width: none;
+  padding-top: 0;
+}
+
+.heroInner {
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+
+  padding: 2.5rem var(--Spacing-56, 3.5rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.75rem;
+
+  text-align: center;
+}
+
+.heroTitleBlock,
+.heroIntro {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  align-self: stretch;
+
+  text-align: center;
+}
+
+.hero .eyebrow {
+  width: 100%;
+  text-align: center;
+}
+
+.heroTitleBlock h1 {
+  width: 100%;
+  max-width: 48rem;
+
+  margin: 0.5rem auto 0;
+
+  text-align: center;
+}
+
+.heroIntro > p {
+  width: 100%;
+  max-width: 44rem;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.heroIntro .textLink {
+  margin: 1rem auto 0;
+}
+
+/* ---------------------------------------------------------
+   FILM FEATURE — reduce unnecessary copy padding
+   --------------------------------------------------------- */
+
+.filmCopy {
+  padding-top: clamp(3.5rem, 5vw, 5rem);
+  padding-left: var(--partner-pad);
+  padding-right: var(--partner-pad);
+  padding-bottom: clamp(10rem, 12vw, 12rem);
+}
+
+/* ---------------------------------------------------------
+   BRAND LOGOS — compact bar
+   --------------------------------------------------------- */
+
+.partnerLogoStrip {
+  width: 100%;
+  max-width: none;
+  min-height: 6rem;
+
+  margin: 0;
+
+  padding: 1rem var(--partner-pad);
+
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+/* ---------------------------------------------------------
+   WHO CAN PARTNER — reduce top/bottom empty space
+   --------------------------------------------------------- */
+
+.whoSection {
+  width: 100%;
+  max-width: none;
+
+  margin: 0;
+
+  padding: 3rem var(--partner-pad);
+
+  gap: 2.5rem;
+}
+
+.partnerTypeGrid {
+  margin: 0;
+
+  column-gap: 3rem;
+  row-gap: 2.5rem;
+}
+
+.partnerTypeCard {
+  min-height: 9rem;
+  padding-bottom: 1rem;
+}
+
+/* ---------------------------------------------------------
+   IMPACT / STATS — keep visual, reduce band height
+   --------------------------------------------------------- */
+
+.statItem {
+  min-height: clamp(7.5rem, 9vw, 9rem);
+}
+
+/* ---------------------------------------------------------
+   ECOSYSTEM TITLE + HEADERS — compact
+   --------------------------------------------------------- */
+
+.ecosystemTitle {
+  padding:
+    3rem
+    var(--partner-pad)
+    2.25rem;
+}
+
+.ecosystemHeader,
+.ecosystemBlock[data-section="ott"] .ecosystemHeader,
+.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  height: auto;
+  min-height: 7rem;
+
+  padding:
+    1rem
+    var(--partner-pad);
+
+  gap: 1.5rem;
+}
+
+/* Remove the previous full-viewport frame behavior.
+   Sections now size to their real content instead of leaving
+   large blank areas on tall/wide screens. */
+@media (min-width: 768px) {
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="studios"],
+  .ecosystemBlock[data-section="ai"],
+  .ecosystemBlock[data-section="filmy"] {
+    min-height: 0;
+    height: auto;
+    overflow: visible;
+  }
+
+  .ecosystemBlock[data-section="ott"] > .ecosystemHeader,
+  .ecosystemBlock[data-section="studios"] > .ecosystemHeader,
+  .ecosystemBlock[data-section="ai"] > .ecosystemHeader,
+  .ecosystemBlock[data-section="filmy"] > .ecosystemHeader {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---------------------------------------------------------
+   OTT / FILMY MEDIA — reduce surrounding padding
+   --------------------------------------------------------- */
+
+.mediaRailWrap,
+.mediaRailWrap[data-ott-layout="true"],
+.mediaRailWrap[data-filmy-layout="true"] {
+  padding-top: 2rem;
+  padding-bottom: 2.25rem;
+}
+
+.ottMediaControls {
+  height: auto;
+  min-height: 6.5rem;
+
+  padding:
+    1rem
+    var(--partner-pad);
+}
+
+.filmyMediaControls {
+  min-height: 6.5rem;
+
+  padding:
+    1rem
+    var(--partner-pad)
+    1.25rem;
+}
+
+/* ---------------------------------------------------------
+   STUDIOS — remove excessive viewport-sized empty area
+   --------------------------------------------------------- */
+
+.ecosystemBlock[data-section="studios"] .studioShowcase,
+.studioShowcase {
+  min-height: clamp(32rem, 50vw, 44rem);
+}
+
+/* ---------------------------------------------------------
+   AI PARTNERS — compact the large blank area
+   --------------------------------------------------------- */
+
+.ecosystemBlock[data-section="ai"] {
+  min-height: 0;
+  height: auto;
+}
+
+.ecosystemBlock[data-section="ai"] .ecosystemHeader {
+  flex: 0 0 auto;
+}
+
+.aiPartners {
+  width: 100%;
+  min-height: 0;
+
+  flex: 0 0 auto;
+
+  padding:
+    2.5rem
+    var(--partner-pad)
+    3rem;
+
+  align-items: stretch;
+
+  gap: 2rem;
+}
+
+.aiPartnerCard {
+  min-height: 19rem;
+
+  flex: 1 1 0;
+
+  padding: 1.5rem 1rem;
+
+  gap: 1.5rem;
+
+  justify-content: center;
+}
+
+.aiBrandLockup {
+  min-height: 7.5rem;
+
+  gap: 1.5rem;
+}
+
+.aiBrandLockup img,
+.aiAbhijatLogo,
+.aiZMarathiLogo,
+.aiLaminarLogo {
+  height: 7.5rem !important;
+  min-height: 0;
+  max-height: 7.5rem;
+
+  max-width: calc((100% - 3rem) / 2);
+}
+
+.aiBrandDivider {
+  height: 4.5rem;
+}
+
+/* ---------------------------------------------------------
+   FINAL CTA — slightly more compact
+   --------------------------------------------------------- */
+
+.finalCta {
+  min-height: 23rem;
+}
+
+.finalCtaCopy {
+  padding:
+    2rem
+    var(--partner-pad);
+}
+
+/* ---------------------------------------------------------
+   TABLET
+   --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .heroInner {
+    padding: 2.25rem 2rem;
+    gap: 1.5rem;
+  }
+
+  .partnerLogoStrip {
+    min-height: 5.75rem;
+
+    padding: 1rem 2rem;
+
+    gap: 2.5rem;
+  }
+
+  .whoSection {
+    padding: 2.5rem 2rem;
+    gap: 2.25rem;
+  }
+
+  .partnerTypeGrid {
+    column-gap: 2rem;
+    row-gap: 2rem;
+  }
+
+  .ecosystemTitle {
+    padding: 2.5rem 2rem 2rem;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+  .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+    min-height: 6.5rem;
+
+    padding: 1rem 2rem;
+  }
+
+  .aiPartners {
+    padding: 2rem 2rem 2.5rem;
+    gap: 1.5rem;
+  }
+
+  .aiPartnerCard {
+    min-height: 17rem;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 6.5rem !important;
+    max-height: 6.5rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .filmCopy {
+    padding-top: 3rem;
+    padding-bottom: 10rem;
+  }
+
+  .ecosystemBlock[data-section="studios"] .studioShowcase,
+  .studioShowcase {
+    min-height: 34rem;
+  }
+
+  .aiPartners {
+    padding: 1.75rem var(--partner-pad) 2rem;
+
+    gap: 1rem;
+  }
+
+  .aiPartnerCard {
+    min-height: 15rem;
+
+    padding: 1.25rem 0;
+  }
+
+  .aiBrandLockup {
+    min-height: 6rem;
+  }
+
+  .aiBrandLockup img,
+  .aiAbhijatLogo,
+  .aiZMarathiLogo,
+  .aiLaminarLogo {
+    height: 5.75rem !important;
+    max-height: 5.75rem;
+  }
+
+  .finalCta {
+    min-height: 21rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .heroInner {
+    padding: 2rem 1.25rem;
+
+    gap: 1.25rem;
+  }
+
+  .heroTitleBlock h1 {
+    max-width: 34rem;
+  }
+
+  .heroIntro > p {
+    max-width: 32rem;
+  }
+
+  .partnerLogoStrip {
+    min-height: 5.25rem;
+
+    padding: 0.875rem 1.25rem;
+
+    gap: 1.75rem;
+  }
+
+  .whoSection {
+    padding: 2rem 1.25rem;
+
+    gap: 2rem;
+  }
+
+  .partnerTypeGrid {
+    row-gap: 1.5rem;
+  }
+
+  .ecosystemTitle {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  .ecosystemHeader,
+  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+  .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+    min-height: 0;
+
+    padding: 1rem 1.25rem;
+  }
+
+  .mediaRailWrap,
+  .mediaRailWrap[data-ott-layout="true"],
+  .mediaRailWrap[data-filmy-layout="true"] {
+    padding-top: 1.5rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .ottMediaControls,
+  .filmyMediaControls {
+    min-height: 0;
+
+    padding:
+      1rem
+      1.25rem;
+  }
+
+  .finalCtaCopy {
+    padding: 1.5rem 1.25rem;
+  }
+}

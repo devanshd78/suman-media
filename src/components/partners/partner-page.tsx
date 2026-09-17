@@ -96,31 +96,31 @@ const PARTNER_TYPES: readonly PartnerType[] = [
 
 const PARTNER_LOGOS: readonly Logo[] = [
   {
-    src: "/images/landing/partners/partner2.svg",
+    src: "/images/partners/company/image1.svg",
     alt: "AWS",
     width: 112,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner5.svg",
+    src: "/images/partners/company/image2.svg",
     alt: "Government of Maharashtra",
     width: 92,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner1.svg",
+    src: "/images/partners/company/image3.svg",
     alt: "Laminar",
     width: 216,
     height: 56,
   },
   {
-    src: "/images/landing/partners/partner4.svg",
+    src: "/images/partners/company/image4.svg",
     alt: "Zee Marathi",
     width: 144,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner3.svg",
+    src: "/images/partners/company/image5.svg",
     alt: "Festival de Cannes",
     width: 168,
     height: 64,
