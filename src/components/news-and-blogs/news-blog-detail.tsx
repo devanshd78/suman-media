@@ -241,9 +241,7 @@ function ArticleBody({
         if (node._type === "mediaImage") {
             rendered.push(
                 <figure
-                    className={
-                        styles.articleFigure
-                    }
+                    className={`${styles.articleFigure} ${styles.scrollReveal}`}
                     key={node._key}
                 >
                     <div
@@ -310,7 +308,7 @@ function ArticleBody({
 
             rendered.push(
                 <ListTag
-                    className={styles.articleList}
+                    className={`${styles.articleList} ${styles.scrollReveal}`}
                     key={`list-${node._key}`}
                 >
                     {listNodes.map(
@@ -334,7 +332,7 @@ function ArticleBody({
 
         if (node.style === "h2") {
             rendered.push(
-                <h2 key={node._key}>
+                <h2 className={styles.scrollReveal} key={node._key}>
                     {children}
                 </h2>,
             );
@@ -342,7 +340,7 @@ function ArticleBody({
             node.style === "h3"
         ) {
             rendered.push(
-                <h3 key={node._key}>
+                <h3 className={styles.scrollReveal} key={node._key}>
                     {children}
                 </h3>,
             );
@@ -350,7 +348,7 @@ function ArticleBody({
             node.style === "h4"
         ) {
             rendered.push(
-                <h4 key={node._key}>
+                <h4 className={styles.scrollReveal} key={node._key}>
                     {children}
                 </h4>,
             );
@@ -359,6 +357,7 @@ function ArticleBody({
         ) {
             rendered.push(
                 <blockquote
+                    className={styles.scrollReveal}
                     key={node._key}
                 >
                     {children}
@@ -366,7 +365,7 @@ function ArticleBody({
             );
         } else {
             rendered.push(
-                <p key={node._key}>
+                <p className={styles.scrollReveal} key={node._key}>
                     {children}
                 </p>,
             );
@@ -389,7 +388,7 @@ function SmallArticleCard({
 }) {
     return (
         <article
-            className={styles.relatedCard}
+            className={`${styles.relatedCard} ${styles.cardReveal}`}
         >
             <Link
                 href={`/news-and-blogs/${post.slug}`}
@@ -468,14 +467,12 @@ export function NewsBlogDetail({
                         styles.articleHeaderGrid
                     }
                 >
-                    <h1>{article.title}</h1>
-                    <p>{article.excerpt}</p>
+                    <h1 className={styles.headerTitleReveal}>{article.title}</h1>
+                    <p className={styles.headerExcerptReveal}>{article.excerpt}</p>
                 </div>
 
                 <div
-                    className={
-                        styles.articleMetaRow
-                    }
+                    className={`${styles.articleMetaRow} ${styles.headerMetaReveal}`}
                 >
                     <span
                         className={
@@ -502,7 +499,7 @@ export function NewsBlogDetail({
             </header>
 
             <section
-                className={styles.heroMedia}
+                className={`${styles.heroMedia} ${styles.heroMediaReveal}`}
                 aria-label="Article hero image"
             >
                 <Image
@@ -518,15 +515,13 @@ export function NewsBlogDetail({
                         objectPosition:
                             imagePosition(article),
                     }}
-                    className={styles.heroImage}
+                    className={`${styles.heroImage} ${styles.heroImageReveal}`}
                 />
             </section>
 
             {article.imageCredit ? (
                 <p
-                    className={
-                        styles.imageCredit
-                    }
+                    className={`${styles.imageCredit} ${styles.scrollReveal}`}
                 >
                     Image credit:{" "}
                     {article.imageCredit}
@@ -552,7 +547,7 @@ export function NewsBlogDetail({
                     </article>
 
                     <aside
-                        className={styles.sidebar}
+                        className={`${styles.sidebar} ${styles.sidebarReveal}`}
                     >
                         <div
                             className={
@@ -640,9 +635,7 @@ export function NewsBlogDetail({
             {(article.previousPost ||
                 article.nextPost) && (
                     <nav
-                        className={
-                            styles.articlePager
-                        }
+                        className={`${styles.articlePager} ${styles.sectionReveal}`}
                         aria-label="Article navigation"
                     >
                         <div>
@@ -682,9 +675,7 @@ export function NewsBlogDetail({
                     aria-labelledby="explore-other-articles-heading"
                 >
                     <div
-                        className={
-                            styles.exploreHeading
-                        }
+                        className={`${styles.exploreHeading} ${styles.sectionReveal}`}
                     >
                         <h2 id="explore-other-articles-heading">
                             Explore other articles

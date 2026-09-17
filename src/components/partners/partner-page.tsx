@@ -11,6 +11,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { Exo_2 } from "next/font/google";
 import {
@@ -265,7 +266,7 @@ function EcosystemHeader({
 }: EcosystemHeaderProps) {
   return (
     <div className={styles.ecosystemHeader} data-tone={tone}>
-      <div className={styles.ecosystemIdentity}>
+      <IntersectionReveal className={styles.ecosystemIdentity}>
         <Image
           src="/images/abhijat-logo.png"
           alt="Abhijat Marathi"
@@ -275,12 +276,100 @@ function EcosystemHeader({
           className={styles.ecosystemLogo}
         />
         <h3>{title}</h3>
-      </div>
+      </IntersectionReveal>
 
-      <div className={styles.ecosystemIntro}>
+      <IntersectionReveal className={styles.ecosystemIntro}>
         <p>{description}</p>
         <PillLink href={href}>{ctaLabel}</PillLink>
-      </div>
+      </IntersectionReveal>
+    </div>
+  );
+}
+
+
+/* ============================================================
+   ECOSYSTEM SCROLL STACK DECK
+
+   Behaviour is inspired by the supplied Scroll Stack Deck reference:
+   - one ecosystem card enters at a time from below
+   - the current card settles into a sticky viewport stage
+   - older cards remain layered behind with subtle depth scaling
+   - the final card releases naturally into the next page section
+
+   The global Lenis scroll remains the only smoothing layer.  We do not
+   add another spring/damping system here, which keeps wheel/trackpad
+   scrolling responsive and avoids the double-smoothing issue.
+   ============================================================ */
+
+const ECOSYSTEM_STACK_COUNT = 4;
+
+function clampStack(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function easeOutCubic(value: number) {
+  const inverse = 1 - value;
+  return 1 - inverse * inverse * inverse;
+}
+
+type EcosystemStackCardProps = {
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  label: string;
+  children: ReactNode;
+};
+
+function EcosystemStackCard({
+  index,
+  total,
+  progress,
+  label,
+  children,
+}: EcosystemStackCardProps) {
+  const reduceMotion = useReducedMotion() === true;
+  const segmentCount = Math.max(total - 1, 1);
+
+  const y = useTransform(progress, (value) => {
+    if (reduceMotion) return "0%";
+
+    const deckPosition = value * segmentCount;
+
+    /* Future cards live completely below the sticky stage. */
+    if (index > 0 && deckPosition < index) {
+      const entryProgress = clampStack(deckPosition - (index - 1), 0, 1);
+      const eased = easeOutCubic(entryProgress);
+      return `${(1 - eased) * 112}%`;
+    }
+
+    /* Cards already passed settle slightly upward behind the active card. */
+    const depth = clampStack(deckPosition - index, 0, 3);
+    return `${depth * -1.35}%`;
+  });
+
+  const scale = useTransform(progress, (value) => {
+    if (reduceMotion) return 1;
+
+    const deckPosition = value * segmentCount;
+    const depth = clampStack(deckPosition - index, 0, 3);
+
+    return 1 - depth * 0.0275;
+  });
+
+  return (
+    <div
+      className={styles.ecosystemStackLayer}
+      style={{ zIndex: index + 1 }}
+      data-stack-index={index}
+      aria-label={label}
+    >
+      <motion.div
+        className={styles.ecosystemStackCard}
+        style={{ y, scale }}
+        data-stack-card
+      >
+        {children}
+      </motion.div>
     </div>
   );
 }
@@ -711,6 +800,9 @@ function MediaRail({
 
 export function PartnerPageContent() {
   const reduceMotion = useReducedMotion() === true;
+  const filmFeatureRef = useRef<HTMLElement>(null);
+  const impactRef = useRef<HTMLElement>(null);
+  const ecosystemStackRef = useRef<HTMLDivElement>(null);
   const studioRef = useRef<HTMLElement>(null);
   const finalCtaRef = useRef<HTMLElement>(null);
   const filmStripRef = useRef<HTMLDivElement>(null);
@@ -718,6 +810,21 @@ export function PartnerPageContent() {
 
   const [activeFilmIndex, setActiveFilmIndex] = useState(0);
   const [filmDirection, setFilmDirection] = useState(1);
+
+  const { scrollYProgress: filmFeatureProgress } = useScroll({
+    target: filmFeatureRef,
+    offset: ["start end", "end start"],
+  });
+
+  const { scrollYProgress: impactProgress } = useScroll({
+    target: impactRef,
+    offset: ["start end", "end start"],
+  });
+
+  const { scrollYProgress: ecosystemStackProgress } = useScroll({
+    target: ecosystemStackRef,
+    offset: ["start start", "end end"],
+  });
 
   const { scrollYProgress: studioProgress } = useScroll({
     target: studioRef,
@@ -729,6 +836,24 @@ export function PartnerPageContent() {
     offset: ["start end", "end start"],
   });
 
+  const filmBackdropY = useTransform(
+    filmFeatureProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [-28, 28],
+  );
+
+  const impactImageY = useTransform(
+    impactProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [-30, 30],
+  );
+
+  const impactImageScale = useTransform(
+    impactProgress,
+    [0, 0.5, 1],
+    reduceMotion ? [1, 1, 1] : [1.06, 1.025, 1.06],
+  );
+
   const studioPrimaryY = useTransform(
     studioProgress,
     [0, 1],
@@ -738,6 +863,11 @@ export function PartnerPageContent() {
     studioProgress,
     [0, 1],
     reduceMotion ? [0, 0] : [-28, 46],
+  );
+  const studioHeadingY = useTransform(
+    studioProgress,
+    [0, 1],
+    reduceMotion ? [0, 0] : [24, -24],
   );
 
   const ctaScale = useTransform(
@@ -826,8 +956,8 @@ export function PartnerPageContent() {
         </div>
       </section>
 
-      <section className={styles.filmFeature} aria-labelledby="make-film-heading">
-        <div className={styles.filmBackdrop} aria-hidden="true">
+      <section ref={filmFeatureRef} className={styles.filmFeature} aria-labelledby="make-film-heading">
+        <motion.div className={styles.filmBackdrop} style={{ y: filmBackdropY }} aria-hidden="true">
           <AnimatePresence initial={false} mode="sync" custom={filmDirection}>
             <motion.div
               key={activeFilm.src}
@@ -860,7 +990,7 @@ export function PartnerPageContent() {
               />
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
         <div className={styles.filmShade} aria-hidden="true" />
 
         <IntersectionReveal className={styles.filmCopy}>
@@ -945,40 +1075,52 @@ export function PartnerPageContent() {
       </section>
 
       <section
+        ref={impactRef}
         className={styles.impactSection}
         aria-label="Suman partnership ecosystem in action"
       >
         <div className={styles.impactImageWrap}>
-          <Image
-            src="/images/landing/background2.png"
-            alt="Media and cultural leaders at the Bharat Pavilion"
-            fill
-            loading="lazy"
-            sizes="100vw"
-            className={styles.impactImage}
-          />
+          <motion.div
+            className={styles.impactParallax}
+            style={{ y: impactImageY, scale: impactImageScale }}
+            aria-hidden="true"
+          >
+            <Image
+              src="/images/landing/background2.png"
+              alt=""
+              fill
+              loading="lazy"
+              sizes="100vw"
+              className={styles.impactImage}
+            />
+          </motion.div>
           <div className={styles.impactShade} aria-hidden="true" />
+          <span className={styles.srOnly}>
+            Media and cultural leaders at the Bharat Pavilion
+          </span>
         </div>
 
         <div className={styles.statsBand}>
-          <div className={styles.statItem}>
-            <strong>
-              <AnimatedStatNumber value={300} suffix="+" />
-            </strong>
-            <span>Film Entertainment Content</span>
-          </div>
-          <div className={styles.statItem}>
-            <strong>
-              <AnimatedStatNumber value={2000} suffix="+" delay={130} />
-            </strong>
-            <span>Songs Library</span>
-          </div>
-          <div className={styles.statItem}>
-            <strong>
-              <AnimatedStatNumber value={600} suffix="m" delay={260} />
-            </strong>
-            <span>Short-video views</span>
-          </div>
+          <IntersectionReveal className={styles.statsRow}>
+            <div className={styles.statItem}>
+              <strong>
+                <AnimatedStatNumber value={300} suffix="+" />
+              </strong>
+              <span>Film Entertainment Content</span>
+            </div>
+            <div className={styles.statItem}>
+              <strong>
+                <AnimatedStatNumber value={2000} suffix="+" delay={130} />
+              </strong>
+              <span>Songs Library</span>
+            </div>
+            <div className={styles.statItem}>
+              <strong>
+                <AnimatedStatNumber value={600} suffix="m" delay={260} />
+              </strong>
+              <span>Short-video views</span>
+            </div>
+          </IntersectionReveal>
         </div>
       </section>
 
@@ -988,173 +1130,239 @@ export function PartnerPageContent() {
           <h2 id="ecosystem-heading">Our Ecosystem</h2>
         </IntersectionReveal>
 
-        <div className={styles.ecosystemBlock} data-tone="light" data-section="ott">
-          <EcosystemHeader
-            title="Abhijat Marathi OTT"
-            description="A dedicated Marathi OTT platform bringing 300+ films, original programming and regional stories to audiences in India and around the world."
-            href="/companies"
-          />
-          <MediaRail
-            items={OTT_IMAGES}
-            label="Abhijat Marathi OTT highlights"
-            showOttControls
-          />
-        </div>
-
         <div
-          className={styles.ecosystemBlock}
-          data-tone="dark"
-          data-section="studios"
+          ref={ecosystemStackRef}
+          className={styles.ecosystemStack}
+          style={{
+            height: `${100 + (ECOSYSTEM_STACK_COUNT - 1) * 86}svh`,
+          }}
+          data-ecosystem-stack
         >
-          <EcosystemHeader
-            title="Abhijat Marathi Studios"
-            description="Established Abhijat Marathi Distribution Studio as a Marathi-focused distribution initiative."
-            href="/services"
-            tone="dark"
-          />
-
-          <section
-            ref={studioRef}
-            className={styles.studioShowcase}
-            aria-labelledby="connecting-dots-heading"
-          >
-            <motion.figure
-              className={styles.studioPrimary}
-              style={{ y: studioPrimaryY }}
-              initial={reduceMotion ? false : { opacity: 0, x: -140 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.28 }}
-              transition={{
-                duration: reduceMotion ? 0 : 0.9,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+          <div className={styles.ecosystemStackStage}>
+            {/* =================================================
+                01 — ABHIJAT MARATHI OTT
+                ================================================= */}
+            <EcosystemStackCard
+              index={0}
+              total={ECOSYSTEM_STACK_COUNT}
+              progress={ecosystemStackProgress}
+              label="Abhijat Marathi OTT"
             >
-              <Image
-                src="/images/landing/client/Image3.png"
-                alt="Singer recording music in a studio"
-                fill
-                loading="lazy"
-                sizes="(max-width: 767px) 78vw, 38vw"
-                className={styles.studioImage}
-              />
-            </motion.figure>
-
-            <div className={styles.studioHeadingPosition}>
-              <motion.h3
-                id="connecting-dots-heading"
-                initial={reduceMotion ? false : { opacity: 0, y: 96 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.82,
-                  ease: [0.22, 1, 0.36, 1],
-                  delay: reduceMotion ? 0 : 0.08,
-                }}
+              <div
+                className={styles.ecosystemBlock}
+                data-tone="light"
+                data-section="ott"
               >
-                Connecting
-                <br />
-                the dots
-              </motion.h3>
-            </div>
+                <EcosystemHeader
+                  title="Abhijat Marathi OTT"
+                  description="A dedicated Marathi OTT platform bringing 300+ films, original programming and regional stories to audiences in India and around the world."
+                  href="/companies"
+                />
+                <MediaRail
+                  items={OTT_IMAGES}
+                  label="Abhijat Marathi OTT highlights"
+                  showOttControls
+                />
+              </div>
+            </EcosystemStackCard>
 
-            <motion.figure
-              className={styles.studioSecondary}
-              style={{ y: studioSecondaryY }}
-              initial={reduceMotion ? false : { opacity: 0, x: 140 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.28 }}
-              transition={{
-                duration: reduceMotion ? 0 : 0.9,
-                ease: [0.22, 1, 0.36, 1],
-                delay: reduceMotion ? 0 : 0.05,
-              }}
+            {/* =================================================
+                02 — ABHIJAT MARATHI STUDIOS
+                ================================================= */}
+            <EcosystemStackCard
+              index={1}
+              total={ECOSYSTEM_STACK_COUNT}
+              progress={ecosystemStackProgress}
+              label="Abhijat Marathi Studios"
             >
-              <Image
-                src="/images/careers/slideimg4.jpg"
-                alt="Film crew operating a cinema camera"
-                fill
-                loading="lazy"
-                sizes="(max-width: 767px) 42vw, 24vw"
-                className={styles.studioImage}
-              />
-            </motion.figure>
-          </section>
-        </div>
-
-        <div
-          className={styles.ecosystemBlock}
-          data-tone="light"
-          data-section="ai"
-        >
-          <EcosystemHeader
-            title="Abhijat Marathi AI"
-            description="Exploring AI-powered technologies for Marathi content, including discovery, translation, metadata, archiving and next-generation digital experiences. Announced technology/content collaborations involving Zee and Laminar AI."
-            href="/services"
-          />
-
-          <div className={styles.aiPartners}>
-            <IntersectionReveal className={styles.aiPartnerCard}>
-              <div className={styles.aiBrandLockup}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/landing/partners/abhijaat-marathi.png"
-                  alt="Abhijat Marathi"
-                  className={styles.aiAbhijatLogo}
-                  loading="lazy"
+              <div
+                className={styles.ecosystemBlock}
+                data-tone="dark"
+                data-section="studios"
+              >
+                <EcosystemHeader
+                  title="Abhijat Marathi Studios"
+                  description="Established Abhijat Marathi Distribution Studio as a Marathi-focused distribution initiative."
+                  href="/services"
+                  tone="dark"
                 />
-                <span className={styles.aiBrandDivider} aria-hidden="true" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/landing/partners/z-marathi.png"
-                  alt="Z Marathi"
-                  className={styles.aiZMarathiLogo}
-                  loading="lazy"
+
+                <section
+                  ref={studioRef}
+                  className={styles.studioShowcase}
+                  aria-labelledby="connecting-dots-heading"
+                >
+                  <motion.figure
+                    className={styles.studioPrimary}
+                    style={{ y: studioPrimaryY }}
+                    initial={reduceMotion ? false : { opacity: 0, x: -140 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.28 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : 0.9,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
+                    <Image
+                      src="/images/careers/slideimg4.jpg"
+                      alt="Film crew operating a cinema camera"
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 767px) 78vw, 34vw"
+                      className={styles.studioImage}
+                    />
+                  </motion.figure>
+
+                  <div className={styles.studioHeadingPosition}>
+                    <motion.div
+                      className={styles.studioHeadingParallax}
+                      style={{ y: studioHeadingY }}
+                    >
+                      <motion.h3
+                        id="connecting-dots-heading"
+                        initial={reduceMotion ? false : { opacity: 0, y: 96 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.35 }}
+                        transition={{
+                          duration: reduceMotion ? 0 : 0.82,
+                          ease: [0.22, 1, 0.36, 1],
+                          delay: reduceMotion ? 0 : 0.08,
+                        }}
+                      >
+                        Connecting
+                        <br />
+                        the dots
+                      </motion.h3>
+                    </motion.div>
+                  </div>
+
+                  <motion.figure
+                    className={styles.studioSecondary}
+                    style={{ y: studioSecondaryY }}
+                    initial={reduceMotion ? false : { opacity: 0, x: 140 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.28 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : 0.9,
+                      ease: [0.22, 1, 0.36, 1],
+                      delay: reduceMotion ? 0 : 0.05,
+                    }}
+                  >
+                    <Image
+                      src="/images/landing/client/Image3.png"
+                      alt="Singer recording music in a studio"
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 767px) 42vw, 18vw"
+                      className={styles.studioImage}
+                    />
+                  </motion.figure>
+                </section>
+              </div>
+            </EcosystemStackCard>
+
+            {/* =================================================
+                03 — ABHIJAT MARATHI AI
+                ================================================= */}
+            <EcosystemStackCard
+              index={2}
+              total={ECOSYSTEM_STACK_COUNT}
+              progress={ecosystemStackProgress}
+              label="Abhijat Marathi AI"
+            >
+              <div
+                className={styles.ecosystemBlock}
+                data-tone="light"
+                data-section="ai"
+              >
+                <EcosystemHeader
+                  title="Abhijat Marathi AI"
+                  description="Exploring AI-powered technologies for Marathi content, including discovery, translation, metadata, archiving and next-generation digital experiences. Announced technology/content collaborations involving Zee and Laminar AI."
+                  href="/services"
+                />
+
+                <div className={styles.aiPartners}>
+                  <IntersectionReveal className={styles.aiPartnerCard}>
+                    <div className={styles.aiBrandLockup}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/landing/partners/abhijaat-marathi.png"
+                        alt="Abhijat Marathi"
+                        className={styles.aiAbhijatLogo}
+                        loading="lazy"
+                      />
+                      <span
+                        className={styles.aiBrandDivider}
+                        aria-hidden="true"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/landing/partners/z-marathi.png"
+                        alt="Z Marathi"
+                        className={styles.aiZMarathiLogo}
+                        loading="lazy"
+                      />
+                    </div>
+                    <p>Abhijat Marathi Partnered with Zee ecosystem.</p>
+                  </IntersectionReveal>
+
+                  <IntersectionReveal className={styles.aiPartnerCard}>
+                    <div className={styles.aiBrandLockup}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/landing/partners/abhijaat-marathi.png"
+                        alt="Abhijat Marathi"
+                        className={styles.aiAbhijatLogo}
+                        loading="lazy"
+                      />
+                      <span
+                        className={styles.aiBrandDivider}
+                        aria-hidden="true"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/landing/partners/laminar.png"
+                        alt="Laminar"
+                        className={styles.aiLaminarLogo}
+                        loading="lazy"
+                      />
+                    </div>
+                    <p>Abhijat Marathi Partnered with Laminar AI ecosystem.</p>
+                  </IntersectionReveal>
+                </div>
+              </div>
+            </EcosystemStackCard>
+
+            {/* =================================================
+                04 — ABHIJAT MARATHI FILMY
+                ================================================= */}
+            <EcosystemStackCard
+              index={3}
+              total={ECOSYSTEM_STACK_COUNT}
+              progress={ecosystemStackProgress}
+              label="Abhijat Marathi Filmy"
+            >
+              <div
+                className={styles.ecosystemBlock}
+                data-tone="warm"
+                data-section="filmy"
+              >
+                <EcosystemHeader
+                  title="Abhijat Marathi Filmy"
+                  description="A dedicated film-focused initiative bringing Marathi cinema, Filmy thoughts, stories, Celebrity bytes, Real talks and more — made for hearts that feel cinema."
+                  href="/portfolio"
+                  tone="warm"
+                  ctaLabel="Watch"
+                />
+                <MediaRail
+                  items={FILMY_IMAGES}
+                  label="Abhijat Marathi Filmy highlights"
+                  tone="warm"
+                  showFilmyControls
                 />
               </div>
-              <p>Abhijat Marathi Partnered with Zee ecosystem.</p>
-            </IntersectionReveal>
-
-            <IntersectionReveal className={styles.aiPartnerCard}>
-              <div className={styles.aiBrandLockup}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/landing/partners/abhijaat-marathi.png"
-                  alt="Abhijat Marathi"
-                  className={styles.aiAbhijatLogo}
-                  loading="lazy"
-                />
-                <span className={styles.aiBrandDivider} aria-hidden="true" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/landing/partners/laminar.png"
-                  alt="Laminar"
-                  className={styles.aiLaminarLogo}
-                  loading="lazy"
-                />
-              </div>
-              <p>Abhijat Marathi Partnered with Laminar AI ecosystem.</p>
-            </IntersectionReveal>
+            </EcosystemStackCard>
           </div>
-        </div>
-
-        <div
-          className={styles.ecosystemBlock}
-          data-tone="warm"
-          data-section="filmy"
-        >
-          <EcosystemHeader
-            title="Abhijat Marathi Filmy"
-            description="A dedicated film-focused initiative bringing Marathi cinema, Filmy thoughts, stories, Celebrity bytes, Real talks and more — made for hearts that feel cinema."
-            href="/portfolio"
-            tone="warm"
-            ctaLabel="Watch"
-          />
-          <MediaRail
-            items={FILMY_IMAGES}
-            label="Abhijat Marathi Filmy highlights"
-            tone="warm"
-            showFilmyControls
-          />
         </div>
       </section>
 
@@ -1189,4 +1397,3 @@ export function PartnerPageContent() {
     </main>
   );
 }
-           

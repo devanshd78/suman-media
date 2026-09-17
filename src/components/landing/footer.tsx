@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { IntersectionReveal } from "@/components/motion/intersection-reveal";
+
 import {
   inter,
   plusJakartaSans,
@@ -455,7 +457,7 @@ function FooterGroup({
   links: FooterLink[];
 }) {
   return (
-    <div className="flex min-w-0 flex-col">
+    <IntersectionReveal className="flex min-w-0 flex-col">
       <h3
         className={`
           ${inter.className}
@@ -506,9 +508,10 @@ function FooterGroup({
 
                 [font-feature-settings:'liga'_off,'clig'_off]
 
-                transition-opacity
+                transition-[opacity,transform]
                 duration-200
 
+                hover:-translate-y-[1px]
                 hover:opacity-60
               `}
             >
@@ -563,7 +566,7 @@ function FooterGroup({
           </li>
         ))}
       </ul>
-    </div>
+    </IntersectionReveal>
   );
 }
 
@@ -760,7 +763,7 @@ function FooterIntroCard({
   fallbackCta: CmsCta;
 }) {
   return (
-    <div
+    <IntersectionReveal
       className="
         flex
         h-full
@@ -787,6 +790,13 @@ function FooterIntroCard({
           border-[#D6D6D6]
 
           p-[0.625rem]
+
+          transition-[transform,border-color,background-color]
+          duration-300
+
+          hover:-translate-y-1
+          hover:border-[#8F6C1A]/40
+          hover:bg-white/30
         "
       >
         {icon}
@@ -833,10 +843,6 @@ function FooterIntroCard({
         {description}
       </p>
 
-      {/* =====================================================
-          Desktop CTA alignment
-          ===================================================== */}
-
       <div
         className="
           mt-6
@@ -850,7 +856,7 @@ function FooterIntroCard({
           fallback={fallbackCta}
         />
       </div>
-    </div>
+    </IntersectionReveal>
   );
 }
 
@@ -945,6 +951,7 @@ export function Footer({
 
   return (
     <footer
+      data-motion-managed
       /*
        * IMPORTANT:
        *
@@ -1021,7 +1028,7 @@ export function Footer({
               GET STARTED
               ================================================= */}
 
-          <div
+          <IntersectionReveal
             className="
               flex
               h-full
@@ -1097,7 +1104,7 @@ export function Footer({
                 }}
               />
             </div>
-          </div>
+          </IntersectionReveal>
 
           {/* =================================================
               PARTNER
@@ -1585,31 +1592,33 @@ export function Footer({
           lg:pt-16
         "
       >
-        <p
-          className={`
-            ${devanagari.className}
+        <IntersectionReveal className="w-full">
+          <p
+            className={`
+              ${devanagari.className}
 
-            mx-auto
+              mx-auto
 
-            w-full
-            max-w-[92rem]
+              w-full
+              max-w-[92rem]
 
-            text-center
+              text-center
 
-            text-[clamp(2.75rem,7.2vw,7.4rem)]
+              text-[clamp(2.75rem,7.2vw,7.4rem)]
 
-            font-extrabold
+              font-extrabold
 
-            leading-[0.95]
+              leading-[0.95]
 
-            tracking-[-0.055em]
+              tracking-[-0.055em]
 
-            text-black
-          `}
-          lang="mr"
-        >
-          {marathiWordmark}
-        </p>
+              text-black
+            `}
+            lang="mr"
+          >
+            {marathiWordmark}
+          </p>
+        </IntersectionReveal>
 
         {/* ===================================================
             COPYRIGHT
@@ -1617,7 +1626,7 @@ export function Footer({
             Always reachable through normal page scroll.
             =================================================== */}
 
-        <div
+        <IntersectionReveal
           className="
             mt-12
 
@@ -1664,7 +1673,7 @@ export function Footer({
           >
             {designCredit}
           </p>
-        </div>
+        </IntersectionReveal>
       </div>
     </footer>
   );

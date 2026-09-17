@@ -1,15 +1,19 @@
+/* =========================================================
+   PARTNER PAGE — CONSOLIDATED FINAL STYLES
+   ========================================================= */
+
 .page {
   --partner-gold: #8f6c1a;
   --partner-ink: #1a1a1a;
   --partner-muted: #969696;
   --partner-tertiary: #b8b8b8;
-  --partner-cream: #f7f3e9;
-  --partner-warm: #f8e7b7;
-  --partner-pad: clamp(20px, 3.889vw, 56px);
+  --partner-cream: #f5f1eb;
+  --partner-warm: #f3e4bf;
+  --partner-stroke: rgba(0, 17, 102, 0.1);
+  --partner-pad: 20px;
 
   --Font-family-Heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
   --Font-family-Body: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
-  /* 1440px Figma values are the max; type scales down fluidly below that. */
   --Font-size-Tiny: clamp(12px, 0.972vw, 14px);
   --Font-size-Small: clamp(14px, 1.111vw, 16px);
   --Font-size-Heading-4: clamp(16px, 1.389vw, 20px);
@@ -22,29 +26,13 @@
   --Line-height-Heading-2: clamp(32px, 2.778vw, 40px);
   --Line-height-Heading-1: clamp(38px, 3.333vw, 48px);
   --Line-height-Display: clamp(48px, 4.444vw, 64px);
-  --Spacing-0: 0px;
-  --Spacing-4: 4px;
-  --Corner-radius-4: 4px;
-  --Corner-radius-8: 8px;
-  --Corner-radius-32: 32px;
-  --Light-Border-Text-Primary: #1a1a1a;
-  --Light-Border-Text-Secondary: #969696;
-  --Light-Border-Text-Tertiary: #b8b8b8;
-  --Light-Border-Text-PrimaryInverse: #f9f9f9;
-  --Text-Warning: #8f6c1a;
-  --Text-Weak-2: rgba(0, 9, 51, 0.65);
-  --Text-Inverse-strong: #fff;
-  --Text-Inverse-strong-2: #fff;
-  --BrandPrimary-500: #8f6c1a;
-  --Fill-Warning-strong-2: #8f6c1a;
-  --Neutrals-0: #fff;
 
   width: 100%;
   min-width: 0;
   overflow-x: clip;
   background: #fff;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
+  color: var(--partner-ink);
+  font-family: var(--Font-family-Body);
   font-feature-settings: "liga" off, "clig" off;
 }
 
@@ -55,9 +43,19 @@
 }
 
 .page svg {
-  width: 20px;
-  height: 20px;
   flex: 0 0 auto;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .textLink,
@@ -71,19 +69,24 @@
 
 .textLink svg,
 .pillLink svg {
+  width: 20px;
+  height: 20px;
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .textLink:focus-visible,
 .pillLink:focus-visible,
 .mediaRail:focus-visible,
-.filmThumb:focus-visible {
+.filmThumb:focus-visible,
+.youtubeActivator:focus-visible,
+.ottRailButton:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
 
 /* =========================================================
    HERO
+   Left aligned to the same website gutter.
    ========================================================= */
 
 .hero {
@@ -94,106 +97,93 @@
 .heroInner {
   display: grid;
   width: 100%;
-  max-width: 100rem;
-  min-height: clamp(29rem, 52svh, 37rem);
-  margin-inline: auto;
-  padding: clamp(6rem, 8vw, 8.5rem) var(--partner-pad) clamp(4.5rem, 7vw, 7rem);
+  min-height: clamp(22rem, 42svh, 30rem);
+  padding: clamp(2rem, 3vw, 3rem) var(--partner-pad);
+  grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 0.88fr);
   align-items: center;
-  gap: clamp(2.5rem, 6vw, 8rem);
+  gap: clamp(3rem, 6vw, 7rem);
 }
 
 .heroTitleBlock,
 .heroIntro {
   min-width: 0;
-  align-self: stretch;
+  text-align: left;
 }
 
 .heroTitleBlock {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
 }
 
+.eyebrow,
 .hero .eyebrow {
-  align-self: stretch;
   margin: 0;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Tiny, 14px);
+  color: var(--partner-ink);
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Tiny);
   font-style: normal;
   font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  line-height: var(--Line-height-Tiny);
+  text-align: left;
 }
 
 .heroTitleBlock h1 {
-  align-self: stretch;
+  width: 100%;
   max-width: 46rem;
   margin: 12px 0 0;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-1, 40px);
+  color: var(--partner-ink);
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Heading-1);
   font-style: normal;
   font-weight: 600;
-  line-height: var(--Line-height-Heading-1, 48px);
-  letter-spacing: -0.5px;
+  line-height: var(--Line-height-Heading-1);
+  letter-spacing: -0.03125rem;
+  text-align: left;
 }
 
 .heroIntro {
   display: flex;
+  max-width: 42rem;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
+  justify-self: end;
 }
 
 .heroIntro>p {
-  align-self: stretch;
+  width: 100%;
   max-width: 38rem;
   margin: 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
+  color: var(--partner-muted);
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
   font-style: normal;
   font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
+  line-height: var(--Line-height-Small);
+  text-align: left;
 }
 
 .heroIntro .textLink {
-  width: fit-content;
   min-width: 132px;
-  height: 48px;
+  min-height: 48px;
   margin-top: 24px;
-  padding: 0 var(--Spacing-0, 0);
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-0, 0);
-  border-radius: var(--Corner-radius-4, 4px);
-  background: var(--Neutrals-0, #fff);
-  color: var(--Text-Warning, #8f6c1a);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
+  gap: 8px;
+  border-radius: 4px;
+  color: var(--partner-gold);
   font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
+  font-size: var(--Font-size-Small);
   font-weight: 600;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-.heroIntro .textLink svg {
-  margin-left: 8px;
+  line-height: var(--Line-height-Small);
 }
 
 /* =========================================================
-   FILM / IMAGE SCROLLER
-   Large image = layered treatment.
-   Small images = full-colour selectable thumbnails.
+   MAKE YOUR FILM / HERO MEDIA
    ========================================================= */
 
 .filmFeature {
   position: relative;
   isolation: isolate;
-  min-height: clamp(42rem, 74svh, 54rem);
+  min-height: clamp(42rem, 76svh, 54rem);
   overflow: hidden;
   background: #050505;
   color: #fff;
@@ -201,9 +191,10 @@
 
 .filmBackdrop {
   position: absolute;
-  inset: -3.5rem 0;
+  inset: -4rem 0;
   z-index: -3;
   overflow: hidden;
+  will-change: transform;
 }
 
 .filmSlide {
@@ -223,60 +214,49 @@
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(90deg,
-      rgb(0 0 0 / 0.84) 0%,
-      rgb(0 0 0 / 0.6) 38%,
-      rgb(0 0 0 / 0.24) 72%,
-      rgb(0 0 0 / 0.38) 100%),
-    linear-gradient(180deg,
-      rgb(0 0 0 / 0.12) 0%,
-      rgb(0 0 0 / 0.05) 58%,
-      rgb(0 0 0 / 0.78) 100%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.84) 0%, rgba(0, 0, 0, 0.60) 38%, rgba(0, 0, 0, 0.24) 72%, rgba(0, 0, 0, 0.38) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.05) 58%, rgba(0, 0, 0, 0.78) 100%);
 }
 
 .filmCopy {
   position: relative;
   z-index: 2;
   display: flex;
+  width: 100%;
   max-width: 54rem;
   flex-direction: column;
-  padding: clamp(5rem, 8vw, 8rem) var(--partner-pad) 14rem;
+  align-items: flex-start;
+  padding: clamp(4rem, 6vw, 6rem) var(--partner-pad) clamp(11rem, 14vw, 14rem);
 }
 
 .filmEyebrow {
   margin: 0;
   color: #fff;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Tiny, 14px);
-  font-style: normal;
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Tiny);
   font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  line-height: var(--Line-height-Tiny);
 }
 
 .filmCopy h2 {
   max-width: 48rem;
   margin: 12px 0 0;
-  color: var(--Text-Inverse-strong-2, #fff);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Display, 56px);
-  font-style: normal;
+  color: #fff;
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Display);
   font-weight: 600;
-  line-height: var(--Line-height-Display, 64px);
+  line-height: var(--Line-height-Display);
   letter-spacing: -1px;
 }
 
 .filmCopy>p:not(.filmEyebrow) {
   max-width: 43rem;
   margin: 16px 0 0;
-  color: var(--Light-Border-Text-PrimaryInverse, #f9f9f9);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-4, 20px);
-  font-style: normal;
+  color: #f9f9f9;
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Heading-4);
   font-weight: 500;
-  line-height: var(--Line-height-Heading-4, 28px);
+  line-height: var(--Line-height-Heading-4);
 }
 
 .filmCopy .textLink,
@@ -284,46 +264,52 @@
   width: fit-content;
   margin-top: 24px;
   gap: 6px;
-  color: var(--Text-Inverse-strong, #fff);
-  text-align: center;
-  text-decoration-line: underline;
+  color: #fff;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Heading-4);
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-4);
+  text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Heading-4, 20px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Heading-4, 28px);
 }
 
 .filmStrip {
   position: absolute;
-  inset: auto var(--partner-pad) 28px;
+  left: var(--partner-pad);
+  right: 0;
+  bottom: 28px;
   z-index: 3;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(8px, 0.9vw, 14px);
+  display: flex;
+  gap: clamp(10px, 1vw, 14px);
   overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
+  padding: 4px var(--partner-pad) 4px 0;
+  scroll-snap-type: x proximity;
 }
 
-.filmStrip::-webkit-scrollbar {
+.filmStrip::-webkit-scrollbar,
+.mediaRail::-webkit-scrollbar,
+.partnerLogoStrip::-webkit-scrollbar {
   display: none;
 }
 
 .filmThumb {
   position: relative;
-  min-width: 0;
+  width: clamp(150px, 18vw, 260px);
+  min-width: clamp(150px, 18vw, 260px);
   aspect-ratio: 16 / 8.6;
+  flex: 0 0 clamp(150px, 18vw, 260px);
   overflow: hidden;
   padding: 0;
-  border: 1px solid rgb(255 255 255 / 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 2px;
   background: #151515;
   cursor: pointer;
   opacity: 0.78;
   appearance: none;
+  scroll-snap-align: start;
   transition:
     opacity 280ms ease,
     border-color 280ms ease,
@@ -338,7 +324,6 @@
 
 .filmThumbImage {
   object-fit: cover;
-  filter: none;
   transform: scale(1.001);
   transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -353,51 +338,53 @@
   font-size: 11px;
   font-weight: 600;
   line-height: 16px;
-  text-shadow: 0 1px 6px rgb(0 0 0 / 0.72);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.72);
 }
 
 /* =========================================================
-   PARTNER BRAND LOGOS
+   PARTNER LOGOS
    ========================================================= */
 
 .partnerLogoStrip {
   display: flex;
   width: 100%;
-  min-height: 136px;
-  transform: rotate(0.003deg);
-  justify-content: center;
+  min-height: 6rem;
   align-items: center;
-  gap: 72px;
+  justify-content: center;
+  gap: clamp(2rem, 4vw, 4.5rem);
   overflow-x: auto;
-  padding: 32px var(--partner-pad);
+  overflow-y: hidden;
+  padding: 1rem var(--partner-pad);
   background: #fff;
 }
 
-.partnerLogoStrip::-webkit-scrollbar {
-  display: none;
-}
-
 .partnerLogo {
+  display: block;
   width: auto;
-  max-width: 12rem;
-  height: clamp(2.25rem, 4vw, 3.7rem);
+  max-width: 13.5rem;
+  height: clamp(2.75rem, 4vw, 4rem);
+  max-height: 4rem;
   flex: 0 0 auto;
   object-fit: contain;
-  filter: none;
-  opacity: 1;
 }
 
 /* =========================================================
    WHO CAN PARTNER
+   User requested pure white background.
    ========================================================= */
 
 .whoSection {
+  display: flex;
   width: 100%;
-  padding: clamp(5rem, 9vw, 9rem) var(--partner-pad);
-  background: var(--BrandPrimary-50, #F5F1EB);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2.5rem, 4vw, 3.5rem);
+  padding: clamp(3.5rem, 6vw, 6rem) var(--partner-pad);
+  background: #fff;
 }
 
 .centeredHeading {
+  width: 100%;
   max-width: 56rem;
   margin-inline: auto;
   text-align: center;
@@ -405,50 +392,43 @@
 
 .whoEyebrow {
   margin: 0 0 12px;
-  color: var(--Text-Weak-2, rgba(0, 9, 51, 0.65));
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Tiny, 14px);
-  font-style: normal;
+  color: rgba(0, 9, 51, 0.65);
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Tiny);
   font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  line-height: var(--Line-height-Tiny);
+  text-align: center;
 }
 
 .centeredHeading h2 {
   margin: 0;
   color: #000;
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-1, 40px);
-  font-style: normal;
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Heading-1);
   font-weight: 600;
-  line-height: var(--Line-height-Heading-1, 48px);
-  letter-spacing: -0.5px;
+  line-height: var(--Line-height-Heading-1);
+  letter-spacing: -0.03125rem;
+  text-align: center;
 }
 
 .whoDescription {
   max-width: 48rem;
   margin: 16px auto 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
+  color: var(--partner-muted);
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
   font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
+  line-height: var(--Line-height-Small);
+  text-align: center;
 }
 
 .partnerTypeGrid {
   display: grid;
   width: 100%;
-  max-width: 94rem;
-  margin: clamp(3.5rem, 6vw, 6rem) auto 0;
+  max-width: 90rem;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: clamp(2rem, 5vw, 6.5rem);
-  row-gap: clamp(3rem, 5vw, 5rem);
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: clamp(2.5rem, 4vw, 4rem);
 }
 
 .partnerTypeReveal {
@@ -456,9 +436,9 @@
 }
 
 .partnerTypeCard {
-  min-height: 11rem;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgb(0 0 0 / 0.12);
+  min-height: 9rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   transition:
     border-color 300ms ease,
     transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -466,41 +446,37 @@
 
 .partnerNumber {
   display: inline-block;
-  color: var(--BrandPrimary-500, #8f6c1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Display, 56px);
-  font-style: normal;
+  color: var(--partner-gold);
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Display);
   font-weight: 600;
-  line-height: var(--Line-height-Display, 64px);
+  line-height: var(--Line-height-Display);
   letter-spacing: -1px;
 }
 
 .partnerTypeCard h3 {
   margin: 16px 0 0;
   color: #000;
-  font-feature-settings: "liga" off, "clig" off;
   font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Heading-4, 20px);
-  font-style: normal;
+  font-size: var(--Font-size-Heading-4);
   font-weight: 600;
-  line-height: var(--Line-height-Heading-4, 28px);
+  line-height: var(--Line-height-Heading-4);
 }
 
 .partnerTypeCard p {
   max-width: 26rem;
   margin: 8px 0 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
+  color: var(--partner-muted);
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
   font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
+  line-height: var(--Line-height-Small);
 }
 
 /* =========================================================
-   IMPACT IMAGE + LANDING-PAGE COUNTER ANIMATION
+   IMPACT IMAGE + STATS
+   Stats frame follows the 90rem / 3.5rem reference.
+   Separators are intentionally short, not full-height.
    ========================================================= */
 
 .impactSection {
@@ -516,6 +492,12 @@
   background: #111;
 }
 
+.impactParallax {
+  position: absolute;
+  inset: -4%;
+  will-change: transform;
+}
+
 .impactImage {
   object-fit: cover;
   object-position: center;
@@ -526,63 +508,77 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.22)),
-    linear-gradient(90deg, rgb(143 108 26 / 0.05), transparent 46%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.22)),
+    linear-gradient(90deg, rgba(143, 108, 26, 0.05), transparent 46%);
 }
 
 .statsBand {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: 100%;
-  padding-inline: var(--partner-pad);
+  display: flex;
+  width: min(100%, 90rem);
+  margin-inline: auto;
+  padding: 3.5rem;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6.25rem;
   background: var(--partner-cream);
+}
+
+.statsRow {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
 }
 
 .statItem {
   position: relative;
   display: flex;
-  min-height: clamp(9rem, 12vw, 12rem);
+  min-width: 0;
+  min-height: 5.5rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding-inline: clamp(1rem, 3vw, 3rem);
   text-align: center;
 }
 
-.statItem+.statItem {
-  border-left: 1px solid rgb(0 0 0 / 0.12);
+.statItem+.statItem::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 3.5rem;
+  transform: translateY(-50%);
+  background: var(--partner-stroke);
 }
 
 .statItem strong {
   color: #000;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Display, 56px);
-  font-style: normal;
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Display);
   font-weight: 600;
-  line-height: var(--Line-height-Display, 64px);
+  line-height: var(--Line-height-Display);
   letter-spacing: -1px;
 }
 
-.statItem span:not(:first-child) {
-  color: var(--Light-Border-Text-Secondary, #969696);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-/* AnimatedStatNumber renders an inner span. Keep it on the number style. */
 .statItem strong>span {
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
 }
 
+.statItem span:not(:first-child) {
+  color: #4e4e4e;
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
+  font-weight: 400;
+  line-height: var(--Line-height-Small);
+}
+
 /* =========================================================
-   ECOSYSTEM / HOW-WE-WORK TYPOGRAPHY
+   ECOSYSTEM TITLE
    ========================================================= */
 
 .ecosystem {
@@ -591,36 +587,30 @@
 }
 
 .ecosystemTitle {
-  padding: clamp(5rem, 8vw, 8rem) var(--partner-pad) clamp(3.5rem, 6vw, 5.5rem);
+  padding: clamp(3.5rem, 6vw, 6rem) var(--partner-pad) clamp(2.5rem, 4vw, 4rem);
   text-align: center;
 }
 
 .ecosystemTitle .eyebrow {
   margin: 0 0 12px;
-  color: var(--Light-Border-Text-Tertiary, #b8b8b8);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Tiny, 14px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  color: var(--partner-tertiary);
+  text-align: center;
 }
 
 .ecosystemTitle h2 {
   margin: 0;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-1, 40px);
-  font-style: normal;
+  color: var(--partner-ink);
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Heading-1);
   font-weight: 600;
-  line-height: var(--Line-height-Heading-1, 48px);
-  letter-spacing: -0.5px;
+  line-height: var(--Line-height-Heading-1);
+  letter-spacing: -0.03125rem;
+  text-align: center;
 }
 
 .ecosystemBlock {
   width: 100%;
+  min-width: 0;
 }
 
 .ecosystemBlock[data-tone="light"] {
@@ -638,20 +628,24 @@
   color: #161616;
 }
 
+/* =========================================================
+   ECOSYSTEM HEADERS
+   Text uses the landing IntersectionReveal component.
+   ========================================================= */
+
 .ecosystemHeader {
   display: flex;
   width: 100%;
-  height: 138px;
-  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
+  min-height: 7rem;
+  padding: 1rem var(--partner-pad);
   align-items: center;
   justify-content: space-between;
-  gap: var(--Spacing-32, 32px);
-  border-bottom: 1px solid rgb(0 0 0 / 0.1);
-  box-sizing: border-box;
+  gap: 2rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.08);
 }
 
 .ecosystemHeader[data-tone="dark"] {
-  border-bottom-color: rgb(255 255 255 / 0.14);
+  border-bottom-color: rgba(255, 255, 255, 0.16);
 }
 
 .ecosystemIdentity {
@@ -671,13 +665,11 @@
 
 .ecosystemIdentity h3 {
   margin: 0;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
+  color: var(--partner-ink);
   font-family: var(--font-exo-2), "Exo 2", sans-serif;
-  font-size: var(--Font-size-Heading-2, 32px);
-  font-style: normal;
+  font-size: var(--Font-size-Heading-2);
   font-weight: 600;
-  line-height: var(--Line-height-Heading-2, 40px);
+  line-height: var(--Line-height-Heading-2);
 }
 
 .ecosystemHeader[data-tone="dark"] .ecosystemIdentity h3 {
@@ -696,17 +688,15 @@
 .ecosystemIntro p {
   width: min(100%, 500px);
   margin: 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
+  color: var(--partner-muted);
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
   font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
+  line-height: var(--Line-height-Small);
 }
 
 .ecosystemHeader[data-tone="dark"] .ecosystemIntro p {
-  color: rgb(255 255 255 / 0.68);
+  color: rgba(255, 255, 255, 0.68);
 }
 
 .pillLink {
@@ -715,19 +705,14 @@
   height: 48px;
   padding: 0 18px;
   flex: 0 0 auto;
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-4, 4px);
-  border-radius: var(--Corner-radius-32, 32px);
-  background: var(--Fill-Warning-strong-2, #8f6c1a);
-  color: var(--Text-Inverse-strong, #fff);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
+  gap: 4px;
+  border-radius: 32px;
+  background: var(--partner-gold);
+  color: #fff;
   font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Tiny, 14px);
-  font-style: normal;
+  font-size: 14px;
   font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  line-height: 20px;
 }
 
 .pillLink svg {
@@ -736,2857 +721,25 @@
 }
 
 /* =========================================================
-   ECOSYSTEM MEDIA RAILS
+   OTT / FILMY DRAGGABLE YOUTUBE RAILS
    ========================================================= */
 
 .mediaRailWrap {
-  padding: clamp(2rem, 4vw, 4rem) 0 clamp(2.4rem, 4.5vw, 4.5rem);
-}
-
-.mediaRail {
-  display: flex;
-  gap: clamp(0.7rem, 1.5vw, 1.4rem);
   width: 100%;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  padding-inline: var(--partner-pad);
-  scroll-snap-type: x mandatory;
-}
-
-.mediaRail::-webkit-scrollbar {
-  display: none;
-}
-
-.mediaCard {
-  position: relative;
-  width: min(44rem, 52vw);
-  aspect-ratio: 16 / 9;
-  flex: 0 0 auto;
-  margin: 0;
-  overflow: hidden;
-  scroll-snap-align: start;
-  background: #ddd;
-}
-
-.mediaCard:nth-child(n + 2) {
-  width: min(25rem, 28vw);
-}
-
-.mediaCardImage {
-  object-fit: cover;
-  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* =========================================================
-   STUDIO LAYERED SHOWCASE
-   ========================================================= */
-
-.studioShowcase {
-  position: relative;
-  min-height: clamp(34rem, 65vw, 64rem);
-  overflow: hidden;
-  background: #000;
-}
-
-.studioShowcase h3 {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  z-index: 2;
-  margin: 0;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: 88px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 110px;
-  letter-spacing: 0;
-  text-align: center;
-}
-
-.studioPrimary,
-.studioSecondary {
-  position: absolute;
-  margin: 0;
-  overflow: hidden;
-  background: #111;
-}
-
-.studioPrimary {
-  left: var(--partner-pad);
-  bottom: clamp(2rem, 8vw, 8rem);
-  width: min(42rem, 43vw);
-  aspect-ratio: 16 / 9;
-}
-
-.studioSecondary {
-  top: clamp(2rem, 6vw, 6rem);
-  right: var(--partner-pad);
-  width: min(26rem, 28vw);
-  aspect-ratio: 4 / 5;
-}
-
-.studioImage {
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.05);
-}
-
-/* =========================================================
-   AI PARTNERS
-   Full ecosystem frame: 138px header + collaboration area.
-   ========================================================= */
-
-.ecosystemBlock[data-section="ai"] {
-  display: flex;
-  width: 100%;
-  min-height: 100svh;
-  flex-direction: column;
-  background: var(--BrandPrimary-50, #f5f1eb);
-}
-
-.ecosystemBlock[data-section="ai"] .ecosystemHeader {
-  flex: 0 0 138px;
-}
-
-.aiPartners {
-  display: flex;
-  width: 100%;
-  min-height: 0;
-  flex: 1 1 auto;
-  padding: 32px 56px 56px;
-  align-items: stretch;
-  gap: 32px;
-  background: var(--BrandPrimary-50, #f5f1eb);
-  box-sizing: border-box;
-}
-
-.aiPartnerCard {
-  display: flex;
-  min-width: 0;
-  min-height: 0;
-  flex: 1 1 0;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  align-self: stretch;
-  padding: 24px 16px;
-  background: transparent;
-  box-sizing: border-box;
-}
-
-.aiBrandLockup {
-  display: flex;
-  width: 100%;
-  min-height: 175px;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  align-self: stretch;
-}
-
-.aiBrandLockup img {
-  display: block;
-  width: auto;
-  height: 175px;
-  max-width: calc((100% - 65px) / 2);
-  object-fit: contain;
-  flex: 0 1 auto;
-}
-
-.aiAbhijatLogo {
-  width: auto !important;
-  height: 175px !important;
-}
-
-.aiZMarathiLogo {
-  width: auto !important;
-  height: 175px !important;
-  filter: brightness(0) saturate(100%);
-  mix-blend-mode: normal;
-}
-
-.aiLaminarLogo {
-  width: auto !important;
-  height: 175px !important;
-}
-
-.aiBrandDivider {
-  width: 1px;
-  height: 96px;
-  flex: 0 0 1px;
-  background: rgb(26 26 26 / 0.14);
-}
-
-.aiPartnerCard p {
-  width: 100%;
-  max-width: 390px;
-  margin: 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-/* =========================================================
-   FINAL CTA
-   ========================================================= */
-
-.finalCta {
-  position: relative;
-  isolation: isolate;
-  min-height: 416px;
-  overflow: hidden;
-  background: #111;
-  color: #fff;
-}
-
-.finalCtaImageWrap {
-  position: absolute;
-  inset: -2.5rem;
-  z-index: -3;
-}
-
-.finalCtaImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.finalCtaShade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(90deg,
-      rgb(0 0 0 / 0.86) 0%,
-      rgb(0 0 0 / 0.58) 42%,
-      rgb(0 0 0 / 0.1) 77%);
-}
-
-.finalCtaCopy {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  min-height: inherit;
-  max-width: 520px;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 32px;
-}
-
-.finalCtaCopy h2 {
-  max-width: 480px;
-  margin: 0;
-  color: var(--Text-Inverse-strong, #fff);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-1, 40px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Heading-1, 48px);
-  letter-spacing: -0.5px;
-}
-
-.finalCtaCopy .textLink {
-  display: inline-flex;
-  width: fit-content;
-  min-height: 48px;
-  margin-top: 24px;
-  padding: 0 16px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: var(--Corner-radius-8, 8px);
-  background: var(--Light-Border-Text-Primary, #1a1a1a);
-  color: var(--Text-Inverse-strong, #fff);
-  text-align: center;
-  text-decoration: none;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-.finalCtaCopy .textLink svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* =========================================================
-   HOVER / POINTER EFFECTS
-   ========================================================= */
-
-@media (hover: hover) and (pointer: fine) {
-
-  .textLink:hover svg,
-  .pillLink:hover svg {
-    transform: translateX(3px);
-  }
-
-  .filmThumb:hover {
-    opacity: 1;
-  }
-
-  .filmThumb:hover .filmThumbImage {
-    transform: scale(1.045);
-  }
-
-  .partnerTypeCard:hover {
-    border-color: var(--partner-gold);
-    transform: translateY(-0.35rem);
-  }
-
-  .mediaCard:hover .mediaCardImage {
-    transform: scale(1.035);
-  }
-
-  .pillLink:hover {
-    background: #785a13;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (min-width: 900px) {
-  .heroInner {
-    grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
-  }
-}
-
-@media (max-width: 1199px) {
-  .partnerLogoStrip {
-    gap: 56px;
-  }
-}
-
-@media (max-width: 1023px) {
-  .heroInner {
-    min-height: auto;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .ecosystemHeader {
-    height: auto;
-    min-height: 138px;
-    padding: 20px 32px;
-  }
-
-  .ecosystemIntro {
-    flex-basis: 52%;
-    max-width: 46rem;
-  }
-
-  .mediaCard {
-    width: 68vw;
-  }
-
-  .mediaCard:nth-child(n + 2) {
-    width: 42vw;
-  }
-
-  .studioShowcase {
-    min-height: 44rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .filmFeature {
-    min-height: 44rem;
-  }
-
-  .filmCopy {
-    padding-top: 4.75rem;
-    padding-bottom: 12.5rem;
-  }
-
-  .filmStrip {
-    grid-template-columns: repeat(5, 38vw);
-    margin-right: calc(var(--partner-pad) * -1);
-    padding-right: var(--partner-pad);
-  }
-
-  .partnerLogoStrip {
-    gap: 40px;
-  }
-
-  .statsBand {
-    padding-inline: 0;
-  }
-
-  .statItem {
-    min-height: 8.5rem;
-  }
-
-  .ecosystemIntro {
-    grid-template-columns: 1fr;
-    justify-items: start;
-  }
-
-  .studioShowcase {
-    min-height: 39rem;
-  }
-
-  .studioShowcase h3 {
-    top: 48%;
-    width: 90%;
-  }
-
-  .studioPrimary {
-    left: 1rem;
-    bottom: 2.25rem;
-    width: 72vw;
-  }
-
-  .studioSecondary {
-    top: 2rem;
-    right: 1rem;
-    width: 38vw;
-  }
-
-  .ecosystemBlock[data-section="ai"] {
-    min-height: 100svh;
-  }
-
-  .ecosystemBlock[data-section="ai"] .ecosystemHeader {
-    flex-basis: auto;
-  }
-
-  .aiPartners {
-    flex-direction: column;
-    min-height: 0;
-    padding: 32px var(--partner-pad) 40px;
-    gap: 16px;
-  }
-
-  .aiPartnerCard {
-    min-height: 320px;
-    padding: 24px 0;
-  }
-
-  .aiBrandLockup {
-    min-height: 132px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 132px !important;
-  }
-}
-
-@media (max-width: 639px) {
-  .heroInner {
-    padding-top: 5.75rem;
-    padding-bottom: 4.5rem;
-    gap: 2rem;
-  }
-
-  .heroTitleBlock h1,
-  .centeredHeading h2,
-  .ecosystemTitle h2 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -0.4px;
-  }
-
-  .heroIntro .textLink {
-    min-width: 124px;
-  }
-
-  .filmFeature {
-    min-height: 42rem;
-  }
-
-  .filmBackdropImage {
-    object-position: 48% center;
-  }
-
-  .filmCopy {
-    padding-top: 4.5rem;
-    padding-bottom: 11.75rem;
-  }
-
-  .filmCopy h2 {
-    font-size: 44px;
-    line-height: 52px;
-    letter-spacing: -0.75px;
-  }
-
-  .filmCopy>p:not(.filmEyebrow) {
-    font-size: 18px;
-    line-height: 26px;
-  }
-
-  .filmCopy .textLink {
-    font-size: 18px;
-    line-height: 26px;
-  }
-
-  .filmStrip {
-    right: 0;
-    grid-template-columns: repeat(5, 48vw);
-  }
-
-  .partnerLogoStrip {
-    justify-content: flex-start;
-    min-height: 112px;
-    gap: 36px;
-    padding-block: 28px;
-  }
-
-  .partnerLogo {
-    height: 2.4rem;
-  }
-
-  .whoSection {
-    padding-top: 4.5rem;
-    padding-bottom: 5rem;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    margin-top: 3.5rem;
-  }
-
-  .partnerTypeCard {
-    min-height: 0;
-    padding-bottom: 1rem;
-  }
-
-  .partnerNumber,
-  .statItem strong {
-    font-size: 44px;
-    line-height: 52px;
-    letter-spacing: -0.75px;
-  }
-
-  .impactImageWrap {
-    min-height: 19rem;
-  }
-
-  .statsBand {
-    grid-template-columns: 1fr;
-  }
-
-  .statItem+.statItem {
-    border-left: 0;
-    border-top: 1px solid rgb(0 0 0 / 0.12);
-  }
-
-  .statItem {
-    min-height: 7.75rem;
-  }
-
-  .ecosystemHeader {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    gap: 20px;
-    padding: 24px var(--partner-pad);
-  }
-
-  .ecosystemIdentity {
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .ecosystemLogo {
-    width: 36px;
-  }
-
-  .ecosystemIntro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    width: 100%;
-    max-width: none;
-    gap: 16px;
-  }
-
-  .ecosystemIntro p {
-    width: 100%;
-  }
-
-  .ecosystemIdentity h3 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .mediaRailWrap {
-    padding-top: 1.5rem;
-    padding-bottom: 2.5rem;
-  }
-
-  .mediaCard,
-  .mediaCard:nth-child(n + 2) {
-    width: 80vw;
-  }
-
-  .studioShowcase {
-    min-height: 35rem;
-  }
-
-  .studioShowcase h3 {
-    font-size: clamp(56px, 17vw, 88px);
-    line-height: 1.25;
-  }
-
-  .finalCta {
-    min-height: 360px;
-  }
-
-  .finalCtaImage {
-    object-position: 58% center;
-  }
-
-  .finalCtaShade {
-    background: linear-gradient(90deg,
-        rgb(0 0 0 / 0.88) 0%,
-        rgb(0 0 0 / 0.68) 58%,
-        rgb(0 0 0 / 0.28) 100%);
-  }
-
-  .finalCtaCopy h2 {
-    font-size: var(--Font-size-Heading-1, 40px);
-    line-height: var(--Line-height-Heading-1, 48px);
-    letter-spacing: -0.5px;
-  }
-}
-
-@media (max-width: 639px) {
-  .finalCtaCopy {
-    max-width: min(100%, 520px);
-    padding: 24px 20px;
-  }
-
-  .finalCtaCopy h2 {
-    max-width: 420px;
-  }
-}
-
-@media (max-width: 440px) {
-  .page {
-    --partner-pad: 1.125rem;
-  }
-
-  .filmEyebrow {
-    max-width: 19rem;
-  }
-
-  .aiBrandLockup {
-    min-height: 104px;
-    gap: 18px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 104px !important;
-    max-width: calc((100% - 37px) / 2);
-  }
-
-  .aiZMarathiLogo {
-    filter: brightness(0) saturate(100%);
-  }
-
-  .aiBrandDivider {
-    height: 64px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .heroInner {
-    padding-left: max(var(--partner-pad), calc((100vw - 100rem) / 2 + 4rem));
-    padding-right: max(var(--partner-pad), calc((100vw - 100rem) / 2 + 4rem));
-  }
-}
-
-@media (min-width: 1920px) {
-  .page {
-    --partner-pad: 5rem;
-  }
-
-  .filmStrip,
-  .mediaRail,
-  .whoSection,
-  .ecosystemTitle {
-    padding-left: max(var(--partner-pad), calc((100vw - 112rem) / 2));
-    padding-right: max(var(--partner-pad), calc((100vw - 112rem) / 2));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  .filmBackdrop,
-  .studioPrimary,
-  .studioSecondary,
-  .finalCtaImageWrap {
-    transform: none !important;
-  }
-
-  .filmThumb,
-  .filmThumbImage,
-  .mediaCardImage,
-  .partnerTypeCard,
-  .textLink svg,
-  .pillLink svg {
-    transition: none !important;
-  }
-
-  .filmThumb[data-active="true"] {
-    transform: none;
-  }
-}
-
-/* =========================================================
-   ABHIJAT MARATHI OTT — REFERENCE LAYOUT
-   Desktop frame follows the 1440px reference supplied by user.
-   ========================================================= */
-
-.ecosystemBlock[data-section="ott"] {
-  background: var(--BrandPrimary-50, #f5f1eb);
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemHeader {
-  display: flex;
-  width: 100%;
-  height: 138px;
-  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--Spacing-32, 32px);
-  border-bottom: 1px solid rgb(26 26 26 / 0.08);
-  background: var(--BrandPrimary-50, #f5f1eb);
-  box-sizing: border-box;
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemIdentity {
-  display: flex;
-  min-width: 0;
-  flex: 1 1 auto;
-  align-items: center;
-  gap: 20px;
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemLogo {
-  width: 42px;
-  height: auto;
-  flex: 0 0 auto;
-  object-fit: contain;
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
-  margin: 0;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--font-exo-2), "Exo 2", sans-serif;
-  font-size: var(--Font-size-Heading-2, 32px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Heading-2, 40px);
-  letter-spacing: 0;
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemIntro {
-  display: flex;
-  min-width: 0;
-  flex: 0 1 55%;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 24px;
-}
-
-.ecosystemBlock[data-section="ott"] .ecosystemIntro p {
-  width: min(100%, 470px);
-  margin: 0;
-  color: var(--Light-Border-Text-Secondary, #969696);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-.ecosystemBlock[data-section="ott"] .pillLink {
-  display: inline-flex;
-  width: auto;
-  min-width: 104px;
-  height: 48px;
-  padding: 0 18px;
-  flex: 0 0 auto;
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-4, 4px);
-  border-radius: var(--Corner-radius-32, 32px);
-  background: var(--Fill-Warning-strong-2, #8f6c1a);
-  color: var(--Text-Inverse-strong, #fff);
-  text-align: center;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Tiny, 14px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
-}
-
-.ecosystemBlock[data-section="ott"] .pillLink svg {
-  width: 16px;
-  height: 16px;
 }
 
 .mediaRailWrap[data-ott-layout="true"] {
-  padding: 40px 0 0;
-  background: var(--BrandPrimary-50, #f5f1eb);
-}
-
-.mediaRailWrap[data-ott-layout="true"] .mediaRail {
-  --ott-media-height: clamp(280px, 31.75vw, 430px);
-
-  gap: 32px;
-  padding-inline: 56px;
-  scroll-padding-inline: 56px;
-  scroll-snap-type: x mandatory;
-}
-
-.mediaRailWrap[data-ott-layout="true"] .mediaCard {
-  width: calc(var(--ott-media-height) * 1.7777778);
-  height: var(--ott-media-height);
-  aspect-ratio: auto;
-  border-radius: 0;
-  background: #d8d2c8;
-  scroll-snap-align: start;
-}
-
-.mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
-  width: calc(var(--ott-media-height) * 0.707);
-  height: var(--ott-media-height);
-  aspect-ratio: auto;
-}
-
-.mediaRailWrap[data-ott-layout="true"] .mediaCardImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.ottMediaControls {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  width: 100%;
-  height: 138px;
-  padding: var(--Spacing-20, 20px) var(--Spacing-56, 56px);
-  align-items: center;
-  gap: var(--Spacing-32, 32px);
-  background: var(--BrandPrimary-50, #f5f1eb);
-  box-sizing: border-box;
-}
-
-.ottSocials {
   display: flex;
-  align-items: center;
-  justify-self: start;
-  gap: 32px;
-}
-
-.ottSocialIcon {
-  display: inline-flex;
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
-  align-items: center;
-  justify-content: center;
-  color: #000;
-}
-
-.ottSocialIcon svg {
-  display: block;
-  width: 32px;
-  height: 32px;
-}
-
-.ottDownload {
-  display: inline-flex;
-  align-items: center;
-  justify-self: center;
-  gap: 16px;
-  color: #000;
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Heading-4, 20px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: var(--Line-height-Heading-4, 28px);
-  white-space: nowrap;
-}
-
-.googlePlayMark,
-.appleMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-}
-
-.googlePlayMark {
-  width: 21px;
-  height: 24px;
-}
-
-.appleMark {
-  width: 20px;
-  height: 24px;
-}
-
-.googlePlayMark svg,
-.appleMark svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.ottRailNav {
-  display: inline-flex;
-  align-items: center;
-  justify-self: end;
-  gap: 12px;
-}
-
-.ottRailButton {
-  display: flex;
-  width: 48px;
-  height: 48px;
-  padding: 0 var(--Spacing-0, 0);
-  flex: 0 0 48px;
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-0, 0);
-  aspect-ratio: 1 / 1;
-  border: 0;
-  border-radius: var(--Corner-radius-8, 8px);
-  background: var(--Fill-Warning-strong, #8f6c1a);
-  color: #fff;
-  cursor: pointer;
-  appearance: none;
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.ottRailButton[data-direction="previous"] svg {
-  transform: rotate(180deg);
-}
-
-.ottRailButton svg {
-  width: 20px;
-  height: 20px;
-}
-
-.ottRailButton:disabled {
-  background: rgb(143 108 26 / 0.09);
-  color: rgb(143 108 26 / 0.24);
-  cursor: default;
-}
-
-.ottRailButton:focus-visible {
-  outline: 2px solid var(--Fill-Warning-strong, #8f6c1a);
-  outline-offset: 3px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .ottRailButton:not(:disabled):hover {
-    background: #785a13;
-    transform: translateY(-1px);
-  }
-}
-
-@media (max-width: 1023px) {
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    height: auto;
-    min-height: 138px;
-    padding: 20px 32px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    flex-basis: 52%;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    gap: 24px;
-    padding-inline: 32px;
-    scroll-padding-inline: 32px;
-  }
-
-  .ottMediaControls {
-    height: 124px;
-    padding: 20px 32px;
-  }
-}
-
-@media (max-width: 767px) {
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    gap: 20px;
-    padding: 24px var(--partner-pad);
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
-    gap: 14px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
-    width: 36px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3 {
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    width: 100%;
-    gap: 16px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p {
-    width: 100%;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .ecosystemBlock[data-section="ott"] .pillLink {
-    min-width: 104px;
-    height: 48px;
-    padding-inline: 18px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] {
-    padding-top: 24px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(214px, 56vw, 310px);
-
-    gap: 16px;
-    padding-inline: var(--partner-pad);
-    scroll-padding-inline: var(--partner-pad);
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard {
-    width: min(82vw, calc(var(--ott-media-height) * 1.7777778));
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
-    width: calc(var(--ott-media-height) * 0.707);
-  }
-
-  .ottMediaControls {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "social nav"
-      "download download";
-    height: auto;
-    min-height: 154px;
-    padding: 24px var(--partner-pad);
-    row-gap: 24px;
-    column-gap: 20px;
-  }
-
-  .ottSocials {
-    grid-area: social;
-    gap: 22px;
-  }
-
-  .ottSocialIcon,
-  .ottSocialIcon svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .ottSocialIcon {
-    flex-basis: 28px;
-  }
-
-  .ottDownload {
-    grid-area: download;
-    justify-self: center;
-    gap: 12px;
-    font-size: 17px;
-    line-height: 24px;
-  }
-
-  .ottRailNav {
-    grid-area: nav;
-  }
-
-  .ottRailButton {
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
-  }
-}
-
-@media (max-width: 440px) {
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    grid-template-columns: 1fr;
-  }
-
-  .ecosystemBlock[data-section="ott"] .pillLink {
-    justify-self: start;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: 208px;
-  }
-
-  .ottMediaControls {
-    grid-template-columns: 1fr auto;
-    padding-top: 22px;
-    padding-bottom: 22px;
-  }
-
-  .ottSocials {
-    gap: 18px;
-  }
-
-  .ottDownload {
-    justify-self: start;
-    font-size: 16px;
-    line-height: 22px;
-  }
-}
-
-/* =========================================================
-   ECOSYSTEM FRAME NORMALIZATION + FILMY REFERENCE PASS
-   Each Abhijat ecosystem block occupies one viewport frame on desktop.
-   ========================================================= */
-
-@media (min-width: 768px) {
-
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    display: flex;
-    width: 100%;
-    min-height: 100svh;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .ecosystemBlock[data-section="ott"]>.ecosystemHeader,
-  .ecosystemBlock[data-section="studios"]>.ecosystemHeader,
-  .ecosystemBlock[data-section="ai"]>.ecosystemHeader,
-  .ecosystemBlock[data-section="filmy"]>.ecosystemHeader {
-    flex: 0 0 138px;
-  }
-
-  .ecosystemBlock[data-section="studios"] .studioShowcase {
-    min-height: calc(100svh - 138px);
-    flex: 1 1 auto;
-  }
-
-  .ecosystemBlock[data-section="ott"] .mediaRailWrap,
-  .ecosystemBlock[data-section="filmy"] .mediaRailWrap {
-    min-height: 0;
-    flex: 1 1 auto;
-  }
-}
-
-/* =========================================================
-   ABHIJAT MARATHI FILMY — supplied reference layout
-   ========================================================= */
-
-.ecosystemBlock[data-section="filmy"] {
-  background: #f3e4bf;
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  margin-bottom: 32px;
-}
-
-.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
-  background: #f3e4bf;
-  border-bottom-color: rgb(26 26 26 / 0.08);
-}
-
-.ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--font-exo-2), "Exo 2", sans-serif;
-  font-size: var(--Font-size-Heading-2, 32px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: var(--Line-height-Heading-2, 40px);
-}
-
-.ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
-  color: var(--Light-Border-Text-Primary, #1a1a1a);
-  font-feature-settings: "liga" off, "clig" off;
-  font-family: var(--Font-family-Body, "Plus Jakarta Sans");
-  font-size: var(--Font-size-Small, 16px);
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--Line-height-Small, 24px);
-}
-
-.ecosystemBlock[data-section="filmy"] .pillLink {
-  min-width: 104px;
-  height: 48px;
-  padding: 0 18px;
-  border-radius: var(--Corner-radius-32, 32px);
-  background: var(--Fill-Warning-strong-2, #8f6c1a);
-  color: var(--Text-Inverse-strong, #fff);
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: var(--Font-size-Tiny, 14px);
-  font-weight: 600;
-  line-height: var(--Line-height-Tiny, 20px);
+  min-height: 0;
+  flex-direction: column;
+  background: var(--partner-cream);
 }
 
 .mediaRailWrap[data-filmy-layout="true"] {
   display: flex;
   min-height: 0;
   flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(36px, 5vh, 56px) 0 0;
-  background: #f3e4bf;
-}
-
-.mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-  --filmy-media-height: clamp(260px, 31vw, 400px);
-
-  display: flex;
-  gap: 32px;
-  width: 100%;
-  padding-inline: 56px;
-  scroll-padding-inline: 56px;
-  align-items: center;
-  scroll-snap-type: x mandatory;
-}
-
-.mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-.mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-  width: calc(var(--filmy-media-height) * 1.7777778);
-  height: var(--filmy-media-height);
-  aspect-ratio: auto;
-  flex: 0 0 auto;
-  border-radius: 0;
-  background: #d8cba8;
-  scroll-snap-align: start;
-}
-
-.mediaRailWrap[data-filmy-layout="true"] .mediaCardImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.filmyMediaControls {
-  display: flex;
-  width: 100%;
-  min-height: 120px;
-  padding: 20px 56px 28px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  background: #f3e4bf;
-  box-sizing: border-box;
-}
-
-.filmySocials {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.filmySocialIcon {
-  display: inline-flex;
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.26);
-  color: #000;
-}
-
-.filmySocialIcon svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-.filmyRailNav {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Slightly taller closing story frame, per latest reference note. */
-.finalCta {
-  min-height: 480px;
-}
-
-@media (max-width: 1023px) {
-  .mediaRailWrap[data-filmy-layout="true"] {
-    padding-top: 32px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(240px, 39vw, 340px);
-
-    gap: 24px;
-    padding-inline: 32px;
-    scroll-padding-inline: 32px;
-  }
-
-  .filmyMediaControls {
-    min-height: 108px;
-    padding: 18px 32px 24px;
-  }
-}
-
-@media (max-width: 767px) {
-
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    min-height: 0;
-    overflow: visible;
-  }
-
-  .ecosystemBlock[data-section="filmy"] {
-    margin-bottom: 24px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] {
-    padding-top: 24px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(210px, 52vw, 300px);
-
-    gap: 16px;
-    padding-inline: var(--partner-pad);
-    scroll-padding-inline: var(--partner-pad);
-  }
-
-  .filmyMediaControls {
-    min-height: 96px;
-    padding: 18px var(--partner-pad) 24px;
-  }
-
-  .filmySocials {
-    gap: 12px;
-  }
-
-  .filmySocialIcon {
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
-  }
-
-  .filmySocialIcon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .finalCta {
-    min-height: 400px;
-  }
-}
-
-@media (min-width: 768px) {
-  .ecosystemBlock[data-section="ott"] .mediaRailWrap[data-ott-layout="true"] {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-}
-
-/* =========================================================
-   FINAL RESPONSIVE SYSTEM
-   Approved 1440px typography/layout values remain the desktop target.
-   Everything below scales progressively for laptop, tablet and mobile.
-   ========================================================= */
-
-.heroTitleBlock h1,
-.filmCopy h2,
-.centeredHeading h2,
-.ecosystemTitle h2,
-.ecosystemIdentity h3,
-.studioShowcase h3,
-.finalCtaCopy h2 {}
-
-.heroIntro>p,
-.filmCopy>p:not(.filmEyebrow),
-.whoDescription,
-.partnerTypeCard p,
-.ecosystemIntro p,
-.aiPartnerCard p {
-  overflow-wrap: anywhere;
-}
-
-.partnerTypeCard,
-.ecosystemHeader,
-.ecosystemIdentity,
-.ecosystemIntro,
-.mediaRail,
-.aiPartnerCard,
-.aiBrandLockup,
-.finalCtaCopy {
-  min-width: 0;
-}
-
-/* Keep all ecosystem CTAs physically identical at every width. */
-.pillLink,
-.ecosystemBlock[data-section="ott"] .pillLink,
-.ecosystemBlock[data-section="filmy"] .pillLink {
-  min-width: 104px;
-  height: 48px;
-  padding: 0 18px;
-  flex: 0 0 auto;
-  border-radius: 32px;
-  gap: 4px;
-  font-family: var(--font-inter), Inter, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-}
-
-/* 1440 design target and larger desktops. */
-@media (min-width: 1200px) {
-  .heroInner {
-    min-height: clamp(500px, 52svh, 592px);
-    padding-left: 56px;
-    padding-right: 56px;
-    gap: clamp(64px, 6vw, 96px);
-  }
-
-  .heroTitleBlock h1,
-  .centeredHeading h2,
-  .ecosystemTitle h2,
-  .finalCtaCopy h2 {
-    font-size: 40px;
-    line-height: 48px;
-    letter-spacing: -0.5px;
-  }
-
-  .filmCopy h2,
-  .partnerNumber,
-  .statItem strong {
-    font-size: 56px;
-    line-height: 64px;
-    letter-spacing: -1px;
-  }
-
-  .filmCopy>p:not(.filmEyebrow) {
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  .partnerLogoStrip {
-    gap: 72px;
-    padding-inline: 56px;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    height: 138px;
-    min-height: 138px;
-    padding: 20px 56px;
-    gap: 32px;
-  }
-
-  .ecosystemIdentity {
-    gap: 20px;
-  }
-
-  .ecosystemLogo,
-  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
-    width: 42px;
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 32px;
-    line-height: 40px;
-  }
-
-  .ecosystemIntro p,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .studioShowcase h3 {
-    font-size: 88px;
-    line-height: 110px;
-  }
-
-  .aiBrandLockup {
-    min-height: 175px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    width: auto !important;
-    height: 175px !important;
-    max-height: 175px;
-  }
-
-  .finalCta {
-    min-height: 480px;
-  }
-}
-
-/* Make full-frame ecosystem layouts react to viewport HEIGHT too,
-   so short laptops do not crop their carousels. */
-@media (min-width: 1024px) {
-
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    min-height: 100svh;
-    height: auto;
-  }
-
-  .ecosystemBlock[data-section="ott"] .mediaRailWrap[data-ott-layout="true"] {
-    min-height: calc(100svh - 138px);
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(248px, min(31.75vw, calc(100svh - 330px)), 430px);
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(248px, min(31vw, calc(100svh - 310px)), 400px);
-  }
-
-  .ecosystemBlock[data-section="studios"] .studioShowcase {
-    min-height: calc(100svh - 138px);
-  }
-}
-
-/* Laptop / small desktop. */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .page {
-    --partner-pad: 40px;
-  }
-
-  .heroInner {
-    padding: 96px 40px 72px;
-    gap: 56px;
-  }
-
-  .filmFeature {
-    min-height: clamp(680px, 78svh, 820px);
-  }
-
-  .filmCopy {
-    padding: 80px 40px 210px;
-  }
-
-  .filmStrip {
-    left: 40px;
-    right: 40px;
-  }
-
-  .partnerLogoStrip {
-    gap: 48px;
-    padding-inline: 40px;
-  }
-
-  .whoSection,
-  .ecosystemTitle {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    height: 138px;
-    min-height: 138px;
-    padding: 20px 40px;
-    gap: 24px;
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .ecosystemIntro,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    flex-basis: 58%;
-    gap: 18px;
-  }
-
-  .ecosystemIntro p,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    gap: 24px;
-    padding-inline: 40px;
-    scroll-padding-inline: 40px;
-  }
-
-  .ottMediaControls,
-  .filmyMediaControls {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .studioShowcase h3 {
-    font-size: clamp(68px, 7.1vw, 84px);
-    line-height: 1.22;
-  }
-
-  .aiPartners {
-    padding: 28px 40px 44px;
-    gap: 24px;
-  }
-
-  .aiPartnerCard {
-    gap: 24px;
-    padding-inline: 12px;
-  }
-
-  .aiBrandLockup {
-    min-height: 142px;
-    gap: 24px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 142px !important;
-    max-height: 142px;
-  }
-
-  .aiBrandDivider {
-    height: 82px;
-  }
-}
-
-/* Tablet: simplify composition before text starts colliding. */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .page {
-    --partner-pad: 32px;
-    --Font-size-Tiny: 13px;
-    --Font-size-Small: 15px;
-    --Font-size-Heading-4: 18px;
-    --Font-size-Heading-2: 27px;
-    --Font-size-Heading-1: 34px;
-    --Font-size-Display: 46px;
-    --Line-height-Tiny: 19px;
-    --Line-height-Small: 22px;
-    --Line-height-Heading-4: 26px;
-    --Line-height-Heading-2: 35px;
-    --Line-height-Heading-1: 42px;
-    --Line-height-Display: 54px;
-  }
-
-  .heroInner {
-    grid-template-columns: 1fr;
-    min-height: 0;
-    padding: 96px 32px 72px;
-    gap: 30px;
-  }
-
-  .heroTitleBlock h1 {
-    max-width: 680px;
-  }
-
-  .heroIntro {
-    max-width: 680px;
-  }
-
-  .filmFeature {
-    min-height: 700px;
-  }
-
-  .filmCopy {
-    max-width: 700px;
-    padding: 72px 32px 210px;
-  }
-
-  .filmCopy h2 {
-    font-size: 48px;
-    line-height: 56px;
-  }
-
-  .filmStrip {
-    left: 32px;
-    right: 0;
-    grid-template-columns: repeat(5, 30vw);
-    gap: 12px;
-    padding-right: 32px;
-  }
-
-  .partnerLogoStrip {
-    justify-content: flex-start;
-    min-height: 120px;
-    gap: 40px;
-    padding: 28px 32px;
-  }
-
-  .partnerLogo {
-    height: clamp(36px, 4.8vw, 50px);
-  }
-
-  .whoSection {
-    padding: 72px 32px;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 40px;
-    row-gap: 36px;
-    margin-top: 56px;
-  }
-
-  .impactImageWrap {
-    min-height: clamp(360px, 52vw, 520px);
-  }
-
-  .statItem {
-    min-height: 136px;
-  }
-
-  .ecosystemTitle {
-    padding: 72px 32px 48px;
-  }
-
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    display: flex;
-    min-height: 100svh;
-    height: auto;
-    flex-direction: column;
-    overflow: visible;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    flex: 0 0 auto;
-    padding: 24px 32px;
-    gap: 18px;
-  }
-
-  .ecosystemIdentity,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
-    gap: 16px;
-  }
-
-  .ecosystemLogo,
-  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
-    width: 38px;
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 27px;
-    line-height: 35px;
-  }
-
-  .ecosystemIntro,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    width: 100%;
-    max-width: none;
-    gap: 20px;
-  }
-
-  .ecosystemIntro p,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
-    width: 100%;
-    max-width: 620px;
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"],
-  .mediaRailWrap[data-filmy-layout="true"] {
-    flex: 1 1 auto;
-    padding-top: 28px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(230px, min(38vw, calc(100svh - 330px)), 330px);
-    gap: 20px;
-    padding-inline: 32px;
-    scroll-padding-inline: 32px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(230px, min(37vw, calc(100svh - 310px)), 320px);
-    gap: 20px;
-    padding-inline: 32px;
-    scroll-padding-inline: 32px;
-  }
-
-  .ottMediaControls {
-    height: auto;
-    min-height: 116px;
-    padding: 18px 32px;
-  }
-
-  .filmyMediaControls {
-    min-height: 104px;
-    padding: 18px 32px 22px;
-  }
-
-  .ottDownload {
-    font-size: 18px;
-    line-height: 26px;
-  }
-
-  .studioShowcase {
-    min-height: max(600px, calc(100svh - 170px));
-  }
-
-  .studioShowcase h3 {
-    font-size: clamp(54px, 8.5vw, 72px);
-    line-height: 1.22;
-  }
-
-  .studioPrimary {
-    left: 32px;
-    width: min(56vw, 560px);
-  }
-
-  .studioSecondary {
-    right: 32px;
-    width: min(32vw, 300px);
-  }
-
-  .aiPartners {
-    flex: 1 1 auto;
-    padding: 28px 32px 40px;
-    gap: 20px;
-  }
-
-  .aiPartnerCard {
-    gap: 22px;
-    padding: 20px 10px;
-  }
-
-  .aiBrandLockup {
-    min-height: 112px;
-    gap: 20px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 112px !important;
-    max-height: 112px;
-    max-width: calc((100% - 41px) / 2);
-  }
-
-  .aiBrandDivider {
-    height: 70px;
-  }
-
-  .aiPartnerCard p {
-    max-width: 330px;
-  }
-
-  .finalCta {
-    min-height: 440px;
-  }
-
-  .finalCtaCopy {
-    max-width: 500px;
-    padding: 32px;
-  }
-}
-
-/* Phones / portrait tablets. */
-@media (max-width: 767px) {
-  .page {
-    --partner-pad: clamp(18px, 5.2vw, 24px);
-    --Font-size-Tiny: 12px;
-    --Font-size-Small: 14px;
-    --Font-size-Heading-4: 16px;
-    --Font-size-Heading-2: 24px;
-    --Font-size-Heading-1: 30px;
-    --Font-size-Display: 40px;
-    --Line-height-Tiny: 18px;
-    --Line-height-Small: 20px;
-    --Line-height-Heading-4: 24px;
-    --Line-height-Heading-2: 32px;
-    --Line-height-Heading-1: 38px;
-    --Line-height-Display: 48px;
-  }
-
-  .heroInner {
-    display: grid;
-    grid-template-columns: 1fr;
-    min-height: 0;
-    padding: 88px var(--partner-pad) 56px;
-    gap: 28px;
-  }
-
-  .heroTitleBlock h1,
-  .centeredHeading h2,
-  .ecosystemTitle h2 {
-    font-size: var(--Font-size-Heading-1);
-    line-height: var(--Line-height-Heading-1);
-    letter-spacing: -0.4px;
-  }
-
-  .heroIntro>p {
-    max-width: 100%;
-  }
-
-  .heroIntro .textLink {
-    min-width: 120px;
-    height: 48px;
-    margin-top: 20px;
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .filmFeature {
-    min-height: 660px;
-  }
-
-  .filmBackdrop {
-    inset: -24px 0;
-  }
-
-  .filmCopy {
-    max-width: 100%;
-    padding: 56px var(--partner-pad) 190px;
-  }
-
-  .filmCopy h2 {
-    font-size: 40px;
-    line-height: 48px;
-    letter-spacing: -0.7px;
-  }
-
-  .filmCopy>p:not(.filmEyebrow) {
-    max-width: 100%;
-    margin-top: 12px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .filmCopy .textLink {
-    margin-top: 20px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .filmStrip {
-    left: var(--partner-pad);
-    right: 0;
-    bottom: 20px;
-    grid-template-columns: repeat(5, 44vw);
-    gap: 10px;
-    padding-right: var(--partner-pad);
-  }
-
-  .filmThumbIndex {
-    font-size: 10px;
-    line-height: 14px;
-  }
-
-  .partnerLogoStrip {
-    justify-content: flex-start;
-    min-height: 104px;
-    gap: 32px;
-    padding: 24px var(--partner-pad);
-  }
-
-  .partnerLogo {
-    height: 36px;
-    max-width: 150px;
-  }
-
-  .whoSection {
-    padding: 56px var(--partner-pad) 64px;
-  }
-
-  .whoEyebrow {
-    margin-bottom: 10px;
-  }
-
-  .whoDescription {
-    margin-top: 12px;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: 1fr;
-    margin-top: 44px;
-    row-gap: 24px;
-  }
-
-  .partnerTypeCard {
-    min-height: 0;
-    padding-bottom: 18px;
-  }
-
-  .partnerNumber,
-  .statItem strong {
-    font-size: 40px;
-    line-height: 48px;
-    letter-spacing: -0.7px;
-  }
-
-  .partnerTypeCard h3 {
-    margin-top: 12px;
-    font-size: 18px;
-    line-height: 26px;
-  }
-
-  .partnerTypeCard p {
-    margin-top: 6px;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .impactImageWrap {
-    min-height: 300px;
-  }
-
-  .statsBand {
-    grid-template-columns: 1fr;
-    padding-inline: 0;
-  }
-
-  .statItem {
-    min-height: 112px;
-    gap: 4px;
-  }
-
-  .statItem+.statItem {
-    border-left: 0;
-    border-top: 1px solid rgb(0 0 0 / 0.12);
-  }
-
-  .statItem span:not(:first-child) {
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .ecosystemTitle {
-    padding: 56px var(--partner-pad) 40px;
-  }
-
-  .ecosystemTitle .eyebrow {
-    margin-bottom: 10px;
-  }
-
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    display: flex;
-    min-height: 0;
-    height: auto;
-    flex-direction: column;
-    overflow: visible;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-    padding: 22px var(--partner-pad);
-    gap: 18px;
-  }
-
-  .ecosystemIdentity,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity {
-    align-items: center;
-    gap: 12px;
-  }
-
-  .ecosystemLogo,
-  .ecosystemBlock[data-section="ott"] .ecosystemLogo {
-    width: 34px;
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  .ecosystemIntro,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    width: 100%;
-    max-width: none;
-    gap: 14px;
-  }
-
-  .ecosystemIntro p,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
-    width: 100%;
-    max-width: none;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"],
-  .mediaRailWrap[data-filmy-layout="true"] {
-    padding-top: 22px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(204px, 57vw, 286px);
-    gap: 14px;
-    padding-inline: var(--partner-pad);
-    scroll-padding-inline: var(--partner-pad);
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard {
-    width: min(86vw, calc(var(--ott-media-height) * 1.7777778));
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2) {
-    width: calc(var(--ott-media-height) * 0.707);
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(200px, 55vw, 280px);
-    gap: 14px;
-    padding-inline: var(--partner-pad);
-    scroll-padding-inline: var(--partner-pad);
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-    width: min(86vw, calc(var(--filmy-media-height) * 1.7777778));
-  }
-
-  .ottMediaControls {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "social nav"
-      "download download";
-    height: auto;
-    min-height: 148px;
-    padding: 20px var(--partner-pad);
-    row-gap: 22px;
-    column-gap: 16px;
-  }
-
-  .ottSocials {
-    grid-area: social;
-    gap: 20px;
-  }
-
-  .ottSocialIcon,
-  .ottSocialIcon svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .ottSocialIcon {
-    flex-basis: 28px;
-  }
-
-  .ottDownload {
-    grid-area: download;
-    justify-self: start;
-    gap: 12px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .ottRailNav {
-    grid-area: nav;
-  }
-
-  .ottRailButton {
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
-  }
-
-  .studioShowcase {
-    min-height: 540px;
-  }
-
-  .studioShowcase h3 {
-    top: 49%;
-    width: 92%;
-    font-size: 48px;
-    line-height: 60px;
-  }
-
-  .studioPrimary {
-    left: var(--partner-pad);
-    bottom: 32px;
-    width: 72vw;
-  }
-
-  .studioSecondary {
-    top: 32px;
-    right: var(--partner-pad);
-    width: 39vw;
-  }
-
-  .aiPartners {
-    flex-direction: column;
-    min-height: 0;
-    padding: 28px var(--partner-pad) 36px;
-    gap: 10px;
-  }
-
-  .aiPartnerCard {
-    min-height: 250px;
-    gap: 18px;
-    padding: 20px 0;
-  }
-
-  .aiBrandLockup {
-    min-height: 96px;
-    gap: 16px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 96px !important;
-    max-height: 96px;
-    max-width: calc((100% - 33px) / 2);
-  }
-
-  .aiZMarathiLogo {
-    filter: brightness(0) saturate(100%);
-    mix-blend-mode: normal;
-  }
-
-  .aiBrandDivider {
-    height: 58px;
-  }
-
-  .aiPartnerCard p {
-    max-width: 340px;
-    font-size: 14px;
-    line-height: 20px;
-  }
-
-  .ecosystemBlock[data-section="filmy"] {
-    margin-bottom: 24px;
-  }
-
-  .filmyMediaControls {
-    min-height: 92px;
-    padding: 16px var(--partner-pad) 22px;
-  }
-
-  .filmySocialIcon {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
-  }
-
-  .filmySocialIcon svg {
-    width: 21px;
-    height: 21px;
-  }
-
-  .finalCta {
-    min-height: 420px;
-  }
-
-  .finalCtaImageWrap {
-    inset: -24px;
-  }
-
-  .finalCtaCopy {
-    max-width: min(88%, 480px);
-    padding: 28px var(--partner-pad);
-  }
-
-  .finalCtaCopy h2 {
-    max-width: 100%;
-    font-size: 30px;
-    line-height: 38px;
-    letter-spacing: -0.4px;
-  }
-
-  .finalCtaCopy .textLink {
-    min-height: 48px;
-    margin-top: 20px;
-    padding-inline: 14px;
-    font-size: 15px;
-    line-height: 22px;
-  }
-}
-
-/* Small phones. */
-@media (max-width: 479px) {
-  .page {
-    --partner-pad: 18px;
-    --Font-size-Heading-2: 22px;
-    --Font-size-Heading-1: 28px;
-    --Font-size-Display: 36px;
-    --Line-height-Heading-2: 30px;
-    --Line-height-Heading-1: 36px;
-    --Line-height-Display: 44px;
-  }
-
-  .heroInner {
-    padding-top: 82px;
-    padding-bottom: 48px;
-    gap: 24px;
-  }
-
-  .heroTitleBlock h1,
-  .centeredHeading h2,
-  .ecosystemTitle h2 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .filmFeature {
-    min-height: 620px;
-  }
-
-  .filmCopy {
-    padding-top: 48px;
-    padding-bottom: 178px;
-  }
-
-  .filmCopy h2 {
-    font-size: 36px;
-    line-height: 44px;
-  }
-
-  .filmCopy>p:not(.filmEyebrow) {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .filmStrip {
-    grid-template-columns: repeat(5, 54vw);
-  }
-
-  .partnerLogoStrip {
-    min-height: 96px;
-    gap: 28px;
-    padding-block: 22px;
-  }
-
-  .partnerLogo {
-    height: 32px;
-    max-width: 132px;
-  }
-
-  .whoSection {
-    padding-top: 48px;
-    padding-bottom: 56px;
-  }
-
-  .partnerTypeGrid {
-    margin-top: 36px;
-  }
-
-  .partnerNumber,
-  .statItem strong {
-    font-size: 36px;
-    line-height: 44px;
-  }
-
-  .impactImageWrap {
-    min-height: 250px;
-  }
-
-  .ecosystemTitle {
-    padding-top: 48px;
-    padding-bottom: 34px;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    gap: 16px;
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 22px;
-    line-height: 30px;
-  }
-
-  .ecosystemIntro,
-  .ecosystemBlock[data-section="ott"] .ecosystemIntro {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .ecosystemIntro .pillLink,
-  .ecosystemBlock[data-section="ott"] .pillLink,
-  .ecosystemBlock[data-section="filmy"] .pillLink {
-    justify-self: start;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(190px, 58vw, 240px);
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(188px, 57vw, 236px);
-  }
-
-  .ottMediaControls {
-    min-height: 142px;
-    padding-top: 18px;
-    padding-bottom: 18px;
-  }
-
-  .ottSocials {
-    gap: 16px;
-  }
-
-  .ottDownload {
-    font-size: 15px;
-    line-height: 22px;
-  }
-
-  .studioShowcase {
-    min-height: 500px;
-  }
-
-  .studioShowcase h3 {
-    font-size: 42px;
-    line-height: 52px;
-  }
-
-  .studioPrimary {
-    width: 78vw;
-  }
-
-  .studioSecondary {
-    width: 42vw;
-  }
-
-  .aiPartnerCard {
-    min-height: 224px;
-  }
-
-  .aiBrandLockup {
-    min-height: 84px;
-    gap: 12px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 84px !important;
-    max-height: 84px;
-    max-width: calc((100% - 25px) / 2);
-  }
-
-  .aiBrandDivider {
-    height: 50px;
-  }
-
-  .filmyMediaControls {
-    min-height: 84px;
-    padding-top: 14px;
-    padding-bottom: 18px;
-  }
-
-  .filmySocialIcon {
-    width: 40px;
-    height: 40px;
-    flex-basis: 40px;
-  }
-
-  .finalCta {
-    min-height: 400px;
-  }
-
-  .finalCtaCopy {
-    max-width: 92%;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-
-  .finalCtaCopy h2 {
-    font-size: 28px;
-    line-height: 36px;
-  }
-}
-
-/* Extra-small phones: avoid any horizontal collision at 320–360px. */
-@media (max-width: 360px) {
-  .page {
-    --partner-pad: 16px;
-  }
-
-  .heroTitleBlock h1,
-  .centeredHeading h2,
-  .ecosystemTitle h2,
-  .finalCtaCopy h2 {
-    font-size: 26px;
-    line-height: 34px;
-  }
-
-  .filmCopy h2 {
-    font-size: 34px;
-    line-height: 42px;
-  }
-
-  .filmStrip {
-    grid-template-columns: repeat(5, 58vw);
-  }
-
-  .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
-    font-size: 21px;
-    line-height: 28px;
-  }
-
-  .ottMediaControls {
-    column-gap: 10px;
-  }
-
-  .ottSocials {
-    gap: 12px;
-  }
-
-  .ottRailNav,
-  .filmyRailNav {
-    gap: 8px;
-  }
-
-  .ottRailButton {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
-  }
-
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 76px !important;
-    max-height: 76px;
-  }
-}
-
-/* Wide / ultra-wide displays: keep content visually anchored to the 1440px design frame. */
-@media (min-width: 1600px) {
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail,
-  .ottMediaControls,
-  .filmyMediaControls {
-    padding-left: max(56px, calc((100vw - 1440px) / 2 + 56px));
-    padding-right: max(56px, calc((100vw - 1440px) / 2 + 56px));
-  }
-
-  .whoSection,
-  .ecosystemTitle {
-    padding-left: max(56px, calc((100vw - 1600px) / 2 + 56px));
-    padding-right: max(56px, calc((100vw - 1600px) / 2 + 56px));
-  }
-}
-
-/* Short desktop windows need tighter vertical rhythm while retaining the one-frame concept. */
-@media (min-width: 1024px) and (max-height: 700px) {
-  .filmFeature {
-    min-height: 620px;
-  }
-
-  .filmCopy {
-    padding-top: 56px;
-    padding-bottom: 176px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] {
-    padding-top: 24px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail {
-    --ott-media-height: clamp(220px, calc(100svh - 300px), 320px);
-  }
-
-  .ottMediaControls {
-    height: 110px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] {
-    padding-top: 24px;
-  }
-
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    --filmy-media-height: clamp(220px, calc(100svh - 286px), 310px);
-  }
-
-  .filmyMediaControls {
-    min-height: 96px;
-  }
-
-  .aiPartners {
-    padding-top: 20px;
-    padding-bottom: 24px;
-  }
-
-  .aiBrandLockup,
-  .aiBrandLockup img,
-  .aiAbhijatLogo,
-  .aiZMarathiLogo,
-  .aiLaminarLogo {
-    height: 124px !important;
-    min-height: 124px;
-    max-height: 124px;
-  }
-
-  .finalCta {
-    min-height: 420px;
-  }
-}
-
-/* =========================================================
-   FINAL PARTNER PAGE ALIGNMENT + YOUTUBE CAROUSEL PASS
-   17 Sep 2026
-
-   Shared site gutter:
-   mobile  = 20px
-   tablet  = 32px
-   desktop = 56px
-
-   Center-aligned compositions remain centered; every left-aligned
-   heading/content block now resolves from the same page gutter.
-   ========================================================= */
-
-.page {
-  --partner-pad: 20px;
-}
-
-@media (min-width: 640px) {
-  .page {
-    --partner-pad: 32px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .page {
-    --partner-pad: 56px;
-  }
-}
-
-/* ---------------------------------------------------------
-   GLOBAL PAGE-GRID NORMALIZATION
-   --------------------------------------------------------- */
-
-.heroInner {
-  max-width: none;
-  margin-inline: 0;
-  padding-left: var(--partner-pad);
-  padding-right: var(--partner-pad);
-}
-
-.filmCopy,
-.whoSection,
-.ecosystemTitle,
-.ecosystemHeader,
-.ecosystemBlock[data-section="ott"] .ecosystemHeader,
-.partnerLogoStrip,
-.statsBand,
-.aiPartners,
-.finalCtaCopy {
-  padding-left: var(--partner-pad);
-  padding-right: var(--partner-pad);
-}
-
-/* Do not let ultra-wide overrides pull left-aligned content inward. */
-@media (min-width: 1440px) {
-  .heroInner {
-    padding-left: var(--partner-pad);
-    padding-right: var(--partner-pad);
-  }
-}
-
-@media (min-width: 1600px) {
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail,
-  .ottMediaControls,
-  .filmyMediaControls,
-  .whoSection,
-  .ecosystemTitle {
-    padding-left: var(--partner-pad);
-    padding-right: var(--partner-pad);
-  }
-}
-
-@media (min-width: 1920px) {
-  .page {
-    --partner-pad: 56px;
-  }
-}
-
-/* ---------------------------------------------------------
-   HERO / MAKE-YOUR-FILM MINI THUMBNAILS
-   Left aligned to the exact same page grid as BECOME A PARTNER.
-   --------------------------------------------------------- */
-
-.filmStrip {
-  left: var(--partner-pad);
-  right: 0;
-  bottom: 28px;
-  display: flex;
-  width: auto;
-  grid-template-columns: none;
-  justify-content: flex-start;
-  gap: clamp(10px, 1vw, 14px);
-  padding: 4px var(--partner-pad) 4px 0;
-  scroll-padding-left: 0;
-  scroll-snap-type: x proximity;
-}
-
-.filmThumb {
-  width: clamp(150px, 18vw, 260px);
-  min-width: clamp(150px, 18vw, 260px);
-  flex: 0 0 clamp(150px, 18vw, 260px);
-  scroll-snap-align: start;
-}
-
-@media (max-width: 767px) {
-  .filmStrip {
-    left: var(--partner-pad);
-    right: 0;
-    margin-right: 0;
-    padding-right: var(--partner-pad);
-  }
-
-  .filmThumb {
-    width: min(48vw, 220px);
-    min-width: min(48vw, 220px);
-    flex-basis: min(48vw, 220px);
-  }
-}
-
-/* ---------------------------------------------------------
-   STUDIO REVEAL
-   Positioning wrapper keeps the heading centered while the inner
-   motion element is free to animate upward from the bottom.
-   --------------------------------------------------------- */
-
-.studioHeadingPosition {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  width: min(92%, 900px);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.studioHeadingPosition h3,
-.studioShowcase .studioHeadingPosition h3 {
-  position: static;
-  inset: auto;
-  width: 100%;
-  margin: 0;
-  transform: none;
-  text-align: center;
-}
-
-.studioPrimary {
-  left: var(--partner-pad);
-}
-
-.studioSecondary {
-  right: var(--partner-pad);
-}
-
-/* ---------------------------------------------------------
-   MEDIA RAIL STAGE
-   On tall screens the carousel sits vertically centered inside the
-   space left between the fixed ecosystem header and bottom controls.
-   --------------------------------------------------------- */
-
-.mediaRailWrap[data-ott-layout="true"],
-.mediaRailWrap[data-filmy-layout="true"] {
-  display: flex;
-  min-height: 0;
-  flex: 1 1 auto;
-  flex-direction: column;
-  justify-content: stretch;
-  padding: 0;
+  background: var(--partner-warm);
 }
 
 .mediaRailStage {
@@ -3595,10 +748,20 @@
   min-height: 0;
   flex: 1 1 auto;
   align-items: center;
-  padding-block: clamp(24px, 4vh, 48px);
+  padding-block: clamp(2rem, 4vh, 3rem);
 }
 
 .mediaRail {
+  display: flex;
+  width: 100%;
+  gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  padding-inline: var(--partner-pad);
+  scroll-padding-inline: var(--partner-pad);
+  scroll-snap-type: x mandatory;
   cursor: grab;
   user-select: none;
   touch-action: pan-y pinch-zoom;
@@ -3606,48 +769,27 @@
 
 .mediaRail[data-dragging="true"] {
   cursor: grabbing;
-  scroll-snap-type: none !important;
+  scroll-snap-type: none;
 }
 
-.mediaRailWrap[data-ott-layout="true"] .mediaRail,
-.mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-  width: 100%;
-  gap: clamp(16px, 2vw, 32px);
-  padding-left: var(--partner-pad);
-  padding-right: var(--partner-pad);
-  scroll-padding-left: var(--partner-pad);
-  scroll-padding-right: var(--partner-pad);
-  align-items: center;
-  scroll-snap-type: x mandatory;
-}
-
-/* Every supplied OTT / Filmy YouTube item uses a true 16:9 card. */
-.mediaRailWrap[data-ott-layout="true"] .mediaCard,
-.mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
-.mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-.mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-  --partner-youtube-height: clamp(238px,
-      min(30vw, calc(100svh - 360px)),
-      420px);
-
+.mediaCard {
+  position: relative;
+  --partner-youtube-height: clamp(238px, min(30vw, calc(100svh - 360px)), 420px);
   width: calc(var(--partner-youtube-height) * 1.7777778);
   height: var(--partner-youtube-height);
   aspect-ratio: 16 / 9;
   flex: 0 0 auto;
+  margin: 0;
+  overflow: hidden;
   border-radius: 8px;
   background: #0d0d0d;
   scroll-snap-align: start;
 }
 
-/* ---------------------------------------------------------
-   YOUTUBE THUMBNAIL -> EMBED
-   First click activates the real embed; before activation the full
-   thumbnail surface remains available for mouse/touch drag gestures.
-   --------------------------------------------------------- */
-
-.mediaCard[data-media-kind="youtube"] {
-  isolation: isolate;
-  overflow: hidden;
+.mediaCardImage {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .youtubeEmbed,
@@ -3692,10 +834,7 @@
 
 .youtubeShade {
   z-index: 1;
-  background: linear-gradient(180deg,
-      rgb(0 0 0 / 0.02) 0%,
-      rgb(0 0 0 / 0.06) 55%,
-      rgb(0 0 0 / 0.22) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.22));
   pointer-events: none;
 }
 
@@ -3719,619 +858,288 @@
   height: 64px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .youtubeActivator:hover .youtubeThumbnail {
-    transform: scale(1.035);
-  }
-
-  .youtubeActivator:hover .youtubePlay {
-    transform: translate(-50%, -50%) scale(1.04);
-  }
-}
-
-/* ---------------------------------------------------------
-   CONTROLS / GUTTERS
-   --------------------------------------------------------- */
-
-.ottMediaControls,
-.filmyMediaControls {
-  padding-left: var(--partner-pad);
-  padding-right: var(--partner-pad);
-}
-
-/* ---------------------------------------------------------
-   TABLET / MOBILE MEDIA SIZING
-   --------------------------------------------------------- */
-
-@media (max-width: 1023px) {
-  .mediaRailStage {
-    padding-block: 28px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard,
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-    --partner-youtube-height: clamp(220px, 38vw, 330px);
-  }
-}
-
-@media (max-width: 767px) {
-  .mediaRailStage {
-    flex: 0 0 auto;
-    padding-block: 24px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaRail,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaRail {
-    gap: 16px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard,
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-    width: min(84vw, 620px);
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-
-  .youtubePlay,
-  .youtubePlay svg {
-    width: 54px;
-    height: 54px;
-  }
-}
-
-/* Very tall displays: keep the rail centered rather than pinned to the top. */
-@media (min-width: 1024px) and (min-height: 850px) {
-  .mediaRailStage {
-    align-items: center;
-    padding-top: 32px;
-    padding-bottom: 32px;
-  }
-}
-
-/* Short desktop windows still fit without cropping the rail. */
-@media (min-width: 1024px) and (max-height: 700px) {
-  .mediaRailStage {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard,
-  .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
-    --partner-youtube-height: clamp(210px, calc(100svh - 350px), 310px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-  .youtubeThumbnail,
-  .youtubePlay {
-    transition: none !important;
-  }
-}
-
 /* =========================================================
-   PARTNER PAGE — FULL-WIDTH / RESPONSIVE FINAL OVERRIDES
-
-   Only adjusts:
-   - top partner header width + vertical spacing
-   - brand logo strip width + spacing
-   - Who Can Partner width + vertical spacing
+   OTT CONTROLS
    ========================================================= */
-
-/* ---------------------------------------------------------
-   TOP PARTNER HEADER
-
-   Navbar spacing is NOT added again here.
-   The page/header layout should own the navbar height.
-   --------------------------------------------------------- */
-
-.hero {
-  width: 100%;
-  max-width: none;
-  padding-top: 0;
-  background: #fff;
-}
-
-.heroInner {
-  display: flex;
-
-  width: 100%;
-  max-width: none;
-  min-height: 0;
-
-  margin: 0;
-
-  /* Reduced top + bottom spacing */
-  padding: 3.5rem var(--Spacing-56, 3.5rem);
-
-  flex-direction: column;
-  align-items: center;
-
-  gap: var(--Spacing-56, 3.5rem);
-}
-
-.heroTitleBlock,
-.heroIntro {
-  width: 100%;
-  min-width: 0;
-  align-self: stretch;
-}
-
-/* Keep the frame full-width even on large / ultra-wide screens. */
-@media (min-width: 1440px) {
-  .heroInner {
-    width: 100%;
-    max-width: none;
-
-    margin: 0;
-
-    padding-left: var(--Spacing-56, 3.5rem);
-    padding-right: var(--Spacing-56, 3.5rem);
-  }
-}
-
-/* ---------------------------------------------------------
-   PARTNER BRAND LOGOS — FULL WIDTH
-   --------------------------------------------------------- */
-
-.partnerLogoStrip {
-  display: flex;
-
-  width: 100%;
-  max-width: none;
-  min-height: 7rem;
-
-  margin: 0;
-
-  padding: 1.5rem var(--Spacing-56, 3.5rem);
-
-  align-items: center;
-  justify-content: center;
-
-  gap: clamp(2rem, 5vw, 4.5rem);
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  background: #fff;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  transform: none;
-}
-
-.partnerLogoStrip::-webkit-scrollbar {
-  display: none;
-}
-
-.partnerLogo {
-  display: block;
-
-  width: auto;
-  max-width: 13.5rem;
-
-  height: 4rem;
-  max-height: 4rem;
-
-  flex: 0 0 auto;
-
-  object-fit: contain;
-  object-position: center;
-}
-
-/* ---------------------------------------------------------
-   WHO CAN PARTNER — FULL WIDTH
-   --------------------------------------------------------- */
-
-.whoSection {
-  display: flex;
-
-  width: 100%;
-  max-width: none;
-
-  margin: 0;
-
-  /* Reduced top + bottom spacing */
-  padding: 3.5rem var(--Spacing-56, 3.5rem);
-
-  flex-direction: column;
-  align-items: center;
-
-  gap: var(--Spacing-56, 3.5rem);
-
-  background: var(--BrandPrimary-50, #F5F1EB);
-}
-
-.centeredHeading {
-  width: 100%;
-  max-width: 56rem;
-
-  margin: 0;
-
-  text-align: center;
-}
-
-.partnerTypeGrid {
-  display: grid;
-
-  width: 100%;
-  max-width: none;
-
-  margin: 0;
-
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-
-  column-gap: var(--Spacing-56, 3.5rem);
-  row-gap: var(--Spacing-56, 3.5rem);
-}
-
-/* ---------------------------------------------------------
-   TABLET
-   --------------------------------------------------------- */
-
-@media (max-width: 1023px) {
-  .heroInner {
-    width: 100%;
-    max-width: none;
-
-    padding: 3rem 2rem;
-
-    gap: 2.5rem;
-  }
-
-  .partnerLogoStrip {
-    width: 100%;
-    max-width: none;
-
-    min-height: 6.5rem;
-
-    padding: 1.5rem 2rem;
-
-    justify-content: flex-start;
-
-    gap: 3rem;
-
-    scroll-padding-inline: 2rem;
-  }
-
-  .partnerLogo {
-    height: 3.25rem;
-    max-height: 3.25rem;
-    max-width: 11rem;
-  }
-
-  .whoSection {
-    width: 100%;
-    max-width: none;
-
-    padding: 3rem 2rem;
-
-    gap: 3rem;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    column-gap: 2.5rem;
-    row-gap: 2.5rem;
-  }
-}
-
-/* ---------------------------------------------------------
-   MOBILE
-   --------------------------------------------------------- */
-
-@media (max-width: 639px) {
-  .heroInner {
-    padding: 2.5rem 1.25rem;
-
-    gap: 2rem;
-  }
-
-  .partnerLogoStrip {
-    min-height: 5.75rem;
-
-    padding: 1.25rem 1.25rem;
-
-    justify-content: flex-start;
-
-    gap: 2rem;
-
-    scroll-padding-inline: 1.25rem;
-  }
-
-  .partnerLogo {
-    height: 2.75rem;
-    max-height: 2.75rem;
-    max-width: 9.5rem;
-  }
-
-  .whoSection {
-    padding: 2.5rem 1.25rem;
-
-    gap: 2.5rem;
-  }
-
-  .partnerTypeGrid {
-    grid-template-columns: 1fr;
-
-    column-gap: 0;
-    row-gap: 2rem;
-  }
-}
-
-
-/* =========================================================
-   PARTNER PAGE — COMPACT SPACING + CENTERED HERO
-   Final override: intentionally placed last.
-   ========================================================= */
-
-/* ---------------------------------------------------------
-   HERO — centered and tighter
-   --------------------------------------------------------- */
-
-.hero {
-  width: 100%;
-  max-width: none;
-  padding-top: 0;
-}
-
-.heroInner {
-  width: 100%;
-  max-width: none;
-  min-height: 0;
-  margin: 0;
-
-  padding: 2.5rem var(--Spacing-56, 3.5rem);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 1.75rem;
-
-  text-align: center;
-}
-
-.heroTitleBlock,
-.heroIntro {
-  width: 100%;
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  align-self: stretch;
-
-  text-align: center;
-}
-
-.hero .eyebrow {
-  width: 100%;
-  text-align: center;
-}
-
-.heroTitleBlock h1 {
-  width: 100%;
-  max-width: 48rem;
-
-  margin: 0.5rem auto 0;
-
-  text-align: center;
-}
-
-.heroIntro > p {
-  width: 100%;
-  max-width: 44rem;
-
-  margin: 0 auto;
-
-  text-align: center;
-}
-
-.heroIntro .textLink {
-  margin: 1rem auto 0;
-}
-
-/* ---------------------------------------------------------
-   FILM FEATURE — reduce unnecessary copy padding
-   --------------------------------------------------------- */
-
-.filmCopy {
-  padding-top: clamp(3.5rem, 5vw, 5rem);
-  padding-left: var(--partner-pad);
-  padding-right: var(--partner-pad);
-  padding-bottom: clamp(10rem, 12vw, 12rem);
-}
-
-/* ---------------------------------------------------------
-   BRAND LOGOS — compact bar
-   --------------------------------------------------------- */
-
-.partnerLogoStrip {
-  width: 100%;
-  max-width: none;
-  min-height: 6rem;
-
-  margin: 0;
-
-  padding: 1rem var(--partner-pad);
-
-  gap: clamp(2rem, 4vw, 4rem);
-}
-
-/* ---------------------------------------------------------
-   WHO CAN PARTNER — reduce top/bottom empty space
-   --------------------------------------------------------- */
-
-.whoSection {
-  width: 100%;
-  max-width: none;
-
-  margin: 0;
-
-  padding: 3rem var(--partner-pad);
-
-  gap: 2.5rem;
-}
-
-.partnerTypeGrid {
-  margin: 0;
-
-  column-gap: 3rem;
-  row-gap: 2.5rem;
-}
-
-.partnerTypeCard {
-  min-height: 9rem;
-  padding-bottom: 1rem;
-}
-
-/* ---------------------------------------------------------
-   IMPACT / STATS — keep visual, reduce band height
-   --------------------------------------------------------- */
-
-.statItem {
-  min-height: clamp(7.5rem, 9vw, 9rem);
-}
-
-/* ---------------------------------------------------------
-   ECOSYSTEM TITLE + HEADERS — compact
-   --------------------------------------------------------- */
-
-.ecosystemTitle {
-  padding:
-    3rem
-    var(--partner-pad)
-    2.25rem;
-}
-
-.ecosystemHeader,
-.ecosystemBlock[data-section="ott"] .ecosystemHeader,
-.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
-  height: auto;
-  min-height: 7rem;
-
-  padding:
-    1rem
-    var(--partner-pad);
-
-  gap: 1.5rem;
-}
-
-/* Remove the previous full-viewport frame behavior.
-   Sections now size to their real content instead of leaving
-   large blank areas on tall/wide screens. */
-@media (min-width: 768px) {
-  .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="studios"],
-  .ecosystemBlock[data-section="ai"],
-  .ecosystemBlock[data-section="filmy"] {
-    min-height: 0;
-    height: auto;
-    overflow: visible;
-  }
-
-  .ecosystemBlock[data-section="ott"] > .ecosystemHeader,
-  .ecosystemBlock[data-section="studios"] > .ecosystemHeader,
-  .ecosystemBlock[data-section="ai"] > .ecosystemHeader,
-  .ecosystemBlock[data-section="filmy"] > .ecosystemHeader {
-    flex: 0 0 auto;
-  }
-}
-
-/* ---------------------------------------------------------
-   OTT / FILMY MEDIA — reduce surrounding padding
-   --------------------------------------------------------- */
-
-.mediaRailWrap,
-.mediaRailWrap[data-ott-layout="true"],
-.mediaRailWrap[data-filmy-layout="true"] {
-  padding-top: 2rem;
-  padding-bottom: 2.25rem;
-}
 
 .ottMediaControls {
-  height: auto;
-  min-height: 6.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  width: 100%;
+  min-height: 7rem;
+  padding: 1rem var(--partner-pad);
+  align-items: center;
+  gap: 32px;
+  background: var(--partner-cream);
+}
 
-  padding:
-    1rem
-    var(--partner-pad);
+.ottSocials {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  gap: 32px;
+}
+
+.ottSocialIcon {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+.ottSocialIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.ottDownload {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 16px;
+  color: #000;
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Heading-4);
+  font-weight: 500;
+  line-height: var(--Line-height-Heading-4);
+  white-space: nowrap;
+}
+
+.googlePlayMark,
+.appleMark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.googlePlayMark {
+  width: 21px;
+  height: 24px;
+}
+
+.appleMark {
+  width: 20px;
+  height: 24px;
+}
+
+.googlePlayMark svg,
+.appleMark svg {
+  width: 100%;
+  height: 100%;
+}
+
+.ottRailNav,
+.filmyRailNav {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ottRailNav {
+  justify-self: end;
+}
+
+.ottRailButton {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--partner-gold);
+  color: #fff;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.ottRailButton[data-direction="previous"] svg {
+  transform: rotate(180deg);
+}
+
+.ottRailButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ottRailButton:disabled {
+  background: rgba(143, 108, 26, 0.09);
+  color: rgba(143, 108, 26, 0.24);
+  cursor: default;
+}
+
+/* =========================================================
+   FILMY CONTROLS
+   ========================================================= */
+
+.ecosystemBlock[data-section="filmy"] {
+  background: var(--partner-warm);
+  color: var(--partner-ink);
+}
+
+.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  background: var(--partner-warm);
+}
+
+.ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+  color: var(--partner-ink);
 }
 
 .filmyMediaControls {
-  min-height: 6.5rem;
-
-  padding:
-    1rem
-    var(--partner-pad)
-    1.25rem;
+  display: flex;
+  width: 100%;
+  min-height: 7rem;
+  padding: 1rem var(--partner-pad) 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: var(--partner-warm);
 }
 
-/* ---------------------------------------------------------
-   STUDIOS — remove excessive viewport-sized empty area
-   --------------------------------------------------------- */
+.filmySocials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-.ecosystemBlock[data-section="studios"] .studioShowcase,
+.filmySocialIcon {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  color: #000;
+}
+
+.filmySocialIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* =========================================================
+   ABHIJAT MARATHI STUDIOS / CONNECTING THE DOTS
+   Reference: film crew left, title centre, singer right.
+   ========================================================= */
+
+.ecosystemBlock[data-section="studios"] {
+  background: #000;
+  color: #fff;
+}
+
 .studioShowcase {
-  min-height: clamp(32rem, 50vw, 44rem);
+  position: relative;
+  min-height: clamp(36rem, calc(100svh - 7rem), 50rem);
+  overflow: hidden;
+  background: #000;
 }
 
-/* ---------------------------------------------------------
-   AI PARTNERS — compact the large blank area
-   --------------------------------------------------------- */
+.studioHeadingPosition {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  z-index: 3;
+  width: min(90%, 56rem);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.studioHeadingParallax {
+  width: 100%;
+  will-change: transform;
+}
+
+.studioHeadingPosition h3 {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  font-family: var(--Font-family-Heading);
+  font-size: clamp(3.25rem, 5.8vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.studioPrimary,
+.studioSecondary {
+  position: absolute;
+  margin: 0;
+  overflow: hidden;
+  background: #111;
+  will-change: transform;
+}
+
+.studioPrimary {
+  left: var(--partner-pad);
+  bottom: clamp(2.5rem, 6vw, 5rem);
+  width: clamp(20rem, 33vw, 32rem);
+  aspect-ratio: 16 / 9;
+}
+
+.studioSecondary {
+  top: clamp(2rem, 4vw, 3.5rem);
+  right: var(--partner-pad);
+  width: clamp(12rem, 17vw, 18rem);
+  aspect-ratio: 4 / 5;
+}
+
+.studioImage {
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(1) contrast(1.05);
+}
+
+/* =========================================================
+   AI PARTNERS
+   ========================================================= */
 
 .ecosystemBlock[data-section="ai"] {
-  min-height: 0;
-  height: auto;
-}
-
-.ecosystemBlock[data-section="ai"] .ecosystemHeader {
-  flex: 0 0 auto;
+  background: var(--partner-cream);
 }
 
 .aiPartners {
+  display: flex;
   width: 100%;
   min-height: 0;
-
-  flex: 0 0 auto;
-
-  padding:
-    2.5rem
-    var(--partner-pad)
-    3rem;
-
+  padding: 2.5rem var(--partner-pad) 3rem;
   align-items: stretch;
-
   gap: 2rem;
+  background: var(--partner-cream);
 }
 
 .aiPartnerCard {
+  display: flex;
+  min-width: 0;
   min-height: 19rem;
-
   flex: 1 1 0;
-
-  padding: 1.5rem 1rem;
-
-  gap: 1.5rem;
-
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem;
 }
 
 .aiBrandLockup {
+  display: flex;
+  width: 100%;
   min-height: 7.5rem;
-
+  align-items: center;
+  justify-content: center;
   gap: 1.5rem;
 }
 
@@ -4339,73 +1147,262 @@
 .aiAbhijatLogo,
 .aiZMarathiLogo,
 .aiLaminarLogo {
+  display: block;
+  width: auto !important;
   height: 7.5rem !important;
-  min-height: 0;
-  max-height: 7.5rem;
-
   max-width: calc((100% - 3rem) / 2);
+  max-height: 7.5rem;
+  object-fit: contain;
+  flex: 0 1 auto;
+}
+
+.aiZMarathiLogo {
+  filter: brightness(0) saturate(100%);
 }
 
 .aiBrandDivider {
+  width: 1px;
   height: 4.5rem;
+  flex: 0 0 1px;
+  background: rgba(26, 26, 26, 0.14);
 }
 
-/* ---------------------------------------------------------
-   FINAL CTA — slightly more compact
-   --------------------------------------------------------- */
+.aiPartnerCard p {
+  width: 100%;
+  max-width: 390px;
+  margin: 0;
+  color: var(--partner-muted);
+  font-family: var(--Font-family-Body);
+  font-size: var(--Font-size-Small);
+  font-weight: 400;
+  line-height: var(--Line-height-Small);
+  text-align: center;
+}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
 
 .finalCta {
+  position: relative;
+  isolation: isolate;
   min-height: 23rem;
+  overflow: hidden;
+  background: #111;
+  color: #fff;
+}
+
+.finalCtaImageWrap {
+  position: absolute;
+  inset: -2.5rem;
+  z-index: -3;
+  will-change: transform;
+}
+
+.finalCtaImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.finalCtaShade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.58) 42%, rgba(0, 0, 0, 0.1) 77%);
 }
 
 .finalCtaCopy {
-  padding:
-    2rem
-    var(--partner-pad);
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  min-height: inherit;
+  max-width: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem var(--partner-pad);
 }
 
-/* ---------------------------------------------------------
+.finalCtaCopy h2 {
+  width: 100%;
+  max-width: 40%;
+  margin: 0;
+  color: #fff;
+  font-family: var(--Font-family-Heading);
+  font-size: var(--Font-size-Heading-1);
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1);
+  letter-spacing: -0.03125rem;
+}
+
+.finalCtaCopy .textLink {
+  min-height: 48px;
+  padding-inline: 16px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent !important;
+  color: #fff;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-decoration: none;
+  font-size: var(--Font-size-Small);
+  line-height: var(--Line-height-Small);
+}
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .finalCtaCopy .textLink:hover {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    opacity: 0.76;
+  }
+
+  .textLink:hover svg,
+  .pillLink:hover svg {
+    transform: translateX(3px);
+  }
+
+  .filmThumb:hover {
+    opacity: 1;
+  }
+
+  .filmThumb:hover .filmThumbImage,
+  .mediaCard:hover .mediaCardImage,
+  .youtubeActivator:hover .youtubeThumbnail {
+    transform: scale(1.035);
+  }
+
+  .youtubeActivator:hover .youtubePlay {
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+
+  .partnerTypeCard:hover {
+    border-color: var(--partner-gold);
+    transform: translateY(-0.35rem);
+  }
+
+  .pillLink:hover,
+  .ottRailButton:not(:disabled):hover {
+    background: #785a13;
+  }
+
+  .ottRailButton:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* =========================================================
    TABLET
-   --------------------------------------------------------- */
+   ========================================================= */
+
+@media (min-width: 640px) {
+  .page {
+    --partner-pad: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    --partner-pad: 56px;
+  }
+}
 
 @media (max-width: 1023px) {
   .heroInner {
-    padding: 2.25rem 2rem;
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+    gap: 2rem;
+  }
+
+  .heroIntro {
+    justify-self: start;
+    max-width: 42rem;
+  }
+
+  .filmFeature {
+    min-height: 44rem;
+  }
+
+  .filmCopy {
+    padding-top: 4.5rem;
+    padding-bottom: 12rem;
   }
 
   .partnerLogoStrip {
-    min-height: 5.75rem;
-
-    padding: 1rem 2rem;
-
+    justify-content: flex-start;
     gap: 2.5rem;
   }
 
-  .whoSection {
-    padding: 2.5rem 2rem;
-    gap: 2.25rem;
-  }
-
   .partnerTypeGrid {
-    column-gap: 2rem;
-    row-gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ecosystemTitle {
-    padding: 2.5rem 2rem 2rem;
+  .statsBand {
+    padding: 3rem 2rem;
   }
 
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  .ecosystemHeader {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-block: 1.25rem;
+  }
+
+  .ecosystemIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    width: 100%;
+    max-width: none;
+    gap: 20px;
+  }
+
+  .ecosystemIntro p {
+    width: 100%;
+    max-width: 40rem;
+  }
+
+  .mediaCard {
+    --partner-youtube-height: clamp(220px, 38vw, 330px);
+  }
+
+  .ottMediaControls {
     min-height: 6.5rem;
+    padding-block: 1rem;
+  }
 
-    padding: 1rem 2rem;
+  .filmyMediaControls {
+    min-height: 6.5rem;
+  }
+
+  .studioShowcase {
+    min-height: 38rem;
+  }
+
+  .studioHeadingPosition h3 {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+  }
+
+  .studioPrimary {
+    width: min(56vw, 32rem);
+  }
+
+  .studioSecondary {
+    width: min(29vw, 16rem);
   }
 
   .aiPartners {
-    padding: 2rem 2rem 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
     gap: 1.5rem;
   }
 
@@ -4420,37 +1417,267 @@
     height: 6.5rem !important;
     max-height: 6.5rem;
   }
+
+  .finalCtaCopy h2 {
+    max-width: 65%;
+  }
 }
 
-/* ---------------------------------------------------------
+/* =========================================================
    MOBILE
-   --------------------------------------------------------- */
+   ========================================================= */
 
 @media (max-width: 767px) {
-  .filmCopy {
-    padding-top: 3rem;
-    padding-bottom: 10rem;
+  .heroInner {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    gap: 1.75rem;
   }
 
-  .ecosystemBlock[data-section="studios"] .studioShowcase,
+  .heroTitleBlock h1 {
+    max-width: 36rem;
+  }
+
+  .heroIntro>p {
+    max-width: 34rem;
+  }
+
+  .filmFeature {
+    min-height: 42rem;
+  }
+
+  .filmBackdrop {
+    inset: -2rem 0;
+  }
+
+  .filmCopy {
+    padding-top: 3.5rem;
+    padding-bottom: 10.5rem;
+  }
+
+  .filmCopy h2 {
+    font-size: clamp(2.5rem, 11vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.04rem;
+  }
+
+  .filmCopy>p:not(.filmEyebrow) {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .filmStrip {
+    bottom: 20px;
+  }
+
+  .filmThumb {
+    width: min(48vw, 220px);
+    min-width: min(48vw, 220px);
+    flex-basis: min(48vw, 220px);
+  }
+
+  .partnerLogoStrip {
+    min-height: 5.5rem;
+    gap: 2rem;
+    padding-block: 1rem;
+  }
+
+  .partnerLogo {
+    height: 2.75rem;
+    max-width: 9.5rem;
+  }
+
+  .whoSection {
+    padding-top: 3.5rem;
+    padding-bottom: 4rem;
+    gap: 2.25rem;
+  }
+
+  .partnerTypeGrid {
+    grid-template-columns: 1fr;
+    row-gap: 1.75rem;
+  }
+
+  .partnerTypeCard {
+    min-height: 0;
+  }
+
+  .impactImageWrap {
+    min-height: 19rem;
+  }
+
+  .statsBand {
+    width: 100%;
+    padding: 2rem var(--partner-pad);
+    align-items: stretch;
+  }
+
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .statItem {
+    min-height: 7rem;
+    padding: 1.25rem 0;
+  }
+
+  .statItem+.statItem::before {
+    top: 0;
+    left: 50%;
+    width: 3.5rem;
+    height: 1px;
+    transform: translateX(-50%);
+  }
+
+  .ecosystemTitle {
+    padding-top: 3.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .ecosystemIdentity {
+    gap: 14px;
+  }
+
+  .ecosystemLogo {
+    width: 36px;
+  }
+
+  .ecosystemIdentity h3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .ecosystemIntro {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px;
+  }
+
+  .ecosystemIntro p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .mediaRailStage {
+    flex: 0 0 auto;
+    padding-block: 24px;
+  }
+
+  .mediaRail {
+    gap: 16px;
+  }
+
+  .mediaCard {
+    width: min(84vw, 620px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .youtubePlay,
+  .youtubePlay svg {
+    width: 54px;
+    height: 54px;
+  }
+
+  .ottMediaControls {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "social nav"
+      "download download";
+    min-height: 0;
+    padding: 1.25rem var(--partner-pad);
+    row-gap: 1.25rem;
+    column-gap: 1rem;
+  }
+
+  .ottSocials {
+    grid-area: social;
+    gap: 20px;
+  }
+
+  .ottSocialIcon,
+  .ottSocialIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ottSocialIcon {
+    flex-basis: 28px;
+  }
+
+  .ottDownload {
+    grid-area: download;
+    justify-self: start;
+    gap: 12px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .ottRailNav {
+    grid-area: nav;
+  }
+
+  .ottRailButton {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .filmyMediaControls {
+    min-height: 0;
+    padding: 1rem 0 1.25rem;
+  }
+
+  .filmySocialIcon {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .filmySocialIcon svg {
+    width: 22px;
+    height: 22px;
+  }
+
   .studioShowcase {
     min-height: 34rem;
   }
 
-  .aiPartners {
-    padding: 1.75rem var(--partner-pad) 2rem;
+  .studioHeadingPosition {
+    top: 49%;
+    width: 92%;
+  }
 
+  .studioHeadingPosition h3 {
+    font-size: clamp(2.75rem, 12vw, 3.5rem);
+    line-height: 1.18;
+  }
+
+  .studioPrimary {
+    left: var(--partner-pad);
+    bottom: 2rem;
+    width: 72vw;
+  }
+
+  .studioSecondary {
+    top: 2rem;
+    right: var(--partner-pad);
+    width: 38vw;
+  }
+
+  .aiPartners {
+    flex-direction: column;
+    padding: 1.75rem var(--partner-pad) 2rem;
     gap: 1rem;
   }
 
   .aiPartnerCard {
     min-height: 15rem;
-
     padding: 1.25rem 0;
   }
 
   .aiBrandLockup {
     min-height: 6rem;
+    gap: 1rem;
   }
 
   .aiBrandLockup img,
@@ -4459,75 +1686,568 @@
   .aiLaminarLogo {
     height: 5.75rem !important;
     max-height: 5.75rem;
+    max-width: calc((100% - 2rem) / 2);
+  }
+
+  .aiBrandDivider {
+    height: 3.5rem;
   }
 
   .finalCta {
     min-height: 21rem;
   }
+
+  .finalCtaCopy {
+    width: 100%;
+    max-width: none;
+    padding: 1.5rem var(--partner-pad);
+  }
+
+  .finalCtaCopy h2 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 479px) {
+  .heroInner {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .ecosystemIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .pillLink {
+    justify-self: start;
+  }
+
+  .filmThumb {
+    width: 54vw;
+    min-width: 54vw;
+    flex-basis: 54vw;
+  }
+
+  .studioShowcase {
+    min-height: 31rem;
+  }
+
+  .studioPrimary {
+    width: 78vw;
+  }
+
+  .studioSecondary {
+    width: 42vw;
+  }
+
+  .ottSocials {
+    gap: 16px;
+  }
+
+  .ottDownload {
+    font-size: 15px;
+    line-height: 22px;
+  }
+}
+
+/* =========================================================
+   TALL DESKTOPS
+   OTT / Filmy media is vertically centered like the Industries
+   section rather than being pinned near the top.
+   ========================================================= */
+
+@media (min-width: 1024px) and (min-height: 800px) {
+
+  .ecosystemBlock[data-section="ott"],
+  .ecosystemBlock[data-section="filmy"] {
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column;
+  }
+
+  .ecosystemBlock[data-section="ott"]>.ecosystemHeader,
+  .ecosystemBlock[data-section="filmy"]>.ecosystemHeader {
+    flex: 0 0 auto;
+  }
+
+  .mediaRailWrap[data-ott-layout="true"],
+  .mediaRailWrap[data-filmy-layout="true"] {
+    flex: 1 1 auto;
+  }
+
+  .mediaRailStage {
+    flex: 1 1 auto;
+    align-items: center;
+  }
+}
+
+/* Short laptops keep the media compact. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .filmFeature {
+    min-height: 39rem;
+  }
+
+  .filmCopy {
+    padding-top: 3.5rem;
+    padding-bottom: 11rem;
+  }
+
+  .mediaRailStage {
+    padding-block: 20px;
+  }
+
+  .mediaCard {
+    --partner-youtube-height: clamp(210px, calc(100svh - 350px), 310px);
+  }
+
+  .studioShowcase {
+    min-height: 34rem;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .filmBackdrop,
+  .filmSlide,
+  .studioPrimary,
+  .studioSecondary,
+  .studioHeadingParallax,
+  .impactParallax,
+  .finalCtaImageWrap {
+    transform: none !important;
+  }
+
+  .filmThumb,
+  .filmThumbImage,
+  .mediaCardImage,
+  .youtubeThumbnail,
+  .youtubePlay,
+  .partnerTypeCard,
+  .textLink svg,
+  .pillLink svg,
+  .ottRailButton {
+    transition: none !important;
+  }
+
+  .filmThumb[data-active="true"] {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   ECOSYSTEM — SCROLL STACK DECK
+   Reference behaviour: scrollstackdeck.framer.website
+
+   The four ecosystem products share one sticky viewport stage.
+   The next card rises from below while previous cards remain
+   layered behind it with a subtle scale/depth treatment.
+   ========================================================= */
+
+.ecosystemStack {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  background: #fff;
+}
+
+.ecosystemStackStage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #fff;
+}
+
+.ecosystemStackLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.25rem, 3vh, 2.5rem) 0;
+  pointer-events: none;
+}
+
+.ecosystemStackCard {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  height: min(88svh, 54rem);
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transform-origin: 50% 7%;
+  backface-visibility: hidden;
+  will-change: transform;
+  pointer-events: auto;
+}
+
+.ecosystemStackCard .ecosystemBlock {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+/* Keep the stack header fixed while the media/body fills the rest. */
+.ecosystemStackCard .ecosystemHeader,
+.ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+.ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  flex: 0 0 auto;
+  min-height: 7rem;
+  padding: 1rem var(--partner-pad);
+}
+
+/* OTT + Filmy occupy the available card body and remain vertically centered. */
+.ecosystemStackCard .mediaRailWrap[data-ott-layout="true"],
+.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.ecosystemStackCard .mediaRailStage {
+  min-height: 0;
+  flex: 1 1 auto;
+  padding-block: clamp(0.75rem, 2.2vh, 1.5rem);
+}
+
+.ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
+.ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
+.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
+.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+  --partner-youtube-height: clamp(12.5rem,
+      min(27vw, calc(100svh - 23rem)),
+      24rem);
+}
+
+.ecosystemStackCard .ottMediaControls,
+.ecosystemStackCard .filmyMediaControls {
+  flex: 0 0 auto;
+  min-height: 5.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Studios fill the deck card instead of forcing a viewport-sized block. */
+.ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase {
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  flex: 1 1 auto;
+}
+
+/* AI partnership content fills the card without creating blank height. */
+.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners {
+  min-height: 0;
+  flex: 1 1 auto;
+  padding-top: clamp(1rem, 3vh, 2.25rem);
+  padding-bottom: clamp(1rem, 3vh, 2.25rem);
+}
+
+.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard {
+  min-height: 0;
+}
+
+/* A slightly deeper shadow is useful on dark/warm cards while stacked. */
+.ecosystemStackLayer[data-stack-index="1"] .ecosystemStackCard,
+.ecosystemStackLayer[data-stack-index="3"] .ecosystemStackCard {
+  box-shadow: none;
+}
+
+/* =========================================================
+   STACK RESPONSIVE — LAPTOP / TABLET
+   ========================================================= */
+
+@media (max-width: 1199px) and (min-width: 768px) {
+  .ecosystemStackLayer {
+    padding-inline: 0;
+  }
+
+  .ecosystemStackCard {
+    width: 100%;
+    max-width: none;
+    height: min(89svh, 48rem);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .ecosystemStackCard .ecosystemHeader,
+  .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+    min-height: 6.25rem;
+    padding-block: 0.875rem;
+  }
+
+  .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
+  .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+    --partner-youtube-height: clamp(12rem, min(36vw, calc(100svh - 21rem)), 20rem);
+  }
+}
+
+/* =========================================================
+   MOBILE — STACK REMAINS ACTIVE
+
+   The reference interaction is responsive, so mobile keeps the
+   same one-by-one stacked-card behaviour.  Internal sections are
+   compacted to fit one viewport card and horizontal media rails
+   retain pan-y so vertical page scrolling is not blocked.
+   ========================================================= */
+
+@media (max-width: 767px) {
+  .ecosystemStackStage {
+    height: 100svh;
+  }
+
+  .ecosystemStackLayer {
+    padding: 1rem var(--partner-pad) 1.25rem;
+  }
+
+  .ecosystemStackCard {
+    width: 100%;
+    max-width: none;
+    height: min(91svh, 46rem);
+    min-height: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .ecosystemStackCard .ecosystemHeader,
+  .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+    min-height: 0;
+    padding: 0.875rem var(--partner-pad);
+    gap: 0.875rem;
+  }
+
+  .ecosystemStackCard .ecosystemIdentity h3,
+  .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+    font-size: clamp(1.25rem, 5.8vw, 1.5rem);
+    line-height: 1.3;
+  }
+
+  .ecosystemStackCard .ecosystemIntro p,
+  .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  .ecosystemStackCard .pillLink,
+  .ecosystemStackCard .ecosystemBlock[data-section="ott"] .pillLink,
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .pillLink {
+    min-width: 5.75rem;
+    height: 2.625rem;
+    padding-inline: 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .ecosystemStackCard .mediaRailStage {
+    padding-block: 0.875rem;
+  }
+
+  .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
+  .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+    width: min(82vw, 34rem);
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .ecosystemStackCard .ottMediaControls {
+    min-height: 0;
+    padding: 0.75rem var(--partner-pad);
+    row-gap: 0.875rem;
+  }
+
+  .ecosystemStackCard .filmyMediaControls {
+    min-height: 0;
+    padding: 0.75rem var(--partner-pad) 0.875rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase {
+    min-height: 0;
+    height: auto;
+    flex: 1 1 auto;
+  }
+
+  .ecosystemStackCard .studioPrimary {
+    left: 1rem;
+    bottom: 1.25rem;
+    width: min(70vw, 23rem);
+  }
+
+  .ecosystemStackCard .studioSecondary {
+    top: 1.25rem;
+    right: 1rem;
+    width: min(37vw, 11rem);
+  }
+
+  .ecosystemStackCard .studioHeadingPosition h3 {
+    font-size: clamp(2.5rem, 11vw, 3.75rem);
+    line-height: 1.16;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners {
+    min-height: 0;
+    flex: 1 1 auto;
+    padding: 0.75rem var(--partner-pad) 1rem;
+    gap: 0.5rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard {
+    min-height: 0;
+    padding: 0.75rem 0;
+    gap: 0.75rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandLockup {
+    min-height: 4rem;
+    gap: 0.75rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandLockup img,
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiAbhijatLogo,
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiZMarathiLogo,
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiLaminarLogo {
+    height: clamp(3rem, 11svh, 4.5rem) !important;
+    max-height: 4.5rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandDivider {
+    height: 2.75rem;
+  }
+
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard p {
+    font-size: 0.8125rem;
+    line-height: 1.2rem;
+  }
+}
+
+/* Very short touch screens: preserve the deck without clipping controls. */
+@media (max-width: 767px) and (max-height: 620px) {
+  .ecosystemStackLayer {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .ecosystemStackCard {
+    height: 96svh;
+  }
+
+  .ecosystemStackCard .mediaRailStage {
+    padding-block: 0.5rem;
+  }
+
+  .ecosystemStackCard .ottMediaControls,
+  .ecosystemStackCard .filmyMediaControls {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .ecosystemStack {
+    height: auto !important;
+    padding: 0 var(--partner-pad) 3rem;
+  }
+
+  .ecosystemStackStage {
+    position: relative;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .ecosystemStackLayer {
+    position: relative;
+    inset: auto;
+    display: block;
+    height: auto;
+    padding: 0;
+    pointer-events: auto;
+  }
+
+  .ecosystemStackCard {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .ecosystemStackCard .ecosystemBlock {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+
+/* =========================================================
+   FINAL FULL-WIDTH STACK + COMPACT PARTNER HERO
+   ========================================================= */
+
+/* Ecosystem deck stays edge-to-edge at every viewport width. */
+.ecosystemStackLayer {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ecosystemStackCard {
+  width: 100%;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ecosystemStackCard .ecosystemBlock {
+  border-radius: 0;
+}
+
+/* Reduce only the Become a Partner hero's vertical whitespace. */
+.heroInner {
+  padding-top: clamp(2rem, 3vw, 3rem);
+  padding-bottom: clamp(2rem, 3vw, 3rem);
+}
+
+@media (max-width: 1023px) {
+  .heroInner {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 }
 
 @media (max-width: 639px) {
   .heroInner {
-    padding: 2rem 1.25rem;
-
-    gap: 1.25rem;
-  }
-
-  .heroTitleBlock h1 {
-    max-width: 34rem;
-  }
-
-  .heroIntro > p {
-    max-width: 32rem;
-  }
-
-  .partnerLogoStrip {
-    min-height: 5.25rem;
-
-    padding: 0.875rem 1.25rem;
-
-    gap: 1.75rem;
-  }
-
-  .whoSection {
-    padding: 2rem 1.25rem;
-
-    gap: 2rem;
-  }
-
-  .partnerTypeGrid {
-    row-gap: 1.5rem;
-  }
-
-  .ecosystemTitle {
-    padding: 2rem 1.25rem 1.5rem;
-  }
-
-  .ecosystemHeader,
-  .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
-    min-height: 0;
-
-    padding: 1rem 1.25rem;
-  }
-
-  .mediaRailWrap,
-  .mediaRailWrap[data-ott-layout="true"],
-  .mediaRailWrap[data-filmy-layout="true"] {
     padding-top: 1.5rem;
-    padding-bottom: 1.75rem;
-  }
-
-  .ottMediaControls,
-  .filmyMediaControls {
-    min-height: 0;
-
-    padding:
-      1rem
-      1.25rem;
-  }
-
-  .finalCtaCopy {
-    padding: 1.5rem 1.25rem;
+    padding-bottom: 1.5rem;
   }
 }

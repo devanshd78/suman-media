@@ -8,6 +8,8 @@
     --section-y: clamp(4rem, 6.5vw, 6.5rem);
     --section-y-large: clamp(5rem, 8vw, 7.5rem);
     --radius: 0.5rem;
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
     --heading-font: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
     --body-font: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
     --ui-font: var(--font-inter), Inter, sans-serif;
@@ -108,7 +110,7 @@
     align-items: center;
     justify-content: center;
     padding: 0.25rem 0.5rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     background: #ededed;
     color: #828282;
     white-space: nowrap;
@@ -664,10 +666,191 @@
 }
 
 /* ============================================================
+   MOTION SYSTEM
+   Landing-page style editorial animation without changing the
+   existing cards, filters, draggable Press rail or responsive grid.
+   ============================================================ */
+
+@keyframes newsHeroImageIn {
+    from {
+        transform: scale(1.065);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes newsHeroShadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes newsHeroTextIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 1.6rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes newsViewIn {
+    from {
+        opacity: 0.001;
+        transform: translate3d(0, 1.75rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes filterPop {
+    0% {
+        transform: scale(0.82);
+    }
+
+    60% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .heroEnter .heroImage {
+        transform-origin: 50% 42%;
+        animation: newsHeroImageIn 1400ms var(--motion-soft-ease) both;
+    }
+
+    .heroEnter .heroShade {
+        animation: newsHeroShadeIn 720ms ease 80ms both;
+    }
+
+    .heroCopyEnter .meta {
+        animation: newsHeroTextIn 720ms var(--motion-ease) 160ms both;
+    }
+
+    .heroCopyEnter h1 {
+        animation: newsHeroTextIn 860ms var(--motion-ease) 240ms both;
+    }
+
+    .heroCopyEnter>p {
+        animation: newsHeroTextIn 860ms var(--motion-ease) 340ms both;
+    }
+
+    .filterButton[data-active="true"] .filterRadio {
+        animation: filterPop 360ms var(--motion-ease) both;
+    }
+}
+
+/* View-timeline is progressive enhancement. Without support the page
+   is fully visible and functional, with only the entry/hover motion. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+
+        .motionCard,
+        .sectionReveal {
+            opacity: 0.001;
+            transform: translate3d(0, 1.75rem, 0);
+            animation: newsViewIn linear both;
+            animation-timeline: view();
+            animation-range: entry 7% cover 29%;
+            will-change: transform, opacity;
+        }
+
+        .featureCompactStack .motionCard:nth-child(2) {
+            animation-range: entry 12% cover 32%;
+        }
+
+        .newsGrid .motionCard:nth-child(3n + 2) {
+            animation-range: entry 10% cover 31%;
+        }
+
+        .newsGrid .motionCard:nth-child(3n + 3) {
+            animation-range: entry 13% cover 33%;
+        }
+
+        .pressRail .motionCard:nth-child(even) {
+            animation-range: entry 11% cover 31%;
+        }
+    }
+}
+
+/* Micro-interactions. These never take over scrolling or pointer drag. */
+.motionCard {
+    transition:
+        transform 420ms var(--motion-ease),
+        opacity 220ms ease;
+}
+
+.filterButton {
+    transition:
+        color 220ms ease,
+        opacity 220ms ease,
+        transform 220ms var(--motion-ease);
+}
+
+.loadMore,
+.pressLinks a {
+    transition:
+        opacity 200ms ease,
+        transform 260ms var(--motion-ease),
+        color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+    .featureLarge.motionCard:hover,
+    .featureCompact.motionCard:hover,
+    .newsCard.motionCard:hover,
+    .pressCard.motionCard:hover {
+        transform: translateY(-0.25rem);
+    }
+
+    .filterButton:hover {
+        transform: translateY(-0.1rem);
+    }
+
+    .loadMore:hover {
+        transform: translateY(-0.1rem);
+    }
+
+    .pressLinks a:hover {
+        transform: translateX(0.15rem);
+    }
+}
+
+/* ============================================================
    REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
+
+    .heroEnter .heroImage,
+    .heroEnter .heroShade,
+    .heroCopyEnter .meta,
+    .heroCopyEnter h1,
+    .heroCopyEnter>p,
+    .motionCard,
+    .sectionReveal,
+    .filterButton[data-active="true"] .filterRadio {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 
     .heroImage,
     .cardImage {
