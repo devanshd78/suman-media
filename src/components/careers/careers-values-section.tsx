@@ -598,19 +598,63 @@ export function CareersValuesSection({
                 {slides.map((slide, index) => (
                   <article
                     key={slide._key}
-                    className="w-full shrink-0"
+                    className="
+                      w-full
+                      shrink-0
+
+                      pr-4
+                      sm:pr-6
+                      lg:pr-[2.5rem]
+
+                      last:pr-0
+                    "
                     aria-label={`Culture highlight ${index + 1} of ${slides.length}`}
                   >
                     {/* Mobile = stacked, Desktop = image + content */}
-                    <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]">
+                    <div
+                      className="
+                        relative
+                        flex
+                        w-full
+                        flex-col
+
+                        lg:h-[38.75rem]
+                        lg:flex-row
+                        lg:items-stretch
+                        lg:gap-[2.5rem]
+
+                        min-[1921px]:mx-auto
+                        min-[1921px]:w-[83rem]
+                        min-[1921px]:max-w-none
+                      "
+                    >
 
                       {/* Image */}
-                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden sm:aspect-[16/9] lg:aspect-auto lg:h-full lg:w-[55%] xl:w-[58%]">
+                      <div
+                        className="
+                          relative
+                          aspect-[16/10]
+                          w-full
+                          shrink-0
+                          overflow-hidden
+
+                          sm:aspect-[16/9]
+
+                          lg:aspect-auto
+                          lg:h-[38.75rem]
+                          lg:w-[46%]
+                          lg:flex-[0_1_46%]
+
+                          min-[1921px]:h-[38.75rem]
+                          min-[1921px]:w-[38rem]
+                          min-[1921px]:flex-[0_0_38rem]
+                        "
+                      >
                         <Image
                           src={slide.imageUrl}
                           alt={slide.imageAlt || slide.title}
                           fill
-                          sizes="(max-width: 1023px) 100vw, 58vw"
+                          sizes="(max-width: 1023px) 100vw, (max-width: 1920px) 46vw, 38rem"
                           draggable={false}
                           className="select-none object-cover object-center"
                         />
@@ -628,11 +672,20 @@ export function CareersValuesSection({
                   items-start
                   justify-between
                   p-5
+
                   sm:min-h-[16rem]
                   sm:p-8
+
+                  lg:h-[38.75rem]
                   lg:min-h-0
                   lg:w-auto
+                  lg:flex-1
                   lg:p-10
+
+                  min-[1921px]:h-[38.75rem]
+                  min-[1921px]:w-[42.5rem]
+                  min-[1921px]:flex-[0_0_42.5rem]
+
                   xl:p-12
                 "
                         style={{
