@@ -257,12 +257,12 @@ export function ContactPageContent({
         aria-label="Ways to contact Suman Media"
         className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
       >
-        <div className="grid w-full grid-cols-1 justify-items-center gap-8 lg:grid-cols-3">
+        <div className="grid w-full grid-cols-1 items-stretch gap-8 lg:grid-cols-3">
           {contactCards.map((card, index) => (
             <Link
               key={card._key}
               href={resolveContactCardHref(card.href, index)}
-              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-[26.33331rem] flex-col items-end justify-between overflow-hidden p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] sm:p-8 lg:max-w-none`}
+              className={`${styles.contactCard} group relative flex aspect-[422/495] w-full max-w-none flex-col items-end justify-between overflow-hidden p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8F6C1A] sm:p-8`}
               aria-label={`${card.title}: ${card.description}`}
             >
               <Image

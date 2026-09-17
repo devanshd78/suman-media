@@ -34,6 +34,25 @@ const CAREER_BENEFITS = [
   { label: "Creative Freedom", Icon: HandFistIcon },
 ] as const;
 
+const BENEFIT_CARD_HEIGHT_REM = 17.5;
+const BENEFIT_CARD_GAP_REM = 1;
+const BENEFITS_PANEL_HEIGHT_REM = 56.25;
+const BENEFITS_VERTICAL_PADDING_REM = 6.25;
+const BENEFITS_VIEWPORT_HEIGHT_REM =
+  BENEFITS_PANEL_HEIGHT_REM - BENEFITS_VERTICAL_PADDING_REM * 2;
+
+const BENEFITS_TRACK_HEIGHT_REM =
+  CAREER_BENEFITS.length * BENEFIT_CARD_HEIGHT_REM +
+  Math.max(CAREER_BENEFITS.length - 1, 0) * BENEFIT_CARD_GAP_REM;
+
+const BENEFITS_SCROLL_TRAVEL_REM = Math.max(
+  BENEFITS_TRACK_HEIGHT_REM - BENEFITS_VIEWPORT_HEIGHT_REM,
+  0,
+);
+
+const BENEFITS_SCROLL_SECTION_HEIGHT_REM =
+  BENEFITS_PANEL_HEIGHT_REM + BENEFITS_SCROLL_TRAVEL_REM;
+
 const FALLBACK_CULTURE_SLIDES = [
   {
     _key: "local-culture-01",
@@ -141,6 +160,7 @@ export function CareersValuesSection({
       ? cmsCulture.slides
       : FALLBACK_CULTURE_SLIDES;
 
+  const benefitsScrollRef = useRef<HTMLDivElement>(null);
   const cultureScrollRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion() ?? false;
 
@@ -150,6 +170,31 @@ export function CareersValuesSection({
   const cultureDescription =
     cmsCulture?.description?.trim() ||
     "We believe great work comes from curious people, open collaboration and the freedom to challenge what already exists.";
+
+  const { scrollYProgress: benefitsScrollProgress } = useScroll({
+    target: benefitsScrollRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothBenefitsProgress = useSpring(
+    benefitsScrollProgress,
+    {
+      stiffness: 145,
+      damping: 32,
+      mass: 0.7,
+      restDelta: 0.001,
+      restSpeed: 0.001,
+    },
+  );
+
+  const benefitsTrackY = useTransform(
+    smoothBenefitsProgress,
+    [0, 1],
+    [
+      "0rem",
+      `-${BENEFITS_SCROLL_TRAVEL_REM}rem`,
+    ],
+  );
 
   const { scrollYProgress: cultureScrollProgress } = useScroll({
     target: cultureScrollRef,
@@ -210,45 +255,282 @@ export function CareersValuesSection({
 
       <section
         aria-labelledby="careers-benefits-heading"
-        className="w-full max-w-none bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="w-full max-w-none bg-white"
       >
-        <div className="grid w-full max-w-none grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-[3.5rem]">
-          <div className="flex min-w-0 flex-col items-start gap-6 lg:pr-8">
-            <TextReveal
-              as="h2"
-              id="careers-benefits-heading"
-              text={cultureHeading}
-              className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
-              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            />
-            <TextReveal
-              as="p"
-              text={cultureDescription}
-              className={`${inter.className} max-w-[35rem] text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
-              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            />
-          </div>
+        {/* =====================================================
+            MOBILE / TABLET
 
-          <ul className="m-0 w-full list-none p-0" aria-label="Employee benefits">
-            {CAREER_BENEFITS.map(({ label, Icon }) => (
-              <li
-                key={label}
-                className="flex w-full flex-col items-start gap-6 border-b border-[rgba(0,9,51,0.10)] py-6 first:pt-0"
+            Normal document flow.
+            Cards remain full-width and stack vertically.
+        ====================================================== */}
+
+        <div className="w-full px-5 py-16 sm:px-8 lg:hidden">
+          <div className="flex w-full flex-col items-start gap-12">
+            <div className="flex min-w-0 flex-col items-start gap-6">
+              <TextReveal
+                as="h2"
+                id="careers-benefits-heading"
+                text={cultureHeading}
+                className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black`}
+                style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+              />
+
+              <TextReveal
+                as="p"
+                text={cultureDescription}
+                className={`${inter.className} max-w-[35rem] text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
+                style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+              />
+            </div>
+
+            <ul
+              className="
+                m-0
+                flex
+                w-full
+                list-none
+                flex-col
+                gap-4
+                p-0
+              "
+              aria-label="Employee benefits"
+            >
+              {CAREER_BENEFITS.map(({ label, Icon }) => (
+                <li
+                  key={label}
+                  className="
+                    box-border
+                    flex
+                    h-[17.5rem]
+                    w-full
+                    shrink-0
+                    flex-col
+                    items-start
+                    justify-between
+
+                    rounded-[0.5rem]
+                    border
+                    border-[#E6E6E6]
+                    bg-white
+
+                    p-[1.5rem]
+                  "
+                  style={{
+                    borderRadius:
+                      "var(--Corner-radius-8, 0.5rem)",
+                    border:
+                      "1px solid var(--Light-Border-Subtle, #E6E6E6)",
+                    background:
+                      "var(--Light-Border-Background-Primary, #FFF)",
+                    boxShadow:
+                      "inset 0 0 0 1px var(--Light-Border-Subtle, #E6E6E6)",
+                  }}
+                >
+                  <Icon
+                    aria-hidden="true"
+                    className="
+                      h-[3.75rem]
+                      w-[3.75rem]
+                      shrink-0
+                      text-black
+                    "
+                    weight="regular"
+                  />
+
+                  <TextReveal
+                    as="span"
+                    text={label}
+                    className={`${inter.className} text-xl font-semibold leading-7 text-black`}
+                    style={{
+                      fontFeatureSettings:
+                        '"liga" off, "clig" off',
+                    }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* =====================================================
+            DESKTOP STICKY BENEFITS SCROLLER
+
+            Visible panel:
+            height: 56.25rem
+            padding: 6.25rem 3.5rem
+
+            Left column remains static.
+            Only the right card track moves.
+            After the final card reaches the viewport, normal
+            page scrolling continues.
+        ====================================================== */}
+
+        <div
+          ref={benefitsScrollRef}
+          className="relative hidden w-full lg:block"
+          style={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  height:
+                    `${BENEFITS_SCROLL_SECTION_HEIGHT_REM}rem`,
+                }
+          }
+        >
+          <div
+            className={
+              shouldReduceMotion
+                ? `
+                    flex
+                    w-full
+                    items-start
+                    gap-[3.5rem]
+                    px-[3.5rem]
+                    py-[6.25rem]
+                  `
+                : `
+                    sticky
+                    top-0
+
+                    flex
+                    h-[56.25rem]
+                    w-full
+
+                    items-start
+                    gap-[3.5rem]
+
+                    overflow-hidden
+
+                    px-[3.5rem]
+                    py-[6.25rem]
+                  `
+            }
+          >
+            {/* LEFT — STAYS STATIC */}
+
+            <div
+              className="
+                flex
+                w-[calc(50%-1.75rem)]
+                shrink-0
+                flex-col
+                items-start
+                gap-6
+              "
+            >
+              <TextReveal
+                as="h2"
+                id="careers-benefits-heading-desktop"
+                text={cultureHeading}
+                className={`${exo2.className} w-full text-[2.5rem] font-semibold leading-[3rem] tracking-[-0.03125rem] text-black`}
+                style={{
+                  fontFeatureSettings:
+                    '"liga" off, "clig" off',
+                }}
+              />
+
+              <TextReveal
+                as="p"
+                text={cultureDescription}
+                className={`${inter.className} max-w-[35rem] text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
+                style={{
+                  fontFeatureSettings:
+                    '"liga" off, "clig" off',
+                }}
+              />
+            </div>
+
+            {/* RIGHT — CLIPPED CARD VIEWPORT */}
+
+            <div
+              className={
+                shouldReduceMotion
+                  ? "min-w-0 flex-1"
+                  : `
+                      h-[43.75rem]
+                      min-w-0
+                      flex-1
+                      overflow-hidden
+                      pr-px
+                    `
+              }
+            >
+              <motion.ul
+                className="
+                  m-0
+                  flex
+                  w-full
+                  list-none
+                  flex-col
+                  gap-4
+                  p-0
+                "
+                aria-label="Employee benefits"
+                style={
+                  shouldReduceMotion
+                    ? undefined
+                    : {
+                        y: benefitsTrackY,
+                        willChange: "transform",
+                      }
+                }
               >
-                <Icon
-                  aria-hidden="true"
-                  className="h-[3.75rem] w-[3.75rem] shrink-0 text-black"
-                  weight="regular"
-                />
-                <TextReveal
-                  as="span"
-                  text={label}
-                  className={`${inter.className} text-xl font-semibold leading-7 text-black`}
-                  style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-                />
-              </li>
-            ))}
-          </ul>
+                {CAREER_BENEFITS.map(({ label, Icon }) => (
+                  <li
+                    key={label}
+                    className="
+                      box-border
+                      flex
+                      h-[17.5rem]
+                      w-full
+                      shrink-0
+                      flex-col
+                      items-start
+                      justify-between
+
+                      rounded-[0.5rem]
+                      border
+                      border-[#E6E6E6]
+                      bg-white
+
+                      p-[1.5rem]
+                    "
+                    style={{
+                      borderRadius:
+                        "var(--Corner-radius-8, 0.5rem)",
+                      border:
+                        "1px solid var(--Light-Border-Subtle, #E6E6E6)",
+                      background:
+                        "var(--Light-Border-Background-Primary, #FFF)",
+                      boxShadow:
+                        "inset 0 0 0 1px var(--Light-Border-Subtle, #E6E6E6)",
+                    }}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="
+                        h-[3.75rem]
+                        w-[3.75rem]
+                        shrink-0
+                        text-black
+                      "
+                      weight="regular"
+                    />
+
+                    <TextReveal
+                      as="span"
+                      text={label}
+                      className={`${inter.className} text-xl font-semibold leading-7 text-black`}
+                      style={{
+                        fontFeatureSettings:
+                          '"liga" off, "clig" off',
+                      }}
+                    />
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
+          </div>
         </div>
       </section>
 

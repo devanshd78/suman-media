@@ -104,7 +104,7 @@ function DetailList({ title, items }: { title: string; items?: string[] | null }
       <TextReveal
         as="h4"
         text={title}
-        className="font-semibold text-black"
+        className="font-semibold text-white"
       />
       <ul className="list-disc space-y-2 pl-5">
         {items.map((item, index) => (
@@ -128,18 +128,22 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
     <section
       id="open-roles"
       aria-labelledby="career-openings-heading"
-      className="flex w-full max-w-none scroll-mt-24 flex-col items-center gap-12 bg-white px-5 py-16 sm:px-8 md:gap-14 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="flex w-full max-w-none scroll-mt-24 flex-col items-center gap-12 bg-[#111111] px-5 py-16 sm:px-8 md:gap-14 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      style={{
+        background:
+          "var(--Light-Border-Background-Selected, #111)",
+      }}
     >
       <TextReveal
         as="h2"
         id="career-openings-heading"
         text="Open Positions"
-        className={`${exo2.className} text-center text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
+        className={`${exo2.className} text-center text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white lg:text-[2.5rem] lg:leading-[3rem]`}
         style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
       />
 
       <div className="w-full max-w-none">
-        <div className="flex w-full flex-col gap-6">
+        <div className="flex w-full flex-col">
           {jobs.map((job, index) => {
             const isOpen = hoveredIndex === index || expandedIndex === index;
             const detailsId = `career-opening-details-${index}`;
@@ -147,20 +151,38 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
             return (
               <article
                 key={job._key || `${job.title}-${index}`}
-                className="w-full border-y border-[#E6E6E6]"
+                className="w-full border-b border-[rgba(255,255,255,0.70)]"
               >
-                <div className="flex min-h-[7.5rem] w-full flex-col items-start justify-center gap-6 px-0 py-5 sm:py-6 md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-[6.25rem]">
+                <div
+                  className="
+                    flex
+                    min-h-[7.5rem]
+                    w-full
+                    flex-col
+                    items-start
+                    justify-center
+                    gap-6
+                    p-[1.25rem]
+
+                    md:h-[7.5rem]
+                    md:min-h-0
+                    md:flex-row
+                    md:items-center
+                    md:justify-between
+                    md:gap-[6.25rem]
+                  "
+                >
                   <div className="min-w-0 flex-1">
                     <TextReveal
                       as="h3"
                       text={job.title}
-                      className={`${exo2.className} text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black lg:text-[2.5rem] lg:leading-[3rem]`}
+                      className={`${exo2.className} text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white lg:text-[2.5rem] lg:leading-[3rem]`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                     />
                     <TextReveal
                       as="p"
                       text={job.location}
-                      className={`${inter.className} mt-1 text-base font-normal leading-6 text-[#B8B8B8]`}
+                      className={`${inter.className} mt-1 text-base font-normal leading-6 text-white/70`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                     />
                   </div>
@@ -175,7 +197,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                           current === index ? null : index,
                         )
                       }
-                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 px-1 text-sm font-semibold text-black sm:w-auto sm:min-w-[8rem]`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 px-1 text-sm font-semibold text-white sm:w-auto sm:min-w-[8rem]`}
                     >
                       <span>View details</span>
                       <span
@@ -194,10 +216,53 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
 
                     <Link
                       href={safeApplyHref(job.applyUrl)}
-                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-[0.25rem] bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto sm:min-w-[8rem]`}
+                      className={`
+                        ${inter.className}
+                        inline-flex
+                        h-12
+                        w-full
+                        items-center
+                        justify-center
+                        gap-2
+                        rounded-[0.25rem]
+                        bg-white
+                        px-5
+                        text-center
+                        text-[1rem]
+                        font-semibold
+                        leading-[1.5rem]
+                        text-[#8F6C1A]
+                        transition-opacity
+                        hover:opacity-90
+                        focus-visible:outline
+                        focus-visible:outline-2
+                        focus-visible:outline-offset-2
+                        focus-visible:outline-white
+                        sm:w-auto
+                        sm:min-w-[8rem]
+                      `}
+                      style={{
+                        color:
+                          "var(--Text-Warning, #8F6C1A)",
+                        fontFeatureSettings:
+                          "'liga' off, 'clig' off",
+                        fontFamily:
+                          'var(--Font-family-Body, Inter)',
+                        fontSize:
+                          "var(--Font-size-Small, 1rem)",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight:
+                          "var(--Line-height-Small, 1.5rem)",
+                      }}
                     >
                       <span>Apply now</span>
-                      <CaretRightIcon aria-hidden="true" size={18} weight="bold" />
+                      <CaretRightIcon
+                        aria-hidden="true"
+                        size={18}
+                        weight="bold"
+                        className="text-[#8F6C1A]"
+                      />
                     </Link>
                   </div>
                 </div>
@@ -213,7 +278,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                 >
                   <div className="overflow-hidden">
                     <div
-                      className={`${inter.className} w-full space-y-8 px-0 pb-10 text-base font-normal leading-7 text-[#969696] sm:pb-12`}
+                      className={`${inter.className} w-full space-y-8 px-5 pb-10 pt-6 text-base font-normal leading-7 text-white/70 sm:pb-12`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                     >
                       <TextReveal as="p" text={job.description} />
@@ -232,7 +297,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
       </div>
 
       <p
-        className={`${inter.className} w-full max-w-[16.375rem] text-center text-2xl font-semibold leading-8 text-black`}
+        className={`${inter.className} w-full max-w-[16.375rem] text-center text-2xl font-semibold leading-8 text-white`}
         style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
       >
         <TextReveal

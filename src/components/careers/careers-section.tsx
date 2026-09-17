@@ -223,7 +223,7 @@ function GalleryGroup({
                 ? `copy-${image.key}-${index}`
                 : `${image.key}-${index}`
             }
-            className="careers-gallery-card relative shrink-0 overflow-hidden bg-[#F4F4F4]"
+            className="careers-gallery-card relative shrink-0 overflow-hidden bg-[#111111]"
             style={{
               width: "22rem",
               height: "25rem",
@@ -403,6 +403,8 @@ export async function CareersSection() {
 
           gap-8
 
+          bg-[#111111]
+
           px-5
           py-12
 
@@ -413,6 +415,10 @@ export async function CareersSection() {
           lg:px-[3.5rem]
           lg:py-[6.25rem]
         "
+        style={{
+          background:
+            "var(--Light-Border-Background-Selected, #111)",
+        }}
       >
         {/* LEFT */}
         <div
@@ -433,8 +439,14 @@ export async function CareersSection() {
               font-semibold
               leading-[1.25rem]
 
-              text-[rgba(0,9,51,0.65)]
+              text-[#F9F9F9]
             `}
+            style={{
+              color:
+                "var(--Light-Border-Text-PrimaryInverse, #F9F9F9)",
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
+            }}
           />
 
           <TextReveal
@@ -442,17 +454,24 @@ export async function CareersSection() {
             text="Life @ Suman Ent."
             className={`
               ${exo2.className}
-
-              text-[2rem]
-              font-semibold
-              leading-[2.5rem]
-              tracking-[-0.03125rem]
-
-              text-black
-
-              lg:text-[2.5rem]
-              lg:leading-[3rem]
+              w-full
+              text-white
             `}
+            style={{
+              color:
+                "var(--Light-Border-Text-PrimaryInverse, #F9F9F9)",
+              fontFeatureSettings:
+                "'liga' off, 'clig' off",
+              fontFamily:
+                'var(--Font-family-Heading, "Plus Jakarta Sans")',
+              fontSize:
+                "var(--Font-size-Heading-1, 2.5rem)",
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight:
+                "var(--Line-height-Heading-1, 3rem)",
+              letterSpacing: "-0.03125rem",
+            }}
           />
         </div>
 
@@ -466,12 +485,22 @@ export async function CareersSection() {
             w-full
             max-w-[37.125rem]
 
-            text-base
-            font-normal
-            leading-6
-
-            text-[#969696]
+            text-white
           `}
+          style={{
+            color:
+              "var(--Light-Border-Text-PrimaryInverse, #F9F9F9)",
+            fontFeatureSettings:
+              "'liga' off, 'clig' off",
+            fontFamily:
+              'var(--Font-family-Body, "Plus Jakarta Sans")',
+            fontSize:
+              "var(--Font-size-Small, 1rem)",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight:
+              "var(--Line-height-Small, 1.5rem)",
+          }}
         />
       </div>
 
@@ -491,7 +520,7 @@ export async function CareersSection() {
 
             overflow-hidden
 
-            bg-white
+            bg-[#111111]
 
             pb-[6.25rem]
           "
@@ -524,7 +553,7 @@ export async function CareersSection() {
                 w-[5rem]
 
                 bg-gradient-to-r
-                from-white
+                from-[#111111]
                 to-transparent
               "
             />
@@ -542,7 +571,7 @@ export async function CareersSection() {
                 w-[5rem]
 
                 bg-gradient-to-l
-                from-white
+                from-[#111111]
                 to-transparent
               "
             />
