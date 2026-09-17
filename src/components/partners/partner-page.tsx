@@ -18,6 +18,8 @@ import {
   useEffect,
   useRef,
   useState,
+  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from "react";
 
@@ -150,37 +152,53 @@ const FILM_STRIP = [
 
 const OTT_IMAGES = [
   {
-    src: "/images/landing/news-and-blogs/Image2.png",
-    alt: "Raja Shivchhatrapati Marathi title artwork",
+    src: "youtube:E5WdHYaVGgo",
+    alt: "Abhijat Marathi OTT YouTube video 1",
   },
   {
-    src: "/images/landing/client/Image2.png",
-    alt: "Marathi entertainment episode artwork",
+    src: "youtube:xFZXokVyOYY",
+    alt: "Abhijat Marathi OTT YouTube video 2",
   },
   {
-    src: "/images/landing/client/Image4.png",
-    alt: "Marathi creator interview artwork",
-  },
-  {
-    src: "/images/landing/client/Image1.png",
-    alt: "Marathi live cultural performance",
+    src: "youtube:H4J1gJFDZQw",
+    alt: "Abhijat Marathi OTT YouTube video 3",
   },
 ] as const;
 
 const FILMY_IMAGES = [
   {
-    src: "/images/landing/client/Image4.png",
-    alt: "Marathi creator conversation",
+    src: "youtube:E5WdHYaVGgo",
+    alt: "Abhijat Marathi Filmy YouTube video 1",
   },
   {
-    src: "/images/landing/client/Image2.png",
-    alt: "Marathi entertainment episode",
+    src: "youtube:xFZXokVyOYY",
+    alt: "Abhijat Marathi Filmy YouTube video 2",
   },
   {
-    src: "/images/landing/news-and-blogs/Image2.png",
-    alt: "Marathi cinema artwork",
+    src: "youtube:H4J1gJFDZQw",
+    alt: "Abhijat Marathi Filmy YouTube video 3",
+  },
+  {
+    src: "youtube:j71RZBc8iYE",
+    alt: "Abhijat Marathi Filmy YouTube video 4",
+  },
+  {
+    src: "youtube:Zz5I0zSgzjs",
+    alt: "Abhijat Marathi Filmy YouTube video 5",
   },
 ] as const;
+
+function getYouTubeId(src: string) {
+  return src.startsWith("youtube:") ? src.slice("youtube:".length) : null;
+}
+
+function getYouTubeThumbnail(videoId: string) {
+  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+}
+
+function getYouTubeEmbed(videoId: string) {
+  return `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+}
 
 function ChevronRightIcon() {
   return (
@@ -277,6 +295,18 @@ function MediaRail({
   const reduceMotion = useReducedMotion() === true;
   const railRef = useRef<HTMLDivElement>(null);
   const [railIndex, setRailIndex] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [activeYouTube, setActiveYouTube] = useState<Set<string>>(() => new Set());
+
+  const dragStateRef = useRef({
+    pointerId: null as number | null,
+    startX: 0,
+    startY: 0,
+    startScrollLeft: 0,
+    moved: false,
+    captured: false,
+    suppressClick: false,
+  });
 
   const scrollToMedia = useCallback(
     (nextIndex: number) => {
@@ -360,6 +390,103 @@ function MediaRail({
     };
   }, [showOttControls, showFilmyControls]);
 
+  const handleRailPointerDown = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const rail = railRef.current;
+      if (!rail) return;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+
+      const state = dragStateRef.current;
+      state.pointerId = event.pointerId;
+      state.startX = event.clientX;
+      state.startY = event.clientY;
+      state.startScrollLeft = rail.scrollLeft;
+      state.moved = false;
+      state.captured = false;
+      state.suppressClick = false;
+    },
+    [],
+  );
+
+  const handleRailPointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const rail = railRef.current;
+      const state = dragStateRef.current;
+
+      if (!rail || state.pointerId !== event.pointerId) return;
+
+      const deltaX = event.clientX - state.startX;
+      const deltaY = event.clientY - state.startY;
+
+      if (!state.moved) {
+        const horizontalIntent =
+          Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY);
+
+        if (!horizontalIntent) return;
+
+        state.moved = true;
+        setDragging(true);
+
+        try {
+          rail.setPointerCapture(event.pointerId);
+          state.captured = true;
+        } catch {
+          state.captured = false;
+        }
+      }
+
+      rail.scrollLeft = state.startScrollLeft - deltaX;
+      event.preventDefault();
+    },
+    [],
+  );
+
+  const finishRailPointer = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      const rail = railRef.current;
+      const state = dragStateRef.current;
+
+      if (state.pointerId !== event.pointerId) return;
+
+      state.suppressClick = state.moved;
+
+      if (rail && state.captured) {
+        try {
+          rail.releasePointerCapture(event.pointerId);
+        } catch {
+          // Pointer capture may already have been released by the browser.
+        }
+      }
+
+      state.pointerId = null;
+      state.moved = false;
+      state.captured = false;
+      setDragging(false);
+    },
+    [],
+  );
+
+  const handleRailClickCapture = useCallback(
+    (event: ReactMouseEvent<HTMLDivElement>) => {
+      const state = dragStateRef.current;
+      if (!state.suppressClick) return;
+
+      state.suppressClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [],
+  );
+
+  const activateYouTube = useCallback((videoId: string) => {
+    setActiveYouTube((current) => {
+      if (current.has(videoId)) return current;
+      const next = new Set(current);
+      next.add(videoId);
+      return next;
+    });
+  }, []);
+
   return (
     <div
       className={styles.mediaRailWrap}
@@ -367,36 +494,89 @@ function MediaRail({
       data-ott-layout={showOttControls ? "true" : "false"}
       data-filmy-layout={showFilmyControls ? "true" : "false"}
     >
-      <div
-        ref={railRef}
-        className={styles.mediaRail}
-        role="region"
-        aria-label={label}
-        tabIndex={0}
-        data-lenis-prevent-horizontal
-      >
-        {items.map((item, index) => (
-          <figure
-            key={`${item.src}-${index}`}
-            className={styles.mediaCard}
-            data-media-index={index}
-          >
-            <Image
-              src={item.src}
-              alt={item.alt}
-              fill
-              loading="lazy"
-              sizes={
-                showOttControls
-                  ? "(max-width: 479px) 88vw, (max-width: 767px) 84vw, (max-width: 1023px) 68vw, 58vw"
-                  : showFilmyControls
-                    ? "(max-width: 479px) 88vw, (max-width: 767px) 84vw, (max-width: 1023px) 70vw, 46vw"
-                    : "(max-width: 479px) 88vw, (max-width: 767px) 80vw, (max-width: 1023px) 58vw, 42vw"
-              }
-              className={styles.mediaCardImage}
-            />
-          </figure>
-        ))}
+      <div className={styles.mediaRailStage}>
+        <div
+          ref={railRef}
+          className={styles.mediaRail}
+          role="region"
+          aria-label={label}
+          tabIndex={0}
+          data-lenis-prevent-horizontal
+          data-dragging={dragging ? "true" : "false"}
+          onPointerDown={handleRailPointerDown}
+          onPointerMove={handleRailPointerMove}
+          onPointerUp={finishRailPointer}
+          onPointerCancel={finishRailPointer}
+          onClickCapture={handleRailClickCapture}
+        >
+          {items.map((item, index) => {
+            const youtubeId = getYouTubeId(item.src);
+            const youtubeActive = youtubeId ? activeYouTube.has(youtubeId) : false;
+
+            return (
+              <figure
+                key={`${item.src}-${index}`}
+                className={styles.mediaCard}
+                data-media-index={index}
+                data-media-kind={youtubeId ? "youtube" : "image"}
+              >
+                {youtubeId ? (
+                  youtubeActive ? (
+                    <iframe
+                      src={getYouTubeEmbed(youtubeId)}
+                      title={item.alt}
+                      className={styles.youtubeEmbed}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.youtubeActivator}
+                      aria-label={`Play ${item.alt}`}
+                      onClick={() => activateYouTube(youtubeId)}
+                    >
+                      {/* Native img avoids requiring YouTube's thumbnail host in next/image config. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={getYouTubeThumbnail(youtubeId)}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        draggable={false}
+                        className={styles.youtubeThumbnail}
+                      />
+                      <span className={styles.youtubeShade} aria-hidden="true" />
+                      <span className={styles.youtubePlay} aria-hidden="true">
+                        <svg viewBox="0 0 64 64" fill="none">
+                          <circle cx="32" cy="32" r="31" fill="rgba(0,0,0,0.72)" />
+                          <path d="M26 21.5L45 32L26 42.5V21.5Z" fill="white" />
+                        </svg>
+                      </span>
+                    </button>
+                  )
+                ) : (
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    loading="lazy"
+                    sizes={
+                      showOttControls
+                        ? "(max-width: 479px) 88vw, (max-width: 767px) 84vw, (max-width: 1023px) 68vw, 58vw"
+                        : showFilmyControls
+                          ? "(max-width: 479px) 88vw, (max-width: 767px) 84vw, (max-width: 1023px) 70vw, 46vw"
+                          : "(max-width: 479px) 88vw, (max-width: 767px) 80vw, (max-width: 1023px) 58vw, 42vw"
+                    }
+                    className={styles.mediaCardImage}
+                  />
+                )}
+              </figure>
+            );
+          })}
+        </div>
       </div>
 
       {showOttControls ? (
@@ -603,11 +783,12 @@ export function PartnerPageContent() {
     );
     if (!activeThumb) return;
 
-    const centeredLeft =
-      activeThumb.offsetLeft - (strip.clientWidth - activeThumb.offsetWidth) / 2;
+    const stripStyles = window.getComputedStyle(strip);
+    const leftPadding = Number.parseFloat(stripStyles.paddingLeft) || 0;
+    const leftAligned = activeThumb.offsetLeft - leftPadding;
 
     strip.scrollTo({
-      left: Math.max(0, centeredLeft),
+      left: Math.max(0, leftAligned),
       behavior: reduceMotion ? "auto" : "smooth",
     });
   }, [activeFilmIndex, reduceMotion]);
@@ -840,6 +1021,13 @@ export function PartnerPageContent() {
             <motion.figure
               className={styles.studioPrimary}
               style={{ y: studioPrimaryY }}
+              initial={reduceMotion ? false : { opacity: 0, x: -140 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.28 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.9,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             >
               <Image
                 src="/images/landing/client/Image3.png"
@@ -851,15 +1039,35 @@ export function PartnerPageContent() {
               />
             </motion.figure>
 
-            <h3 id="connecting-dots-heading">
-              Connecting
-              <br />
-              the dots
-            </h3>
+            <div className={styles.studioHeadingPosition}>
+              <motion.h3
+                id="connecting-dots-heading"
+                initial={reduceMotion ? false : { opacity: 0, y: 96 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.82,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: reduceMotion ? 0 : 0.08,
+                }}
+              >
+                Connecting
+                <br />
+                the dots
+              </motion.h3>
+            </div>
 
             <motion.figure
               className={styles.studioSecondary}
               style={{ y: studioSecondaryY }}
+              initial={reduceMotion ? false : { opacity: 0, x: 140 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.28 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.9,
+                ease: [0.22, 1, 0.36, 1],
+                delay: reduceMotion ? 0 : 0.05,
+              }}
             >
               <Image
                 src="/images/careers/slideimg4.jpg"
@@ -981,3 +1189,4 @@ export function PartnerPageContent() {
     </main>
   );
 }
+           
