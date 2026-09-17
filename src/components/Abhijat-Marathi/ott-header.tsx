@@ -1,12 +1,19 @@
 "use client";
 
-import { TextReveal } from "@/components/ui/scroll-text-reveal";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import {
   motion,
+  useInView,
   useReducedMotion,
 } from "framer-motion";
 
@@ -39,6 +46,199 @@ type OttImage = {
    */
   delay: number;
 };
+
+
+type TextRevealEffect = "rise" | "fade" | "mask" | "blur";
+
+type NRTextRevealProps = {
+  children: ReactNode;
+  effect?: TextRevealEffect;
+  duration?: number;
+  stagger?: number;
+  delay?: number;
+  distance?: number;
+  once?: boolean;
+  amount?: number;
+};
+
+/* =========================================================
+   NR — TEXT REVEAL
+
+   Next.js / Framer Motion port of the linked Framer text
+   reveal behavior.
+
+   - Splits text word-by-word
+   - Preserves nested <br /> / <span> markup
+   - Rise / Fade / Mask / Blur effects
+   - Viewport-triggered
+   - Replay can be enabled with once={false}
+   - Respects prefers-reduced-motion
+   - Keeps the original text available to assistive tech
+========================================================= */
+
+function getTextContent(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(getTextContent).join("");
+  }
+
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    if (node.type === "br") return " ";
+    return getTextContent(node.props.children);
+  }
+
+  return "";
+}
+
+function NRTextReveal({
+  children,
+  effect = "rise",
+  duration = 0.72,
+  stagger = 0.045,
+  delay = 0,
+  distance = 26,
+  once = true,
+  amount = 0.2,
+}: NRTextRevealProps) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const prefersReducedMotion = Boolean(useReducedMotion());
+  const isInView = useInView(ref, {
+    once,
+    amount,
+  });
+
+  const shouldReveal = prefersReducedMotion || isInView;
+  const accessibleText = getTextContent(children).replace(/\s+/g, " ").trim();
+
+  const hiddenState = (() => {
+    switch (effect) {
+      case "fade":
+        return {
+          opacity: 0,
+        };
+
+      case "mask":
+        return {
+          y: "115%",
+          opacity: 1,
+        };
+
+      case "blur":
+        return {
+          y: distance * 0.35,
+          opacity: 0,
+          filter: "blur(10px)",
+        };
+
+      case "rise":
+      default:
+        return {
+          y: distance,
+          opacity: 0,
+        };
+    }
+  })();
+
+  const visibleState = {
+    y: 0,
+    opacity: 1,
+    filter: "blur(0px)",
+  };
+
+  let wordIndex = 0;
+
+  const animateNode = (node: ReactNode): ReactNode => {
+    if (node == null || typeof node === "boolean") return node;
+
+    if (typeof node === "string" || typeof node === "number") {
+      const parts = String(node).split(/(\s+)/);
+
+      return parts.map((part, partIndex) => {
+        if (!part) return null;
+
+        if (/^\s+$/.test(part)) {
+          return part;
+        }
+
+        const currentWordIndex = wordIndex++;
+
+        const animatedWord = (
+          <motion.span
+            key={`nr-word-motion-${currentWordIndex}-${partIndex}`}
+            className="inline-block"
+            initial={prefersReducedMotion ? false : hiddenState}
+            animate={shouldReveal ? visibleState : hiddenState}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : {
+                    duration,
+                    delay: delay + currentWordIndex * stagger,
+                    ease: [0.22, 1, 0.36, 1],
+                  }
+            }
+            style={{
+              willChange: prefersReducedMotion
+                ? undefined
+                : "transform, opacity, filter",
+            }}
+          >
+            {part}
+          </motion.span>
+        );
+
+        return effect === "mask" ? (
+          <span
+            key={`nr-word-${currentWordIndex}-${partIndex}`}
+            className="inline-block overflow-hidden align-baseline"
+          >
+            {animatedWord}
+          </span>
+        ) : (
+          <span
+            key={`nr-word-${currentWordIndex}-${partIndex}`}
+            className="inline-block align-baseline"
+          >
+            {animatedWord}
+          </span>
+        );
+      });
+    }
+
+    if (Array.isArray(node)) {
+      return Children.map(node, (child) => animateNode(child));
+    }
+
+    if (isValidElement<{ children?: ReactNode }>(node)) {
+      if (node.type === "br") {
+        return node;
+      }
+
+      return cloneElement(
+        node,
+        undefined,
+        animateNode(node.props.children),
+      );
+    }
+
+    return node;
+  };
+
+  return (
+    <span ref={ref} className="inline">
+      {accessibleText ? (
+        <span className="sr-only">{accessibleText}</span>
+      ) : null}
+
+      <span aria-hidden="true">{animateNode(children)}</span>
+    </span>
+  );
+}
 
 /* =========================================================
    IMAGE STACK
@@ -234,9 +434,9 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
-            <TextReveal>
+            <NRTextReveal>
             OTT, DIGITAL PLATFORM &amp; STREAMING
-            </TextReveal>
+            </NRTextReveal>
           </p>
 
           {/* =================================================
@@ -274,7 +474,7 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
-            <TextReveal>
+            <NRTextReveal>
             Building Digital Platforms for the
 
             <br
@@ -293,7 +493,7 @@ export default function OttHeader({
             </span>
 
             Next Generation of Entertainment
-            </TextReveal>
+            </NRTextReveal>
           </h1>
 
           {/* =================================================
@@ -327,7 +527,7 @@ export default function OttHeader({
                 "'liga' off, 'clig' off",
             }}
           >
-            <TextReveal>
+            <NRTextReveal>
             From Marathi OTT to connected-screen
             experiences, Suman builds and enables digital
 
@@ -348,7 +548,7 @@ export default function OttHeader({
 
             platforms that bring content to audiences
             across devices and markets.
-            </TextReveal>
+            </NRTextReveal>
           </p>
 
           {/* =================================================
@@ -420,9 +620,9 @@ export default function OttHeader({
                       "'liga' off, 'clig' off",
                   }}
                 >
-                  <TextReveal>
+                  <NRTextReveal>
                   Learn more
-                  </TextReveal>
+                  </NRTextReveal>
                 </span>
 
                 <span
@@ -482,9 +682,9 @@ export default function OttHeader({
                     "'liga' off, 'clig' off",
                 }}
               >
-                <TextReveal>
+                <NRTextReveal>
                 Join now
-                </TextReveal>
+                </NRTextReveal>
               </span>
 
               <ChevronRight />

@@ -1,18 +1,163 @@
 "use client";
 
-import { TextReveal } from "@/components/ui/scroll-text-reveal";
 import { useNearViewport } from "@/hooks/use-near-viewport";
 
 import Image from "next/image";
 import {
     AnimatePresence,
     motion,
+    useInView,
     useReducedMotion,
 } from "framer-motion";
 import {
+    Children,
+    cloneElement,
+    isValidElement,
+    type ReactNode,
     useEffect,
+    useRef,
     useState,
 } from "react";
+
+
+/* =========================================================
+   MASKED TEXT REVEAL
+
+   Framer-style masked upward reveal.
+   Only the text animation is changed; layout/typography stay inherited.
+========================================================= */
+
+type MaskedTextRevealProps = {
+    children: ReactNode;
+};
+
+function MaskedTextReveal({
+    children,
+}: MaskedTextRevealProps) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const prefersReducedMotion =
+        Boolean(useReducedMotion());
+
+    const isInView = useInView(ref, {
+        once: true,
+        amount: 0.15,
+        margin: "0px 0px -5% 0px",
+    });
+
+    if (prefersReducedMotion) {
+        return <>{children}</>;
+    }
+
+    let wordIndex = 0;
+
+    const renderNode = (
+        node: ReactNode,
+    ): ReactNode => {
+        if (
+            node === null ||
+            node === undefined ||
+            typeof node === "boolean"
+        ) {
+            return node;
+        }
+
+        if (
+            typeof node === "string" ||
+            typeof node === "number"
+        ) {
+            return String(node)
+                .split(/(\s+)/)
+                .map((part, partIndex) => {
+                    if (!part) return null;
+
+                    if (/^\s+$/.test(part)) {
+                        return part;
+                    }
+
+                    const currentWordIndex =
+                        wordIndex++;
+
+                    return (
+                        <span
+                            key={`masked-word-${currentWordIndex}-${partIndex}`}
+                            className="inline-block overflow-hidden align-bottom"
+                        >
+                            <motion.span
+                                className="inline-block"
+                                initial={{
+                                    y: "115%",
+                                }}
+                                animate={
+                                    isInView
+                                        ? {
+                                              y: "0%",
+                                          }
+                                        : {
+                                              y: "115%",
+                                          }
+                                }
+                                transition={{
+                                    duration: 0.78,
+                                    delay:
+                                        currentWordIndex *
+                                        0.035,
+                                    ease: [
+                                        0.625,
+                                        0.05,
+                                        0,
+                                        1,
+                                    ],
+                                }}
+                                style={{
+                                    willChange:
+                                        "transform",
+                                }}
+                            >
+                                {part}
+                            </motion.span>
+                        </span>
+                    );
+                });
+        }
+
+        if (Array.isArray(node)) {
+            return Children.map(
+                node,
+                (child) =>
+                    renderNode(child),
+            );
+        }
+
+        if (
+            isValidElement<{
+                children?: ReactNode;
+            }>(node)
+        ) {
+            if (node.type === "br") {
+                return node;
+            }
+
+            return cloneElement(
+                node,
+                undefined,
+                renderNode(
+                    node.props.children,
+                ),
+            );
+        }
+
+        return node;
+    };
+
+    return (
+        <span
+            ref={ref}
+            className="inline"
+        >
+            {renderNode(children)}
+        </span>
+    );
+}
 
 /* =========================================================
    SHARED LOGO
@@ -653,9 +798,9 @@ function ContentCard({
                                     'var(--Font-family-Body, "Plus Jakarta Sans")',
                             }}
                         >
-                            <TextReveal>
+                            <MaskedTextReveal>
                                 Watch now
-                            </TextReveal>
+                            </MaskedTextReveal>
                         </span>
                     </button>
                 </div>
@@ -697,9 +842,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         {item.title}
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </p>
 
                 <p
@@ -725,9 +870,9 @@ function ContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         {item.category}
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </p>
             </div>
         </article>
@@ -881,9 +1026,9 @@ function MusicContentCard({
                                     'var(--Font-family-Body, "Plus Jakarta Sans")',
                             }}
                         >
-                            <TextReveal>
+                            <MaskedTextReveal>
                                 Stream now
-                            </TextReveal>
+                            </MaskedTextReveal>
                         </span>
                     </button>
                 </div>
@@ -921,9 +1066,9 @@ function MusicContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         {item.title}
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </p>
 
                 <p
@@ -947,9 +1092,9 @@ function MusicContentCard({
                             "'liga' off, 'clig' off",
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         {item.category}
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </p>
             </div>
         </article>
@@ -1072,9 +1217,9 @@ function HeroBadge({
                         'var(--Font-family-Body, "Plus Jakarta Sans")',
                 }}
             >
-                <TextReveal>
+                <MaskedTextReveal>
                     {label}
-                </TextReveal>
+                </MaskedTextReveal>
             </span>
 
             <div
@@ -1170,9 +1315,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         {primaryLabel}
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1226,9 +1371,9 @@ function HeroButtons({
                             'var(--Font-family-Body, "Plus Jakarta Sans")',
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         Learn more
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </span>
 
                 <ChevronRightIcon />
@@ -1510,12 +1655,12 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                            <TextReveal>
+                            <MaskedTextReveal>
                                 Welcome to the Abhijat
                                 <br className="hidden sm:block" />
                                 {" "}
                                 marathi universe
-                            </TextReveal>
+                            </MaskedTextReveal>
                         </h2>
                     </div>
 
@@ -1543,12 +1688,12 @@ export default function Section3() {
                                 "'liga' off, 'clig' off",
                         }}
                     >
-                        <TextReveal>
+                        <MaskedTextReveal>
                             From Marathi OTT to connected-screen
                             experiences, Suman builds and enables
                             digital platforms that bring content to
                             audiences across devices and markets.
-                        </TextReveal>
+                        </MaskedTextReveal>
                     </p>
                 </div>
             </div>
@@ -1858,11 +2003,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                                <TextReveal>
+                                <MaskedTextReveal>
                                     {
                                         currentHero.title
                                     }
-                                </TextReveal>
+                                </MaskedTextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -1898,11 +2043,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                            <TextReveal>
+                            <MaskedTextReveal>
                                 {
                                     currentHero.description
                                 }
-                            </TextReveal>
+                            </MaskedTextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2260,11 +2405,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                                <TextReveal>
+                                <MaskedTextReveal>
                                     {
                                         currentShowHero.title
                                     }
-                                </TextReveal>
+                                </MaskedTextReveal>
                             </h3>
 
                             <HeroButtons />
@@ -2300,11 +2445,11 @@ export default function Section3() {
                                     "'liga' off, 'clig' off",
                             }}
                         >
-                            <TextReveal>
+                            <MaskedTextReveal>
                                 {
                                     currentShowHero.description
                                 }
-                            </TextReveal>
+                            </MaskedTextReveal>
                         </p>
                     </motion.div>
                 </AnimatePresence>
@@ -2712,11 +2857,11 @@ export default function Section3() {
                                             "'liga' off, 'clig' off",
                                     }}
                                 >
-                                    <TextReveal>
+                                    <MaskedTextReveal>
                                         {
                                             currentMusicHero.title
                                         }
-                                    </TextReveal>
+                                    </MaskedTextReveal>
                                 </h3>
 
                                 <HeroButtons
@@ -2754,11 +2899,11 @@ export default function Section3() {
                                         "'liga' off, 'clig' off",
                                 }}
                             >
-                                <TextReveal>
+                                <MaskedTextReveal>
                                     {
                                         currentMusicHero.description
                                     }
-                                </TextReveal>
+                                </MaskedTextReveal>
                             </p>
                         </motion.div>
                     </AnimatePresence>
@@ -2826,9 +2971,9 @@ export default function Section3() {
                         lineHeight: "var(--Line-height-Heading-2, 2.5rem)",
                     }}
                 >
-                    <TextReveal>
+                    <MaskedTextReveal>
                         Experience Authentic Marathi Entertainment Anywhere, Anytime.
-                    </TextReveal>
+                    </MaskedTextReveal>
                 </h2>
 
                 <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
@@ -2873,9 +3018,9 @@ export default function Section3() {
                                     lineHeight: "var(--Line-height-Small, 1.5rem)",
                                 }}
                             >
-                                <TextReveal>
+                                <MaskedTextReveal>
                                     {platform.description}
-                                </TextReveal>
+                                </MaskedTextReveal>
                             </p>
                         </article>
                     ))}

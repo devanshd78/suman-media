@@ -1,7 +1,153 @@
 "use client";
 
-import { TextReveal } from "@/components/ui/scroll-text-reveal";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ReactNode,
+  useRef,
+} from "react";
+
+
+/* =========================================================
+   MASKED TEXT REVEAL
+
+   Framer-style masked upward reveal.
+   Only the text animation is changed; layout/typography stay inherited.
+========================================================= */
+
+type MaskedTextRevealProps = {
+  children: ReactNode;
+};
+
+function MaskedTextReveal({
+  children,
+}: MaskedTextRevealProps) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const prefersReducedMotion =
+    Boolean(useReducedMotion());
+
+  const isInView = useInView(ref, {
+    once: true,
+    amount: 0.15,
+    margin: "0px 0px -5% 0px",
+  });
+
+  if (prefersReducedMotion) {
+    return <>{children}</>;
+  }
+
+  let wordIndex = 0;
+
+  const renderNode = (
+    node: ReactNode,
+  ): ReactNode => {
+    if (
+      node === null ||
+      node === undefined ||
+      typeof node === "boolean"
+    ) {
+      return node;
+    }
+
+    if (
+      typeof node === "string" ||
+      typeof node === "number"
+    ) {
+      return String(node)
+        .split(/(\s+)/)
+        .map((part, partIndex) => {
+          if (!part) return null;
+
+          if (/^\s+$/.test(part)) {
+            return part;
+          }
+
+          const currentWordIndex =
+            wordIndex++;
+
+          return (
+            <span
+              key={`masked-word-${currentWordIndex}-${partIndex}`}
+              className="inline-block overflow-hidden align-bottom"
+            >
+              <motion.span
+                className="inline-block"
+                initial={{
+                  y: "115%",
+                }}
+                animate={
+                  isInView
+                    ? {
+                        y: "0%",
+                      }
+                    : {
+                        y: "115%",
+                      }
+                }
+                transition={{
+                  duration: 0.78,
+                  delay:
+                    currentWordIndex *
+                    0.035,
+                  ease: [
+                    0.625,
+                    0.05,
+                    0,
+                    1,
+                  ],
+                }}
+                style={{
+                  willChange:
+                    "transform",
+                }}
+              >
+                {part}
+              </motion.span>
+            </span>
+          );
+        });
+    }
+
+    if (Array.isArray(node)) {
+      return Children.map(
+        node,
+        (child) =>
+          renderNode(child),
+      );
+    }
+
+    if (
+      isValidElement<{
+        children?: ReactNode;
+      }>(node)
+    ) {
+      if (node.type === "br") {
+        return node;
+      }
+
+      return cloneElement(
+        node,
+        undefined,
+        renderNode(
+          node.props.children,
+        ),
+      );
+    }
+
+    return node;
+  };
+
+  return (
+    <span
+      ref={ref}
+      className="inline"
+    >
+      {renderNode(children)}
+    </span>
+  );
+}
 
 /* =========================================================
    ASSETS
@@ -78,9 +224,9 @@ function CardHeader({
             "'liga' off, 'clig' off",
         }}
       >
-        <TextReveal>
+        <MaskedTextReveal>
           {title}
-        </TextReveal>
+        </MaskedTextReveal>
       </h3>
 
       <p
@@ -107,9 +253,9 @@ function CardHeader({
             "'liga' off, 'clig' off",
         }}
       >
-        <TextReveal>
+        <MaskedTextReveal>
           {description}
-        </TextReveal>
+        </MaskedTextReveal>
       </p>
     </div>
   );
@@ -1643,9 +1789,9 @@ export default function Entertainment() {
               "'liga' off, 'clig' off",
           }}
         >
-          <TextReveal>
+          <MaskedTextReveal>
             Entertainment from library to living room.
-          </TextReveal>
+          </MaskedTextReveal>
         </h2>
 
         {/* =================================================

@@ -180,7 +180,7 @@ export function CareersValuesSection({
     <>
       <section
         aria-label="Create, collaborate, experiment and grow"
-        className="flex w-full items-center justify-center gap-[3.5rem] bg-[#F5F1EB] px-4 py-10 sm:px-8 sm:py-16 lg:px-[3.5rem] lg:py-[9.375rem]"
+        className="flex w-full max-w-none items-center justify-center gap-[3.5rem] bg-[#F5F1EB] px-4 py-10 sm:px-8 sm:py-16 lg:px-[3.5rem] lg:py-[9.375rem]"
       >
         <div
           className={`${exo2.className} flex w-full flex-col items-center gap-2 text-center text-[1.625rem] font-semibold leading-[1.4] tracking-[-0.0625rem] text-black sm:gap-4 sm:text-[2.75rem] lg:gap-6 lg:text-[5rem] xl:gap-8 xl:text-[8.25rem]`}
@@ -210,9 +210,9 @@ export function CareersValuesSection({
 
       <section
         aria-labelledby="careers-benefits-heading"
-        className="w-full bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="w-full max-w-none bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
       >
-        <div className="mx-auto grid w-full max-w-[83rem] grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-[3.5rem]">
+        <div className="grid w-full max-w-none grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-[3.5rem]">
           <div className="flex min-w-0 flex-col items-start gap-6 lg:pr-8">
             <TextReveal
               as="h2"
@@ -254,9 +254,9 @@ export function CareersValuesSection({
 
       <section
         aria-labelledby="careers-culture-heading"
-        className="flex w-full flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
+        className="flex w-full max-w-none flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
       >
-        <div className="mx-auto flex w-full max-w-full flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
+        <div className="flex w-full max-w-none flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
             <TextReveal
               as="p"

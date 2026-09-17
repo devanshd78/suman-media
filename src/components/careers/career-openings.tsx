@@ -128,7 +128,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
     <section
       id="open-roles"
       aria-labelledby="career-openings-heading"
-      className="mx-auto flex w-full max-w-full scroll-mt-24 flex-col items-center gap-16 bg-white px-5 py-16 sm:px-8 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="flex w-full max-w-none scroll-mt-24 flex-col items-center gap-12 bg-white px-5 py-16 sm:px-8 md:gap-14 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
     >
       <TextReveal
         as="h2"
@@ -138,7 +138,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
         style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
       />
 
-      <div className="w-full max-w-[81.125rem]">
+      <div className="w-full max-w-none">
         <div className="flex w-full flex-col gap-6">
           {jobs.map((job, index) => {
             const isOpen = hoveredIndex === index || expandedIndex === index;
@@ -149,7 +149,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                 key={job._key || `${job.title}-${index}`}
                 className="w-full border-y border-[#E6E6E6]"
               >
-                <div className="flex min-h-[7.5rem] w-full flex-col items-start justify-center gap-6 p-5 md:flex-row md:items-center md:justify-between md:gap-[6.25rem]">
+                <div className="flex min-h-[7.5rem] w-full flex-col items-start justify-center gap-6 px-0 py-5 sm:py-6 md:flex-row md:items-center md:justify-between md:gap-8 lg:gap-[6.25rem]">
                   <div className="min-w-0 flex-1">
                     <TextReveal
                       as="h3"
@@ -175,7 +175,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                           current === index ? null : index,
                         )
                       }
-                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 px-1 text-sm font-semibold text-black sm:w-auto`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 px-1 text-sm font-semibold text-black sm:w-auto sm:min-w-[8rem]`}
                     >
                       <span>View details</span>
                       <span
@@ -194,7 +194,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
 
                     <Link
                       href={safeApplyHref(job.applyUrl)}
-                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-[0.25rem] bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto`}
+                      className={`${inter.className} inline-flex h-12 w-full items-center justify-center gap-2 rounded-[0.25rem] bg-[#8F6C1A] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#755715] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8F6C1A] sm:w-auto sm:min-w-[8rem]`}
                     >
                       <span>Apply now</span>
                       <CaretRightIcon aria-hidden="true" size={18} weight="bold" />
@@ -213,7 +213,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
                 >
                   <div className="overflow-hidden">
                     <div
-                      className={`${inter.className} space-y-8 px-5 pb-10 text-base font-normal leading-7 text-[#969696]`}
+                      className={`${inter.className} w-full space-y-8 px-0 pb-10 text-base font-normal leading-7 text-[#969696] sm:pb-12`}
                       style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
                     >
                       <TextReveal as="p" text={job.description} />
