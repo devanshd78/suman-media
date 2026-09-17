@@ -536,7 +536,7 @@ export function CareersValuesSection({
 
       <section
         aria-labelledby="careers-culture-heading"
-        className="flex w-full max-w-none flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
+        className="flex w-full max-w-none flex-col items-start gap-[2.5rem] bg-white pt-0"
       >
         <div className="flex w-full max-w-none flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
@@ -576,8 +576,8 @@ export function CareersValuesSection({
           <div
             className={
               shouldReduceMotion
-                ? "relative flex w-full items-center overflow-hidden py-8"
-                : "sticky top-0 flex h-[100svh] w-full items-center overflow-hidden"
+                ? "relative flex w-full items-start overflow-hidden"
+                : "sticky top-0 flex h-[100svh] w-full items-start overflow-hidden"
             }
           >
             {/* Full width — no max-width and no horizontal padding */}
@@ -618,14 +618,10 @@ export function CareersValuesSection({
                         w-full
                         flex-col
 
-                        lg:h-[38.75rem]
+                        lg:h-[clamp(30rem,42vw,38.75rem)]
                         lg:flex-row
                         lg:items-stretch
                         lg:gap-[2.5rem]
-
-                        min-[1921px]:mx-auto
-                        min-[1921px]:w-[83rem]
-                        min-[1921px]:max-w-none
                       "
                     >
 
@@ -641,20 +637,16 @@ export function CareersValuesSection({
                           sm:aspect-[16/9]
 
                           lg:aspect-auto
-                          lg:h-[38.75rem]
+                          lg:h-full
                           lg:w-[46%]
-                          lg:flex-[0_1_46%]
-
-                          min-[1921px]:h-[38.75rem]
-                          min-[1921px]:w-[38rem]
-                          min-[1921px]:flex-[0_0_38rem]
+                          lg:flex-[0_0_46%]
                         "
                       >
                         <Image
                           src={slide.imageUrl}
                           alt={slide.imageAlt || slide.title}
                           fill
-                          sizes="(max-width: 1023px) 100vw, (max-width: 1920px) 46vw, 38rem"
+                          sizes="(max-width: 1023px) 100vw, 46vw"
                           draggable={false}
                           className="select-none object-cover object-center"
                         />
@@ -676,15 +668,11 @@ export function CareersValuesSection({
                   sm:min-h-[16rem]
                   sm:p-8
 
-                  lg:h-[38.75rem]
+                  lg:h-full
                   lg:min-h-0
                   lg:w-auto
                   lg:flex-1
                   lg:p-10
-
-                  min-[1921px]:h-[38.75rem]
-                  min-[1921px]:w-[42.5rem]
-                  min-[1921px]:flex-[0_0_42.5rem]
 
                   xl:p-12
                 "
