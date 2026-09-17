@@ -8,7 +8,10 @@ import {
   plusJakartaSans,
 } from "@/lib/fonts";
 
-import type { CmsCannesMediaItem, CmsCannesSection } from "@/types/cms";
+import type {
+  CmsCannesMediaItem,
+  CmsCannesSection,
+} from "@/types/cms";
 
 import {
   motion,
@@ -40,6 +43,16 @@ type GalleryMedia = {
   position?: string;
   cropScale?: number;
   cropOrigin?: string;
+
+  /*
+   * Edge continuation card.
+   *
+   * Used only to visually continue the first row before
+   * its first real item.
+   *
+   * It is not treated as another accessible gallery item.
+   */
+  decorativeClone?: boolean;
 };
 
 type GalleryGeometry = {
@@ -57,10 +70,6 @@ type CannesSectionProps = {
 
 /* ============================================================
    DEFAULT CANNES CONTENT
-
-   Sanity wins when editors provide content/media. The local files
-   below are the production-safe fallback when the CMS section or
-   its media array is empty/unavailable.
    ============================================================ */
 
 const DEFAULT_HEADING =
@@ -80,210 +89,323 @@ const DEFAULT_CTA = {
    ORDER:
    1. Top row — left to right
    2. Bottom row — left to right
-
-   Do NOT use even/odd splitting.
    ============================================================ */
 
 const FOCUS_MEDIA_PATH =
   "/cannes/cannes-red-carpet-interview.mp4";
 
-/*
- * The local fallback is curated to landscape media only.
- * Portrait assets are intentionally not placed into this wall because the
- * Cannes cards are cinematic landscape frames and aggressive portrait crops
- * were the source of the empty/letterboxed-looking cards.
- *
- * The focus video itself is a 16:9 file with decorative side panels baked
- * into the source. A card-level cropScale removes those baked panels without
- * changing or re-encoding the original public asset.
- */
-const FALLBACK_CANNES_TOP_ROW: readonly GalleryMedia[] = [
-  {
-    key: "cannes-red-carpet-interview",
-    kind: "video",
-    src: FOCUS_MEDIA_PATH,
-    alt: "Red carpet interview moment at Cannes",
-    position: "center center",
-    cropScale: 1.95,
-    cropOrigin: "43% 27%",
-  },
-  {
-    key: "cannes-red-carpet-group-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-01.jpg",
-    alt: "Guests representing Indian culture on the Cannes red carpet",
-    position: "center 44%",
-  },
-  {
-    key: "cannes-pavilion-guests-02",
-    kind: "image",
-    src: "/cannes/cannes-pavilion-guests-02.jpg",
-    alt: "Guests meeting at the Cannes pavilion",
-    position: "center 42%",
-  },
-  {
-    key: "cannes-interview-group",
-    kind: "video",
-    src: "/cannes/cannes-interview-group.mp4",
-    alt: "Cannes festival interview with guests",
-    position: "center center",
-  },
-  {
-    key: "cannes-red-carpet-group-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-group-02.jpg",
-    alt: "Festival guests posing together on the Cannes red carpet",
-    position: "center 42%",
-  },
-  {
-    key: "cannes-pavilion-guests-01",
-    kind: "image",
-    src: "/cannes/cannes-pavilion-guests-01.jpg",
-    alt: "Guests gathering at the Cannes pavilion",
-    position: "center 38%",
-  },
-];
+/* ============================================================
+   TOP ROW
+   ============================================================ */
 
-const FALLBACK_CANNES_BOTTOM_ROW: readonly GalleryMedia[] = [
-  {
-    key: "cannes-interview-group-short",
-    kind: "video",
-    src: "/cannes/cannes-interview-group-short.mp4",
-    alt: "Cannes interview moment at the Bharat Pavilion",
-    position: "center center",
-  },
-  {
-    key: "cannes-riviera-portrait-01",
-    kind: "image",
-    src: "/cannes/cannes-riviera-portrait-01.jpg",
-    alt: "Festival portrait overlooking the Cannes waterfront",
-    position: "center 42%",
-  },
-  {
-    key: "cannes-interview-indoor",
-    kind: "video",
-    src: "/cannes/cannes-interview-indoor.mp4",
-    alt: "Cannes interview and pavilion moment",
-    position: "center center",
-  },
-  {
-    key: "cannes-red-carpet-blue-look-01",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
-    alt: "Traditional blue look presented on the Cannes red carpet",
-    position: "center 48%",
-  },
-  {
-    key: "cannes-red-carpet-blue-look-02",
-    kind: "image",
-    src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
-    alt: "Traditional blue look on the Cannes red carpet",
-    position: "center 48%",
-  },
-];
+const FALLBACK_CANNES_TOP_ROW:
+  readonly GalleryMedia[] = [
+    {
+      key: "cannes-red-carpet-interview",
+      kind: "video",
+      src: FOCUS_MEDIA_PATH,
+      alt: "Red carpet interview moment at Cannes",
+      position: "center center",
+      cropScale: 1.95,
+      cropOrigin: "43% 27%",
+    },
 
-/* Combined fallback is used by the reduced-motion/static gallery. */
-const FALLBACK_CANNES_MEDIA: readonly GalleryMedia[] = [
-  ...FALLBACK_CANNES_TOP_ROW,
-  ...FALLBACK_CANNES_BOTTOM_ROW,
-];
+    {
+      key: "cannes-red-carpet-group-01",
+      kind: "image",
+      src: "/cannes/cannes-red-carpet-group-01.jpg",
+      alt: "Guests representing Indian culture on the Cannes red carpet",
+      position: "center 44%",
+    },
+
+    {
+      key: "cannes-pavilion-guests-02",
+      kind: "image",
+      src: "/cannes/cannes-pavilion-guests-02.jpg",
+      alt: "Guests meeting at the Cannes pavilion",
+      position: "center 42%",
+    },
+
+    {
+      key: "cannes-interview-group",
+      kind: "video",
+      src: "/cannes/cannes-interview-group.mp4",
+      alt: "Cannes festival interview with guests",
+      position: "center center",
+    },
+
+    {
+      key: "cannes-red-carpet-group-02",
+      kind: "image",
+      src: "/cannes/cannes-red-carpet-group-02.jpg",
+      alt: "Festival guests posing together on the Cannes red carpet",
+      position: "center 42%",
+    },
+
+    {
+      key: "cannes-pavilion-guests-01",
+      kind: "image",
+      src: "/cannes/cannes-pavilion-guests-01.jpg",
+      alt: "Guests gathering at the Cannes pavilion",
+      position: "center 38%",
+    },
+  ];
 
 /* ============================================================
-   ROW HELPERS
+   BOTTOM ROW
+   ============================================================ */
+
+const FALLBACK_CANNES_BOTTOM_ROW:
+  readonly GalleryMedia[] = [
+    {
+      key: "cannes-interview-group-short",
+      kind: "video",
+      src: "/cannes/cannes-interview-group-short.mp4",
+      alt: "Cannes interview moment at the Bharat Pavilion",
+      position: "center center",
+    },
+
+    {
+      key: "cannes-riviera-portrait-01",
+      kind: "image",
+      src: "/cannes/cannes-riviera-portrait-01.jpg",
+      alt: "Festival portrait overlooking the Cannes waterfront",
+      position: "center 42%",
+    },
+
+    {
+      key: "cannes-interview-indoor",
+      kind: "video",
+      src: "/cannes/cannes-interview-indoor.mp4",
+      alt: "Cannes interview and pavilion moment",
+      position: "center center",
+    },
+
+    {
+      key: "cannes-red-carpet-blue-look-01",
+      kind: "image",
+      src: "/cannes/cannes-red-carpet-blue-look-01.jpg",
+      alt: "Traditional blue look presented on the Cannes red carpet",
+      position: "center 48%",
+    },
+
+    {
+      key: "cannes-red-carpet-blue-look-02",
+      kind: "image",
+      src: "/cannes/cannes-red-carpet-blue-look-02.jpg",
+      alt: "Traditional blue look on the Cannes red carpet",
+      position: "center 48%",
+    },
+  ];
+
+/* ============================================================
+   COMBINED FALLBACK
+
+   Only used by reduced-motion/static gallery.
+   No decorative clones are included here.
+   ============================================================ */
+
+const FALLBACK_CANNES_MEDIA:
+  readonly GalleryMedia[] = [
+    ...FALLBACK_CANNES_TOP_ROW,
+    ...FALLBACK_CANNES_BOTTOM_ROW,
+  ];
+
+/* ============================================================
+   ROW EXPANSION
+
+   prependWrapItem:
+   false = normal row
+   true  = add LAST item before FIRST item
+
+   This creates:
+
+   LAST CLONE | FIRST | SECOND | THIRD | ...
+
+   The leading clone prevents black/empty space from appearing
+   before the first top-row video.
    ============================================================ */
 
 function expandGalleryRow(
   row: readonly GalleryMedia[],
+  prependWrapItem = false,
 ): GalleryMedia[] {
   if (row.length === 0) {
     return [];
   }
 
   /*
-   * IMPORTANT: never prepend a clone.
-   * The first real media item must remain the first visible card.
-   *
-   * Keep at least six cards for the existing composition, then append two
-   * decorative continuation cards. Those two trailing cards act as a visual
-   * buffer when the rows move in opposite directions, so a wide viewport can
-   * never reveal an empty black slot at either edge near the end of the scroll.
-   * GalleryRow already marks repeated keys as decorative, so accessibility and
-   * autoplay behaviour remain unchanged.
+   * Start with all real items in their exact original order.
    */
-  const expanded = [...row];
+  const expanded: GalleryMedia[] = [
+    ...row,
+  ];
 
-  while (expanded.length < 6) {
+  /*
+   * Keep at least six cards.
+   */
+  while (
+    expanded.length < 6
+  ) {
     expanded.push(
-      row[expanded.length % row.length],
+      row[
+      expanded.length %
+      row.length
+      ],
     );
   }
 
-  const bufferStart = expanded.length;
+  /*
+   * Keep the existing continuation buffer
+   * after the row.
+   *
+   * These help prevent an empty edge near the
+   * opposite end of the animation.
+   */
+  const bufferStart =
+    expanded.length;
 
-  for (let index = 0; index < 2; index += 1) {
+  for (
+    let index = 0;
+    index < 2;
+    index += 1
+  ) {
     expanded.push(
-      row[(bufferStart + index) % row.length],
+      row[
+      (bufferStart + index) %
+      row.length
+      ],
     );
+  }
+
+  /*
+   * Only row 1 uses this.
+   *
+   * Put the final REAL item immediately before
+   * the first real item.
+   */
+  if (
+    prependWrapItem
+  ) {
+    const lastItem =
+      row[row.length - 1];
+
+    const leadingClone:
+      GalleryMedia = {
+      ...lastItem,
+
+      /*
+       * Unique key prevents the actual last card from
+       * being treated as the same React element.
+       */
+      key:
+        `${lastItem.key}__leading-wrap`,
+
+      decorativeClone:
+        true,
+    };
+
+    return [
+      leadingClone,
+      ...expanded,
+    ];
   }
 
   return expanded;
 }
 
-function isFocusMedia(media: GalleryMedia) {
-  return media.src.split("?")[0].endsWith(FOCUS_MEDIA_PATH);
+/* ============================================================
+   FOCUS MEDIA HELPERS
+   ============================================================ */
+
+function isFocusMedia(
+  media: GalleryMedia,
+) {
+  return media.src
+    .split("?")[0]
+    .endsWith(
+      FOCUS_MEDIA_PATH,
+    );
 }
 
-function applyFocusCrop(media: GalleryMedia): GalleryMedia {
-  if (!isFocusMedia(media)) {
+function applyFocusCrop(
+  media: GalleryMedia,
+): GalleryMedia {
+  if (
+    !isFocusMedia(media)
+  ) {
     return media;
   }
 
   return {
     ...media,
-    cropScale: media.cropScale ?? 1.95,
-    cropOrigin: media.cropOrigin ?? "43% 27%",
+
+    cropScale:
+      media.cropScale ??
+      1.95,
+
+    cropOrigin:
+      media.cropOrigin ??
+      "43% 27%",
   };
 }
 
 function prioritizeFocusMedia(
-  media: readonly GalleryMedia[],
+  media:
+    readonly GalleryMedia[],
 ): GalleryMedia[] {
-  const focusIndex = media.findIndex(isFocusMedia);
+  const focusIndex =
+    media.findIndex(
+      isFocusMedia,
+    );
 
-  if (focusIndex <= 0) {
-    return [...media];
+  if (
+    focusIndex <= 0
+  ) {
+    return [
+      ...media,
+    ];
   }
 
   return [
     media[focusIndex],
-    ...media.slice(0, focusIndex),
-    ...media.slice(focusIndex + 1),
+
+    ...media.slice(
+      0,
+      focusIndex,
+    ),
+
+    ...media.slice(
+      focusIndex + 1,
+    ),
   ];
 }
 
 /* ============================================================
-   SANITY ROW BUILDER
-
-   Sanity still supplies one ordered media list.
-   We preserve its order by putting the first half in row 1
-   and the second half in row 2.
-
-   OLD CODE:
-   index % 2 === 0 / index % 2 === 1
-
-   That code was changing the visible order.
+   SANITY MEDIA
    ============================================================ */
 
+function toGalleryMedia(
+  item:
+    CmsCannesMediaItem,
+): GalleryMedia | null {
+  const videoUrl =
+    item.videoUrl?.trim();
 
-function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
-  const videoUrl = item.videoUrl?.trim();
-  const imageUrl = item.imageUrl?.trim();
+  const imageUrl =
+    item.imageUrl?.trim();
 
   const hotspotPosition =
-    typeof item.imageHotspotX === "number" &&
-      typeof item.imageHotspotY === "number"
-      ? `${Math.round(item.imageHotspotX * 100)}% ${Math.round(
-        item.imageHotspotY * 100,
+    typeof item.imageHotspotX ===
+      "number" &&
+      typeof item.imageHotspotY ===
+      "number"
+      ? `${Math.round(
+        item.imageHotspotX *
+        100,
+      )}% ${Math.round(
+        item.imageHotspotY *
+        100,
       )}%`
       : undefined;
 
@@ -291,40 +413,66 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
     item.objectPosition?.trim() ||
     hotspotPosition;
 
-  /*
-   * Cannes cards are intentionally edge-to-edge.
-   * CMS `contain` is ignored here because it creates the black side bars
-   * visible in the supplied screenshot.
-   */
+  /* ----------------------------------------------------------
+     VIDEO
+     ---------------------------------------------------------- */
+
   if (
-    (item.mediaType === "video" ||
-      (!item.mediaType && videoUrl)) &&
+    (
+      item.mediaType ===
+      "video" ||
+      (
+        !item.mediaType &&
+        videoUrl
+      )
+    ) &&
     videoUrl
   ) {
     return applyFocusCrop({
-      key: item._key,
-      kind: "video",
-      src: videoUrl,
+      key:
+        item._key,
+
+      kind:
+        "video",
+
+      src:
+        videoUrl,
+
       alt:
         item.videoLabel?.trim() ||
         item.caption?.trim() ||
         "Cannes 2026 video moment",
+
       poster:
         item.posterUrl?.trim() ||
         undefined,
+
       position,
     });
   }
 
-  if (imageUrl) {
+  /* ----------------------------------------------------------
+     IMAGE
+     ---------------------------------------------------------- */
+
+  if (
+    imageUrl
+  ) {
     return applyFocusCrop({
-      key: item._key,
-      kind: "image",
-      src: imageUrl,
+      key:
+        item._key,
+
+      kind:
+        "image",
+
+      src:
+        imageUrl,
+
       alt:
         item.imageAlt?.trim() ||
         item.caption?.trim() ||
         "Cannes 2026 moment",
+
       position,
     });
   }
@@ -332,20 +480,70 @@ function toGalleryMedia(item: CmsCannesMediaItem): GalleryMedia | null {
   return null;
 }
 
-function buildGalleryRows(media: readonly GalleryMedia[]) {
-  if (media.length === 0) {
-    return [[], []] as const;
+/* ============================================================
+   BUILD ROWS
+
+   Row 1:
+   LAST clone | FIRST | SECOND | ...
+
+   Row 2:
+   unchanged
+   ============================================================ */
+
+function buildGalleryRows(
+  media:
+    readonly GalleryMedia[],
+) {
+  if (
+    media.length === 0
+  ) {
+    return [
+      [],
+      [],
+    ] as const;
   }
 
-  // Preserve Sanity/editor order exactly:
-  // first half = row 1, second half = row 2.
-  const splitIndex = Math.ceil(media.length / 2);
-  const firstRow = media.slice(0, splitIndex);
-  const secondRow = media.slice(splitIndex);
+  /*
+   * Preserve editor order.
+   */
+  const splitIndex =
+    Math.ceil(
+      media.length / 2,
+    );
+
+  const firstRow =
+    media.slice(
+      0,
+      splitIndex,
+    );
+
+  const secondRow =
+    media.slice(
+      splitIndex,
+    );
 
   return [
-    expandGalleryRow(firstRow),
-    expandGalleryRow(secondRow.length > 0 ? secondRow : firstRow),
+    /*
+     * TOP ROW
+     *
+     * Leading wrap enabled.
+     */
+    expandGalleryRow(
+      firstRow,
+      true,
+    ),
+
+    /*
+     * BOTTOM ROW
+     *
+     * Existing behaviour.
+     */
+    expandGalleryRow(
+      secondRow.length > 0
+        ? secondRow
+        : firstRow,
+      false,
+    ),
   ] as const;
 }
 
@@ -353,26 +551,55 @@ function buildGalleryRows(media: readonly GalleryMedia[]) {
    MOTION
    ============================================================ */
 
-const EASE: [number, number, number, number] = [
-  0.22,
-  1,
-  0.36,
-  1,
-];
+const EASE:
+  [
+    number,
+    number,
+    number,
+    number,
+  ] = [
+    0.22,
+    1,
+    0.36,
+    1,
+  ];
 
-const INITIAL_GEOMETRY: GalleryGeometry = {
-  height: 0,
-  topTravel: 0,
-  bottomTravel: 0,
-  initialScale: 1.45,
-  endFraction: 1.35 / 2.35,
-  topStartOffset: 0,
+/* ============================================================
+   INITIAL GEOMETRY
+
+   ANIMATION VALUES UNCHANGED
+   ============================================================ */
+
+const INITIAL_GEOMETRY:
+  GalleryGeometry = {
+  height:
+    0,
+
+  topTravel:
+    0,
+
+  bottomTravel:
+    0,
+
+  initialScale:
+    1.45,
+
+  endFraction:
+    1.35 / 2.35,
+
+  topStartOffset:
+    0,
 };
 
-function clamp01(value: number) {
+function clamp01(
+  value: number,
+) {
   return Math.min(
     1,
-    Math.max(0, value),
+    Math.max(
+      0,
+      value,
+    ),
   );
 }
 
@@ -401,7 +628,7 @@ function CaretRightIcon() {
 }
 
 /* ============================================================
-   MEDIA CARD
+   VIDEO
    ============================================================ */
 
 function GalleryVideo({
@@ -417,11 +644,23 @@ function GalleryVideo({
   reducedMotion: boolean;
   decorative: boolean;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const videoInView = useInView(videoRef, {
-    margin: "160px 0px 160px 0px",
-  });
+  const videoRef =
+    useRef<HTMLVideoElement>(
+      null,
+    );
 
+  const videoInView =
+    useInView(
+      videoRef,
+      {
+        margin:
+          "160px 0px 160px 0px",
+      },
+    );
+
+  /*
+   * Decorative leading/repeated videos do not autoplay.
+   */
   const shouldAutoplay =
     loadMedia &&
     active &&
@@ -430,51 +669,94 @@ function GalleryVideo({
     !decorative;
 
   useEffect(() => {
-    const video = videoRef.current;
+    const video =
+      videoRef.current;
 
-    if (!video || !loadMedia) {
+    if (
+      !video ||
+      !loadMedia
+    ) {
       return;
     }
 
-    if (shouldAutoplay) {
-      void video.play().catch(() => {
-        /* Browser autoplay policy can still reject playback. */
-      });
+    if (
+      shouldAutoplay
+    ) {
+      void video
+        .play()
+        .catch(() => {
+          /*
+           * Browser autoplay policy
+           * may reject playback.
+           */
+        });
     } else {
       video.pause();
     }
-  }, [loadMedia, shouldAutoplay]);
+  }, [
+    loadMedia,
+    shouldAutoplay,
+  ]);
 
   return (
     <video
       ref={videoRef}
-      src={loadMedia ? media.src : undefined}
-      poster={media.poster}
-      className={styles.video}
+      src={
+        loadMedia
+          ? media.src
+          : undefined
+      }
+      poster={
+        media.poster
+      }
+      className={
+        styles.video
+      }
       style={{
-        objectPosition: media.position ?? "center",
-        objectFit: "cover",
-        transform: media.cropScale
-          ? `scale(${media.cropScale})`
-          : undefined,
-        transformOrigin: media.cropOrigin ?? "center",
+        objectPosition:
+          media.position ??
+          "center",
+
+        objectFit:
+          "cover",
+
+        transform:
+          media.cropScale
+            ? `scale(${media.cropScale})`
+            : undefined,
+
+        transformOrigin:
+          media.cropOrigin ??
+          "center",
       }}
-      autoPlay={shouldAutoplay}
+      autoPlay={
+        shouldAutoplay
+      }
       muted
       loop
       playsInline
-      preload={loadMedia ? "metadata" : "none"}
+      preload={
+        loadMedia
+          ? "metadata"
+          : "none"
+      }
       controls={
-        reducedMotion && !decorative
+        reducedMotion &&
+        !decorative
       }
       aria-hidden={
-        decorative ? true : undefined
+        decorative
+          ? true
+          : undefined
       }
       aria-label={
-        decorative ? undefined : media.alt
+        decorative
+          ? undefined
+          : media.alt
       }
       tabIndex={
-        reducedMotion && !decorative
+        reducedMotion &&
+          !decorative
           ? 0
           : -1
       }
@@ -482,6 +764,10 @@ function GalleryVideo({
     />
   );
 }
+
+/* ============================================================
+   MEDIA CARD
+   ============================================================ */
 
 function GalleryCard({
   media,
@@ -496,25 +782,58 @@ function GalleryCard({
   active: boolean;
   reducedMotion: boolean;
 }) {
+  const isDecorative =
+    decorative ||
+    media.decorativeClone ===
+    true;
+
   return (
     <figure
-      className={styles.card}
+      className={
+        styles.card
+      }
+
+      /*
+       * Used by the measurement system so we can subtract
+       * this extra visual buffer from animation geometry.
+       */
+      data-cannes-leading-clone={
+        media.decorativeClone
+          ? "true"
+          : undefined
+      }
+
       aria-hidden={
-        decorative ? true : undefined
+        isDecorative
+          ? true
+          : undefined
       }
     >
-      {media.kind === "video" ? (
+      {media.kind ===
+        "video" ? (
         <GalleryVideo
           media={media}
           active={active}
-          loadMedia={loadMedia}
-          reducedMotion={reducedMotion}
-          decorative={decorative}
+          loadMedia={
+            loadMedia
+          }
+          reducedMotion={
+            reducedMotion
+          }
+          decorative={
+            isDecorative
+          }
         />
       ) : (
         <Image
-          src={media.src}
-          alt={decorative ? "" : media.alt}
+          src={
+            media.src
+          }
+          alt={
+            isDecorative
+              ? ""
+              : media.alt
+          }
           fill
           loading="lazy"
           decoding="async"
@@ -524,14 +843,25 @@ function GalleryCard({
             (max-width: 1023px) 64vw,
             38vw
           "
-          className={styles.image}
+          className={
+            styles.image
+          }
           style={{
-            objectPosition: media.position ?? "center",
-            objectFit: "cover",
-            transform: media.cropScale
-              ? `scale(${media.cropScale})`
-              : undefined,
-            transformOrigin: media.cropOrigin ?? "center",
+            objectPosition:
+              media.position ??
+              "center",
+
+            objectFit:
+              "cover",
+
+            transform:
+              media.cropScale
+                ? `scale(${media.cropScale})`
+                : undefined,
+
+            transformOrigin:
+              media.cropOrigin ??
+              "center",
           }}
         />
       )}
@@ -551,41 +881,92 @@ function GalleryRow({
   active,
   reducedMotion,
 }: {
-  media: readonly GalleryMedia[];
-  x: MotionValue<number>;
-  decorative: boolean;
-  loadMedia: boolean;
-  active: boolean;
-  reducedMotion: boolean;
+  media:
+  readonly GalleryMedia[];
+
+  x:
+  MotionValue<number>;
+
+  decorative:
+  boolean;
+
+  loadMedia:
+  boolean;
+
+  active:
+  boolean;
+
+  reducedMotion:
+  boolean;
 }) {
   return (
     <div
-      className={styles.row}
+      className={
+        styles.row
+      }
       aria-hidden={
-        decorative ? true : undefined
+        decorative
+          ? true
+          : undefined
       }
     >
       <motion.div
         data-cannes-row-track
-        className={styles.track}
-        style={{ x }}
+        className={
+          styles.track
+        }
+        style={{
+          x,
+        }}
       >
-        {media.map((item, index) => {
-          const repeated = media
-            .slice(0, index)
-            .some((previous) => previous.key === item.key);
+        {media.map(
+          (
+            item,
+            index,
+          ) => {
+            /*
+             * Appended duplicate items remain decorative.
+             *
+             * The leading wrap item is also decorative,
+             * but has its own unique key.
+             */
+            const repeated =
+              media
+                .slice(
+                  0,
+                  index,
+                )
+                .some(
+                  (
+                    previous,
+                  ) =>
+                    previous.key ===
+                    item.key,
+                );
 
-          return (
-            <GalleryCard
-              key={`${item.key}-${index}`}
-              media={item}
-              decorative={decorative || repeated}
-              loadMedia={loadMedia}
-              active={active}
-              reducedMotion={reducedMotion}
-            />
-          );
-        })}
+            return (
+              <GalleryCard
+                key={`${item.key}-${index}`}
+                media={item}
+                decorative={
+                  decorative ||
+                  item.decorativeClone ===
+                  true ||
+                  repeated
+                }
+                loadMedia={
+                  loadMedia
+                }
+                active={
+                  active
+                }
+                reducedMotion={
+                  reducedMotion
+                }
+              />
+            );
+          },
+        )}
       </motion.div>
     </div>
   );
@@ -595,288 +976,608 @@ function GalleryRow({
    CANNES SECTION
    ============================================================ */
 
-export function CannesSection({ content }: CannesSectionProps) {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
+export function CannesSection({
+  content,
+}: CannesSectionProps) {
+  const sceneRef =
+    useRef<HTMLDivElement>(
+      null,
+    );
 
-  const reduceMotion = useReducedMotion() === true;
+  const stageRef =
+    useRef<HTMLDivElement>(
+      null,
+    );
+
+  const reduceMotion =
+    useReducedMotion() ===
+    true;
+
+  /* ==========================================================
+     CMS MEDIA
+     ========================================================== */
 
   const cmsMedia =
     content?.media
-      ?.map(toGalleryMedia)
+      ?.map(
+        toGalleryMedia,
+      )
       .filter(
-        (item): item is GalleryMedia =>
+        (
+          item,
+        ): item is GalleryMedia =>
           item !== null,
       ) ?? [];
 
-  const orderedCmsMedia = prioritizeFocusMedia(cmsMedia);
+  /*
+   * Keep focus media first.
+   */
+  const orderedCmsMedia =
+    prioritizeFocusMedia(
+      cmsMedia,
+    );
 
-  const usingCmsMedia = orderedCmsMedia.length > 0;
-
-  const galleryMedia = usingCmsMedia
-    ? orderedCmsMedia
-    : [...FALLBACK_CANNES_MEDIA];
+  const usingCmsMedia =
+    orderedCmsMedia.length >
+    0;
 
   /*
-   * Fallback rows are curated and stable: six landscape cards on top and
-   * five unique landscape cards below, with the bottom row repeated only at
-   * the end when needed to keep both tracks equally robust. No post-load
-   * filtering is allowed to shrink a row and break the scroll geometry.
-   * Sanity media preserves editor order.
+   * Static gallery:
+   *
+   * no leading clone.
    */
-  const galleryRows = usingCmsMedia
-    ? buildGalleryRows(orderedCmsMedia)
-    : [
-      expandGalleryRow(FALLBACK_CANNES_TOP_ROW),
-      expandGalleryRow(FALLBACK_CANNES_BOTTOM_ROW),
-    ] as const;
+  const galleryMedia =
+    usingCmsMedia
+      ? orderedCmsMedia
+      : [
+        ...FALLBACK_CANNES_MEDIA,
+      ];
 
-  const heading = content?.heading?.trim() || DEFAULT_HEADING;
-  const description = content?.description?.trim() || DEFAULT_DESCRIPTION;
-  const ctaLabel = content?.cta?.label?.trim() || DEFAULT_CTA.label;
-  const ctaHref = content?.cta?.href?.trim() || DEFAULT_CTA.href;
+  /* ==========================================================
+     ANIMATED ROWS
 
-  const [geometry, setGeometry] = useState(
-    INITIAL_GEOMETRY,
-  );
+     IMPORTANT:
 
-  /*
-   * Load the gallery shortly before the user reaches it.
-   * Photos and videos are loaded shortly before the section reaches the viewport.
-   */
-  const loadMedia = useInView(sceneRef, {
-    once: true,
-    margin: "700px 0px 700px 0px",
-  });
+     Only TOP row receives leading continuation card.
+     ========================================================== */
 
-  const sceneVisible = useInView(sceneRef, {
-    margin: "100px 0px 100px 0px",
-  });
+  const galleryRows =
+    usingCmsMedia
+      ? buildGalleryRows(
+        orderedCmsMedia,
+      )
+      : [
+        /*
+         * TOP ROW
+         *
+         * Last photo appears before first video.
+         */
+        expandGalleryRow(
+          FALLBACK_CANNES_TOP_ROW,
+          true,
+        ),
+
+        /*
+         * BOTTOM ROW
+         *
+         * Completely unchanged.
+         */
+        expandGalleryRow(
+          FALLBACK_CANNES_BOTTOM_ROW,
+          false,
+        ),
+      ] as const;
+
+  /* ==========================================================
+     CONTENT
+     ========================================================== */
+
+  const heading =
+    content?.heading?.trim() ||
+    DEFAULT_HEADING;
+
+  const description =
+    content?.description?.trim() ||
+    DEFAULT_DESCRIPTION;
+
+  const ctaLabel =
+    content?.cta?.label?.trim() ||
+    DEFAULT_CTA.label;
+
+  const ctaHref =
+    content?.cta?.href?.trim() ||
+    DEFAULT_CTA.href;
+
+  /* ==========================================================
+     GEOMETRY
+     ========================================================== */
+
+  const [
+    geometry,
+    setGeometry,
+  ] =
+    useState(
+      INITIAL_GEOMETRY,
+    );
+
+  /* ==========================================================
+     MEDIA LOADING
+     ========================================================== */
+
+  const loadMedia =
+    useInView(
+      sceneRef,
+      {
+        once:
+          true,
+
+        margin:
+          "700px 0px 700px 0px",
+      },
+    );
+
+  const sceneVisible =
+    useInView(
+      sceneRef,
+      {
+        margin:
+          "100px 0px 100px 0px",
+      },
+    );
 
   /* ==========================================================
      RESPONSIVE MEASUREMENTS
 
-     Measure layout dimensions, not transformed rectangles.
+     IMPORTANT:
 
-     The zoom itself therefore cannot change the measurement
-     and cause the animation to recalculate continuously.
+     The top row now contains one extra visual card before
+     the real first card.
+
+     That extra card is SUBTRACTED from all animation
+     measurements.
+
+     Therefore:
+
+     - starting first-video position stays the same
+     - scale stays the same
+     - travel distance stays the same
+     - animation duration stays the same
+     - scroll timing stays the same
      ========================================================== */
 
   useEffect(() => {
-    if (reduceMotion) {
-      return;
-    }
-
-    const stage = stageRef.current;
-
-    const tracks = stage
-      ? Array.from(
-        stage.querySelectorAll<HTMLElement>(
-          "[data-cannes-row-track]",
-        ),
-      )
-      : [];
-
-    const firstTrack = tracks[0];
-    const card =
-      firstTrack?.firstElementChild;
-
     if (
-      !stage ||
-      !firstTrack ||
-      !(card instanceof HTMLElement)
+      reduceMotion
     ) {
       return;
     }
 
-    let frame: number | null = null;
-    let disposed = false;
+    const stage =
+      stageRef.current;
 
-    const measure = () => {
-      frame = null;
+    const tracks =
+      stage
+        ? Array.from(
+          stage.querySelectorAll<HTMLElement>(
+            "[data-cannes-row-track]",
+          ),
+        )
+        : [];
 
-      if (disposed) {
-        return;
-      }
+    const firstTrack =
+      tracks[0];
 
-      const width = stage.clientWidth;
-      const height = stage.clientHeight;
+    const card =
+      firstTrack
+        ?.firstElementChild;
 
-      if (!width || !height) {
-        return;
-      }
+    if (
+      !stage ||
+      !firstTrack ||
+      !(
+        card instanceof
+        HTMLElement
+      )
+    ) {
+      return;
+    }
 
-      const gap =
-        Number.parseFloat(
-          getComputedStyle(firstTrack).columnGap,
-        ) || 0;
+    let frame:
+      number | null =
+      null;
 
-      const cardStep =
-        card.offsetWidth + gap;
+    let disposed =
+      false;
 
-      const compact = width < 1024;
+    const measure =
+      () => {
+        frame =
+          null;
 
-      /*
-       * Restore the original Cannes interaction:
-       * - the whole wall zooms from the centre
-       * - the top row travels left
-       * - the bottom row travels right
-       *
-       * Unlike the old implementation, the opening offset is calculated
-       * so the first real item (the red-carpet interview) stays in the
-       * opening composition instead of relying on a leading clone.
-       */
-      const openingWidth =
-        width >= 1024
-          ? card.offsetWidth * 2 + gap
-          : card.offsetWidth;
+        if (
+          disposed
+        ) {
+          return;
+        }
 
-      const topStartOffset = Math.max(
-        0,
-        (firstTrack.scrollWidth - openingWidth) / 2,
-      );
+        /* ------------------------------------------------------
+           STAGE DIMENSIONS
+           ------------------------------------------------------ */
 
-      const twoCardWidth =
-        card.offsetWidth * 2 + gap;
+        const width =
+          stage.clientWidth;
 
-      const desktopPairScale =
-        twoCardWidth > 0
-          ? (width * 0.92) / twoCardWidth
-          : 1.4;
+        const height =
+          stage.clientHeight;
 
-      const initialScale =
-        width < 640
-          ? 1.12
-          : compact
-            ? 1.22
-            : Math.min(
-              1.5,
-              Math.max(
-                1.18,
-                desktopPairScale,
-              ),
-            );
+        if (
+          !width ||
+          !height
+        ) {
+          return;
+        }
 
-      /*
-       * Measure each row independently. Using the shortest row as a shared
-       * limit made the top interaction almost stop whenever that row lost an
-       * item. Independent travel keeps both rows balanced and fully visible.
-       */
-      const topTrack = tracks[0];
-      const bottomTrack = tracks[1] ?? topTrack;
+        /* ------------------------------------------------------
+           CARD / GAP
+           ------------------------------------------------------ */
 
-      const topAvailable = Math.max(
-        0,
-        (topTrack.scrollWidth - width) / 2 - 16,
-      );
-      const bottomAvailable = Math.max(
-        0,
-        (bottomTrack.scrollWidth - width) / 2 - 16,
-      );
+        const gap =
+          Number.parseFloat(
+            getComputedStyle(
+              firstTrack,
+            ).columnGap,
+          ) || 0;
 
-      const topTravel = Math.min(
-        cardStep * (compact ? 1.1 : 1.75),
-        topAvailable,
-      );
-      const bottomTravel = Math.min(
-        cardStep * (compact ? 1.0 : 1.5),
-        bottomAvailable,
-      );
+        const cardStep =
+          card.offsetWidth +
+          gap;
 
-      const scrollDistance = Math.round(
-        height * (compact ? 1.1 : 1.35),
-      );
+        const compact =
+          width < 1024;
 
-      const totalHeight =
-        height + scrollDistance;
+        /* ------------------------------------------------------
+           LEADING CONTINUATION CARD
 
-      const next: GalleryGeometry = {
-        height: totalHeight,
-        topTravel,
-        bottomTravel,
-        initialScale,
-        endFraction:
-          scrollDistance / totalHeight,
-        topStartOffset,
+           This card visually exists before the first video,
+           but must NOT alter animation geometry.
+           ------------------------------------------------------ */
+
+        const hasLeadingClone =
+          card.dataset
+            .cannesLeadingClone ===
+          "true";
+
+        const leadingBuffer =
+          hasLeadingClone
+            ? cardStep
+            : 0;
+
+        /* ------------------------------------------------------
+           OPENING WIDTH
+
+           UNCHANGED
+           ------------------------------------------------------ */
+
+        const openingWidth =
+          width >= 1024
+            ? card.offsetWidth *
+            2 +
+            gap
+            : card.offsetWidth;
+
+        /* ------------------------------------------------------
+           TOP START OFFSET
+
+           The extra leading card increases scrollWidth by
+           exactly one cardStep.
+
+           Subtracting one cardStep here keeps the ORIGINAL
+           first video in the same visual position.
+           ------------------------------------------------------ */
+
+        const topStartOffset =
+          Math.max(
+            0,
+
+            (
+              firstTrack.scrollWidth -
+              openingWidth
+            ) /
+            2 -
+            leadingBuffer,
+          );
+
+        /* ------------------------------------------------------
+           SCALE
+
+           EXACT EXISTING ANIMATION
+           ------------------------------------------------------ */
+
+        const twoCardWidth =
+          card.offsetWidth *
+          2 +
+          gap;
+
+        const desktopPairScale =
+          twoCardWidth > 0
+            ? (
+              width *
+              0.92
+            ) /
+            twoCardWidth
+            : 1.4;
+
+        const initialScale =
+          width < 640
+            ? 1.12
+            : compact
+              ? 1.22
+              : Math.min(
+                1.5,
+
+                Math.max(
+                  1.18,
+                  desktopPairScale,
+                ),
+              );
+
+        /* ------------------------------------------------------
+           TRACKS
+           ------------------------------------------------------ */
+
+        const topTrack =
+          tracks[0];
+
+        const bottomTrack =
+          tracks[1] ??
+          topTrack;
+
+        /*
+         * Ignore the extra leading clone when calculating
+         * top-row available travel.
+         *
+         * This keeps the existing top animation unchanged.
+         */
+        const effectiveTopTrackWidth =
+          Math.max(
+            0,
+
+            topTrack.scrollWidth -
+            leadingBuffer,
+          );
+
+        const topAvailable =
+          Math.max(
+            0,
+
+            (
+              effectiveTopTrackWidth -
+              width
+            ) /
+            2 -
+            16,
+          );
+
+        /*
+         * Bottom row unchanged.
+         */
+        const bottomAvailable =
+          Math.max(
+            0,
+
+            (
+              bottomTrack.scrollWidth -
+              width
+            ) /
+            2 -
+            16,
+          );
+
+        /* ------------------------------------------------------
+           ROW TRAVEL
+
+           EXACT EXISTING VALUES
+           ------------------------------------------------------ */
+
+        const topTravel =
+          Math.min(
+            cardStep *
+            (
+              compact
+                ? 1.1
+                : 1.75
+            ),
+
+            topAvailable,
+          );
+
+        const bottomTravel =
+          Math.min(
+            cardStep *
+            (
+              compact
+                ? 1.0
+                : 1.5
+            ),
+
+            bottomAvailable,
+          );
+
+        /* ------------------------------------------------------
+           SCROLL DISTANCE
+
+           EXACT EXISTING VALUES
+           ------------------------------------------------------ */
+
+        const scrollDistance =
+          Math.round(
+            height *
+            (
+              compact
+                ? 1.1
+                : 1.35
+            ),
+          );
+
+        const totalHeight =
+          height +
+          scrollDistance;
+
+        /* ------------------------------------------------------
+           NEXT GEOMETRY
+           ------------------------------------------------------ */
+
+        const next:
+          GalleryGeometry = {
+          height:
+            totalHeight,
+
+          topTravel,
+
+          bottomTravel,
+
+          initialScale,
+
+          endFraction:
+            scrollDistance /
+            totalHeight,
+
+          topStartOffset,
+        };
+
+        /* ------------------------------------------------------
+           AVOID UNNECESSARY STATE UPDATES
+           ------------------------------------------------------ */
+
+        setGeometry(
+          (
+            current,
+          ) =>
+            Math.abs(
+              current.height -
+              next.height,
+            ) <
+              0.5 &&
+              Math.abs(
+                current.topTravel -
+                next.topTravel,
+              ) <
+              0.5 &&
+              Math.abs(
+                current.bottomTravel -
+                next.bottomTravel,
+              ) <
+              0.5 &&
+              Math.abs(
+                current.initialScale -
+                next.initialScale,
+              ) <
+              0.0001 &&
+              Math.abs(
+                current.endFraction -
+                next.endFraction,
+              ) <
+              0.0001 &&
+              Math.abs(
+                current.topStartOffset -
+                next.topStartOffset,
+              ) <
+              0.5
+              ? current
+              : next,
+        );
       };
 
-      setGeometry((current) =>
-        Math.abs(
-          current.height - next.height,
-        ) < 0.5 &&
-          Math.abs(
-            current.topTravel - next.topTravel,
-          ) < 0.5 &&
-          Math.abs(
-            current.bottomTravel - next.bottomTravel,
-          ) < 0.5 &&
-          Math.abs(
-            current.initialScale -
-            next.initialScale,
-          ) < 0.0001 &&
-          Math.abs(
-            current.endFraction -
-            next.endFraction,
-          ) < 0.0001 &&
-          Math.abs(
-            current.topStartOffset -
-            next.topStartOffset,
-          ) < 0.5
-          ? current
-          : next,
-      );
-    };
+    /* ========================================================
+       SCHEDULE MEASUREMENT
+       ======================================================== */
 
-    const scheduleMeasure = () => {
-      if (
-        !disposed &&
-        frame === null
-      ) {
-        frame = requestAnimationFrame(
-          measure,
-        );
-      }
-    };
+    const scheduleMeasure =
+      () => {
+        if (
+          !disposed &&
+          frame === null
+        ) {
+          frame =
+            requestAnimationFrame(
+              measure,
+            );
+        }
+      };
 
     scheduleMeasure();
+
+    /* ========================================================
+       RESIZE OBSERVER
+       ======================================================== */
 
     const observer =
       new ResizeObserver(
         scheduleMeasure,
       );
 
-    observer.observe(stage);
+    observer.observe(
+      stage,
+    );
 
-    tracks.forEach((track) => {
-      observer.observe(track);
+    tracks.forEach(
+      (
+        track,
+      ) => {
+        observer.observe(
+          track,
+        );
 
-      const firstCard =
-        track.firstElementChild;
+        const firstCard =
+          track.firstElementChild;
 
-      if (
-        firstCard instanceof HTMLElement
-      ) {
-        observer.observe(firstCard);
-      }
-    });
+        if (
+          firstCard instanceof
+          HTMLElement
+        ) {
+          observer.observe(
+            firstCard,
+          );
+        }
+      },
+    );
+
+    /* ========================================================
+       WINDOW RESIZE
+       ======================================================== */
 
     window.addEventListener(
       "resize",
       scheduleMeasure,
-      { passive: true },
+      {
+        passive:
+          true,
+      },
     );
 
     window.visualViewport?.addEventListener(
       "resize",
       scheduleMeasure,
-      { passive: true },
+      {
+        passive:
+          true,
+      },
     );
 
-    return () => {
-      disposed = true;
+    /* ========================================================
+       CLEANUP
+       ======================================================== */
 
-      if (frame !== null) {
-        cancelAnimationFrame(frame);
+    return () => {
+      disposed =
+        true;
+
+      if (
+        frame !== null
+      ) {
+        cancelAnimationFrame(
+          frame,
+        );
       }
 
       observer.disconnect();
@@ -893,84 +1594,132 @@ export function CannesSection({ content }: CannesSectionProps) {
     };
   }, [
     reduceMotion,
-    galleryRows[0].length,
-    galleryRows[1].length,
+
+    galleryRows[0]
+      .length,
+
+    galleryRows[1]
+      .length,
   ]);
 
   /* ==========================================================
      SCROLL PROGRESS
 
-     Measure the untransformed outer scene.
-
-     Mapping the scene's full height to its actual pin distance
-     keeps animation completion aligned with sticky release.
+     UNCHANGED
      ========================================================== */
 
-  const { scrollYProgress } = useScroll({
-    target: sceneRef,
-
-    offset: [
-      "start start",
-      "end start",
-    ],
-  });
-
-  const progress = useTransform(
+  const {
     scrollYProgress,
-    (value) =>
-      clamp01(
-        value /
-        Math.max(geometry.endFraction, 0.001),
-      ),
-  );
+  } =
+    useScroll({
+      target:
+        sceneRef,
+
+      offset: [
+        "start start",
+        "end start",
+      ],
+    });
+
+  const progress =
+    useTransform(
+      scrollYProgress,
+
+      (
+        value,
+      ) =>
+        clamp01(
+          value /
+          Math.max(
+            geometry.endFraction,
+            0.001,
+          ),
+        ),
+    );
 
   /* ==========================================================
-     ONE SHARED ZOOM
+     WALL SCALE
 
-     Desktop:
-       two-card opening frame → full gallery wall
-       measured pair scale → 1
-
-     Only the complete wall scales.
-     Individual cards do not run separate zoom animations.
+     UNCHANGED
      ========================================================== */
 
-  const scale = useTransform(
-    progress,
-    (value) =>
-      geometry.initialScale +
-      (1 - geometry.initialScale) * value,
-  );
+  const scale =
+    useTransform(
+      progress,
+
+      (
+        value,
+      ) =>
+        geometry.initialScale +
+        (
+          1 -
+          geometry.initialScale
+        ) *
+        value,
+    );
 
   /* ==========================================================
-     OPPOSING ROW MOVEMENT
+     TOP ROW
 
-     The top row opens on the first real media pair, then travels across the
-     full row toward the left. The bottom row starts centred and moves right.
-     Each row has its own measured travel distance, so a shorter row can never
-     throttle the other row. The smoothstep curve keeps the opening calm and
-     the reverse-scroll path perfectly deterministic.
+     UNCHANGED ANIMATION
      ========================================================== */
 
-  const topX = useTransform(
-    progress,
-    (value) => {
-      const eased = value * value * (3 - 2 * value);
+  const topX =
+    useTransform(
+      progress,
 
-      return (
-        geometry.topStartOffset * (1 - eased) -
-        geometry.topTravel * eased
-      );
-    },
-  );
+      (
+        value,
+      ) => {
+        const eased =
+          value *
+          value *
+          (
+            3 -
+            2 *
+            value
+          );
 
-  const bottomX = useTransform(
-    progress,
-    (value) => {
-      const eased = value * value * (3 - 2 * value);
-      return geometry.bottomTravel * eased;
-    },
-  );
+        return (
+          geometry.topStartOffset *
+          (
+            1 -
+            eased
+          ) -
+          geometry.topTravel *
+          eased
+        );
+      },
+    );
+
+  /* ==========================================================
+     BOTTOM ROW
+
+     COMPLETELY UNCHANGED
+     ========================================================== */
+
+  const bottomX =
+    useTransform(
+      progress,
+
+      (
+        value,
+      ) => {
+        const eased =
+          value *
+          value *
+          (
+            3 -
+            2 *
+            value
+          );
+
+        return (
+          geometry.bottomTravel *
+          eased
+        );
+      },
+    );
 
   /* ==========================================================
      RENDER
@@ -988,74 +1737,134 @@ export function CannesSection({ content }: CannesSectionProps) {
       `}
     >
       {/* =====================================================
-          TEXT AND CTA
+          TEXT / CTA
           ===================================================== */}
 
-      <div className={styles.content}>
-        <div className={styles.textBlock}>
+      <div
+        className={
+          styles.content
+        }
+      >
+        <div
+          className={
+            styles.textBlock
+          }
+        >
+          {/* =================================================
+              HEADING
+              ================================================= */}
+
           <motion.h2
             id="abhijat-marathi-cannes-heading"
-            className={styles.heading}
+            className={
+              styles.heading
+            }
             initial={
               reduceMotion
                 ? false
                 : {
-                  opacity: 0,
-                  y: 22,
+                  opacity:
+                    0,
+
+                  y:
+                    22,
                 }
             }
             whileInView={{
-              opacity: 1,
-              y: 0,
+              opacity:
+                1,
+
+              y:
+                0,
             }}
             viewport={{
-              once: true,
-              amount: 0.15,
+              once:
+                true,
+
+              amount:
+                0.15,
             }}
             transition={{
-              duration: reduceMotion ? 0 : 0.7,
-              ease: EASE,
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.7,
+
+              ease:
+                EASE,
             }}
           >
             {heading}
           </motion.h2>
 
+          {/* =================================================
+              DESCRIPTION
+              ================================================= */}
+
           <motion.p
-            className={styles.description}
+            className={
+              styles.description
+            }
             initial={
               reduceMotion
                 ? false
                 : {
-                  opacity: 0,
-                  y: 18,
+                  opacity:
+                    0,
+
+                  y:
+                    18,
                 }
             }
             whileInView={{
-              opacity: 1,
-              y: 0,
+              opacity:
+                1,
+
+              y:
+                0,
             }}
             viewport={{
-              once: true,
-              amount: 0.15,
+              once:
+                true,
+
+              amount:
+                0.15,
             }}
             transition={{
-              duration: reduceMotion ? 0 : 0.65,
-              ease: EASE,
+              duration:
+                reduceMotion
+                  ? 0
+                  : 0.65,
+
+              ease:
+                EASE,
             }}
           >
             {description}
           </motion.p>
 
-          <Link
-            href={ctaHref}
-            className={`
-        ${inter.className}
-        ${styles.cta}
-      `}
-          >
-            <span>{ctaLabel}</span>
+          {/* =================================================
+              CTA
+              ================================================= */}
 
-            <span className={styles.ctaArrow}>
+          <Link
+            href={
+              ctaHref
+            }
+            className={`
+              ${inter.className}
+              ${styles.cta}
+            `}
+          >
+            <span>
+              {ctaLabel}
+            </span>
+
+            <span
+              className={
+                styles.ctaArrow
+              }
+            >
               <CaretRightIcon />
             </span>
           </Link>
@@ -1067,41 +1876,73 @@ export function CannesSection({ content }: CannesSectionProps) {
           ===================================================== */}
 
       <div
-        ref={sceneRef}
+        ref={
+          sceneRef
+        }
         id="cannes-gallery"
-        className={styles.scene}
-        data-reduced={reduceMotion}
-        data-active={sceneVisible && !reduceMotion}
+        className={
+          styles.scene
+        }
+        data-reduced={
+          reduceMotion
+        }
+        data-active={
+          sceneVisible &&
+          !reduceMotion
+        }
         role="group"
         aria-label="Cannes 2026 photo and video gallery"
         style={{
           height:
             reduceMotion
               ? undefined
-              : geometry.height || undefined,
+              : geometry.height ||
+              undefined,
         }}
       >
         {reduceMotion ? (
           /* =================================================
              ACCESSIBLE STATIC FALLBACK
 
-             Unique Cannes media items from Sanity or the local fallback set.
+             No decorative clones here.
              ================================================= */
 
           <div
-            className={styles.reducedViewport}
-            tabIndex={0}
+            className={
+              styles.reducedViewport
+            }
+            tabIndex={
+              0
+            }
           >
-            <div className={styles.reducedGrid}>
-              {galleryMedia.map((item) => (
-                <GalleryCard
-                  key={item.key}
-                  media={item}
-                  loadMedia={loadMedia}
-                  active={sceneVisible}
-                  reducedMotion={reduceMotion}
-                />
-              ))}
+            <div
+              className={
+                styles.reducedGrid
+              }
+            >
+              {galleryMedia.map(
+                (
+                  item,
+                ) => (
+                  <GalleryCard
+                    key={
+                      item.key
+                    }
+                    media={
+                      item
+                    }
+                    loadMedia={
+                      loadMedia
+                    }
+                    active={
+                      sceneVisible
+                    }
+                    reducedMotion={
+                      reduceMotion
+                    }
+                  />
+                ),
+              )}
             </div>
           </div>
         ) : (
@@ -1110,33 +1951,81 @@ export function CannesSection({ content }: CannesSectionProps) {
              ================================================= */
 
           <div
-            ref={stageRef}
-            className={styles.stage}
+            ref={
+              stageRef
+            }
+            className={
+              styles.stage
+            }
           >
             <motion.div
-              className={styles.wall}
-              style={{ scale }}
+              className={
+                styles.wall
+              }
+              style={{
+                scale,
+              }}
             >
-              {/* ROW 1 — MOVES LEFT */}
+              {/* =============================================
+                  TOP ROW
+
+                  Visual order begins:
+
+                  LAST CLONE
+                  FIRST VIDEO
+                  SECOND
+                  THIRD
+                  ...
+
+                  Motion itself is unchanged.
+                  ============================================= */}
 
               <GalleryRow
-                media={galleryRows[0]}
-                x={topX}
-                decorative={false}
-                loadMedia={loadMedia}
-                active={sceneVisible}
-                reducedMotion={reduceMotion}
+                media={
+                  galleryRows[0]
+                }
+                x={
+                  topX
+                }
+                decorative={
+                  false
+                }
+                loadMedia={
+                  loadMedia
+                }
+                active={
+                  sceneVisible
+                }
+                reducedMotion={
+                  reduceMotion
+                }
               />
 
-              {/* ROW 2 — MOVES RIGHT */}
+              {/* =============================================
+                  BOTTOM ROW
+
+                  Entirely unchanged.
+                  ============================================= */}
 
               <GalleryRow
-                media={galleryRows[1]}
-                x={bottomX}
-                decorative={false}
-                loadMedia={loadMedia}
-                active={sceneVisible}
-                reducedMotion={reduceMotion}
+                media={
+                  galleryRows[1]
+                }
+                x={
+                  bottomX
+                }
+                decorative={
+                  false
+                }
+                loadMedia={
+                  loadMedia
+                }
+                active={
+                  sceneVisible
+                }
+                reducedMotion={
+                  reduceMotion
+                }
               />
             </motion.div>
           </div>
