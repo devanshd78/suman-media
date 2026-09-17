@@ -7,6 +7,8 @@
     --pad: clamp(1.25rem, 4vw, 3.5rem);
     --content-max: 83rem;
     --radius: 0.5rem;
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-soft-ease: cubic-bezier(0.16, 1, 0.3, 1);
     --heading-font: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
     --body-font: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
     --ui-font: var(--font-inter), Inter, sans-serif;
@@ -707,10 +709,211 @@
 }
 
 /* ============================================================
+   MOTION SYSTEM
+   Subtle editorial motion: strong enough to feel premium, but
+   restrained enough to keep long-form reading comfortable.
+   ============================================================ */
+
+@keyframes detailTextIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 1.5rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes detailMetaIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 0.875rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes detailMediaIn {
+    from {
+        opacity: 0;
+        clip-path: inset(7% 0 7% 0);
+        transform: translate3d(0, 1rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes detailImageIn {
+    from {
+        transform: scale(1.055);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes detailViewIn {
+    from {
+        opacity: 0.001;
+        transform: translate3d(0, 1.625rem, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes detailViewInSide {
+    from {
+        opacity: 0.001;
+        transform: translate3d(1.5rem, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .headerTitleReveal {
+        animation: detailTextIn 820ms var(--motion-ease) 80ms both;
+    }
+
+    .headerExcerptReveal {
+        animation: detailTextIn 820ms var(--motion-ease) 160ms both;
+    }
+
+    .headerMetaReveal {
+        animation: detailMetaIn 720ms var(--motion-ease) 250ms both;
+    }
+
+    .heroMediaReveal {
+        transform-origin: 50% 50%;
+        animation: detailMediaIn 1050ms var(--motion-soft-ease) 180ms both;
+    }
+
+    .heroImageReveal {
+        transform-origin: 50% 48%;
+        animation: detailImageIn 1350ms var(--motion-soft-ease) 180ms both;
+    }
+}
+
+/* Progressive scroll-driven reveal. Unsupported browsers simply keep
+   the content visible and retain all normal interactions. */
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+
+        .scrollReveal,
+        .sectionReveal,
+        .cardReveal {
+            opacity: 0.001;
+            transform: translate3d(0, 1.625rem, 0);
+            animation: detailViewIn linear both;
+            animation-timeline: view();
+            animation-range: entry 6% cover 28%;
+            will-change: transform, opacity;
+        }
+
+        .sidebarReveal {
+            opacity: 0.001;
+            transform: translate3d(1.5rem, 0, 0);
+            animation: detailViewInSide linear both;
+            animation-timeline: view();
+            animation-range: entry 4% cover 24%;
+            will-change: transform, opacity;
+        }
+
+        .relatedGrid .cardReveal:nth-child(2) {
+            animation-range: entry 10% cover 30%;
+        }
+
+        .relatedGrid .cardReveal:nth-child(3) {
+            animation-range: entry 14% cover 32%;
+        }
+    }
+}
+
+/* Small interaction polish without changing layout. */
+.relatedCard,
+.articleFigureImage,
+.sidebarSticky {
+    transform: translateZ(0);
+}
+
+.relatedCard {
+    transition:
+        transform 420ms var(--motion-ease),
+        opacity 240ms ease;
+}
+
+.articleFigureImage .articleImage,
+.relatedImage {
+    transition: transform 700ms var(--motion-soft-ease);
+}
+
+.articlePager svg,
+.exploreHeading>a {
+    transition:
+        transform 260ms var(--motion-ease),
+        opacity 200ms ease,
+        color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .relatedCard:hover {
+        transform: translateY(-0.25rem);
+    }
+
+    .articleFigureImage:hover .articleImage {
+        transform: scale(1.018);
+    }
+
+    .articlePager a:hover svg {
+        transform: translateX(0.2rem);
+    }
+
+    .articlePager>div:first-child a:hover svg {
+        transform: translateX(-0.2rem);
+    }
+
+    .exploreHeading>a:hover {
+        transform: translateX(0.2rem);
+    }
+}
+
+/* ============================================================
    REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
+
+    .headerTitleReveal,
+    .headerExcerptReveal,
+    .headerMetaReveal,
+    .heroMediaReveal,
+    .heroImageReveal,
+    .scrollReveal,
+    .sidebarReveal,
+    .sectionReveal,
+    .cardReveal {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+    }
+
     .relatedImage {
         transition: none !important;
         transform: none !important;

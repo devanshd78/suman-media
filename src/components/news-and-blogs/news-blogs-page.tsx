@@ -149,7 +149,7 @@ function Meta({
 
 function StandardCard({ post }: { post: InsightListItem }) {
     return (
-        <article className={styles.newsCard}>
+        <article className={`${styles.newsCard} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
                 className={styles.cardLink}
@@ -178,7 +178,7 @@ function StandardCard({ post }: { post: InsightListItem }) {
 
 function FeatureLarge({ post }: { post: InsightListItem }) {
     return (
-        <article className={styles.featureLarge}>
+        <article className={`${styles.featureLarge} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
                 className={styles.cardLink}
@@ -207,7 +207,7 @@ function FeatureLarge({ post }: { post: InsightListItem }) {
 
 function FeatureCompact({ post }: { post: InsightListItem }) {
     return (
-        <article className={styles.featureCompact}>
+        <article className={`${styles.featureCompact} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
                 className={styles.compactLink}
@@ -610,7 +610,7 @@ export function NewsBlogsPage({ posts }: Props) {
             className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}
         >
             <section
-                className={styles.hero}
+                className={`${styles.hero} ${styles.heroEnter}`}
                 aria-labelledby="news-blogs-hero-title"
             >
                 <Link
@@ -638,7 +638,7 @@ export function NewsBlogsPage({ posts }: Props) {
                         aria-hidden="true"
                     />
 
-                    <div className={styles.heroCopy}>
+                    <div className={`${styles.heroCopy} ${styles.heroCopyEnter}`}>
                         <Meta post={hero} inverse />
 
                         <h1 id="news-blogs-hero-title">
@@ -681,9 +681,7 @@ export function NewsBlogsPage({ posts }: Props) {
                 aria-labelledby="latest-news-heading"
             >
                 <div
-                    className={
-                        styles.sectionHeadingRow
-                    }
+                    className={`${styles.sectionHeadingRow} ${styles.sectionReveal}`}
                 >
                     <h2 id="latest-news-heading">
                         Latest News
@@ -741,7 +739,7 @@ export function NewsBlogsPage({ posts }: Props) {
                         ))}
                     </div>
                 ) : (
-                    <p className={styles.emptyState}>
+                    <p className={`${styles.emptyState} ${styles.sectionReveal}`}>
                         No articles are available in this
                         category yet.
                     </p>
@@ -769,9 +767,7 @@ export function NewsBlogsPage({ posts }: Props) {
                     aria-labelledby="press-heading"
                 >
                     <div
-                        className={
-                            styles.pressHeadingRow
-                        }
+                        className={`${styles.pressHeadingRow} ${styles.sectionReveal}`}
                     >
                         <h2 id="press-heading">
                             Press
@@ -845,9 +841,7 @@ export function NewsBlogsPage({ posts }: Props) {
                         {pressItems.map(
                             (post, index) => (
                                 <article
-                                    className={
-                                        styles.pressCard
-                                    }
+                                    className={`${styles.pressCard} ${styles.motionCard}`}
                                     key={`${post._id}-${index}`}
                                     data-press-card
                                 >
