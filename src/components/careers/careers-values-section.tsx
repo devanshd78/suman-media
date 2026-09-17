@@ -536,7 +536,7 @@ export function CareersValuesSection({
 
       <section
         aria-labelledby="careers-culture-heading"
-        className="flex w-full max-w-none flex-col items-start gap-[2.5rem] bg-white pt-0"
+        className="flex w-full max-w-none flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
       >
         <div className="flex w-full max-w-none flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
@@ -576,8 +576,8 @@ export function CareersValuesSection({
           <div
             className={
               shouldReduceMotion
-                ? "relative flex w-full items-start overflow-hidden"
-                : "sticky top-0 flex h-[100svh] w-full items-start overflow-hidden"
+                ? "relative flex w-full items-center overflow-hidden py-8"
+                : "sticky top-0 flex h-[100svh] w-full items-center overflow-hidden"
             }
           >
             {/* Full width — no max-width and no horizontal padding */}
@@ -611,42 +611,15 @@ export function CareersValuesSection({
                     aria-label={`Culture highlight ${index + 1} of ${slides.length}`}
                   >
                     {/* Mobile = stacked, Desktop = image + content */}
-                    <div
-                      className="
-                        relative
-                        flex
-                        w-full
-                        flex-col
-
-                        lg:h-[clamp(30rem,42vw,38.75rem)]
-                        lg:flex-row
-                        lg:items-stretch
-                        lg:gap-[2.5rem]
-                      "
-                    >
+                    <div className="flex w-full flex-col lg:h-[38.75rem] lg:flex-row lg:gap-[2.5rem]">
 
                       {/* Image */}
-                      <div
-                        className="
-                          relative
-                          aspect-[16/10]
-                          w-full
-                          shrink-0
-                          overflow-hidden
-
-                          sm:aspect-[16/9]
-
-                          lg:aspect-auto
-                          lg:h-full
-                          lg:w-[46%]
-                          lg:flex-[0_0_46%]
-                        "
-                      >
+                      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden sm:aspect-[16/9] lg:aspect-auto lg:h-full lg:w-[55%] xl:w-[58%]">
                         <Image
                           src={slide.imageUrl}
                           alt={slide.imageAlt || slide.title}
                           fill
-                          sizes="(max-width: 1023px) 100vw, 46vw"
+                          sizes="(max-width: 1023px) 100vw, 58vw"
                           draggable={false}
                           className="select-none object-cover object-center"
                         />
@@ -664,16 +637,11 @@ export function CareersValuesSection({
                   items-start
                   justify-between
                   p-5
-
                   sm:min-h-[16rem]
                   sm:p-8
-
-                  lg:h-full
                   lg:min-h-0
                   lg:w-auto
-                  lg:flex-1
                   lg:p-10
-
                   xl:p-12
                 "
                         style={{
