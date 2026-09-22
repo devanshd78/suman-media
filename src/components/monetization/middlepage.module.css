@@ -1,0 +1,173 @@
+/* The translucent frame surrounds the white subscription card. */
+.subscriptionFrame {
+  width: 29.5625rem;
+  max-width: 100%;
+  height: 37.3125rem;
+  flex-shrink: 0;
+  padding: 1.25rem 1.25rem 0;
+  overflow: hidden;
+  border-radius: 2.61269rem 2.61269rem 0 0;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.subscriptionCard {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem clamp(0.75rem, 2vw, 1.875rem);
+  border-radius: 2.39494rem 2.39494rem 0 0;
+  background: #fff;
+}
+
+/* Hide the button baked into the artwork; render the real button below. */
+.subscriptionArtwork {
+  width: 100%;
+  aspect-ratio: 881 / 820;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.subscriptionImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.subscribeButton {
+  cursor: pointer;
+  display: flex;
+  width: 23.3125rem;
+  max-width: 100%;
+  height: 3.6875rem;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  border-radius: 0.5rem;
+  border: 0 solid #6d7079;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 1.08863rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.52406rem;
+}
+
+.subscribeButton svg {
+  margin-left: 0.5rem;
+}
+
+.avodRow {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 3.5rem;
+}
+
+.avodGradient {
+  display: flex;
+  min-width: 0;
+  padding: 10.6875rem 5.0625rem 0 5.125rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1 0 0;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.59%, rgba(245, 223, 255, 0.50) 62.16%, #EBBFFF 100%);
+}
+
+.avodCard {
+  position: relative;
+  width: 27.0625rem;
+  max-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2.39494rem 2.39494rem 0 0;
+  background: #fff;
+}
+
+.avodImage {
+  display: block;
+  width: 27.0625rem;
+  max-width: 100%;
+  height: 31.8125rem;
+  border-radius: 2.39494rem 2.39494rem 0 0;
+  background: lightgray;
+  object-fit: cover;
+  object-position: center;
+}
+
+.avodButtonArea {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1.875rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff 40%);
+}
+
+.tvodGradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.78%, rgba(255, 255, 255, 0.50) 53.5%, #FFEABF 100%);
+}
+
+.tvodFrame {
+  display: flex;
+  height: auto;
+  padding: 1.25rem 1.25rem 4.25rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tvodCard {
+  height: 31.8125rem;
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    gap: 5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .avodRow {
+    flex-direction: column;
+  }
+
+  .avodGradient {
+    width: 100%;
+    flex: auto;
+  }
+
+  .section > div:nth-of-type(2) {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .avodGradient {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .avodImage {
+    height: auto;
+    aspect-ratio: 433 / 509;
+  }
+
+  .section {
+    padding: 4rem 1.25rem;
+    gap: 4rem;
+  }
+
+  .section h2 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+}

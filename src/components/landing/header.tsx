@@ -91,7 +91,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Monetization Model",
 
-            href: "/companies",
+            href: "/monetization",
           },
 
           {
@@ -419,6 +419,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/",
   "/news-and-blogs",
   "/abhijat-marathi",
+  "/monetization",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
@@ -1760,7 +1761,7 @@ export function Header({
           >
             <SumanLogo
               inverse={
-                transparentAtTop
+                transparentAtTop && pathname !== "/monetization"
               }
             />
           </Link>
