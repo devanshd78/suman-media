@@ -1,15 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { inter } from "@/lib/fonts";
 import styles from "./middlepage.module.css";
 import {
   Alarm,
   Books,
+  Browser,
   CaretRight,
   FilmReel,
   FilmScript,
+  HandCoins,
+  Handshake,
   MonitorPlay,
+  Newspaper,
   YoutubeLogo,
 } from "@phosphor-icons/react";
 
@@ -49,9 +54,48 @@ const transactionFeatures = [
   { label: "Special Screenings", icon: Books },
 ];
 
+const hybridFeatures = [
+  { label: "Premium Subscriptions", icon: YoutubeLogo },
+  { label: "Free Ad-supported Content", icon: Browser },
+  { label: "Film Rentals", icon: FilmReel },
+  { label: "Pay-per-view Events", icon: HandCoins },
+  { label: "Exclusive Releases", icon: Newspaper },
+  { label: "Branded Partnerships", icon: Handshake },
+];
+
 export default function MiddlePage() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) return;
+    const targets = section.querySelectorAll<HTMLElement>(
+      "h2, h3, p, [data-reveal], [data-reveal-list] > div",
+    );
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        (entry.target as HTMLElement).dataset.entered = "true";
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    targets.forEach((target) => {
+      target.classList.add(styles.reveal);
+      observer.observe(target);
+    });
+    return () => {
+      observer.disconnect();
+      targets.forEach((target) => {
+        target.classList.remove(styles.reveal);
+        delete target.dataset.entered;
+      });
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
+      data-motion-managed
       className={`
         ${styles.section}
         flex
@@ -167,7 +211,7 @@ export default function MiddlePage() {
           </div>
 
           {/* Learn more */}
-          <div className="mt-[1.5rem]">
+          <div data-reveal="up" className="mt-[1.5rem]">
             <button
               type="button"
               className="
@@ -199,7 +243,7 @@ export default function MiddlePage() {
           {/* FEATURE LIST */}
           {/* ================================================= */}
 
-          <div className="mt-[4rem] flex w-full flex-col">
+          <div data-reveal-list className="mt-[4rem] flex w-full flex-col">
             {subscriptionFeatures.map(
               ({ label, icon: Icon }, index) => (
                 <div
@@ -272,7 +316,7 @@ export default function MiddlePage() {
             bg-[linear-gradient(180deg,rgba(255,255,255,0)_24.08%,rgba(255,255,255,0.50)_50%,#7C7CCC_100%)]
           "
         >
-          <div className={styles.subscriptionFrame}>
+          <div data-reveal="right" className={styles.subscriptionFrame}>
             <div className={styles.subscriptionCard}>
               <div className={styles.subscriptionArtwork}>
                 <Image
@@ -299,7 +343,7 @@ export default function MiddlePage() {
 
       <div className={styles.avodRow}>
         <div className={styles.avodGradient}>
-          <div className={styles.subscriptionFrame}>
+          <div data-reveal="left" className={styles.subscriptionFrame}>
             <div className={styles.avodCard}>
               <Image
                 src="/images/monetization/Image2.png"
@@ -333,7 +377,7 @@ export default function MiddlePage() {
               library.
             </p>
           </div>
-          <div className="mt-[1.5rem]">
+          <div data-reveal="up" className="mt-[1.5rem]">
             <button
               type="button"
               className="inline-flex items-center justify-center gap-[0.25rem] rounded-[0.75rem] p-[1rem] font-['Inter',sans-serif] text-[1rem] font-semibold leading-[1.5rem] text-[#8F6C1A] [font-feature-settings:'liga'_off,'clig'_off]"
@@ -342,7 +386,7 @@ export default function MiddlePage() {
               <CaretRight size={24} weight="regular" className="text-[#E1D7BD]" />
             </button>
           </div>
-          <div className="mt-[4rem] flex w-full flex-col">
+          <div data-reveal-list className="mt-[4rem] flex w-full flex-col">
             {subscriptionFeatures.map(({ label, icon: Icon }, index) => (
               <div
                 key={label}
@@ -368,7 +412,7 @@ export default function MiddlePage() {
               rentals or purchases.
             </p>
           </div>
-          <div className="mt-[1.5rem]">
+          <div data-reveal="up" className="mt-[1.5rem]">
             <button
               type="button"
               className="inline-flex items-center justify-center gap-[0.25rem] rounded-[0.75rem] p-[1rem] font-['Inter',sans-serif] text-[1rem] font-semibold leading-[1.5rem] text-[#8F6C1A] [font-feature-settings:'liga'_off,'clig'_off]"
@@ -377,7 +421,7 @@ export default function MiddlePage() {
               <CaretRight size={24} weight="regular" className="text-[#E1D7BD]" />
             </button>
           </div>
-          <div className="mt-[4rem] flex w-full flex-col">
+          <div data-reveal-list className="mt-[4rem] flex w-full flex-col">
             {transactionFeatures.map(({ label, icon: Icon }, index) => (
               <div
                 key={label}
@@ -393,7 +437,7 @@ export default function MiddlePage() {
         </div>
 
         <div className={`${styles.avodGradient} ${styles.tvodGradient}`}>
-          <div className={`${styles.subscriptionFrame} ${styles.tvodFrame}`}>
+          <div data-reveal="right" className={`${styles.subscriptionFrame} ${styles.tvodFrame}`}>
             <div className={`${styles.avodCard} ${styles.tvodCard}`}>
               <Image
                 src="/images/monetization/Image3.png"
@@ -412,6 +456,34 @@ export default function MiddlePage() {
           </div>
         </div>
       </div>
+      <section className={styles.hybridSection} aria-labelledby="hybrid-heading">
+        <div className={styles.hybridIntro}>
+          <h3 id="hybrid-heading" className={styles.hybridHeading}>
+            Multiple Revenue Streams,<br />
+            One Ecosystem (HYBRID)
+          </h3>
+          <p className={styles.hybridDescription}>
+            Combine subscriptions, advertising and transactions to create a flexible
+            revenue model around different audiences and content types.
+          </p>
+          <button
+            type="button"
+            data-reveal="up"
+            className={`${styles.hybridLearnMore} ${inter.className}`}
+          >
+            Learn more
+            <CaretRight size={24} weight="bold" aria-hidden="true" />
+          </button>
+        </div>
+        <ul data-reveal-list className={styles.hybridFeatures}>
+          {hybridFeatures.map(({ label, icon: Icon }) => (
+            <li key={label} data-reveal="up" className={styles.hybridFeature}>
+              <Icon size={24} weight="regular" aria-hidden="true" />
+              <span>{label}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }
