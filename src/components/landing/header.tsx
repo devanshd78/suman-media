@@ -98,7 +98,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Fast Channel",
 
-            href: "/companies",
+            href: "/products/fast-channel",
           },
 
           {
@@ -420,6 +420,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/news-and-blogs",
   "/abhijat-marathi",
   "/monetization",
+  "/products/fast-channel",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
