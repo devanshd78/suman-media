@@ -1,0 +1,231 @@
+.news {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  padding: 6.25rem 3.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+  background: #fff;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-feature-settings: "liga" off, "clig" off;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  gap: 3.5rem;
+  align-self: stretch;
+}
+
+.headingGroup { flex: 1; }
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--Light-Border-Text-Tertiary, #b8b8b8);
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+}
+
+.heading, .bannerHeading {
+  margin: 0;
+  color: #000;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.viewAll, .readMore, .contactLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0;
+  color: var(--Text-Warning, #8f6c1a);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.viewAll {
+  min-height: 3rem;
+  flex-shrink: 0;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: 2rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.track::-webkit-scrollbar { display: none; }
+
+.card {
+  display: flex;
+  flex: 0 0 min(40.875rem, 100%);
+  min-width: 0;
+  height: 31.625rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  scroll-snap-align: start;
+}
+
+.imageLink {
+  position: relative;
+  display: block;
+  flex: 1 0 0;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: lightgray;
+}
+.image {
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardContent { width: 100%; flex-shrink: 0; }
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  background: #f3f3f3;
+}
+.metadata time { display: inline-flex; align-items: center; height: 2rem; border-radius: 0.5rem; }
+.cardHeading {
+  margin: 0 0 0.5rem;
+  color: #000;
+  font-size: var(--Font-size-Heading-4, 1.25rem);
+  font-weight: 400;
+  line-height: var(--Line-height-Heading-4, 1.75rem);
+}
+.cardHeading a { color: inherit; text-decoration: none; }
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  margin: 0 0 0.5rem;
+  color: var(--Light-Border-Text-Tertiary, #b8b8b8);
+  text-overflow: ellipsis;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.readMore { height: 2rem; border-radius: 0.25rem; font-size: 0.875rem; font-weight: 500; line-height: 1.25rem; }
+.controls { display: flex; align-self: flex-end; gap: 0.9375rem; }
+.arrow {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #8f6c1a;
+  color: #fff;
+  cursor: pointer;
+}
+.arrow:disabled { background: rgba(143, 108, 26, 0.05); color: #aa8c48; cursor: default; }
+.news :focus-visible, .contactBanner :focus-visible { outline: 2px solid #8f6c1a; outline-offset: -2px; }
+
+.contactBanner {
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  height: 30rem;
+  padding: 2rem;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  overflow: hidden;
+  background: lightgray;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-feature-settings: "liga" off, "clig" off;
+}
+.bannerImage { z-index: -2; object-fit: cover; }
+.contactBanner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0) 42.15%, rgba(0, 0, 0, 0.76) 85.74%);
+}
+.bannerContent { align-self: stretch; }
+.bannerHeading { color: #fff; }
+.contactLink { margin-top: 2rem; min-height: 2rem; gap: 0.25rem; border-radius: 0.5rem; color: #fff; font-size: 1rem; font-weight: 600; line-height: 1.5rem; }
+.bannerLogo { width: 4.6875rem; height: 5rem; flex-shrink: 0; object-fit: contain; mix-blend-mode: luminosity; }
+
+/* Reserve room above and below so a taller card never shifts the controls. */
+@media (min-width: 48.0625rem) {
+  .track {
+    padding-block: 3.5rem;
+  }
+
+  .card {
+    transition:
+      height 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      margin 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card:focus-within {
+    height: 38.625rem;
+    margin-block: -3.5rem;
+  }
+}
+
+@media (min-width: 48.0625rem) and (hover: hover) and (pointer: fine) {
+  .card:hover {
+    height: 38.625rem;
+    margin-block: -3.5rem;
+  }
+
+  .card:hover .image {
+    transform: scale(1.03);
+  }
+}
+
+.card:focus-within .image {
+  transform: scale(1.03);
+}
+
+@media (max-width: 64rem) {
+  .news { padding-inline: 2rem; }
+}
+@media (max-width: 48rem) {
+  .news { padding: 4rem 1.25rem; gap: 2.5rem; }
+  .header { gap: 1rem; }
+  .heading, .bannerHeading { font-size: 2rem; line-height: 2.5rem; }
+  .card { height: auto; }
+  .imageLink { flex: none; aspect-ratio: 1.8 / 1; }
+  .metadata { font-size: 0.875rem; }
+  .contactBanner { padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .image { transition: none; }
+}

@@ -63,6 +63,29 @@ const hybridFeatures = [
   { label: "Branded Partnerships", icon: Handshake },
 ];
 
+const revenueSteps = [
+  {
+    title: "Content",
+    icon: "FilmReel.svg",
+    description: "Understand the content library, rights and commercial potential.",
+  },
+  {
+    title: "Audience",
+    icon: "UsersThree.svg",
+    description: "Identify who watches, where they watch and what they value.",
+  },
+  {
+    title: "Platform",
+    icon: "MicrophoneStage.svg",
+    description: "Choose the right digital distribution and viewing experience.",
+  },
+  {
+    title: "Strategic partners",
+    icon: "CrownSimple.svg",
+    description: "Use audience behaviour and performance insights to improve the business.",
+  },
+];
+
 export default function MiddlePage() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -93,6 +116,7 @@ export default function MiddlePage() {
   }, []);
 
   return (
+    <>
     <section
       ref={sectionRef}
       data-motion-managed
@@ -484,6 +508,125 @@ export default function MiddlePage() {
           ))}
         </ul>
       </section>
+
+      {/* ===================================================== */}
+      {/* STREAMING ECOSYSTEM OVERVIEW */}
+      {/* ===================================================== */}
+      <section
+        className={styles.streamingOverview}
+        aria-labelledby="streaming-ecosystem-heading"
+      >
+        <div className={styles.streamingOverviewFrame}>
+          <div className={styles.streamingOverviewPanel}>
+            <h3
+              id="streaming-ecosystem-heading"
+              className={styles.streamingOverviewHeading}
+            >
+              STREAMING ECOSYSTEM OVERVIEW
+            </h3>
+
+            <div className={styles.streamingDiagram}>
+              <div className={`${styles.diagramBox} ${styles.contentDiagramBox}`}>
+                <span className={styles.diagramBoxTitle}>Content</span>
+              </div>
+
+              <div className={styles.topDiagramConnector} aria-hidden="true">
+                <span className={`${styles.connectorDrop} ${styles.connectorDropLeft}`} />
+                <span className={`${styles.connectorDrop} ${styles.connectorDropRight}`} />
+              </div>
+
+              <div className={styles.streamingModelRow}>
+                <div className={`${styles.diagramBox} ${styles.revenueModelBox}`}>
+                  <span className={styles.revenueModelTitle}>SVOD</span>
+                  <span className={styles.revenueModelDescription}>
+                    Subscription on demand
+                  </span>
+                </div>
+
+                <span
+                  className={`${styles.horizontalConnector} ${styles.horizontalConnectorRight}`}
+                  aria-hidden="true"
+                />
+
+                <div className={`${styles.diagramBox} ${styles.revenueModelBox}`}>
+                  <span className={styles.revenueModelTitle}>AVOD</span>
+                  <span className={styles.revenueModelDescription}>
+                    Ad-support Video on
+                    <br />
+                    Demand
+                  </span>
+                </div>
+
+                <span
+                  className={`${styles.horizontalConnector} ${styles.horizontalConnectorLeft}`}
+                  aria-hidden="true"
+                />
+
+                <div className={`${styles.diagramBox} ${styles.revenueModelBox}`}>
+                  <span className={styles.revenueModelTitle}>TVOD</span>
+                  <span className={styles.revenueModelDescription}>
+                    Transactional Video on
+                    <br />
+                    Demand
+                  </span>
+                </div>
+              </div>
+
+              <span className={styles.verticalDiagramConnector} aria-hidden="true" />
+
+              <div className={styles.hybridDiagramBox}>
+                <span>HYBRID Model</span>
+              </div>
+
+              <span
+                className={`${styles.verticalDiagramConnector} ${styles.imageConnector}`}
+                aria-hidden="true"
+              />
+
+              <div className={styles.ecosystemImageWrapper} data-reveal="up">
+                <Image
+                  src="/images/monetization/Image4.png"
+                  alt="Streaming monetisation revenue dashboard"
+                  width={241}
+                  height={408}
+                  sizes="(max-width: 768px) 76vw, 241px"
+                  className={styles.ecosystemImage}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
+    <section className={styles.revenueJourney} aria-labelledby="revenue-journey-heading">
+      <div className={styles.revenueJourneyIntro}>
+        <p className={styles.revenueJourneyEyebrow}>COMMON MONETISATION MODEL</p>
+        <h2 id="revenue-journey-heading" className={styles.revenueJourneyHeading}>
+          From Content to Revenue step
+        </h2>
+        <p className={styles.revenueJourneyDescription}>
+          The model may change, but the journey stays connected — from understanding
+          the content and audience to launching, distributing and optimising the platform.
+        </p>
+      </div>
+      <ul className={styles.revenueSteps}>
+        {revenueSteps.map(({ title, icon, description }) => (
+          <li key={title} className={styles.revenueStep}>
+            <Image
+              src={`/images/monetization/icon/${icon}`}
+              alt=""
+              width={56}
+              height={56}
+              className={styles.revenueStepIcon}
+            />
+            <div className={styles.revenueStepText}>
+              <h3 className={styles.revenueStepHeading}>{title}</h3>
+              <p className={styles.revenueStepDescription}>{description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+    </>
   );
 }

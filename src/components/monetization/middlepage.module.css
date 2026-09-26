@@ -353,3 +353,746 @@
     line-height: 2.5rem;
   }
 }
+
+/* =========================================================
+   STREAMING ECOSYSTEM OVERVIEW
+   ========================================================= */
+
+.streamingOverview {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: hidden;
+
+  border-radius: 1rem;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff 2.32%,
+      rgba(255, 255, 255, 0.5) 21.61%,
+      #bfffed 100%
+    );
+
+  padding: 2rem 2rem 0;
+}
+
+
+.streamingOverviewFrame {
+  box-sizing: border-box;
+  width: 74.5625rem;
+  max-width: 100%;
+  height: 41.3125rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 1.25rem 1.25rem 0;
+  border-radius: 2.61269rem 2.61269rem 0 0;
+  background: rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(13.498871803283691px);
+}
+
+.streamingOverviewPanel {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.25rem 0;
+  border-radius: 1.5rem 1.5rem 0 0;
+  background: #fff;
+}
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.streamingOverviewHeading {
+  margin: 0;
+
+  color: #372b0d;
+
+  text-align: center;
+
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Heading-3, 1.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-3, 2rem);
+}
+
+
+/* =========================================================
+   DIAGRAM CONTAINER
+   ========================================================= */
+
+.streamingDiagram {
+  position: relative;
+
+  display: flex;
+  width: 100%;
+  max-width: 58rem;
+
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 2rem;
+}
+
+
+/* =========================================================
+   SHARED BOX
+   ========================================================= */
+
+.diagramBox {
+  box-sizing: border-box;
+
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.625rem;
+
+  gap: 0.5625rem;
+
+  border-radius: var(--Corner-radius-8, 0.5rem);
+  border: 1px solid #35290c;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+}
+
+
+/* =========================================================
+   CONTENT BOX
+   11.75rem x 3.875rem
+   ========================================================= */
+
+.contentDiagramBox {
+  width: 11.75rem;
+  height: 3.875rem;
+
+  flex-shrink: 0;
+}
+
+.diagramBoxTitle {
+  color: #372b0d;
+
+  text-align: center;
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+
+/* =========================================================
+   CONTENT -> SVOD / AVOD / TVOD CONNECTOR
+   ========================================================= */
+
+.topDiagramConnector {
+  position: absolute;
+  top: 3.9375rem;
+  width: 100%;
+  max-width: 57.25rem;
+  height: 3.09181rem;
+  pointer-events: none;
+}
+
+/* The exported rotated vector is drawn in its final, axis-aligned position. */
+.connectorDrop {
+  position: absolute;
+  top: 0;
+  width: min(15.46381rem, calc(50% - 13.25rem));
+  height: 3.09181rem;
+  border-top: 1px solid #b8b8b8;
+}
+
+.connectorDrop::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  border-right: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.connectorDropLeft {
+  left: 5.875rem;
+  border-left: 1px solid #b8b8b8;
+}
+
+.connectorDropLeft::after {
+  left: -0.5px;
+}
+
+.connectorDropRight {
+  right: 5.875rem;
+  border-right: 1px solid #b8b8b8;
+}
+
+.connectorDropRight::after {
+  left: 100%;
+}
+
+/* =========================================================
+   SVOD / AVOD / TVOD ROW
+   ========================================================= */
+
+.streamingModelRow {
+  position: relative;
+
+  display: grid;
+
+  width: min(100%, 57.25rem);
+  margin-top: 1.875rem;
+
+  grid-template-columns:
+    11.75rem
+    minmax(2.5rem, 1fr)
+    11.75rem
+    minmax(2.5rem, 1fr)
+    11.75rem;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   SVOD / AVOD / TVOD BOXES
+   11.75rem x 6.1875rem
+   ========================================================= */
+
+.revenueModelBox {
+  width: 11.75rem;
+  height: 6.1875rem;
+
+  flex-shrink: 0;
+}
+
+.revenueModelTitle {
+  color: #372b0d;
+
+  text-align: center;
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+}
+
+.revenueModelDescription {
+  color: #5f5949;
+
+  text-align: center;
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.125rem;
+
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+}
+
+
+/* =========================================================
+   HORIZONTAL ARROWS
+   SVOD -> AVOD <- TVOD
+   ========================================================= */
+
+.horizontalConnector {
+  position: relative;
+
+  display: block;
+
+  width: calc(100% - 2.5rem);
+  justify-self: center;
+  height: 1px;
+
+  background: #b8b8b8;
+}
+
+.horizontalConnectorRight::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  width: 0.375rem;
+  height: 0.375rem;
+
+  border-top: 1px solid #b8b8b8;
+  border-right: 1px solid #b8b8b8;
+
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.horizontalConnectorLeft::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 0.375rem;
+  height: 0.375rem;
+
+  border-left: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
+
+  transform: translateY(-50%) rotate(45deg);
+}
+
+
+/* =========================================================
+   VERTICAL ARROW
+   ========================================================= */
+
+.verticalDiagramConnector {
+  position: relative;
+
+  display: block;
+
+  width: 1px;
+  height: 1.625rem;
+  margin-block: 1.25rem;
+
+  flex-shrink: 0;
+
+  background: #b8b8b8;
+}
+
+.verticalDiagramConnector::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 0;
+
+  width: 0.375rem;
+  height: 0.375rem;
+
+  border-right: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
+
+  transform: translate(-50%, 0) rotate(45deg);
+}
+
+
+/* =========================================================
+   HYBRID MODEL
+   ========================================================= */
+
+.hybridDiagramBox {
+  box-sizing: border-box;
+
+  display: flex;
+
+  width: 13.5rem;
+  min-height: 3.8125rem;
+
+  padding: 0.625rem;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 0.5625rem;
+
+  flex-shrink: 0;
+
+  border-radius: 62.4375rem;
+  border: 1px solid #35290c;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+
+  color: #372b0d;
+
+  text-align: center;
+
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+.imageConnector {
+  height: 1.625rem;
+}
+
+
+/* =========================================================
+   IMAGE 4
+   Exact desktop size from Figma
+   ========================================================= */
+
+.ecosystemImageWrapper {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+
+  line-height: 0;
+}
+
+.ecosystemImage {
+  display: block;
+
+  width: 15.05025rem;
+  height: 25.5rem;
+
+  max-width: 100%;
+
+  flex-shrink: 0;
+
+  aspect-ratio: 36 / 61;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 64rem) {
+  .streamingOverview {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .streamingDiagram {
+    max-width: 100%;
+  }
+
+  .streamingModelRow,
+  .topDiagramConnector {
+    width: 100%;
+    max-width: 57.25rem;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 60rem) {
+  .streamingOverview {
+    padding: 1.5rem 1rem 0;
+
+    border-radius: 0.875rem;
+  }
+
+  .streamingOverviewHeading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .streamingDiagram {
+    padding-top: 1.5rem;
+  }
+
+  /*
+   * On mobile the large desktop branch is removed.
+   * A single clean vertical flow is used so the
+   * section never overflows horizontally.
+   */
+  .streamingOverviewFrame {
+    height: auto;
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .streamingOverviewPanel {
+    padding: 1.5rem 0.75rem 0;
+  }
+
+  .ecosystemImageWrapper {
+    height: 12.75rem;
+    overflow: hidden;
+  }
+
+  .topDiagramConnector {
+    position: relative;
+    top: auto;
+    width: 1px;
+    height: 1.75rem;
+
+    margin: 0;
+
+    background: #b8b8b8;
+  }
+
+  .topDiagramConnector::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    width: 0.375rem;
+    height: 0.375rem;
+
+    border-right: 1px solid #b8b8b8;
+    border-bottom: 1px solid #b8b8b8;
+
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+
+  .connectorDrop {
+    display: none;
+  }
+
+  .streamingModelRow {
+    margin-top: 0;
+    display: flex;
+
+    width: 100%;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: 1rem;
+  }
+
+  .horizontalConnector {
+    display: none;
+  }
+
+  .contentDiagramBox,
+  .revenueModelBox {
+    max-width: 100%;
+  }
+
+  .verticalDiagramConnector {
+    height: 1.75rem;
+  }
+
+  .hybridDiagramBox {
+    max-width: 100%;
+
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .imageConnector {
+    height: 1.75rem;
+  }
+
+  .ecosystemImage {
+    width: min(15.05025rem, 74vw);
+    height: auto;
+
+    aspect-ratio: 36 / 61;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 30rem) {
+  .streamingOverview {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .streamingOverviewHeading {
+    max-width: 18rem;
+
+    font-size: 1.125rem;
+    line-height: 1.625rem;
+  }
+
+  .contentDiagramBox {
+    width: min(11.75rem, 88%);
+  }
+
+  .revenueModelBox {
+    width: min(11.75rem, 88%);
+  }
+
+  .hybridDiagramBox {
+    width: min(13.5rem, 92%);
+  }
+
+  .ecosystemImage {
+    width: min(15.05025rem, 82vw);
+  }
+}
+
+/* Common monetisation model */
+.revenueJourney {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 6.25rem var(--Spacing-56, 3.5rem);
+  flex-direction: column;
+  align-items: center;
+  gap: 6.25rem;
+  background: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+}
+
+.revenueJourneyIntro {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.revenueJourneyEyebrow {
+  align-self: stretch;
+  margin: 0 0 0.5rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+}
+
+.revenueJourneyHeading {
+  align-self: stretch;
+  margin: 0;
+  color: #000;
+  text-align: center;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.revenueJourneyDescription {
+  width: 38.625rem;
+  max-width: 100%;
+  margin: var(--Spacing-16, 1rem) 0 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+.revenueSteps {
+  display: flex;
+  width: 100%;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revenueStep {
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  height: 15rem;
+  padding-bottom: var(--Spacing-12, 0.75rem);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1 0 0;
+}
+
+.revenueStepIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+}
+
+.revenueStepText {
+  width: 100%;
+  min-height: 6rem;
+}
+
+.revenueStepHeading {
+  margin: 0 0 1rem;
+  color: #000;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+}
+
+.revenueStepDescription {
+  margin: 0;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+@media (max-width: 64rem) {
+  .revenueJourney {
+    padding-inline: 2rem;
+  }
+
+  .revenueSteps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .revenueJourney {
+    padding: 4rem 1.25rem;
+    gap: 4rem;
+  }
+
+  .revenueJourneyHeading {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+
+  .revenueSteps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
