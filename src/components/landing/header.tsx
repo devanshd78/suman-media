@@ -84,7 +84,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "OTT, Digital Platforms & Streaming",
 
-            href: "/companies",
+            href: "/abhijat-marathi",
           },
 
           {
@@ -126,21 +126,21 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Content and Music Library Management",
 
-            href: "/services",
+            href: "/contentAcquisition&distribution",
           },
 
           {
             label:
               "Publication & Knowledge Platforms",
 
-            href: "/services",
+            href: "/contentAcquisition&distribution",
           },
 
           {
             label:
               "Intellectual Property Development",
 
-            href: "/services",
+            href: "/contentAcquisition&distribution",
           },
         ],
       },

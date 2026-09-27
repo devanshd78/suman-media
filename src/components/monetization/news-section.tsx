@@ -35,7 +35,7 @@ function Caret({ left = false }: { left?: boolean }) {
   );
 }
 
-export default function NewsSection() {
+export default function NewsSection({ articleLinkOverride }: { articleLinkOverride?: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ start: true, end: false });
 
@@ -96,7 +96,7 @@ export default function NewsSection() {
         >
           {articles.map((article) => (
             <article key={article.image} className={styles.card}>
-              <Link href={article.href} className={styles.imageLink} aria-label={article.title}>
+              <Link href={articleLinkOverride ?? article.href} className={styles.imageLink} aria-label={article.title}>
                 <Image src={article.image} alt={article.title} fill sizes="(max-width: 768px) 90vw, 654px" className={styles.image} />
               </Link>
               <div className={styles.cardContent}>
@@ -104,9 +104,9 @@ export default function NewsSection() {
                   <span className={styles.tag}>New launches</span>
                   <time dateTime="2026-08-07">Aug 7, 2026</time>
                 </div>
-                <h3 className={styles.cardHeading}><Link href={article.href}>{article.title}</Link></h3>
+                <h3 className={styles.cardHeading}><Link href={articleLinkOverride ?? article.href}>{article.title}</Link></h3>
                 <p className={styles.description}>{article.description}</p>
-                <Link href={article.href} className={`${styles.readMore} ${inter.className}`} aria-label={`Read more: ${article.title}`}>
+                <Link href={articleLinkOverride ?? article.href} className={`${styles.readMore} ${inter.className}`} aria-label={`Read more: ${article.title}`}>
                   Read more <Caret />
                 </Link>
               </div>
