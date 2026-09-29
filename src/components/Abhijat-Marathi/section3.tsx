@@ -1574,13 +1574,11 @@ export default function Section3() {
 
     gap-[1rem]
 
-    px-5
+    site-gutter
     py-16
 
-    md:px-8
     md:py-20
 
-    lg:px-[3.5rem]
     lg:py-[6.25rem]
   "
             >
@@ -1719,14 +1717,12 @@ export default function Section3() {
 
           overflow-hidden
 
-          px-5
+          site-gutter
           py-8
 
           sm:h-[38rem]
-          sm:px-8
 
           lg:h-[44.875rem]
-          lg:px-[3.5rem]
           lg:py-[3.5rem]
         "
             >
@@ -2957,7 +2953,7 @@ export default function Section3() {
 
             <section
                 aria-labelledby="abhijat-anywhere-heading"
-                className="mx-auto flex w-full max-w-none flex-col items-center gap-[3.5rem] self-stretch bg-white px-5 py-16 md:px-8 lg:min-h-[28.1875rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+                className="site-gutter mx-auto flex w-full max-w-none flex-col items-center gap-[3.5rem] self-stretch bg-white py-16 lg:min-h-[28.1875rem] lg:py-[6.25rem]"
             >
                 <h2
                     id="abhijat-anywhere-heading"

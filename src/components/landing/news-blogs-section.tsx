@@ -909,16 +909,12 @@ export function NewsBlogsSection({
 
         bg-white
 
-        px-5
+        site-gutter
         py-16
 
-        sm:px-8
         sm:py-20
 
-        lg:px-[3.5rem]
         lg:py-[6rem]
-
-        xl:px-[4rem]
       "
     >
       {/* =====================================================

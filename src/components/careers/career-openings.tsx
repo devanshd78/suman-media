@@ -128,7 +128,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
     <section
       id="open-roles"
       aria-labelledby="career-openings-heading"
-      className="flex w-full max-w-none scroll-mt-24 flex-col items-center gap-12 bg-[#111111] px-5 py-16 sm:px-8 md:gap-14 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]"
+      className="site-gutter flex w-full max-w-none scroll-mt-24 flex-col items-center gap-12 bg-[#111111] py-16 md:gap-14 lg:gap-[6.25rem] lg:py-[6.25rem]"
       style={{
         background:
           "var(--Light-Border-Background-Selected, #111)",

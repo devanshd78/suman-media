@@ -356,18 +356,16 @@ export function HeroSection({
         bg-black
         text-white
 
-        px-5
+        site-gutter
 
         pb-[3rem]
         pt-[6.5rem]
 
-        sm:px-8
         sm:pb-[4rem]
         sm:pt-[7.5rem]
 
         md:pb-[4.5rem]
 
-        lg:px-[3.5rem]
         lg:pb-[clamp(4.5rem,7vw,6.5rem)]
         lg:pt-[8rem]
       "

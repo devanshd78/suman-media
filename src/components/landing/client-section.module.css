@@ -1,5 +1,5 @@
 .section {
-    --client-side: 1.25rem;
+    --client-side: var(--site-gutter-x);
 
     position: relative;
 
@@ -389,10 +389,6 @@
    ========================================================= */
 
 @media (min-width: 640px) {
-    .section {
-        --client-side: 2rem;
-    }
-
     .slide {
         width: 84vw;
         flex-basis: 84vw;
@@ -427,10 +423,6 @@
    ========================================================= */
 
 @media (min-width: 1024px) {
-    .section {
-        --client-side: 3.5rem;
-    }
-
     .content {
         padding-block: 100px;
     }

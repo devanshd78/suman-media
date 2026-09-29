@@ -3,7 +3,7 @@
    ========================================================= */
 
 .section {
-  --industry-side: 1.25rem;
+  --industry-side: var(--site-gutter-x);
   --industry-gap: 1rem;
 
   position: relative;
@@ -701,9 +701,6 @@
 
 @media (min-width: 640px) {
   .section {
-    --industry-side:
-      2rem;
-
     --industry-gap:
       1.25rem;
   }
@@ -891,11 +888,6 @@
 }
 
 @media (min-width: 1024px) {
-  .section {
-    --industry-side:
-      3.5rem;
-  }
-
   .content {
     padding-block:
       clamp(2rem,

@@ -48,15 +48,12 @@ export function StatsSection({
         landing-section-transition
         w-full
         bg-[#FFEABF]
-        px-5
+        site-gutter
         pb-14
         pt-2
-        sm:px-8
         sm:pb-16
-        lg:px-[3.5rem]
         lg:pb-[4.75rem]
         lg:pt-4
-        xl:px-[4rem]
       "
     >
       <dl

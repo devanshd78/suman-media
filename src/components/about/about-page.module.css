@@ -1,0 +1,1054 @@
+.page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  background: #fff;
+  color: #111;
+  font-feature-settings: "liga" off, "clig" off;
+}
+
+.hero {
+  position: relative;
+  min-height: clamp(34rem, 78svh, 58rem);
+  overflow: hidden;
+  background: #26231f;
+}
+
+.heroImage,
+.coverImage,
+.containImage {
+  user-select: none;
+  pointer-events: none;
+}
+
+.heroImage {
+  object-fit: cover;
+  filter: grayscale(0.78) sepia(0.12) contrast(0.9);
+  transform: scale(1.015);
+}
+
+.coverImage {
+  object-fit: cover;
+}
+
+.containImage {
+  object-fit: contain;
+}
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.18)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.14), transparent 58%);
+}
+
+.heroTitle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding-top: clamp(6.75rem, 14vh, 9.5rem);
+  padding-bottom: clamp(3rem, 8vh, 5rem);
+  color: #fff;
+  font-size: clamp(4.6rem, 12vw, 11rem);
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+}
+
+.heroTitle span:last-child {
+  align-self: flex-end;
+}
+
+.aboutIntro,
+.globalHeader,
+.notableSection,
+.governmentSection,
+.mediaSection,
+.newsSection,
+.contactCardsSection {
+  background: #fff;
+}
+
+.twoColumnIntro {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.28fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--Light-Border-Text-Tertiary, #b8b8b8);
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.eyebrow[data-dark="true"] {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.aboutIntroHeading,
+.sectionHeading,
+.darkHeading {
+  margin: 0;
+  font-size: clamp(2rem, 2.4vw + 1rem, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03125rem;
+  text-wrap: balance;
+}
+
+.aboutIntroHeading {
+  max-width: 65rem;
+  color: #000;
+}
+
+.aboutIntroHeading span,
+.sectionHeading span {
+  color: #969696;
+}
+
+.darkHeading {
+  color: #fff;
+}
+
+.brandRail {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.brandLogo {
+  position: relative;
+  min-height: 4.25rem;
+  filter: grayscale(1);
+  opacity: 0.72;
+  transition: opacity 180ms ease, filter 180ms ease;
+}
+
+.brandLogo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.globalHeader {
+  padding-top: clamp(4.5rem, 8vw, 6.25rem);
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.globalStage {
+  position: relative;
+  height: 250svh;
+  background: #050505;
+}
+
+.globalSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.globalPair,
+.globalStory {
+  position: absolute;
+  inset: 0;
+}
+
+.globalPair {
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  padding-inline: var(--site-gutter-x);
+}
+
+.globalPairCard {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: clamp(18rem, 54svh, 38rem);
+  overflow: hidden;
+  border-radius: 0.3rem;
+  background: #ececec;
+}
+
+.globalStory {
+  z-index: 1;
+  background: #050505;
+}
+
+.globalStoryShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.05) 54%, rgba(0, 0, 0, 0.18));
+}
+
+.globalStoryCopy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  padding-top: clamp(7rem, 14svh, 9rem);
+  color: #fff;
+}
+
+.globalStoryCopy p {
+  margin: 0;
+  max-width: 28rem;
+  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.globalStoryCopy strong {
+  font-weight: 600;
+}
+
+.missionSection,
+.timelineSection,
+.leadershipSection {
+  background: #050505;
+  color: #fff;
+}
+
+.missionCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.missionCopy > p {
+  margin: 0;
+  max-width: 68rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1.25rem, 2.1vw, 2.15rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(58rem, 100%);
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.statItem {
+  display: flex;
+  min-height: 7.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.statItem:last-child {
+  border-right: 0;
+}
+
+.statItem strong {
+  font-size: clamp(2.25rem, 4vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.statItem span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  line-height: 1.1rem;
+}
+
+.missionGallery {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0 var(--site-gutter-x) clamp(4.5rem, 9vw, 7.5rem);
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
+
+.missionGallery::-webkit-scrollbar {
+  display: none;
+}
+
+.missionGalleryCard {
+  position: relative;
+  flex: 0 0 clamp(17rem, 27vw, 28rem);
+  height: clamp(13rem, 20vw, 20rem);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  scroll-snap-align: start;
+}
+
+.missionGalleryCard[data-tall="true"] {
+  flex-basis: clamp(12rem, 19vw, 19rem);
+}
+
+.timelineSection {
+  padding-top: clamp(4.75rem, 9vw, 7.5rem);
+  padding-bottom: clamp(4.75rem, 9vw, 7.5rem);
+}
+
+.timelineHeadingRow,
+.sectionHeadingRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.timelineHeadingRow > div,
+.sectionHeadingRow > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.timelineHeadingRow .darkHeading {
+  max-width: 52rem;
+}
+
+.timelineSubheading,
+.sectionHeadingRow > p,
+.governmentHeading > p,
+.leadershipHeading > p {
+  margin: 0;
+  max-width: 32rem;
+  color: #747474;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.timelineSubheading,
+.leadershipHeading > p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.carousel {
+  min-width: 0;
+}
+
+.carouselRail {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carouselRail:active {
+  cursor: grabbing;
+}
+
+.carouselRail[data-dragging="true"] {
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+  cursor: grabbing;
+}
+
+.carouselRail::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselRail:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.35rem;
+}
+
+.carouselItem {
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.carouselControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.carouselDots {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.carouselDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: currentColor;
+  color: inherit;
+  opacity: 0.28;
+  cursor: pointer;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.carouselDot[data-active="true"] {
+  opacity: 1;
+  transform: scale(1.18);
+}
+
+.carouselArrows {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.carouselArrow {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.carouselArrow:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.arrowIcon,
+.arrowIconLeft {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.arrowIconLeft {
+  transform: rotate(180deg);
+}
+
+.timelineCarousel {
+  margin-top: clamp(2.75rem, 6vw, 5rem);
+  color: #fff;
+}
+
+.timelineCarousel .carouselItem {
+  flex: 0 0 100%;
+}
+
+.timelineSlide {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.16fr);
+  min-height: clamp(25rem, 43vw, 35rem);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.45rem;
+  background: #050505;
+}
+
+.timelineCopy {
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: clamp(1.5rem, 3.5vw, 3.2rem);
+}
+
+.timelineYear {
+  position: absolute;
+  inset: clamp(1rem, 2.4vw, 2rem) auto auto clamp(1rem, 2.4vw, 2rem);
+  color: #5b4719;
+  font-size: clamp(7rem, 14vw, 14rem);
+  font-weight: 600;
+  letter-spacing: -0.09em;
+  line-height: 0.82;
+  opacity: 0.72;
+}
+
+.timelineCopy h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 31rem;
+  font-size: clamp(1.45rem, 2.1vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.23;
+  letter-spacing: -0.035em;
+}
+
+.timelineImage {
+  position: relative;
+  min-height: 24rem;
+  margin: 0;
+  overflow: hidden;
+}
+
+.leadershipSection {
+  padding-top: 0;
+}
+
+.leadershipHeading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.25fr) minmax(0, 1fr) minmax(16rem, 0.45fr);
+  align-items: start;
+  gap: 2.5rem;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.leadershipGrid {
+  display: grid;
+  grid-template-columns: minmax(16rem, 24rem);
+  margin-top: 3rem;
+}
+
+.leaderCard {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.leaderMonogram {
+  display: grid;
+  aspect-ratio: 1.1 / 1;
+  place-items: center;
+  border-radius: 0.25rem;
+  background: #dedede;
+  color: #6b6b6b;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+}
+
+.leaderCard h3,
+.leaderCard p {
+  margin: 0;
+}
+
+.leaderCard h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.leaderCard p {
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.875rem;
+}
+
+.notableSection,
+.governmentSection,
+.mediaSection,
+.newsSection,
+.contactCardsSection {
+  padding-top: clamp(4.5rem, 9vw, 6.25rem);
+  padding-bottom: clamp(4.5rem, 9vw, 6.25rem);
+}
+
+.notableSection {
+  border-bottom: 1px solid #ececec;
+}
+
+.notableCarousel {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  color: #111;
+}
+
+.notableCarousel .carouselRail {
+  scroll-snap-type: x proximity;
+}
+
+.notableCarousel .carouselItem {
+  flex: 0 0 clamp(15rem, 27vw, 24rem);
+}
+
+.notableCard {
+  position: relative;
+  aspect-ratio: 0.79;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background: #e8e8e8;
+}
+
+.nameChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 2rem;
+}
+
+.nameChips span {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #dedede;
+  border-radius: 999px;
+  color: #5e5e5e;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.governmentSection {
+  background: #fff8e8;
+}
+
+.governmentHeading {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.24fr) minmax(0, 1fr);
+  gap: 1.4rem clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.governmentHeading .sectionHeading,
+.governmentHeading > p {
+  grid-column: 2;
+}
+
+.governmentHeading .eyebrow {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.governmentHeading > p {
+  max-width: 52rem;
+}
+
+.governmentCarousel {
+  margin-top: clamp(2.75rem, 6vw, 5rem);
+  color: #4a3a16;
+}
+
+.governmentCarousel .carouselItem {
+  flex: 0 0 100%;
+}
+
+.governmentSlide {
+  position: relative;
+  height: clamp(22rem, 56vw, 42rem);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.35rem;
+  background: #eee;
+}
+
+.mediaSection {
+  text-align: center;
+}
+
+.mediaHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem 1.4rem;
+  margin: clamp(3rem, 6vw, 5rem) auto 0;
+  max-width: 65rem;
+}
+
+.mediaLogoText {
+  display: grid;
+  min-height: 5rem;
+  place-items: center;
+  border-bottom: 1px solid #ececec;
+  color: #111;
+  font-size: clamp(0.9rem, 1.25vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.newsSection {
+  border-top: 1px solid #ececec;
+}
+
+.textLink,
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-decoration: none;
+}
+
+.textLink:hover,
+.readMore:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.newsImageLink {
+  position: relative;
+  display: block;
+  aspect-ratio: 1.5 / 1;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background: #eee;
+}
+
+.newsMeta {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  color: #969696;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+}
+
+.newsCard h3 {
+  margin: 0.75rem 0 1.15rem;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.newsCard h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contactCardsSection {
+  padding-top: 0;
+}
+
+.contactCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding-top: clamp(4rem, 8vw, 6.25rem);
+  border-top: 1px solid #ececec;
+}
+
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contactCardImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.25 / 1;
+  margin: 0 0 1.5rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background: #eee;
+}
+
+.contactCard h3 {
+  margin: 0.7rem 0 1.5rem;
+  max-width: 28rem;
+  font-size: clamp(1.2rem, 1.6vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.contactCard .textLink {
+  margin-top: auto;
+}
+
+.careersBanner {
+  padding-top: 0;
+  padding-bottom: clamp(3rem, 7vw, 6.25rem);
+  background: #fff;
+}
+
+.careersBannerInner {
+  position: relative;
+  min-height: clamp(26rem, 54vw, 42rem);
+  overflow: hidden;
+  border-radius: 0.3rem;
+  background: #181818;
+}
+
+.careersBannerShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.08) 64%);
+}
+
+.careersBannerCopy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: min(42rem, 80%);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  color: #fff;
+}
+
+.careersBannerCopy h2 {
+  margin: 1rem 0 1.7rem;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.lightButton {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.72rem 1rem;
+  border-radius: var(--site-action-radius, 0.25rem);
+  background: #fff;
+  color: #111;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-decoration: none;
+}
+
+@media (max-width: 1023px) {
+  .brandRail {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .globalStage {
+    height: 190svh;
+  }
+
+  .timelineSlide {
+    grid-template-columns: 1fr;
+  }
+
+  .timelineCopy {
+    min-height: 18rem;
+  }
+
+  .timelineImage {
+    min-height: 22rem;
+  }
+
+  .leadershipHeading {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .leadershipHeading > p {
+    max-width: 42rem;
+  }
+
+  .mediaGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: 36rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(4.3rem, 26vw, 7.3rem);
+  }
+
+  .twoColumnIntro,
+  .governmentHeading {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .governmentHeading .sectionHeading,
+  .governmentHeading > p,
+  .governmentHeading .eyebrow {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .brandRail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .brandLogo {
+    min-height: 3.7rem;
+  }
+
+  .globalStage {
+    height: auto;
+    background: #050505;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    background: #050505 !important;
+  }
+
+  .globalPair,
+  .globalStory {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalPair {
+    grid-template-columns: 1fr;
+    padding-top: 0;
+    padding-bottom: 1rem;
+    background: #fff;
+  }
+
+  .globalPairCard {
+    height: 19rem;
+  }
+
+  .globalStory {
+    height: 38rem;
+  }
+
+  .globalStoryCopy {
+    align-items: flex-end;
+    padding-top: 0;
+    padding-bottom: 3rem;
+    opacity: 1 !important;
+  }
+
+  .missionCopy {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    margin-top: 3rem;
+  }
+
+  .statItem {
+    min-height: 6rem;
+    align-items: flex-start;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: left;
+  }
+
+  .statItem:last-child {
+    border-bottom: 0;
+  }
+
+  .timelineHeadingRow,
+  .sectionHeadingRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .timelineSlide {
+    min-height: 0;
+  }
+
+  .timelineCopy {
+    min-height: 16rem;
+  }
+
+  .timelineImage {
+    min-height: 18rem;
+  }
+
+  .timelineYear {
+    font-size: clamp(6rem, 31vw, 9rem);
+  }
+
+  .notableCarousel .carouselItem {
+    flex-basis: min(78vw, 20rem);
+  }
+
+  .governmentSlide {
+    height: 24rem;
+  }
+
+  .mediaGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .newsGrid,
+  .contactCardsGrid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .careersBannerCopy {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globalStage {
+    height: auto;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+  }
+
+  .globalPair,
+  .globalStory {
+    position: relative;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalPair {
+    padding-block: 2rem;
+  }
+
+  .globalStory {
+    min-height: 38rem;
+  }
+
+  .carouselRail {
+    scroll-behavior: auto;
+  }
+}

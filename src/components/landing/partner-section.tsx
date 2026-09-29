@@ -134,10 +134,9 @@ export function PartnerSection({
           grid
           w-full
           gap-10
-          px-5
+          site-gutter
           pt-12
 
-          sm:px-8
           sm:pt-14
 
           md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]
@@ -145,10 +144,7 @@ export function PartnerSection({
 
           lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]
           lg:gap-12 xl:gap-20
-          lg:px-[3.5rem]
           lg:pt-[4.25rem]
-
-          xl:px-[4rem]
         "
       >
         {/* =================================================

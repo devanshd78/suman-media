@@ -50,7 +50,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,transparent_55%)]"
       />
 
-      <div className="relative z-10 flex min-h-[inherit] w-full flex-col items-start px-5 py-7 sm:px-8 sm:py-9 lg:px-[3.5rem] lg:py-10">
+      <div className="site-gutter relative z-10 flex min-h-[inherit] w-full flex-col items-start py-7 sm:py-9 lg:py-10">
         <p className={`landing-eyebrow ${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.045em] text-white/90 sm:text-[0.875rem] sm:leading-[1.25rem]`}>
           {content.eyebrow?.trim() || "CARRERS"}
         </p>

@@ -32,14 +32,12 @@ export default function MonetisationPage() {
           items-center
           overflow-hidden
 
-          px-5
+          site-gutter
           pt-24
           pb-16
 
-          md:px-10
           md:pt-28
           md:pb-20
-          lg:px-[3.5rem]
           lg:py-[6.25rem]
         "
       >
