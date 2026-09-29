@@ -184,7 +184,7 @@ export default function CapitalMarketsPage() {
               alt="Capital markets and investor communications"
               fill
               priority
-              sizes="(max-width: 1023px) 100vw, 50vw"
+              sizes="50vw"
             />
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function CapitalMarketsPage() {
             </p>
           </div>
 
-          {/* Desktop slider */}
+          {/* The same scroll-driven slider is used on every screen size. */}
           <div className="campaign-desktop">
             <nav className="campaign-nav" aria-label="Campaign services">
               <div className="nav-line" aria-hidden="true" />
@@ -268,12 +268,6 @@ export default function CapitalMarketsPage() {
             </div>
           </div>
 
-          {/* Mobile / tablet stacked layout */}
-          <div className="campaign-mobile">
-            {campaigns.map((campaign) => (
-              <CampaignCard key={campaign.title} campaign={campaign} />
-            ))}
-          </div>
         </div>
       </section>
 
@@ -286,7 +280,6 @@ export default function CapitalMarketsPage() {
         }
 
         .capital-page {
-          --capital-gutter: clamp(1.25rem, 4vw, 3.5rem);
           width: 100%;
           overflow: clip;
           background: #fff;
@@ -299,8 +292,8 @@ export default function CapitalMarketsPage() {
 
         .capital-hero {
           display: flex;
-          min-height: 50.375rem;
-          padding: 6.25rem var(--capital-gutter) 3.5rem;
+          height: 50.375rem;
+          padding: 2rem 3.5rem 3.5rem;
           align-items: flex-start;
           gap: 3.5rem;
           align-self: stretch;
@@ -312,8 +305,7 @@ export default function CapitalMarketsPage() {
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           gap: 3.5rem;
           width: 100%;
-          min-height: 40.625rem;
-          margin: 0 auto;
+          height: 100%;
         }
 
         .hero-copy {
@@ -352,11 +344,10 @@ export default function CapitalMarketsPage() {
             --Font-family-Heading,
             "Plus Jakarta Sans"
           );
-          font-size: clamp(2.5rem, 3.9vw, 3.5rem);
+          font-size: var(--Font-size-Display, 3.5rem);
           font-style: normal;
           font-weight: 600;
-          line-height: 1.15;
-          overflow-wrap: anywhere;
+          line-height: var(--Line-height-Display, 4rem);
           letter-spacing: -0.0625rem;
         }
 
@@ -403,7 +394,7 @@ export default function CapitalMarketsPage() {
         .hero-image {
           position: relative;
           width: 100%;
-          min-height: 100%;
+          height: 100%;
           min-height: 0;
           overflow: hidden;
           border-radius: 0.75rem;
@@ -420,7 +411,7 @@ export default function CapitalMarketsPage() {
 
         .campaign-section {
           display: flex;
-          padding: 6.25rem var(--capital-gutter);
+          padding: 6.25rem 3.5rem;
           flex-direction: column;
           align-items: center;
           gap: 6.25rem;
@@ -430,6 +421,7 @@ export default function CapitalMarketsPage() {
 
         .campaign-inner {
           width: 100%;
+          max-width: 100rem;
           margin: 0 auto;
         }
 
@@ -509,6 +501,7 @@ export default function CapitalMarketsPage() {
           position: relative;
           z-index: 1;
           display: flex;
+          min-height: 0;
           flex: 1;
           width: 100%;
           padding: 0;
@@ -531,6 +524,11 @@ export default function CapitalMarketsPage() {
 
         .nav-item.active {
           font-weight: 500;
+        }
+
+        .nav-item > span:last-child {
+          min-width: 0;
+          overflow-wrap: anywhere;
         }
 
         .nav-indicator {
@@ -606,213 +604,75 @@ export default function CapitalMarketsPage() {
         }
 
         .progress-dot {
-          width: 1.5rem;
-          height: 2.75rem;
+          width: 0.4375rem;
+          height: 0.4375rem;
           padding: 0;
           border: 0;
           border-radius: 100%;
-          background: radial-gradient(circle, #dadada 0 3.5px, transparent 4px);
+          background: #dadada;
           cursor: pointer;
         }
 
         .progress-dot.active {
-          background: radial-gradient(circle, #8f6c1a 0 3.5px, transparent 4px);
+          background: #8f6c1a;
         }
 
-        .campaign-mobile {
-          display: none;
+
+        /* One layout at every viewport: only dimensions and type scale. */
+        .capital-page {
+          --capital-gutter: clamp(0.625rem, 3.9vw, 5rem);
+          --capital-heading: clamp(1rem, 2.8vw, 3.5rem);
+          --capital-body: clamp(0.625rem, 1.12vw, 1.25rem);
         }
 
-        @media (min-width: 1024px) and (min-height: 700px) {
-          .campaign-section {
-            display: block;
-            height: calc(100svh - var(--site-header-offset, 64px) + ${campaigns.length * 80}svh);
-            padding: 0;
-          }
-
-          .campaign-inner {
-            position: sticky;
-            top: var(--site-header-offset, 64px);
-            display: flex;
-            flex-direction: column;
-            height: calc(100svh - var(--site-header-offset, 64px));
-            padding: clamp(1rem, 3vh, 3rem) var(--capital-gutter);
-          }
-
-          .campaign-intro {
-            flex-shrink: 0;
-            margin-bottom: clamp(1.5rem, 4vh, 3rem);
-          }
-
-          .campaign-desktop {
-            flex: 1;
-            min-height: 0;
-          }
-
-          .desktop-card-wrap {
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-          }
+        .capital-hero {
+          height: clamp(25rem, 56vw, 65rem);
+          padding: 2rem var(--capital-gutter) clamp(2rem, 4vw, 4rem);
         }
+        .hero-content { gap: clamp(0.75rem, 3.9vw, 5rem); }
+        .hero-copy h1 { font-size: clamp(1.25rem, 3.9vw, 4.5rem); line-height: 1.15; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+        .eyebrow { font-size: clamp(0.5rem, 0.98vw, 1rem); line-height: 1.4; margin-bottom: clamp(0.5rem, 1.12vw, 1rem); }
+        .hero-description { font-size: clamp(0.625rem, 1.4vw, 1.5rem); line-height: 1.4; margin-top: clamp(0.75rem, 2.2vw, 2rem); }
+        .hero-copy :global(.text-link) { font-size: var(--capital-body); line-height: 1.5; margin-top: clamp(1rem, 3.9vw, 3.5rem); }
+        .hero-copy :global(.text-link svg) { width: 1em; height: 1em; }
 
-        /* ========================================================
-           TABLET
-        ======================================================== */
-
-        @media (max-width: 1200px) {
-          .capital-hero {
-            gap: 2.5rem;
-          }
-
-          .hero-content {
-            gap: 2.5rem;
-          }
-
-          .campaign-desktop {
-            grid-template-columns: 15rem minmax(0, 1fr);
-            gap: 3rem;
-          }
-
-          .campaign-intro {
-            column-gap: 3rem;
-          }
-
-          .campaign-intro h2 {
-            font-size: 2rem;
-            line-height: 1.2;
-          }
+        .campaign-section {
+          display: block;
+          height: calc(100svh - var(--site-header-offset, 64px) + ${campaigns.length * 80}svh);
+          padding: 0;
         }
-
-        /* ========================================================
-           MOBILE / TABLET STACKED VIEW
-        ======================================================== */
-
-        @media (max-width: 1023px), (max-height: 699px) {
-          .capital-hero {
-            height: auto;
-            min-height: 0;
-            padding: 6.25rem var(--capital-gutter) 4rem;
-          }
-
-          .hero-content {
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-          }
-
-          .hero-copy {
-            min-height: 0;
-            justify-content: flex-start;
-          }
-
-          .hero-image {
-            min-height: 0;
-            height: auto;
-            aspect-ratio: 16 / 9;
-          }
-
-          .hero-copy h1 {
-            margin-top: 1.25rem;
-          }
-
-          .campaign-section {
-            padding: 4rem var(--capital-gutter);
-          }
-
-          .campaign-intro {
-            display: block;
-            margin-bottom: 3rem;
-          }
-
-          .campaign-intro h2 {
-            width: auto;
-          }
-
-          .campaign-intro p {
-            max-width: 42rem;
-            margin-top: 1.5rem;
-            padding: 0;
-          }
-
-          .campaign-desktop {
-            display: none;
-          }
-
-          .campaign-mobile {
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-          }
+        .campaign-inner {
+          position: sticky;
+          top: var(--site-header-offset, 64px);
+          display: flex;
+          flex-direction: column;
+          height: calc(100svh - var(--site-header-offset, 64px));
+          max-width: none;
+          padding: clamp(0.5rem, 2.5svh, 3rem) var(--capital-gutter);
         }
-
-        /* ========================================================
-           PHONE
-        ======================================================== */
-
-        @media (max-width: 767px) {
-          .capital-hero {
-            padding: 6rem var(--capital-gutter) 3rem;
-          }
-
-          .hero-copy {
-            min-height: 0;
-          }
-
-          .eyebrow {
-            margin-bottom: 1.25rem;
-            font-size: 0.75rem;
-            line-height: 1rem;
-          }
-
-          .hero-copy h1 {
-            margin: 0;
-            font-size: clamp(2rem, 8.5vw, 3.5rem);
-            line-height: 1.15;
-            letter-spacing: -0.0625rem;
-          }
-
-          .hero-description {
-            margin-top: 2rem;
-            font-size: 1.125rem;
-            line-height: 1.5rem;
-          }
-
-          .hero-copy :global(.text-link) {
-            margin-top: 2rem;
-            min-height: 2.75rem;
-          }
-
-          .campaign-section {
-            padding: 3rem var(--capital-gutter);
-          }
-
-          .campaign-intro {
-            margin-bottom: 2.5rem;
-          }
-
-          .campaign-intro h2 {
-            font-size: clamp(1.75rem, 6.5vw, 2rem);
-            line-height: 1.2;
-            letter-spacing: -0.025rem;
-          }
-
-          .campaign-intro p {
-            margin-top: 1rem;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-          }
-
-          .campaign-mobile {
-            gap: 2.5rem;
-          }
+        .campaign-intro {
+          flex: none;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          column-gap: clamp(0.75rem, 6.9vw, 6.25rem);
+          margin-bottom: clamp(0.75rem, 3svh, 3rem);
         }
-
-        .capital-page :global(a:focus-visible),
-        .capital-page button:focus-visible {
-          outline: 2px solid #8f6c1a;
-          outline-offset: 3px;
+        .campaign-intro h2 { width: auto; font-size: min(var(--capital-heading), 5svh); line-height: 1.2; letter-spacing: -0.02em; }
+        .campaign-intro p { font-size: min(var(--capital-body), 2.8svh); line-height: 1.45; padding-top: 0; }
+        .campaign-desktop {
+          flex: 1;
+          min-height: 0;
+          grid-template-columns: minmax(0, clamp(5.5rem, 20vw, 22rem)) minmax(0, 1fr);
+          gap: clamp(0.625rem, 4vw, 6rem);
         }
+        .nav-item { font-size: clamp(0.625rem, min(2.7vw, 2.5svh), 1rem); line-height: 1.3; gap: clamp(0.25rem, 1.12vw, 1rem); }
+        .nav-indicator { width: clamp(0.75rem, 2.2vw, 2rem); flex-basis: clamp(0.75rem, 2.2vw, 2rem); height: 1.3em; }
+        .nav-line { left: calc(clamp(0.75rem, 2.2vw, 2rem) / 2 - 0.5px); top: 0.65em; bottom: calc(12.5% - 0.65em); font-size: clamp(0.625rem, min(2.7vw, 2.5svh), 1rem); }
+        .nav-dot { width: clamp(0.25rem, 0.7vw, 0.625rem); height: clamp(0.25rem, 0.7vw, 0.625rem); }
+        .desktop-card-wrap { display: flex; flex-direction: column; min-height: 0; }
+        .campaign-viewport { border-radius: clamp(0.5rem, 2.2vw, 2rem); }
+        .progress { margin-top: clamp(0.25rem, 1svh, 1rem); gap: clamp(0.125rem, 0.6vw, 0.5rem); }
+        .progress-dot { width: 1.25rem; height: 1.5rem; background: radial-gradient(circle, #dadada 0 3px, transparent 3.5px); }
+        .progress-dot.active { background: radial-gradient(circle, #8f6c1a 0 3px, transparent 3.5px); }
       `}</style>
     </main>
   );
@@ -889,7 +749,6 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
           font-style: normal;
           font-weight: 600;
           line-height: var(--Line-height-Heading-3, 2rem);
-          overflow-wrap: anywhere;
         }
 
         .card-copy p {
@@ -959,72 +818,21 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
           transform: scale(1.015);
         }
 
-        @media (min-width: 1024px) and (min-height: 700px) {
-          .campaign-card {
-            flex: 1;
-            height: auto;
-            min-height: 0;
-            padding: clamp(1rem, 2.5vh, 2rem);
-            gap: clamp(1rem, 2.5vh, 2.5rem);
-          }
 
-          .campaign-image {
-            flex: 1;
-            height: auto;
-            min-height: 0;
-          }
+        .campaign-card {
+          flex: 1;
+          height: auto;
+          min-height: 0;
+          padding: clamp(0.5rem, min(2vw, 2.5svh), 2rem);
+          gap: clamp(0.5rem, 2svh, 2.5rem);
+          border-radius: clamp(0.5rem, 2.2vw, 2rem);
         }
-
-        @media (max-width: 1023px), (max-height: 699px) {
-          .campaign-card {
-            height: auto;
-            min-height: 0;
-            padding: 1.5rem;
-            gap: 1.5rem;
-            border-radius: 1rem;
-          }
-
-          .campaign-image {
-            height: auto;
-            aspect-ratio: 16 / 9;
-          }
-
-          .card-copy p {
-            display: block;
-            overflow: visible;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .campaign-card {
-            padding: 1rem;
-            gap: 1rem;
-            border-radius: 1rem;
-          }
-
-          .card-header {
-            flex-direction: column;
-            gap: 0.5rem;
-          }
-
-          .card-copy h3 {
-            font-size: 1.125rem;
-            line-height: 1.5rem;
-          }
-
-          .card-copy p {
-            margin-top: 0.25rem;
-            font-size: 0.875rem;
-            line-height: 1.4rem;
-          }
-
-          .campaign-image {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16 / 10;
-            border-radius: 0.5rem;
-          }
-        }
+        .card-header { flex: none; gap: clamp(0.375rem, 1.4vw, 2rem); }
+        .card-copy h3 { font-size: clamp(0.75rem, min(1.7vw, 3.5svh), 1.75rem); line-height: 1.3; overflow-wrap: anywhere; }
+        .card-copy p { margin-top: clamp(0.25rem, 0.8vw, 0.75rem); font-size: var(--capital-body); line-height: 1.4; }
+        .campaign-card :global(.contact-link) { font-size: clamp(0.625rem, min(1.12vw, 2.5svh), 1rem); line-height: 1.5; padding: clamp(0.25rem, 0.7vw, 0.625rem) 0; gap: 0.125rem; }
+        .campaign-card :global(.contact-link svg) { width: 1em; height: 1em; }
+        .campaign-image { flex: 1; height: auto; min-height: 0; border-radius: clamp(0.25rem, 0.8vw, 0.75rem); }
       `}</style>
     </article>
   );

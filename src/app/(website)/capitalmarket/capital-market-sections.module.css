@@ -1,8 +1,9 @@
 .process {
   display: flex;
   width: 100%;
+  max-width: 90rem;
   margin: 0 auto;
-  padding: 6.25rem var(--capital-gutter, 3.5rem);
+  padding: 6.25rem var(--Spacing-56, 3.5rem);
   flex-direction: column;
   align-items: center;
   gap: 6.25rem;
@@ -35,7 +36,6 @@
   line-height: var(--Line-height-Heading-1, 3rem);
   letter-spacing: -0.03125rem;
   font-feature-settings: "liga" off, "clig" off;
-  overflow-wrap: anywhere;
 }
 
 .description,
@@ -95,14 +95,15 @@
   top: var(--site-header-offset, 64px);
   display: flex;
   width: 100%;
+  max-width: 90rem;
   height: calc(100svh - var(--site-header-offset, 64px));
   margin: 0 auto;
-  padding: clamp(1.5rem, 4vh, 3.5rem) var(--capital-gutter, 3.5rem);
+  padding: clamp(2rem, 4vh, 3.5rem) var(--Spacing-56, 3.5rem);
   flex-direction: column;
-  gap: clamp(1.5rem, 4vh, 3.5rem);
+  gap: clamp(2rem, 4vh, 3.5rem);
 }
 
-.caseIntro { flex: none; }
+.caseIntro { flex-shrink: 0; }
 .caseIntro h2 { color: #fff; }
 .caseIntro h2 span { color: var(--Light-Border-Text-Secondary, #969696); }
 
@@ -127,12 +128,10 @@
 
 .imageFrame {
   position: relative;
-  min-height: 0;
   flex: 1;
-  align-self: stretch;
+  min-height: 0;
   overflow: hidden;
   border-radius: 0.5rem;
-  background: #d9d9d9;
 }
 
 .image { object-fit: cover; object-position: center; }
@@ -153,31 +152,32 @@
   font-feature-settings: "liga" off, "clig" off;
 }
 
-@media (max-width: 1100px) {
-  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(13rem, auto); }
-  .caseIntro h2 { font-size: 2rem; line-height: 2.5rem; }
-  .caption { font-size: 1.5rem; line-height: 2rem; }
-  .caseCard { padding-bottom: 5rem; }
-  .caption { top: calc(100% - 4rem); }
+/* Keep the same five-column process and expanding gallery on all devices. */
+.process {
+  max-width: none;
+  padding: clamp(2.5rem, 6.9vw, 8rem) var(--capital-gutter, 3.5rem);
+  gap: clamp(2rem, 6.9vw, 6.25rem);
 }
-
-@media (max-width: 767px), (max-height: 699px), (prefers-reduced-motion: reduce), (pointer: coarse) {
-  .caseTrack { height: auto; }
-  .caseStage { position: static; height: auto; padding-top: 4rem; padding-bottom: 4rem; gap: 3rem; }
-  .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 1.5rem; }
-  .caseCard { padding-bottom: 0; }
-  .imageFrame { flex: none; height: auto; aspect-ratio: 16 / 10; }
-  .caption { position: static; width: auto; max-width: 100%; margin-top: 1rem; opacity: 1 !important; }
+.processIntro { max-width: min(100%, 40rem); }
+.processIntro h2 { font-size: var(--capital-heading); line-height: 1.2; }
+.eyebrow { font-size: clamp(0.5rem, 0.98vw, 1rem); line-height: 1.4; }
+.description { font-size: var(--capital-body); line-height: 1.5; }
+.steps { min-height: 0; grid-template-rows: minmax(clamp(8rem, 16.7vw, 18rem), auto); gap: clamp(0.375rem, 2.2vw, 2rem); }
+.step { gap: 1rem; padding-bottom: clamp(0.375rem, 0.8vw, 0.75rem); }
+.step img { width: clamp(1.25rem, 3.9vw, 3.5rem); height: auto; }
+.step h3 { font-size: clamp(0.5rem, 1.4vw, 1.5rem); line-height: 1.4; overflow-wrap: anywhere; }
+.step p { font-size: clamp(0.5rem, 1.12vw, 1.25rem); line-height: 1.5; }
+.caseStage {
+  max-width: none;
+  padding: clamp(0.75rem, 3svh, 3.5rem) var(--capital-gutter, 3.5rem);
+  gap: clamp(0.75rem, 3svh, 3rem);
 }
-
-@media (max-width: 767px) {
-  .process { padding: 4rem var(--capital-gutter, 1.25rem); gap: 3rem; }
-  .processIntro h2, .caseIntro h2 { font-size: clamp(1.75rem, 6.5vw, 2rem); line-height: 1.25; }
-  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; }
-  .gallery { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 430px) {
-  .steps { grid-template-columns: 1fr; grid-auto-rows: auto; }
-  .step { gap: 1.5rem; }
+.caseIntro h2 { font-size: clamp(1rem, min(2.8vw, 4.8svh), 3.5rem); line-height: 1.2; }
+.gallery { gap: clamp(0.25rem, 1.4vw, 1.25rem); }
+.caseCard { padding-bottom: clamp(3rem, 4.5vw, 4rem); }
+.caption {
+  top: calc(100% - clamp(2.5rem, 3.5vw, 3rem));
+  max-width: calc((100vw - 2 * var(--capital-gutter, 3.5rem) - 3 * clamp(0.25rem, 1.4vw, 1.25rem)) * 0.84);
+  font-size: clamp(0.75rem, 2.2vw, 2rem);
+  line-height: 1.25;
 }

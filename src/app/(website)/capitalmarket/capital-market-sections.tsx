@@ -14,9 +14,9 @@ const steps = [
 
 // Images and expansion weights from the monetization content gallery.
 const cases = [
-  { image: "/images/monetization/Image5.jpg", title: "How we helped Laminar IPO with 50X growth" },
+  { image: "/images/capital/american-stock-exchange.jpg", title: "How we helped Laminar IPO with 50X growth" },
   { image: "/images/monetization/Image6.jpg", title: "Platform Experience" },
-  { image: "/images/monetization/Image7.png", title: "Digital Distribution" },
+  { image: "/images/monetization/Image7.jpg", title: "Digital Distribution" },
   { image: "/images/monetization/Image8.jpg", title: "Audience Growth" },
 ];
 
