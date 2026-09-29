@@ -1,5 +1,6 @@
 import { AboutPageContent } from "@/components/about/about-page";
 import { createPageMetadata } from "@/lib/seo/metadata";
+import { getHomePage } from "@/sanity/lib/data";
 
 export const metadata = createPageMetadata(
   "About Us",
@@ -11,6 +12,8 @@ export const metadata = createPageMetadata(
   },
 );
 
-export default function AboutPage() {
-  return <AboutPageContent />;
+export default async function AboutPage() {
+  const home = await getHomePage();
+
+  return <AboutPageContent home={home} />;
 }

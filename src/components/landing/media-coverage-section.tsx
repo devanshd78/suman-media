@@ -17,15 +17,17 @@ function desktopPlacement(index: number, total: number) {
 
 export function MediaCoverageSection({
   content,
+  compact = false,
 }: {
   content?: CmsMediaCoverageSection | null;
+  compact?: boolean;
 }) {
   const eyebrow = content?.eyebrow?.trim() || "MEDIA COVERAGE";
   const heading = content?.heading?.trim() || "Featured media";
 
   const items: CmsMediaCoverageItem[] =
     content?.items
-      ?.filter((item) => Boolean(item?.imageUrl))
+      ?.filter((item) => Boolean(item?.title?.trim()))
       ?.slice(0, 12) ?? [];
 
   if (!items.length) return null;
@@ -34,18 +36,15 @@ export function MediaCoverageSection({
     <section
       id="media-coverage"
       aria-labelledby="media-coverage-heading"
-      className="
+      className={`
         landing-section-transition
         mx-auto
         w-full
         max-w-full
         bg-white
         site-gutter
-        py-16
-        sm:py-20
-        lg:pb-[7rem]
-        lg:pt-[6.25rem]
-      "
+        ${compact ? "py-12 sm:py-14 lg:py-16" : "py-16 sm:py-20 lg:pb-[7rem] lg:pt-[6.25rem]"}
+      `}
     >
       {/* Heading */}
       <div className="text-center">
@@ -138,15 +137,24 @@ export function MediaCoverageSection({
                 group-hover:grayscale-0
               "
             >
-              <div className="relative h-full w-full">
-                <Image
-                  src={item.imageUrl!}
-                  alt={item.imageAlt?.trim() || `${item.title} logo`}
-                  fill
-                  sizes="(max-width: 639px) 160px, (max-width: 1023px) 184px, 224px"
-                  className="object-contain"
-                />
-              </div>
+              {item.imageUrl ? (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.imageAlt?.trim() || `${item.title} logo`}
+                    fill
+                    sizes="(max-width: 639px) 160px, (max-width: 1023px) 184px, 224px"
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <span
+                  className={`${inter.className} text-center text-[0.875rem] font-semibold leading-5 tracking-[-0.02em] text-[#1A1A1A] sm:text-base lg:text-[1.125rem]`}
+                  style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+                >
+                  {item.title}
+                </span>
+              )}
             </div>
           );
 

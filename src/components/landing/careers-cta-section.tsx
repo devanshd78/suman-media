@@ -12,7 +12,13 @@ function ArrowRightIcon() {
   );
 }
 
-export function CareersCtaSection({ content }: { content?: CmsCareersCta | null }) {
+export function CareersCtaSection({
+  content,
+  imagePosition = "center",
+}: {
+  content?: CmsCareersCta | null;
+  imagePosition?: string;
+}) {
   if (!content?.heading?.trim()) return null;
 
   const cta =
@@ -36,7 +42,8 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
             alt={content.imageAlt?.trim() || ""}
             fill
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition: imagePosition }}
           />
         </div>
       ) : null}
@@ -57,7 +64,7 @@ export function CareersCtaSection({ content }: { content?: CmsCareersCta | null 
 
         <h2
           id="landing-careers-heading"
-          className={`landing-title ${exo2.className} mt-3 max-w-[41rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
+          className={`landing-title ${exo2.className} mt-3 max-w-[45rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
           style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
         >
           {content.heading}

@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "@/components/ui/image";
-import Link from "next/link";
 import {
   motion,
   useReducedMotion,
@@ -22,6 +21,12 @@ import {
 } from "react";
 
 import { plusJakartaSans } from "@/lib/fonts";
+import type { CmsHomePage } from "@/types/cms";
+import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
+import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
+import { CareersCtaSection } from "@/components/landing/careers-cta-section";
+import { MediaCoverageSection as LandingMediaCoverageSection } from "@/components/landing/media-coverage-section";
+import { ContactActionCards } from "@/components/contactus/contact-action-cards";
 
 import styles from "./about-page.module.css";
 
@@ -50,53 +55,82 @@ const BRAND_LOGOS = [
   {
     src: "/images/fast-channel/abhijat-marathi-ott-logo.webp",
     alt: "Abhijat Marathi OTT",
-  },
-  {
-    src: "/images/fast-channel/suman-music-marathi-logo.webp",
-    alt: "Suman Music Marathi",
+    label: "अभिजात मराठी “ओटीटी”",
   },
   {
     src: "/images/fast-channel/suman-bhakti-logo.webp",
     alt: "Suman Bhakti",
-  },
-  {
-    src: "/images/fast-channel/adlibs-production-logo.webp",
-    alt: "Adlibs Production",
-  },
-  {
-    src: "/images/fast-channel/adidev-bhakti-logo.webp",
-    alt: "Adidev Bhakti",
+    label: "सुमन म्यूजिक भक्ति",
   },
   {
     src: "/images/fast-channel/abhijat-marathi-vishesh-logo.webp",
     alt: "Abhijat Marathi Vishesh",
+    label: "अभिजात मराठी “विशेष”",
+  },
+  {
+    src: "/images/fast-channel/adlibs-production-logo.webp",
+    alt: "Adlibs Production",
+    label: "एडलिब्स प्रोडक्शन",
+  },
+  {
+    src: "/images/fast-channel/adidev-bhakti-logo.webp",
+    alt: "Adidev Bhakti",
+    label: "आदिदेव भक्ति",
+  },
+  {
+    src: "/images/fast-channel/abhijat-marathi-filmy-logo.webp",
+    alt: "Abhijat Marathi Filmy",
+    label: "अभिजात मराठी “फिल्मी”",
+  },
+  {
+    src: "/images/fast-channel/suman-music-marathi-logo.webp",
+    alt: "Suman Music Marathi",
+    label: "सुमन म्यूजिक मराठी",
   },
   {
     src: "/images/fast-channel/suman-music-bhakti-logo.webp",
     alt: "Suman Music Bhakti",
+    label: "सुमन म्यूजिक भक्ति",
   },
 ];
 
-const MISSION_IMAGES: ImageSlide[] = [
+function shuffleBrands(seed: number) {
+  const items = [...BRAND_LOGOS];
+  let state = seed >>> 0;
+
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    const swapIndex = state % (index + 1);
+    [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
+  }
+
+  return items;
+}
+
+// Two deliberately different, deterministic shuffles keep the layout visually
+// random without causing a Next.js server/client hydration mismatch.
+const BRAND_ROWS = [shuffleBrands(0x51a7), shuffleBrands(0x8dd3)];
+
+const GLOBAL_REACH_IMAGES: ImageSlide[] = [
+  {
+    src: "/images/about/global-reach-press.webp",
+    alt: "Suman Entertainment at the Bharat Pavilion media event",
+  },
+  {
+    src: "/images/about/global-reach-launch.webp",
+    alt: "Abhijat Marathi launch ceremony with Government of Maharashtra representatives",
+  },
   {
     src: "/images/about/mission-01.webp",
     alt: "Suman Entertainment delegation at an international cultural event",
   },
   {
     src: "/images/about/mission-02.webp",
-    alt: "Guests at an international media event",
+    alt: "Guests at an international media and cultural event",
   },
   {
     src: "/images/about/mission-03.webp",
     alt: "Suman Entertainment representatives at an international gathering",
-  },
-  {
-    src: "/images/about/mission-04.webp",
-    alt: "Cultural delegation on a red carpet",
-  },
-  {
-    src: "/images/about/timeline-2026.webp",
-    alt: "Group representing Marathi culture at an international event",
   },
 ];
 
@@ -193,61 +227,53 @@ const GOVERNMENT_IMAGES: ImageSlide[] = [
   },
 ];
 
-const MEDIA_NAMES = [
-  "ANI",
-  "ThePrint",
-  "ABP Majha",
-  "Brut.",
-  "REPUBLIC",
-  "THE WIRE",
-  "Sakal",
-  "FORTUNE",
-  "Business Standard",
-  "The Tribune",
-  "Pudhari",
-  "Lokmat Filmy",
-];
+const ABOUT_MEDIA_COVERAGE = {
+  eyebrow: "MEDIA COVERAGE",
+  heading: "Featured media",
+  items: [
+    "ANI",
+    "ThePrint",
+    "ABP Majha",
+    "Brut.",
+    "REPUBLIC",
+    "THE WIRE",
+    "Sakal",
+    "FORTUNE",
+    "Business Standard",
+    "The Tribune",
+    "Pudhari",
+    "Lokmat Filmy",
+  ].map((title, index) => ({
+    _key: `about-media-${index + 1}`,
+    title,
+  })),
+};
 
-const NEWS_ITEMS = [
+const ABOUT_CONTACT_CARDS = [
   {
-    image: "/images/about/news-01.webp",
-    title: "Suman Entertainment & Media Pvt. Ltd.",
-    date: "Aug 7, 2026",
-  },
-  {
-    image: "/images/about/news-02.webp",
-    title: "Why Kedar Joshi wore this outfit?",
-    date: "Aug 7, 2026",
-  },
-  {
-    image: "/images/about/news-03.webp",
-    title: "Digital Platforms and OTT",
-    date: "Aug 7, 2026",
-  },
-];
-
-const CONTACT_CARDS = [
-  {
-    image: "/images/about/contact-01.webp",
-    eyebrow: "Contact us",
-    title: "Start a conversation with our team.",
-    cta: "Contact us",
+    key: "about-contact",
+    imageUrl: "/images/about/contact-01.webp",
+    imageAlt: "Suman Entertainment team conversation",
+    title: "Contact us",
+    description: "Start a conversation with our team.",
     href: "/contact",
   },
   {
-    image: "/images/about/contact-02.webp",
-    eyebrow: "Partner with us",
-    title:
+    key: "about-partner",
+    imageUrl: "/images/about/contact-02.webp",
+    imageAlt: "Suman Entertainment partnership discussion",
+    title: "Partner with us",
+    description:
       "From films and music to technology and distribution, create, build and reach new audiences with us.",
-    cta: "Become a partner",
     href: "/partners",
   },
   {
-    image: "/images/about/contact-03.webp",
-    eyebrow: "Grow with us",
-    title:
+    key: "about-grow",
+    imageUrl: "/images/about/contact-03.webp",
+    imageAlt: "Suman Entertainment team and growth opportunities",
+    title: "Grow with us",
+    description:
       "Join a growing media ecosystem built around content, technology, regional IP and global opportunities.",
-    cta: "Explore opportunities",
     href: "/careers",
   },
 ];
@@ -516,25 +542,58 @@ function SectionEyebrow({ children, dark = false }: { children: ReactNode; dark?
 function AboutIntro() {
   return (
     <section className={`${styles.aboutIntro} site-section`}>
-      <div className={styles.twoColumnIntro}>
+      <div className={styles.aboutIntroContent}>
         <SectionEyebrow>ABOUT SUMAN ENTERTAINMENT</SectionEyebrow>
         <h2 className={styles.aboutIntroHeading}>
-          Suman Entertainment &amp; Media is building an integrated ecosystem across
-          entertainment, content, digital platforms, technology and communications —{" "}
-          <span>rooted in Marathi culture and designed for a global audience.</span>
+          <strong>Suman Entertainment &amp; Media</strong>{" "}
+          is building an integrated ecosystem across entertainment, content, digital platforms,
+          technology and communications — rooted in Marathi culture and designed for a global
+          audience.
         </h2>
       </div>
 
-      <div className={styles.brandRail} aria-label="Suman Entertainment ecosystem brands">
-        {BRAND_LOGOS.map((brand) => (
-          <div className={styles.brandLogo} key={brand.src}>
-            <Image
-              src={brand.src}
-              alt={brand.alt}
-              fill
-              sizes="(min-width: 1024px) 12vw, (min-width: 640px) 20vw, 35vw"
-              className={styles.containImage}
-            />
+      <div
+        className={styles.brandMarquee}
+        aria-label="Suman Entertainment ecosystem brands"
+        role="region"
+      >
+        {BRAND_ROWS.map((brands, rowIndex) => (
+          <div
+            className={styles.brandMarqueeRow}
+            data-direction={rowIndex === 0 ? "left" : "right"}
+            data-row={rowIndex + 1}
+            aria-hidden={rowIndex === 1 ? true : undefined}
+            key={`brand-row-${rowIndex + 1}`}
+          >
+            <div className={styles.brandMarqueeTrack}>
+              {[0, 1].map((copyIndex) => (
+                <div
+                  className={styles.brandMarqueeGroup}
+                  role={rowIndex === 0 && copyIndex === 0 ? "list" : undefined}
+                  aria-hidden={copyIndex === 1 ? true : undefined}
+                  key={`brand-copy-${copyIndex}`}
+                >
+                  {brands.map((brand, brandIndex) => (
+                    <article
+                      className={styles.brandCard}
+                      role={rowIndex === 0 && copyIndex === 0 ? "listitem" : undefined}
+                      key={`${copyIndex}-${brand.src}-${brandIndex}`}
+                    >
+                      <div className={styles.brandLogo}>
+                        <Image
+                          src={brand.src}
+                          alt={copyIndex === 0 && rowIndex === 0 ? brand.alt : ""}
+                          fill
+                          sizes="56px"
+                          className={styles.brandLogoImage}
+                        />
+                      </div>
+                      <span className={styles.brandLabel}>{brand.label}</span>
+                    </article>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -544,148 +603,271 @@ function AboutIntro() {
 
 function StickyGlobalReach() {
   const stageRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const reducedMotion = useReducedMotion() === true;
   const { scrollYProgress } = useScroll({
     target: stageRef,
     offset: ["start start", "end end"],
   });
+
   const progress = useSpring(scrollYProgress, {
-    stiffness: 95,
-    damping: 28,
+    stiffness: 92,
+    damping: 32,
     restDelta: 0.001,
   });
 
-  const pairOpacity = useTransform(progress, [0, 0.36, 0.52], [1, 1, 0]);
-  const pairY = useTransform(progress, [0, 0.42], [0, -80]);
-  const pairScale = useTransform(progress, [0, 0.38], [1, 1.035]);
-  const storyOpacity = useTransform(progress, [0.36, 0.54], [0, 1]);
-  const storyScale = useTransform(progress, [0.34, 1], [1.08, 1]);
-  const storyCopyOpacity = useTransform(progress, [0.5, 0.68], [0, 1]);
-  const surface = useTransform(
+  // Each image sequence moves only inside its clipped card viewport.
+  const leftTrackY = useTransform(
     progress,
-    [0, 0.36, 0.52],
-    ["#ffffff", "#ffffff", "#050505"],
+    [0, 0.16, 0.25, 0.36, 0.46, 0.6],
+    ["0%", "0%", "-33.333333%", "-33.333333%", "-66.666667%", "-66.666667%"],
+  );
+  const rightTrackY = useTransform(
+    progress,
+    [0, 0.24, 0.34, 0.6],
+    ["0%", "0%", "-50%", "-50%"],
   );
 
+  // The whole white Global Reach composition stays sticky, then crossfades
+  // into the muted cinematic video without showing the partner-logo strip.
+  const whiteOpacity = useTransform(progress, [0, 0.6, 0.7], [1, 1, 0]);
+  const whiteScale = useTransform(progress, [0, 0.62, 0.7], [1, 1, 0.992]);
+  const videoOpacity = useTransform(progress, [0.64, 0.74], [0, 1]);
+  const videoScale = useTransform(progress, [0.64, 1], [1.035, 1]);
+  const videoTitleOpacity = useTransform(progress, [0.72, 0.82], [0, 1]);
+  const videoTitleY = useTransform(progress, [0.72, 0.84], [18, 0]);
+
+  // Muted autoplay is normally allowed by browsers, but Safari/Chrome may still
+  // defer playback while a sticky layer is off-screen. Retry when the file can
+  // play and whenever the tab becomes visible again.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const startPlayback = () => {
+      const promise = video.play();
+      if (promise) promise.catch(() => undefined);
+    };
+
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") startPlayback();
+    };
+
+    startPlayback();
+    video.addEventListener("canplay", startPlayback);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      video.removeEventListener("canplay", startPlayback);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
+  // Restart the film exactly when the white Global Reach story starts handing
+  // off to the cinematic stage, so the transition never lands mid-video.
+  useEffect(() => {
+    let hasEnteredVideo = false;
+    return progress.on("change", (value) => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (value >= 0.62 && !hasEnteredVideo) {
+        hasEnteredVideo = true;
+        video.currentTime = 0;
+        const promise = video.play();
+        if (promise) promise.catch(() => undefined);
+      } else if (value < 0.56) {
+        hasEnteredVideo = false;
+      }
+    });
+  }, [progress]);
+
   return (
-    <>
-      <section className={`${styles.globalHeader} site-section`}>
-        <div className={styles.twoColumnIntro}>
-          <SectionEyebrow>GLOBAL REACH</SectionEyebrow>
-          <h2 className={styles.sectionHeading}>
-            More than what we do.
-            <br />
-            <span>It&apos;s why we do it.</span>
-          </h2>
-        </div>
-      </section>
-
-      <section ref={stageRef} className={styles.globalStage} aria-label="Global reach story">
+    <section
+      ref={stageRef}
+      className={styles.globalStage}
+      aria-label="Global reach sticky-scroll image story"
+    >
+      <div className={styles.globalSticky}>
         <motion.div
-          className={styles.globalSticky}
-          style={reducedMotion ? undefined : { backgroundColor: surface }}
+          className={styles.globalWhiteStage}
+          style={
+            reducedMotion
+              ? undefined
+              : { opacity: whiteOpacity, scale: whiteScale }
+          }
         >
-          <motion.div
-            className={styles.globalPair}
-            style={
-              reducedMotion
-                ? undefined
-                : { opacity: pairOpacity, y: pairY, scale: pairScale }
-            }
-          >
-            <figure className={styles.globalPairCard}>
-              <Image
-                src="/images/about/global-reach-press.webp"
-                alt="Suman Entertainment at a media and cultural event"
-                fill
-                sizes="(min-width: 900px) 46vw, 92vw"
-                className={styles.coverImage}
-              />
-            </figure>
-            <figure className={styles.globalPairCard}>
-              <Image
-                src="/images/about/global-reach-launch.webp"
-                alt="Abhijat Marathi launch ceremony"
-                fill
-                sizes="(min-width: 900px) 46vw, 92vw"
-                className={styles.coverImage}
-              />
-            </figure>
-          </motion.div>
+          <div className={`${styles.globalStickyHeader} site-gutter`}>
+            <SectionEyebrow>GLOBAL REACH</SectionEyebrow>
 
-          <motion.div
-            className={styles.globalStory}
-            style={
-              reducedMotion
-                ? undefined
-                : { opacity: storyOpacity, scale: storyScale }
-            }
-          >
-            <Image
-              src="/images/about/global-reach-story.webp"
-              alt="Backlit figure representing media, culture and performance"
-              fill
-              sizes="100vw"
-              className={styles.coverImage}
-            />
-            <div className={styles.globalStoryShade} />
-            <motion.div
-              className={`${styles.globalStoryCopy} site-gutter`}
-              style={reducedMotion ? undefined : { opacity: storyCopyOpacity }}
-            >
-              <p>
+            <div className={styles.globalHeaderCopy}>
+              <h2 className={styles.globalReachTitle}>
                 More than what we do.
                 <br />
-                <strong>It&apos;s why we do it.</strong>
+                It&apos;s why we do it.
+              </h2>
+              <p>
+                Our work sits at the intersection of [industry expertise], innovation and human
+                needs—helping us create solutions that are relevant today and built for tomorrow.
               </p>
-            </motion.div>
+            </div>
+          </div>
+
+          <div className={styles.globalGalleryArea}>
+            <div className={`${styles.globalCardRow} site-gutter`}>
+              <div className={styles.globalFixedCard} aria-label="Global reach image sequence one">
+                <motion.div
+                  className={`${styles.globalCardTrack} ${styles.globalCardTrackThree}`}
+                  style={reducedMotion ? undefined : { y: leftTrackY }}
+                >
+                  {[GLOBAL_REACH_IMAGES[0], GLOBAL_REACH_IMAGES[2], GLOBAL_REACH_IMAGES[4]].map(
+                    (item) => (
+                      <figure className={styles.globalCardSlide} key={item.src}>
+                        <Image
+                          src={item.src}
+                          alt={item.alt}
+                          fill
+                          sizes="(min-width: 1024px) 44vw, 46vw"
+                          className={styles.coverImage}
+                        />
+                      </figure>
+                    ),
+                  )}
+                </motion.div>
+              </div>
+
+              <div
+                className={`${styles.globalFixedCard} ${styles.globalFixedCardTall}`}
+                aria-label="Global reach image sequence two"
+              >
+                <motion.div
+                  className={`${styles.globalCardTrack} ${styles.globalCardTrackTwo}`}
+                  style={reducedMotion ? undefined : { y: rightTrackY }}
+                >
+                  {[GLOBAL_REACH_IMAGES[1], GLOBAL_REACH_IMAGES[3]].map((item) => (
+                    <figure className={styles.globalCardSlide} key={item.src}>
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        sizes="(min-width: 1024px) 48vw, 49vw"
+                        className={styles.coverImage}
+                      />
+                    </figure>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className={styles.globalVideoStage}
+          style={
+            reducedMotion
+              ? undefined
+              : { opacity: videoOpacity, scale: videoScale }
+          }
+        >
+          <video
+            ref={videoRef}
+            className={styles.globalVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/images/about/global-reach-story.webp"
+            aria-hidden="true"
+            tabIndex={-1}
+            onLoadedMetadata={(event) => {
+              event.currentTarget.muted = true;
+              const promise = event.currentTarget.play();
+              if (promise) promise.catch(() => undefined);
+            }}
+          >
+            <source src="/videos/mediaVideo1.mp4" type="video/mp4" />
+            <source src="/videos/MediaVedio1.mp4" type="video/mp4" />
+          </video>
+          <div className={styles.globalVideoShade} aria-hidden="true" />
+
+          <motion.div
+            className={`${styles.globalVideoTitleWrap} site-gutter`}
+            style={
+              reducedMotion
+                ? undefined
+                : { opacity: videoTitleOpacity, y: videoTitleY }
+            }
+          >
+            <h2 className={styles.globalVideoTitle}>
+              More than what we do.
+              <br />
+              It&apos;s why we do it.
+            </h2>
           </motion.div>
         </motion.div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
+function statRevealInitial() {
+  return { opacity: 0, y: 22 };
+}
+
+function statRevealVisible() {
+  return { opacity: 1, y: 0 };
+}
+
 function MissionSection() {
+  const stats: Array<{ value: number; prefix?: string; suffix?: string; label: string }> = [
+    { value: 100, suffix: "+", label: "Projects delivered" },
+    { value: 50, suffix: "mn", label: "People reached" },
+    { value: 10, suffix: "+", label: "Markets served" },
+  ];
+
   return (
     <section className={styles.missionSection}>
-      <div className={`${styles.missionCopy} site-section`}>
-        <p>
-          At the heart of our mission is the vision of taking the Marathi language
-          to the world. We are dedicated to promoting, preserving, and expanding
-          the reach of Marathi through technology, innovation, and meaningful
-          digital experiences — connecting Marathi speakers globally and
-          introducing the richness of the language to a wider audience.
+      <div className={`${styles.missionCopy} site-gutter`}>
+        <p className={styles.missionStatement}>
+          <strong>At the heart of our mission is the vision</strong>{" "}
+          <span>
+            of taking the Marathi language to the world. We are dedicated to promoting,
+            preserving, and expanding the reach of Marathi through technology, innovation,
+            and meaningful digital experiences—connecting Marathi speakers globally and
+            introducing the richness of the language to a wider audience.
+          </span>
         </p>
 
-        <div className={styles.statsGrid} aria-label="Suman Entertainment statistics">
-          <div className={styles.statItem}>
-            <strong>100+</strong>
-            <span>Projects delivered</span>
-          </div>
-          <div className={styles.statItem}>
-            <strong>00mn</strong>
-            <span>People reached</span>
-          </div>
-          <div className={styles.statItem}>
-            <strong>10+</strong>
-            <span>Markets served</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.missionGallery} aria-label="Global Suman Entertainment moments">
-        {MISSION_IMAGES.map((item, index) => (
-          <figure className={styles.missionGalleryCard} key={item.src} data-tall={index % 3 === 0}>
-            <Image
-              src={item.src}
-              alt={item.alt}
-              fill
-              sizes="(min-width: 1024px) 24vw, (min-width: 640px) 38vw, 64vw"
-              className={styles.coverImage}
-            />
-          </figure>
-        ))}
+        <dl className={styles.statsGrid} aria-label="Suman Entertainment statistics">
+          {stats.map((stat, index) => (
+            <motion.div
+              className={styles.statItem}
+              key={stat.label}
+              initial={statRevealInitial()}
+              whileInView={statRevealVisible()}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{
+                duration: 0.55,
+                delay: index * 0.13,
+                ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+              }}
+            >
+              <dd>
+                <AnimatedStatNumber
+                  value={stat.value}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                  delay={index * 130}
+                />
+              </dd>
+              <dt>{stat.label}</dt>
+            </motion.div>
+          ))}
+        </dl>
       </div>
     </section>
   );
@@ -735,24 +917,36 @@ function TimelineSection() {
 
 function LeadershipSection() {
   return (
-    <section className={`${styles.leadershipSection} site-section`}>
+    <section id="leadership" className={`${styles.leadershipSection} site-section`}>
       <div className={styles.leadershipHeading}>
-        <SectionEyebrow dark>LEADERSHIP</SectionEyebrow>
-        <h2 className={styles.darkHeading}>The people shaping our next chapter.</h2>
+        <div>
+          <SectionEyebrow dark>LEADERSHIP</SectionEyebrow>
+          <h2 className={styles.darkHeading}>The people shaping our next chapter.</h2>
+        </div>
         <p>
-          Our leadership brings together experience, diverse perspectives and a
-          shared ambition to move the organisation forward.
+          Our leadership brings together experience, diverse perspectives and a shared
+          ambition to move the organisation forward.
         </p>
       </div>
 
       <div className={styles.leadershipGrid}>
         <article className={styles.leaderCard}>
-          <div className={styles.leaderMonogram} aria-hidden="true">
-            KJ
-          </div>
-          <div>
+          <figure className={styles.leaderImage}>
+            <Image
+              src="/images/fast-channel/news-kedar.webp"
+              alt="Kedar Joshi representing Suman Entertainment at an international media event"
+              fill
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 52vw, 88vw"
+              className={styles.coverImage}
+            />
+          </figure>
+          <div className={styles.leaderMeta}>
             <h3>Kedar Joshi</h3>
             <p>Founder and CEO</p>
+            <a className={styles.leaderLink} href="/contact">
+              <span>Connect with us</span>
+              <ArrowIcon />
+            </a>
           </div>
         </article>
       </div>
@@ -773,28 +967,25 @@ function NotablePersonalitiesSection() {
 
       <DragCarousel
         ariaLabel="Notable personalities image gallery"
-        controls
+        controls={false}
         dots={false}
         className={styles.notableCarousel}
       >
-        {NOTABLE_IMAGES.map((item) => (
+        {NOTABLE_IMAGES.map((item, index) => (
           <figure className={styles.notableCard} key={item.src}>
-            <Image
-              src={item.src}
-              alt={item.alt}
-              fill
-              sizes="(min-width: 1024px) 24vw, (min-width: 640px) 42vw, 76vw"
-              className={styles.coverImage}
-            />
+            <div className={styles.notableImage}>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                sizes="(min-width: 1024px) 24vw, (min-width: 640px) 42vw, 76vw"
+                className={styles.coverImage}
+              />
+            </div>
+            <figcaption>{NOTABLE_NAMES[index] ?? `Notable personality ${index + 1}`}</figcaption>
           </figure>
         ))}
       </DragCarousel>
-
-      <div className={styles.nameChips} aria-label="Notable personalities listed in the supplied reference">
-        {NOTABLE_NAMES.map((name) => (
-          <span key={name}>{name}</span>
-        ))}
-      </div>
     </section>
   );
 }
@@ -816,7 +1007,9 @@ function GovernmentSection() {
 
       <DragCarousel
         ariaLabel="Government of Maharashtra recognition slideshow"
-        autoplayMs={4800}
+        autoplayMs={4400}
+        controls={false}
+        dots
         className={styles.governmentCarousel}
       >
         {GOVERNMENT_IMAGES.map((item) => (
@@ -825,7 +1018,7 @@ function GovernmentSection() {
               src={item.src}
               alt={item.alt}
               fill
-              sizes="(min-width: 1024px) 78vw, 94vw"
+              sizes="(min-width: 1024px) 92vw, 94vw"
               className={styles.coverImage}
             />
           </figure>
@@ -835,114 +1028,13 @@ function GovernmentSection() {
   );
 }
 
-function MediaCoverageSection() {
-  return (
-    <section className={`${styles.mediaSection} site-section`}>
-      <div className={styles.mediaHeading}>
-        <SectionEyebrow>MEDIA COVERAGE</SectionEyebrow>
-        <h2 className={styles.sectionHeading}>Featured media</h2>
-      </div>
-      <div className={styles.mediaGrid}>
-        {MEDIA_NAMES.map((name) => (
-          <div className={styles.mediaLogoText} key={name}>
-            {name}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function NewsSection() {
-  return (
-    <section className={`${styles.newsSection} site-section`}>
-      <div className={styles.sectionHeadingRow}>
-        <div>
-          <SectionEyebrow>LATEST ANNOUNCEMENTS</SectionEyebrow>
-          <h2 className={styles.sectionHeading}>News</h2>
-        </div>
-        <Link className={styles.textLink} href="/news-and-blogs">
-          View all <ArrowIcon />
-        </Link>
-      </div>
-
-      <div className={styles.newsGrid}>
-        {NEWS_ITEMS.map((item) => (
-          <article className={styles.newsCard} key={item.title}>
-            <Link href="/news-and-blogs" className={styles.newsImageLink}>
-              <Image
-                src={item.image}
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 31vw, (min-width: 640px) 47vw, 92vw"
-                className={styles.coverImage}
-              />
-            </Link>
-            <div className={styles.newsMeta}>
-              <span>New launches</span>
-              <span>{item.date}</span>
-            </div>
-            <h3>
-              <Link href="/news-and-blogs">{item.title}</Link>
-            </h3>
-            <Link className={styles.readMore} href="/news-and-blogs">
-              Read more <ArrowIcon />
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function ContactCardsSection() {
   return (
-    <section className={`${styles.contactCardsSection} site-section`}>
-      <div className={styles.contactCardsGrid}>
-        {CONTACT_CARDS.map((card) => (
-          <article className={styles.contactCard} key={card.eyebrow}>
-            <figure className={styles.contactCardImage}>
-              <Image
-                src={card.image}
-                alt=""
-                fill
-                sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 92vw"
-                className={styles.coverImage}
-              />
-            </figure>
-            <SectionEyebrow>{card.eyebrow}</SectionEyebrow>
-            <h3>{card.title}</h3>
-            <Link className={styles.textLink} href={card.href}>
-              {card.cta} <ArrowIcon />
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function CareersBanner() {
-  return (
-    <section className={`${styles.careersBanner} site-gutter`}>
-      <div className={styles.careersBannerInner}>
-        <Image
-          src="/images/about/join-banner.webp"
-          alt="Suman Entertainment team in the workplace"
-          fill
-          sizes="100vw"
-          className={styles.coverImage}
-        />
-        <div className={styles.careersBannerShade} />
-        <div className={styles.careersBannerCopy}>
-          <SectionEyebrow dark>CAREERS</SectionEyebrow>
-          <h2>Join us to start a New Chapter in Media and Entertainment</h2>
-          <Link href="/careers" className={styles.lightButton}>
-            View Open Roles <ArrowIcon />
-          </Link>
-        </div>
-      </div>
-    </section>
+    <ContactActionCards
+      cards={ABOUT_CONTACT_CARDS}
+      compact
+      ariaLabel="Ways to connect with Suman Entertainment"
+    />
   );
 }
 
@@ -957,7 +1049,8 @@ function AboutHero() {
         sizes="100vw"
         className={styles.heroImage}
       />
-      <div className={styles.heroShade} />
+      <div className={styles.heroShade} aria-hidden="true" />
+      <p className={`${styles.heroEyebrow} site-gutter`}>ABOUT US</p>
       <h1 id="about-hero-title" className={`${styles.heroTitle} site-gutter`}>
         <span>About</span>
         <span>us</span>
@@ -966,7 +1059,19 @@ function AboutHero() {
   );
 }
 
-export function AboutPageContent() {
+export function AboutPageContent({
+  home = null,
+}: {
+  home?: Pick<
+    CmsHomePage,
+    | "mediaCoverage"
+    | "newsBlogsEyebrow"
+    | "newsBlogsHeading"
+    | "newsBlogsCta"
+    | "featuredNewsBlogs"
+    | "careersCta"
+  > | null;
+}) {
   return (
     <main className={`${styles.page} ${plusJakartaSans.className}`}>
       <AboutHero />
@@ -977,10 +1082,31 @@ export function AboutPageContent() {
       <LeadershipSection />
       <NotablePersonalitiesSection />
       <GovernmentSection />
-      <MediaCoverageSection />
-      <NewsSection />
+      <LandingMediaCoverageSection content={home?.mediaCoverage ?? ABOUT_MEDIA_COVERAGE} compact />
+      <NewsBlogsSection
+        eyebrow={home?.newsBlogsEyebrow}
+        heading={home?.newsBlogsHeading}
+        cta={home?.newsBlogsCta}
+        articles={home?.featuredNewsBlogs}
+      />
       <ContactCardsSection />
-      <CareersBanner />
+      <CareersCtaSection
+        imagePosition="center top"
+        content={{
+          ...home?.careersCta,
+          eyebrow: home?.careersCta?.eyebrow?.trim() || "CAREERS",
+          heading: "Join us to start a New Chapter in Media and Entertainment",
+          imageUrl:
+            home?.careersCta?.imageUrl?.trim() || "/images/about/join-banner.webp",
+          imageAlt:
+            home?.careersCta?.imageAlt?.trim() ||
+            "Suman Entertainment team in the workplace",
+          cta:
+            home?.careersCta?.cta?.label && home?.careersCta?.cta?.href
+              ? home.careersCta.cta
+              : { label: "View Open Roles", href: "/careers" },
+        }}
+      />
     </main>
   );
 }

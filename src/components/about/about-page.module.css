@@ -9,22 +9,24 @@
 
 .hero {
   position: relative;
-  min-height: clamp(34rem, 78svh, 58rem);
+  min-height: clamp(42rem, 59.25vw, 53.5rem);
   overflow: hidden;
   background: #26231f;
 }
 
 .heroImage,
 .coverImage,
-.containImage {
+.containImage,
+.brandLogoImage {
   user-select: none;
   pointer-events: none;
 }
 
 .heroImage {
   object-fit: cover;
-  filter: grayscale(0.78) sepia(0.12) contrast(0.9);
-  transform: scale(1.015);
+  object-position: 50% 40%;
+  filter: none;
+  transform: scale(1.01);
 }
 
 .coverImage {
@@ -38,25 +40,48 @@
 .heroShade {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.18)),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.14), transparent 58%);
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    rgba(143, 108, 26, 0.3) 0%,
+    rgba(143, 108, 26, 0.3) 100%
+  );
+}
+
+.heroEyebrow {
+  position: absolute;
+  top: calc(var(--site-header-offset, 4rem) + 2rem);
+  right: 0;
+  left: 0;
+  z-index: 2;
+  margin: 0;
+  color: var(--Light-Border-Text-PrimaryInverse, #f9f9f9);
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .heroTitle {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 0;
-  padding-top: clamp(6.75rem, 14vh, 9.5rem);
-  padding-bottom: clamp(3rem, 8vh, 5rem);
+  padding-top: calc(var(--site-header-offset, 4rem) + 5.75rem);
+  padding-bottom: 4.75rem;
   color: #fff;
-  font-size: clamp(4.6rem, 12vw, 11rem);
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans");
+  font-size: clamp(7.5rem, 13.05vw, 11.75rem);
+  font-style: normal;
   font-weight: 600;
-  letter-spacing: -0.07em;
-  line-height: 0.82;
+  line-height: 120%;
+  letter-spacing: -0.0625rem;
 }
 
 .heroTitle span:last-child {
@@ -107,12 +132,21 @@
   text-wrap: balance;
 }
 
-.aboutIntroHeading {
-  max-width: 65rem;
-  color: #000;
+.aboutIntroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.aboutIntroHeading span,
+.aboutIntroHeading {
+  color: #969696;
+}
+
+.aboutIntroHeading strong {
+  color: #000;
+  font-weight: 600;
+}
+
 .sectionHeading span {
   color: #969696;
 }
@@ -121,37 +155,170 @@
   color: #fff;
 }
 
-.brandRail {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: clamp(3.5rem, 7vw, 6rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid #e8e8e8;
+.brandMarquee {
+  --brand-card-width: 19.25rem;
+  --brand-gap: 0.75rem;
+  --brand-row-two-offset: 10rem;
+
+  display: flex;
+  width: calc(100% + (var(--site-gutter-x) * 2));
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 3rem calc(var(--site-gutter-x) * -1) 0;
+  overflow: hidden;
+}
+
+.brandMarqueeRow {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* The second row starts between the cards in row one, matching the supplied layout. */
+.brandMarqueeRow[data-row="2"] {
+  width: calc(100% + var(--brand-row-two-offset));
+  margin-left: calc(var(--brand-row-two-offset) * -1);
+}
+
+.brandMarqueeTrack {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: brandMarqueeLeft 52s linear infinite;
+}
+
+.brandMarqueeRow[data-direction="right"] .brandMarqueeTrack {
+  animation-name: brandMarqueeRight;
+  animation-duration: 58s;
+}
+
+.brandMarqueeGroup {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--brand-gap);
+  padding-right: var(--brand-gap);
+}
+
+.brandCard {
+  display: flex;
+  width: var(--brand-card-width);
+  min-height: 5rem;
+  flex: 0 0 var(--brand-card-width);
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  background: #f8f8f8;
 }
 
 .brandLogo {
   position: relative;
-  min-height: 4.25rem;
-  filter: grayscale(1);
-  opacity: 0.72;
-  transition: opacity 180ms ease, filter 180ms ease;
+  width: 3.5rem;
+  height: 3.5rem;
+  aspect-ratio: 1 / 1;
+  flex: 0 0 3.5rem;
+  overflow: hidden;
+  border-radius: 0.625rem;
+  background: lightgray;
 }
 
-.brandLogo:hover {
-  filter: grayscale(0);
-  opacity: 1;
+.brandLogoImage {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.brandLabel {
+  min-width: 0;
+  color: #b8b8b8;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, Inter);
+  font-size: var(--Font-size-Heading-4, 1.25rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-4, 1.75rem);
+}
+
+.brandMarquee:hover .brandMarqueeTrack {
+  animation-play-state: paused;
+}
+
+@keyframes brandMarqueeLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes brandMarqueeRight {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .globalHeader {
-  padding-top: clamp(4.5rem, 8vw, 6.25rem);
-  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  padding-top: 6.25rem;
+  padding-bottom: 6.25rem;
+  background: #fff;
 }
 
+.globalHeaderGrid {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.58fr) minmax(34rem, 1fr);
+  align-items: start;
+  gap: 2rem clamp(3rem, 7vw, 8rem);
+}
+
+.globalHeaderCopy {
+  display: flex;
+  width: min(100%, 50rem);
+  flex-direction: column;
+  justify-self: end;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.globalReachTitle {
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.globalHeaderCopy > p {
+  margin: 0;
+  max-width: 48rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+/*
+ * Sticky image story
+ * ------------------
+ * The outer section creates scroll distance. The viewport stays pinned while
+ * the two image tracks translate vertically inside it, so the page scroll
+ * changes only the images inside the fixed image area.
+ */
 .globalStage {
   position: relative;
-  height: 250svh;
-  background: #050505;
+  height: 390svh;
+  background: #fff;
 }
 
 .globalSticky {
@@ -159,66 +326,153 @@
   top: 0;
   height: 100svh;
   overflow: hidden;
+  background: #fff;
   isolation: isolate;
 }
 
-.globalPair,
+.globalGalleryViewport,
 .globalStory {
   position: absolute;
   inset: 0;
 }
 
-.globalPair {
+.globalGalleryViewport {
   z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: clamp(1rem, 2vw, 2rem);
-  padding-inline: var(--site-gutter-x);
+  overflow: hidden;
+  padding: clamp(4.5rem, 12svh, 8rem) var(--site-gutter-x)
+    clamp(3rem, 8svh, 5rem);
+  background: #fff;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
 }
 
-.globalPairCard {
-  position: relative;
-  margin: 0;
+.globalScrollColumns {
+  display: grid;
   width: 100%;
-  height: clamp(18rem, 54svh, 38rem);
+  height: 100%;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.06fr);
+  gap: clamp(1.25rem, 2.3vw, 2.4rem);
   overflow: hidden;
-  border-radius: 0.3rem;
+}
+
+.globalScrollColumn {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.globalScrollTrack {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: clamp(1.25rem, 2.2vw, 2rem);
+  will-change: transform;
+}
+
+.globalScrollTrackRight {
+  padding-top: 0;
+}
+
+.globalScrollCard {
+  position: relative;
+  width: 100%;
+  flex: 0 0 auto;
+  margin: 0;
+  overflow: hidden;
   background: #ececec;
+}
+
+.globalCardPress {
+  height: clamp(18rem, 34svh, 27rem);
+}
+
+.globalCardLaunch {
+  height: clamp(26rem, 49svh, 39rem);
+}
+
+.globalCardThird {
+  height: clamp(18rem, 31svh, 25rem);
+}
+
+.globalCardFourth {
+  height: clamp(22rem, 39svh, 31rem);
+}
+
+.globalCardFifth {
+  height: clamp(22rem, 39svh, 32rem);
+}
+
+.globalCardPress .coverImage {
+  object-position: center 45%;
+}
+
+.globalCardLaunch .coverImage {
+  object-position: center 48%;
 }
 
 .globalStory {
   z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: #020202;
+  color: #fff;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.globalStoryMedia {
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
   background: #050505;
+  will-change: transform;
 }
 
-.globalStoryShade {
+.globalStoryMedia::after {
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.05) 54%, rgba(0, 0, 0, 0.18));
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.24)
+  );
+  pointer-events: none;
 }
 
-.globalStoryCopy {
-  position: absolute;
-  inset: 0;
+.globalStoryMedia .coverImage {
+  object-position: center 46%;
+}
+
+.globalPartnerLogoStrip {
+  position: relative;
   z-index: 2;
   display: flex;
-  align-items: flex-start;
-  padding-top: clamp(7rem, 14svh, 9rem);
-  color: #fff;
+  min-height: clamp(8.5rem, 18svh, 12rem);
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem var(--site-gutter-x) 2rem;
+  background: #020202;
+  will-change: transform, opacity;
 }
 
-.globalStoryCopy p {
-  margin: 0;
-  max-width: 28rem;
-  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
+.globalPartnerLogoInner {
+  display: flex;
+  width: min(54rem, 100%);
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4.5vw, 4.75rem);
 }
 
-.globalStoryCopy strong {
-  font-weight: 600;
+.globalPartnerLogo {
+  display: block;
+  width: auto;
+  height: clamp(2.5rem, 3.7vw, 3.625rem);
+  max-width: 10rem;
+  flex: 0 1 auto;
+  object-fit: contain;
 }
 
 .missionSection,
@@ -848,12 +1102,27 @@
 }
 
 @media (max-width: 1023px) {
-  .brandRail {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .brandMarquee {
+    --brand-card-width: 18rem;
+    --brand-row-two-offset: 9.375rem;
+  }
+
+  .globalHeaderGrid {
+    grid-template-columns: minmax(9rem, 0.42fr) minmax(0, 1fr);
+    gap: 2rem 3rem;
   }
 
   .globalStage {
-    height: 190svh;
+    height: 350svh;
+  }
+
+  .globalGalleryViewport {
+    padding-top: 10svh;
+    padding-bottom: 7svh;
+  }
+
+  .globalScrollColumns {
+    gap: 1.25rem;
   }
 
   .timelineSlide {
@@ -887,7 +1156,17 @@
     min-height: 36rem;
   }
 
+  .heroImage {
+    object-position: 46% 50%;
+  }
+
+  .heroEyebrow {
+    top: calc(var(--site-header-offset, 4rem) + 1rem);
+  }
+
   .heroTitle {
+    padding-top: calc(var(--site-header-offset, 4rem) + 4.25rem);
+    padding-bottom: 2.5rem;
     font-size: clamp(4.3rem, 26vw, 7.3rem);
   }
 
@@ -904,55 +1183,95 @@
     grid-row: auto;
   }
 
-  .brandRail {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+  .brandMarquee {
+    --brand-card-width: 17.5rem;
+    --brand-row-two-offset: 9.125rem;
+    margin-top: 2.5rem;
   }
 
-  .brandLogo {
-    min-height: 3.7rem;
+  .brandMarqueeTrack {
+    animation-duration: 44s;
+  }
+
+  .brandMarqueeRow[data-direction="right"] .brandMarqueeTrack {
+    animation-duration: 50s;
+  }
+
+  .globalHeader {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .globalHeaderGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .globalHeaderCopy {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .globalReachTitle {
+    font-size: clamp(2.125rem, 9vw, 2.5rem);
+    line-height: 1.2;
   }
 
   .globalStage {
-    height: auto;
-    background: #050505;
+    height: 310svh;
   }
 
   .globalSticky {
-    position: relative;
-    height: auto;
-    overflow: visible;
-    background: #050505 !important;
+    height: 100svh;
   }
 
-  .globalPair,
-  .globalStory {
-    position: relative;
-    inset: auto;
-    opacity: 1 !important;
-    transform: none !important;
+  .globalGalleryViewport {
+    padding: 10svh var(--site-gutter-x) 7svh;
   }
 
-  .globalPair {
-    grid-template-columns: 1fr;
-    padding-top: 0;
-    padding-bottom: 1rem;
-    background: #fff;
+  .globalScrollColumns {
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    gap: 0.75rem;
   }
 
-  .globalPairCard {
-    height: 19rem;
+  .globalScrollTrack {
+    gap: 0.75rem;
   }
 
-  .globalStory {
-    height: 38rem;
+  .globalCardPress {
+    height: 26svh;
   }
 
-  .globalStoryCopy {
-    align-items: flex-end;
-    padding-top: 0;
-    padding-bottom: 3rem;
-    opacity: 1 !important;
+  .globalCardLaunch {
+    height: 38svh;
+  }
+
+  .globalCardThird {
+    height: 25svh;
+  }
+
+  .globalCardFourth {
+    height: 31svh;
+  }
+
+  .globalCardFifth {
+    height: 29svh;
+  }
+
+  .globalPartnerLogoStrip {
+    min-height: 9rem;
+    padding-block: 1.25rem 1.5rem;
+  }
+
+  .globalPartnerLogoInner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem 1.75rem;
+  }
+
+  .globalPartnerLogo {
+    height: 2.35rem;
+    max-width: 7.5rem;
   }
 
   .missionCopy {
@@ -1031,24 +1350,1870 @@
   .globalSticky {
     position: relative;
     height: auto;
+    overflow: visible;
   }
 
-  .globalPair,
+  .globalGalleryViewport,
   .globalStory {
     position: relative;
+    inset: auto;
     opacity: 1 !important;
     transform: none !important;
   }
 
-  .globalPair {
-    padding-block: 2rem;
+  .globalGalleryViewport {
+    padding: 2rem var(--site-gutter-x) 4rem;
+  }
+
+  .globalScrollColumns {
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalScrollColumn {
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalScrollTrack {
+    transform: none !important;
+  }
+
+  .globalScrollCard {
+    height: auto;
+    aspect-ratio: 1.35 / 1;
+  }
+
+  .globalCardLaunch,
+  .globalCardFourth {
+    aspect-ratio: 0.95 / 1;
   }
 
   .globalStory {
-    min-height: 38rem;
+    min-height: 42rem;
+    grid-template-rows: 32rem auto;
+  }
+
+  .globalStoryMedia,
+  .globalPartnerLogoStrip {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .carouselRail {
     scroll-behavior: auto;
+  }
+
+  .brandMarquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .brandMarquee::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brandMarqueeRow[data-row="2"] {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .brandMarqueeTrack,
+  .brandMarqueeRow[data-direction="right"] .brandMarqueeTrack {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   GLOBAL REACH - EXACT STICKY CARD REWRITE
+   ============================================================ */
+
+/* Keep the title block at the far/right content column while all copy remains
+   left aligned inside that column. */
+.globalHeader {
+  padding-top: 6.25rem;
+  padding-bottom: 6.25rem;
+}
+
+.globalHeaderGrid {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) minmax(34rem, 41.5rem);
+  align-items: start;
+  gap: 2rem 4rem;
+}
+
+.globalHeaderCopy {
+  width: 100%;
+  max-width: 41.5rem;
+  justify-self: end;
+  text-align: left;
+}
+
+.globalReachTitle {
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.globalHeaderCopy > p {
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+/* The section creates scroll distance, but the visible stage remains fixed. */
+.globalStage {
+  position: relative;
+  height: 340svh;
+  background: #fff;
+}
+
+.globalSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #fff;
+  isolation: isolate;
+}
+
+.globalGalleryViewport,
+.globalStory {
+  position: absolute;
+  inset: 0;
+}
+
+.globalGalleryViewport {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #fff;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+/* IMPORTANT: only two card frames are visible. There is no second visual row.
+   Images are stacked INSIDE each card and the internal tracks translate. */
+.globalCardRow {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(1.25rem, 2.1vw, 2rem);
+}
+
+.globalFixedCard {
+  position: relative;
+  width: 100%;
+  height: clamp(19rem, 41svh, 31rem);
+  overflow: hidden;
+  border-radius: 0;
+  background: #ececec;
+  isolation: isolate;
+}
+
+.globalFixedCardTall {
+  height: clamp(25rem, 57svh, 42rem);
+}
+
+.globalCardTrack {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.globalCardTrackThree {
+  height: 300%;
+}
+
+.globalCardTrackTwo {
+  height: 200%;
+}
+
+.globalCardSlide {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #ececec;
+}
+
+.globalCardTrackThree .globalCardSlide {
+  height: 33.333333%;
+}
+
+.globalCardTrackTwo .globalCardSlide {
+  height: 50%;
+}
+
+.globalCardSlide .coverImage {
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Cinematic black follow-up stage. */
+.globalStory {
+  z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  background: #020202;
+  color: #fff;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.globalStoryMedia {
+  position: relative;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  background: #050505;
+}
+
+.globalStoryMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.12) 45%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+  pointer-events: none;
+}
+
+.globalStoryTitleWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  padding-top: clamp(2rem, 5svh, 3.75rem);
+  pointer-events: none;
+}
+
+.globalStoryTitle {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--Text-Inverse-strong, #fff);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.globalPartnerLogoStrip {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  min-height: clamp(7.5rem, 16svh, 10.5rem);
+  align-items: center;
+  justify-content: center;
+  padding: 1.35rem var(--site-gutter-x) 1.75rem;
+  background: #020202;
+}
+
+.globalPartnerLogoInner {
+  display: flex;
+  width: min(44rem, 100%);
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.globalPartnerLogo {
+  display: block;
+  width: auto;
+  height: clamp(2.25rem, 3.4vw, 3.4rem);
+  max-width: 9.5rem;
+  flex: 0 1 auto;
+  object-fit: contain;
+}
+
+/* ============================================================
+   MISSION + LANDING-PAGE STYLE STAGGERED NUMBER ANIMATION
+   ============================================================ */
+
+.missionSection {
+  background: #050505;
+  color: #fff;
+}
+
+.missionCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.missionCopy > p {
+  margin: 0;
+  max-width: 71rem;
+  color: var(--Text-Inverse-strong, #fff);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(66rem, 100%);
+  margin: clamp(3.5rem, 7vw, 6rem) auto 0;
+}
+
+.statItem {
+  position: relative;
+  display: flex;
+  min-height: 10rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem clamp(1rem, 2.4vw, 2rem);
+  text-align: center;
+}
+
+.statItem + .statItem::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 3.5rem;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.statItem dd,
+.statItem dt {
+  margin: 0;
+}
+
+.statItem dd {
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: clamp(2.75rem, 4vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.0625rem;
+}
+
+.statItem dt {
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE OVERRIDES FOR THE REWRITTEN GLOBAL REACH
+   ============================================================ */
+
+@media (max-width: 1023px) {
+  .globalHeaderGrid {
+    grid-template-columns: minmax(8rem, 0.38fr) minmax(0, 1fr);
+    gap: 2rem 3rem;
+  }
+
+  .globalStage {
+    height: 320svh;
+  }
+
+  .globalFixedCard {
+    height: 38svh;
+  }
+
+  .globalFixedCardTall {
+    height: 52svh;
+  }
+}
+
+@media (max-width: 767px) {
+  .globalHeader {
+    padding-top: 4.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .globalHeaderGrid {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .globalHeaderCopy {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .globalReachTitle,
+  .globalStoryTitle,
+  .missionCopy > p {
+    font-size: clamp(2.125rem, 9vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .globalStage {
+    height: 300svh;
+  }
+
+  .globalCardRow {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 0.75rem;
+  }
+
+  .globalFixedCard {
+    height: 29svh;
+  }
+
+  .globalFixedCardTall {
+    height: 41svh;
+  }
+
+  .globalStoryTitleWrap {
+    padding-top: 2rem;
+  }
+
+  .globalPartnerLogoInner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.1rem 1.6rem;
+  }
+
+  .globalPartnerLogo {
+    height: 2.2rem;
+    max-width: 7rem;
+  }
+
+  .missionCopy {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .statItem {
+    min-height: 7rem;
+    align-items: flex-start;
+    padding-inline: 0;
+    text-align: left;
+  }
+
+  .statItem + .statItem::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globalStage {
+    height: auto;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalGalleryViewport,
+  .globalStory {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalGalleryViewport {
+    min-height: 75svh;
+    padding-block: 3rem;
+  }
+
+  .globalCardTrack {
+    transform: none !important;
+  }
+
+  .globalCardTrackThree .globalCardSlide:not(:first-child),
+  .globalCardTrackTwo .globalCardSlide:not(:first-child) {
+    display: none;
+  }
+
+  .globalCardTrackThree,
+  .globalCardTrackTwo {
+    height: 100%;
+  }
+
+  .globalCardTrackThree .globalCardSlide,
+  .globalCardTrackTwo .globalCardSlide {
+    height: 100%;
+  }
+
+  .globalStory {
+    min-height: 42rem;
+    grid-template-rows: 32rem auto;
+  }
+}
+
+/* Keep the animated metrics directly below the cinematic Global Reach stage. */
+.missionCopy .statsGrid {
+  margin-top: 0;
+}
+
+.missionStatement {
+  margin: clamp(4rem, 8vw, 6.25rem) 0 0 !important;
+}
+
+/* ============================================================
+   FINAL ABOUT PAGE ALIGNMENT - GLOBAL REACH + MISSION METRICS
+   ============================================================ */
+
+/* Both sticky image cards begin on the exact same top edge. */
+.globalGalleryViewport {
+  align-items: center;
+  padding: 0;
+}
+
+.globalCardRow {
+  align-items: start;
+  padding-top: clamp(3rem, 8svh, 5.5rem);
+  padding-bottom: clamp(3rem, 7svh, 5rem);
+}
+
+.globalFixedCard,
+.globalFixedCardTall {
+  align-self: start;
+}
+
+/* The first frame is shorter, as in the reference, but its top edge is aligned
+   with the taller right frame. The internal image track remains clipped. */
+.globalFixedCard {
+  height: clamp(19rem, 39svh, 30rem);
+}
+
+.globalFixedCardTall {
+  height: clamp(25rem, 55svh, 41rem);
+}
+
+/* Black mission panel immediately after the partner-logo strip. */
+.missionSection {
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: #fff;
+}
+
+.missionCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(4rem, 7vw, 6.25rem);
+  text-align: center;
+}
+
+.missionSection .missionStatement {
+  width: min(74rem, 100%);
+  margin: 0 !important;
+  color: #969696;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+  text-wrap: balance;
+}
+
+.missionSection .missionStatement strong {
+  color: #fff;
+  font: inherit;
+}
+
+.missionSection .missionStatement span {
+  color: #969696;
+  font: inherit;
+}
+
+.missionSection .statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(66rem, 100%);
+  margin: clamp(3.75rem, 6vw, 5rem) auto 0;
+}
+
+.missionSection .statItem {
+  position: relative;
+  display: flex;
+  min-height: 9rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1rem, 2.5vw, 2rem);
+  text-align: center;
+}
+
+.missionSection .statItem + .statItem::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 3.5rem;
+  transform: translateY(-50%);
+  background: rgba(150, 150, 150, 0.35);
+}
+
+.missionSection .statItem dd,
+.missionSection .statItem dt {
+  margin: 0;
+}
+
+.missionSection .statItem dd {
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Display, 3.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 4rem);
+  letter-spacing: -0.0625rem;
+}
+
+.missionSection .statItem dt {
+  margin-top: 0.5rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+/* The About page now renders the exact shared landing-page NewsBlogsSection and
+   CareersCtaSection. These legacy custom About-only blocks are intentionally not
+   used by the TSX anymore. */
+
+@media (max-width: 767px) {
+  .globalCardRow {
+    align-items: start;
+    padding-top: 8svh;
+    padding-bottom: 6svh;
+  }
+
+  .globalFixedCard,
+  .globalFixedCardTall {
+    align-self: start;
+  }
+
+  .missionCopy {
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+    text-align: center;
+  }
+
+  .missionSection .missionStatement {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.25;
+  }
+
+  .missionSection .statsGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .missionSection .statItem {
+    min-height: 7.5rem;
+    align-items: center;
+    padding-inline: 0;
+    text-align: center;
+  }
+
+  .missionSection .statItem + .statItem::before {
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 1px;
+    transform: none;
+  }
+
+  .missionSection .statItem dd,
+  .missionSection .statItem dt {
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   FINAL V3 - MINIMAL SPACING + EXACT MISSION METRICS
+   ============================================================ */
+
+/* Keep Global Reach compact: the text block ends and the sticky cards begin
+   almost immediately instead of leaving a large empty white band. */
+.globalHeader {
+  padding-top: clamp(3.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.globalGalleryViewport {
+  align-items: flex-start;
+  padding: 0;
+}
+
+.globalCardRow {
+  align-items: start;
+  padding-top: clamp(0.75rem, 1.8svh, 1.25rem);
+  padding-bottom: clamp(1rem, 2.5svh, 1.75rem);
+}
+
+.globalFixedCard,
+.globalFixedCardTall {
+  align-self: start;
+}
+
+/* Make slide changes happen inside the clipped card frame only. */
+.globalFixedCard {
+  height: clamp(19rem, 39svh, 30rem);
+}
+
+.globalFixedCardTall {
+  height: clamp(25rem, 55svh, 41rem);
+}
+
+/* Reduce the overall scroll runway without changing the sticky behavior. */
+.globalStage {
+  height: 285svh;
+}
+
+/* Mission copy uses equal top/bottom padding and no margins. */
+.missionSection {
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: #fff;
+}
+
+.missionCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding-top: clamp(3.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(3.5rem, 5vw, 4.5rem);
+  text-align: center;
+}
+
+.missionSection .missionStatement {
+  width: min(74rem, 100%);
+  margin: 0 !important;
+  color: #969696;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+  text-wrap: balance;
+}
+
+.missionSection .missionStatement strong {
+  color: #fff;
+  font: inherit;
+}
+
+.missionSection .missionStatement span {
+  color: #969696;
+  font: inherit;
+}
+
+.missionSection .statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(66rem, 100%);
+  margin: clamp(2.75rem, 4vw, 3.75rem) auto 0;
+}
+
+.missionSection .statItem {
+  position: relative;
+  display: flex;
+  min-height: 8.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1rem, 2vw, 1.75rem);
+  text-align: center;
+}
+
+.missionSection .statItem + .statItem::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 1px;
+  height: 3.5rem;
+  transform: translateY(-50%);
+  background: rgba(150, 150, 150, 0.35);
+}
+
+.missionSection .statItem dd,
+.missionSection .statItem dt {
+  margin: 0;
+}
+
+.missionSection .statItem dd {
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Display, 3.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 4rem);
+  letter-spacing: -0.0625rem;
+}
+
+.missionSection .statItem dt {
+  margin-top: 0.5rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+@media (max-width: 1023px) {
+  .globalStage {
+    height: 260svh;
+  }
+
+  .globalHeader {
+    padding-top: 3.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .globalCardRow {
+    padding-top: 0.75rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .globalHeader {
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+  }
+
+  .globalStage {
+    height: 235svh;
+  }
+
+  .globalGalleryViewport {
+    align-items: flex-start;
+  }
+
+  .globalCardRow {
+    align-items: start;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .globalFixedCard {
+    height: 29svh;
+  }
+
+  .globalFixedCardTall {
+    height: 41svh;
+  }
+
+  .missionCopy {
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    text-align: center;
+  }
+
+  .missionSection .missionStatement {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.25;
+  }
+
+  .missionSection .statsGrid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 2.5rem;
+  }
+
+  .missionSection .statItem {
+    min-height: 7.5rem;
+    align-items: center;
+    padding-inline: 0;
+    text-align: center;
+  }
+
+  .missionSection .statItem + .statItem::before {
+    top: 0;
+    left: 12%;
+    width: 76%;
+    height: 1px;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globalStage {
+    height: auto;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalGalleryViewport,
+  .globalStory {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalGalleryViewport {
+    padding: 1rem 0 2rem;
+  }
+
+  .globalCardTrack {
+    transform: none !important;
+  }
+
+  .globalCardTrackThree .globalCardSlide:not(:first-child),
+  .globalCardTrackTwo .globalCardSlide:not(:first-child) {
+    display: none;
+  }
+
+  .globalCardTrackThree,
+  .globalCardTrackTwo,
+  .globalCardTrackThree .globalCardSlide,
+  .globalCardTrackTwo .globalCardSlide {
+    height: 100%;
+  }
+
+  .globalStory {
+    min-height: 42rem;
+    grid-template-rows: 32rem auto;
+  }
+}
+
+/* ============================================================
+   FINAL V4 - GLOBAL REACH STICKY COMPOSITION + VIDEO TRANSITION
+   ============================================================ */
+
+/* The header is now part of the sticky viewport, so GLOBAL REACH and its copy
+   stay at the top while the two image cards animate in the middle. */
+.globalStage {
+  position: relative;
+  height: 300svh;
+  background: #fff;
+}
+
+.globalSticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #fff;
+  isolation: isolate;
+}
+
+.globalWhiteStage,
+.globalVideoStage {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: opacity, transform;
+}
+
+.globalWhiteStage {
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  background: #fff;
+}
+
+.globalStickyHeader {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.58fr) minmax(34rem, 1fr);
+  align-items: start;
+  gap: 2rem clamp(3rem, 7vw, 8rem);
+  padding-top: clamp(3.25rem, 6svh, 5rem);
+  padding-bottom: clamp(1.25rem, 2.5svh, 2rem);
+}
+
+.globalStickyHeader .globalHeaderCopy {
+  display: flex;
+  width: min(100%, 50rem);
+  max-width: 50rem;
+  flex-direction: column;
+  justify-self: end;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.globalStickyHeader .globalReachTitle {
+  margin: 0;
+  color: #1a1a1a;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 3rem;
+  letter-spacing: -0.03125rem;
+}
+
+.globalStickyHeader .globalHeaderCopy > p {
+  margin: 0;
+  max-width: 48rem;
+  color: #969696;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+.globalGalleryArea {
+  display: grid;
+  min-height: 0;
+  place-items: center;
+  padding-bottom: clamp(2rem, 5svh, 4rem);
+  overflow: hidden;
+}
+
+.globalCardRow {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: start;
+  gap: clamp(1.25rem, 2.1vw, 2rem);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.globalFixedCard,
+.globalFixedCardTall {
+  position: relative;
+  width: 100%;
+  align-self: start;
+  overflow: hidden;
+  border-radius: 0;
+  background: #ececec;
+  isolation: isolate;
+}
+
+.globalFixedCard {
+  height: clamp(19rem, 40svh, 30rem);
+}
+
+.globalFixedCardTall {
+  height: clamp(24rem, 52svh, 39rem);
+}
+
+.globalCardTrack {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.globalCardTrackThree {
+  height: 300%;
+}
+
+.globalCardTrackTwo {
+  height: 200%;
+}
+
+.globalCardSlide {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #ececec;
+}
+
+.globalCardTrackThree .globalCardSlide {
+  height: 33.333333%;
+}
+
+.globalCardTrackTwo .globalCardSlide {
+  height: 50%;
+}
+
+.globalCardSlide .coverImage {
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* Full-bleed muted video that replaces the former static image + partner logos. */
+.globalVideoStage {
+  z-index: 1;
+  overflow: hidden;
+  background: #020202;
+  color: #fff;
+}
+
+.globalVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.globalVideoShade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.46) 0%,
+    rgba(0, 0, 0, 0.12) 45%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+.globalVideoTitleWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  padding-top: clamp(2rem, 5svh, 3.75rem);
+  pointer-events: none;
+}
+
+.globalVideoTitle {
+  margin: 0;
+  max-width: 40rem;
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 3rem;
+  letter-spacing: -0.03125rem;
+}
+
+/* The old partner-logo strip is intentionally hidden from the Global Reach
+   transition. It is no longer rendered by the component. */
+.globalPartnerLogoStrip,
+.globalPartnerLogoInner,
+.globalPartnerLogo {
+  display: none !important;
+}
+
+/* ============================================================
+   FINAL V4 - MISSION COPY + EXACT LANDING-STYLE METRICS
+   ============================================================ */
+
+.missionSection {
+  margin: 0;
+  padding: 0;
+  background: #050505;
+  color: #fff;
+}
+
+.missionCopy {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0;
+  padding: clamp(3.75rem, 5.5vw, 5.25rem) var(--site-gutter-x);
+  text-align: center;
+}
+
+.missionSection .missionStatement {
+  width: 100%;
+  max-width: none;
+  margin: 0 !important;
+  color: #969696;
+  text-align: center;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 3rem;
+  letter-spacing: -0.03125rem;
+  text-wrap: pretty;
+}
+
+.missionSection .missionStatement strong {
+  color: #fff;
+  font: inherit;
+}
+
+.missionSection .missionStatement span {
+  color: #969696;
+  font: inherit;
+}
+
+.missionSection .statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  margin: clamp(2.75rem, 4vw, 3.75rem) auto 0;
+}
+
+.missionSection .statItem {
+  position: relative;
+  display: flex;
+  min-height: 9.25rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(1rem, 2vw, 2rem);
+  border: 0 !important;
+  text-align: center;
+}
+
+/* Remove every older divider implementation first, then add exactly one line
+   between columns. */
+.missionSection .statItem::before,
+.missionSection .statItem::after {
+  display: none !important;
+  content: none !important;
+}
+
+.missionSection .statItem + .statItem {
+  border-left: 1px solid rgba(150, 150, 150, 0.35) !important;
+}
+
+.missionSection .statItem dd,
+.missionSection .statItem dt {
+  margin: 0;
+  text-align: center;
+}
+
+.missionSection .statItem dd {
+  color: #969696;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: 3.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 4rem;
+  letter-spacing: -0.0625rem;
+}
+
+.missionSection .statItem dd > span {
+  font: inherit;
+  color: inherit;
+}
+
+.missionSection .statItem dt {
+  margin-top: 0.5rem;
+  color: #969696;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
+@media (max-width: 1023px) {
+  .globalStage {
+    height: 275svh;
+  }
+
+  .globalStickyHeader {
+    grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1fr);
+    gap: 2rem 3rem;
+  }
+
+  .globalFixedCard {
+    height: 37svh;
+  }
+
+  .globalFixedCardTall {
+    height: 48svh;
+  }
+
+  .missionSection .missionStatement {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 767px) {
+  .globalStage {
+    height: 250svh;
+  }
+
+  .globalStickyHeader {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding-top: 2.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .globalStickyHeader .globalHeaderCopy {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .globalStickyHeader .globalReachTitle,
+  .globalVideoTitle {
+    font-size: clamp(2.125rem, 9vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .globalGalleryArea {
+    align-items: center;
+    padding-bottom: 2rem;
+  }
+
+  .globalCardRow {
+    gap: 0.75rem;
+  }
+
+  .globalFixedCard {
+    height: 27svh;
+  }
+
+  .globalFixedCardTall {
+    height: 36svh;
+  }
+
+  .globalVideoTitleWrap {
+    padding-top: 2rem;
+  }
+
+  .missionCopy {
+    padding: 3rem var(--site-gutter-x);
+  }
+
+  .missionSection .missionStatement {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.25;
+  }
+
+  .missionSection .statsGrid {
+    grid-template-columns: 1fr;
+    margin-top: 2.5rem;
+  }
+
+  .missionSection .statItem {
+    min-height: 8rem;
+    padding-inline: 0;
+  }
+
+  .missionSection .statItem + .statItem {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(150, 150, 150, 0.35) !important;
+  }
+
+  .missionSection .statItem dd {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globalStage {
+    height: auto;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalWhiteStage,
+  .globalVideoStage {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalWhiteStage {
+    min-height: 100svh;
+  }
+
+  .globalCardTrack {
+    transform: none !important;
+  }
+
+  .globalCardTrackThree .globalCardSlide:not(:first-child),
+  .globalCardTrackTwo .globalCardSlide:not(:first-child) {
+    display: none;
+  }
+
+  .globalCardTrackThree,
+  .globalCardTrackTwo,
+  .globalCardTrackThree .globalCardSlide,
+  .globalCardTrackTwo .globalCardSlide {
+    height: 100%;
+  }
+
+  .globalVideoStage {
+    min-height: 42rem;
+  }
+}
+
+/* ============================================================
+   FINAL V5 - VIDEO + LEADERSHIP + NOTABLE + AWARDS
+   ============================================================ */
+
+/* Keep the Global Reach film reliable across Safari/Chrome autoplay policies. */
+.globalVideo {
+  display: block;
+  min-width: 100%;
+  min-height: 100%;
+  background: #020202;
+  object-fit: cover;
+  object-position: 50% 50%;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* -----------------------------
+   LEADERSHIP / PEOPLE SHAPING
+   ----------------------------- */
+.leadershipSection {
+  background: #050505;
+  color: #fff;
+}
+
+.leadershipHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.48fr);
+  align-items: end;
+  gap: 2rem clamp(3rem, 7vw, 7rem);
+  padding-top: 0;
+  border-top: 0;
+}
+
+.leadershipHeading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.leadershipHeading .darkHeading {
+  margin: 0;
+  max-width: 52rem;
+  color: var(--Light-Border-Text-PrimaryInverse, #f9f9f9);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.leadershipHeading > p {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+.leadershipGrid {
+  display: grid;
+  grid-template-columns: minmax(17rem, 24rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.leaderCard {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0;
+}
+
+.leaderImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.92 / 1;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--Corner-radius-8, 0.5rem);
+  background: lightgray;
+}
+
+.leaderImage .coverImage {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.leaderMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.leaderMeta h3 {
+  margin: 0;
+  color: #fff;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-4, 1.25rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Heading-4, 1.75rem);
+}
+
+.leaderMeta > p {
+  max-width: 100%;
+  margin: 0.2rem 0 0;
+  overflow: hidden;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+  color: var(--Text-Warning, #8f6c1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, Inter), sans-serif;
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.leaderLink:hover {
+  opacity: 0.76;
+}
+
+.leaderLink:hover .arrowIcon {
+  transform: translateX(0.2rem);
+}
+
+.leaderLink .arrowIcon {
+  transition: transform 180ms ease;
+}
+
+/* -----------------------------
+   NOTABLE PERSONALITIES
+   ----------------------------- */
+.notableSection {
+  background: #fff;
+  border-bottom: 1px solid #ececec;
+}
+
+.notableSection .sectionHeadingRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.45fr);
+  align-items: end;
+  gap: 2rem clamp(3rem, 7vw, 7rem);
+}
+
+.notableSection .sectionHeadingRow > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notableSection .sectionHeading {
+  margin: 0;
+  color: var(--Light-Border-Text-Primary, #1a1a1a);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.notableSection .sectionHeadingRow > p {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--Light-Border-Text-Secondary, #969696);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+.notableCarousel {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  color: #111;
+}
+
+.notableCarousel .carouselRail {
+  gap: clamp(1rem, 1.5vw, 1.5rem);
+  scroll-snap-type: x proximity;
+}
+
+.notableCarousel .carouselItem {
+  flex: 0 0 clamp(16rem, 26vw, 24rem);
+}
+
+.notableCard {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 0;
+  overflow: visible;
+  border-radius: 0;
+  background: transparent;
+}
+
+.notableImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.81 / 1;
+  overflow: hidden;
+  border-radius: var(--Corner-radius-0, 0);
+  background: lightgray;
+}
+
+.notableImage .coverImage {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.notableCard figcaption {
+  margin-top: 0.9rem;
+  color: var(--Text-Strong, #000);
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-4, 1.25rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Heading-4, 1.75rem);
+}
+
+.nameChips {
+  display: none !important;
+}
+
+/* -----------------------------
+   AWARDS & RECOGNITIONS
+   ----------------------------- */
+.governmentSection {
+  background: #f8f8f8;
+}
+
+.governmentHeading {
+  display: flex;
+  max-width: 58rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.governmentHeading .eyebrow {
+  margin: 0;
+  color: #59564e;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Tiny, 0.875rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Tiny, 1.25rem);
+  text-transform: uppercase;
+}
+
+.governmentHeading .sectionHeading {
+  margin: 0.65rem 0 0;
+  max-width: 48rem;
+  color: #8f6c1a;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Heading-1, 2.5rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-1, 3rem);
+  letter-spacing: -0.03125rem;
+}
+
+.governmentHeading > p {
+  margin: 0.75rem 0 0;
+  max-width: 52rem;
+  color: #59564e;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+}
+
+.governmentCarousel {
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  color: #fff;
+}
+
+.governmentCarousel .carouselRail {
+  gap: 0;
+  scroll-snap-type: x mandatory;
+}
+
+.governmentCarousel .carouselItem {
+  flex: 0 0 100%;
+}
+
+.governmentSlide {
+  position: relative;
+  width: 100%;
+  height: clamp(24rem, 53vw, 43rem);
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: #e9e9e9;
+}
+
+.governmentSlide .coverImage {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* No arrows: keep only centered pagination dots over the image. */
+.governmentCarousel .carouselControls {
+  position: relative;
+  z-index: 5;
+  justify-content: center;
+  min-height: 1.5rem;
+  margin-top: -2.5rem;
+  padding-bottom: 1rem;
+  pointer-events: none;
+}
+
+.governmentCarousel .carouselDots {
+  gap: 0.45rem;
+  color: #fff;
+  pointer-events: auto;
+}
+
+.governmentCarousel .carouselDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #fff;
+  opacity: 0.5;
+}
+
+.governmentCarousel .carouselDot[data-active="true"] {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+@media (max-width: 1023px) {
+  .leadershipHeading,
+  .notableSection .sectionHeadingRow {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 1.25rem;
+  }
+
+  .leadershipHeading > p,
+  .notableSection .sectionHeadingRow > p {
+    max-width: 42rem;
+  }
+
+  .governmentSlide {
+    height: clamp(24rem, 66vw, 38rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .leadershipHeading .darkHeading,
+  .notableSection .sectionHeading,
+  .governmentHeading .sectionHeading {
+    font-size: clamp(2.125rem, 9vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .leadershipGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .leaderCard {
+    max-width: 24rem;
+  }
+
+  .notableCarousel .carouselItem {
+    flex-basis: min(78vw, 20rem);
+  }
+
+  .governmentSlide {
+    height: 25rem;
+    border-radius: 0.5rem;
   }
 }
