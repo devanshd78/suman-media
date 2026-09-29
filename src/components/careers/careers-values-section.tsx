@@ -225,7 +225,7 @@ export function CareersValuesSection({
     <>
       <section
         aria-label="Create, collaborate, experiment and grow"
-        className="flex w-full max-w-none items-center justify-center gap-[3.5rem] bg-[#F5F1EB] px-4 py-10 sm:px-8 sm:py-16 lg:px-[3.5rem] lg:py-[9.375rem]"
+        className="site-gutter flex w-full max-w-none items-center justify-center gap-[3.5rem] bg-[#F5F1EB] py-10 sm:py-16 lg:py-[9.375rem]"
       >
         <div
           className={`${exo2.className} flex w-full flex-col items-center gap-2 text-center text-[1.625rem] font-semibold leading-[1.4] tracking-[-0.0625rem] text-black sm:gap-4 sm:text-[2.75rem] lg:gap-6 lg:text-[5rem] xl:gap-8 xl:text-[8.25rem]`}
@@ -264,7 +264,7 @@ export function CareersValuesSection({
             Cards remain full-width and stack vertically.
         ====================================================== */}
 
-        <div className="w-full px-5 py-16 sm:px-8 lg:hidden">
+        <div className="site-gutter w-full py-16 lg:hidden">
           <div className="flex w-full flex-col items-start gap-12">
             <div className="flex min-w-0 flex-col items-start gap-6">
               <TextReveal
@@ -538,7 +538,7 @@ export function CareersValuesSection({
         aria-labelledby="careers-culture-heading"
         className="flex w-full max-w-none flex-col items-start gap-16 bg-white pt-16 lg:gap-[6.25rem] lg:pt-[6.25rem]"
       >
-        <div className="flex w-full max-w-none flex-col items-start gap-8 px-5 sm:px-8 lg:flex-row lg:gap-[3.5rem] lg:px-[3.5rem]">
+        <div className="site-gutter flex w-full max-w-none flex-col items-start gap-8 lg:flex-row lg:gap-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
             <TextReveal
               as="p"

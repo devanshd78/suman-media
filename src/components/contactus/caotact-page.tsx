@@ -201,7 +201,7 @@ export function ContactPageContent({
     <main className="relative mx-auto w-full max-w-full overflow-x-hidden bg-white">
       <section
         aria-labelledby="contact-page-heading"
-        className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="site-gutter flex w-full flex-col items-center gap-[3.5rem] bg-white py-16 lg:py-[6.25rem]"
       >
         <div className="flex w-full flex-col items-start gap-8 lg:flex-row lg:items-center lg:gap-[3.5rem]">
           <div className="flex min-w-0 flex-1 flex-col items-start">
@@ -234,7 +234,7 @@ export function ContactPageContent({
 
       <section
         aria-label="Our partners"
-        className="flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-4 sm:px-8 lg:px-[3.5rem]"
+        className="site-gutter flex w-full flex-col items-center justify-center gap-6 bg-white py-4"
       >
         <PartnerLogoMarquee />
       </section>
@@ -255,7 +255,7 @@ export function ContactPageContent({
 
       <section
         aria-label="Ways to contact Suman Media"
-        className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="site-gutter flex w-full flex-col items-center gap-[3.5rem] bg-white py-16 lg:py-[6.25rem]"
       >
         <div className="grid w-full grid-cols-1 items-stretch gap-8 lg:grid-cols-3">
           {contactCards.map((card, index) => (
@@ -301,7 +301,7 @@ export function ContactPageContent({
 
       <section
         aria-labelledby="connected-world-heading"
-        className={`${styles.connectedWorld} relative flex min-h-[44rem] w-full flex-col items-start justify-start gap-8 overflow-hidden px-5 py-16 sm:min-h-[56rem] sm:px-8 lg:h-[81.0625rem] lg:min-h-0 lg:flex-row lg:justify-center lg:gap-[3.5rem] lg:px-[3.5rem] lg:py-[6.25rem]`}
+        className={`${styles.connectedWorld} site-gutter relative flex min-h-[44rem] w-full flex-col items-start justify-start gap-8 overflow-hidden py-16 sm:min-h-[56rem] lg:h-[81.0625rem] lg:min-h-0 lg:flex-row lg:justify-center lg:gap-[3.5rem] lg:py-[6.25rem]`}
       >
         <div
           aria-hidden="true"
@@ -334,7 +334,7 @@ export function ContactPageContent({
 
       <section
         aria-label="Suman Media address and contact details"
-        className="flex w-full flex-col items-start justify-center gap-[3.5rem] bg-white px-5 py-16 sm:px-8 lg:flex-row lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="site-gutter flex w-full flex-col items-start justify-center gap-[3.5rem] bg-white py-16 lg:flex-row lg:py-[6.25rem]"
       >
         <div className="flex w-full min-w-0 flex-1 flex-col items-start gap-8 pb-4">
           <h2

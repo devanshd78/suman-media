@@ -169,11 +169,9 @@ export function FaqSection({
         w-full
         max-w-full
         bg-white
-        px-5
+        site-gutter
         py-16
-        sm:px-8
         sm:py-20
-        lg:px-[3.5rem]
         lg:py-[6.25rem]
         ${classes.section}
       `}

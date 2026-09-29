@@ -417,6 +417,7 @@ export type HeaderVariant =
 
 const OVERLAY_HEADER_ROUTES = new Set([
   "/",
+  "/about",
   "/news-and-blogs",
   "/abhijat-marathi",
   "/monetization",

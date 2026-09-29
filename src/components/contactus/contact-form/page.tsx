@@ -219,7 +219,7 @@ export default function ContactFormPage({
 
       <section
         aria-labelledby="contact-form-page-heading"
-        className="flex w-full flex-col items-center gap-[3.5rem] bg-white px-5 py-16 max-[359px]:px-2 sm:px-8 lg:px-[3.5rem] lg:py-[6.25rem]"
+        className="site-gutter flex w-full flex-col items-center gap-[3.5rem] bg-white py-16 lg:py-[6.25rem]"
       >
         <header className="flex w-full flex-col items-start gap-4">
           <h1
@@ -471,7 +471,7 @@ export default function ContactFormPage({
 
       <section
         aria-label="Our partners"
-        className="flex w-full flex-col items-center justify-center gap-6 bg-white px-5 py-4 sm:px-8 lg:px-[3.5rem]"
+        className="site-gutter flex w-full flex-col items-center justify-center gap-6 bg-white py-4"
       >
         <PartnerLogoMarquee />
       </section>

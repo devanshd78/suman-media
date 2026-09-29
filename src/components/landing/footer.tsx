@@ -991,13 +991,11 @@ export function Footer({
           w-full
           min-w-0
 
-          px-5
+          site-gutter
           pt-12
 
-          sm:px-8
           sm:pt-14
 
-          lg:px-[3.5rem]
           lg:pt-16
         "
       >
@@ -1580,14 +1578,12 @@ export function Footer({
 
           bg-transparent
 
-          px-5
+          site-gutter
           pb-7
           pt-12
 
-          sm:px-8
           sm:pt-14
 
-          lg:px-[3.5rem]
           lg:pb-8
           lg:pt-16
         "

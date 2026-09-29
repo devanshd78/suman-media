@@ -40,11 +40,9 @@ export function MediaCoverageSection({
         w-full
         max-w-full
         bg-white
-        px-5
+        site-gutter
         py-16
-        sm:px-8
         sm:py-20
-        lg:px-[3.5rem]
         lg:pb-[7rem]
         lg:pt-[6.25rem]
       "

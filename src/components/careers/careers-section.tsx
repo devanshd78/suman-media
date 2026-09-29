@@ -291,13 +291,10 @@ export async function CareersSection() {
 
           gap-[3.5rem]
 
-          px-5
+          site-gutter
           pb-10
           pt-16
 
-          sm:px-8
-
-          lg:px-[3.5rem]
           lg:pb-[3.5rem]
           lg:pt-[6.25rem]
         "
@@ -405,14 +402,11 @@ export async function CareersSection() {
 
           bg-[#111111]
 
-          px-5
+          site-gutter
           py-12
-
-          sm:px-8
 
           lg:flex-row
           lg:items-center
-          lg:px-[3.5rem]
           lg:py-[6.25rem]
         "
         style={{

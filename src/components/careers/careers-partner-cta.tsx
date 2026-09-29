@@ -39,7 +39,7 @@ export function CareersPartnerCta({
   return (
     <section
       aria-label="Partner with Suman Media"
-      className="relative mx-auto flex min-h-[24rem] w-full max-w-full flex-col items-end justify-between overflow-hidden px-5 py-8 sm:min-h-[30rem] sm:px-8 sm:py-10 lg:min-h-[32rem] lg:px-[3.5rem]"
+      className="site-gutter relative mx-auto flex min-h-[24rem] w-full max-w-full flex-col items-end justify-between overflow-hidden py-8 sm:min-h-[30rem] sm:py-10 lg:min-h-[32rem]"
     >
       <Image
         src={backgroundImage}

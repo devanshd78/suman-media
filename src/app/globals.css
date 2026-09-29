@@ -5,8 +5,35 @@
   --foreground: #18181b;
   --site-header-offset: 64px;
   --site-action-radius: 4px;
+  --site-gutter-x: 1.25rem;
+  --site-section-y: 4rem;
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+@media (min-width: 640px) {
+  :root {
+    --site-gutter-x: 2rem;
+    --site-section-y: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --site-gutter-x: 3.5rem;
+    --site-section-y: 6.25rem;
+  }
+}
+
+/* One gutter system for landing and internal marketing pages. */
+.site-gutter {
+  padding-inline: var(--site-gutter-x);
+}
+
+.site-section {
+  padding-inline: var(--site-gutter-x);
+  padding-block: var(--site-section-y);
 }
 
 @theme inline {

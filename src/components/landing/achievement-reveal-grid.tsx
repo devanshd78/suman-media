@@ -193,17 +193,15 @@ export function AchievementRevealGrid({
           z-0
           min-h-[33rem]
           w-full
-          px-6
+          site-gutter
           pb-[6.5rem]
           pt-7
 
           sm:min-h-[38rem]
-          sm:px-8
           sm:pb-[8rem]
           sm:pt-8
 
           lg:min-h-[47rem]
-          lg:px-[3.5rem]
           lg:pb-[10rem]
           lg:pt-10
         "

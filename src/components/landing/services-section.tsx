@@ -90,13 +90,12 @@ function PartnersStrip() {
         overflow-x-auto
         overscroll-x-contain
         bg-black
-        px-6
+        site-gutter
         py-10
 
 
         sm:min-h-[9rem]
         sm:gap-12
-        sm:px-8
         sm:py-12
 
         lg:min-h-[11rem]

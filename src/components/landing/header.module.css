@@ -139,7 +139,7 @@
 
   gap: 1rem;
 
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem var(--site-gutter-x);
 
   /* The Header owns the surface so hover/scrolled states remain seamless. */
   background: transparent;

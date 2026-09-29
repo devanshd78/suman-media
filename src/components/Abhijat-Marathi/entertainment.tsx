@@ -1051,7 +1051,7 @@ function ConnectedTvArtwork({
 
 const CONTENT_IMAGES = [
   "/images/ott/image1.png",
-  "/images/ott/image2.png",
+  "/images/ott/Image2.png",
   "/images/ott/image3.png",
   "/images/ott/image4.png",
   "/images/ott/image5.png",
@@ -1211,7 +1211,7 @@ function ContentAggregationArtwork({
 
 const SUBSCRIPTION_AVATARS = [
   "/images/ott/image1.png",
-  "/images/ott/image2.png",
+  "/images/ott/Image2.png",
   "/images/ott/image3.png",
   "/images/ott/image4.png",
   "/images/ott/image5.png",
@@ -1744,14 +1744,12 @@ export default function Entertainment() {
 
           gap-16
 
-          px-5
+          site-gutter
           py-16
 
-          md:px-8
           md:py-20
 
           lg:gap-[6.25rem]
-          lg:px-[3.5rem]
           lg:py-[6.25rem]
         "
       >

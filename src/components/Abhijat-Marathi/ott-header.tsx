@@ -390,16 +390,14 @@ export default function OttHeader({
 
           gap-12
 
-          px-5
+          site-gutter
           py-16
 
           md:gap-16
-          md:px-8
           md:py-20
 
           xl:h-[56rem]
           xl:gap-[6.25rem]
-          xl:px-[3.5rem]
           xl:py-[6.25rem]
         "
       >
