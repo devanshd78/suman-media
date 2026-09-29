@@ -319,7 +319,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "IPO & Investor Ecosystem",
 
-            href: "/about",
+            href: "/capitalmarket",
 
             subtext:
               "Investor Relations, Shareholder Communications, Digital Roadshow, Financial PR, Listed Company Communication",
@@ -329,7 +329,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "International Business & Global Partnership",
 
-            href: "/services",
+            href: "/capitalmarket",
 
             subtext:
               "Co-Productions, Film Festivals, International Markets, Global Distribution, Strategic Alliances, Market Representation",
