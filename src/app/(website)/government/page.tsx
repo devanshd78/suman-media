@@ -512,7 +512,7 @@ export default function Page() {
           max-width: none;
           min-height: 49.9375rem;
 
-          padding: 6.25rem 0 3.5rem;
+          padding: 0 0 3.5rem
 
           flex-direction: column;
           align-items: center;
@@ -1439,7 +1439,7 @@ export default function Page() {
 
           .hero {
             min-height: auto;
-            padding: 4rem 0 2.5rem;
+            padding: 0 0 2.5rem;
           }
 
           .hero-video-wrap {
