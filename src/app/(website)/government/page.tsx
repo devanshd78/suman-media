@@ -23,7 +23,7 @@ const VIDEO_SRC =
 
 const capabilities = [
   {
-    title: "AI Content Archiving",
+    title: "AI Content Archiving.",
     description:
       "Exploring intelligent ways to organise, preserve and retrieve large content libraries.",
   },
