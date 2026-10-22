@@ -371,6 +371,7 @@ const INVESTOR: FooterLink[] = [
 ];
 
 const SERVICES: FooterLink[] = [
+  { label: "Brand Solutions & Advertising", href: "/services/brand-solutions-advertising" },
   {
     label: "Media & Content Production",
     href: "/services/media-content-production",
@@ -389,7 +390,7 @@ const SERVICES: FooterLink[] = [
   },
   {
     label: "Content and Music Library Management",
-    href: "/services/content-music-library-management",
+    href: "/products/content-music-library",
   },
   {
     label: "Publication & Knowledge Platforms",
