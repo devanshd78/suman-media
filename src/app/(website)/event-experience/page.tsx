@@ -4,27 +4,27 @@ import Image from "next/image";
 export default function EventPage() {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-white">
-      {/* Top Background Color Grading & Noise Texture */}
+      {/* Top Background Color Grading & Grain Texture */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[550px] z-0"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[540px] z-0"
         style={{
           background: `
-            radial-gradient(80% 90% at 95% 0%, rgba(108, 99, 255, 0.48) 0%, rgba(165, 158, 255, 0.22) 45%, rgba(255, 255, 255, 0) 100%),
-            radial-gradient(60% 80% at 15% 0%, rgba(210, 208, 255, 0.45) 0%, rgba(255, 255, 255, 0) 80%),
-            linear-gradient(180deg, #ECEBFF 0%, #FFFFFF 100%)
+            radial-gradient(55% 95% at 96% 12%, rgba(88, 70, 228, 0.78) 0%, rgba(138, 125, 245, 0.42) 48%, rgba(255, 255, 255, 0) 100%),
+            radial-gradient(75% 85% at 20% 0%, rgba(202, 198, 252, 0.65) 0%, rgba(235, 233, 255, 0.35) 55%, rgba(255, 255, 255, 0) 95%),
+            linear-gradient(180deg, #E2DFFF 0%, #F4F3FF 62%, #FFFFFF 100%)
           `,
         }}
       >
-        {/* Subtle SVG Noise Overlay to match the grainy gradient look */}
+        {/* Grainy Noise Overlay matching reference */}
         <div
-          className="absolute inset-0 opacity-[0.18] mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.28] mix-blend-overlay"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           }}
         />
       </div>
 
-      {/* Main Content Container */}
+      {/* Main Content Section */}
       <section
         className="relative z-10 w-full"
         style={{
@@ -36,15 +36,16 @@ export default function EventPage() {
           alignSelf: "stretch",
         }}
       >
-        {/* Top Header Split Section */}
+        {/* Header Split Row */}
         <div className="flex w-full flex-col justify-between gap-8 lg:flex-row lg:items-start">
-          {/* Left Column: Category & Main Heading */}
+          {/* Left Side: Category + Main Heading */}
           <div className="flex max-w-[34rem] flex-col gap-[0.25rem]">
             <span
               style={{
                 color: "var(--Light-Border-Text-Primary, #1A1A1A)",
                 fontFeatureSettings: "'liga' off, 'clig' off",
-                fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
+                fontFamily:
+                  'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
                 fontSize: "var(--Font-size-Tiny, 0.875rem)",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -59,7 +60,8 @@ export default function EventPage() {
               style={{
                 color: "var(--Light-Border-Selected, #1A1A1A)",
                 fontFeatureSettings: "'liga' off, 'clig' off",
-                fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
+                fontFamily:
+                  'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
                 fontSize: "var(--Font-size-Heading-1, 2.5rem)",
                 fontStyle: "normal",
                 fontWeight: 600,
@@ -71,13 +73,14 @@ export default function EventPage() {
             </h1>
           </div>
 
-          {/* Right Column: Description & Action Button */}
+          {/* Right Side: Description + Button */}
           <div className="flex max-w-[36rem] flex-col items-start gap-[1rem]">
             <p
               style={{
                 color: "var(--Light-Border-Text-Primary, #1A1A1A)",
                 fontFeatureSettings: "'liga' off, 'clig' off",
-                fontFamily: 'var(--Font-family-Body, "Plus Jakarta Sans", sans-serif)',
+                fontFamily:
+                  'var(--Font-family-Body, "Plus Jakarta Sans", sans-serif)',
                 fontSize: "var(--Font-size-Small, 1rem)",
                 fontStyle: "normal",
                 fontWeight: 400,
@@ -85,9 +88,9 @@ export default function EventPage() {
                 opacity: 0.75,
               }}
             >
-              From concerts and cultural festivals to corporate gatherings and public
-              engagement programs, we create opportunities for people, brands and
-              communities to connect.
+              From concerts and cultural festivals to corporate gatherings and
+              public engagement programs, we create opportunities for people,
+              brands and communities to connect.
             </p>
 
             {/* Plan an Event Button */}
@@ -136,11 +139,12 @@ export default function EventPage() {
           </div>
         </div>
 
-        {/* Hero Image Container */}
+        {/* Full-Width Hero Image Container */}
         <div
-          className="relative w-full overflow-hidden"
+          className="relative w-full self-stretch overflow-hidden"
           style={{
             display: "flex",
+            width: "100%",
             padding: "0 var(--Spacing-0, 0)",
             justifyContent: "center",
             alignItems: "center",
@@ -148,14 +152,14 @@ export default function EventPage() {
             borderRadius: "var(--Corner-radius-12, 0.75rem)",
           }}
         >
-          {/* In Next.js, files inside `public/` are referenced from the root `/` */}
           <Image
             src="/images/event/Image1.png"
             alt="Crowd enjoying an event"
-            width={1440}
-            height={720}
+            width={1920}
+            height={960}
+            sizes="100vw"
             priority
-            className="h-auto w-full object-cover"
+            className="block h-auto w-full object-cover"
           />
         </div>
       </section>
