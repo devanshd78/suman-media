@@ -394,23 +394,6 @@ const CLOSE_DELAY_MS = 140;
 const TOP_THRESHOLD_PX = 24;
 const DIRECTION_TRIGGER_PX = 12;
 
-/* ============================================================
-   HEADER MODES
-
-   overlay:
-   - transparent over a page hero at the very top
-   - light Contact us button at the very top
-   - hides directly when scrolling down
-   - returns as the solid header when scrolling up
-
-   solid:
-   - white header from the first render
-   - gold Contact us button at all times
-
-   Add any full-bleed hero route that needs the overlay treatment here.
-   Article/detail pages are intentionally not matched by prefix.
-   ============================================================ */
-
 export type HeaderVariant =
   | "auto"
   | "overlay"
@@ -427,6 +410,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/intellectual-property-development",
   "/products/content-music-library",
   "/services/brand-solutions-advertising",
+  "/event-experience",
 ]);
 
 const LIGHT_HERO_HEADER_ROUTES = new Set([
