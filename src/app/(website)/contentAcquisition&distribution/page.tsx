@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ContentMovement } from "./content-movement";
 import { ContentShowcase } from "./content-showcase";
-import NewsSection from "@/components/monetization/news-section";
+import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import {
   useCallback,
   useEffect,
@@ -312,7 +312,7 @@ export default function ContentDistributionPage() {
 
       <ContentMovement />
       <ContentShowcase />
-      <NewsSection articleLinkOverride="/news-and-blogs" />
+      <NewsBlogsSection revealText />
 
       <style jsx>{`
         .content-page {

@@ -133,14 +133,14 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Publication & Knowledge Platforms",
 
-            href: "/contentAcquisition&distribution",
+            href: "/products/publication-knowledge-platforms",
           },
 
           {
             label:
               "Intellectual Property Development",
 
-            href: "/contentAcquisition&distribution",
+            href: "/products/intellectual-property-development",
           },
         ],
       },
@@ -229,14 +229,14 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Publication & Knowledge Platforms",
 
-            href: "/services",
+            href: "/products/publication-knowledge-platforms",
           },
 
           {
             label:
               "Intellectual Property Development",
 
-            href: "/services",
+            href: "/products/intellectual-property-development",
           },
         ],
       },
@@ -422,6 +422,8 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/abhijat-marathi",
   "/monetization",
   "/products/fast-channel",
+  "/products/publication-knowledge-platforms",
+  "/products/intellectual-property-development",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
@@ -1763,7 +1765,7 @@ export function Header({
           >
             <SumanLogo
               inverse={
-                transparentAtTop && pathname !== "/monetization"
+                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms"
               }
             />
           </Link>

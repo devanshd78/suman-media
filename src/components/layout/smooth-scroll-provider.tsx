@@ -65,6 +65,9 @@ export function SmoothScrollProvider({
         wheelMultiplier: 1,
         touchMultiplier: 1,
         stopInertiaOnNavigate: true,
+        // Read the actual document extent after streamed content, image loads,
+        // and route changes instead of clamping to a stale measured bottom.
+        naiveDimensions: true,
       });
 
       lenisRef.current = lenis;

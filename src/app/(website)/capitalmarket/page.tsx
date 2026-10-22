@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import NewsSection from "@/components/monetization/news-section";
+import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import CapitalMarketSections from "./capital-market-sections";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -272,7 +272,7 @@ export default function CapitalMarketsPage() {
       </section>
 
       <CapitalMarketSections />
-      <NewsSection />
+      <NewsBlogsSection revealText />
 
       <style jsx>{`
         :global(*) {

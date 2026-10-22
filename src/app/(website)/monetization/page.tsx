@@ -1,7 +1,7 @@
 import MonetisationHeader from "@/components/monetization/header";
 import MiddlePage from "@/components/monetization/middlepage";
 import Content from "@/components/monetization/content";
-import NewsSection from "@/components/monetization/news-section";
+import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
 export default function MonetisationPage() {
   return (
@@ -9,7 +9,7 @@ export default function MonetisationPage() {
       <MonetisationHeader />
       <MiddlePage />
       <Content />
-      <NewsSection />
+      <NewsBlogsSection revealText />
     </>
   );
 }

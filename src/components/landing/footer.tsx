@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { IntersectionReveal } from "@/components/motion/intersection-reveal";
 
@@ -392,11 +393,11 @@ const SERVICES: FooterLink[] = [
   },
   {
     label: "Publication & Knowledge Platforms",
-    href: "/services/publication-knowledge-platforms",
+    href: "/products/publication-knowledge-platforms",
   },
   {
     label: "Intellectual Property Development",
-    href: "/services/intellectual-property-development",
+    href: "/products/intellectual-property-development",
   },
   {
     label: "Talent and Creator Ecosystem",
@@ -952,16 +953,6 @@ export function Footer({
   return (
     <footer
       data-motion-managed
-      /*
-       * IMPORTANT:
-       *
-       * Lenis does not take ownership of wheel movement while
-       * the mouse is over the footer.
-       *
-       * Native document scrolling therefore remains available
-       * all the way to the true bottom of the page.
-       */
-      data-lenis-prevent-wheel
       className="
         relative
         isolate
@@ -982,6 +973,15 @@ export function Footer({
           "auto",
       }}
     >
+      <Image
+        src="/images/footer/warli-artwork.png"
+        alt=""
+        aria-hidden="true"
+        width={516}
+        height={477}
+        unoptimized
+        className="pointer-events-none absolute right-0 top-0 -z-10 h-auto w-[32.25rem] max-w-[70%] select-none opacity-100"
+      />
       {/* =====================================================
           MAIN FOOTER
           ===================================================== */}
