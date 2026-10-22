@@ -126,7 +126,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Content and Music Library Management",
 
-            href: "/contentAcquisition&distribution",
+            href: "/products/content-music-library",
           },
 
           {
@@ -218,11 +218,12 @@ const NAV_MENUS: NavMenu[] = [
           "Marketing and Brand Services",
 
         entries: [
+          { label: "Brand Solutions & Advertising", href: "/services/brand-solutions-advertising" },
           {
             label:
               "Content and Music Library Management",
 
-            href: "/services",
+            href: "/products/content-music-library",
           },
 
           {
@@ -424,6 +425,13 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/fast-channel",
   "/products/publication-knowledge-platforms",
   "/products/intellectual-property-development",
+  "/products/content-music-library",
+  "/services/brand-solutions-advertising",
+]);
+
+const LIGHT_HERO_HEADER_ROUTES = new Set([
+  "/products/content-music-library",
+  "/services/brand-solutions-advertising",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
@@ -964,8 +972,11 @@ export function Header({
     usesOverlayHeader &&
     !solidSurfaceVisible;
 
+  const lightHeroAtTop =
+    transparentAtTop && LIGHT_HERO_HEADER_ROUTES.has(pathname);
+
   const topTextColor =
-    transparentAtTop
+    transparentAtTop && !lightHeroAtTop
       ? "#FFFFFF"
       : "#1A1A1A";
 
@@ -1765,7 +1776,7 @@ export function Header({
           >
             <SumanLogo
               inverse={
-                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms"
+                transparentAtTop && !lightHeroAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms"
               }
             />
           </Link>
@@ -2009,7 +2020,9 @@ export function Header({
                   topTextColor,
 
                 borderColor:
-                  transparentAtTop
+                  lightHeroAtTop
+                    ? "rgba(26,26,26,0.3)"
+                    : transparentAtTop
                     ? "rgba(255,255,255,0.45)"
                     : undefined,
 
