@@ -15,6 +15,7 @@ const staticPaths = [
   "/products/fast-channel",
   "/products/content-music-library",
   "/services/brand-solutions-advertising",
+  "/solutions/government-institutional",
   "/products/publication-knowledge-platforms",
   "/products/intellectual-property-development",
   "/contact",

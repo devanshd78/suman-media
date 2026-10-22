@@ -29,7 +29,7 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
   const cta = isIp ? "Discuss an IP Opportunity" : "Discuss a Publishing Project";
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${isIp ? "" : styles.publicationPage}`}>
       <section className={`${styles.hero} ${isIp ? styles.ipHero : styles.publicationHero} site-gutter`} aria-labelledby="product-heading">
         <Image src={`/images/knowledge-ip/${kind}-hero.png`} alt="" fill sizes="100vw" preload unoptimized className={styles.heroImage} />
         <div className={styles.heroContent}>
@@ -41,6 +41,10 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
           <Link className={`${styles.action} ${styles.heroAction}`} href="/contact/form">{cta}<ChevronRight /></Link>
         </div>
       </section>
+
+      {!isIp && <div className={styles.officePhoto}>
+        <Image src="/images/knowledge-ip/publication-office.jpg" alt="An editorial team collaborating in a shared office" width={1440} height={628} sizes="100vw" />
+      </div>}
 
       {isIp ? (
         <section className={`${styles.potential} site-section`} aria-labelledby="potential-heading">
@@ -85,9 +89,9 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
         </div>
         <Link className={`${styles.action} ${styles.goldAction}`} href="/contact/form">{isIp ? cta : "Discuss a Project"}<ChevronRight /></Link>
       </section>
-      <NewsBlogsSection />
-      <section className={`${styles.contactBanner} site-section`} aria-labelledby="licensing-heading">
-        <Image src="/images/knowledge-ip/ip-hero.png" alt="" fill sizes="100vw" unoptimized className={styles.heroImage} />
+      <NewsBlogsSection eyebrow="Latest Announcements" heading="News" />
+      <section className={styles.contactBanner} aria-labelledby="licensing-heading">
+        <Image src="/images/brand-library/library-contact.jpg" alt="" fill sizes="100vw" className={styles.contactImage} />
         <h2 id="licensing-heading" className={styles.subheading}>{"Looking for Content or\nLicensing Opportunities?"}</h2>
         <Link href="/contact/form" className={`${styles.action} ${styles.heroAction}`}>Contact us <ChevronRight /></Link>
       </section>

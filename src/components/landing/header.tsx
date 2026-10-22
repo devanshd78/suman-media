@@ -297,7 +297,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Govt, PSU & Institutional Solutions",
 
-            href: "/services",
+            href: "/solutions/government-institutional",
 
             sublines: [
               "State/Central Government Empanelment",
@@ -427,7 +427,6 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/intellectual-property-development",
   "/products/content-music-library",
   "/services/brand-solutions-advertising",
-  "/event-experience",
 ]);
 
 const LIGHT_HERO_HEADER_ROUTES = new Set([
@@ -973,11 +972,8 @@ export function Header({
     usesOverlayHeader &&
     !solidSurfaceVisible;
 
-  const lightHeroAtTop =
-    transparentAtTop && LIGHT_HERO_HEADER_ROUTES.has(pathname);
-
-  const topTextColor =
-    transparentAtTop && !lightHeroAtTop
+const topTextColor =
+    transparentAtTop
       ? "#FFFFFF"
       : "#1A1A1A";
 
@@ -1777,7 +1773,7 @@ export function Header({
           >
             <SumanLogo
               inverse={
-                transparentAtTop && !lightHeroAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms"
+                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms" && pathname !== "/products/intellectual-property-development" && pathname !== "/solutions/government-institutional"
               }
             />
           </Link>
@@ -2021,9 +2017,7 @@ export function Header({
                   topTextColor,
 
                 borderColor:
-                  lightHeroAtTop
-                    ? "rgba(26,26,26,0.3)"
-                    : transparentAtTop
+                  transparentAtTop
                     ? "rgba(255,255,255,0.45)"
                     : undefined,
 
