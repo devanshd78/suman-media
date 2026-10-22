@@ -297,7 +297,7 @@ const NAV_MENUS: NavMenu[] = [
             label:
               "Govt, PSU & Institutional Solutions",
 
-            href: "/services",
+            href: "/solutions/government-institutional",
 
             sublines: [
               "State/Central Government Empanelment",
@@ -425,6 +425,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/fast-channel",
   "/products/publication-knowledge-platforms",
   "/products/intellectual-property-development",
+  "/solutions/government-institutional",
 ]);
 
 function routeUsesOverlayHeader(pathname: string) {
@@ -1766,7 +1767,7 @@ const topTextColor =
           >
             <SumanLogo
               inverse={
-                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms" && pathname !== "/products/intellectual-property-development"
+                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms" && pathname !== "/products/intellectual-property-development" && pathname !== "/solutions/government-institutional"
               }
             />
           </Link>

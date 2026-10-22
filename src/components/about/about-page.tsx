@@ -37,6 +37,7 @@ type CarouselProps = {
   className?: string;
   controls?: boolean;
   dots?: boolean;
+  labels?: string[];
 };
 
 type TimelineItem = {
@@ -286,7 +287,7 @@ function ArrowIcon({ left = false }: { left?: boolean }) {
       className={left ? styles.arrowIconLeft : styles.arrowIcon}
     >
       <path
-        d="M4 10h12M11 5l5 5-5 5"
+        d="M7 4l6 6-6 6"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
@@ -311,7 +312,7 @@ function useCarouselActiveIndex(
 
     const update = () => {
       frame = 0;
-      const center = rail.scrollLeft + rail.clientWidth / 2;
+      const center = rail.scrollLeft;
       const items = Array.from(
         rail.querySelectorAll<HTMLElement>("[data-carousel-item]"),
       );
@@ -320,7 +321,7 @@ function useCarouselActiveIndex(
       let closestDistance = Number.POSITIVE_INFINITY;
 
       items.forEach((item, index) => {
-        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+        const itemCenter = Math.min(item.offsetLeft - (items[0]?.offsetLeft ?? 0), rail.scrollWidth - rail.clientWidth);
         const distance = Math.abs(itemCenter - center);
         if (distance < closestDistance) {
           closestDistance = distance;
@@ -358,18 +359,28 @@ function DragCarousel({
   className = "",
   controls = true,
   dots = true,
+  labels,
 }: CarouselProps) {
   const items = useMemo(() => Children.toArray(children), [children]);
   const railRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion() === true;
-  const [activeIndex, setActiveIndex] = useCarouselActiveIndex(
+  const [activeIndex] = useCarouselActiveIndex(
     railRef,
     items.length,
   );
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const paused = hovered || focused || dragging;
+  const [manuallyPaused, setManuallyPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const paused = hovered || focused || dragging || manuallyPaused || !visible;
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(rail);
+    return () => observer.disconnect();
+  }, []);
   const pointerState = useRef({
     id: -1,
     startX: 0,
@@ -387,10 +398,10 @@ function DragCarousel({
       ];
       if (!item) return;
 
-      rail.scrollTo({ left: item.offsetLeft, behavior });
-      setActiveIndex(normalized);
+      const first = rail.querySelector<HTMLElement>("[data-carousel-item]");
+      rail.scrollTo({ left: item.offsetLeft - (first?.offsetLeft ?? 0), behavior: reducedMotion ? "instant" : behavior });
     },
-    [items.length, setActiveIndex],
+    [items.length, reducedMotion],
   );
 
   useEffect(() => {
@@ -398,7 +409,10 @@ function DragCarousel({
     if (items.length < 2) return;
 
     const timer = window.setInterval(() => {
-      scrollToIndex((activeIndex + 1) % items.length);
+      const rail = railRef.current;
+      if (document.hidden || !rail) return;
+      const atEnd = rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 2;
+      scrollToIndex(atEnd ? 0 : activeIndex + 1);
     }, autoplayMs);
 
     return () => window.clearInterval(timer);
@@ -406,7 +420,7 @@ function DragCarousel({
 
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     const rail = railRef.current;
-    if (!rail) return;
+    if (!rail || event.button !== 0 || event.pointerType === "touch") return;
 
     pointerState.current = {
       id: event.pointerId,
@@ -443,10 +457,16 @@ function DragCarousel({
   return (
     <div
       className={`${styles.carousel} ${className}`}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => {
+        setHovered(true);
+        const rail = railRef.current;
+        rail?.scrollTo({ left: rail.scrollLeft, behavior: "instant" });
+      }}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)}
-      onBlurCapture={() => setFocused(false)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
+      }}
     >
       <div
         ref={railRef}
@@ -460,6 +480,8 @@ function DragCarousel({
         onPointerMove={onPointerMove}
         onPointerUp={finishPointer}
         onPointerCancel={finishPointer}
+        onLostPointerCapture={finishPointer}
+        onDragStart={(event) => event.preventDefault()}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") {
             event.preventDefault();
@@ -485,7 +507,10 @@ function DragCarousel({
         ))}
       </div>
 
-      {(controls || dots) && items.length > 1 ? (
+      {labels ? <div className={styles.timelineNavigation} aria-label="Timeline years">
+        {labels.map((label, index) => <button key={label} type="button" aria-current={activeIndex === index ? "step" : undefined} onClick={() => scrollToIndex(index)}>{label}</button>)}
+      </div> : null}
+      {(controls || dots || autoplayMs) && items.length > 1 ? (
         <div className={styles.carouselControls}>
           {dots ? (
             <div className={styles.carouselDots} aria-label="Slide position">
@@ -505,6 +530,7 @@ function DragCarousel({
             <span />
           )}
 
+          {autoplayMs && !reducedMotion ? <button className={styles.pauseButton} type="button" onClick={() => setManuallyPaused(!manuallyPaused)} aria-label={manuallyPaused ? "Play slideshow" : "Pause slideshow"}>{manuallyPaused ? "Play" : "Pause"}</button> : null}
           {controls ? (
             <div className={styles.carouselArrows}>
               <button
@@ -629,7 +655,7 @@ function StickyGlobalReach() {
   );
 
   // The whole white Global Reach composition stays sticky, then crossfades
-  // into the muted cinematic video without showing the partner-logo strip.
+  // into the muted cinematic video before the partner-logo strip.
   const whiteOpacity = useTransform(progress, [0, 0.6, 0.7], [1, 1, 0]);
   const whiteScale = useTransform(progress, [0, 0.62, 0.7], [1, 1, 0.992]);
   const videoOpacity = useTransform(progress, [0.64, 0.74], [0, 1]);
@@ -637,53 +663,32 @@ function StickyGlobalReach() {
   const videoTitleOpacity = useTransform(progress, [0.72, 0.82], [0, 1]);
   const videoTitleY = useTransform(progress, [0.72, 0.84], [18, 0]);
 
-  // Muted autoplay is normally allowed by browsers, but Safari/Chrome may still
-  // defer playback while a sticky layer is off-screen. Retry when the file can
-  // play and whenever the tab becomes visible again.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
-
-    video.muted = true;
-    video.defaultMuted = true;
-
-    const startPlayback = () => {
-      const promise = video.play();
-      if (promise) promise.catch(() => undefined);
+    const stage = stageRef.current;
+    if (!video || !stage || reducedMotion) return;
+    let inView = false;
+    const syncPlayback = () => {
+      if (inView && !document.hidden && progress.get() >= 0.62) {
+        video.play().catch(() => undefined);
+      } else video.pause();
     };
-
-    const handleVisibility = () => {
-      if (document.visibilityState === "visible") startPlayback();
-    };
-
-    startPlayback();
-    video.addEventListener("canplay", startPlayback);
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      video.removeEventListener("canplay", startPlayback);
-      document.removeEventListener("visibilitychange", handleVisibility);
-    };
-  }, []);
-
-  // Restart the film exactly when the white Global Reach story starts handing
-  // off to the cinematic stage, so the transition never lands mid-video.
-  useEffect(() => {
-    let hasEnteredVideo = false;
-    return progress.on("change", (value) => {
-      const video = videoRef.current;
-      if (!video) return;
-
-      if (value >= 0.62 && !hasEnteredVideo) {
-        hasEnteredVideo = true;
-        video.currentTime = 0;
-        const promise = video.play();
-        if (promise) promise.catch(() => undefined);
-      } else if (value < 0.56) {
-        hasEnteredVideo = false;
-      }
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncPlayback();
     });
-  }, [progress]);
+    observer.observe(stage);
+    const unsubscribe = progress.on("change", syncPlayback);
+    document.addEventListener("visibilitychange", syncPlayback);
+    video.addEventListener("canplay", syncPlayback);
+    return () => {
+      observer.disconnect();
+      unsubscribe();
+      document.removeEventListener("visibilitychange", syncPlayback);
+      video.removeEventListener("canplay", syncPlayback);
+      video.pause();
+    };
+  }, [progress, reducedMotion]);
 
   return (
     <section
@@ -710,7 +715,7 @@ function StickyGlobalReach() {
                 It&apos;s why we do it.
               </h2>
               <p>
-                Our work sits at the intersection of [industry expertise], innovation and human
+                Our work sits at the intersection of media expertise, innovation and human
                 needs—helping us create solutions that are relevant today and built for tomorrow.
               </p>
             </div>
@@ -775,19 +780,14 @@ function StickyGlobalReach() {
           <video
             ref={videoRef}
             className={styles.globalVideo}
-            autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             poster="/images/about/global-reach-story.webp"
             aria-hidden="true"
             tabIndex={-1}
-            onLoadedMetadata={(event) => {
-              event.currentTarget.muted = true;
-              const promise = event.currentTarget.play();
-              if (promise) promise.catch(() => undefined);
-            }}
+
           >
             <source src="/videos/mediaVideo1.mp4" type="video/mp4" />
             <source src="/videos/MediaVedio1.mp4" type="video/mp4" />
@@ -823,6 +823,7 @@ function statRevealVisible() {
 }
 
 function MissionSection() {
+  const reducedMotion = useReducedMotion();
   const stats: Array<{ value: number; prefix?: string; suffix?: string; label: string }> = [
     { value: 100, suffix: "+", label: "Projects delivered" },
     { value: 50, suffix: "mn", label: "People reached" },
@@ -847,7 +848,7 @@ function MissionSection() {
             <motion.div
               className={styles.statItem}
               key={stat.label}
-              initial={statRevealInitial()}
+              initial={reducedMotion ? false : statRevealInitial()}
               whileInView={statRevealVisible()}
               viewport={{ once: true, amount: 0.45 }}
               transition={{
@@ -869,6 +870,11 @@ function MissionSection() {
           ))}
         </dl>
       </div>
+      <DragCarousel ariaLabel="Suman Entertainment moments" autoplayMs={3200} controls={false} dots={false} className={styles.missionCarousel}>
+        {[1, 2, 3, 4].map((number) => <figure key={number} className={styles.missionImage}>
+          <Image src={`/images/about/mission-0${number}.webp`} alt={`Suman Entertainment event moment ${number}`} fill sizes="(min-width: 768px) 33vw, 80vw" className={styles.coverImage} />
+        </figure>)}
+      </DragCarousel>
     </section>
   );
 }
@@ -876,23 +882,18 @@ function MissionSection() {
 function TimelineSection() {
   return (
     <section className={`${styles.timelineSection} site-section`}>
-      <div className={styles.timelineHeadingRow}>
-        <div>
-          <SectionEyebrow dark>OUR JOURNEY</SectionEyebrow>
-          <h2 className={styles.darkHeading}>
-            From where we started to where we&apos;re going.
-          </h2>
-        </div>
-        <p className={styles.timelineSubheading}>
-          Every milestone has shaped the organization we are today.
-        </p>
-      </div>
-
       <DragCarousel
         ariaLabel="Suman Entertainment interactive timeline"
         autoplayMs={5600}
         className={styles.timelineCarousel}
+        controls={false}
+        labels={["Start", ...TIMELINE.map((item) => item.year)]}
       >
+        <article className={styles.timelineIntro}>
+          <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-intro-left.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
+          <div><h2>From where we started to where we&apos;re going.</h2><p>Every milestone has shaped the organization we are today.</p></div>
+          <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-intro-right.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
+        </article>
         {TIMELINE.map((item) => (
           <article className={styles.timelineSlide} key={item.year}>
             <div className={styles.timelineCopy}>
@@ -920,7 +921,6 @@ function LeadershipSection() {
     <section id="leadership" className={`${styles.leadershipSection} site-section`}>
       <div className={styles.leadershipHeading}>
         <div>
-          <SectionEyebrow dark>LEADERSHIP</SectionEyebrow>
           <h2 className={styles.darkHeading}>The people shaping our next chapter.</h2>
         </div>
         <p>
@@ -949,6 +949,10 @@ function LeadershipSection() {
             </a>
           </div>
         </article>
+        {Array.from({ length: 7 }, (_, index) => <article className={styles.leaderCard} key={index}>
+          <div className={styles.leaderPlaceholder} aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#ccc"/><circle cx="100" cy="78" r="34" fill="#999"/><path d="M40 166a60 60 0 0 1 120 0" fill="#999"/></svg></div>
+          <div className={styles.leaderMeta}><h3>Leadership team</h3><p>Profile coming soon</p></div>
+        </article>)}
       </div>
     </section>
   );
@@ -959,7 +963,6 @@ function NotablePersonalitiesSection() {
     <section className={`${styles.notableSection} site-section`}>
       <div className={styles.sectionHeadingRow}>
         <div>
-          <SectionEyebrow>PEOPLE &amp; CULTURE</SectionEyebrow>
           <h2 className={styles.sectionHeading}>Notable personalities</h2>
         </div>
         <p>Selected moments from the Suman Entertainment archive.</p>
@@ -996,7 +999,7 @@ function GovernmentSection() {
       <div className={styles.governmentHeading}>
         <SectionEyebrow>AWARDS AND RECOGNITIONS</SectionEyebrow>
         <h2 className={styles.sectionHeading}>
-          Empaneled with the Government of Maharashtra
+          Empaneled with the<br /> Government of Maharashtra
         </h2>
         <p>
           Abhijat Marathi OTT is Maharashtra&apos;s first dedicated regional streaming
@@ -1077,6 +1080,7 @@ export function AboutPageContent({
       <AboutHero />
       <AboutIntro />
       <StickyGlobalReach />
+      <div className={styles.partnersStrip}><Image src="/images/about/partners-strip.webp" alt="Laminar, AWS, Festival de Cannes, Zee Marathi and Government of Maharashtra" width={710} height={130} sizes="(min-width: 768px) 710px, 92vw" /></div>
       <MissionSection />
       <TimelineSection />
       <LeadershipSection />
