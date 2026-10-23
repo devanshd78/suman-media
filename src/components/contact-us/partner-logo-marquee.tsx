@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import styles from "./contact-page.module.css";
 
@@ -16,7 +19,7 @@ const PARTNER_LOGOS = [
 ] as const;
 
 function PartnerLogoRow({ duplicate = false }: { duplicate?: boolean }) {
-  return (
+  return <LocalizedContent>{(
     <div
       className={styles.logoRow}
       aria-hidden={duplicate ? "true" : undefined}
@@ -37,16 +40,16 @@ function PartnerLogoRow({ duplicate = false }: { duplicate?: boolean }) {
         </div>
       ))}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 export function PartnerLogoMarquee() {
-  return (
+  return <LocalizedContent>{(
     <div className={`${styles.marquee} h-[6.25rem] w-full`}>
       <div className={styles.marqueeTrack}>
         <PartnerLogoRow />
         <PartnerLogoRow duplicate />
       </div>
     </div>
-  );
+  )}</LocalizedContent>;
 }

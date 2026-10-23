@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
@@ -36,7 +38,7 @@ export function CareersPartnerCta({
   const heading = content?.heading?.trim() || FALLBACK_HEADING;
   const backgroundImage = content?.imageUrl?.trim() || FALLBACK_IMAGE;
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-label="Partner with Suman Media"
       className="site-gutter relative mx-auto flex min-h-[24rem] w-full max-w-full flex-col items-end justify-between overflow-hidden py-8 sm:min-h-[30rem] sm:py-10 lg:min-h-[32rem]"
@@ -71,5 +73,5 @@ export function CareersPartnerCta({
         </Link>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { Children, cloneElement, isValidElement, useRef, type CSSProperties, type ReactNode } from "react";
 import { motion, useScroll, type MotionStyle } from "framer-motion";
 import styles from "./scroll-text-reveal.module.css";
@@ -69,7 +71,7 @@ export default function ScrollReveal({ children }: { children: ReactNode }) {
   }
 
   // One Motion value per text block drives all characters without per-letter hooks.
-  return (
+  return <LocalizedContent>{(
     <motion.span
       ref={ref}
       data-text-reveal="blur"
@@ -81,6 +83,6 @@ export default function ScrollReveal({ children }: { children: ReactNode }) {
     >
       {splitCharacters(children)}
     </motion.span>
-  );
+  )}</LocalizedContent>;
 }
 

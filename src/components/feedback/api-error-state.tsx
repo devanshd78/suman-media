@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { ErrorState } from "@/components/states/error-state";
 import { isApiClientError } from "@/lib/api/client";
 
@@ -71,7 +73,7 @@ type ApiErrorStateProps = {
 export function ApiErrorState({ error, onRetry, compact }: ApiErrorStateProps) {
   if (isApiClientError(error)) {
     const copy = errorCopy[error.code as keyof typeof errorCopy];
-    return (
+    return <LocalizedContent>{(
       <ErrorState
         title={copy?.title ?? "Request failed"}
         description={copy?.description ?? error.message}
@@ -79,8 +81,8 @@ export function ApiErrorState({ error, onRetry, compact }: ApiErrorStateProps) {
         onRetry={onRetry}
         compact={compact}
       />
-    );
+    )}</LocalizedContent>;
   }
 
-  return <ErrorState onRetry={onRetry} compact={compact} />;
+  return <LocalizedContent>{<ErrorState onRetry={onRetry} compact={compact} />}</LocalizedContent>;
 }

@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import type { CmsHomePage } from "@/types/cms";
 
 import { ParallaxBlackSection } from "@/components/motion/parallax-black-section";
@@ -34,7 +36,7 @@ type LandingPageProps = {
 export function LandingPage({
   home,
 }: LandingPageProps) {
-  return (
+  return <LocalizedContent>{(
     <main
       data-landing-page
       className="
@@ -224,5 +226,5 @@ export function LandingPage({
         />
       </ParallaxBlackSection>
     </main>
-  );
+  )}</LocalizedContent>;
 }

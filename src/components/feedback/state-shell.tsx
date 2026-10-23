@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import type { ReactNode } from "react";
 
 type StateShellProps = {
@@ -19,7 +22,7 @@ export function StateShell({
   role = "status",
   compact = false,
 }: StateShellProps) {
-  return (
+  return <LocalizedContent>{(
     <section
       role={role}
       className={`mx-auto flex w-full max-w-xl flex-col items-center justify-center px-6 text-center ${compact ? "min-h-48 py-8" : "min-h-72 py-12"}`}
@@ -40,5 +43,5 @@ export function StateShell({
       ) : null}
       {action ? <div className="mt-6">{action}</div> : null}
     </section>
-  );
+  )}</LocalizedContent>;
 }

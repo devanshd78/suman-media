@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useEffect, useRef, type ReactNode } from "react";
 import styles from "./intersection-reveal.module.css";
 
@@ -19,5 +21,5 @@ export function IntersectionReveal({ children, className = "" }: { children: Rea
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
-  return <div ref={ref} data-motion-managed className={`${styles.reveal} ${className}`}>{children}</div>;
+  return <LocalizedContent>{<div ref={ref} data-motion-managed className={`${styles.reveal} ${className}`}>{children}</div>}</LocalizedContent>;
 }

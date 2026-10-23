@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 // Vector artwork from the supplied reference. Path coordinates and alpha
 // gradients are preserved; layout sizing belongs to IndustriesSection.
 
@@ -13,7 +16,7 @@ const ENTERTAINMENT_BOX_SIZES = [
 ] as const;
 
 export function EntertainmentArtwork() {
-  return (
+  return <LocalizedContent>{(
     <div className="relative h-full w-full">
       {ENTERTAINMENT_BOX_SIZES.map((size) => (
         <span
@@ -26,7 +29,7 @@ export function EntertainmentArtwork() {
         />
       ))}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -123,7 +126,7 @@ export function BrandsArtwork() {
    ============================================================ */
 
 export function InvestorsArtwork() {
-  return (
+  return <LocalizedContent>{(
     <div className="flex h-full w-full flex-col justify-between">
       <svg
         viewBox="0 0 283 155"
@@ -185,7 +188,7 @@ export function InvestorsArtwork() {
         </defs>
       </svg>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -234,7 +237,7 @@ export function PublicSectorArtwork() {
    ============================================================ */
 
 function CreatorSquarePaths() {
-  return (
+  return <LocalizedContent>{(
     <>
       <path
         fillRule="evenodd"
@@ -267,11 +270,11 @@ function CreatorSquarePaths() {
         fill="url(#industry-creators-fill)"
       />
     </>
-  );
+  )}</LocalizedContent>;
 }
 
 export function CreatorsArtwork() {
-  return (
+  return <LocalizedContent>{(
     <div className="relative h-full w-full">
       <svg viewBox="0 0 325 325" xmlns="http://www.w3.org/2000/svg" fill="none" className="absolute inset-0 h-full w-full">
         <path fillRule="evenodd" clipRule="evenodd" d="M92.8574 162.5L162.5 92.8573L232.143 162.5L162.5 232.143L92.8574 162.5ZM98.661 162.5L162.5 98.6609L226.34 162.5L162.5 226.34L98.661 162.5Z" fill="url(#industry-creators-diamond-fill)" />
@@ -296,7 +299,7 @@ export function CreatorsArtwork() {
         </defs>
       </svg>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================

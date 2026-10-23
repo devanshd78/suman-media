@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
@@ -26,7 +29,7 @@ export function CareersCtaSection({
       ? content.cta
       : { label: "View Open Roles", href: "/careers" };
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="careers"
       aria-labelledby="landing-careers-heading"
@@ -87,5 +90,5 @@ export function CareersCtaSection({
         </Link>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

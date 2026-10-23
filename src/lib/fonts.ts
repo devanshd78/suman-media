@@ -26,6 +26,7 @@ export const inter = Inter({
 
 export const notoSansDevanagari = Noto_Sans_Devanagari({
   subsets: ["devanagari"],
-  weight: ["700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-devanagari",
   display: "swap",
 });

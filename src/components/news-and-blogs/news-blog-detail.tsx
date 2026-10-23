@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { Manrope } from "next/font/google";
@@ -374,11 +376,11 @@ function ArticleBody({
         index += 1;
     }
 
-    return (
+    return <LocalizedContent>{(
         <div className={styles.articleBody}>
             {rendered}
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 function SmallArticleCard({
@@ -386,7 +388,7 @@ function SmallArticleCard({
 }: {
     post: InsightListItem;
 }) {
-    return (
+    return <LocalizedContent>{(
         <article
             className={`${styles.relatedCard} ${styles.cardReveal}`}
         >
@@ -440,7 +442,7 @@ function SmallArticleCard({
                 <p>{post.excerpt}</p>
             </Link>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 export function NewsBlogDetail({
@@ -455,7 +457,7 @@ export function NewsBlogDetail({
     const related =
         article.relatedPosts ?? [];
 
-    return (
+    return <LocalizedContent>{(
         <main
             className={`${plusJakartaSans.variable} ${inter.variable} ${manrope.variable} ${styles.page}`}
         >
@@ -707,5 +709,5 @@ export function NewsBlogDetail({
                 </section>
             ) : null}
         </main>
-    );
+    )}</LocalizedContent>;
 }

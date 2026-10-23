@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Link from "next/link";
 
 type ContentDetailPageProps = {
@@ -15,7 +17,7 @@ export function ContentDetailPage({
   backHref,
   backLabel,
 }: ContentDetailPageProps) {
-  return (
+  return <LocalizedContent>{(
     <main className="site-gutter mx-auto flex min-h-[65vh] w-full max-w-full flex-col justify-center py-16 sm:py-24">
       <p className="text-sm font-medium uppercase tracking-[0.2em] text-zinc-500">
         {eyebrow}
@@ -35,5 +37,5 @@ export function ContentDetailPage({
         {backLabel}
       </Link>
     </main>
-  );
+  )}</LocalizedContent>;
 }

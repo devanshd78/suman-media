@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { TextReveal } from "@/components/ui/scroll-text-reveal";
 
 import Image from "next/image";
@@ -109,7 +111,7 @@ function MediaVideo({
         };
     }, [prefersReducedMotion]);
 
-    return (
+    return <LocalizedContent>{(
         <video
             ref={videoRef}
             muted
@@ -126,7 +128,7 @@ function MediaVideo({
         ${className}
       `}
         />
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -134,7 +136,7 @@ function MediaVideo({
 ========================================================= */
 
 function EcosystemHeading() {
-    return (
+    return <LocalizedContent>{(
         <div
             className="
         flex
@@ -195,7 +197,7 @@ function EcosystemHeading() {
                 </TextReveal>
             </p>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -203,7 +205,7 @@ function EcosystemHeading() {
 ========================================================= */
 
 function StatusBar({ tablet = false }: { tablet?: boolean }) {
-    return (
+    return <LocalizedContent>{(
         <div
             aria-hidden="true"
             style={{
@@ -236,7 +238,7 @@ function StatusBar({ tablet = false }: { tablet?: boolean }) {
                 <path d="M75 6v4" stroke="currentColor" strokeWidth="2" />
             </svg>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -244,7 +246,7 @@ function StatusBar({ tablet = false }: { tablet?: boolean }) {
 ========================================================= */
 
 function Television() {
-    return (
+    return <LocalizedContent>{(
         <div className={styles.television}>
             {/* TV FRAME */}
 
@@ -273,7 +275,7 @@ function Television() {
                 <MediaVideo />
             </div>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -281,7 +283,7 @@ function Television() {
 ========================================================= */
 
 function LandscapeMobile() {
-    return (
+    return <LocalizedContent>{(
         <div className={styles.phone}>
             {/* PHONE FRAME */}
 
@@ -320,7 +322,7 @@ function LandscapeMobile() {
                 <StatusBar />
             </div>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -328,7 +330,7 @@ function LandscapeMobile() {
 ========================================================= */
 
 function Tablet() {
-    return (
+    return <LocalizedContent>{(
         <div className={styles.tablet}>
             {/* TABLET FRAME */}
 
@@ -353,7 +355,7 @@ function Tablet() {
                 <StatusBar tablet />
             </div>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -361,7 +363,7 @@ function Tablet() {
 ========================================================= */
 
 function EcosystemStats() {
-    return (
+    return <LocalizedContent>{(
         <div
             className="
         grid
@@ -460,7 +462,7 @@ function EcosystemStats() {
                 ),
             )}
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -486,7 +488,7 @@ function DeviceScrollShowcase() {
         ["0%", FINAL_TRACK_OFFSET + "%", FINAL_TRACK_OFFSET + "%"],
     );
 
-    return (
+    return <LocalizedContent>{(
         <div
             ref={scrollRef}
             className={styles.scrollTrack}
@@ -519,7 +521,7 @@ function DeviceScrollShowcase() {
                 </div>
             </div>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -532,7 +534,7 @@ function PartnershipBanner() {
             useReducedMotion(),
         );
 
-    return (
+    return <LocalizedContent>{(
         <motion.div
             initial={
                 prefersReducedMotion
@@ -732,7 +734,7 @@ function PartnershipBanner() {
                 />
             </div>
         </motion.div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -740,7 +742,7 @@ function PartnershipBanner() {
 ========================================================= */
 
 export default function Ecosystem() {
-    return (
+    return <LocalizedContent>{(
         <section
             id="ecosystem"
             className="
@@ -774,5 +776,5 @@ export default function Ecosystem() {
                 <PartnershipBanner />
             </div>
         </section>
-    );
+    )}</LocalizedContent>;
 }

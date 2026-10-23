@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useNearViewport } from "@/hooks/use-near-viewport";
 
 import Image from "next/image";
@@ -45,7 +47,7 @@ function MaskedTextReveal({
     });
 
     if (prefersReducedMotion) {
-        return <>{children}</>;
+        return <LocalizedContent>{<>{children}</>}</LocalizedContent>;
     }
 
     let wordIndex = 0;
@@ -149,14 +151,14 @@ function MaskedTextReveal({
         return node;
     };
 
-    return (
+    return <LocalizedContent>{(
         <span
             ref={ref}
             className="inline"
         >
             {renderNode(children)}
         </span>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -598,7 +600,7 @@ function LargePlayIcon() {
 ========================================================= */
 
 function WatchNowPlayIcon() {
-    return (
+    return <LocalizedContent>{(
         <span
             className="
         flex
@@ -628,7 +630,7 @@ function WatchNowPlayIcon() {
                 />
             </svg>
         </span>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -652,7 +654,7 @@ function ContentCard({
 }: {
     item: CarouselItem;
 }) {
-    return (
+    return <LocalizedContent>{(
         <article
             className="
         group/content-card
@@ -876,7 +878,7 @@ function ContentCard({
                 </p>
             </div>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -893,7 +895,7 @@ function MusicContentCard({
 }: {
     item: CarouselItem;
 }) {
-    return (
+    return <LocalizedContent>{(
         <article
             className="
         group/music-card
@@ -1098,7 +1100,7 @@ function MusicContentCard({
                 </p>
             </div>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1110,7 +1112,7 @@ function MusicContentGroup({
 }: {
     copy: number;
 }) {
-    return (
+    return <LocalizedContent>{(
         <div
             aria-hidden={copy === 1}
             className="
@@ -1129,7 +1131,7 @@ function MusicContentGroup({
                 ),
             )}
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1145,7 +1147,7 @@ function ContentGroup({
     copy: number;
     groupName: string;
 }) {
-    return (
+    return <LocalizedContent>{(
         <div
             aria-hidden={copy === 1}
             className="
@@ -1164,7 +1166,7 @@ function ContentGroup({
                 ),
             )}
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1176,7 +1178,7 @@ function HeroBadge({
 }: {
     label: string;
 }) {
-    return (
+    return <LocalizedContent>{(
         <div
             className="
         inline-flex
@@ -1246,7 +1248,7 @@ function HeroBadge({
                 />
             </div>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1258,7 +1260,7 @@ function HeroButtons({
 }: {
     primaryLabel?: string;
 }) {
-    return (
+    return <LocalizedContent>{(
         <div
             className="
         flex
@@ -1379,7 +1381,7 @@ function HeroButtons({
                 <ChevronRightIcon />
             </button>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1547,7 +1549,7 @@ export default function StreamingContentSections() {
         };
     }, [musicMotionEnabled]);
 
-    return (
+    return <LocalizedContent>{(
         <section
             ref={ref}
             aria-labelledby="abhijat-universe-heading"
@@ -3112,5 +3114,5 @@ export default function StreamingContentSections() {
         }
       `}</style>
         </section>
-    );
+    )}</LocalizedContent>;
 }

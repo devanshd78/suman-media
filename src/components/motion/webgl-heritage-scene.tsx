@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { Canvas, useFrame } from "@react-three/fiber";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
@@ -161,7 +163,7 @@ function HeritageField({
     inner.position.y = Math.sin(t * 0.22) * 0.035;
   });
 
-  return (
+  return <LocalizedContent>{(
     <group ref={rootRef}>
       <group ref={innerRef}>
         {GEMS.map((config, index) => (
@@ -219,7 +221,7 @@ function HeritageField({
         ))}
       </group>
     </group>
-  );
+  )}</LocalizedContent>;
 }
 
 export function WebGLHeritageScene({
@@ -227,7 +229,7 @@ export function WebGLHeritageScene({
   reducedMotion = false,
   className = "",
 }: WebGLHeritageSceneProps) {
-  return (
+  return <LocalizedContent>{(
     <div
       aria-hidden="true"
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
@@ -253,5 +255,5 @@ export function WebGLHeritageScene({
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,transparent_0%,rgba(0,0,0,0.02)_45%,rgba(0,0,0,0.28)_100%)]" />
     </div>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,5 +1,8 @@
 "use client";
 
+
+import { graphemes } from "@/i18n/translate";
+import { LocalizedContent } from "@/components/localization/localized-content";
 import {
   Fragment,
 } from "react";
@@ -104,7 +107,7 @@ function AnimatedText({
 
   const unitCount =
     split === "characters"
-      ? Array.from(
+      ? graphemes(
         text.replace(/\s/g, ""),
       ).length
       : words.length;
@@ -137,7 +140,7 @@ function AnimatedText({
     },
   };
 
-  return (
+  return <LocalizedContent>{(
     <MotionText
       aria-label={text}
       className={className}
@@ -176,7 +179,7 @@ function AnimatedText({
                     max-w-full
                   "
                 >
-                  {Array.from(
+                  {graphemes(
                     word,
                   ).map(
                     (
@@ -239,7 +242,7 @@ function AnimatedText({
         )}
       </span>
     </MotionText>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -335,7 +338,7 @@ export function HeroSection({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="hero"
       data-motion-managed
@@ -407,7 +410,7 @@ export function HeroSection({
       </video>
 
       {/* =====================================================
-          VIDEO OVERLAY — BOTTOM READABILITY
+          VIDEO OVERLAY â€” BOTTOM READABILITY
           ===================================================== */}
 
       <div
@@ -423,7 +426,7 @@ export function HeroSection({
       />
 
       {/* =====================================================
-          VIDEO OVERLAY — SIDE DARKENING
+          VIDEO OVERLAY â€” SIDE DARKENING
           ===================================================== */}
 
       <div
@@ -771,5 +774,5 @@ export function HeroSection({
         </motion.div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

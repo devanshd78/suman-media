@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -431,7 +433,7 @@ function SumanLogo({
 }: {
   inverse?: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <Image
       src="/images/logo.png"
       alt="Suman Entertainment & Media"
@@ -447,7 +449,7 @@ function SumanLogo({
         }
       `}
     />
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -540,7 +542,7 @@ function DropdownPanel({
   onNavigate: () => void;
   reduceMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <motion.div
       id={`nav-menu-${menu.id}`}
       data-desktop-panel
@@ -787,7 +789,7 @@ function DropdownPanel({
         ) : null}
       </motion.div>
     </motion.div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -799,8 +801,8 @@ export function Header({
 }: {
   variant?: HeaderVariant;
 } = {}) {
-  const pathname =
-    usePathname();
+  const localizedPathname = usePathname();
+  const pathname = localizedPathname.replace(/^\/(en|mr)(?=\/|$)/, "") || "/";
 
   const resolvedVariant =
     variant === "auto"
@@ -1602,7 +1604,7 @@ const topTextColor =
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <>
       {/* =====================================================
           PAGE SPACER
@@ -2290,7 +2292,7 @@ const topTextColor =
           : null}
       </header>
     </>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -2301,9 +2303,9 @@ const topTextColor =
    ============================================================ */
 
 export function OverlayHeader() {
-  return <Header variant="overlay" />;
+  return <LocalizedContent>{<Header variant="overlay" />}</LocalizedContent>;
 }
 
 export function SolidHeader() {
-  return <Header variant="solid" />;
+  return <LocalizedContent>{<Header variant="solid" />}</LocalizedContent>;
 }

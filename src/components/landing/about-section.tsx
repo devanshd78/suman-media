@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "next/link";
 
 import {
@@ -130,7 +132,7 @@ function AnimatedWords({
     },
   };
 
-  return (
+  return <LocalizedContent>{(
     <MotionText
       id={id}
       aria-label={text}
@@ -183,7 +185,7 @@ function AnimatedWords({
         )}
       </span>
     </MotionText>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -218,7 +220,7 @@ export function AboutSection({
       "/services",
   };
 
-  return (
+  return <LocalizedContent>{(
     <section
       data-motion-managed
       id="about-suman-entertainment"
@@ -488,5 +490,5 @@ export function AboutSection({
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

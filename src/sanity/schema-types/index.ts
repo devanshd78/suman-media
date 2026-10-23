@@ -1,4 +1,5 @@
 import type { SchemaTypeDefinition } from "sanity";
+import { siteTranslationType } from "./documents/site-translation";
 import { authorType } from "./documents/author";
 import { categoryType } from "./documents/category";
 import { careersPageType } from "./documents/careers-page";
@@ -18,6 +19,7 @@ import { seoImageType } from "./objects/seo-image";
 import { seoType } from "./objects/seo";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
+  siteTranslationType,
   seoImageType,
   mediaImageType,
   ctaType,

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { TextReveal } from "@/components/ui/scroll-text-reveal";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -189,7 +191,7 @@ function NewsBlogCard({
   article: NewsBlogCardData;
   revealText?: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <article
       data-news-blog-card
       className="
@@ -397,7 +399,7 @@ function NewsBlogCard({
         </div>
       </Link>
     </article>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -891,7 +893,7 @@ export function NewsBlogsSection({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="news-blogs"
       aria-labelledby="news-blogs-heading"
@@ -1512,5 +1514,5 @@ export function NewsBlogsSection({
         }
       `}</style>
     </section>
-  );
+  )}</LocalizedContent>;
 }

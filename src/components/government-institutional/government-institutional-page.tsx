@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
@@ -10,7 +12,7 @@ const services = [
   {title:"Government & Institutional Events",description:"Supporting the communication and execution of public, cultural and institutional events.",image:"events",alt:"Participants gathered on stage for an institutional event"},
 ];
 export function GovernmentPage() {
-  return <main className={styles.page}>
+  return <LocalizedContent>{<main className={styles.page}>
     <GovernmentHero />
     <section className={styles.services} aria-labelledby="impact-title">
       <header className={styles.sectionHeader}><p className={styles.eyebrow}>Government, PSU &amp; Institutional Services</p><h2 id="impact-title">Communication for Public Impact</h2><p>Different content calls for different revenue models. Choose the approach that<br className={styles.desktopBreak}/> fits your audience, content library and growth strategy.</p></header>
@@ -24,5 +26,5 @@ export function GovernmentPage() {
       <Image src="/images/brand-solutions-and-content-library/library-contact.jpg" alt="" fill sizes="100vw" className={styles.contactImage}/>
       <h2 id="government-contact-title">{"Have a Market\nStory to Communicate?"}</h2><Link href="/contact/form" className={styles.action}>Contact us <Chevron /></Link>
     </section>
-  </main>;
+  </main>}</LocalizedContent>;
 }

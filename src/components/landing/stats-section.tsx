@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import { plusJakartaSans as body, plusJakartaSans as display } from "@/lib/fonts";
 
 import { AnimatedStatNumber } from "./animated-stat-number";
@@ -41,7 +43,7 @@ export function StatsSection({
     return null;
   }
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-label="Suman Entertainment statistics"
       className="
@@ -219,5 +221,5 @@ export function StatsSection({
         ))}
       </dl>
     </section>
-  );
+  )}</LocalizedContent>;
 }

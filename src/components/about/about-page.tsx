@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import {
   motion,
@@ -454,7 +456,7 @@ function DragCarousel({
     setDragging(false);
   };
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={`${styles.carousel} ${className}`}
       onMouseEnter={() => {
@@ -554,19 +556,19 @@ function DragCarousel({
         </div>
       ) : null}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 function SectionEyebrow({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
-  return (
+  return <LocalizedContent>{(
     <p className={styles.eyebrow} data-dark={dark}>
       {children}
     </p>
-  );
+  )}</LocalizedContent>;
 }
 
 function AboutIntro() {
-  return (
+  return <LocalizedContent>{(
     <section className={`${styles.aboutIntro} site-section`}>
       <div className={styles.aboutIntroContent}>
         <SectionEyebrow>ABOUT SUMAN ENTERTAINMENT</SectionEyebrow>
@@ -624,7 +626,7 @@ function AboutIntro() {
         ))}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function StickyGlobalReach() {
@@ -690,7 +692,7 @@ function StickyGlobalReach() {
     };
   }, [progress, reducedMotion]);
 
-  return (
+  return <LocalizedContent>{(
     <section
       ref={stageRef}
       className={styles.globalStage}
@@ -810,7 +812,7 @@ function StickyGlobalReach() {
         </motion.div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function statRevealInitial() {
@@ -829,7 +831,7 @@ function MissionSection() {
     { value: 10, suffix: "+", label: "Markets served" },
   ];
 
-  return (
+  return <LocalizedContent>{(
     <section className={styles.missionSection}>
       <div className={`${styles.missionCopy} site-gutter`}>
         <p className={styles.missionStatement}>
@@ -875,11 +877,11 @@ function MissionSection() {
         </figure>)}
       </DragCarousel>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function TimelineSection() {
-  return (
+  return <LocalizedContent>{(
     <section className={`${styles.timelineSection} site-section`}>
       <DragCarousel
         ariaLabel="Suman Entertainment interactive timeline"
@@ -912,11 +914,11 @@ function TimelineSection() {
         ))}
       </DragCarousel>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function LeadershipSection() {
-  return (
+  return <LocalizedContent>{(
     <section id="leadership" className={`${styles.leadershipSection} site-section`}>
       <div className={styles.leadershipHeading}>
         <div>
@@ -954,11 +956,11 @@ function LeadershipSection() {
         </article>)}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function NotablePersonalitiesSection() {
-  return (
+  return <LocalizedContent>{(
     <section className={`${styles.notableSection} site-section`}>
       <div className={styles.sectionHeadingRow}>
         <div>
@@ -989,11 +991,11 @@ function NotablePersonalitiesSection() {
         ))}
       </DragCarousel>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function GovernmentSection() {
-  return (
+  return <LocalizedContent>{(
     <section className={`${styles.governmentSection} site-section`}>
       <div className={styles.governmentHeading}>
         <SectionEyebrow>AWARDS AND RECOGNITIONS</SectionEyebrow>
@@ -1027,21 +1029,21 @@ function GovernmentSection() {
         ))}
       </DragCarousel>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function ContactCardsSection() {
-  return (
+  return <LocalizedContent>{(
     <ContactActionCards
       cards={ABOUT_CONTACT_CARDS}
       compact
       ariaLabel="Ways to connect with Suman Entertainment"
     />
-  );
+  )}</LocalizedContent>;
 }
 
 function AboutHero() {
-  return (
+  return <LocalizedContent>{(
     <section className={styles.hero} aria-labelledby="about-hero-title">
       <Image
         src="/images/about/hero-office.webp"
@@ -1058,7 +1060,7 @@ function AboutHero() {
         <span>us</span>
       </h1>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 export function AboutPageContent({
@@ -1074,7 +1076,7 @@ export function AboutPageContent({
     | "careersCta"
   > | null;
 }) {
-  return (
+  return <LocalizedContent>{(
     <main className={`${styles.page} ${plusJakartaSans.className}`}>
       <AboutHero />
       <AboutIntro />
@@ -1111,5 +1113,5 @@ export function AboutPageContent({
         }}
       />
     </main>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -193,7 +195,7 @@ export default function ContentCapabilitiesSection() {
     );
   };
 
-  return (
+  return <LocalizedContent>{(
     <section
       ref={trackRef}
       className={styles.scrollTrack}
@@ -377,5 +379,5 @@ export default function ContentCapabilitiesSection() {
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

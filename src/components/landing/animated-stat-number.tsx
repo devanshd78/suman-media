@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useEffect, useRef } from "react";
 
 type AnimatedStatNumberProps = {
@@ -87,5 +89,5 @@ export function AnimatedStatNumber({
     };
   }, [delay, prefix, suffix, value]);
 
-  return <span ref={ref}>{prefix ?? ""}0{suffix ?? ""}</span>;
+  return <LocalizedContent>{<span ref={ref}>{prefix ?? ""}0{suffix ?? ""}</span>}</LocalizedContent>;
 }

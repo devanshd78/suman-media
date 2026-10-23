@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import {
   motion,
   useReducedMotion,
@@ -118,7 +120,7 @@ export function PartnerSection({
     "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.";
 
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="why-partner"
       aria-labelledby="why-partner-heading"
@@ -438,5 +440,5 @@ export function PartnerSection({
         "
       />
     </section>
-  );
+  )}</LocalizedContent>;
 }

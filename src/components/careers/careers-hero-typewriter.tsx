@@ -1,5 +1,8 @@
 "use client";
 
+
+import { graphemes } from "@/i18n/translate";
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
@@ -27,7 +30,7 @@ function splitIntoTypingUnits(
   mode: TypewriterLineProps["mode"],
 ) {
   if (mode === "characters") {
-    return Array.from(text);
+    return graphemes(text);
   }
 
   return text.match(/\S+(?:\s+|$)/g) ?? [text];
@@ -165,10 +168,10 @@ function TypewriterLine({
   };
 
   if (as === "h1") {
-    return <h1 {...sharedProps}>{content}</h1>;
+    return <LocalizedContent>{<h1 {...sharedProps}>{content}</h1>}</LocalizedContent>;
   }
 
-  return <p {...sharedProps}>{content}</p>;
+  return <LocalizedContent>{<p {...sharedProps}>{content}</p>}</LocalizedContent>;
 }
 
 export function CareersHeroTypewriter() {
@@ -178,7 +181,7 @@ export function CareersHeroTypewriter() {
   });
   const reduceMotion = useReducedMotion() ?? false;
 
-  return (
+  return <LocalizedContent>{(
     <div
       ref={rootRef}
       className="flex w-full flex-col items-center gap-4"
@@ -217,5 +220,5 @@ export function CareersHeroTypewriter() {
         className={`${plusJakartaSans.className} w-full max-w-[37.125rem] text-center text-base font-normal leading-6 text-[#969696]`}
       />
     </div>
-  );
+  )}</LocalizedContent>;
 }

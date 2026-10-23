@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { StateShell } from "@/components/feedback/state-shell";
@@ -38,7 +40,7 @@ export function ErrorState({
     </Link>
   ) : null;
 
-  return (
+  return <LocalizedContent>{(
     <div>
       <StateShell
         role="alert"
@@ -54,5 +56,5 @@ export function ErrorState({
         </p>
       ) : null}
     </div>
-  );
+  )}</LocalizedContent>;
 }

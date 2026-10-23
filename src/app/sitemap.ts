@@ -1,25 +1,10 @@
+import { localizedPath } from "@/i18n/routing";
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { getSitemapDocuments } from "@/sanity/lib/data";
 import type { CmsSitemapDocument } from "@/types/cms";
 
-const staticPaths = [
-  "",
-  "/about",
-  "/companies",
-  "/services",
-  "/portfolio",
-  "/news-and-blogs",
-  "/careers",
-  "/partners",
-  "/products/fast-channel",
-  "/products/content-music-library",
-  "/services/brand-solutions-advertising",
-  "/solutions/government-institutional",
-  "/products/publication-knowledge-platforms",
-  "/products/intellectual-property-development",
-  "/contact",
-] as const;
+const staticPaths = ["", "/abhijat-marathi", "/about", "/business", "/capital-market", "/careers", "/companies", "/contact", "/contact/form", "/content-acquisition-and-distribution", "/creator-ecosystem", "/event-experience", "/government", "/media", "/monetization", "/music-audio", "/news-and-blogs", "/partners", "/portfolio", "/products/content-music-library", "/products/fast-channel", "/products/intellectual-property-development", "/products/publication-knowledge-platforms", "/services", "/services/brand-solutions-advertising", "/solutions/government-institutional"] as const;
 
 function documentPath(document: CmsSitemapDocument) {
   switch (document._type) {
@@ -48,5 +33,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: document._type === "post" ? 0.7 : 0.8,
   }));
 
-  return [...staticEntries, ...dynamicEntries];
+  return [...staticEntries, ...dynamicEntries].flatMap((entry) => {
+    const path = new URL(entry.url).pathname;
+    const languages = Object.fromEntries(["en", "mr"].map((locale) => [locale, new URL(localizedPath(path, locale), siteConfig.url).toString()]));
+    return ["en", "mr"].map((locale) => ({ ...entry, url: languages[locale], alternates: { languages } }));
+  });
 }

@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 
@@ -16,7 +18,7 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
   const founderName = content.founderName?.trim() || "Kedar Joshi";
   const founderRole = content.founderRole?.trim() || "Founder and CEO";
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="founder-letter"
       aria-labelledby="founder-letter-heading"
@@ -79,5 +81,5 @@ export function FounderLetterSection({ content }: { content?: CmsFounderLetter |
         </div>
       </article>
     </section>
-  );
+  )}</LocalizedContent>;
 }

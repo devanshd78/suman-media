@@ -25,6 +25,7 @@ export const structure: StructureResolver = (S) =>
           .child(S.document().schemaType(type).documentId(id).title(title)),
       ),
       S.divider(),
+      S.documentTypeListItem("siteTranslation").title("English / Marathi Translations"),
       S.documentTypeListItem("service").title("Services"),
       S.documentTypeListItem("company").title("Companies & Platforms"),
       S.documentTypeListItem("industry").title("Industries"),

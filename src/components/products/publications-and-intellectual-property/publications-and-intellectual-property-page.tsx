@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
@@ -28,7 +30,7 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
   const name = isIp ? "Intellectual Property Development" : "Publications & Knowledge Platforms";
   const cta = isIp ? "Discuss an IP Opportunity" : "Discuss a Publishing Project";
 
-  return (
+  return <LocalizedContent>{(
     <main className={`${styles.page} ${isIp ? "" : styles.publicationPage}`}>
       <section className={`${styles.hero} ${isIp ? styles.ipHero : styles.publicationHero} site-gutter`} aria-labelledby="product-heading">
         <Image src={`/images/publications-and-intellectual-property/${isIp ? "intellectual-property" : "publication"}-hero.png`} alt="" fill sizes="100vw" preload unoptimized className={styles.heroImage} />
@@ -96,5 +98,5 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
         <Link href="/contact/form" className={`${styles.action} ${styles.heroAction}`}>Contact us <ChevronRight /></Link>
       </section>
     </main>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as inter } from "@/lib/fonts";
@@ -53,7 +56,7 @@ export function ContactActionCards({
 }) {
   if (!cards.length) return null;
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-label={ariaLabel}
       className={`site-gutter flex w-full flex-col items-center bg-white ${
@@ -101,5 +104,5 @@ export function ContactActionCards({
         ))}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

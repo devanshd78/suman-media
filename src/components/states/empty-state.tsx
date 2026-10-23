@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import type { ReactNode } from "react";
 import { StateShell } from "@/components/feedback/state-shell";
 
@@ -16,7 +18,7 @@ export function EmptyState({
   action,
   compact,
 }: EmptyStateProps) {
-  return (
+  return <LocalizedContent>{(
     <StateShell
       title={title}
       description={description}
@@ -24,5 +26,5 @@ export function EmptyState({
       action={action}
       compact={compact}
     />
-  );
+  )}</LocalizedContent>;
 }

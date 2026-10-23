@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -28,7 +30,7 @@ function Chevron() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>;
 }
 function Action({ children, gold = false, href = "/contact/form" }: { children: ReactNode; gold?: boolean; href?: string }) {
-  return <Link href={href} className={`${styles.action} ${gold ? styles.goldAction : ""}`}>{children}<Chevron /></Link>;
+  return <LocalizedContent>{<Link href={href} className={`${styles.action} ${gold ? styles.goldAction : ""}`}>{children}<Chevron /></Link>}</LocalizedContent>;
 }
 function StepIcon({ index }: { index: number }) {
   return <svg className={styles.stepIcon} width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -37,7 +39,7 @@ function StepIcon({ index }: { index: number }) {
 }
 export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
   const brand = kind === "brand";
-  return <main className={`${styles.page} ${brand ? styles.brandPage : styles.libraryPage}`}>
+  return <LocalizedContent>{<main className={`${styles.page} ${brand ? styles.brandPage : styles.libraryPage}`}>
     <section className={styles.hero} aria-labelledby="page-title">
       <div className={styles.heroContent}>
         <p className={styles.eyebrow}>{brand ? "Brand Solutions & Advertising" : "Content & Music Library Management"}</p>
@@ -75,5 +77,5 @@ export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
       <div className={styles.contactContent}><h2 id="contact-title">{brand ? "Have a story worth telling?\nLet's bring it to the world." : "Looking for Content or\nLicensing Opportunities?"}</h2>
       <Action href={brand ? "/partners" : "/contact/form"}>{brand ? "Join as a Partner" : "Contact us"}</Action></div>
     </section>
-  </main>;
+  </main>}</LocalizedContent>;
 }

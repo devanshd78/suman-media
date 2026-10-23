@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import {
@@ -296,7 +298,7 @@ function StaggerWords({
 }) {
   const words = useMemo(() => text.trim().split(/\s+/), [text]);
 
-  return (
+  return <LocalizedContent>{(
     <motion.span
       className={`${styles.staggerWords} ${className}`}
       initial="hidden"
@@ -321,12 +323,12 @@ function StaggerWords({
         </span>
       ))}
     </motion.span>
-  );
+  )}</LocalizedContent>;
 }
 
 function ChannelBrand({ channel }: { channel: Channel }) {
   if (channel.logo) {
-    return (
+    return <LocalizedContent>{(
       <span className={styles.channelLogoFrame}>
         <Image
           src={channel.logo}
@@ -336,14 +338,14 @@ function ChannelBrand({ channel }: { channel: Channel }) {
           className={styles.channelLogo}
         />
       </span>
-    );
+    )}</LocalizedContent>;
   }
 
-  return (
+  return <LocalizedContent>{(
     <span className={`${styles.channelLogoFrame} ${styles.channelLogoFallback}`} aria-hidden="true">
       {channel.logoLabel ?? channel.name.slice(0, 3).toUpperCase()}
     </span>
-  );
+  )}</LocalizedContent>;
 }
 
 const cardGroupVariants: Variants = {
@@ -385,7 +387,7 @@ function ChannelArtwork({
   mediaY?: MotionValue<string>;
   mediaScale?: MotionValue<number>;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div className={styles.channelCardInner} aria-hidden="true">
       <motion.div
         className={styles.channelMedia}
@@ -409,7 +411,7 @@ function ChannelArtwork({
 
       <div className={styles.channelShade} />
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 function ChannelOverlay({
@@ -419,7 +421,7 @@ function ChannelOverlay({
   channel: Channel;
   interactive?: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <motion.div
       className={styles.channelTextLayer}
       variants={cardGroupVariants}
@@ -493,7 +495,7 @@ function ChannelOverlay({
         <PlayIcon />
       </motion.a>
     </motion.div>
-  );
+  )}</LocalizedContent>;
 }
 
 function clamp(value: number, min: number, max: number) {
@@ -551,7 +553,7 @@ function ChannelSlide({
     return 1 + distance * 0.008;
   });
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={styles.channelSlideSlot}
       aria-hidden="true"
@@ -572,11 +574,11 @@ function ChannelSlide({
         </div>
       </motion.article>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 function StaticChannelDeck() {
-  return (
+  return <LocalizedContent>{(
     <section className={styles.staticDeck} aria-label="OUR CHANNEL ECOSYSTEM">
       {CHANNELS.map((channel, index) => (
         <article className={styles.staticCard} key={channel.id}>
@@ -587,7 +589,7 @@ function StaticChannelDeck() {
         </article>
       ))}
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function MotionChannelDeck() {
@@ -616,7 +618,7 @@ function MotionChannelDeck() {
 
   const activeChannel = CHANNELS[activeIndex];
 
-  return (
+  return <LocalizedContent>{(
     <section
       ref={trackRef}
       className={styles.deckTrack}
@@ -654,17 +656,17 @@ function MotionChannelDeck() {
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function ChannelDeck() {
   const reduceMotion = useReducedMotion();
 
-  return reduceMotion ? <StaticChannelDeck /> : <MotionChannelDeck />;
+  return <LocalizedContent>{reduceMotion ? <StaticChannelDeck /> : <MotionChannelDeck />}</LocalizedContent>;
 }
 
 function NewsCard({ item }: { item: NewsItem }) {
-  return (
+  return <LocalizedContent>{(
     <motion.article className={styles.newsCard} variants={childVariants}>
       <Link href={item.href} className={styles.newsCardLink}>
         <div className={styles.newsImageWrap}>
@@ -692,11 +694,11 @@ function NewsCard({ item }: { item: NewsItem }) {
         </span>
       </Link>
     </motion.article>
-  );
+  )}</LocalizedContent>;
 }
 
 function LatestAnnouncements() {
-  return (
+  return <LocalizedContent>{(
     <section className={styles.newsSection} aria-labelledby="fast-channel-news-heading">
       <motion.div
         className={styles.newsHeadingRow}
@@ -735,11 +737,11 @@ function LatestAnnouncements() {
         ))}
       </motion.div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 function PartnerCta() {
-  return (
+  return <LocalizedContent>{(
     <section className={styles.partnerCta} aria-labelledby="fast-channel-partner-heading">
       <Image
         src="/images/fast-channel/partner-cta.webp"
@@ -767,11 +769,11 @@ function PartnerCta() {
         </Link>
       </motion.div>
     </section>
-  );
+  )}</LocalizedContent>;
 }
 
 export function FastChannelPage() {
-  return (
+  return <LocalizedContent>{(
     <main className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}>
       <section className={styles.intro} aria-labelledby="fast-channel-title">
         <div className={styles.introInner}>
@@ -804,5 +806,5 @@ export function FastChannelPage() {
       <LatestAnnouncements />
       <PartnerCta />
     </main>
-  );
+  )}</LocalizedContent>;
 }

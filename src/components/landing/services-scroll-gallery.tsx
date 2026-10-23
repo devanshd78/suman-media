@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { TextReveal } from "@/components/motion/text-reveal";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -391,7 +393,7 @@ function CardContent({
     number,
   } = item;
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={
         styles.cardBody
@@ -477,7 +479,7 @@ function CardContent({
         ) : null}
       </div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -707,7 +709,7 @@ function ServiceFrame({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={
         styles.shell
@@ -777,7 +779,7 @@ function ServiceFrame({
         />
       </motion.article>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -1130,7 +1132,7 @@ export function ServicesScrollGallery({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <div
       ref={rootRef}
       data-motion-managed
@@ -1324,5 +1326,5 @@ export function ServicesScrollGallery({
         </nav>
       ) : null}
     </div>
-  );
+  )}</LocalizedContent>;
 }

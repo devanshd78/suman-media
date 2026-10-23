@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -229,7 +231,7 @@ function NRTextReveal({
     return node;
   };
 
-  return (
+  return <LocalizedContent>{(
     <span ref={ref} className="inline">
       {accessibleText ? (
         <span className="sr-only">{accessibleText}</span>
@@ -237,7 +239,7 @@ function NRTextReveal({
 
       <span aria-hidden="true">{animateNode(children)}</span>
     </span>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -368,7 +370,7 @@ export default function OttHeader({
     });
   }, []);
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-labelledby="ott-header-title"
       className="
@@ -938,5 +940,5 @@ export default function OttHeader({
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

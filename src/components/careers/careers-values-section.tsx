@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import { useRef } from "react";
 import {
@@ -108,12 +110,12 @@ function BlueCircle() {
 }
 
 function YellowSquare() {
-  return (
+  return <LocalizedContent>{(
     <span
       aria-hidden="true"
       className="h-7 w-7 shrink-0 rounded-[0.375rem] bg-[#FFDD15] sm:h-12 sm:w-12 sm:rounded-[0.625rem] lg:h-20 lg:w-20 lg:rounded-2xl xl:h-[7.5rem] xl:w-[7.5rem] xl:rounded-[1.4375rem]"
     />
-  );
+  )}</LocalizedContent>;
 }
 
 function OrangeTriangle() {
@@ -221,7 +223,7 @@ export function CareersValuesSection({
     ],
   );
 
-  return (
+  return <LocalizedContent>{(
     <>
       <section
         aria-label="Create, collaborate, experiment and grow"
@@ -687,5 +689,5 @@ export function CareersValuesSection({
         </div>
       </section>
     </>
-  );
+  )}</LocalizedContent>;
 }

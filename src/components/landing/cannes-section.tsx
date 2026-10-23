@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 
@@ -698,7 +700,7 @@ function GalleryVideo({
     shouldAutoplay,
   ]);
 
-  return (
+  return <LocalizedContent>{(
     <video
       ref={videoRef}
       src={
@@ -762,7 +764,7 @@ function GalleryVideo({
       }
       disablePictureInPicture
     />
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -787,7 +789,7 @@ function GalleryCard({
     media.decorativeClone ===
     true;
 
-  return (
+  return <LocalizedContent>{(
     <figure
       className={
         styles.card
@@ -866,7 +868,7 @@ function GalleryCard({
         />
       )}
     </figure>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -899,7 +901,7 @@ function GalleryRow({
   reducedMotion:
   boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div
       className={
         styles.row
@@ -969,7 +971,7 @@ function GalleryRow({
         )}
       </motion.div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -1725,7 +1727,7 @@ export function CannesSection({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="abhijat-marathi-cannes"
       aria-labelledby="abhijat-marathi-cannes-heading"
@@ -2032,5 +2034,5 @@ export function CannesSection({
         )}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

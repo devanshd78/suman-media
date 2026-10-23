@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import {
   motion,
   useReducedMotion,
@@ -90,7 +92,7 @@ export function ParallaxBlackSection({
         ],
   );
 
-  return (
+  return <LocalizedContent>{(
     <div
       ref={wrapperRef}
       className="
@@ -126,5 +128,5 @@ export function ParallaxBlackSection({
         {children}
       </motion.div>
     </div>
-  );
+  )}</LocalizedContent>;
 }

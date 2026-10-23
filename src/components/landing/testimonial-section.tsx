@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import { IntersectionReveal } from "@/components/motion/intersection-reveal";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -118,7 +120,7 @@ export function TestimonialSection({
     return null;
   }
 
-  return (
+  return <LocalizedContent>{(
     <>
       {/* =====================================================
           TESTIMONIAL
@@ -668,5 +670,5 @@ export function TestimonialSection({
         </section>
       ) : null}
     </>
-  );
+  )}</LocalizedContent>;
 }

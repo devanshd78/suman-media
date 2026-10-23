@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import {
   plusJakartaSans as plusJakarta,
 } from "@/lib/fonts";
@@ -75,7 +77,7 @@ const PARTNER_LOGOS: readonly PartnerLogo[] = [
    ============================================================ */
 
 function PartnersStrip() {
-  return (
+  return <LocalizedContent>{(
     <div
       role="group"
       aria-label="Selected industry partners"
@@ -136,7 +138,7 @@ function PartnersStrip() {
         ),
       )}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -161,7 +163,7 @@ export function ServicesSection({
     return null;
   }
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="services"
       aria-labelledby="services-heading"
@@ -198,5 +200,5 @@ export function ServicesSection({
         <PartnersStrip />
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

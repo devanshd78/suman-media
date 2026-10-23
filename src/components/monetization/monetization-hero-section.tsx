@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 // app/monetisation/page.tsx
 
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
@@ -13,7 +15,7 @@ const inter = Inter({
 });
 
 export default function MonetizationHeroSection() {
-  return (
+  return <LocalizedContent>{(
     <main
       className={`
         ${plusJakartaSans.variable}
@@ -226,5 +228,5 @@ export default function MonetizationHeroSection() {
         </div>
       </section>
     </main>
-  );
+  )}</LocalizedContent>;
 }

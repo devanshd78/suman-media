@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useState } from "react";
 import Link from "next/link";
 import { CaretDownIcon, CaretRightIcon } from "@phosphor-icons/react";
@@ -99,7 +101,7 @@ function DetailList({ title, items }: { title: string; items?: string[] | null }
     return null;
   }
 
-  return (
+  return <LocalizedContent>{(
     <div className="space-y-3">
       <TextReveal
         as="h4"
@@ -116,7 +118,7 @@ function DetailList({ title, items }: { title: string; items?: string[] | null }
         ))}
       </ul>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) {
@@ -124,7 +126,7 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="open-roles"
       aria-labelledby="career-openings-heading"
@@ -312,5 +314,5 @@ export function CareerOpenings({ openings }: { openings?: CmsCareerOpening[] }) 
         </Link>
       </p>
     </section>
-  );
+  )}</LocalizedContent>;
 }

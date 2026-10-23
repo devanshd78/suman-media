@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import {
@@ -131,7 +133,7 @@ function Meta({
     post: InsightListItem;
     inverse?: boolean;
 }) {
-    return (
+    return <LocalizedContent>{(
         <div
             className={styles.meta}
             data-inverse={inverse ? "true" : "false"}
@@ -144,11 +146,11 @@ function Meta({
                 {formatDate(post.publishedAt)}
             </time>
         </div>
-    );
+    )}</LocalizedContent>;
 }
 
 function StandardCard({ post }: { post: InsightListItem }) {
-    return (
+    return <LocalizedContent>{(
         <article className={`${styles.newsCard} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
@@ -173,11 +175,11 @@ function StandardCard({ post }: { post: InsightListItem }) {
                 </div>
             </Link>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 function FeatureLarge({ post }: { post: InsightListItem }) {
-    return (
+    return <LocalizedContent>{(
         <article className={`${styles.featureLarge} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
@@ -202,11 +204,11 @@ function FeatureLarge({ post }: { post: InsightListItem }) {
                 </div>
             </Link>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 function FeatureCompact({ post }: { post: InsightListItem }) {
-    return (
+    return <LocalizedContent>{(
         <article className={`${styles.featureCompact} ${styles.motionCard}`}>
             <Link
                 href={`/news-and-blogs/${post.slug}`}
@@ -231,7 +233,7 @@ function FeatureCompact({ post }: { post: InsightListItem }) {
                 </div>
             </Link>
         </article>
-    );
+    )}</LocalizedContent>;
 }
 
 export function NewsBlogsPage({ posts }: Props) {
@@ -605,7 +607,7 @@ export function NewsBlogsPage({ posts }: Props) {
         return null;
     }
 
-    return (
+    return <LocalizedContent>{(
         <main
             className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}
         >
@@ -898,5 +900,5 @@ export function NewsBlogsPage({ posts }: Props) {
                 </section>
             ) : null}
         </main>
-    );
+    )}</LocalizedContent>;
 }

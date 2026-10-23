@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -169,7 +171,7 @@ const IndustryCard = memo(
   }: {
     industry: IndustryItem;
   }) {
-    return (
+    return <LocalizedContent>{(
       <Link
         href={`/services?industry=${encodeURIComponent(
           industry.slug,
@@ -253,7 +255,7 @@ const IndustryCard = memo(
           {industry.description}
         </p>
       </Link>
-    );
+    )}</LocalizedContent>;
   },
 );
 
@@ -328,7 +330,7 @@ export function IndustriesSection({
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <section
       ref={section}
       id="industries"
@@ -431,5 +433,5 @@ export function IndustriesSection({
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

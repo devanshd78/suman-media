@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import type { CSSProperties } from "react";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -194,7 +196,7 @@ function GalleryGroup({
   images: CareersImage[];
   duplicate?: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div
       aria-hidden={duplicate || undefined}
       className="
@@ -247,7 +249,7 @@ function GalleryGroup({
         );
       })}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ========================================================= */
@@ -265,7 +267,7 @@ export async function CareersSection() {
       : LOCAL_GALLERY_IMAGES
   ).slice(0, 8);
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-label="Careers at Suman Entertainment"
       className="
@@ -693,5 +695,5 @@ export async function CareersSection() {
         }
       `}</style>
     </section>
-  );
+  )}</LocalizedContent>;
 }

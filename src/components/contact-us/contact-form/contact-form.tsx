@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import Script from "next/script";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
@@ -208,7 +210,7 @@ export default function ContactFormPage({
     }
   }
 
-  return (
+  return <LocalizedContent>{(
     <main className="relative mx-auto w-full max-w-full overflow-x-clip bg-white">
       {turnstileSiteKey ? (
         <Script
@@ -476,5 +478,5 @@ export default function ContactFormPage({
         <PartnerLogoMarquee />
       </section>
     </main>
-  );
+  )}</LocalizedContent>;
 }

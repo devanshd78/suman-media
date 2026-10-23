@@ -1,5 +1,7 @@
 "use client";
 
+import { useTextTranslation } from "@/components/localization/localized-content";
+import { graphemes } from "@/i18n/translate";
 import {
   Fragment,
   createElement,
@@ -54,7 +56,7 @@ function buildTextLines(text: string, split: TextRevealSplit) {
       .filter(Boolean)
       .map((word) => {
         if (split === "characters") {
-          return Array.from(word).map((character) => ({
+          return graphemes(word).map((character) => ({
             index: pieceIndex++,
             text: character,
           }));
@@ -116,12 +118,14 @@ export function TextReveal({
   style,
   text,
 }: TextRevealProps) {
+  const t = useTextTranslation();
+  const translatedText = t(text);
   const textRef = useRef<HTMLSpanElement | null>(null);
   const isInView = useInView(textRef, { amount, once });
   const reduceMotion = useReducedMotion() ?? false;
   const lines = useMemo(
-    () => buildTextLines(text, split),
-    [split, text],
+    () => buildTextLines(translatedText, split),
+    [split, translatedText],
   );
   const isMask = effect === "mask";
   const hidden = hiddenState(effect, distance);

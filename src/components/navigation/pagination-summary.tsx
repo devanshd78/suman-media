@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 type PaginationSummaryProps = {
   page: number;
   pageSize: number;
@@ -11,14 +13,14 @@ export function PaginationSummary({
   totalItems,
   itemLabel = "results",
 }: PaginationSummaryProps) {
-  if (totalItems === 0) return <p className="text-sm text-zinc-600">No {itemLabel}</p>;
+  if (totalItems === 0) return <LocalizedContent>{<p className="text-sm text-zinc-600">No {itemLabel}</p>}</LocalizedContent>;
 
   const from = (page - 1) * pageSize + 1;
   const to = Math.min(page * pageSize, totalItems);
 
-  return (
+  return <LocalizedContent>{(
     <p className="text-sm text-zinc-600">
       Showing {from}–{to} of {totalItems} {itemLabel}
     </p>
-  );
+  )}</LocalizedContent>;
 }

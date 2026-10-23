@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   Children,
@@ -35,7 +37,7 @@ function MaskedTextReveal({
   });
 
   if (prefersReducedMotion) {
-    return <>{children}</>;
+    return <LocalizedContent>{<>{children}</>}</LocalizedContent>;
   }
 
   let wordIndex = 0;
@@ -139,14 +141,14 @@ function MaskedTextReveal({
     return node;
   };
 
-  return (
+  return <LocalizedContent>{(
     <span
       ref={ref}
       className="inline"
     >
       {renderNode(children)}
     </span>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -184,7 +186,7 @@ function CardHeader({
   title,
   description,
 }: CardHeaderProps) {
-  return (
+  return <LocalizedContent>{(
     <div
       className="
         relative
@@ -258,7 +260,7 @@ function CardHeader({
         </MaskedTextReveal>
       </p>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -270,7 +272,7 @@ function MobilePhone({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div
       className="
         absolute
@@ -545,7 +547,7 @@ function MobilePhone({
         />
       </motion.div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -568,7 +570,7 @@ function SmartTelevision({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div
       className="
         absolute
@@ -836,7 +838,7 @@ function SmartTelevision({
         </motion.div>
       </div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -876,7 +878,7 @@ function ConnectedTvArtwork({
     },
   };
 
-  return (
+  return <LocalizedContent>{(
     <div
       className="
         absolute
@@ -1042,7 +1044,7 @@ function ConnectedTvArtwork({
         </motion.div>
       </motion.div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1111,7 +1113,7 @@ function ContentAggregationArtwork({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <motion.div
       initial={reducedMotion ? false : "hidden"}
       whileInView={reducedMotion ? undefined : "show"}
@@ -1202,7 +1204,7 @@ function ContentAggregationArtwork({
         </div>
       ))}
     </motion.div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1331,7 +1333,7 @@ function ActiveSubscriptionsCard({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <motion.div
       initial={
         reducedMotion
@@ -1515,7 +1517,7 @@ function ActiveSubscriptionsCard({
         </p>
       </div>
     </motion.div>
-  );
+  )}</LocalizedContent>;
 }
 
 function TotalWatchViewsCard({
@@ -1523,7 +1525,7 @@ function TotalWatchViewsCard({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <motion.div
       initial={
         reducedMotion
@@ -1673,7 +1675,7 @@ function TotalWatchViewsCard({
         )}
       </motion.div>
     </motion.div>
-  );
+  )}</LocalizedContent>;
 }
 
 function SubscriptionManagementArtwork({
@@ -1681,7 +1683,7 @@ function SubscriptionManagementArtwork({
 }: {
   reducedMotion: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <div
       className="
         absolute
@@ -1709,7 +1711,7 @@ function SubscriptionManagementArtwork({
         reducedMotion={reducedMotion}
       />
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* =========================================================
@@ -1722,7 +1724,7 @@ export default function Entertainment() {
       useReducedMotion(),
     );
 
-  return (
+  return <LocalizedContent>{(
     <section
       aria-labelledby="entertainment-heading"
       className="
@@ -2002,5 +2004,5 @@ export default function Entertainment() {
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

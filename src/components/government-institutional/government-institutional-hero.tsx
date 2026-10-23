@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
@@ -20,7 +22,7 @@ export function Chevron() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>;
 }
 export function GovernmentHero() {
-  return <section className={styles.hero} aria-labelledby="government-title">
+  return <LocalizedContent>{<section className={styles.hero} aria-labelledby="government-title">
     <div className={styles.mosaic} aria-hidden="true">
       <Image src="/images/government-institutional/hero-mosaic.jpg" alt="" fill preload sizes="(max-width: 1440px) 1440px, 100vw" className={styles.mosaicBase}/>
       {cards.map((clipPath,index)=><div key={clipPath} className={styles.mosaicCard} style={{clipPath,"--delay":`${index * 75}ms`} as CSSProperties} />)}
@@ -35,5 +37,5 @@ export function GovernmentHero() {
       <Link href="/contact/form" className={`${styles.action} ${styles.entrance}`} style={{"--delay":"650ms"} as CSSProperties}>Discuss a Project <Chevron /></Link>
     </div>
     <svg className={styles.curve} viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44Q720 -34 1440 44V45H0Z" fill="white"/></svg>
-  </section>;
+  </section>}</LocalizedContent>;
 }

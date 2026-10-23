@@ -1,3 +1,6 @@
+"use client";
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import {
   plusJakartaSans as exo2,
@@ -32,7 +35,7 @@ export function MediaCoverageSection({
 
   if (!items.length) return null;
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="media-coverage"
       aria-labelledby="media-coverage-heading"
@@ -195,5 +198,5 @@ export function MediaCoverageSection({
         })}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

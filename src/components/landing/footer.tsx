@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -458,7 +460,7 @@ function FooterGroup({
   title: string;
   links: FooterLink[];
 }) {
-  return (
+  return <LocalizedContent>{(
     <IntersectionReveal className="flex min-w-0 flex-col">
       <h3
         className={`
@@ -569,7 +571,7 @@ function FooterGroup({
         ))}
       </ul>
     </IntersectionReveal>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -616,17 +618,17 @@ function SocialLink({
   `;
 
   if (!href) {
-    return (
+    return <LocalizedContent>{(
       <span
         aria-label={label}
         className={className}
       >
         {children}
       </span>
-    );
+    )}</LocalizedContent>;
   }
 
-  return (
+  return <LocalizedContent>{(
     <a
       href={href}
       target="_blank"
@@ -636,7 +638,7 @@ function SocialLink({
     >
       {children}
     </a>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -680,7 +682,7 @@ function FooterTopAction({
       ? cta
       : fallback;
 
-  return (
+  return <LocalizedContent>{(
     <Link
       href={resolved.href}
       className={`
@@ -744,7 +746,7 @@ function FooterTopAction({
         <ArrowRightIcon />
       </span>
     </Link>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -764,7 +766,7 @@ function FooterIntroCard({
   cta?: CmsCta | null;
   fallbackCta: CmsCta;
 }) {
-  return (
+  return <LocalizedContent>{(
     <IntersectionReveal
       className="
         flex
@@ -859,7 +861,7 @@ function FooterIntroCard({
         />
       </div>
     </IntersectionReveal>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -951,7 +953,7 @@ export function Footer({
     footer?.designCredit?.trim() ||
     "Design Courtesy NOWT";
 
-  return (
+  return <LocalizedContent>{(
     <footer
       data-motion-managed
       className="
@@ -1673,5 +1675,5 @@ export function Footer({
         </IntersectionReveal>
       </div>
     </footer>
-  );
+  )}</LocalizedContent>;
 }

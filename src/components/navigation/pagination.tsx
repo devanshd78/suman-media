@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Link from "next/link";
 
 export type PaginationSearchParams = Record<
@@ -63,7 +65,7 @@ export function Pagination({
   const baseClass =
     "inline-flex min-h-10 min-w-10 items-center justify-center rounded-[0.25rem] border px-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2";
 
-  return (
+  return <LocalizedContent>{(
     <nav aria-label="Pagination" className="flex flex-wrap items-center justify-center gap-2">
       {safeCurrentPage > 1 ? (
         <Link
@@ -115,5 +117,5 @@ export function Pagination({
         </span>
       )}
     </nav>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import {
   useCallback,
   useEffect,
@@ -158,7 +160,7 @@ export function FaqSection({
   const newsAndBlogsVariant = variant === "newsAndBlogs";
   const classes = getVariantClasses(variant);
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="faq"
       aria-labelledby="faq-heading"
@@ -363,5 +365,5 @@ export function FaqSection({
         })}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

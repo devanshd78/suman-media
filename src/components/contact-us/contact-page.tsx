@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
@@ -197,7 +199,7 @@ export function ContactPageContent({
   const careersCtaImageAlt =
     content?.careersCta?.imageAlt?.trim() || FALLBACK_CAREERS_CTA.imageAlt;
 
-  return (
+  return <LocalizedContent>{(
     <main className="relative mx-auto w-full max-w-full overflow-x-hidden bg-white">
       <section
         aria-labelledby="contact-page-heading"
@@ -500,5 +502,5 @@ export function ContactPageContent({
         </Link>
       </section>
     </main>
-  );
+  )}</LocalizedContent>;
 }

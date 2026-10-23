@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import type { ReactNode } from "react";
 import { StateShell } from "@/components/feedback/state-shell";
 
@@ -14,12 +16,12 @@ export function SuccessState({
   action,
   compact,
 }: SuccessStateProps) {
-  return (
+  return <LocalizedContent>{(
     <StateShell
       title={title}
       description={description}
       action={action}
       compact={compact}
     />
-  );
+  )}</LocalizedContent>;
 }

@@ -1,8 +1,10 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Link from "next/link";
 import { EmptyState } from "@/components/states/empty-state";
 
 export function NoResultsState({ resetHref }: { resetHref: string }) {
-  return (
+  return <LocalizedContent>{(
     <EmptyState
       title="No matching results"
       description="Try changing your search or clearing the selected filters."
@@ -15,5 +17,5 @@ export function NoResultsState({ resetHref }: { resetHref: string }) {
         </Link>
       }
     />
-  );
+  )}</LocalizedContent>;
 }

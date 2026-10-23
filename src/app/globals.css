@@ -270,3 +270,20 @@ select {
   [data-landing-page] #careers > .relative,
   [data-landing-page] section[aria-labelledby="join-abhijat-heading"] > .relative { padding-block: 100px; }
 }
+
+/* Marathi text needs complete glyph clusters, natural line heights and room to wrap. */
+html[lang="mr"] body,
+html[lang="mr"] body :where(h1,h2,h3,h4,h5,h6,p,a,span,button,input,select,textarea,label,li,dt,dd,figcaption) {
+  font-family: var(--font-devanagari), sans-serif !important;
+  letter-spacing: normal !important;
+  font-feature-settings: normal !important;
+}
+html[lang="mr"] :where(h1,h2,h3,h4) { line-height: 1.35; }
+html[lang="mr"] :where(p,li,label,button,input,textarea) { line-height: 1.65; }
+html[lang="mr"] :where(button,a) { text-wrap: pretty; }
+/* Floating language toggle, separate from the site navigation. */
+.language-switcher { position:fixed; right:max(24px,env(safe-area-inset-right)); bottom:max(24px,env(safe-area-inset-bottom)); z-index:90; display:flex; gap:4px; align-items:center; padding:5px; border:1px solid #d7c799; border-radius:999px; background:#fff; box-shadow:0 4px 24px #0002; color:#413415; font-size:13px; }
+.language-switcher a { display:grid; place-items:center; min-width:64px; min-height:44px; padding:5px 12px; border-radius:999px; white-space:nowrap; text-decoration:none; transition:background-color .2s,color .2s; }
+.language-switcher a[aria-current="true"] { background:#967222; color:#fff; }
+.language-switcher a:focus-visible { outline:2px solid #967222; outline-offset:3px; }
+@media(max-width:480px) { .language-switcher { right:16px; bottom:max(16px,env(safe-area-inset-bottom)); font-size:12px; } .language-switcher a { min-width:58px; min-height:44px; padding:4px 9px; } }

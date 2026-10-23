@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import legacyPaths from "@/config/legacy-path-redirects.json";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
+
+const internationalize = createMiddleware(routing);
 
 // Exact, case-sensitive lookup avoids redirect loops for casing-only renames.
 export function proxy(request: NextRequest) {
@@ -10,20 +14,21 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const destination = legacyPaths[pathname as keyof typeof legacyPaths];
-  if (!destination) return NextResponse.next();
+  const prefix = pathname.match(/^\/(en|mr)(?=\/|$)/)?.[0] ?? "";
+  const original = prefix ? pathname.slice(prefix.length) : pathname;
+  const destination = legacyPaths[original as keyof typeof legacyPaths];
+  if (!destination) {
+    if (/^\/(api|studio|images|videos|cannes|_next)(\/|$)/.test(pathname) || /\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next();
+    return internationalize(request);
+  }
 
   const url = request.nextUrl.clone();
-  url.pathname = destination;
+  url.pathname = `${prefix}${destination}`;
   return NextResponse.redirect(url, 308);
 }
 
 export const config = {
   matcher: [
-    "/images/:path*",
-    "/videos/:path*",
-    "/capitalmarket",
-    "/contentAcquisition&distribution",
-    "/creator-Ecosystem",
+    "/((?!api|studio|_next|_vercel|favicon.ico|robots.txt|sitemap.xml).*)",
   ],
 };

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { lazy, Suspense, useSyncExternalStore, type ReactNode } from "react";
 import { useNearViewport } from "@/hooks/use-near-viewport";
 
@@ -22,10 +24,10 @@ export function TextReveal({ children, enabled = true }: { children: ReactNode; 
   );
   const { ref, isNearViewport } = useNearViewport<HTMLSpanElement>(enabled && motionEnabled);
 
-  if (!enabled) return <>{children}</>;
+  if (!enabled) return <LocalizedContent>{<>{children}</>}</LocalizedContent>;
 
   // Keep server-rendered text and its space while the animation loads nearby.
-  return (
+  return <LocalizedContent>{(
     <span ref={ref} data-lazy-text="">
       {motionEnabled && isNearViewport ? (
         <Suspense fallback={children}>
@@ -33,5 +35,5 @@ export function TextReveal({ children, enabled = true }: { children: ReactNode; 
         </Suspense>
       ) : children}
     </span>
-  );
+  )}</LocalizedContent>;
 }

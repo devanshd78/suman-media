@@ -1,3 +1,5 @@
+
+import { LocalizedContent } from "@/components/localization/localized-server-content";
 type LoadingStateProps = {
   label?: string;
   rows?: number;
@@ -9,7 +11,7 @@ export function LoadingState({
   rows = 3,
   compact = false,
 }: LoadingStateProps) {
-  return (
+  return <LocalizedContent>{(
     <section
       aria-busy="true"
       aria-live="polite"
@@ -30,5 +32,5 @@ export function LoadingState({
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import {
@@ -169,7 +171,7 @@ export function AchievementRevealGrid({
   const ctaHref =
     content?.cta?.href?.trim() || "/about";
 
-  return (
+  return <LocalizedContent>{(
     <section
       ref={sectionRef}
       aria-labelledby="achievement-heading"
@@ -522,5 +524,5 @@ export function AchievementRevealGrid({
         )}
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

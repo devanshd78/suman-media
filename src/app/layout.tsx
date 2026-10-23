@@ -1,11 +1,14 @@
+import { localizeMetadata } from "@/i18n/server";
+import { TranslationProvider } from "@/components/localization/localized-content";
+import { getLocale } from "next-intl/server";
 import type { Metadata, Viewport } from "next";
 
 import { siteConfig } from "@/config/site";
-import { inter, plusJakartaSans } from "@/lib/fonts";
+import { inter, plusJakartaSans, notoSansDevanagari } from "@/lib/fonts";
 
 import "./globals.css";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
   description: siteConfig.description,
@@ -27,6 +30,12 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const metadata = await localizeMetadata(baseMetadata);
+  delete metadata.alternates;
+  return metadata;
+}
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -34,18 +43,19 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
     <html
-      lang="en"
-      className={`${plusJakartaSans.variable} ${inter.variable} h-full antialiased`}
+      lang={locale}
+      className={`${plusJakartaSans.variable} ${inter.variable} ${notoSansDevanagari.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-zinc-950">
-        {children}
+        <TranslationProvider locale={locale}>{children}</TranslationProvider>
       </body>
     </html>
   );

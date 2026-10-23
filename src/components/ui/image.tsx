@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import NextImage, {
   getImageProps as getNextImageProps,
   type ImageLoaderProps,
@@ -75,5 +77,5 @@ export function getImageProps(props: ImageProps) {
 }
 
 export default function Image(props: ImageProps) {
-  return <NextImage {...withImageDefaults(props)} />;
+  return <LocalizedContent>{<NextImage {...withImageDefaults(props)} />}</LocalizedContent>;
 }

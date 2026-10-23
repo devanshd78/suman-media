@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 
@@ -218,7 +220,7 @@ function SmallArrowRight() {
 function HeaderText() {
   const reduceMotion = useReducedMotion() ?? false;
 
-  return (
+  return <LocalizedContent>{(
     <div className={styles.headerText}>
       <motion.p
         initial={
@@ -288,7 +290,7 @@ function HeaderText() {
         One platform, a universe of entertainment
       </motion.h2>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -304,7 +306,7 @@ function SlideCard({
   isActive: boolean;
   isClone: boolean;
 }) {
-  return (
+  return <LocalizedContent>{(
     <article
       aria-current={
         !isClone && isActive
@@ -416,7 +418,7 @@ function SlideCard({
         </div>
       </div>
     </article>
-  );
+  )}</LocalizedContent>;
 }
 
 /* ============================================================
@@ -1246,7 +1248,7 @@ export function ClientsSection() {
      RENDER
      ========================================================== */
 
-  return (
+  return <LocalizedContent>{(
     <section
       id="clients"
       aria-labelledby="clients-heading"
@@ -1523,5 +1525,5 @@ export function ClientsSection() {
         </div>
       </div>
     </section>
-  );
+  )}</LocalizedContent>;
 }

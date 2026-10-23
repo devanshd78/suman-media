@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
@@ -216,25 +218,25 @@ function ChevronRightIcon() {
 }
 
 function TextLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
+  return <LocalizedContent>{(
     <Link href={href} className={styles.textLink}>
       <span>{children}</span>
       <ChevronRightIcon />
     </Link>
-  );
+  )}</LocalizedContent>;
 }
 
 function PillLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
+  return <LocalizedContent>{(
     <Link href={href} className={styles.pillLink}>
       <span>{children}</span>
       <ChevronRightIcon />
     </Link>
-  );
+  )}</LocalizedContent>;
 }
 
 function PartnerLogos() {
-  return (
+  return <LocalizedContent>{(
     <div
       className={styles.partnerLogoStrip}
       aria-label="Selected ecosystem partners"
@@ -254,7 +256,7 @@ function PartnerLogos() {
         />
       ))}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 function EcosystemHeader({
@@ -264,7 +266,7 @@ function EcosystemHeader({
   tone = "light",
   ctaLabel = "Explore",
 }: EcosystemHeaderProps) {
-  return (
+  return <LocalizedContent>{(
     <div className={styles.ecosystemHeader} data-tone={tone}>
       <IntersectionReveal className={styles.ecosystemIdentity}>
         <Image
@@ -283,7 +285,7 @@ function EcosystemHeader({
         <PillLink href={href}>{ctaLabel}</PillLink>
       </IntersectionReveal>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 
@@ -356,7 +358,7 @@ function EcosystemStackCard({
     return 1 - depth * 0.0275;
   });
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={styles.ecosystemStackLayer}
       style={{ zIndex: index + 1 }}
@@ -371,7 +373,7 @@ function EcosystemStackCard({
         {children}
       </motion.div>
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 function MediaRail({
@@ -576,7 +578,7 @@ function MediaRail({
     });
   }, []);
 
-  return (
+  return <LocalizedContent>{(
     <div
       className={styles.mediaRailWrap}
       data-tone={tone}
@@ -795,7 +797,7 @@ function MediaRail({
         </div>
       ) : null}
     </div>
-  );
+  )}</LocalizedContent>;
 }
 
 export function PartnerPageContent() {
@@ -932,7 +934,7 @@ export function PartnerPageContent() {
 
   const activeFilm = FILM_STRIP[activeFilmIndex];
 
-  return (
+  return <LocalizedContent>{(
     <main
       className={`${plusJakartaSans.className} ${plusJakartaSans.variable} ${inter.variable} ${exo2.variable} ${styles.page}`}
     >
@@ -1395,5 +1397,5 @@ export function PartnerPageContent() {
         </IntersectionReveal>
       </section>
     </main>
-  );
+  )}</LocalizedContent>;
 }

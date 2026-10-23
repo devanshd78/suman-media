@@ -1,5 +1,7 @@
 "use client";
 
+
+import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { inter } from "@/lib/fonts";
@@ -115,7 +117,7 @@ export default function RevenueModelsSection() {
     };
   }, []);
 
-  return (
+  return <LocalizedContent>{(
     <>
     <section
       ref={sectionRef}
@@ -628,5 +630,5 @@ export default function RevenueModelsSection() {
       </ul>
     </section>
     </>
-  );
+  )}</LocalizedContent>;
 }
