@@ -1,4 +1,3 @@
-import { LanguageSwitcher } from "@/components/localization/language-switcher";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -29,7 +28,6 @@ export default async function WebsiteLayout({ children, params }: { children: Re
       <Header />
       {children}
       <Footer settings={settings} />
-      <LanguageSwitcher />
       <SanityLive />
       {isEnabled ? <VisualEditing /> : null}
     </SmoothScrollProvider>

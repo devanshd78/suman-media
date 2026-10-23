@@ -2,7 +2,7 @@
 
 The public website uses `/en/...` and `/mr/...` routes. Unprefixed links redirect to the visitor's selected language (English by default). API endpoints, Sanity Studio and asset URLs retain their original paths.
 
-The English / मराठी pill sits at the bottom-right of the viewport. It links to the same page in the other language and preserves query parameters and anchors. The locale cookie remembers the selection.
+The English / मराठी dropdown sits in the header after Careers and before Contact us, and in the same order in the mobile navigation. It opens the same page in the other language and preserves query parameters and anchors. The locale cookie remembers the selection.
 
 ## Editing translations
 

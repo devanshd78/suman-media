@@ -1,5 +1,6 @@
 "use client";
 
+import { LocalizedContent } from "@/components/localization/localized-content";
 import React, { useState, useEffect } from "react";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
@@ -233,8 +234,8 @@ export default function DigitalMediaNetworksPage() {
 
     const currentSlide = SLIDES[activeSlide];
 
-    return (
-        <div
+    return <LocalizedContent>{(
+        <div className="digital-media-page"
             style={{
                 display: "flex",
                 flexDirection: "column",
@@ -246,6 +247,24 @@ export default function DigitalMediaNetworksPage() {
         >
             {/* Keyframes for Infinite Testimonial Scroll */}
             <style>{`
+
+        .digital-media-page .digital-slide-card { height: auto !important; }
+        html[lang="mr"] .digital-media-page :is(h1,h2,h3,p) { line-height: 1.5 !important; }
+        @media (max-width: 900px) {
+          .digital-media-page > section { padding: 3.5rem 1.25rem !important; min-height: 0 !important; }
+          .digital-media-page > section:first-of-type { padding-top: 7rem !important; }
+          .digital-media-page :is(.digital-hero-row,.digital-capabilities-row,.digital-faq-row,.digital-contact-row) { flex-direction: column !important; gap: 2rem !important; width: 100% !important; }
+          .digital-media-page :is(.digital-hero-row,.digital-capabilities-row,.digital-faq-row) > div { width: 100% !important; min-width: 0 !important; flex-basis: auto !important; }
+          .digital-media-page .digital-contact-row { padding: 0 !important; }
+          .digital-media-page .digital-process-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+          .digital-media-page .digital-slide-card { padding: 1.25rem !important; }
+          .digital-media-page .marquee-track > div { width: min(29.5rem,85vw) !important; }
+          .digital-media-page h1 { font-size: clamp(2rem,7vw,3rem) !important; line-height: 1.3 !important; }
+        }
+        @media (max-width: 540px) {
+          .digital-media-page .digital-process-grid { grid-template-columns: 1fr !important; }
+          .digital-media-page .digital-slide-card > div:first-child { flex-direction: column !important; gap: 1rem !important; }
+        }
         @keyframes infiniteMarquee {
           0% {
             transform: translateX(0);
@@ -281,7 +300,7 @@ export default function DigitalMediaNetworksPage() {
                     boxSizing: "border-box",
                 }}
             >
-                <div
+                <div className="digital-hero-row"
                     style={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -366,8 +385,7 @@ export default function DigitalMediaNetworksPage() {
                             sustainable growth across digital platforms.
                         </p>
 
-                        <button
-                            type="button"
+                        <a href="/contact"
                             style={{
                                 display: "flex",
                                 padding: "1rem",
@@ -414,7 +432,7 @@ export default function DigitalMediaNetworksPage() {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -494,7 +512,7 @@ export default function DigitalMediaNetworksPage() {
                     </p>
                 </div>
 
-                <div
+                <div className="digital-capabilities-row"
                     style={{
                         display: "flex",
                         alignItems: "flex-start",
@@ -598,11 +616,11 @@ export default function DigitalMediaNetworksPage() {
                     </div>
 
                     {/* Right Side Slide Card */}
-                    <div
+                    <div className="digital-slide-card"
                         style={{
                             display: "flex",
                             flex: 1,
-                            height: "34.875rem",
+                            minHeight: "34.875rem",
                             padding: "2rem",
                             flexDirection: "column",
                             alignItems: "center",
@@ -672,8 +690,7 @@ export default function DigitalMediaNetworksPage() {
                                 </p>
                             </div>
 
-                            <button
-                                type="button"
+                            <a href="/contact"
                                 style={{
                                     display: "flex",
                                     padding: "0 var(--Spacing-0, 0)",
@@ -721,7 +738,7 @@ export default function DigitalMediaNetworksPage() {
                                         strokeLinejoin="round"
                                     />
                                 </svg>
-                            </button>
+                            </a>
                         </div>
 
                         <div
@@ -798,7 +815,7 @@ export default function DigitalMediaNetworksPage() {
                     </h2>
                 </div>
 
-                <div
+                <div className="digital-process-grid"
                     style={{
                         display: "grid",
                         gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
@@ -890,7 +907,7 @@ export default function DigitalMediaNetworksPage() {
                     justifyContent: "center",
                 }}
             >
-                <div
+                <div className="digital-contact-row"
                     style={{
                         display: "flex",
                         width: "100%",
@@ -948,8 +965,7 @@ export default function DigitalMediaNetworksPage() {
                         </p>
                     </div>
 
-                    <button
-                        type="button"
+                    <a href="/contact"
                         style={{
                             display: "flex",
                             height: "3rem",
@@ -995,7 +1011,7 @@ export default function DigitalMediaNetworksPage() {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                    </button>
+                    </a>
                 </div>
             </section>
 
@@ -1026,7 +1042,7 @@ export default function DigitalMediaNetworksPage() {
                                     position: "relative",
                                     display: "flex",
                                     width: "29.5rem",
-                                    height: "17.625rem",
+                                    minHeight: "17.625rem",
                                     padding: "1.25rem",
                                     flexDirection: "column",
                                     justifyContent: "space-between",
@@ -1107,7 +1123,7 @@ export default function DigitalMediaNetworksPage() {
                                     aria-hidden="true"
                                     style={{
                                         width: "13.5rem",
-                                        height: "13.5rem",
+                                        minHeight: "13.5rem",
                                         objectFit: "contain",
                                         position: "absolute",
                                         right: "-1.5rem",
@@ -1140,7 +1156,7 @@ export default function DigitalMediaNetworksPage() {
                 }}
             >
                 {/* Strict Side-by-Side Row (No wrapping on desktop screens) */}
-                <div
+                <div className="digital-faq-row"
                     style={{
                         display: "flex",
                         width: "100%",
@@ -1231,6 +1247,10 @@ export default function DigitalMediaNetworksPage() {
                             return (
                                 <div
                                     key={faq.id}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-expanded={isOpen}
+                                    onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleFaq(index); } }}
                                     onClick={() => toggleFaq(index)}
                                     style={{
                                         display: "flex",
@@ -1395,8 +1415,7 @@ export default function DigitalMediaNetworksPage() {
                             Let&apos;s bring it to the world.
                         </h2>
 
-                        <button
-                            type="button"
+                        <a href="/contact"
                             className="group cursor-pointer hover:opacity-85 transition-opacity"
                             style={{
                                 display: "flex",
@@ -1451,7 +1470,7 @@ export default function DigitalMediaNetworksPage() {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                        </button>
+                        </a>
                     </div>
 
                     {/* Bottom-Right Logo */}
@@ -1466,5 +1485,5 @@ export default function DigitalMediaNetworksPage() {
                 </div>
             </section>
         </div>
-    );
+    )}</LocalizedContent>;
 }

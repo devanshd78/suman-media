@@ -2,6 +2,7 @@
 
 
 import { LocalizedContent } from "@/components/localization/localized-content";
+import { LanguageSwitcher } from "@/components/localization/language-switcher";
 import Image from "@/components/ui/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -1960,6 +1961,7 @@ const topTextColor =
                   </Link>
                 ),
               )}
+              <LanguageSwitcher color={topTextColor} onFocus={closeDropdown} />
             </nav>
 
             {/* ===============================================
@@ -2270,6 +2272,8 @@ const topTextColor =
                 {/* =========================================
                       MOBILE CONTACT
                       ========================================= */}
+
+                <LanguageSwitcher />
 
                 <Link
                   href="/contact"

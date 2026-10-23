@@ -4,19 +4,22 @@ import { useWebsiteLocale } from "./localized-content";
 import { usePathname } from "next/navigation";
 import { localizedPath } from "@/i18n/routing";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ color, onFocus }: { color?: string; onFocus?: () => void }) {
   const locale = useWebsiteLocale();
   const pathname = usePathname();
-  return <nav className="language-switcher" aria-label={locale === "mr" ? "संकेतस्थळाची भाषा" : "Website language"} translate="no">
-    {(["en", "mr"] as const).map((language) => <a
-      key={language}
-      href={localizedPath(pathname, language)}
-      hrefLang={language}
-      lang={language}
-      aria-current={locale === language ? "true" : undefined}
-      onClick={(event) => {
-        event.currentTarget.href = `${localizedPath(pathname, language)}${window.location.search}${window.location.hash}`;
+  return <span className="language-dropdown" style={{ color }} translate="no">
+    <select
+      aria-label={locale === "mr" ? "संकेतस्थळाची भाषा" : "Website language"}
+      value={locale}
+      onFocus={onFocus}
+      onChange={(event) => {
+        if (event.target.value === locale) return;
+        window.location.assign(`${localizedPath(pathname, event.target.value)}${window.location.search}${window.location.hash}`);
       }}
-    >{language === "en" ? "English" : "मराठी"}</a>)}
-  </nav>;
+    >
+      <option value="en" lang="en">English</option>
+      <option value="mr" lang="mr">मराठी</option>
+    </select>
+    <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  </span>;
 }

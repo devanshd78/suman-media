@@ -1,3 +1,5 @@
+import { localizeMetadata } from "@/i18n/server";
+import { createPageMetadata } from "@/lib/seo/metadata";
 import React from "react";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 
@@ -23,4 +25,7 @@ export default function DigitalMediaNetworksLayout({
       {children}
     </div>
   );
+}
+export async function generateMetadata() {
+ return localizeMetadata(createPageMetadata("Digital Media Networks", "Building Digital Channels, Audiences & Content Networks.", "/degital-media-networks"));
 }
