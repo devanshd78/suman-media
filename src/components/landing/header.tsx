@@ -413,6 +413,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/content-music-library",
   "/services/brand-solutions-advertising",
   "/event-experience",
+  "/government",
 ]);
 
 const LIGHT_HERO_HEADER_ROUTES = new Set([

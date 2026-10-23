@@ -1,1845 +1,501 @@
-
-"use client";
-
-
-import { LocalizedContent } from "@/components/localization/localized-content";
-import { useState } from "react";
+import React from "react";
+import Image from "next/image";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
-/* =========================================
-   ASSET PATHS
-========================================= */
-
-const ASSET_BASE = "/images/government";
-const OTT_BASE = "/images/abhijat-marathi";
-
-const ICON_BASE =
-  `${ASSET_BASE}/icons`;
-
-const VIDEO_SRC =
-  `${ASSET_BASE}/government-hero-clouds.mp4`;
-
-/* =========================================
-   SECTION 2 - AI CAPABILITIES
-========================================= */
-
-const capabilities = [
+const impactServices = [
   {
-    title: "AI Content Archiving.",
+    id: "01",
+    title: "01. Public Awareness Campaign",
     description:
-      "Exploring intelligent ways to organise, preserve and retrieve large content libraries.",
+      "Communication campaigns designed to inform people about public initiatives, services and important issues.",
+    image: "/images/psu/Image1.jpg",
+    reverse: false, // Image Left, Text Right
   },
   {
-    title: "AI Publishing Solutions",
+    id: "02",
+    title: "02. Tourism & Heritage Promotion",
     description:
-      "AI-enabled workflows for preparing, organising and publishing content across digital platforms.",
+      "Premium content behind a recurring subscription — built for audiences who want continuous access to a curated entertainment library.",
+    image: "/images/psu/Image2.jpg",
+    reverse: true, // Text Left, Image Right
   },
   {
-    title: "AI Content Discovery",
+    id: "03",
+    title: "03. Cultural Documentation",
     description:
-      "Helping audiences discover relevant films, music and content through intelligent discovery experiences.",
+      "Showcasing regional culture, traditions, people and stories through media and content production.",
+    image: "/images/psu/Image3.jpg",
+    reverse: false, // Image Left, Text Right
   },
   {
-    title: "AI Translation",
+    id: "04",
+    title: "04. Government & Institutional Events",
     description:
-      "Using AI to help make content accessible across languages and audiences.",
-  },
-  {
-    title: "AI Recommendation Engines",
-    description:
-      "Exploring personalised recommendations based on content, interests and viewing behaviour.",
-  },
-  {
-    title: "AI Research Projects",
-    description:
-      "Research and experimentation into emerging AI applications across media, entertainment and content.",
-  },
-  {
-    title: "AI Dubbing & Voice Cloning",
-    description:
-      "Exploring AI-assisted dubbing and voice technologies to make multilingual content experiences.",
-  },
-  {
-    title: "AI Metadata Generation",
-    description:
-      "Using AI to structure and enrich content metadata for better discovery, organisation and distribution.",
-  },
-  {
-    title: "Digital Knowledge Systems",
-    description:
-      "Exploring structured digital knowledge systems for content, cultural information and organisational intelligence.",
+      "Supporting the communication and execution of public, cultural and institutional events.",
+    image: "/images/psu/Image4.jpg",
+    reverse: true, // Text Left, Image Right
   },
 ];
 
-/* =========================================
-   SECTION 3 - WHERE AI CREATES VALUE
-========================================= */
+export default function PsuServicesPage() {
+  return (
+    <div className="w-full min-h-screen bg-white font-['Plus_Jakarta_Sans',sans-serif]">
+      {/* Google Fonts & Font Feature Settings */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        
+        .no-ligatures {
+          font-feature-settings: 'liga' off, 'clig' off;
+        }
+      `}</style>
 
-const aiValues = [
-  {
-    title: "Discover",
-    description:
-      "Help audiences find the right content faster.",
-    icon: "video-conference.svg",
-  },
-  {
-    title: "Present",
-    description:
-      "Create more relevant content experiences.",
-    icon: "presentation-chart.svg",
-  },
-  {
-    title: "Expand",
-    description:
-      "Make regional content accessible across languages and markets.",
-    icon: "television.svg",
-  },
-  {
-    title: "Preserve",
-    description:
-      "Organise and protect valuable content and cultural archives.",
-    icon: "archive.svg",
-  },
-];
-
-/* =========================================
-   SECTION 4 - CONTENT / AI SHOWCASE
-========================================= */
-
-type ActionTab = "library" | "ai";
-
-type ActionCard = {
-  title: string;
-  image: string;
-};
-
-const actionCollections: Record<ActionTab, ActionCard[]> = {
-  library: [
-    {
-      title: "Films",
-      image: `${OTT_BASE}/abhijat-marathi-gallery-2.png`,
-    },
-    {
-      title: "Songs",
-      image: `${OTT_BASE}/nauvari-pahija.png`,
-    },
-    {
-      title: "Archives",
-      image: `${OTT_BASE}/zingaat.png`,
-    },
-  ],
-
-  ai: [
-    {
-      title: "Translation",
-      image:
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
-    },
-    {
-      title: "Discovery",
-      image:
-        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
-    },
-    {
-      title: "Personalization",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
-    },
-  ],
-};
-
-/* =========================================
-   MAIN COMPONENT
-========================================= */
-
-export default function Page() {
-  const [activeTab, setActiveTab] =
-    useState<ActionTab>("library");
-
-  const activeCards = actionCollections[activeTab];
-
-  return <LocalizedContent>{(
-    <main className="ai-page">
-
-      {/* ===================================
-          SECTION 1 - VIDEO HERO
-      =================================== */}
-
-      <section
-        className="hero"
-        aria-label="AI Built Around Content"
-      >
-        <div className="hero-video-wrap">
-          <video
-            className="hero-video"
-            src={VIDEO_SRC}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-label="Floating bubbles above pink clouds"
-          />
-
-          <div className="hero-copy">
-            <h1>AI Built Around Content</h1>
-
-            <p>
-              Exploring AI-driven solutions for
-              content discovery, recommendations,
-              <br className="desktop-break" />
-              {" "}
-              translation, publishing, archiving
-              and digital knowledge.
-            </p>
-
-            <a
-              className="hero-link"
-              href="#ai-capabilities"
-            >
-              Explore Our Capabilities
-              <span aria-hidden="true">›</span>
-            </a>
+      {/* =====================================================================
+          HERO SECTION
+      ===================================================================== */}
+      <main className="relative w-full min-h-screen bg-black overflow-hidden flex flex-col justify-between">
+        {/* Responsive Full-Screen Background Image Container */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden">
+          <div className="relative w-full h-full">
+            <Image
+              src="/images/psu/Frame 523.png"
+              alt="Government, PSU & Institutional Services Background"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center scale-105"
+            />
           </div>
         </div>
-      </section>
 
-      {/* ===================================
-          SECTION 2 - AI CAPABILITIES
-      =================================== */}
+        {/* Linear Gradient Overlay */}
+        <div
+          className="absolute inset-0 w-full h-full pointer-events-none z-10"
+          style={{
+            background:
+              "linear-gradient(180deg, #000 0.02%, rgba(51, 51, 51, 0.46) 29.33%, #000 71.47%)",
+          }}
+        />
 
-      <section
-        className="capabilities-section"
-        id="ai-capabilities"
-      >
-        <div className="section-heading">
-          <span className="eyebrow">
-            AI CAPABILITIES
-          </span>
+        {/* Hero Content Container */}
+        <div className="relative z-20 w-full max-w-[90rem] mx-auto px-6 md:px-16 mt-[6.5rem] pb-36 flex-1 flex flex-col justify-between">
+          {/* Top Left Section: Tagline & Main Display Heading */}
+          <div className="max-w-[54rem]">
+            {/* Tiny/Bold Text */}
+            <p
+              className="no-ligatures uppercase tracking-wide mb-3"
+              style={{
+                color: "#FFF",
+                fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans")',
+                fontSize: "var(--Font-size-Tiny, 0.875rem)",
+                fontStyle: "normal",
+                fontWeight: 600,
+                lineHeight: "var(--Line-height-Tiny, 1.25rem)",
+              }}
+            >
+              GOVERNMENT, PSU & INSTITUTIONAL SERVICES
+            </p>
 
-          <h2>Our Areas of Exploration</h2>
+            {/* Main Display/Semi Bold Heading */}
+            <h1
+              className="no-ligatures"
+              style={{
+                color: "var(--Text-Inverse-strong-2, #FFF)",
+                fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans")',
+                fontSize:
+                  "clamp(2.25rem, 4vw, var(--Font-size-Display, 3.5rem))",
+                fontStyle: "normal",
+                fontWeight: 600,
+                lineHeight: "1.15",
+                letterSpacing: "-0.0625rem",
+              }}
+            >
+              Communication That Connects Institutions with People.
+            </h1>
+          </div>
+
+          {/* Bottom Right Section (Frame 636) */}
+          <div className="self-end w-full max-w-[38rem] mt-40 md:mt-32 flex flex-col items-start">
+            {/* Bottom Right Text */}
+            <p
+              className="no-ligatures"
+              style={{
+                color: "var(--Text-Inverse-strong-2, #FFF)",
+                fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans")',
+                fontSize: "var(--Font-size-Subheading, 1.375rem)",
+                fontStyle: "normal",
+                fontWeight: 400,
+                lineHeight: "2rem",
+                letterSpacing: "-0.015rem",
+              }}
+            >
+              Supporting government bodies and institutions through strategic
+              communication, digital outreach and public-facing campaigns.
+            </p>
+
+            {/* 2rem Spacing (From Frame 636) */}
+            <div className="h-[2rem] w-full" />
+
+            {/* "Discuss a Project" Button */}
+            <button
+              type="button"
+              className="group cursor-pointer text-white hover:opacity-80 transition-opacity"
+              style={{
+                display: "flex",
+                padding: "0 var(--Spacing-0, 0)",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "var(--Spacing-0, 0)",
+              }}
+            >
+              <span
+                className="text-sm font-semibold tracking-wide flex items-center gap-2.5 py-2"
+                style={{
+                  display: "flex",
+                  padding: "0 var(--Spacing-0, 0)",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <span>Discuss a Project</span>
+                <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </button>
+          </div>
         </div>
 
-        <div className="capabilities-grid">
-          {capabilities.map((item, index) => {
-            const imageName = ["content-archiving.png", "publishing-solutions.png", "content-discovery.png", "translation.png", "recommendation-engines.png", "research-projects.png", "dubbing-and-voice-cloning.png", "metadata-generation.png", "digital-knowledge-systems.png"][index];
+        {/* Responsive Bottom White Curved Shape (Rectangle 410) */}
+        <svg
+          viewBox="0 0 1456 97"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="absolute bottom-0 left-0 w-full h-[4rem] md:h-[6.03125rem] pointer-events-none z-20"
+        >
+          <path
+            d="M0 97C485.333 15 970.667 15 1456 97H0Z"
+            fill="#FFF"
+          />
+        </svg>
+      </main>
 
-            const slug = item.title
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/-$/, "");
+      {/* =====================================================================
+          BELOW HERO: COMMUNICATION FOR PUBLIC IMPACT SECTION
+      ===================================================================== */}
+      <section
+        className="w-full max-w-[90rem] mx-auto px-6 md:px-[3.5rem] py-[6.25rem]"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "6.25rem",
+          alignSelf: "stretch",
+          background: "#FFF",
+        }}
+      >
+        {/* Section Header (Frame 475) */}
+        <div className="w-full flex flex-col items-center">
+          {/* Small Text */}
+          <p
+            className="no-ligatures uppercase"
+            style={{
+              color: "var(--Light-Border-Text-Secondary, #969696)",
+              textAlign: "center",
+              fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans")',
+              fontSize: "var(--Font-size-Tiny, 0.875rem)",
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "var(--Line-height-Tiny, 1.25rem)",
+            }}
+          >
+            GOVERNMENT, PSU & INSTITUTIONAL SERVICES
+          </p>
 
-            return (
-              <article
-                className="capability-card"
-                key={item.title}
+          {/* Main Heading */}
+          <h2
+            className="no-ligatures mt-1"
+            style={{
+              color: "var(--Light-Border-Text-Primary, #1A1A1A)",
+              textAlign: "center",
+              fontFamily: 'var(--Font-family-Heading, "Plus Jakarta Sans")',
+              fontSize: "clamp(2rem, 3.5vw, var(--Font-size-Heading-1, 2.5rem))",
+              fontStyle: "normal",
+              fontWeight: 600,
+              lineHeight: "var(--Line-height-Heading-1, 3rem)",
+              letterSpacing: "-0.03125rem",
+            }}
+          >
+            Communication for Public Impact
+          </h2>
+
+          {/* 0.75rem (12px) Spacing shown in Figma spec */}
+          <div className="h-[0.75rem] w-full" />
+
+          {/* Sub Text */}
+          <p
+            className="no-ligatures max-w-[38rem]"
+            style={{
+              color: "var(--Light-Border-Text-Secondary, #969696)",
+              textAlign: "center",
+              fontFamily: 'var(--Font-family-Body, "Plus Jakarta Sans")',
+              fontSize: "var(--Font-size-Small, 1rem)",
+              fontStyle: "normal",
+              fontWeight: 400,
+              lineHeight: "var(--Line-height-Small, 1.5rem)",
+            }}
+          >
+            Different content calls for different revenue models. Choose the
+            approach that fits your audience, content library and growth
+            strategy.
+          </p>
+        </div>
+
+        {/* 4 Alternating Image & Text Cards */}
+        <div className="w-full flex flex-col gap-[6.25rem]">
+          {impactServices.map((item) => (
+            <div
+              key={item.id}
+              className={`w-full flex flex-col ${item.reverse ? "lg:flex-row-reverse" : "lg:flex-row"
+                } items-center gap-10 lg:gap-[3.5rem] self-stretch`}
+            >
+              {/* Image Container */}
+              <div
+                className="w-full lg:flex-[1_0_0] relative overflow-hidden shrink-0"
+                style={{
+                  height: "22.9375rem",
+                  borderRadius: "1rem",
+                  background: "lightgray 50% / cover no-repeat",
+                }}
               >
-                <img
-                  className="card-image"
-                  src={`${ASSET_BASE}/${encodeURIComponent(
-                    imageName
-                  )}`}
-                  alt=""
-                  width={100}
-                  height={100}
-                  loading="lazy"
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center"
                 />
+              </div>
 
-                <div className="card-body">
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+              {/* Text at Opposite Side of Image */}
+              <div
+                className="w-full lg:flex-[1_0_0]"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  gap: "4rem",
+                  alignSelf: "stretch",
+                }}
+              >
+                {/* Heading + Subtext Wrapper (Spacing/8 = 0.5rem gap) */}
+                <div className="flex flex-col items-start gap-[0.5rem] w-full">
+                  <h3
+                    className="no-ligatures"
+                    style={{
+                      color: "#372B0D",
+                      fontFamily:
+                        'var(--Font-family-Heading, "Plus Jakarta Sans")',
+                      fontSize:
+                        "clamp(1.5rem, 2.5vw, var(--Font-size-Heading-2, 2rem))",
+                      fontStyle: "normal",
+                      fontWeight: 700,
+                      lineHeight: "var(--Line-height-Heading-2, 2.5rem)",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+
+                  <p
+                    className="no-ligatures max-w-[34rem]"
+                    style={{
+                      color: "var(--Light-Border-Text-Secondary, #969696)",
+                      fontFamily:
+                        'var(--Font-family-Body, "Plus Jakarta Sans")',
+                      fontSize: "var(--Font-size-Small, 1rem)",
+                      fontStyle: "normal",
+                      fontWeight: 400,
+                      lineHeight: "var(--Line-height-Small, 1.5rem)",
+                    }}
+                  >
+                    {item.description}
+                  </p>
                 </div>
 
-                <a
-                  className="card-link"
-                  href={`/ai-capabilities/${slug}`}
+                {/* "Learn more" Button */}
+                <button
+                  type="button"
+                  className="group cursor-pointer hover:opacity-80 transition-opacity"
+                  style={{
+                    display: "flex",
+                    width: "9.375rem",
+                    padding: "0 var(--Spacing-0, 0)",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "var(--Spacing-0, 0)",
+                    borderRadius: "var(--Corner-radius-4, 0.25rem)",
+                  }}
                 >
-                  Explore Our Capabilities
-                  <span aria-hidden="true">›</span>
-                </a>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ===================================
-          SECTION 3 - WHERE AI CREATES VALUE
-      =================================== */}
-
-      <section
-        className="ai-value-section"
-        id="ai-value"
-        aria-labelledby="ai-value-title"
-      >
-        <div className="ai-value-heading">
-          <span className="ai-value-eyebrow">
-            HOW GLOBAL JOURNEY STARTS
-          </span>
-
-          <h2 id="ai-value-title">
-            Where AI Creates Value
-          </h2>
-        </div>
-
-        <div className="ai-value-grid">
-          {aiValues.map((item) => (
-            <article
-              className="ai-value-card"
-              key={item.title}
-            >
-              <img
-                className="ai-value-icon"
-                src={`${ICON_BASE}/${item.icon}`}
-                alt=""
-                width={56}
-                height={56}
-                loading="lazy"
-              />
-
-              <div className="ai-value-content">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                  {/* Inner Button State Container (Spacing/16 = 1rem padding) */}
+                  <span
+                    className="no-ligatures flex items-center justify-center gap-2 py-[1rem] px-[1rem] w-full"
+                    style={{
+                      color: "var(--Text-Warning, #8F6C1A)",
+                      textAlign: "center",
+                      fontFamily: "var(--Font-family-Body, Inter, sans-serif)",
+                      fontSize: "var(--Font-size-Small, 1rem)",
+                      fontStyle: "normal",
+                      fontWeight: 600,
+                      lineHeight: "var(--Line-height-Small, 1.5rem)",
+                    }}
+                  >
+                    <span>Learn more</span>
+                    <ChevronRightIcon className="w-4 h-4 text-[#8F6C1A] transition-transform group-hover:translate-x-1" />
+                  </span>
+                </button>
               </div>
-            </article>
+            </div>
           ))}
         </div>
       </section>
+      <NewsBlogsSection />
+      <section className="w-full flex justify-center bg-white">
+        <div
+          className="partner-banner-box flex flex-col justify-between items-end self-stretch w-full max-w-[90rem]"
+          style={{
+            minHeight: "24rem",
+            height: "clamp(22rem, 35vw, 30rem)",
+            padding: "clamp(1.5rem, 3.5vw, 2rem)",
+            borderRadius: "var(--Corner-radius-0, 0)",
+            background:
+              "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/psu/Image5.jpg') lightgray 50% / cover no-repeat",
+          }}
+        >
+          {/* Top-Left Content: Heading & CTA Button */}
+          <div
+            className="flex flex-col items-start self-stretch"
+            style={{ gap: "1.5rem" }}
+          >
+            <h2
+              style={{
+                color: "var(--Text-Inverse-strong, #FFF)",
+                fontFeatureSettings: "'liga' off, 'clig' off",
+                fontFamily:
+                  'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
+                fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
+                fontStyle: "normal",
+                fontWeight: 600,
+                lineHeight: "1.2",
+                letterSpacing: "-0.03125rem",
+              }}
+            >
+              Have a story worth telling? <br />
+              Let&apos;s bring it to the world.
+            </h2>
 
-      {/* ===================================
-          SECTION 4 - AI IN ACTION
-      =================================== */}
-
-      <section
-        className="action-section"
-        id="ai-in-action"
-        aria-labelledby="action-title"
-      >
-        <div className="action-inner">
-
-          <div className="action-header">
-            <div className="action-header-left">
-              <span className="action-eyebrow">
-                AI IN ACTION
+            <button
+              type="button"
+              className="group cursor-pointer hover:opacity-85 transition-opacity"
+              style={{
+                display: "flex",
+                padding: "0 var(--Spacing-0, 0)",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "var(--Spacing-4, 0.25rem)",
+                borderRadius: "var(--Corner-radius-8, 0.5rem)",
+              }}
+            >
+              <span
+                style={{
+                  color: "var(--Text-Inverse-strong, #FFF)",
+                  textAlign: "center",
+                  fontFeatureSettings: "'liga' off, 'clig' off",
+                  fontFamily: 'var(--Font-family-Body, "Inter", sans-serif)',
+                  fontSize: "var(--Font-size-Small, 1rem)",
+                  fontStyle: "normal",
+                  fontWeight: 600,
+                  lineHeight: "var(--Line-height-Small, 1.5rem)",
+                }}
+              >
+                Join as a Partner
               </span>
 
-              <h2 id="action-title">
-                From Content to Intelligence
-              </h2>
-            </div>
-
-            <div className="action-header-right">
-              <p>
-                Our AI roadmap is focused on practical
-                applications across content, entertainment
-                and digital experiences – from intelligent
-                discovery to multilingual access and
-                knowledge systems.
-              </p>
-            </div>
+              {/* Right Arrow Icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+                style={{
+                  width: "1.25rem",
+                  height: "1.25rem",
+                  flexShrink: 0,
+                }}
+              >
+                <path
+                  d="M4.16669 10H15.8334"
+                  stroke="white"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M10.8333 5L15.8333 10L10.8333 15"
+                  stroke="white"
+                  strokeWidth="1.67"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
 
-          <div className="action-showcase">
-
-            {/* Interactive Toggle */}
-
-            <div
-              className="action-toggle"
-              role="group"
-              aria-label="Content and AI showcase"
-            >
-              <button
-                type="button"
-                className={`action-toggle-button library-button ${
-                  activeTab === "library"
-                    ? "selected"
-                    : ""
-                }`}
-                aria-pressed={activeTab === "library"}
-                onClick={() => setActiveTab("library")}
-              >
-                Content Library
-              </button>
-
-              <button
-                type="button"
-                className={`action-toggle-button ai-button ${
-                  activeTab === "ai"
-                    ? "selected"
-                    : ""
-                }`}
-                aria-pressed={activeTab === "ai"}
-                onClick={() => setActiveTab("ai")}
-              >
-                AI Layer
-              </button>
-            </div>
-
-            {/* Image Cards */}
-
-            <div
-              className="action-cards-grid"
-              aria-live="polite"
-            >
-              {activeCards.map((card) => (
-                <article
-                  key={`${activeTab}-${card.title}`}
-                  className="action-image-card"
-                  style={{
-                    backgroundImage: `
-                      radial-gradient(
-                        101.5% 87.32% at 53.02% 2.59%,
-                        rgba(0, 0, 0, 0) 67.04%,
-                        rgba(0, 0, 0, 0.39) 88.52%
-                      ),
-                      linear-gradient(
-                        to top,
-                        rgba(0, 0, 0, 0.25),
-                        transparent 50%
-                      ),
-                      url("${card.image}")
-                    `,
-                  }}
-                >
-                  <h3>{card.title}</h3>
-                </article>
-              ))}
-            </div>
-          </div>
+          {/* Bottom-Right Logo */}
+          <img
+            src="/images/abhijat-logo.png"
+            alt="Abhijat Logo"
+            className="w-16 h-16 object-contain shrink-0 select-none"
+            style={{
+              mixBlendMode: "luminosity",
+            }}
+          />
         </div>
       </section>
-
-      {/* ===================================
-          SECTION 5 - NEWS & BLOGS
-      =================================== */}
-
-      <NewsBlogsSection />
-
-      {/* ===================================
-          SECTION 6 - PARTNER WITH US
-      =================================== */}
-
-      <section
-        className="partner-banner"
-        aria-labelledby="partner-banner-title"
-      >
-        <div className="partner-banner-content">
-
-          <h2 id="partner-banner-title">
-            Have a story worth telling?
-            <br />
-            Let's bring it to the world.
-          </h2>
-
-          <a
-            href="/become-a-partner"
-            className="partner-banner-button"
-          >
-            Join as a Partner
-
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 12H19M19 12L13 6M19 12L13 18"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-
-        </div>
-
-        <img
-          className="partner-banner-logo"
-          src="/images/abhijat-logo.png"
-          alt="Abhijat Studios"
-          width={75}
-          height={80}
-          loading="lazy"
-        />
-      </section>
-
-      {/* ===================================
-          ALL PAGE STYLES
-      =================================== */}
-
-      <style jsx>{`
-
-        /* =================================
-           PAGE BASE
-        ================================= */
-
-        .ai-page {
-          --primary: #1a1a1a;
-          --body: #635f56;
-          --gold: #8f6c1a;
-
-          width: 100vw;
-          max-width: none;
-          margin-left: calc(50% - 50vw);
-
-          overflow-x: clip;
-
-          background: #ffffff;
-          color: var(--primary);
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-        }
-
-        .ai-page,
-        .ai-page * {
-          box-sizing: border-box;
-        }
-
-        /* =================================
-           SECTION 1 - VIDEO HERO
-        ================================= */
-
-        .hero {
-          display: flex;
-
-          width: 100%;
-          max-width: none;
-          min-height: 49.9375rem;
-
-          padding: 0 0 3.5rem
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 3.5rem;
-
-          margin: 0 auto;
-        }
-
-        .hero-video-wrap {
-          position: relative;
-
-          width: 100%;
-          height: auto;
-
-          aspect-ratio: 1440 / 643;
-
-          overflow: hidden;
-          background: #ffffff;
-        }
-
-        .hero-video {
-          display: block;
-
-          width: 100%;
-          height: 100%;
-
-          object-fit: cover;
-          object-position: center;
-
-          pointer-events: none;
-        }
-
-        .hero-copy {
-          position: absolute;
-
-          top: 12.8%;
-          left: 1rem;
-          right: 1rem;
-
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-
-          text-align: center;
-          pointer-events: none;
-        }
-
-        .hero-copy h1 {
-          margin: 0;
-
-          font-size:
-            clamp(1.75rem, 2.8vw, 2.5rem);
-
-          font-weight: 600;
-          line-height: 1.2;
-          letter-spacing: -0.03125rem;
-        }
-
-        .hero-copy p {
-          margin: 1rem 0 0;
-
-          color: #969696;
-
-          font-size: 0.875rem;
-          font-weight: 400;
-          line-height: 1.5;
-        }
-
-        .hero-link {
-          display: inline-flex;
-          align-items: center;
-
-          gap: 0.25rem;
-          margin-top: 1.5rem;
-
-          color: var(--gold);
-
-          font-family: Inter, sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-
-          text-decoration: none;
-          pointer-events: auto;
-        }
-
-        .hero-link span,
-        .card-link span {
-          font-size: 1.5em;
-          line-height: 0.7;
-        }
-
-        /* =================================
-           SECTION 2 - CAPABILITIES
-        ================================= */
-
-        .capabilities-section {
-          display: flex;
-
-          width: 100%;
-          padding: 6.25rem 3.5rem;
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 4rem;
-          align-self: stretch;
-
-          background: #ffffff;
-          scroll-margin-top: 1rem;
-        }
-
-        .section-heading {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-
-          gap: 1rem;
-          text-align: center;
-        }
-
-        .eyebrow {
-          color: #969696;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.25rem;
-        }
-
-        .section-heading h2 {
-          margin: 0;
-
-          color: #1a1a1a;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 2.5rem;
-          font-weight: 600;
-          line-height: 3rem;
-          letter-spacing: -0.03125rem;
-        }
-
-        /* =================================
-           CAPABILITY CARDS
-        ================================= */
-
-        .capabilities-grid {
-          display: grid;
-
-          width: 100%;
-
-          grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-          gap: 1.25rem;
-        }
-
-        .capability-card {
-          display: flex;
-
-          min-width: 0;
-          min-height: 21.75rem;
-
-          padding: 1.25rem;
-
-          flex-direction: column;
-          justify-content: center;
-          align-items: flex-start;
-
-          gap: 1.25rem;
-
-          border: 1px solid #e7e7e7;
-          border-radius: 1rem;
-          background: #ffffff;
-        }
-
-        .card-image {
-          width: 6.25rem;
-          height: 6.25rem;
-
-          aspect-ratio: 1 / 1;
-          border-radius: 1rem;
-
-          object-fit: cover;
-          flex-shrink: 0;
-        }
-
-        .card-body {
-          display: flex;
-          flex: 1;
-
-          flex-direction: column;
-          gap: 1.25rem;
-        }
-
-        .card-body h3 {
-          margin: 0;
-
-          color: #1a1a1a;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 1.5rem;
-          font-weight: 600;
-          line-height: 2rem;
-        }
-
-        .card-body p {
-          margin: 0;
-
-          color: #635f56;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 1rem;
-          font-weight: 400;
-          line-height: 1.5rem;
-        }
-
-        .card-link {
-          display: inline-flex;
-          align-items: center;
-
-          gap: 0.25rem;
-
-          color: #8f6c1a;
-
-          font-family: Inter, sans-serif;
-          font-size: 1rem;
-          font-weight: 600;
-          line-height: 1.5rem;
-
-          text-decoration: none;
-        }
-
-        .card-link:hover,
-        .hero-link:hover {
-          text-decoration: underline;
-        }
-
-        /* =================================
-           SECTION 3 - AI VALUE
-        ================================= */
-
-        .ai-value-section {
-          display: flex;
-
-          width: 100%;
-          max-width: 90rem;
-
-          padding: 6.25rem 3.5rem;
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 6.25rem;
-          margin: 0 auto;
-
-          background: #ffffff;
-        }
-
-        .ai-value-heading {
-          display: flex;
-          width: 100%;
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 0.75rem;
-          text-align: center;
-        }
-
-        .ai-value-eyebrow {
-          align-self: stretch;
-
-          color: #969696;
-          text-align: center;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.25rem;
-        }
-
-        .ai-value-heading h2 {
-          margin: 0;
-
-          color: #000000;
-          text-align: center;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 2.5rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem;
-          letter-spacing: -0.03125rem;
-        }
-
-        .ai-value-grid {
-          display: grid;
-
-          width: 100%;
-          height: 15rem;
-
-          grid-template-columns:
-            repeat(4, minmax(0, 1fr));
-
-          grid-template-rows:
-            repeat(1, minmax(0, 1fr));
-
-          grid-auto-flow: row;
-
-          column-gap: 2rem;
-          row-gap: 2.375rem;
-
-          align-self: stretch;
-        }
-
-        .ai-value-card {
-          display: flex;
-
-          min-width: 0;
-          height: 100%;
-
-          padding-bottom: 0.75rem;
-
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-start;
-
-          align-self: stretch;
-          justify-self: stretch;
-
-          background: transparent;
-        }
-
-        .ai-value-icon {
-          display: block;
-
-          width: 3.5rem;
-          height: 3.5rem;
-
-          min-width: 3.5rem;
-          min-height: 3.5rem;
-
-          object-fit: contain;
-          flex-shrink: 0;
-        }
-
-        .ai-value-content {
-          display: flex;
-          width: 100%;
-
-          flex-direction: column;
-          align-items: flex-start;
-
-          gap: 0.5rem;
-        }
-
-        .ai-value-content h3 {
-          margin: 0;
-
-          color: #1a1a1a;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family: Inter, sans-serif;
-
-          font-size: 1.25rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.75rem;
-        }
-
-        .ai-value-content p {
-          margin: 0;
-
-          color: #969696;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.5rem;
-        }
-
-        /* =================================
-           SECTION 4 - AI IN ACTION
-        ================================= */
-
-        .action-section {
-          display: flex;
-
-          width: 100%;
-          max-width: none;
-
-          background: #000000;
-          color: #ffffff;
-        }
-
-        .action-inner {
-          display: flex;
-
-          width: 100%;
-          max-width: 90rem;
-
-          padding: 6.25rem 3.5rem;
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 6.25rem;
-          margin: 0 auto;
-        }
-
-        /* Action Header */
-
-        .action-header {
-          display: grid;
-          width: 100%;
-
-          grid-template-columns:
-            minmax(0, 1fr)
-            minmax(0, 1fr);
-
-          column-gap: 3rem;
-          align-items: center;
-        }
-
-        .action-header-left {
-          display: flex;
-
-          min-width: 0;
-
-          flex-direction: column;
-          align-items: flex-start;
-
-          gap: 0.5rem;
-        }
-
-        .action-eyebrow {
-          color: #969696;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.25rem;
-        }
-
-        .action-header-left h2 {
-          margin: 0;
-
-          color: #ffffff;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 2.5rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem;
-          letter-spacing: -0.03125rem;
-        }
-
-        .action-header-right {
-          display: flex;
-
-          min-width: 0;
-
-          justify-content: flex-end;
-          align-items: center;
-        }
-
-        .action-header-right p {
-          width: 100%;
-          max-width: 31rem;
-
-          margin: 0;
-
-          color: #969696;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.5rem;
-        }
-
-        /* Action Showcase */
-
-        .action-showcase {
-          display: flex;
-          width: 100%;
-
-          flex-direction: column;
-          align-items: center;
-
-          gap: 3rem;
-        }
-
-        /* Toggle */
-
-        .action-toggle {
-          display: flex;
-
-          padding: 0.75rem;
-
-          align-items: flex-start;
-          gap: 0.5rem;
-
-          border-radius: 0.75rem;
-          background: #1a1a1a;
-
-          flex-shrink: 0;
-        }
-
-        .action-toggle-button {
-          display: flex;
-
-          height: 2.75rem;
-          padding: 0;
-
-          justify-content: center;
-          align-items: center;
-          gap: 0;
-
-          border: 0;
-          border-radius: 0.25rem;
-          background: transparent;
-
-          color: #ffffff;
-
-          font-family: Inter, sans-serif;
-
-          font-size: 0.875rem;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 1.25rem;
-          text-align: center;
-
-          cursor: pointer;
-
-          transition:
-            background-color 200ms ease,
-            color 200ms ease;
-        }
-
-        .library-button {
-          width: 8.25rem;
-        }
-
-        .ai-button {
-          width: 6.25rem;
-        }
-
-        .action-toggle-button.selected {
-          background: #ffffff;
-          color: #8f6c1a;
-        }
-
-        .action-toggle-button:not(.selected) {
-          background: transparent;
-          color: #ffffff;
-        }
-
-        .action-toggle-button:not(.selected):hover {
-          background: #2b2b2b;
-        }
-
-        .action-toggle-button:focus-visible {
-          outline: 2px solid #c59b42;
-          outline-offset: 3px;
-        }
-
-        /* Action Images */
-
-        .action-cards-grid {
-          display: grid;
-          width: 100%;
-
-          grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-          column-gap: 2rem;
-          row-gap: 2rem;
-
-          align-self: stretch;
-        }
-
-        .action-image-card {
-          position: relative;
-
-          display: flex;
-
-          width: 100%;
-          height: 28.125rem;
-
-          padding: 2rem;
-
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: flex-start;
-
-          min-width: 0;
-
-          border-radius: 1rem;
-
-          background-color: #171717;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-
-          overflow: hidden;
-          isolation: isolate;
-
-          animation:
-            imageCardAppear 350ms ease both;
-        }
-
-        .action-image-card h3 {
-          position: relative;
-          z-index: 2;
-
-          margin: 0;
-
-          color: #ffffff;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 1.5rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 2rem;
-        }
-
-        @keyframes imageCardAppear {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* =========================================
-           SECTION 6 - PARTNER BANNER
-        ========================================= */
-
-        .partner-banner {
-          position: relative;
-
-          display: flex;
-
-          width: 100%;
-          max-width: none;
-          height: 30rem;
-
-          padding: 2rem;
-
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-end;
-          align-self: stretch;
-
-          border-radius: 0;
-
-          background-color: #171717;
-
-          background-image:
-            radial-gradient(
-              118.01% 73.86% at 57.53% 72.82%,
-              rgba(0, 0, 0, 0) 42.15%,
-              rgba(0, 0, 0, 0.76) 85.74%
-            ),
-            url("/images/join-as-partner-background.png");
-
-          background-position:
-            center,
-            center;
-
-          background-size:
-            cover,
-            cover;
-
-          background-repeat:
-            no-repeat,
-            no-repeat;
-
-          overflow: hidden;
-          isolation: isolate;
-        }
-
-        /* Partner Heading Content */
-
-        .partner-banner-content {
-          position: relative;
-          z-index: 2;
-
-          display: flex;
-
-          width: 100%;
-          max-width: 45rem;
-
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-
-          align-self: flex-start;
-
-          gap: 1.25rem;
-
-          text-align: left;
-        }
-
-        /* Partner Heading */
-
-        .partner-banner-content h2 {
-          margin: 0;
-
-          color: #ffffff;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 2.5rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem;
-
-          letter-spacing: -0.03125rem;
-
-          text-align: left;
-        }
-
-        /* Partner Button */
-
-        .partner-banner-button {
-          display: inline-flex;
-
-          width: fit-content;
-
-          padding: 0;
-
-          justify-content: center;
-          align-items: center;
-
-          gap: 0.25rem;
-
-          border: 0;
-          border-radius: 0.5rem;
-
-          background: transparent;
-
-          color: #ffffff;
-
-          font-family: Inter, sans-serif;
-
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.5rem;
-
-          text-decoration: none;
-
-          transition:
-            color 200ms ease,
-            transform 200ms ease;
-        }
-
-        .partner-banner-button svg {
-          display: block;
-
-          width: 1rem;
-          height: 1rem;
-
-          flex-shrink: 0;
-
-          transition:
-            transform 200ms ease;
-        }
-
-        .partner-banner-button:hover {
-          color: #e8c979;
-        }
-
-        .partner-banner-button:hover svg {
-          transform: translateX(4px);
-        }
-
-        .partner-banner-button:focus-visible {
-          outline: 2px solid #ffffff;
-          outline-offset: 5px;
-        }
-
-        /* Bottom Right Logo */
-
-        .partner-banner-logo {
-          position: relative;
-          z-index: 2;
-
-          display: block;
-
-          width: 4.6875rem;
-          height: 5rem;
-
-          flex-shrink: 0;
-
-          aspect-ratio: 15 / 16;
-
-          object-fit: contain;
-          object-position: center;
-
-          mix-blend-mode: luminosity;
-
-          align-self: flex-end;
-        }
-
-        /* =================================
-           RESPONSIVE - SMALL DESKTOP
-        ================================= */
-
-        @media (max-width: 1100px) {
-
-          .action-inner {
-            padding: 5rem 2.5rem;
-            gap: 4.5rem;
-          }
-
-          .action-header {
-            column-gap: 2rem;
-          }
-
-          .action-header-left h2 {
-            font-size: 2.25rem;
-            line-height: 2.75rem;
-          }
-
-          .action-cards-grid {
-            column-gap: 1.5rem;
-          }
-
-          .action-image-card {
-            height: 25rem;
-            padding: 1.5rem;
-          }
-        }
-
-        /* =================================
-           RESPONSIVE - TABLET
-        ================================= */
-
-        @media (max-width: 900px) {
-
-          /* Hero */
-
-          .hero {
-            min-height: auto;
-            padding: 0 0 2.5rem;
-          }
-
-          .hero-video-wrap {
-            height: clamp(
-              25rem,
-              60vw,
-              40rem
-            );
-          }
-
-          /* Capabilities */
-
-          .capabilities-section {
-            padding: 4.5rem 2rem;
-            gap: 3rem;
-          }
-
-          .capabilities-grid {
-            gap: 1rem;
-          }
-
-          .capability-card {
-            min-height: 21rem;
-          }
-
-          /* AI Value */
-
-          .ai-value-section {
-            padding: 4.5rem 2rem;
-            gap: 4rem;
-          }
-
-          .ai-value-grid {
-            height: auto;
-
-            grid-template-columns:
-              repeat(2, minmax(0, 1fr));
-
-            grid-template-rows: auto;
-
-            column-gap: 2rem;
-            row-gap: 2.375rem;
-          }
-
-          .ai-value-card {
-            height: 15rem;
-          }
-
-          /* AI in Action */
-
-          .action-inner {
-            padding: 4.5rem 2rem;
-            gap: 4rem;
-          }
-
-          .action-header {
-            grid-template-columns: 1fr;
-            row-gap: 1.5rem;
-          }
-
-          .action-header-right {
-            justify-content: flex-start;
-          }
-
-          .action-header-right p {
-            max-width: 38rem;
-          }
-
-          .action-showcase {
-            gap: 2.5rem;
-          }
-
-          .action-cards-grid {
-            grid-template-columns:
-              repeat(2, minmax(0, 1fr));
-
-            gap: 1.5rem;
-          }
-
-          .action-image-card {
-            height: 25rem;
-          }
-
-          /* Partner Banner */
-
-          .partner-banner {
-            height: 27rem;
-            padding: 2rem;
-          }
-
-          .partner-banner-content {
-            max-width: 36rem;
-          }
-
-          .partner-banner-content h2 {
-            font-size: 2.125rem;
-            line-height: 2.75rem;
-          }
-        }
-
-        /* =================================
-           RESPONSIVE - MOBILE
-        ================================= */
-
-        @media (max-width: 640px) {
-
-          /* Hero */
-
-          .hero {
-            padding: 0 0 2rem;
-          }
-
-          .hero-video-wrap {
-            height: min(80vh, 35rem);
-            min-height: 24rem;
-          }
-
-          .hero-video {
-            object-position: center bottom;
-          }
-
-          .hero-copy {
-            top: 12%;
-            left: 1.25rem;
-            right: 1.25rem;
-          }
-
-          .hero-copy h1 {
-            font-size:
-              clamp(1.55rem, 6vw, 2rem);
-          }
-
-          .hero-copy p {
-            margin-top: 0.75rem;
-            font-size: 0.75rem;
-          }
-
-          .desktop-break {
-            display: none;
-          }
-
-          .hero-link {
-            margin-top: 1rem;
-            font-size: 0.8125rem;
-          }
-
-          /* Capabilities */
-
-          .capabilities-section {
-            padding: 3.5rem 1.25rem;
-            gap: 2rem;
-          }
-
-          .section-heading {
-            gap: 0.75rem;
-          }
-
-          .section-heading h2 {
-            font-size:
-              clamp(1.75rem, 7vw, 2.25rem);
-
-            line-height: 1.25;
-          }
-
-          .capabilities-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-
-          .capability-card {
-            min-height: 19rem;
-            gap: 1.25rem;
-          }
-
-          .card-body {
-            gap: 0.75rem;
-          }
-
-          .card-body h3 {
-            font-size: 1.375rem;
-            line-height: 1.875rem;
-          }
-
-          .card-body p {
-            font-size: 0.9375rem;
-          }
-
-          .card-link {
-            font-size: 0.9375rem;
-          }
-
-          /* AI Value */
-
-          .ai-value-section {
-            padding: 3.5rem 1.25rem;
-            gap: 3rem;
-          }
-
-          .ai-value-heading {
-            gap: 0.75rem;
-          }
-
-          .ai-value-heading h2 {
-            font-size:
-              clamp(1.75rem, 7vw, 2.25rem);
-
-            line-height: 1.25;
-          }
-
-          .ai-value-grid {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto;
-
-            column-gap: 0;
-            row-gap: 2rem;
-          }
-
-          .ai-value-card {
-            height: auto;
-            min-height: 12rem;
-
-            gap: 2rem;
-            padding-bottom: 0.75rem;
-          }
-
-          .ai-value-content {
-            gap: 0.5rem;
-          }
-
-          /* AI in Action */
-
-          .action-inner {
-            padding: 3.5rem 1.25rem;
-            gap: 3rem;
-          }
-
-          .action-header {
-            grid-template-columns: 1fr;
-            row-gap: 1.25rem;
-          }
-
-          .action-header-left {
-            gap: 0.75rem;
-          }
-
-          .action-header-left h2 {
-            font-size:
-              clamp(1.75rem, 7vw, 2.25rem);
-
-            line-height: 1.25;
-          }
-
-          .action-header-right p {
-            font-size: 0.9375rem;
-            line-height: 1.5rem;
-          }
-
-          .action-showcase {
-            gap: 2rem;
-          }
-
-          .action-toggle {
-            padding: 0.5rem;
-            gap: 0.25rem;
-            max-width: 100%;
-          }
-
-          .library-button {
-            width: 8.25rem;
-          }
-
-          .ai-button {
-            width: 6.25rem;
-          }
-
-          .action-cards-grid {
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
-          }
-
-          .action-image-card {
-            width: 100%;
-            height: auto;
-
-            aspect-ratio: 421 / 450;
-            max-height: 32rem;
-
-            padding: 1.5rem;
-          }
-
-          .action-image-card h3 {
-            font-size: 1.5rem;
-            line-height: 2rem;
-          }
-
-          /* Partner Banner */
-
-          .partner-banner {
-            width: 100%;
-            height: 25rem;
-
-            padding: 1.25rem;
-
-            background-position:
-              center,
-              58% center;
-
-            background-size:
-              cover,
-              cover;
-          }
-
-          .partner-banner-content {
-            width: 100%;
-            max-width: 100%;
-
-            gap: 1rem;
-
-            align-self: flex-start;
-            align-items: flex-start;
-          }
-
-          .partner-banner-content h2 {
-            font-size: clamp(
-              1.5rem,
-              6vw,
-              2rem
-            );
-
-            line-height: 1.3;
-            letter-spacing: -0.025rem;
-          }
-
-          .partner-banner-button {
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-          }
-
-          .partner-banner-logo {
-            width: 3.75rem;
-            height: 4rem;
-
-            align-self: flex-end;
-          }
-        }
-
-        /* =================================
-           SMALL MOBILE
-        ================================= */
-
-        @media (max-width: 375px) {
-
-          .ai-value-section,
-          .action-inner {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-
-          .ai-value-heading h2,
-          .action-header-left h2 {
-            font-size: 1.625rem;
-          }
-
-          .action-image-card {
-            padding: 1.25rem;
-          }
-
-          .partner-banner {
-            height: 23rem;
-            padding: 1rem;
-          }
-
-          .partner-banner-content h2 {
-            font-size: 1.5rem;
-            line-height: 2rem;
-          }
-
-          .partner-banner-logo {
-            width: 3.25rem;
-            height: 3.5rem;
-          }
-        }
-
-        /* =================================
-           REDUCED MOTION
-        ================================= */
-
-        @media (prefers-reduced-motion: reduce) {
-
-          .action-image-card {
-            animation: none;
-          }
-
-          .action-toggle-button,
-          .partner-banner-button,
-          .partner-banner-button svg {
-            transition: none;
-          }
-        }
-
-      `}</style>
-    </main>
-  )}</LocalizedContent>;
+    </div>
+  );
+}
+
+/* Helper SVG Icons */
+function ChevronDownIcon() {
+  return (
+    <svg
+      className="w-3.5 h-3.5 opacity-80"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
+function ChevronRightIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
 }
