@@ -1,4 +1,4 @@
-import { ContactPageContent } from "@/components/contactus/caotact-page";
+import { ContactPageContent } from "@/components/contact-us/contact-page";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import { getContactPageContent } from "@/sanity/lib/data";
 

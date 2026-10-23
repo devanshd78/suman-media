@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db";
+import { getDb } from "@/lib/database";
 import {
   FALLBACK_COUNTRY_CALLING_CODES,
   type CountryCallingCode,

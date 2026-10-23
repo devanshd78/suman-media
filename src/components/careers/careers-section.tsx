@@ -22,7 +22,7 @@ type CareersCMSData = {
 
 const LOCAL_HERO_IMAGE: CareersImage = {
   key: "local-careers-hero",
-  url: "/images/careers/Rectangle.png",
+  url: "/images/careers/careers-hero-background.png",
   alt: "Friends celebrating together by the water",
 };
 
@@ -34,8 +34,8 @@ const LOCAL_GALLERY_IMAGES: CareersImage[] = Array.from(
     return {
       key: `local-careers-gallery-${index + 1}`,
       url: isTeamPhoto
-        ? "/images/careers/animation/Join%20as%20(5).png"
-        : "/images/careers/animation/Join%20as%20(6).png",
+        ? "/images/careers/animation/join-as-5.png"
+        : "/images/careers/animation/join-as-6.png",
       alt: isTeamPhoto
         ? "Colleagues working together"
         : "Colleagues celebrating a shared success",

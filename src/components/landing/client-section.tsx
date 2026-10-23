@@ -52,7 +52,7 @@ type LoopSlide = {
 const SLIDES: Slide[] = [
   {
     id: 1,
-    image: "/images/landing/client/Image1.png",
+    image: "/images/landing/client/abhijat-marathi-streaming.png",
     imagePosition: "center center",
     eyebrow: "01. DIGITAL ENTERTAINMENT & PLATFORM",
     title: "Abhijat Marathi OTT",
@@ -65,7 +65,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 2,
-    image: "/images/landing/client/Image2.png",
+    image: "/images/landing/client/events-and-experiences.png",
     imagePosition: "center center",
     eyebrow: "02. EVENT & EXPERIENCES",
     title: "Experiences Beyond the Screen",
@@ -78,7 +78,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 3,
-    image: "/images/landing/client/Image3.png",
+    image: "/images/landing/client/music-and-audio-library.png",
     imagePosition: "center center",
     eyebrow: "03. MUSIC & AUDIO ECOSYSTEM",
     title: "Building India's Next Music Library",
@@ -91,7 +91,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 4,
-    image: "/images/landing/client/Image4.png",
+    image: "/images/landing/client/content-production.png",
     imagePosition: "center center",
     eyebrow: "04. CONTENT CREATION",
     title: "Creating Stories That Inspire Millions",
@@ -104,7 +104,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 5,
-    image: "/images/landing/client/Image5.png",
+    image: "/images/landing/client/government-communications.png",
     imagePosition: "center center",
     eyebrow: "05. GOVT & STRATEGIC COMMUNICATION",
     title: "Empowering Public Communication at Scale",

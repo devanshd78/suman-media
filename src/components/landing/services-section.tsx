@@ -39,31 +39,31 @@ type PartnerLogo = {
 
 const PARTNER_LOGOS: readonly PartnerLogo[] = [
   {
-    src: "/images/landing/partners/partner1.svg",
+    src: "/images/landing/partners/laminar-logo.svg",
     alt: "Laminar",
     width: 216,
     height: 56,
   },
   {
-    src: "/images/landing/partners/partner2.svg",
+    src: "/images/landing/partners/amazon-web-services-logo.svg",
     alt: "AWS",
     width: 112,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner3.svg",
+    src: "/images/landing/partners/festival-de-cannes-logo.svg",
     alt: "Festival de Cannes",
     width: 168,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner4.svg",
+    src: "/images/landing/partners/zee-marathi-logo.svg",
     alt: "Zee Marathi",
     width: 144,
     height: 64,
   },
   {
-    src: "/images/landing/partners/partner5.svg",
+    src: "/images/landing/partners/government-of-maharashtra-logo.svg",
     alt: "Government of Maharashtra",
     width: 92,
     height: 64,

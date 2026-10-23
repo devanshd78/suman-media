@@ -1,6 +1,6 @@
 import ContactFormPage, {
   type ContactFormMode,
-} from "@/components/contactus/contact-form/page";
+} from "@/components/contact-us/contact-form/contact-form";
 import { createPageMetadata } from "@/lib/seo/metadata";
 import { getContactPageContent } from "@/sanity/lib/data";
 

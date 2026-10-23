@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db";
+import { getDb } from "@/lib/database";
 import { withApiHandler } from "@/lib/http/handler";
 import { methodNotAllowed } from "@/lib/http/method-not-allowed";
 import { apiSuccess } from "@/lib/http/responses";

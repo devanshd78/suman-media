@@ -1,4 +1,4 @@
-import { ProductPage } from "@/components/products/knowledge-ip/product-page";
+import { ProductPage } from "@/components/products/publications-and-intellectual-property/publications-and-intellectual-property-page";
 import { createPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = createPageMetadata(

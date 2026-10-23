@@ -323,7 +323,7 @@ export const REFERENCE_CAREERS_CTA: CmsCareersCta = {
   eyebrow: "CAREERS",
   heading: "Join us to start a New Chapter in Media and Entertainment",
   description: null,
-  imageUrl: "/images/careers/slideimg3.jpg",
+  imageUrl: "/images/careers/workplace-gallery-3.jpg",
   imageAlt: "Media and entertainment team at work",
   cta: {
     label: "View Open Roles",

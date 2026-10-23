@@ -32,7 +32,7 @@ const TOP_ROW_CARDS: FormatCard[] = [
     id: 'films-documentaries',
     title: 'Films & Documentaries',
     description: 'Feature films, short films and documentary storytelling.',
-    image: '/images/media/Image1.png',
+    image: '/images/media/films-and-documentaries.png',
     href: '/media/films-documentaries',
   },
   {
@@ -40,7 +40,7 @@ const TOP_ROW_CARDS: FormatCard[] = [
     title: 'Branded & Corporate Films',
     description:
       'High-impact brand narratives, commercials and corporate storytelling.',
-    image: '/images/media/Image2.png',
+    image: '/images/media/branded-and-corporate-films.png',
     href: '/media/branded-corporate-films',
   },
   {
@@ -48,7 +48,7 @@ const TOP_ROW_CARDS: FormatCard[] = [
     title: 'Content Acquisition &\nDistribution',
     description:
       'Strategic licensing, syndication and global multi-platform distribution.',
-    image: '/images/media/Image3.png',
+    image: '/images/media/content-acquisition-and-distribution.png',
     href: '/media/content-acquisition',
   },
 ];
@@ -59,7 +59,7 @@ const BOTTOM_ROW_CARDS: FormatCard[] = [
     title: 'Series & OTT Content',
     description:
       'Original web series, episodic entertainment and streaming-first formats.',
-    image: '/images/media/Image4.png',
+    image: '/images/media/series-and-streaming-content.png',
     href: '/media/series-ott-content',
   },
   {
@@ -67,7 +67,7 @@ const BOTTOM_ROW_CARDS: FormatCard[] = [
     title: 'Audio & Podcasts',
     description:
       'Conversational shows, audio originals and multi-format podcast networks.',
-    image: '/images/media/Image5.png',
+    image: '/images/media/audio-and-podcasts.png',
     href: '/media/audio-podcasts',
   },
 ];
@@ -78,35 +78,35 @@ const WORK_SHOWCASE_ITEMS: WorkShowcaseItem[] = [
     title: 'OFF BEAT I ghatak',
     year: '2026',
     category: 'Documentary',
-    image: '/images/media/Image6.png',
+    image: '/images/media/off-beat-ghatak.png',
   },
   {
     id: 'work-2',
     title: 'Voices of Tradition',
     year: '2026',
     category: 'Original Series',
-    image: '/images/media/Image7.png',
+    image: '/images/media/voices-of-tradition.png',
   },
   {
     id: 'work-3',
     title: 'Beyond the Frame',
     year: '2026',
     category: 'Feature Film',
-    image: '/images/media/Image8.png',
+    image: '/images/media/beyond-the-frame.png',
   },
   {
     id: 'work-4',
     title: 'Rhythm & Roots',
     year: '2026',
     category: 'Music & Culture',
-    image: '/images/media/Image9.png',
+    image: '/images/media/rhythm-and-roots.png',
   },
   {
     id: 'work-5',
     title: 'Stories Unplugged',
     year: '2026',
     category: 'Audio & Podcast',
-    image: '/images/media/Image10.png',
+    image: '/images/media/stories-unplugged.png',
   },
 ];
 
@@ -115,27 +115,27 @@ const JOURNEY_CARDS: JourneyCard[] = [
     id: 'content',
     title: 'Content',
     description: 'Creating and curating stories for different formats and audiences.',
-    icon: '/images/media/PresentationChart.svg',
+    icon: '/images/media/presentation-chart.svg',
   },
   {
     id: 'acquisition',
     title: 'Acquisition',
     description: 'Sourcing content and securing the rights to use or distribute it.',
-    icon: '/images/media/Television.svg',
+    icon: '/images/media/television.svg',
   },
   {
     id: 'distribution',
     title: 'Distribution',
     description:
       'Delivering content to relevant platforms, broadcasters and markets.',
-    icon: '/images/media/VideoConference.svg',
+    icon: '/images/media/video-conference.svg',
   },
   {
     id: 'audience',
     title: 'Audience',
     description:
       'Connecting stories with viewers across channels and platforms.',
-    icon: '/images/media/VideoConference.svg',
+    icon: '/images/media/video-conference.svg',
   },
 ];
 
@@ -711,7 +711,7 @@ export default function MediaContentPage() {
             padding: "clamp(1.5rem, 3.5vw, 2rem)",
             borderRadius: "var(--Corner-radius-0, 0)",
             background:
-              "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/Join%20as.png') lightgray 50% / cover no-repeat",
+              "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/join-as-partner-background.png') lightgray 50% / cover no-repeat",
           }}
         >
           {/* Top-Left Content: Heading & CTA Button */}
@@ -854,7 +854,7 @@ export default function MediaContentPage() {
               rgba(255, 255, 255, 0.18) 65%,
               rgba(255, 255, 255, 0.92) 100%
             ),
-            url('/images/media/Gradient.png') center / cover no-repeat;
+            url('/images/media/gradient.png') center / cover no-repeat;
         }
 
         .media-hero-content {

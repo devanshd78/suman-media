@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import { isSanityConfigured, sanityEnv } from "@/sanity/env";
+import { isSanityConfigured, sanityEnv } from "@/sanity/environment";
 
 export const sanityClient = isSanityConfigured
   ? createClient({

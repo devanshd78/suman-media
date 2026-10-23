@@ -18,10 +18,10 @@ export default function CreatorEcosystemPage() {
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 
   const creatorVideos = [
-    { src: '/images/creator-Ecosystem/Video1.mp4', label: 'Featured video 1' },
-    { src: '/images/creator-Ecosystem/Video2.mp4', label: 'Featured video 2' },
-    { src: '/images/creator-Ecosystem/Video3.mp4', label: 'Featured video 3' },
-    { src: '/images/creator-Ecosystem/Video4.mp4', label: 'Featured video 4' },
+    { src: '/images/creator-ecosystem/video1.mp4', label: 'Featured video 1' },
+    { src: '/images/creator-ecosystem/video2.mp4', label: 'Featured video 2' },
+    { src: '/images/creator-ecosystem/video3.mp4', label: 'Featured video 3' },
+    { src: '/images/creator-ecosystem/video4.mp4', label: 'Featured video 4' },
   ];
 
   const creatorTestimonials = [
@@ -248,7 +248,7 @@ export default function CreatorEcosystemPage() {
         <div className="feature-image-wrap">
           <img
             className="feature-image"
-            src="/images/creator-Ecosystem/Image1.png"
+            src="/images/creator-ecosystem/creator-ecosystem-gallery-1.png"
             alt="A content creator recording a video with a phone and camera setup"
             loading="lazy"
           />
@@ -279,7 +279,7 @@ export default function CreatorEcosystemPage() {
           <article className="partnership-card partnership-card--1">
             <img
               className="partnership-card-image"
-              src="/images/creator-Ecosystem/Image2.png"
+              src="/images/creator-ecosystem/creator-ecosystem-gallery-2.png"
               alt="Artist and celebrity in a cream traditional outfit in front of red curtains"
               loading="lazy"
             />
@@ -290,7 +290,7 @@ export default function CreatorEcosystemPage() {
           <article className="partnership-card partnership-card--2">
             <img
               className="partnership-card-image"
-              src="/images/creator-Ecosystem/Image3.png"
+              src="/images/creator-ecosystem/creator-ecosystem-gallery-3.png"
               alt="Creator and influencer in a colorful outfit outdoors"
               loading="lazy"
             />
@@ -301,7 +301,7 @@ export default function CreatorEcosystemPage() {
           <article className="partnership-card partnership-card--3">
             <img
               className="partnership-card-image"
-              src="/images/creator-Ecosystem/Image4.png"
+              src="/images/creator-ecosystem/creator-ecosystem-gallery-4.png"
               alt="Brand campaign and partnership advertisement on a red vehicle"
               loading="lazy"
             />
@@ -461,7 +461,7 @@ export default function CreatorEcosystemPage() {
                   </div>
                   <img
                     className="testimonial-decoration"
-                    src="/images/creator-Ecosystem/Group%20523.svg"
+                    src="/images/creator-ecosystem/creator-ecosystem-artwork-523.svg"
                     alt=""
                     aria-hidden="true"
                   />
@@ -488,7 +488,7 @@ export default function CreatorEcosystemPage() {
                   </div>
                   <img
                     className="testimonial-decoration"
-                    src="/images/creator-Ecosystem/Group%20523.svg"
+                    src="/images/creator-ecosystem/creator-ecosystem-artwork-523.svg"
                     alt=""
                     aria-hidden="true"
                   />
@@ -582,7 +582,7 @@ export default function CreatorEcosystemPage() {
               rgba(0, 0, 0, 0) 42.15%,
               rgba(0, 0, 0, 0.76) 85.74%
             ),
-            url('/images/Join%20as.png');
+            url('/images/join-as-partner-background.png');
           background-position: center;
           background-size: cover;
           background-repeat: no-repeat;

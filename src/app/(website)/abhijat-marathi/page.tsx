@@ -1,16 +1,16 @@
-import OttHeader from "@/components/Abhijat-Marathi/ott-header";
-import Entertainment from "@/components/Abhijat-Marathi/entertainment";
-import Section3 from "@/components/Abhijat-Marathi/section3";
-import Ecosystem from "@/components/Abhijat-Marathi/ecosystem";
+import StreamingHeroSection from "@/components/abhijat-marathi/streaming-hero-section";
+import EntertainmentSection from "@/components/abhijat-marathi/entertainment-section";
+import StreamingContentSections from "@/components/abhijat-marathi/streaming-content-sections";
+import StreamingEcosystemSection from "@/components/abhijat-marathi/streaming-ecosystem-section";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
-export default function OttPage() {
+export default function AbhijatMarathiPage() {
   return (
     <main>
-      <OttHeader />
-      <Entertainment />
-      <Section3 />
-      <Ecosystem />
+      <StreamingHeroSection />
+      <EntertainmentSection />
+      <StreamingContentSections />
+      <StreamingEcosystemSection />
       <NewsBlogsSection revealText />
     </main>
   );

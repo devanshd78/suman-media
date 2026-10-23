@@ -38,35 +38,35 @@ const MOMENTS_DATA: MomentItem[] = [
         title: "The GOAT | India Tour",
         year: "2026",
         category: "Event",
-        imageSrc: "/images/event/Image10.jpg",
+        imageSrc: "/images/event-experience/Image10.jpg",
     },
     {
         id: 2,
         title: "Suman Cultural Utsav",
         year: "2026",
         category: "Culture",
-        imageSrc: "/images/event/Image11.png",
+        imageSrc: "/images/event-experience/Image11.png",
     },
     {
         id: 3,
         title: "Sonic Nights Live",
         year: "2025",
         category: "Music",
-        imageSrc: "/images/event/Image12.jpg",
+        imageSrc: "/images/event-experience/Image12.jpg",
     },
     {
         id: 4,
         title: "Global Leadership Summit",
         year: "2025",
         category: "Corporate",
-        imageSrc: "/images/event/Image13.png",
+        imageSrc: "/images/event-experience/Image13.png",
     },
     {
         id: 5,
         title: "National Heritage Conclave",
         year: "2025",
         category: "Public Engagement",
-        imageSrc: "/images/event/Image14.png",
+        imageSrc: "/images/event-experience/Image14.png",
     },
 ];
 
@@ -76,28 +76,28 @@ const PROCESS_STEPS: ProcessStep[] = [
         title: "Plan",
         description:
             "Understand the event's purpose, audience and requirements.",
-        iconSrc: "/images/event/Brain.svg",
+        iconSrc: "/images/event-experience/Brain.svg",
     },
     {
         id: 2,
         title: "Coordinate",
         description:
             "Align the people, partners and event details.",
-        iconSrc: "/images/event/UsersFour.svg",
+        iconSrc: "/images/event-experience/UsersFour.svg",
     },
     {
         id: 3,
         title: "Execute",
         description:
             "Deliver the planned event experience.",
-        iconSrc: "/images/event/Truck.svg",
+        iconSrc: "/images/event-experience/Truck.svg",
     },
     {
         id: 4,
         title: "Engage",
         description:
             "Create meaningful interactions with attendees and audiences.",
-        iconSrc: "/images/event/Eyes.svg",
+        iconSrc: "/images/event-experience/Eyes.svg",
     },
 ];
 
@@ -329,7 +329,7 @@ export default function EventPage() {
         {/* Full-Screen Hero Image Container */}
         <div className="relative flex w-screen items-center justify-center self-stretch overflow-hidden">
           <Image
-            src="/images/event/Image1.png"
+            src="/images/event-experience/event-experience-gallery-1.png"
             alt="Crowd enjoying an event"
             width={1920}
             height={960}
@@ -389,13 +389,13 @@ export default function EventPage() {
                         <ExperienceCard
                             title="Concerts"
                             subtext="Live music and entertainment experiences for audiences."
-                            imageSrc="/images/event/Image2.png"
+                            imageSrc="/images/event-experience/Image2.png"
                             className="h-[22rem] w-full lg:h-[26.25rem] lg:w-[63.1%]"
                         />
                         <ExperienceCard
                             title="Public Engagement Programs"
                             subtext="Community-driven initiatives and large-scale public gatherings."
-                            imageSrc="/images/event/Image3.png"
+                            imageSrc="/images/event-experience/Image3.png"
                             className="h-[22rem] w-full lg:h-[26.25rem] lg:flex-1"
                         />
                     </div>
@@ -405,13 +405,13 @@ export default function EventPage() {
                         <ExperienceCard
                             title="Corporate Events"
                             subtext="Conferences, summits, and tailored corporate experiences."
-                            imageSrc="/images/event/Image4.png"
+                            imageSrc="/images/event-experience/Image4.png"
                             className="h-[22rem] w-full lg:h-[26.25rem] lg:w-[34.8%]"
                         />
                         <ExperienceCard
                             title="Government Events"
                             subtext="Official conventions, institutional programs, and state summits."
-                            imageSrc="/images/event/Image5.png"
+                            imageSrc="/images/event-experience/Image5.png"
                             className="h-[22rem] w-full lg:h-[26.25rem] lg:flex-1"
                         />
                     </div>
@@ -423,13 +423,13 @@ export default function EventPage() {
                                 <ExperienceCard
                                     title="Award Functions"
                                     subtext="Grand gala nights celebrating excellence and achievements."
-                                    imageSrc="/images/event/Image6.png"
+                                    imageSrc="/images/event-experience/Image6.png"
                                     className="h-[22rem] w-full md:flex-1 lg:h-[26.25rem]"
                                 />
                                 <ExperienceCard
                                     title="Product Launches"
                                     subtext="High-impact brand reveals and immersive showcase events."
-                                    imageSrc="/images/event/Image7.png"
+                                    imageSrc="/images/event-experience/Image7.png"
                                     extraDarkOverlay
                                     className="h-[22rem] w-full md:flex-1 lg:h-[26.25rem]"
                                 />
@@ -438,7 +438,7 @@ export default function EventPage() {
                             <ExperienceCard
                                 title="Experiential Marketing"
                                 subtext="Interactive brand activations that leave a lasting impression."
-                                imageSrc="/images/event/Image9.png"
+                                imageSrc="/images/event-experience/Image9.png"
                                 className="h-[19.125rem] w-full self-stretch"
                             />
                         </div>
@@ -446,7 +446,7 @@ export default function EventPage() {
                         <ExperienceCard
                             title="Cultural Events"
                             subtext="Vibrant festivals celebrating heritage, art, and traditions."
-                            imageSrc="/images/event/Image8.png"
+                            imageSrc="/images/event-experience/Image8.png"
                             className="h-[28rem] w-full shrink-0 lg:h-[47.25rem] lg:w-[34.8%]"
                         />
                     </div>
@@ -674,7 +674,7 @@ export default function EventPage() {
                 style={{
                     backgroundImage: `
             linear-gradient(180deg, #FFF 4.39%, rgba(255, 255, 255, 0.90) 18.78%, rgba(255, 255, 255, 0.00) 60.69%),
-            url('/images/event/766cb2ed3e0866c954f571e9b8d2eb8d64ab0fe0.jpg')
+            url('/images/event-experience/766cb2ed3e0866c954f571e9b8d2eb8d64ab0fe0.jpg')
           `,
                     backgroundColor: "lightgray",
                     backgroundPosition: "50% 60%",
@@ -763,7 +763,7 @@ export default function EventPage() {
                         padding: "clamp(1.5rem, 3.5vw, 2rem)",
                         borderRadius: "var(--Corner-radius-0, 0)",
                         background:
-                            "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/Join%20as.png') lightgray 50% / cover no-repeat",
+                            "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/join-as-partner-background.png') lightgray 50% / cover no-repeat",
                     }}
                 >
                     {/* Top-Left Content: Heading & CTA Button */}

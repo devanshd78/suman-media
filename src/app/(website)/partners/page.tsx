@@ -8,7 +8,7 @@ const description =
   "Partner with Suman Media & Entertainment across films, music, OTT, content, distribution, technology and strategic media opportunities.";
 
 export const metadata = createPageMetadata(title, description, "/partners", {
-  image: "/images/careers/slideimg4.jpg",
+  image: "/images/careers/workplace-gallery-4.jpg",
   imageAlt: "Film production team at work",
 });
 

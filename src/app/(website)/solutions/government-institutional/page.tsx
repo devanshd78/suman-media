@@ -1,4 +1,4 @@
-import { GovernmentPage } from "@/components/government-institutional/page";
+import { GovernmentPage } from "@/components/government-institutional/government-institutional-page";
 import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata = createPageMetadata(
   "Government, PSU & Institutional Services",

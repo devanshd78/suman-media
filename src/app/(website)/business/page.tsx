@@ -16,42 +16,42 @@ const marketCards = [
     title: "Co-Productions",
     description:
       "Collaborating with international partners to develop and produce content across markets.",
-    image: "/images/business/Image2.png",
+    image: "/images/business/international-co-productions.png",
     alt: "International co-production film set",
   },
   {
     title: "Film Festivals",
     description:
       "Connecting content and creative work with international film festivals, industry platforms and global audiences.",
-    image: "/images/business/Image3.png",
+    image: "/images/business/film-festivals.png",
     alt: "International film festival and industry showcase",
   },
   {
     title: "International Markets",
     description:
       "Connecting content and creative work with international film festivals, showcases and industry markets.",
-    image: "/images/business/Image4.png",
+    image: "/images/business/international-markets.png",
     alt: "International content and entertainment market",
   },
   {
     title: "Global Distribution",
     description:
       "Taking Indian and regional content to audiences and platforms across international territories.",
-    image: "/images/business/Image5.png",
+    image: "/images/business/global-distribution.png",
     alt: "Global content distribution and operations",
   },
   {
     title: "Strategic Alliances",
     description:
       "Building long-term partnerships with international companies, platforms and industry stakeholders.",
-    image: "/images/business/Image6.png",
+    image: "/images/business/strategic-alliances.png",
     alt: "International strategic partnerships and alliances",
   },
   {
     title: "Market Representation",
     description:
       "Representing content, brands and business interests in selected international markets.",
-    image: "/images/business/Image7.png",
+    image: "/images/business/market-representation.png",
     alt: "International market representation strategy",
   },
 ];
@@ -61,43 +61,43 @@ const journeyItems = [
     number: "1.",
     title: "Connect",
     subtitle: "International Partners",
-    icon: "/images/business/Suman Ent main_icon/PhoneCall.svg",
+    icon: "/images/business/icons/phone-call.svg",
   },
   {
     number: "2.",
     title: "Present",
     subtitle: "Markets & Festivals",
-    icon: "/images/business/Suman Ent main_icon/PresentationChart.svg",
+    icon: "/images/business/icons/presentation-chart.svg",
   },
   {
     number: "3.",
     title: "Distribute",
     subtitle: "Global Platforms",
-    icon: "/images/business/Suman Ent main_icon/Television.svg",
+    icon: "/images/business/icons/television.svg",
   },
   {
     number: "4.",
     title: "Grow",
     subtitle: "New Audiences & Opportunities",
-    icon: "/images/business/Suman Ent main_icon/ChartLineUp.svg",
+    icon: "/images/business/icons/chart-line-up.svg",
   },
 ];
 
 const connectSlides = [
   {
-    image: "/images/business/Suman Ent main_img/stack.png",
+    image: "/images/business/illustrations/stack.png",
     alt: "Suman Entertainment representing Indian entertainment globally",
   },
   {
-    image: "/images/business/Suman Ent main_img/stack-1.png",
+    image: "/images/business/illustrations/stack-1.png",
     alt: "Suman Entertainment at an international entertainment event",
   },
   {
-    image: "/images/business/Suman Ent main_img/stack-2.png",
+    image: "/images/business/illustrations/stack-2.png",
     alt: "Suman Entertainment connecting Indian stories with global audiences",
   },
   {
-    image: "/images/business/Suman Ent main_img/stack-3.png",
+    image: "/images/business/illustrations/stack-3.png",
     alt: "Suman Entertainment global cultural and entertainment presence",
   },
 ];
@@ -345,7 +345,7 @@ export default function InternationalBusinessPage() {
             "
           >
             <motion.img
-              src="/images/business/Image1.png"
+              src="/images/business/international-business-hero.png"
               alt="Suman Entertainment international business at Cannes"
               className="
                 absolute
@@ -1119,7 +1119,7 @@ export default function InternationalBusinessPage() {
               rgba(0, 0, 0, 0) 42.15%,
               rgba(0, 0, 0, 0.76) 85.74%
             ),
-            url("/images/monetization/Image12.jpg")
+            url("/images/monetization/monetization-gallery-12.jpg")
           `,
           backgroundSize: "cover",
           backgroundPosition: "center",

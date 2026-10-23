@@ -26,7 +26,7 @@ import type {
    ============================================================ */
 
 const DEFAULT_HERO_VIDEO =
-  "/videos/MediaVedio.mp4";
+  "/videos/landing-hero-background.mp4";
 
 const DEFAULT_HEADING =
   "Abhijat Marathi OTT";

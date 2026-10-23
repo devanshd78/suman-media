@@ -3,9 +3,9 @@
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
-import { schemaTypes } from "./src/sanity/schemaTypes";
+import { schemaTypes } from "./src/sanity/schema-types/index";
 import { mainDocuments, locations } from "./src/sanity/presentation/resolve";
-import { singletonTypes, structure } from "./src/sanity/structure";
+import { singletonTypes, structure } from "./src/sanity/structure/index";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;

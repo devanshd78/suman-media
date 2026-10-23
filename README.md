@@ -21,7 +21,7 @@ Website: `http://localhost:3000`
 
 Sanity Studio: `http://localhost:3000/studio`
 
-See `SANITY_SETUP.md` for the CMS model, CORS configuration and webhook setup.
+See `sanity-setup.md` for the CMS model, CORS configuration and webhook setup.
 
 ## Architecture
 

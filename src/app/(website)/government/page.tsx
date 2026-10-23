@@ -9,13 +9,13 @@ import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 ========================================= */
 
 const ASSET_BASE = "/images/government";
-const OTT_BASE = "/images/ott";
+const OTT_BASE = "/images/abhijat-marathi";
 
 const ICON_BASE =
-  `${ASSET_BASE}/Suman%20Ent%20main_icon`;
+  `${ASSET_BASE}/icons`;
 
 const VIDEO_SRC =
-  `${ASSET_BASE}/Bubbles_descend_toward_pink_clouds_20261008232210.mp4.mp4`;
+  `${ASSET_BASE}/government-hero-clouds.mp4`;
 
 /* =========================================
    SECTION 2 - AI CAPABILITIES
@@ -78,25 +78,25 @@ const aiValues = [
     title: "Discover",
     description:
       "Help audiences find the right content faster.",
-    icon: "VideoConference.svg",
+    icon: "video-conference.svg",
   },
   {
     title: "Present",
     description:
       "Create more relevant content experiences.",
-    icon: "PresentationChart.svg",
+    icon: "presentation-chart.svg",
   },
   {
     title: "Expand",
     description:
       "Make regional content accessible across languages and markets.",
-    icon: "Television.svg",
+    icon: "television.svg",
   },
   {
     title: "Preserve",
     description:
       "Organise and protect valuable content and cultural archives.",
-    icon: "Archive.svg",
+    icon: "archive.svg",
   },
 ];
 
@@ -115,15 +115,15 @@ const actionCollections: Record<ActionTab, ActionCard[]> = {
   library: [
     {
       title: "Films",
-      image: `${OTT_BASE}/Image2.png`,
+      image: `${OTT_BASE}/abhijat-marathi-gallery-2.png`,
     },
     {
       title: "Songs",
-      image: `${OTT_BASE}/Nauvari%20pahija.png`,
+      image: `${OTT_BASE}/nauvari-pahija.png`,
     },
     {
       title: "Archives",
-      image: `${OTT_BASE}/Zingaat.png`,
+      image: `${OTT_BASE}/zingaat.png`,
     },
   ],
 
@@ -220,10 +220,7 @@ export default function Page() {
 
         <div className="capabilities-grid">
           {capabilities.map((item, index) => {
-            const imageName =
-              index === 0
-                ? "Rectangle 411.png"
-                : `Rectangle 411-${index}.png`;
+            const imageName = ["content-archiving.png", "publishing-solutions.png", "content-discovery.png", "translation.png", "recommendation-engines.png", "research-projects.png", "dubbing-and-voice-cloning.png", "metadata-generation.png", "digital-knowledge-systems.png"][index];
 
             const slug = item.title
               .toLowerCase()
@@ -1251,7 +1248,7 @@ export default function Page() {
               rgba(0, 0, 0, 0) 42.15%,
               rgba(0, 0, 0, 0.76) 85.74%
             ),
-            url("/images/Join%20as.png");
+            url("/images/join-as-partner-background.png");
 
           background-position:
             center,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sanityClient } from "@/sanity/lib/client";
-import { sanityEnv } from "@/sanity/env";
+import { sanityEnv } from "@/sanity/environment";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -56,13 +56,8 @@ const MusicCard = ({
     gradientOpacity = 0.65,
     hasGradient = true,
 }: MusicCardProps) => {
-    const possiblePaths = [
-        `/images/music-audio/Image${imageNumber}.png`,
-        `/images/music-audio/image${imageNumber}.png`,
-        `/images/music-audio/Image ${imageNumber}.png`,
-        `/images/music-audio/Image${imageNumber}.jpg`,
-        `/images/music-audio/Image${imageNumber}.webp`,
-    ];
+    const categoryImages = ["/images/music-audio/music-videos.png", "/images/music-audio/devotional-folk-and-cultural-music.png", "/images/music-audio/film-soundtracks.jpg", "/images/music-audio/music-production.jpg", "/images/music-audio/original-songs-and-composition.png", "/images/music-audio/music-publishing-and-distribution.jpg", "/images/music-audio/artist-collaborations.png"];
+    const possiblePaths = [categoryImages[imageNumber - 1] ?? categoryImages[0]];
 
     const [pathIndex, setPathIndex] = useState(0);
 
@@ -145,37 +140,37 @@ const MusicCard = ({
 const CATALOGUE_SLIDES = [
     {
         id: 1,
-        image: "/images/music-audio/Image8.png",
+        image: "/images/music-audio/music-audio-gallery-8.png",
         label: "Original Content",
         href: "https://youtube.com",
     },
     {
         id: 2,
-        image: "/images/music-audio/Image9.png",
+        image: "/images/music-audio/music-audio-gallery-9.png",
         label: "Bhakti songs",
         href: "https://youtube.com",
     },
     {
         id: 3,
-        image: "/images/music-audio/Image8.png",
+        image: "/images/music-audio/music-audio-gallery-8.png",
         label: "Original Content",
         href: "https://youtube.com",
     },
     {
         id: 4,
-        image: "/images/music-audio/Image9.png",
+        image: "/images/music-audio/music-audio-gallery-9.png",
         label: "Bhakti songs",
         href: "https://youtube.com",
     },
     {
         id: 5,
-        image: "/images/music-audio/Image8.png",
+        image: "/images/music-audio/music-audio-gallery-8.png",
         label: "Original Content",
         href: "https://youtube.com",
     },
     {
         id: 6,
-        image: "/images/music-audio/Image9.png",
+        image: "/images/music-audio/music-audio-gallery-9.png",
         label: "Bhakti songs",
         href: "https://youtube.com",
     },
@@ -185,25 +180,25 @@ const CATALOGUE_SLIDES = [
 const HOW_IT_WORKS_STEPS = [
     {
         id: 1,
-        icon: "/images/music-audio/Lightbulb.svg",
+        icon: "/images/music-audio/lightbulb.svg",
         title: "Create",
         description: "Developing original musical ideas and compositions.",
     },
     {
         id: 2,
-        icon: "/images/music-audio/CassetteTape.svg",
+        icon: "/images/music-audio/cassette-tape.svg",
         title: "Produce",
         description: "Bringing music to life through recording and production.",
     },
     {
         id: 3,
-        icon: "/images/music-audio/Television.svg",
+        icon: "/images/music-audio/television.svg",
         title: "Publish",
         description: "Preparing music for release across relevant platforms.",
     },
     {
         id: 4,
-        icon: "/images/music-audio/UsersThree.svg",
+        icon: "/images/music-audio/users-three.svg",
         title: "Distribute",
         description: "Connecting music with audiences across channels.",
     },
@@ -264,7 +259,7 @@ export default function MusicAudioPage() {
                     height: "28.4375rem",
                     padding: "7.5rem 3.5rem 6.25rem 3.5rem",
                     gap: "3.5rem",
-                    backgroundImage: "url('/images/music-audio/Gradient.png')",
+                    backgroundImage: "url('/images/music-audio/gradient.png')",
                 }}
             >
                 <div className="flex flex-col md:flex-row justify-between items-center w-full max-w-[83rem] gap-8">
@@ -580,7 +575,7 @@ export default function MusicAudioPage() {
                                 {/* Bottom Row: Logo + Category Label */}
                                 <div className="flex items-center" style={{ gap: "0.625rem" }}>
                                     <img
-                                        src="/images/music-audio/LOGO.png"
+                                        src="/images/music-audio/logo.png"
                                         alt="Suman Music India"
                                         draggable={false}
                                         className="w-7 h-7 rounded-full object-contain shrink-0"
@@ -837,7 +832,7 @@ export default function MusicAudioPage() {
                         padding: "2rem",
                         borderRadius: "var(--Corner-radius-0, 0)",
                         background:
-                            "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/Join%20as.png') lightgray 50% / cover no-repeat",
+                            "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/join-as-partner-background.png') lightgray 50% / cover no-repeat",
                     }}
                 >
                     {/* Top-Left Content: Heading & CTA Button */}

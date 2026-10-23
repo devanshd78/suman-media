@@ -97,31 +97,31 @@ const PARTNER_TYPES: readonly PartnerType[] = [
 
 const PARTNER_LOGOS: readonly Logo[] = [
   {
-    src: "/images/partners/company/image1.svg",
+    src: "/images/partners/company/company-gallery-1.svg",
     alt: "AWS",
     width: 112,
     height: 64,
   },
   {
-    src: "/images/partners/company/image2.svg",
+    src: "/images/partners/company/company-gallery-2.svg",
     alt: "Government of Maharashtra",
     width: 92,
     height: 64,
   },
   {
-    src: "/images/partners/company/image3.svg",
+    src: "/images/partners/company/company-gallery-3.svg",
     alt: "Laminar",
     width: 216,
     height: 56,
   },
   {
-    src: "/images/partners/company/image4.svg",
+    src: "/images/partners/company/company-gallery-4.svg",
     alt: "Zee Marathi",
     width: 144,
     height: 64,
   },
   {
-    src: "/images/partners/company/image5.svg",
+    src: "/images/partners/company/company-gallery-5.svg",
     alt: "Festival de Cannes",
     width: 168,
     height: 64,
@@ -130,11 +130,11 @@ const PARTNER_LOGOS: readonly Logo[] = [
 
 const FILM_STRIP = [
   {
-    src: "/images/landing/client/Image1.png",
+    src: "/images/landing/client/abhijat-marathi-streaming.png",
     alt: "Live Marathi cultural performance",
   },
   {
-    src: "/images/landing/client/Image3.png",
+    src: "/images/landing/client/music-and-audio-library.png",
     alt: "Music recording session",
   },
   {
@@ -146,7 +146,7 @@ const FILM_STRIP = [
     alt: "Mumbai waterfront and Gateway of India",
   },
   {
-    src: "/images/contactus/JoinAsPartner.png",
+    src: "/images/contact-us/join-as-partner.png",
     alt: "Film professional on location",
   },
 ] as const;
@@ -1204,7 +1204,7 @@ export function PartnerPageContent() {
                     }}
                   >
                     <Image
-                      src="/images/careers/slideimg4.jpg"
+                      src="/images/careers/workplace-gallery-4.jpg"
                       alt="Film crew operating a cinema camera"
                       fill
                       loading="lazy"
@@ -1249,7 +1249,7 @@ export function PartnerPageContent() {
                     }}
                   >
                     <Image
-                      src="/images/landing/client/Image3.png"
+                      src="/images/landing/client/music-and-audio-library.png"
                       alt="Singer recording music in a studio"
                       fill
                       loading="lazy"
@@ -1377,7 +1377,7 @@ export function PartnerPageContent() {
           aria-hidden="true"
         >
           <Image
-            src="/images/Join as.png"
+            src="/images/join-as-partner-background.png"
             alt=""
             fill
             loading="lazy"

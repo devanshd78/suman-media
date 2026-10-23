@@ -26,7 +26,7 @@ import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import { CareersCtaSection } from "@/components/landing/careers-cta-section";
 import { MediaCoverageSection as LandingMediaCoverageSection } from "@/components/landing/media-coverage-section";
-import { ContactActionCards } from "@/components/contactus/contact-action-cards";
+import { ContactActionCards } from "@/components/contact-us/contact-action-cards";
 
 import styles from "./about-page.module.css";
 
@@ -789,8 +789,7 @@ function StickyGlobalReach() {
             tabIndex={-1}
 
           >
-            <source src="/videos/mediaVideo1.mp4" type="video/mp4" />
-            <source src="/videos/MediaVedio1.mp4" type="video/mp4" />
+            <source src="/videos/abhijat-marathi-brand-film.mp4" type="video/mp4" />
           </video>
           <div className={styles.globalVideoShade} aria-hidden="true" />
 
