@@ -164,7 +164,7 @@ function MaskedTextReveal({
 ========================================================= */
 
 const LOGO =
-    "/images/ott/mobile/center-logo.png";
+    "/images/abhijat-marathi/mobile/center-logo.png";
 
 /* =========================================================
    HERO 1 — CINEMA
@@ -172,49 +172,49 @@ const LOGO =
 
 const HERO_SLIDES = [
     {
-        image: "/images/ott/image1.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-1.png",
         badge: "Abhijat marathi cinema",
         title: "Tu Fakt Ho Mhan",
         description:
             "Rahul, A Younger Man Falls in Love with a Girl Whose Father Generously Supports him with Housing and Education. However, the Story Takes a Dramatic Turn.",
     },
     {
-        image: "/images/ott/Image2.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-2.png",
         badge: "Abhijat marathi cinema",
         title: "Mumbai Te Mauritius",
         description:
             "A Marathi story that travels beyond familiar boundaries, bringing together relationships, humour, emotion and an unforgettable journey.",
     },
     {
-        image: "/images/ott/image3.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-3.png",
         badge: "Marathi cinema · Romantic",
         title: "Ratri Cha Paus",
         description:
             "A moving Marathi romance shaped by rain, relationships and emotions that slowly uncover the choices connecting two lives.",
     },
     {
-        image: "/images/ott/image4.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-4.png",
         badge: "World cinema · Horror",
         title: "Curse Of the Nun",
         description:
             "A dark supernatural story where disturbing events and buried secrets draw its characters deeper into an unsettling mystery.",
     },
     {
-        image: "/images/ott/image5.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-5.png",
         badge: "Abhijat marathi cinema",
         title: "Gupchup - Gupchup",
         description:
             "A lively Marathi entertainment experience filled with characters, comedy and moments designed for audiences to enjoy together.",
     },
     {
-        image: "/images/ott/image6.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-6.png",
         badge: "World cinema",
         title: "AntiMatter",
         description:
             "A thought-provoking cinematic experience exploring uncertainty, identity and the consequences of stepping beyond the known.",
     },
     {
-        image: "/images/ott/image7.png",
+        image: "/images/abhijat-marathi/abhijat-marathi-gallery-7.png",
         badge: "Suman Entertainment",
         title: "Stories Made for Every Screen",
         description:
@@ -231,7 +231,7 @@ const HERO_SLIDES = [
 const SHOW_HERO_SLIDES = [
     {
         image:
-            "/images/landing/client/Image1.png",
+            "/images/landing/client/abhijat-marathi-streaming.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -241,7 +241,7 @@ const SHOW_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image2.png",
+            "/images/landing/client/events-and-experiences.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -251,7 +251,7 @@ const SHOW_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image3.png",
+            "/images/landing/client/music-and-audio-library.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -261,7 +261,7 @@ const SHOW_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image4.png",
+            "/images/landing/client/content-production.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -271,7 +271,7 @@ const SHOW_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image5.png",
+            "/images/landing/client/government-communications.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -292,14 +292,14 @@ const SHOW_HERO_SLIDES = [
 
 const MUSIC_HERO_SLIDES = [
     {
-        image: "/images/ott/thirdhero.png",
+        image: "/images/abhijat-marathi/music-showcase-hero.png",
         badge: "Music library",
         title: "Gulabi saree",
         description: "sanju rathod",
     },
     {
         image:
-            "/images/landing/client/Image1.png",
+            "/images/landing/client/abhijat-marathi-streaming.png",
         badge:
             "Music library",
         title:
@@ -309,7 +309,7 @@ const MUSIC_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image2.png",
+            "/images/landing/client/events-and-experiences.png",
         badge:
             "Music library",
         title:
@@ -319,7 +319,7 @@ const MUSIC_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image3.png",
+            "/images/landing/client/music-and-audio-library.png",
         badge:
             "Music library",
         title:
@@ -329,7 +329,7 @@ const MUSIC_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image4.png",
+            "/images/landing/client/content-production.png",
         badge:
             "Music library",
         title:
@@ -339,7 +339,7 @@ const MUSIC_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/Image5.png",
+            "/images/landing/client/government-communications.png",
         badge:
             "Music library",
         title:
@@ -360,7 +360,7 @@ const CONTENT_ITEMS = [
         category:
             "Marathi Entertainment",
         image:
-            "/images/ott/SumanEntertainment.png",
+            "/images/abhijat-marathi/suman-entertainment.png",
     },
     {
         title:
@@ -368,7 +368,7 @@ const CONTENT_ITEMS = [
         category:
             "Marathi Cinema",
         image:
-            "/images/ott/Mumbai Te Mauritius.png",
+            "/images/abhijat-marathi/mumbai-te-mauritius.png",
     },
     {
         title:
@@ -376,7 +376,7 @@ const CONTENT_ITEMS = [
         category:
             "Marathi Cinema | Romantic",
         image:
-            "/images/ott/Ratri Cha Paus.png",
+            "/images/abhijat-marathi/ratri-cha-paus.png",
     },
     {
         title:
@@ -384,7 +384,7 @@ const CONTENT_ITEMS = [
         category:
             "World Cinema | Horror",
         image:
-            "/images/ott/Curse Of the Nun.png",
+            "/images/abhijat-marathi/curse-of-the-nun.png",
     },
     {
         title:
@@ -392,7 +392,7 @@ const CONTENT_ITEMS = [
         category:
             "Marathi Cinema",
         image:
-            "/images/ott/Gupchup.png",
+            "/images/abhijat-marathi/gupchup.png",
     },
     {
         title:
@@ -400,7 +400,7 @@ const CONTENT_ITEMS = [
         category:
             "World Cinema",
         image:
-            "/images/ott/AntiMatter.png",
+            "/images/abhijat-marathi/anti-matter.png",
     },
 ] as const;
 
@@ -423,61 +423,61 @@ const SHOW_CONTENT_ITEMS = [
         title: "Swaminchya Paulkhuna",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38.png",
+            "/images/abhijat-marathi/below-hero/swaminchya-paulkhuna.png",
     },
     {
         title: "युवागिरी with neel",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-1.png",
+            "/images/abhijat-marathi/below-hero/yuvagiri-with-neel.png",
     },
     {
         title: "थेट बोल विषय खोल (Podcast)",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-2.png",
+            "/images/abhijat-marathi/below-hero/thet-bol-vishay-khol.png",
     },
     {
         title: "KAY BAI SANGU",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-3.png",
+            "/images/abhijat-marathi/below-hero/kay-bai-sangu.png",
     },
     {
         title: "Round Table",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-4.png",
+            "/images/abhijat-marathi/below-hero/round-table.png",
     },
     {
         title: "Fittam Fit MAHARASTAR",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-5.png",
+            "/images/abhijat-marathi/below-hero/fittam-fit-maharastar.png",
     },
     {
         title: "Nakki Kaay Shijtay",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-6.png",
+            "/images/abhijat-marathi/below-hero/nakki-kaay-shijtay.png",
     },
     {
         title: "OFFBEAT Bhatak",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-10.png",
+            "/images/abhijat-marathi/below-hero/offbeat-bhatak.png",
     },
     {
         title: "Krupaya Laksh Asu Dya",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-11.png",
+            "/images/abhijat-marathi/below-hero/krupaya-laksh-asu-dya.png",
     },
     {
         title: "Amhi Asa Eiklay",
         category: "Abhijat Marathi Shows",
         image:
-            "/images/ott/below-hero/Frame 38-13.png",
+            "/images/abhijat-marathi/below-hero/amhi-asa-eiklay.png",
     },
 ] as const;
 
@@ -491,32 +491,32 @@ const MUSIC_CONTENT_ITEMS = [
     {
         title: "Na Sangatach Aaj",
         category: "Music",
-        image: "/images/ott/Na Sangatach Aaj.png",
+        image: "/images/abhijat-marathi/na-sangatach-aaj.png",
     },
     {
         title: "Shaky",
         category: "Music",
-        image: "/images/ott/Shaky.png",
+        image: "/images/abhijat-marathi/shaky.png",
     },
     {
         title: "Nauvari pahija",
         category: "Music",
-        image: "/images/ott/Nauvari pahija.png",
+        image: "/images/abhijat-marathi/nauvari-pahija.png",
     },
     {
         title: "Govyachya",
         category: "Music",
-        image: "/images/ott/Govyachya.png",
+        image: "/images/abhijat-marathi/govyachya.png",
     },
     {
         title: "Zingaat",
         category: "Music",
-        image: "/images/ott/Zingaat.png",
+        image: "/images/abhijat-marathi/zingaat.png",
     },
     {
         title: "Alka",
         category: "Music",
-        image: "/images/ott/Alka.png",
+        image: "/images/abhijat-marathi/alka.png",
     },
 ] as const;
 
@@ -1386,7 +1386,7 @@ function HeroButtons({
    MAIN
 ========================================================= */
 
-export default function Section3() {
+export default function StreamingContentSections() {
     const { ref, isNearViewport } = useNearViewport<HTMLElement>();
     const prefersReducedMotion =
         Boolean(useReducedMotion());
@@ -2975,13 +2975,13 @@ export default function Section3() {
                 <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
                     {[
                         {
-                            image: "/images/ott/playstore.png",
+                            image: "/images/abhijat-marathi/playstore.png",
                             alt: "Google Play Store",
                             description:
                                 "Discover the essence of Maharashtra on your Android device. Stream classic films, new releases, and exclusive regional stories in high definition.",
                         },
                         {
-                            image: "/images/ott/AppStore.png",
+                            image: "/images/abhijat-marathi/app-store.png",
                             alt: "Apple App Store",
                             description:
                                 "Elevate your streaming experience on iPhone and iPad. Enjoy curated Marathi cinema, compelling web originals, and cultural gems designed for seamless entertainment on iOS.",

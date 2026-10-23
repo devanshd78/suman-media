@@ -257,7 +257,7 @@ function NRTextReveal({
 
 const OTT_IMAGES: OttImage[] = [
   {
-    src: "/images/ott/image1.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-1.png",
     left: "0rem",
     top: "9rem",
     zIndex: 10,
@@ -266,7 +266,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/Image2.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-2.png",
     left: "12.5rem",
     top: "6rem",
     zIndex: 20,
@@ -275,7 +275,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image3.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-3.png",
     left: "25rem",
     top: "3rem",
     zIndex: 30,
@@ -284,7 +284,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image4.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-4.png",
     left: "37.5rem",
     top: "0rem",
     zIndex: 40,
@@ -293,7 +293,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image5.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-5.png",
     left: "50rem",
     top: "3rem",
     zIndex: 30,
@@ -302,7 +302,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image6.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-6.png",
     left: "62.5rem",
     top: "6rem",
     zIndex: 20,
@@ -311,7 +311,7 @@ const OTT_IMAGES: OttImage[] = [
   },
 
   {
-    src: "/images/ott/image7.png",
+    src: "/images/abhijat-marathi/abhijat-marathi-gallery-7.png",
     left: "75rem",
     top: "9rem",
     zIndex: 10,
@@ -889,7 +889,7 @@ export default function OttHeader({
                           onError={() => {
                             console.error(
                               `[OttHeader] Failed to load ${image.src}. ` +
-                                "Check that the file exists in public/images/ott and that filename casing matches production exactly.",
+                                "Check that the file exists in public/images/abhijat-marathi and that filename casing matches production exactly.",
                             );
                           }}
                           className="
@@ -917,7 +917,7 @@ export default function OttHeader({
                         onError={() => {
                           console.error(
                             `[OttHeader] Failed to load ${image.src}. ` +
-                              "Check that the file exists in public/images/ott and that filename casing matches production exactly.",
+                              "Check that the file exists in public/images/abhijat-marathi and that filename casing matches production exactly.",
                           );
                         }}
                         className="

@@ -17,16 +17,16 @@ import styles from "./ecosystem-scroll.module.css";
 ========================================================= */
 
 const VIDEO_SRC =
-    "/videos/MediaVedio1.mp4";
+    "/videos/abhijat-marathi-brand-film.mp4";
 
 const TV_FRAME =
-    "/images/ott/television/television2.png";
+    "/images/abhijat-marathi/television/television2.png";
 
 const MOBILE_FRAME =
-    "/images/ott/mobile/mobile.png";
+    "/images/abhijat-marathi/mobile/mobile.png";
 
 const TABLET_FRAME =
-    "/images/ott/television/tablet.png";
+    "/images/abhijat-marathi/television/tablet.png";
 
 /* =========================================================
    PARTNERSHIP

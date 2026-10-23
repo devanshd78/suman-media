@@ -155,20 +155,20 @@ function MaskedTextReveal({
 
 const ASSETS = {
   mobile: {
-    frame: "/images/ott/mobile/mobile.png",
-    time: "/images/ott/mobile/time.png",
-    logo: "/images/ott/mobile/center-logo.png",
-    screen: "/images/ott/mobile/onphone-image.png",
+    frame: "/images/abhijat-marathi/mobile/mobile.png",
+    time: "/images/abhijat-marathi/mobile/time.png",
+    logo: "/images/abhijat-marathi/mobile/center-logo.png",
+    screen: "/images/abhijat-marathi/mobile/onphone-image.png",
   },
 
   television: {
-    setup: "/images/ott/television/television-setup.png",
-    screen: "/images/ott/television/television-image.png",
+    setup: "/images/abhijat-marathi/television/television-setup.png",
+    screen: "/images/abhijat-marathi/television/television-image.png",
   },
 
-  connectedTv: "/images/ott/connected-tv.png",
-  contentAggregation: "/images/ott/Zingaat.png",
-  subscriptionManagement: "/images/ott/AppStore.png",
+  connectedTv: "/images/abhijat-marathi/connected-tv.png",
+  contentAggregation: "/images/abhijat-marathi/zingaat.png",
+  subscriptionManagement: "/images/abhijat-marathi/app-store.png",
 } as const;
 
 /* =========================================================
@@ -1050,13 +1050,13 @@ function ConnectedTvArtwork({
 ========================================================= */
 
 const CONTENT_IMAGES = [
-  "/images/ott/image1.png",
-  "/images/ott/Image2.png",
-  "/images/ott/image3.png",
-  "/images/ott/image4.png",
-  "/images/ott/image5.png",
-  "/images/ott/image6.png",
-  "/images/ott/image7.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-1.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-2.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-3.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-4.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-5.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-6.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-7.png",
 ] as const;
 
 const CONTENT_ROWS = [
@@ -1210,11 +1210,11 @@ function ContentAggregationArtwork({
 ========================================================= */
 
 const SUBSCRIPTION_AVATARS = [
-  "/images/ott/image1.png",
-  "/images/ott/Image2.png",
-  "/images/ott/image3.png",
-  "/images/ott/image4.png",
-  "/images/ott/image5.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-1.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-2.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-3.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-4.png",
+  "/images/abhijat-marathi/abhijat-marathi-gallery-5.png",
 ] as const;
 
 const WATCH_BARS = [
