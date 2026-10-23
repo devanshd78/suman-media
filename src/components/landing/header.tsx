@@ -2065,7 +2065,7 @@ const topTextColor =
 
         {menuOpen
           ? createPortal(
-            <div
+            <LocalizedContent><div
               ref={
                 dialogRef
               }
@@ -2285,7 +2285,7 @@ const topTextColor =
                   <ArrowRightIcon />
                 </Link>
               </nav>
-            </div>,
+            </div></LocalizedContent>,
 
             document.body,
           )

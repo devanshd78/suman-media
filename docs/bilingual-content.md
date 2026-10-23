@@ -18,3 +18,5 @@ Server-only components use `localized-server-content.tsx`. Client components, in
 Metadata and the sitemap provide both language URLs. Marathi uses the bundled Noto Sans Devanagari font with readable line spacing.
 
 Run `node scripts/check-localization.mjs` for dictionary parity, routing, Unicode and React-prop checks. Also verify the affected page in both languages when editing copy or layout.
+
+Production builds use Next.js's supported Webpack option. During validation, Turbopack intermittently failed to resolve generated Google Font modules; Webpack compiled the same fonts successfully. Development continues to use Turbopack.
