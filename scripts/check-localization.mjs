@@ -45,6 +45,28 @@ assert.equal(translateText('Knowledge\nAcross Formats.', 'mr'), mr['Knowledge Ac
 assert.equal(graphemes('क्षेत्र').join(''), 'क्षेत्र');
 assert.ok(graphemes('क्षेत्र').length < Array.from('क्षेत्र').length);
 
+// Regression cases from the rendered-page audit: CMS copy and composed labels.
+for (const phrase of [
+  'Enterprise technology partner.',
+  'Concerts, cultural festivals, corporate events, launches, experiential marketing and public engagement.',
+  'Film, web series, OTT originals, documentaries, branded content, corporate films and podcasts.',
+  'Learn more about Cultural Documentation',
+  'Open Investor Relations',
+  'Show Music recording session',
+  'Play Abhijat Marathi OTT YouTube video 3',
+  'Contact us: Start a conversation with our team.',
+  'Contact as investor: Explore investment opportunities and learn more about Suman Media\uFFFDs growth journey.',
+  'Beyond the Frame (2026 Feature Film)',
+]) {
+  assert.ok(!/[a-z]{3}/i.test(translateText(phrase, 'mr')), `Untranslated public copy: ${phrase}`);
+  assert.equal(translateText(phrase, 'en'), phrase);
+}
+assert.equal(translateText('Music category 3', 'mr'), 'संगीत प्रकार ३');
+assert.equal(translateText('Show image 2', 'mr'), 'चित्र २ पाहा');
+assert.equal(translateText('Culture highlight 2 of 4', 'mr'), 'कार्यसंस्कृतीतील क्षण २, एकूण ४');
+assert.equal(translateText('Play Featured video 2', 'mr'), 'निवडक व्हिडिओ २ पाहा');
+assert.equal(translateText('Public Awareness Campaign content', 'mr'), 'जनजागृती मोहीम आशय');
+
 const { localizedPath } = load('src/i18n/routing.ts');
 assert.equal(localizedPath('/en/about?tab=team#leaders', 'mr'), '/mr/about?tab=team#leaders');
 assert.equal(localizedPath('/mr', 'en'), '/en');

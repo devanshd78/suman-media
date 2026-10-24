@@ -17,6 +17,10 @@ Server-only components use `localized-server-content.tsx`. Client components, in
 
 Metadata and the sitemap provide both language URLs. Marathi uses the bundled Noto Sans Devanagari font with readable line spacing.
 
-Run `node scripts/check-localization.mjs` for dictionary parity, routing, Unicode and React-prop checks. Also verify the affected page in both languages when editing copy or layout.
+Run `node scripts/check-localization.mjs` for dictionary parity, routing, Unicode, composed accessibility labels and React-prop checks.
+
+With the app running, run `python scripts/audit-localization.py http://localhost:3000`. This checks every Marathi URL in the sitemap plus articles linked from the news listing, including visible server-rendered copy, image descriptions, accessibility labels and social metadata. It fails on untranslated English words or page errors. The explicit allowlist covers brand names and technical identifiers, not general English copy. Add translations before publishing new CMS content; repeat this audit afterward. Client-only interactions and responsive layout still need browser checks.
+
+Generated labels (carousel positions, video controls, menu names and title/description combinations) are composed from translated phrases. Original film artwork, logos and third-party video/audio retain their original creative content; their website titles and accessible descriptions are localized.
 
 Production builds use Next.js's supported Webpack option. During validation, Turbopack intermittently failed to resolve generated Google Font modules; Webpack compiled the same fonts successfully. Development continues to use Turbopack.
