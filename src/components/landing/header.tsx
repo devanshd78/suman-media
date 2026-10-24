@@ -1288,7 +1288,7 @@ const topTextColor =
         const focusable =
           Array.from(
             dialog.querySelectorAll<HTMLElement>(
-              'a[href], button:not([disabled]), summary, [tabindex="0"]',
+              'a[href], button:not([disabled]), select:not([disabled]), summary, [tabindex="0"]',
             ),
           ).filter(
             (
@@ -1961,7 +1961,7 @@ const topTextColor =
                   </Link>
                 ),
               )}
-              <LanguageSwitcher color={topTextColor} onFocus={closeDropdown} />
+              <LanguageSwitcher className={styles.navControl} color={topTextColor} onFocus={closeDropdown} />
             </nav>
 
             {/* ===============================================
@@ -2273,7 +2273,7 @@ const topTextColor =
                       MOBILE CONTACT
                       ========================================= */}
 
-                <LanguageSwitcher />
+                <LanguageSwitcher className={styles.mobileLink} mobile />
 
                 <Link
                   href="/contact"

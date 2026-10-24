@@ -1,6 +1,7 @@
 "use client";
 
 import { LocalizedContent } from "@/components/localization/localized-content";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
@@ -385,7 +386,7 @@ export default function DigitalMediaNetworksPage() {
                             sustainable growth across digital platforms.
                         </p>
 
-                        <a href="/contact"
+                        <Link href="/contact"
                             style={{
                                 display: "flex",
                                 padding: "1rem",
@@ -432,7 +433,7 @@ export default function DigitalMediaNetworksPage() {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -690,7 +691,7 @@ export default function DigitalMediaNetworksPage() {
                                 </p>
                             </div>
 
-                            <a href="/contact"
+                            <Link href="/contact"
                                 style={{
                                     display: "flex",
                                     padding: "0 var(--Spacing-0, 0)",
@@ -738,7 +739,7 @@ export default function DigitalMediaNetworksPage() {
                                         strokeLinejoin="round"
                                     />
                                 </svg>
-                            </a>
+                            </Link>
                         </div>
 
                         <div
@@ -965,7 +966,7 @@ export default function DigitalMediaNetworksPage() {
                         </p>
                     </div>
 
-                    <a href="/contact"
+                    <Link href="/contact"
                         style={{
                             display: "flex",
                             height: "3rem",
@@ -1011,7 +1012,7 @@ export default function DigitalMediaNetworksPage() {
                                 strokeLinejoin="round"
                             />
                         </svg>
-                    </a>
+                    </Link>
                 </div>
             </section>
 
@@ -1415,7 +1416,7 @@ export default function DigitalMediaNetworksPage() {
                             Let&apos;s bring it to the world.
                         </h2>
 
-                        <a href="/contact"
+                        <Link href="/contact"
                             className="group cursor-pointer hover:opacity-85 transition-opacity"
                             style={{
                                 display: "flex",
@@ -1470,7 +1471,7 @@ export default function DigitalMediaNetworksPage() {
                                     strokeLinejoin="round"
                                 />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Bottom-Right Logo */}

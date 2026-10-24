@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 import { getSitemapDocuments } from "@/sanity/lib/data";
 import type { CmsSitemapDocument } from "@/types/cms";
 
-const staticPaths = ["", "/abhijat-marathi", "/ai-capibilities", "/degital-media-networks", "/about", "/business", "/capital-market", "/careers", "/companies", "/contact", "/contact/form", "/content-acquisition-and-distribution", "/creator-ecosystem", "/event-experience", "/government", "/media", "/monetization", "/music-audio", "/news-and-blogs", "/partners", "/portfolio", "/products/content-music-library", "/products/fast-channel", "/products/intellectual-property-development", "/products/publication-knowledge-platforms", "/services", "/services/brand-solutions-advertising", "/solutions/government-institutional"] as const;
+const staticPaths = ["", "/abhijat-marathi", "/ai-capibilities", "/degital-media-networks", "/about", "/business", "/capital-market", "/careers", "/companies", "/contact", "/contact/form", "/content-acquisition-and-distribution", "/creator-ecosystem", "/event-experience", "/media", "/monetization", "/music-audio", "/news-and-blogs", "/partners", "/portfolio", "/products/content-music-library", "/products/fast-channel", "/products/intellectual-property-development", "/products/publication-knowledge-platforms", "/services", "/services/brand-solutions-advertising", "/solutions/government-institutional"] as const;
 
 function documentPath(document: CmsSitemapDocument) {
   switch (document._type) {
