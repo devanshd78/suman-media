@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/config/site";
 import { inter, plusJakartaSans, notoSansDevanagari } from "@/lib/fonts";
 
+import { PageTransitionLoader } from "@/components/states/page-transition-loader";
 import "./globals.css";
 
 const baseMetadata: Metadata = {
@@ -55,7 +56,7 @@ export default async function RootLayout({
       className={`${plusJakartaSans.variable} ${inter.variable} ${notoSansDevanagari.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-zinc-950">
-        <TranslationProvider locale={locale}>{children}</TranslationProvider>
+        <TranslationProvider locale={locale}><PageTransitionLoader />{children}</TranslationProvider>
       </body>
     </html>
   );

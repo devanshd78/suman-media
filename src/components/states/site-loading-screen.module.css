@@ -1,0 +1,163 @@
+/* Figma Product Dropdown loader: quote in upper pane, number/loading in lower pane. */
+.screen {
+  --Text-Weak-2: rgba(0, 9, 51, 0.65);
+  --Text-Warning-2: #8F6C1A;
+  --Font-family-Body: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --Font-family-Heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --Font-size-Small: 1rem;
+  --Line-height-Small: 1.5rem;
+  --Font-size-Heading-4: 1.25rem;
+  --Line-height-Heading-4: 1.75rem;
+  --Font-size-Display: 3.5rem;
+  --Line-height-Display: 4rem;
+  --Corner-radius-8: 0.5rem;
+
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  grid-template-rows: minmax(0, 59.4fr) minmax(0, 40.6fr);
+  box-sizing: border-box;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100svh;
+  overflow: hidden;
+  border-radius: 0 0 var(--Corner-radius-8, 0.5rem) var(--Corner-radius-8, 0.5rem);
+  background: #FFEABF;
+  isolation: isolate;
+  font-feature-settings: "liga" off, "clig" off;
+}
+
+/* 1440 x 1000 reference: quote starts at x=132, y=181. */
+.quoteContainer {
+  display: block;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 18.05dvh clamp(1.25rem, 9.1667vw, 11rem) 1.5rem;
+}
+
+.quoteBody {
+  width: 100%;
+  max-width: 73.25rem;
+  animation: quote-appear 480ms ease-out both;
+}
+
+.year {
+  margin: 0 0 1.5rem;
+  color: var(--Text-Warning-2, #8F6C1A);
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: var(--Font-size-Heading-4, 1.25rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Heading-4, 1.75rem);
+  font-feature-settings: "liga" off, "clig" off;
+}
+
+.quote {
+  margin: 0;
+  color: rgba(143, 108, 26, 0.50);
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: clamp(1.875rem, 3.8889vw, var(--Font-size-Display, 3.5rem));
+  font-style: normal;
+  font-weight: 600;
+  line-height: var(--Line-height-Display, 4rem);
+  letter-spacing: -0.0625rem;
+  font-feature-settings: "liga" off, "clig" off;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+/* Divider exactly separates the upper and lower sections, not the counter from Loading. */
+.progressArea {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 0;
+  border-top: 1px solid rgba(143, 108, 26, 0.22);
+  padding: clamp(1.75rem, 11.5dvh, 8rem) clamp(1.25rem, 6.9444vw, 9rem) 1.5rem;
+}
+
+/* Three digit progress: 000 → 100. Counter is immediately above Loading. */
+.counter {
+  display: block;
+  min-width: 3ch;
+  color: #8F6C1A;
+  font-family: var(--Font-family-Heading, "Plus Jakarta Sans"), sans-serif;
+  font-size: clamp(5.25rem, 11.1111vw, 10rem);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.loadingText {
+  display: block;
+  margin: 0.625rem 0 0;
+  min-height: var(--Line-height-Small, 1.5rem);
+  color: var(--Text-Weak-2, rgba(0, 9, 51, 0.65));
+  font-family: var(--Font-family-Body, "Plus Jakarta Sans"), sans-serif;
+  font-size: var(--Font-size-Small, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--Line-height-Small, 1.5rem);
+  font-feature-settings: "liga" off, "clig" off;
+  text-align: left;
+}
+
+@keyframes quote-appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 800px) {
+  .screen { grid-template-rows: minmax(0, 61fr) minmax(0, 39fr); }
+  .quoteContainer { padding: clamp(3.5rem, 13dvh, 7rem) 7vw 1.25rem; }
+  .quote {
+    font-size: clamp(1.875rem, 6vw, 3rem);
+    line-height: 1.17;
+    letter-spacing: -0.045rem;
+  }
+  .year { margin-bottom: 1rem; font-size: 1.125rem; line-height: 1.5rem; }
+  .progressArea { padding: clamp(1.25rem, 7dvh, 4.5rem) 7vw 1rem; }
+  .counter { font-size: clamp(5.25rem, 17vw, 8rem); }
+}
+
+@media (max-width: 480px) {
+  .screen { grid-template-rows: minmax(0, 61fr) minmax(0, 39fr); }
+  .quoteContainer { padding: clamp(2.5rem, 10dvh, 5rem) 1.5rem 1rem; }
+  .quote {
+    font-size: clamp(1.625rem, 7vw, 2.25rem);
+    line-height: 1.18;
+    letter-spacing: -0.035rem;
+  }
+  .year { margin-bottom: 0.875rem; font-size: 1rem; line-height: 1.5rem; }
+  .progressArea { padding: clamp(1.5rem, 7dvh, 3.5rem) 1.5rem 1rem; }
+  .counter { font-size: clamp(5.5rem, 23vw, 7.5rem); }
+  .loadingText { margin-top: 0.5rem; }
+}
+
+/* Keep the same hierarchy even on landscape phones and short laptop windows. */
+@media (max-height: 650px) {
+  .screen { display: flex; flex-direction: column; overflow-y: auto; }
+  .quoteContainer {
+    flex: 0 0 auto;
+    min-height: 59.4dvh;
+    overflow: visible;
+    padding-top: clamp(1.75rem, 8dvh, 3.5rem);
+  }
+  .quote { font-size: clamp(1.5rem, 3.5vw, 2.5rem); line-height: 1.2; }
+  .year { margin-bottom: 0.75rem; }
+  .progressArea {
+    flex: 1 0 40.6dvh;
+    padding-top: clamp(1.5rem, 5dvh, 3.25rem);
+  }
+  .counter { font-size: clamp(4.5rem, 10vw, 7.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quoteBody { animation: none; }
+}

@@ -411,8 +411,6 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/fast-channel",
   "/products/publication-knowledge-platforms",
   "/products/intellectual-property-development",
-  "/products/content-music-library",
-  "/services/brand-solutions-advertising",
   "/event-experience",
   "/government",
 ]);
@@ -960,7 +958,7 @@ export function Header({
     usesOverlayHeader &&
     !solidSurfaceVisible;
 
-const topTextColor =
+  const topTextColor =
     transparentAtTop
       ? "#FFFFFF"
       : "#1A1A1A";

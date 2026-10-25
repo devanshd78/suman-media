@@ -1,5 +1,6 @@
-import { LoadingState } from "@/components/states/loading-state";
+import { SiteLoadingScreen } from "@/components/states/site-loading-screen";
 
+/** Shown by Next.js while a server route segment is loading. */
 export default function LoadingPage() {
-  return <LoadingState rows={5} />;
+  return <SiteLoadingScreen label="Loading page" />;
 }
