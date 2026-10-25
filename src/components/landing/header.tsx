@@ -412,7 +412,7 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/products/publication-knowledge-platforms",
   "/products/intellectual-property-development",
   "/event-experience",
-  "/government",
+  "/solutions/government-institutional",
 ]);
 
 const LIGHT_HERO_HEADER_ROUTES = new Set([

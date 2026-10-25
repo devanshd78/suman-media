@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: siteConfig.name,
     short_name: "Suman Media",
     description: siteConfig.description,
-    start_url: "/",
+    start_url: "/mr",
     display: "standalone",
     background_color: "#ffffff",
     theme_color: "#ffffff",

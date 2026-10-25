@@ -1,21 +1,116 @@
 /* About Us: reference layout, shared site gutters, and scoped interactions. */
-.page { width:100%; overflow-x:clip; background:#fff; color:#1a1a1a; }
-.hero { position:relative; min-height:100svh; overflow:hidden; background:#26231f; }
-.heroImage,.coverImage { object-fit:cover; }
-.heroImage,.coverImage,.brandLogoImage { pointer-events:none; user-select:none; }
-.heroImage { object-position:center 40%; }
-.heroShade { position:absolute; inset:0; background:#8f6c1a4d; }
-.heroEyebrow { position:absolute; top:calc(var(--site-header-offset, 5rem) + 2rem); left:0; margin:0; color:white; font-size:14px; }
-.heroTitle { position:absolute; inset:0; margin:0; display:flex; flex-direction:column; justify-content:space-between; padding-top:clamp(10rem,14vw,13rem); padding-bottom:5rem; color:white; font-size:clamp(6rem,12.5vw,12rem); line-height:1; font-weight:500; letter-spacing:-.055em; }
-.heroTitle span:last-child { align-self:flex-end; }
-.aboutIntro,.timelineSection,.leadershipSection,.notableSection,.governmentSection { padding-block:100px; }
-.eyebrow { margin:0 0 12px; font-size:14px; line-height:20px; font-weight:600; color:var(--figma-secondary); }
-.eyebrow[data-dark="true"] { color:var(--figma-tertiary); }
-.aboutIntroHeading,.sectionHeading,.darkHeading { margin:0; font-size:clamp(28px,2.78vw,40px); line-height:1.2; font-weight:600; letter-spacing:-.5px; }
-.aboutIntroHeading { color:#969696; }
-.aboutIntroHeading strong { color:#111; font-weight:600; }
-.darkHeading { color:white; }
-.aboutIntroContent { margin-bottom:100px; }
+.page {
+  width: 100%;
+  overflow-x: clip;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #26231f;
+}
+
+.heroImage,
+.coverImage {
+  object-fit: cover;
+}
+
+.heroImage,
+.coverImage,
+.brandLogoImage {
+  pointer-events: none;
+  user-select: none;
+}
+
+.heroImage {
+  object-position: center 40%;
+}
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  background: #8f6c1a4d;
+}
+
+.heroEyebrow {
+  position: absolute;
+  top: calc(var(--site-header-offset, 5rem) + 2rem);
+  left: 0;
+  margin: 0;
+  color: white;
+  font-size: 14px;
+}
+
+.heroTitle {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: clamp(10rem, 14vw, 13rem);
+  padding-bottom: 5rem;
+  color: white;
+  font-size: clamp(6rem, 12.5vw, 12rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.055em;
+}
+
+.heroTitle span:last-child {
+  align-self: flex-end;
+}
+
+.aboutIntro,
+.timelineSection,
+.leadershipSection,
+.notableSection,
+.governmentSection {
+  padding-block: 100px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--figma-secondary);
+}
+
+.eyebrow[data-dark="true"] {
+  color: var(--figma-tertiary);
+}
+
+.aboutIntroHeading,
+.sectionHeading,
+.darkHeading {
+  margin: 0;
+  font-size: clamp(28px, 2.78vw, 40px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -.5px;
+}
+
+.aboutIntroHeading {
+  color: #969696;
+}
+
+.aboutIntroHeading strong {
+  color: #111;
+  font-weight: 600;
+}
+
+.darkHeading {
+  color: white;
+}
+
+.aboutIntroContent {
+  margin-bottom: 100px;
+}
+
 .brandMarquee {
   --brand-card-width: 19.25rem;
   --brand-gap: 0.75rem;
@@ -184,7 +279,7 @@
   letter-spacing: -0.03125rem;
 }
 
-.globalStickyHeader .globalHeaderCopy > p {
+.globalStickyHeader .globalHeaderCopy>p {
   margin: 0;
   max-width: 48rem;
   color: #969696;
@@ -270,139 +365,831 @@
 }
 
 
-.globalStickyHeader { padding-top:calc(var(--site-header-offset, 5rem) + 1rem); grid-template-columns:1fr 1fr; gap:32px; }
-.globalFixedCard { height:min(40svh,365px); }
-.globalFixedCardTall { height:min(52svh,520px); }
-.globalVideoStage { z-index:1; background:#000; color:white; overflow:hidden; }
-.globalVideo { width:100%; height:100%; object-fit:cover; pointer-events:none; }
-.globalVideoShade { position:absolute; inset:0; background:linear-gradient(90deg,#0007,transparent); }
-.globalVideoTitleWrap { position:absolute; top:calc(var(--site-header-offset,5rem) + 3rem); left:0; right:0; }
-.globalVideoTitle { margin:0; font-size:clamp(28px,2.78vw,40px); line-height:1.2; font-weight:600; }
-.missionSection,.timelineSection,.leadershipSection { background:#000; color:white; }
-.partnersStrip { display:flex; justify-content:center; padding:32px var(--site-gutter-x,56px) 0; background:#000; }
-.partnersStrip img { width:min(100%,710px); height:auto; }
-.missionCopy { padding-top:100px; }
-.missionStatement { max-width:1328px; margin:0 auto; font-size:clamp(26px,2.78vw,40px); line-height:1.2; font-weight:600; text-align:center; letter-spacing:-.025em; color:#969696; }
-.missionStatement strong { color:white; font-weight:600; }
-.statsGrid { display:grid; grid-template-columns:repeat(3,1fr); margin:100px 0; }
-.statItem { text-align:center; border-right:1px solid #333; }
-.statItem:last-child { border:0; }
-.statItem dd { margin:0 0 12px; font-size:56px; line-height:64px; font-weight:600; }
-.statItem dt { color:#aaa; font-size:16px; }
-.carousel { position:relative; min-width:0; }
-.carouselRail { position:relative; display:flex; gap:32px; overflow-x:auto; scrollbar-width:none; scroll-snap-type:x mandatory; touch-action:pan-x pan-y pinch-zoom; cursor:grab; }
-.carouselRail::-webkit-scrollbar { display:none; }
-.carouselRail[data-dragging="true"] { cursor:grabbing; scroll-snap-type:none; user-select:none; }
-.carouselRail:focus-visible { outline:2px solid #a8872e; outline-offset:4px; }
-.carouselItem { flex:0 0 100%; min-width:0; scroll-snap-align:start; }
-.carouselControls { display:flex; align-items:center; justify-content:center; gap:20px; margin-top:24px; }
-.carouselDots,.carouselArrows { display:flex; align-items:center; gap:8px; }
-.carouselDot { width:10px; height:10px; border:0; border-radius:50%; background:#777; padding:0; cursor:pointer; }
-.carouselDot[data-active="true"] { background:#a8872e; }
-.carouselArrow { width:36px; height:36px; border:1px solid currentColor; border-radius:50%; background:transparent; display:grid; place-items:center; color:inherit; cursor:pointer; }
-.arrowIcon,.arrowIconLeft { width:20px; height:20px; }
-.arrowIconLeft { transform:rotate(180deg); }
-.pauseButton { border:0; background:transparent; color:inherit; font:inherit; font-size:12px; cursor:pointer; padding:8px; }
-.missionCarousel .carouselRail { padding-inline:var(--site-gutter-x,56px); scroll-padding-inline:var(--site-gutter-x,56px); }
-.missionCarousel .carouselItem { flex-basis:calc((100% - 64px)/3); }
-.missionImage { position:relative; margin:0; aspect-ratio:1.48; overflow:hidden; }
-.missionCarousel .carouselControls { margin:8px 0 0; }
-/* A single horizontal track keeps each date attached to its milestone. */
-.timelineCarousel { width:100%; }
-.timelineCarousel .carouselRail { gap:0; padding-inline:var(--site-gutter-x,56px); scroll-padding-inline:var(--site-gutter-x,56px); }
-.timelineCarousel .carouselItem { position:relative; flex-basis:94%; padding-right:28px; }
-.timelineSlide { display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; min-height:410px; padding:32px 0; }
-.timelineCopy { position:relative; min-height:300px; display:flex; align-items:flex-end; padding:0 0 24px 28px; }
-.timelineYear { position:absolute; left:28px; top:0; font-size:clamp(160px,20vw,280px); line-height:1; color:#392d09; font-weight:700; }
-.timelineCopy h3 { position:relative; margin:0; font-size:clamp(22px,2.23vw,32px); line-height:1.25; font-weight:600; }
-.timelineImage { position:relative; margin:0; height:345px; border-radius:16px; overflow:hidden; }
-.timelineIntro { position:relative; display:flex; align-items:center; justify-content:center; text-align:center; min-height:410px; overflow:hidden; }
-.timelineIntro > div:nth-child(2) { position:relative; z-index:1; width:58%; }
-.timelineIntro h2 { font-size:clamp(24px,2.23vw,32px); line-height:1.25; font-weight:600; margin:0; }
-.timelineIntro p { font-size:clamp(20px,2.23vw,32px); line-height:1.25; margin:0; font-weight:600; }
-.timelineIntroPhoto { position:absolute; width:17%; height:280px; left:-3%; top:35px; transform:rotate(16deg); border-radius:14px; overflow:hidden; }
-.timelineIntroPhoto:last-child { left:auto; right:-3%; top:100px; transform:rotate(-18deg); }
-.timelineDots { position:absolute; z-index:2; top:8px; left:28px; display:flex; gap:6px; }
-.timelineCarousel .carouselItem:first-child .timelineDots { left:50%; transform:translateX(-50%); }
-.timelineDots button { padding:0; width:7px; height:7px; border-radius:50%; background:#707070; border:0; cursor:pointer; }
-.timelineDots button[aria-current] { background:white; }
-.timelineMarker { display:flex; align-items:center; gap:18px; padding-top:24px; }
-.timelineMarker button { flex:none; border:0; border-radius:32px; background:#957322; color:white; font:inherit; font-size:16px; min-width:112px; min-height:52px; padding:12px 24px; cursor:pointer; }
-.timelineMarker span { flex:1; height:3px; background:#bdbdbd; }
-.timelineDots button:focus-visible,.timelineMarker button:focus-visible { outline:2px solid white; outline-offset:5px; }
-.timelineCarousel .carouselControls { padding-inline:var(--site-gutter-x,56px); justify-content:flex-end; }
-.leadershipHeading,.sectionHeadingRow { margin-bottom:96px; }
-.leadershipHeading p,.sectionHeadingRow p,.governmentHeading p { color:#969696; font-size:16px; line-height:24px; margin:20px 0 0; }
-.leadershipGrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:32px; }
-.leaderCard { min-width:0; }
-.leaderImage,.leaderPlaceholder { position:relative; margin:0; aspect-ratio:.9; border-radius:6px; overflow:hidden; background:#f5f5f5; }
-.leaderPlaceholder { display:grid; place-items:center; background:repeating-conic-gradient(#eee 0% 25%,white 0% 50%) 0 0 / 20px 20px; }
-.leaderPlaceholder svg { width:90%; }
-.leaderMeta { position:relative; padding-top:24px; }
-.leaderMeta h3 { font-size:18px; font-weight:400; margin:0 0 8px; }
-.leaderMeta p { color:#969696; font-size:14px; margin:0; }
-.leaderLink { display:inline-flex; gap:8px; align-items:center; color:#a8872e; font-size:12px; margin-top:12px; }
-.notableCarousel { margin-right:calc(-1 * var(--site-gutter-x,56px)); }
-.notableCarousel .carouselItem { flex-basis:calc((100% - 64px)/3.15); }
-.notableCard { margin:0; }
-.notableImage { position:relative; aspect-ratio:420/456; overflow:hidden; }
-.notableCard figcaption { font-size:20px; margin-top:24px; }
-.governmentSection { background:#f8f8f8; }
-.governmentHeading { margin-bottom:56px; }
-.governmentHeading .sectionHeading { color:#967222; }
-.governmentHeading p { max-width:850px; color:#777; }
-.governmentSlide { position:relative; margin:0; aspect-ratio:1.58; border-radius:16px; overflow:hidden; }
-.governmentCarousel .carouselControls { position:absolute; bottom:20px; left:0; right:0; color:white; }
-.governmentCarousel .carouselDot[data-active="true"] { background:white; }
-@media(max-width:767px) {
- .aboutIntro,.timelineSection,.leadershipSection,.notableSection,.governmentSection { padding-block:64px; }
- .aboutIntroContent { margin-bottom:48px; }
- .heroTitle { padding-top:11rem; padding-bottom:4rem; }
- .brandMarquee { --brand-card-width:16rem; }
- .globalStickyHeader { grid-template-columns:1fr; gap:8px; padding-top:calc(var(--site-header-offset,4rem) + 16px); }
- .globalStickyHeader .globalHeaderCopy { width:100%; }
- .globalStickyHeader .globalReachTitle { font-size:28px; line-height:34px; }
- .globalStickyHeader .globalHeaderCopy > p { font-size:14px; line-height:20px; }
- .globalCardRow { gap:12px; }
- .globalFixedCard { height:28svh; }
- .globalFixedCardTall { height:36svh; }
- .globalGalleryArea { align-items:start; padding-top:24px; }
- .missionCopy { padding-top:64px; }
- .statsGrid { margin:56px 0; }
- .statItem dd { font-size:32px; line-height:40px; }
- .statItem dt { font-size:12px; }
- .carouselRail { gap:16px; }
- .missionCarousel .carouselItem,.notableCarousel .carouselItem { flex-basis:80%; }
- .timelineSlide { grid-template-columns:1fr; gap:16px; padding:24px 0 0; min-height:490px; }
- .timelineCarousel .carouselItem { flex-basis:100%; padding-right:20px; }
- .timelineDots { left:0; }
- .timelineMarker { padding-top:24px; gap:12px; }
- .timelineMarker button { min-width:78px; min-height:44px; font-size:14px; }
- .timelineCopy { min-height:200px; padding:0 0 8px; }
- .timelineYear { font-size:180px; left:0; }
- .timelineImage { height:250px; }
- .timelineIntro { min-height:490px; }
- .timelineIntro > div:nth-child(2) { width:78%; }
- .timelineIntroPhoto { opacity:.35; width:30%; height:180px; }
- .timelineIntroPhoto:last-child { top:300px; }
- .leadershipGrid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 16px; }
- .leadershipHeading,.sectionHeadingRow { margin-bottom:40px; }
- .leaderMeta h3 { font-size:16px; }
- .notableCard figcaption { font-size:18px; }
- .governmentSlide { aspect-ratio:1; }
+.globalStickyHeader {
+  padding-top: calc(var(--site-header-offset, 5rem) + 1rem);
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
 }
+
+.globalFixedCard {
+  height: min(40svh, 365px);
+}
+
+.globalFixedCardTall {
+  height: min(52svh, 520px);
+}
+
+.globalVideoStage {
+  z-index: 1;
+  background: #000;
+  color: white;
+  overflow: hidden;
+}
+
+.globalVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.globalVideoShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0007, transparent);
+}
+
+.globalVideoTitleWrap {
+  position: absolute;
+  top: calc(var(--site-header-offset, 5rem) + 3rem);
+  left: 0;
+  right: 0;
+}
+
+.globalVideoTitle {
+  margin: 0;
+  font-size: clamp(28px, 2.78vw, 40px);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.missionSection,
+.timelineSection,
+.leadershipSection {
+  background: #000;
+  color: white;
+}
+
+.partnersStrip {
+  display: flex;
+  justify-content: center;
+  padding: 32px var(--site-gutter-x, 56px) 0;
+  background: #000;
+}
+
+.partnersStrip img {
+  width: min(100%, 710px);
+  height: auto;
+}
+
+.missionCopy {
+  padding-top: 100px;
+}
+
+.missionStatement {
+  max-width: 1328px;
+  margin: 0 auto;
+  font-size: clamp(26px, 2.78vw, 40px);
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -.025em;
+  color: #969696;
+}
+
+.missionStatement strong {
+  color: white;
+  font-weight: 600;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 100px 0;
+}
+
+.statItem {
+  text-align: center;
+  border-right: 1px solid #333;
+}
+
+.statItem:last-child {
+  border: 0;
+}
+
+.statItem dd {
+  margin: 0 0 12px;
+  font-size: 56px;
+  line-height: 64px;
+  font-weight: 600;
+}
+
+.statItem dt {
+  color: #aaa;
+  font-size: 16px;
+}
+
+.carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.carouselRail {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x pan-y pinch-zoom;
+  cursor: grab;
+}
+
+.carouselRail::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselRail[data-dragging="true"] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.carouselRail:focus-visible {
+  outline: 2px solid #a8872e;
+  outline-offset: 4px;
+}
+
+.carouselItem {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.carouselControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.carouselDots,
+.carouselArrows {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carouselDot {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: #777;
+  padding: 0;
+  cursor: pointer;
+}
+
+.carouselDot[data-active="true"] {
+  background: #a8872e;
+}
+
+.carouselArrow {
+  width: 36px;
+  height: 36px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  cursor: pointer;
+}
+
+.arrowIcon,
+.arrowIconLeft {
+  width: 20px;
+  height: 20px;
+}
+
+.arrowIconLeft {
+  transform: rotate(180deg);
+}
+
+.missionCarousel .carouselRail {
+  padding-inline: var(--site-gutter-x, 56px);
+  scroll-padding-inline: var(--site-gutter-x, 56px);
+}
+
+.missionCarousel .carouselItem {
+  flex-basis: calc((100% - 64px)/3);
+}
+
+.missionImage {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1.48;
+  overflow: hidden;
+}
+
+.missionCarousel .carouselControls {
+  margin: 8px 0 0;
+}
+
+/* A single horizontal track keeps each date attached to its milestone. */
+.timelineCarousel {
+  width: 100%;
+}
+
+.timelineCarousel .carouselRail {
+  gap: 0;
+  padding-inline: var(--site-gutter-x, 56px);
+  scroll-padding-inline: var(--site-gutter-x, 56px);
+}
+
+.timelineCarousel .carouselItem {
+  position: relative;
+  flex-basis: 94%;
+  padding-right: 28px;
+}
+
+.timelineSlide {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  min-height: 410px;
+  padding: 32px 0;
+}
+
+.timelineCopy {
+  position: relative;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 24px 28px;
+}
+
+.timelineYear {
+  position: absolute;
+  left: 28px;
+  top: 0;
+  font-size: clamp(160px, 20vw, 280px);
+  line-height: 1;
+  color: #392d09;
+  font-weight: 700;
+}
+
+.timelineCopy h3 {
+  position: relative;
+  margin: 0;
+  font-size: clamp(22px, 2.23vw, 32px);
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.timelineImage {
+  position: relative;
+  margin: 0;
+  height: 345px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.timelineIntro {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 410px;
+  overflow: hidden;
+}
+
+.timelineIntro>div:nth-child(2) {
+  position: relative;
+  z-index: 1;
+  width: 58%;
+}
+
+.timelineIntro h2 {
+  font-size: clamp(24px, 2.23vw, 32px);
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 0;
+}
+
+.timelineIntro p {
+  font-size: clamp(20px, 2.23vw, 32px);
+  line-height: 1.25;
+  margin: 0;
+  font-weight: 600;
+}
+
+.timelineIntroPhoto {
+  position: absolute;
+  width: 17%;
+  height: 280px;
+  left: -3%;
+  top: 35px;
+  transform: rotate(16deg);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.timelineIntroPhoto:last-child {
+  left: auto;
+  right: -3%;
+  top: 100px;
+  transform: rotate(-18deg);
+}
+
+.timelineDots {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  left: 28px;
+  display: flex;
+  gap: 6px;
+}
+
+.timelineCarousel .carouselItem:first-child .timelineDots {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timelineDots button {
+  padding: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #707070;
+  border: 0;
+  cursor: pointer;
+}
+
+.timelineDots button[aria-current] {
+  background: white;
+}
+
+.timelineMarker {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-top: 24px;
+}
+
+.timelineMarker button {
+  flex: none;
+  border: 0;
+  border-radius: 32px;
+  background: #957322;
+  color: white;
+  font: inherit;
+  font-size: 16px;
+  min-width: 112px;
+  min-height: 52px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.timelineMarker span {
+  flex: 1;
+  height: 3px;
+  background: #bdbdbd;
+}
+
+.timelineDots button:focus-visible,
+.timelineMarker button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+
+.timelineCarousel .carouselControls {
+  padding-inline: var(--site-gutter-x, 56px);
+  justify-content: flex-end;
+}
+
+.leadershipHeading,
+.sectionHeadingRow {
+  margin-bottom: 96px;
+}
+
+.leadershipHeading p,
+.sectionHeadingRow p,
+.governmentHeading p {
+  color: #969696;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 20px 0 0;
+}
+
+.leadershipGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.leaderCard {
+  min-width: 0;
+}
+
+.leaderImage,
+.leaderPlaceholder {
+  position: relative;
+  margin: 0;
+  aspect-ratio: .9;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.leaderPlaceholder {
+  display: grid;
+  place-items: center;
+  background: repeating-conic-gradient(#eee 0% 25%, white 0% 50%) 0 0 / 20px 20px;
+}
+
+.leaderPlaceholder svg {
+  width: 90%;
+}
+
+.leaderMeta {
+  position: relative;
+  padding-top: 24px;
+}
+
+.leaderMeta h3 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0 0 8px;
+}
+
+.leaderMeta p {
+  color: #969696;
+  font-size: 14px;
+  margin: 0;
+}
+
+.leaderLink {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: #a8872e;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.notableCarousel {
+  margin-right: calc(-1 * var(--site-gutter-x, 56px));
+}
+
+.notableCarousel .carouselItem {
+  flex-basis: calc((100% - 64px)/3.15);
+}
+
+.notableCard {
+  margin: 0;
+}
+
+.notableImage {
+  position: relative;
+  aspect-ratio: 420/456;
+  overflow: hidden;
+}
+
+.notableCard figcaption {
+  font-size: 20px;
+  margin-top: 24px;
+}
+
+.governmentSection {
+  background: #f8f8f8;
+}
+
+.governmentHeading {
+  margin-bottom: 56px;
+}
+
+.governmentHeading .sectionHeading {
+  color: #967222;
+}
+
+.governmentHeading p {
+  max-width: 850px;
+  color: #777;
+}
+
+.governmentSlide {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1.58;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.governmentCarousel .carouselControls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  color: white;
+}
+
+.governmentCarousel .carouselDot[data-active="true"] {
+  background: white;
+}
+
+@media(max-width:767px) {
+
+  .aboutIntro,
+  .timelineSection,
+  .leadershipSection,
+  .notableSection,
+  .governmentSection {
+    padding-block: 64px;
+  }
+
+  .aboutIntroContent {
+    margin-bottom: 48px;
+  }
+
+  .heroTitle {
+    padding-top: 11rem;
+    padding-bottom: 4rem;
+  }
+
+  .brandMarquee {
+    --brand-card-width: 16rem;
+  }
+
+  .globalStickyHeader {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-top: calc(var(--site-header-offset, 4rem) + 16px);
+  }
+
+  .globalStickyHeader .globalHeaderCopy {
+    width: 100%;
+  }
+
+  .globalStickyHeader .globalReachTitle {
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .globalStickyHeader .globalHeaderCopy>p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .globalCardRow {
+    gap: 12px;
+  }
+
+  .globalFixedCard {
+    height: 28svh;
+  }
+
+  .globalFixedCardTall {
+    height: 36svh;
+  }
+
+  .globalGalleryArea {
+    align-items: start;
+    padding-top: 24px;
+  }
+
+  .missionCopy {
+    padding-top: 64px;
+  }
+
+  .statsGrid {
+    margin: 56px 0;
+  }
+
+  .statItem dd {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .statItem dt {
+    font-size: 12px;
+  }
+
+  .carouselRail {
+    gap: 16px;
+  }
+
+  .missionCarousel .carouselItem,
+  .notableCarousel .carouselItem {
+    flex-basis: 80%;
+  }
+
+  .timelineSlide {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 24px 0 0;
+    min-height: 490px;
+  }
+
+  .timelineCarousel .carouselItem {
+    flex-basis: 100%;
+    padding-right: 20px;
+  }
+
+  .timelineDots {
+    left: 0;
+  }
+
+  .timelineMarker {
+    padding-top: 24px;
+    gap: 12px;
+  }
+
+  .timelineMarker button {
+    min-width: 78px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .timelineCopy {
+    min-height: 200px;
+    padding: 0 0 8px;
+  }
+
+  .timelineYear {
+    font-size: 180px;
+    left: 0;
+  }
+
+  .timelineImage {
+    height: 250px;
+  }
+
+  .timelineIntro {
+    min-height: 490px;
+  }
+
+  .timelineIntro>div:nth-child(2) {
+    width: 78%;
+  }
+
+  .timelineIntroPhoto {
+    opacity: .35;
+    width: 30%;
+    height: 180px;
+  }
+
+  .timelineIntroPhoto:last-child {
+    top: 300px;
+  }
+
+  .leadershipGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+  }
+
+  .leadershipHeading,
+  .sectionHeadingRow {
+    margin-bottom: 40px;
+  }
+
+  .leaderMeta h3 {
+    font-size: 16px;
+  }
+
+  .notableCard figcaption {
+    font-size: 18px;
+  }
+
+  .governmentSlide {
+    aspect-ratio: 1;
+  }
+}
+
 @media(prefers-reduced-motion:reduce) {
- .brandMarqueeTrack { animation:none; }
- .brandMarquee { overflow-x:auto; }
- .brandMarqueeRow { overflow:visible; }
- .globalStage { height:auto; }
- .globalSticky { position:relative; height:auto; overflow:visible; }
- .globalWhiteStage,.globalVideoStage { position:relative; inset:auto; opacity:1!important; transform:none!important; }
- .globalWhiteStage { padding-bottom:32px; }
- .globalVideoStage { height:70svh; }
- .globalCardTrack { transform:none!important; }
- .globalVideoTitleWrap { opacity:1!important; transform:none!important; }
+  .brandMarqueeTrack {
+    animation: none;
+  }
+
+  .brandMarquee {
+    overflow-x: auto;
+  }
+
+  .brandMarqueeRow {
+    overflow: visible;
+  }
+
+  .globalStage {
+    height: auto;
+  }
+
+  .globalSticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .globalWhiteStage,
+  .globalVideoStage {
+    position: relative;
+    inset: auto;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .globalWhiteStage {
+    padding-bottom: 32px;
+  }
+
+  .globalVideoStage {
+    height: 70svh;
+  }
+
+  .globalCardTrack {
+    transform: none !important;
+  }
+
+  .globalVideoTitleWrap {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* Match the close portrait crop in the supplied About Us layout. */
-.leaderPortrait { width:200%!important; height:auto!important; max-width:none; left:-60%!important; top:-27%!important; pointer-events:none; }
+.leaderPortrait {
+  width: 200% !important;
+  height: auto !important;
+  max-width: none;
+  left: -60% !important;
+  top: -27% !important;
+  pointer-events: none;
+}
+
+/* SUMAN_MISSION_MARQUEE_20261025: 15-image, seamlessly repeated mission-gallery strip above timeline. */
+.missionMarquee {
+  --mission-card-width: clamp(250px, 28vw, 430px);
+  --mission-card-gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-inline: var(--site-gutter-x, 56px);
+}
+.missionMarqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: sumanMissionGalleryLoop 90s linear infinite;
+  will-change: transform;
+}
+.missionMarqueeGroup {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--mission-card-gap);
+  padding-right: var(--mission-card-gap);
+}
+.missionMarqueeCard {
+  position: relative;
+  width: var(--mission-card-width);
+  flex: 0 0 var(--mission-card-width);
+  aspect-ratio: 1.48;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1a1a1a;
+}
+.missionMarquee:hover .missionMarqueeTrack,
+.missionMarquee:focus-within .missionMarqueeTrack {
+  animation-play-state: paused;
+}
+@keyframes sumanMissionGalleryLoop {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (max-width: 767px) {
+  .missionMarquee {
+    --mission-card-width: min(78vw, 345px);
+    --mission-card-gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .missionMarquee { overflow-x: auto; }
+  .missionMarqueeTrack { animation: none; will-change: auto; }
+  .missionMarqueeGroup[aria-hidden="true"] { display: none; }
+}
+
+/* SUMAN_AWARDS_SLIDE_FOUR_FIT_20261025: keep every face visible in the fourth award image. */
+.governmentCarousel .carouselItem:nth-child(4) .governmentSlide {
+  isolation: isolate;
+  background-color: #191919;
+}
+
+/* The blurred extension fills empty space while the actual photo remains uncropped. */
+.governmentCarousel .carouselItem:nth-child(4) .governmentSlide::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  z-index: 0;
+  background-image: url("/images/about/timeline-intro-left.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(20px) brightness(0.55);
+  pointer-events: none;
+}
+
+.governmentCarousel .carouselItem:nth-child(4) .governmentSlide > .coverImage {
+  object-fit: contain;
+  object-position: center center;
+  z-index: 1;
+}

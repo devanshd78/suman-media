@@ -4,8 +4,8 @@ import { useEffect, useSyncExternalStore } from "react";
 import { translateText } from "@/i18n/translate";
 
 const subscribe = () => () => {};
-const browserLocale = () => window.location.pathname.startsWith("/mr") ? "mr" : "en";
-const serverLocale = () => "en";
+const browserLocale = () => window.location.pathname.startsWith("/en") ? "en" : "mr";
+const serverLocale = () => "mr";
 
 export default function GlobalError({
   error,

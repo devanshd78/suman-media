@@ -546,51 +546,6 @@ function ChevronRightIcon() {
     );
 }
 
-function PauseIcon() {
-    return (
-        <svg
-            aria-hidden="true"
-            width="14"
-            height="18"
-            viewBox="0 0 14 18"
-            fill="none"
-        >
-            <path
-                d="M5 1H1V17H5V1Z"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-
-            <path
-                d="M13 1H9V17H13V1Z"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-        </svg>
-    );
-}
-
-function LargePlayIcon() {
-    return (
-        <svg
-            aria-hidden="true"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-        >
-            <path
-                d="M5.25 3.25L14 9L5.25 14.75V3.25Z"
-                fill="white"
-            />
-        </svg>
-    );
-}
-
 /* =========================================================
    SMALL WATCH NOW ICON
 
@@ -1398,18 +1353,12 @@ export default function StreamingContentSections() {
     ======================================================= */
 
     const [
-        isPlaying,
-        setIsPlaying,
-    ] = useState(true);
-
-    const [
         activeHero,
         setActiveHero,
     ] = useState(0);
 
     const heroMotionEnabled =
         isNearViewport &&
-        isPlaying &&
         !prefersReducedMotion;
 
     const currentHero =
@@ -1422,18 +1371,12 @@ export default function StreamingContentSections() {
     ======================================================= */
 
     const [
-        isShowPlaying,
-        setIsShowPlaying,
-    ] = useState(true);
-
-    const [
         activeShowHero,
         setActiveShowHero,
     ] = useState(0);
 
     const showMotionEnabled =
         isNearViewport &&
-        isShowPlaying &&
         !prefersReducedMotion;
 
     const currentShowHero =
@@ -1446,18 +1389,12 @@ export default function StreamingContentSections() {
     ======================================================= */
 
     const [
-        isMusicPlaying,
-        setIsMusicPlaying,
-    ] = useState(true);
-
-    const [
         activeMusicHero,
         setActiveMusicHero,
     ] = useState(0);
 
     const musicMotionEnabled =
         isNearViewport &&
-        isMusicPlaying &&
         !prefersReducedMotion;
 
     const currentMusicHero =
@@ -1838,74 +1775,6 @@ export default function StreamingContentSections() {
                     }}
                 />
 
-                {/* HERO 1 PAUSE */}
-
-                <button
-                    type="button"
-
-                    aria-label={
-                        isPlaying
-                            ? "Pause slideshow"
-                            : "Play slideshow"
-                    }
-
-                    aria-pressed={
-                        !isPlaying
-                    }
-
-                    onClick={() =>
-                        setIsPlaying(
-                            (value) =>
-                                !value,
-                        )
-                    }
-
-                    className="
-            absolute
-
-            right-[1.25rem]
-            top-[2rem]
-            z-50
-
-            flex
-
-            h-[3rem]
-            w-[3rem]
-
-            items-center
-            justify-center
-
-            rounded-full
-
-            border
-            border-white
-
-            bg-black/10
-
-            text-white
-
-            backdrop-blur-[3px]
-
-            transition-colors
-            duration-200
-
-            hover:bg-white/15
-
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-white
-
-            lg:right-[2rem]
-            lg:top-[5.5625rem]
-          "
-                >
-                    {isPlaying ? (
-                        <PauseIcon />
-                    ) : (
-                        <LargePlayIcon />
-                    )}
-                </button>
-
                 {/* HERO 1 CONTENT */}
 
                 <AnimatePresence
@@ -2228,74 +2097,6 @@ export default function StreamingContentSections() {
                             "linear-gradient(180deg, rgba(0,0,0,0) 46.93%, rgba(0,0,0,0.88) 94.55%)",
                     }}
                 />
-
-                {/* HERO 2 PAUSE */}
-
-                <button
-                    type="button"
-
-                    aria-label={
-                        isShowPlaying
-                            ? "Pause shows slideshow"
-                            : "Play shows slideshow"
-                    }
-
-                    aria-pressed={
-                        !isShowPlaying
-                    }
-
-                    onClick={() =>
-                        setIsShowPlaying(
-                            (value) =>
-                                !value,
-                        )
-                    }
-
-                    className="
-            absolute
-
-            right-[1.25rem]
-            top-[1.25rem]
-            z-50
-
-            flex
-
-            h-[3rem]
-            w-[3rem]
-
-            items-center
-            justify-center
-
-            rounded-full
-
-            border
-            border-white
-
-            bg-black/10
-
-            text-white
-
-            backdrop-blur-[3px]
-
-            transition-colors
-            duration-200
-
-            hover:bg-white/15
-
-            focus-visible:outline-none
-            focus-visible:ring-2
-            focus-visible:ring-white
-
-            lg:right-[2rem]
-            lg:top-[2rem]
-          "
-                >
-                    {isShowPlaying ? (
-                        <PauseIcon />
-                    ) : (
-                        <LargePlayIcon />
-                    )}
-                </button>
 
                 {/* HERO 2 CONTENT */}
 
@@ -2680,74 +2481,6 @@ export default function StreamingContentSections() {
                                 "linear-gradient(180deg, rgba(0,0,0,0) 46.93%, rgba(0,0,0,0.88) 94.55%)",
                         }}
                     />
-
-                    {/* HERO 3 PAUSE / PLAY */}
-
-                    <button
-                        type="button"
-
-                        aria-label={
-                            isMusicPlaying
-                                ? "Pause music slideshow"
-                                : "Play music slideshow"
-                        }
-
-                        aria-pressed={
-                            !isMusicPlaying
-                        }
-
-                        onClick={() =>
-                            setIsMusicPlaying(
-                                (value) =>
-                                    !value,
-                            )
-                        }
-
-                        className="
-              absolute
-
-              right-[1.25rem]
-              top-[1.25rem]
-              z-50
-
-              flex
-
-              h-[3rem]
-              w-[3rem]
-
-              items-center
-              justify-center
-
-              rounded-full
-
-              border
-              border-white
-
-              bg-black/10
-
-              text-white
-
-              backdrop-blur-[3px]
-
-              transition-colors
-              duration-200
-
-              hover:bg-white/15
-
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-white
-
-              lg:right-[2rem]
-              lg:top-[2rem]
-            "
-                    >
-                        {isMusicPlaying ? (
-                            <PauseIcon />
-                        ) : (
-                            <LargePlayIcon />
-                        )}
-                    </button>
 
                     {/* HERO 3 CONTENT */}
 

@@ -138,6 +138,25 @@ const GLOBAL_REACH_IMAGES: ImageSlide[] = [
   },
 ];
 
+// SUMAN_MISSION_MARQUEE_20261025: one uninterrupted, CSS-driven loop (two identical halves).
+const MISSION_GALLERY_IMAGES: ImageSlide[] = [
+  { src: "/images/about/global-reach-press.webp", alt: "Suman Entertainment at an international media event" },
+  { src: "/images/about/timeline-2025.webp", alt: "Abhijat Marathi OTT platform launch" },
+  { src: "/images/about/mission-01.webp", alt: "Suman Entertainment cultural delegation" },
+  { src: "/images/about/notable-01.webp", alt: "Artist featured by Suman Entertainment" },
+  { src: "/images/about/global-reach-launch.webp", alt: "Abhijat Marathi launch celebration" },
+  { src: "/images/about/mission-02.webp", alt: "Guests at a media and cultural event" },
+  { src: "/images/about/timeline-2021.webp", alt: "Suman Entertainment office" },
+  { src: "/images/about/notable-02.webp", alt: "Marathi entertainment personality" },
+  { src: "/images/about/mission-03.webp", alt: "International media and cultural gathering" },
+  { src: "/images/about/timeline-2022.webp", alt: "Suman Entertainment team at work" },
+  { src: "/images/about/notable-03.webp", alt: "Artist featured by Suman Entertainment" },
+  { src: "/images/about/mission-04.webp", alt: "Suman Entertainment company event" },
+  { src: "/images/about/timeline-2026.webp", alt: "Marathi cultural delegation at Cannes" },
+  { src: "/images/about/notable-04.webp", alt: "Marathi entertainment artist" },
+  { src: "/images/about/timeline-intro-left.webp", alt: "Moment from Suman Entertainment history" },
+];
+
 const TIMELINE: TimelineItem[] = [
   {
     year: "2021",
@@ -355,9 +374,8 @@ function DragCarousel({
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const [manuallyPaused, setManuallyPaused] = useState(false);
   const [visible, setVisible] = useState(false);
-  const paused = hovered || focused || dragging || manuallyPaused || !visible;
+  const paused = hovered || focused || dragging || !visible;
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
@@ -498,7 +516,7 @@ function DragCarousel({
       </div>
 
 
-      {(controls || dots || autoplayMs) && items.length > 1 ? (
+      {(controls || dots) && items.length > 1 ? (
         <div className={styles.carouselControls}>
           {dots ? (
             <div className={styles.carouselDots} aria-label="Slide position">
@@ -517,8 +535,6 @@ function DragCarousel({
           ) : (
             <span />
           )}
-
-          {autoplayMs && !reducedMotion ? <button className={styles.pauseButton} type="button" onClick={() => setManuallyPaused(!manuallyPaused)} aria-label={manuallyPaused ? "Play slideshow" : "Pause slideshow"}>{manuallyPaused ? "Play" : "Pause"}</button> : null}
           {controls ? (
             <div className={styles.carouselArrows}>
               <button
@@ -857,11 +873,29 @@ function MissionSection() {
           ))}
         </dl>
       </div>
-      <DragCarousel ariaLabel="Suman Entertainment moments" autoplayMs={3200} controls={false} dots={false} className={styles.missionCarousel}>
-        {["/images/about/global-reach-press.webp", "/images/about/mission-02.webp", "/images/about/mission-03.webp", "/images/about/mission-04.webp"].map((src, index) => <figure key={src} className={styles.missionImage}>
-          <Image src={src} alt={`Suman Entertainment event moment ${index + 1}`} fill sizes="(min-width: 768px) 33vw, 80vw" className={styles.coverImage} />
-        </figure>)}
-      </DragCarousel>
+      <div className={styles.missionMarquee} role="region" aria-label="Suman Entertainment moments, continuously scrolling photo gallery">
+        <div className={styles.missionMarqueeTrack}>
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              className={styles.missionMarqueeGroup}
+              aria-hidden={copy === 1 ? true : undefined}
+            >
+              {MISSION_GALLERY_IMAGES.map((item, index) => (
+                <figure className={styles.missionMarqueeCard} key={`${copy}-${index}-${item.src}`}>
+                  <Image
+                    src={item.src}
+                    alt={copy === 0 ? item.alt : ""}
+                    fill
+                    sizes="(min-width: 1100px) 29vw, (min-width: 640px) 42vw, 80vw"
+                    className={styles.coverImage}
+                  />
+                </figure>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   )}</LocalizedContent>;
 }
@@ -874,7 +908,7 @@ function TimelineSection() {
         autoplayMs={5600}
         className={styles.timelineCarousel}
         dots={false}
-        controls={true}
+        controls={false}
         labels={["Start", ...TIMELINE.map((item) => item.year)]}
       >
         <article className={styles.timelineIntro}>
