@@ -2,6 +2,7 @@
 "use client";
 
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useState } from "react";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
@@ -419,52 +420,7 @@ export default function Page() {
           SECTION 6 - PARTNER WITH US
       =================================== */}
 
-      <section
-        className="partner-banner"
-        aria-labelledby="partner-banner-title"
-      >
-        <div className="partner-banner-content">
-
-          <h2 id="partner-banner-title">
-            Have a story worth telling?
-            <br />
-            Let's bring it to the world.
-          </h2>
-
-          <a
-            href="/become-a-partner"
-            className="partner-banner-button"
-          >
-            Join as a Partner
-
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 12H19M19 12L13 6M19 12L13 18"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-
-        </div>
-
-        <img
-          className="partner-banner-logo"
-          src="/images/abhijat-logo.png"
-          alt="Abhijat Studios"
-          width={75}
-          height={80}
-          loading="lazy"
-        />
-      </section>
+      <PreFooterBanner type={2} />
 
       {/* ===================================
           ALL PAGE STYLES
@@ -1224,179 +1180,22 @@ export default function Page() {
            SECTION 6 - PARTNER BANNER
         ========================================= */
 
-        .partner-banner {
-          position: relative;
-
-          display: flex;
-
-          width: 100%;
-          max-width: none;
-          height: 30rem;
-
-          padding: 2rem;
-
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-end;
-          align-self: stretch;
-
-          border-radius: 0;
-
-          background-color: #171717;
-
-          background-image:
-            radial-gradient(
-              118.01% 73.86% at 57.53% 72.82%,
-              rgba(0, 0, 0, 0) 42.15%,
-              rgba(0, 0, 0, 0.76) 85.74%
-            ),
-            url("/images/join-as-partner-background.png");
-
-          background-position:
-            center,
-            center;
-
-          background-size:
-            cover,
-            cover;
-
-          background-repeat:
-            no-repeat,
-            no-repeat;
-
-          overflow: hidden;
-          isolation: isolate;
-        }
 
         /* Partner Heading Content */
 
-        .partner-banner-content {
-          position: relative;
-          z-index: 2;
-
-          display: flex;
-
-          width: 100%;
-          max-width: 45rem;
-
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-
-          align-self: flex-start;
-
-          gap: 1.25rem;
-
-          text-align: left;
-        }
 
         /* Partner Heading */
 
-        .partner-banner-content h2 {
-          margin: 0;
-
-          color: #ffffff;
-
-          font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-          font-family:
-            "Plus Jakarta Sans",
-            sans-serif;
-
-          font-size: 2.5rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem;
-
-          letter-spacing: -0.03125rem;
-
-          text-align: left;
-        }
 
         /* Partner Button */
 
-        .partner-banner-button {
-          display: inline-flex;
 
-          width: fit-content;
 
-          padding: 0;
 
-          justify-content: center;
-          align-items: center;
 
-          gap: 0.25rem;
-
-          border: 0;
-          border-radius: 0.5rem;
-
-          background: transparent;
-
-          color: #ffffff;
-
-          font-family: Inter, sans-serif;
-
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 1.5rem;
-
-          text-decoration: none;
-
-          transition:
-            color 200ms ease,
-            transform 200ms ease;
-        }
-
-        .partner-banner-button svg {
-          display: block;
-
-          width: 1rem;
-          height: 1rem;
-
-          flex-shrink: 0;
-
-          transition:
-            transform 200ms ease;
-        }
-
-        .partner-banner-button:hover {
-          color: #e8c979;
-        }
-
-        .partner-banner-button:hover svg {
-          transform: translateX(4px);
-        }
-
-        .partner-banner-button:focus-visible {
-          outline: 2px solid #ffffff;
-          outline-offset: 5px;
-        }
 
         /* Bottom Right Logo */
 
-        .partner-banner-logo {
-          position: relative;
-          z-index: 2;
-
-          display: block;
-
-          width: 4.6875rem;
-          height: 5rem;
-
-          flex-shrink: 0;
-
-          aspect-ratio: 15 / 16;
-
-          object-fit: contain;
-          object-position: center;
-
-          mix-blend-mode: luminosity;
-
-          align-self: flex-end;
-        }
 
         /* =================================
            RESPONSIVE - SMALL DESKTOP
@@ -1524,19 +1323,8 @@ export default function Page() {
 
           /* Partner Banner */
 
-          .partner-banner {
-            height: 27rem;
-            padding: 2rem;
-          }
 
-          .partner-banner-content {
-            max-width: 36rem;
-          }
 
-          .partner-banner-content h2 {
-            font-size: 2.125rem;
-            line-height: 2.75rem;
-          }
         }
 
         /* =================================
@@ -1736,53 +1524,10 @@ export default function Page() {
 
           /* Partner Banner */
 
-          .partner-banner {
-            width: 100%;
-            height: 25rem;
 
-            padding: 1.25rem;
 
-            background-position:
-              center,
-              58% center;
 
-            background-size:
-              cover,
-              cover;
-          }
 
-          .partner-banner-content {
-            width: 100%;
-            max-width: 100%;
-
-            gap: 1rem;
-
-            align-self: flex-start;
-            align-items: flex-start;
-          }
-
-          .partner-banner-content h2 {
-            font-size: clamp(
-              1.5rem,
-              6vw,
-              2rem
-            );
-
-            line-height: 1.3;
-            letter-spacing: -0.025rem;
-          }
-
-          .partner-banner-button {
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-          }
-
-          .partner-banner-logo {
-            width: 3.75rem;
-            height: 4rem;
-
-            align-self: flex-end;
-          }
         }
 
         /* =================================
@@ -1806,20 +1551,8 @@ export default function Page() {
             padding: 1.25rem;
           }
 
-          .partner-banner {
-            height: 23rem;
-            padding: 1rem;
-          }
 
-          .partner-banner-content h2 {
-            font-size: 1.5rem;
-            line-height: 2rem;
-          }
 
-          .partner-banner-logo {
-            width: 3.25rem;
-            height: 3.5rem;
-          }
         }
 
         /* =================================
@@ -1833,10 +1566,7 @@ export default function Page() {
           }
 
           .action-toggle-button,
-          .partner-banner-button,
-          .partner-banner-button svg {
-            transition: none;
-          }
+
         }
 
       `}</style>

@@ -1,6 +1,7 @@
 "use client";
 
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent, useTextTranslation } from "@/components/localization/localized-content";
 import { useState } from "react";
 import Link from "next/link";
@@ -69,13 +70,13 @@ const journeyItems = [
     number: "2.",
     title: "Present",
     subtitle: "Markets & Festivals",
-    icon: "/images/business/icons/presentation-chart.svg",
+    icon: "/images/media/presentation-chart.svg",
   },
   {
     number: "3.",
     title: "Distribute",
     subtitle: "Global Platforms",
-    icon: "/images/business/icons/television.svg",
+    icon: "/images/media/television.svg",
   },
   {
     number: "4.",
@@ -1086,170 +1087,7 @@ export default function InternationalBusinessPage() {
           CONTENT MONETIZATION CTA
       ===================================================== */}
 
-      <motion.section
-        initial={{
-          opacity: 0,
-          y: 30,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.15,
-        }}
-        transition={{
-          duration: 0.8,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="
-          relative
-          flex
-          h-[30rem]
-          w-full
-          flex-col
-          items-end
-          justify-between
-          overflow-hidden
-          rounded-none
-          p-[2rem]
-        "
-        style={{
-          backgroundImage: `
-            radial-gradient(
-              118.01% 73.86% at 57.53% 72.82%,
-              rgba(0, 0, 0, 0) 42.15%,
-              rgba(0, 0, 0, 0.76) 85.74%
-            ),
-            url("/images/monetization/monetization-gallery-12.jpg")
-          `,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        {/* CTA text */}
-
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            delay: 0.1,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="
-            relative
-            z-10
-            flex
-            max-w-[38rem]
-            self-start
-            flex-col
-            items-start
-            gap-[1rem]
-          "
-        >
-          <h2
-            className="
-              text-[2rem]
-              font-semibold
-              leading-[2.5rem]
-              tracking-[-0.03125rem]
-              text-white
-              sm:text-[2.25rem]
-              sm:leading-[2.75rem]
-              lg:text-[2.5rem]
-              lg:leading-[3rem]
-            "
-            style={{
-              fontFamily:
-                'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            Have Content?
-            <br />
-            Let&apos;s Find Its Revenue Model.
-          </h2>
-
-          <Link
-            href="/contact"
-            className="
-              group
-              flex
-              items-center
-              justify-center
-              gap-[0.25rem]
-              rounded-[0.5rem]
-              p-0
-              text-[1rem]
-              font-semibold
-              leading-[1.5rem]
-              text-white
-              transition-opacity
-              duration-300
-              hover:opacity-75
-            "
-            style={{
-              fontFamily:
-                'var(--Font-family-Body, "Inter")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            <span>Contact us</span>
-
-            <motion.span
-              aria-hidden="true"
-              whileHover={{
-                x: 4,
-              }}
-              transition={{
-                duration: 0.2,
-              }}
-            >
-              â†’
-            </motion.span>
-          </Link>
-        </motion.div>
-
-        {/* Abhijat logo */}
-
-        <motion.img
-          src="/images/abhijat-logo.png"
-          alt="Abhijat"
-          initial={{
-            opacity: 0,
-            scale: 0.9,
-          }}
-          whileInView={{
-            opacity: 1,
-            scale: 1,
-          }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.6,
-            delay: 0.25,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="
-            relative
-            z-10
-            h-[5rem]
-            w-[4.6875rem]
-            shrink-0
-            object-contain
-            mix-blend-luminosity
-          "
-        />
-      </motion.section>
+      <PreFooterBanner type={6} />
     </main>
   )}</LocalizedContent>;
 }

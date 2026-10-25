@@ -1,5 +1,6 @@
 "use client";
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -97,13 +98,13 @@ const PROCESS_STEPS: ProcessStep[] = [
         id: 0,
         title: "Build",
         description: "Establish channels with a clear content direction.",
-        icon: "/images/event/Brain.svg",
+        icon: "/images/event-experience/planning.svg",
     },
     {
         id: 1,
         title: "Manage",
         description: "Support content publishing and channel operations.",
-        icon: "/images/event/UsersFour.svg",
+        icon: "/images/event-experience/coordination.svg",
     },
     {
         id: 2,
@@ -1382,109 +1383,7 @@ export default function DigitalMediaNetworksPage() {
                 </div>
             </section>
             <NewsBlogsSection />
-            <section className="w-full flex justify-center bg-white">
-                <div
-                    className="partner-banner-box flex flex-col justify-between items-end self-stretch w-full max-w-[90rem]"
-                    style={{
-                        minHeight: "24rem",
-                        height: "clamp(22rem, 35vw, 30rem)",
-                        padding: "clamp(1.5rem, 3.5vw, 2rem)",
-                        borderRadius: "var(--Corner-radius-0, 0)",
-                        background:
-                            "radial-gradient(118.01% 73.86% at 57.53% 72.82%, rgba(0, 0, 0, 0.00) 42.15%, rgba(0, 0, 0, 0.76) 85.74%), url('/images/join-as-partner-background.png') lightgray 50% / cover no-repeat",
-                    }}
-                >
-                    {/* Top-Left Content: Heading & CTA Button */}
-                    <div
-                        className="flex flex-col items-start self-stretch"
-                        style={{ gap: "1.5rem" }}
-                    >
-                        <h2
-                            style={{
-                                color: "var(--Text-Inverse-strong, #FFF)",
-                                fontFeatureSettings: "'liga' off, 'clig' off",
-                                fontFamily:
-                                    'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                                fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                                lineHeight: "1.2",
-                                letterSpacing: "-0.03125rem",
-                            }}
-                        >
-                            Have a story worth telling? <br />
-                            Let&apos;s bring it to the world.
-                        </h2>
-
-                        <Link href="/contact"
-                            className="group cursor-pointer hover:opacity-85 transition-opacity"
-                            style={{
-                                display: "flex",
-                                padding: "0 var(--Spacing-0, 0)",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                gap: "var(--Spacing-4, 0.25rem)",
-                                borderRadius: "var(--Corner-radius-8, 0.5rem)",
-                            }}
-                        >
-                            <span
-                                style={{
-                                    color: "var(--Text-Inverse-strong, #FFF)",
-                                    textAlign: "center",
-                                    fontFeatureSettings: "'liga' off, 'clig' off",
-                                    fontFamily: 'var(--Font-family-Body, "Inter", sans-serif)',
-                                    fontSize: "var(--Font-size-Small, 1rem)",
-                                    fontStyle: "normal",
-                                    fontWeight: 600,
-                                    lineHeight: "var(--Line-height-Small, 1.5rem)",
-                                }}
-                            >
-                                Join as a Partner
-                            </span>
-
-                            {/* Right Arrow Icon */}
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                className="transition-transform duration-300 group-hover:translate-x-1"
-                                style={{
-                                    width: "1.25rem",
-                                    height: "1.25rem",
-                                    flexShrink: 0,
-                                }}
-                            >
-                                <path
-                                    d="M4.16669 10H15.8334"
-                                    stroke="white"
-                                    strokeWidth="1.67"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                                <path
-                                    d="M10.8333 5L15.8333 10L10.8333 15"
-                                    stroke="white"
-                                    strokeWidth="1.67"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                        </Link>
-                    </div>
-
-                    {/* Bottom-Right Logo */}
-                    <img
-                        src="/images/abhijat-logo.png"
-                        alt="Abhijat Logo"
-                        className="w-16 h-16 object-contain shrink-0 select-none"
-                        style={{
-                            mixBlendMode: "luminosity",
-                        }}
-                    />
-                </div>
-            </section>
+            <PreFooterBanner type={2} />
         </div>
     )}</LocalizedContent>;
 }

@@ -75,7 +75,7 @@ export default function CapitalMarketSections() {
         <div className={styles.steps}>
           {steps.map((step) => (
             <article key={step.title} className={styles.step}>
-              <Image src={`/images/capital-market/icons/${step.icon}.svg`} alt="" width={56} height={56} />
+              <Image src={step.icon === "microphone-stage" ? "/images/monetization/icons/microphone-stage.svg" : `/images/capital-market/icons/${step.icon}.svg`} alt="" width={56} height={56} />
               <div>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>

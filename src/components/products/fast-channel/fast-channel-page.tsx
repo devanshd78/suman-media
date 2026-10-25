@@ -1,6 +1,7 @@
 "use client";
 
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -742,33 +743,7 @@ function LatestAnnouncements() {
 
 function PartnerCta() {
   return <LocalizedContent>{(
-    <section className={styles.partnerCta} aria-labelledby="fast-channel-partner-heading">
-      <Image
-        src="/images/fast-channel/partner-cta.webp"
-        alt=""
-        fill
-        sizes="100vw"
-        className={styles.partnerCtaImage}
-      />
-      <div className={styles.partnerCtaShade} aria-hidden="true" />
-
-      <motion.div
-        className={styles.partnerCtaCopy}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.48 }}
-        transition={{ duration: 0.94, ease: EASE }}
-      >
-        <h2 id="fast-channel-partner-heading">
-          <StaggerWords text="Have a story worth telling? Let's bring it to the world." delay={0.06} />
-        </h2>
-
-        <Link href="/partners" className={styles.partnerCtaLink}>
-          Join as a Partner
-          <ArrowIcon />
-        </Link>
-      </motion.div>
-    </section>
+    <PreFooterBanner type={3} content={{ imageUrl: "/images/fast-channel/partner-cta.webp", cta: { label: "Join as a Partner", href: "/partners" } }} />
   )}</LocalizedContent>;
 }
 

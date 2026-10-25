@@ -1,4 +1,5 @@
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -72,10 +73,6 @@ export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
       <ul className={styles.grid}>{rights.map(([title, description], i) => <li key={title} className={styles.rightsCard}><h3>{String(i + 1).padStart(2, "0")}. {title}</h3><p>{description}</p><Action>Talk to an Expert</Action></li>)}</ul>
     </section>}
     <NewsBlogsSection eyebrow="Latest Announcements" heading="News" />
-    <section className={styles.contactBanner} aria-labelledby="contact-title">
-      <Image src={`/images/brand-solutions-and-content-library/${brand ? "brand" : "library"}-contact.jpg`} alt="" fill sizes="100vw" className={styles.contactImage} />
-      <div className={styles.contactContent}><h2 id="contact-title">{brand ? "Have a story worth telling?\nLet's bring it to the world." : "Looking for Content or\nLicensing Opportunities?"}</h2>
-      <Action href={brand ? "/partners" : "/contact/form"}>{brand ? "Join as a Partner" : "Contact us"}</Action></div>
-    </section>
+    <PreFooterBanner type={brand ? 3 : 4} content={brand ? { imageUrl: "/images/brand-solutions-and-content-library/brand-contact.jpg", cta: { label: "Join as a Partner", href: "/partners" } } : undefined} />
   </main>}</LocalizedContent>;
 }

@@ -1,6 +1,7 @@
 'use client';
 
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { NewsBlogsSection } from '@/components/landing/news-blogs-section';
 import { useEffect, useRef, useState } from 'react';
@@ -10,20 +11,18 @@ export default function CreatorEcosystemPage() {
   const partnershipsSectionRef = useRef<HTMLElement | null>(null);
   const videoSectionRef = useRef<HTMLElement | null>(null);
   const testimonialsSectionRef = useRef<HTMLElement | null>(null);
-  const partnerCtaRef = useRef<HTMLElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageIsVisible, setImageIsVisible] = useState(false);
   const [partnershipsAreVisible, setPartnershipsAreVisible] = useState(false);
   const [videoSectionIsVisible, setVideoSectionIsVisible] = useState(false);
   const [testimonialsAreVisible, setTestimonialsAreVisible] = useState(false);
-  const [partnerCtaIsVisible, setPartnerCtaIsVisible] = useState(false);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 
   const creatorVideos = [
-    { src: '/images/creator-ecosystem/video1.mp4', label: 'Featured video 1' },
-    { src: '/images/creator-ecosystem/video2.mp4', label: 'Featured video 2' },
-    { src: '/images/creator-ecosystem/video3.mp4', label: 'Featured video 3' },
-    { src: '/images/creator-ecosystem/video4.mp4', label: 'Featured video 4' },
+    { src: '/cannes/cannes-interview-group-short.mp4', label: 'Featured video 1' },
+    { src: '/cannes/cannes-red-carpet-interview.mp4', label: 'Featured video 2' },
+    { src: '/cannes/cannes-interview-indoor.mp4', label: 'Featured video 3' },
+    { src: '/cannes/cannes-red-carpet-portrait-video.mp4', label: 'Featured video 4' },
   ];
 
   const creatorTestimonials = [
@@ -173,29 +172,6 @@ export default function CreatorEcosystemPage() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const target = partnerCtaRef.current;
-
-    if (!target) return;
-
-    if (!("IntersectionObserver" in window)) {
-      setPartnerCtaIsVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setPartnerCtaIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12 },
-    );
-
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, []);
 
   return <LocalizedContent>{(
     <main className="creator-ecosystem-page">
@@ -503,48 +479,7 @@ export default function CreatorEcosystemPage() {
 
       <NewsBlogsSection />
 
-      <section
-        ref={partnerCtaRef}
-        className={`join-partner-section${partnerCtaIsVisible ? ' is-visible' : ''}`}
-        aria-labelledby="join-partner-heading"
-      >
-        <div className="join-partner-copy">
-          <h2 className="join-partner-heading join-partner-reveal" id="join-partner-heading">
-            Have a story worth telling?
-            <br />
-            Let’s bring it to the world.
-          </h2>
-
-          <a className="join-partner-button join-partner-reveal join-partner-reveal--button" href="#partnerships">
-            <span>Join as Partner</span>
-            <svg
-              className="join-partner-chevron"
-              xmlns="http://www.w3.org/2000/svg"
-              width="8"
-              height="14"
-              viewBox="0 0 8 14"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M1 13L7 7L1 1"
-                stroke="currentColor"
-                strokeOpacity="0.72"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        </div>
-
-        <img
-          className="join-partner-logo join-partner-reveal join-partner-reveal--logo"
-          src="/images/abhijat-logo.png"
-          alt="Abhijat"
-          loading="lazy"
-        />
-      </section>
+      <PreFooterBanner type={2} />
 
       <style jsx>{`
         .creator-ecosystem-page {
@@ -555,149 +490,19 @@ export default function CreatorEcosystemPage() {
           font-family: var(--Font-family-Body, Inter, Arial, sans-serif);
         }
 
-        .join-partner-section {
-          position: relative;
-          box-sizing: border-box;
-          display: flex;
-          width: 100%;
-          height: 30rem;
-          min-height: 30rem;
-          padding: 2rem;
-          flex-direction: column;
-          justify-content: space-between;
-          align-items: flex-end;
-          align-self: stretch;
-          overflow: hidden;
-          isolation: isolate;
-          border-radius: var(--Corner-radius-0, 0);
-          background-color: #171717;
-          color: var(--Text-Inverse-strong, #fff);
-        }
 
-        .join-partner-section::before {
-          position: absolute;
-          z-index: -1;
-          inset: 0;
-          content: '';
-          background-image: radial-gradient(
-              118.01% 73.86% at 57.53% 72.82%,
-              rgba(0, 0, 0, 0) 42.15%,
-              rgba(0, 0, 0, 0.76) 85.74%
-            ),
-            url('/images/join-as-partner-background.png');
-          background-position: center;
-          background-size: cover;
-          background-repeat: no-repeat;
-          transform: scale(1.005);
-        }
 
-        .join-partner-copy {
-          position: relative;
-          z-index: 1;
-          display: flex;
-          align-self: flex-start;
-          width: min(100%, 48rem);
-          height: auto;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: flex-start;
-          gap: 2rem;
-        }
 
-        .join-partner-heading {
-          box-sizing: border-box;
-          width: 100%;
-          max-width: 43rem;
-          margin: 0;
-          color: var(--Text-Inverse-strong, #fff);
-          font-family: var(--Font-family-Heading, 'Plus Jakarta Sans', sans-serif);
-          font-size: var(--Font-size-Heading-1, 2.5rem);
-          font-style: normal;
-          font-weight: 600;
-          line-height: var(--Line-height-Heading-1, 3rem);
-          letter-spacing: -0.03125rem;
-          font-feature-settings: 'liga' off, 'clig' off;
-          text-wrap: pretty;
-        }
 
-        .join-partner-button {
-          display: inline-flex;
-          flex: 0 0 auto;
-          width: fit-content;
-          max-width: 100%;
-          align-items: center;
-          justify-content: center;
-          gap: var(--Spacing-4, 0.25rem);
-          padding: var(--Spacing-16, 1rem);
-          border: 1px solid rgba(255, 255, 255, 0.5);
-          border-radius: var(--Corner-radius-8, 0.5rem);
-          background: rgba(0, 0, 0, 0.18);
-          color: var(--Text-Inverse-strong, #fff);
-          font-family: var(--Font-family-Body, 'Plus Jakarta Sans', sans-serif);
-          font-size: var(--Font-size-Small, 1rem);
-          font-weight: 600;
-          line-height: var(--Line-height-Small, 1.5rem);
-          text-decoration: none;
-          backdrop-filter: blur(6px);
-          transition:
-            color 180ms ease,
-            background-color 180ms ease,
-            border-color 180ms ease;
-        }
 
-        .join-partner-button:hover {
-          border-color: #fff;
-          background: #fff;
-          color: #111;
-        }
 
-        .join-partner-button:focus-visible {
-          outline: 2px solid #fff;
-          outline-offset: 4px;
-        }
 
-        .join-partner-chevron {
-          width: 0.5rem;
-          height: 0.875rem;
-          flex: 0 0 auto;
-          transition: transform 180ms ease;
-        }
 
-        .join-partner-button:hover .join-partner-chevron {
-          transform: translateX(3px);
-        }
 
-        .join-partner-logo {
-          position: absolute;
-          z-index: 1;
-          right: 2rem;
-          bottom: 2rem;
-          display: block;
-          width: 4.6875rem;
-          height: 5rem;
-          flex-shrink: 0;
-          aspect-ratio: 15 / 16;
-          object-fit: cover;
-          object-position: center;
-          mix-blend-mode: luminosity;
-        }
 
-        .join-partner-reveal {
-          opacity: 0;
-          transform: translateY(1rem);
-        }
 
-        .join-partner-section.is-visible .join-partner-reveal {
-          animation: reveal-up 720ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-        }
 
-        .join-partner-section.is-visible .join-partner-reveal--button {
-          animation-delay: 140ms;
-        }
 
-        .join-partner-section.is-visible .join-partner-reveal--logo {
-          animation-delay: 220ms;
-        }
 
         .intro-section {
           box-sizing: border-box;
@@ -1647,28 +1452,9 @@ export default function CreatorEcosystemPage() {
             line-height: 1.45;
           }
 
-          .join-partner-section {
-            height: 26rem;
-            min-height: 26rem;
-            padding: 1.25rem;
-          }
 
-          .join-partner-copy {
-            width: 100%;
-          }
 
-          .join-partner-heading {
-            max-width: calc(100% - 2rem);
-            font-size: clamp(1.75rem, 7vw, 2.5rem);
-            line-height: 1.2;
-          }
 
-          .join-partner-logo {
-            right: 1.25rem;
-            bottom: 1.25rem;
-            width: 3.5rem;
-            height: 3.75rem;
-          }
 
           .testimonials-section {
             padding: 4rem 1.25rem;
@@ -1712,11 +1498,7 @@ export default function CreatorEcosystemPage() {
           .video-thumbnail,
           .testimonial-reveal,
           .testimonial-card,
-          .join-partner-reveal {
-            opacity: 1;
-            transform: none;
-            animation: none !important;
-          }
+
 
           .testimonials-track {
             animation: none !important;
@@ -1729,11 +1511,7 @@ export default function CreatorEcosystemPage() {
           .video-thumbnail-media,
           .video-thumbnail,
           .video-thumbnail-play,
-          .join-partner-button,
-          .join-partner-chevron {
-            transition: none;
-            transform: none;
-          }
+
         }
       `}</style>
     </main>

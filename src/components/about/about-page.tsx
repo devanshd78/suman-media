@@ -2,6 +2,7 @@
 
 
 import { LocalizedContent } from "@/components/localization/localized-content";
+import Link from "next/link";
 import Image from "@/components/ui/image";
 import {
   motion,
@@ -26,7 +27,7 @@ import { plusJakartaSans } from "@/lib/fonts";
 import type { CmsHomePage } from "@/types/cms";
 import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
-import { CareersCtaSection } from "@/components/landing/careers-cta-section";
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { MediaCoverageSection as LandingMediaCoverageSection } from "@/components/landing/media-coverage-section";
 import { ContactActionCards } from "@/components/contact-us/contact-action-cards";
 
@@ -182,33 +183,14 @@ const TIMELINE: TimelineItem[] = [
   },
 ];
 
-const NOTABLE_IMAGES: ImageSlide[] = [
-  {
-    src: "/images/about/notable-01.webp",
-    alt: "Portrait from the Suman Entertainment personalities archive",
-  },
-  {
-    src: "/images/about/notable-02.webp",
-    alt: "Portrait from the Suman Entertainment personalities archive",
-  },
-  {
-    src: "/images/about/notable-03.webp",
-    alt: "Portrait from the Suman Entertainment personalities archive",
-  },
-  {
-    src: "/images/about/notable-04.webp",
-    alt: "Portrait from the Suman Entertainment personalities archive",
-  },
-];
-
-const NOTABLE_NAMES = [
-  "Ashok Saraf",
-  "Prajakta Mali",
-  "Nivedita Saraf",
-  "Sayali Sanjeev",
-  "Ankita Walawalkar",
-  "Deesha Katkar",
-  "Jayanti Waghdhare",
+const NOTABLE_IMAGES = [
+  { src: "/images/about/notable-01.webp", alt: "Ashok Saraf" },
+  { src: "/images/about/notable-02.webp", alt: "Prajakta Mali" },
+  { src: "/images/about/notable-03.webp", alt: "Nivedita Saraf" },
+  { src: "/images/about/notable-04.webp", alt: "Sayali Sanjeev" },
+  { src: "/images/about/ankita-walawalkar.webp", alt: "Ankita Walawalkar" },
+  { src: "/images/about/deesha-katkar.webp", alt: "Deesha Katkar" },
+  { src: "/images/about/jayanti-waghdhare.webp", alt: "Jayanti Waghdhare" },
 ];
 
 const GOVERNMENT_IMAGES: ImageSlide[] = [
@@ -422,7 +404,7 @@ function DragCarousel({
 
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     const rail = railRef.current;
-    if (!rail || event.button !== 0 || event.pointerType === "touch") return;
+    if (!rail || event.button !== 0 || event.pointerType === "touch" || (event.target as HTMLElement).closest("button, a")) return;
 
     pointerState.current = {
       id: event.pointerId,
@@ -504,14 +486,18 @@ function DragCarousel({
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${items.length}`}
           >
+            {labels ? <div className={styles.timelineDots} aria-label="Slide position">
+              {items.map((_, position) => <button key={position} type="button" aria-label={`Go to slide ${position + 1}`} aria-current={activeIndex === position ? "step" : undefined} onClick={() => scrollToIndex(position)} />)}
+            </div> : null}
             {item}
+            {labels ? <div className={styles.timelineMarker}>
+              <button type="button" aria-current={activeIndex === index ? "step" : undefined} onClick={() => scrollToIndex(index)}>{labels[index]}</button><span aria-hidden="true" />
+            </div> : null}
           </div>
         ))}
       </div>
 
-      {labels ? <div className={styles.timelineNavigation} aria-label="Timeline years">
-        {labels.map((label, index) => <button key={label} type="button" aria-current={activeIndex === index ? "step" : undefined} onClick={() => scrollToIndex(index)}>{label}</button>)}
-      </div> : null}
+
       {(controls || dots || autoplayMs) && items.length > 1 ? (
         <div className={styles.carouselControls}>
           {dots ? (
@@ -872,8 +858,8 @@ function MissionSection() {
         </dl>
       </div>
       <DragCarousel ariaLabel="Suman Entertainment moments" autoplayMs={3200} controls={false} dots={false} className={styles.missionCarousel}>
-        {[1, 2, 3, 4].map((number) => <figure key={number} className={styles.missionImage}>
-          <Image src={`/images/about/mission-0${number}.webp`} alt={`Suman Entertainment event moment ${number}`} fill sizes="(min-width: 768px) 33vw, 80vw" className={styles.coverImage} />
+        {["/images/about/global-reach-press.webp", "/images/about/mission-02.webp", "/images/about/mission-03.webp", "/images/about/mission-04.webp"].map((src, index) => <figure key={src} className={styles.missionImage}>
+          <Image src={src} alt={`Suman Entertainment event moment ${index + 1}`} fill sizes="(min-width: 768px) 33vw, 80vw" className={styles.coverImage} />
         </figure>)}
       </DragCarousel>
     </section>
@@ -882,12 +868,13 @@ function MissionSection() {
 
 function TimelineSection() {
   return <LocalizedContent>{(
-    <section className={`${styles.timelineSection} site-section`}>
+    <section id="our-journey" className={styles.timelineSection}>
       <DragCarousel
         ariaLabel="Suman Entertainment interactive timeline"
         autoplayMs={5600}
         className={styles.timelineCarousel}
-        controls={false}
+        dots={false}
+        controls={true}
         labels={["Start", ...TIMELINE.map((item) => item.year)]}
       >
         <article className={styles.timelineIntro}>
@@ -944,10 +931,10 @@ function LeadershipSection() {
           <div className={styles.leaderMeta}>
             <h3>Kedar Joshi</h3>
             <p>Founder and CEO</p>
-            <a className={styles.leaderLink} href="/contact">
+            <Link className={styles.leaderLink} href="/contact">
               <span>Connect with us</span>
               <ArrowIcon />
-            </a>
+            </Link>
           </div>
         </article>
         {Array.from({ length: 7 }, (_, index) => <article className={styles.leaderCard} key={index}>
@@ -975,7 +962,7 @@ function NotablePersonalitiesSection() {
         dots={false}
         className={styles.notableCarousel}
       >
-        {NOTABLE_IMAGES.map((item, index) => (
+        {NOTABLE_IMAGES.map((item) => (
           <figure className={styles.notableCard} key={item.src}>
             <div className={styles.notableImage}>
               <Image
@@ -986,7 +973,7 @@ function NotablePersonalitiesSection() {
                 className={styles.coverImage}
               />
             </div>
-            <figcaption>{NOTABLE_NAMES[index] ?? `Notable personality ${index + 1}`}</figcaption>
+            <figcaption>{item.alt}</figcaption>
           </figure>
         ))}
       </DragCarousel>
@@ -1095,23 +1082,7 @@ export function AboutPageContent({
         articles={home?.featuredNewsBlogs}
       />
       <ContactCardsSection />
-      <CareersCtaSection
-        imagePosition="center top"
-        content={{
-          ...home?.careersCta,
-          eyebrow: home?.careersCta?.eyebrow?.trim() || "CAREERS",
-          heading: "Join us to start a New Chapter in Media and Entertainment",
-          imageUrl:
-            home?.careersCta?.imageUrl?.trim() || "/images/about/join-banner.webp",
-          imageAlt:
-            home?.careersCta?.imageAlt?.trim() ||
-            "Suman Entertainment team in the workplace",
-          cta:
-            home?.careersCta?.cta?.label && home?.careersCta?.cta?.href
-              ? home.careersCta.cta
-              : { label: "View Open Roles", href: "/careers" },
-        }}
-      />
+      <PreFooterBanner type={1} imagePosition="center top" />
     </main>
   )}</LocalizedContent>;
 }

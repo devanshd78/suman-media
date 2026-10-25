@@ -1,4 +1,5 @@
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,9 +23,6 @@ export function GovernmentPage() {
       </article>)}</div>
     </section>
     <NewsBlogsSection eyebrow="Latest Announcements" heading="News" />
-    <section className={styles.contactBanner} aria-labelledby="government-contact-title">
-      <Image src="/images/brand-solutions-and-content-library/library-contact.jpg" alt="" fill sizes="100vw" className={styles.contactImage}/>
-      <h2 id="government-contact-title">{"Have a Market\nStory to Communicate?"}</h2><Link href="/contact/form" className={styles.action}>Contact us <Chevron /></Link>
-    </section>
+    <PreFooterBanner type={5} />
   </main>}</LocalizedContent>;
 }

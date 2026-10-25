@@ -1,94 +1,19 @@
 "use client";
 
-import { LocalizedContent } from "@/components/localization/localized-content";
-import Image from "@/components/ui/image";
-import Link from "next/link";
-import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
-
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import type { CmsCareersCta } from "@/types/cms";
 
-function ArrowRightIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 20 20" className="h-4 w-4" fill="none">
-      <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-export function CareersCtaSection({
-  content,
-  imagePosition = "center",
-}: {
+export function CareersCtaSection({ content, imagePosition = "center" }: {
   content?: CmsCareersCta | null;
   imagePosition?: string;
 }) {
   if (!content?.heading?.trim()) return null;
-
-  const cta =
-    content.cta?.label && content.cta.href
-      ? content.cta
-      : { label: "View Open Roles", href: "/careers" };
-
-  return <LocalizedContent>{(
-    <section
-      id="careers"
-      aria-labelledby="landing-careers-heading"
-      className="landing-section-transition relative mx-auto min-h-[28rem] w-full max-w-full overflow-hidden bg-[#121212] text-white sm:min-h-[30rem] lg:min-h-[clamp(28rem,38vw,40rem)]"
-    >
-      {content.imageUrl ? (
-        <div
-          data-landing-parallax-layer="media"
-          className="absolute inset-0"
-        >
-          <Image
-            src={content.imageUrl}
-            alt={content.imageAlt?.trim() || ""}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            style={{ objectPosition: imagePosition }}
-          />
-        </div>
-      ) : null}
-
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.64)_0%,rgba(0,0,0,0.32)_34%,rgba(0,0,0,0.04)_70%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,transparent_55%)]"
-      />
-
-      <div className="site-gutter relative z-10 flex min-h-[inherit] w-full flex-col items-start py-7 sm:py-9 lg:py-10">
-        <p className={`landing-eyebrow ${inter.className} text-[0.75rem] font-semibold uppercase leading-[1.125rem] tracking-[0.045em] text-white/90 sm:text-[0.875rem] sm:leading-[1.25rem]`}>
-          {content.eyebrow?.trim() || "CARRERS"}
-        </p>
-
-        <h2
-          id="landing-careers-heading"
-          className={`landing-title ${exo2.className} mt-3 max-w-[45rem] text-[2rem] font-semibold leading-[2.35rem] tracking-[-0.04em] sm:text-[2.5rem] sm:leading-[2.9rem] lg:text-[2.85rem] lg:leading-[3.25rem] lg:tracking-[-0.055rem]`}
-          style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-        >
-          {content.heading}
-        </h2>
-
-        {content.description?.trim() ? (
-          <p className={`landing-body ${inter.className} mt-4 max-w-[36rem] text-sm leading-6 text-white/72`}>
-            {content.description}
-          </p>
-        ) : null}
-
-        <Link
-          href={cta.href}
-          className={`${inter.className} group mt-7 inline-flex items-center gap-2 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-72 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white`}
-        >
-          <span>{cta.label}</span>
-          <span className="transition-transform duration-200 group-hover:translate-x-1">
-            <ArrowRightIcon />
-          </span>
-        </Link>
-      </div>
-    </section>
-  )}</LocalizedContent>;
+  return <PreFooterBanner type={1} id="careers" imagePosition={imagePosition} content={{
+    heading: content.heading,
+    eyebrow: content.eyebrow?.trim() || "CAREERS",
+    description: content.description?.trim() || "",
+    imageUrl: content.imageUrl || "/images/about/join-banner.webp",
+    imageAlt: content.imageAlt || "",
+    cta: content.cta?.label && content.cta.href ? content.cta : { label: "View Open Roles", href: "/careers" },
+  }} />;
 }

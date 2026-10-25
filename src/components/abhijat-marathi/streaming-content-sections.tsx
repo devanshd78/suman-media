@@ -243,7 +243,7 @@ const SHOW_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/events-and-experiences.png",
+            "/images/media/series-and-streaming-content.png",
         badge:
             "Abhijat marathi shows",
         title:
@@ -311,7 +311,7 @@ const MUSIC_HERO_SLIDES = [
     },
     {
         image:
-            "/images/landing/client/events-and-experiences.png",
+            "/images/media/series-and-streaming-content.png",
         badge:
             "Music library",
         title:

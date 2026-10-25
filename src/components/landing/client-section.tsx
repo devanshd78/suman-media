@@ -67,7 +67,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: 2,
-    image: "/images/landing/client/events-and-experiences.png",
+    image: "/images/media/series-and-streaming-content.png",
     imagePosition: "center center",
     eyebrow: "02. EVENT & EXPERIENCES",
     title: "Experiences Beyond the Screen",

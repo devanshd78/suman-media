@@ -1,4 +1,5 @@
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "next/link";
@@ -92,11 +93,7 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
         <Link className={`${styles.action} ${styles.goldAction}`} href="/contact/form">{isIp ? cta : "Discuss a Project"}<ChevronRight /></Link>
       </section>
       <NewsBlogsSection eyebrow="Latest Announcements" heading="News" />
-      <section className={styles.contactBanner} aria-labelledby="licensing-heading">
-        <Image src="/images/brand-solutions-and-content-library/library-contact.jpg" alt="" fill sizes="100vw" className={styles.contactImage} />
-        <h2 id="licensing-heading" className={styles.subheading}>{"Looking for Content or\nLicensing Opportunities?"}</h2>
-        <Link href="/contact/form" className={`${styles.action} ${styles.heroAction}`}>Contact us <ChevronRight /></Link>
-      </section>
+      <PreFooterBanner type={4} />
     </main>
   )}</LocalizedContent>;
 }

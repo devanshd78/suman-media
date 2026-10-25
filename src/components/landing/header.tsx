@@ -153,7 +153,7 @@ const NAV_MENUS: NavMenu[] = [
       href: "/companies",
 
       imageSrc:
-        "/images/landing/hero/Image1.png",
+        "/images/about/news-03.webp",
 
       imageAlt:
         "Raja Shivchhatrapati on Abhijat Marathi OTT",
@@ -359,7 +359,7 @@ const NAV_MENUS: NavMenu[] = [
 
         image: {
           src:
-            "/images/landing/hero/Image2.jpg",
+            "/images/about/news-01.webp",
 
           alt:
             "Live concert audience",

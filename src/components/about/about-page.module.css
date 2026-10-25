@@ -307,21 +307,30 @@
 .missionCarousel .carouselItem { flex-basis:calc((100% - 64px)/3); }
 .missionImage { position:relative; margin:0; aspect-ratio:1.48; overflow:hidden; }
 .missionCarousel .carouselControls { margin:8px 0 0; }
-.timelineSlide { display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; min-height:410px; padding:32px; }
+/* A single horizontal track keeps each date attached to its milestone. */
 .timelineCarousel { width:100%; }
-.timelineCopy { position:relative; min-height:300px; display:flex; align-items:flex-end; padding-bottom:24px; }
-.timelineYear { position:absolute; left:0; top:0; font-size:240px; line-height:1; color:#392d09; font-weight:700; }
-.timelineCopy h3 { position:relative; margin:0; font-size:clamp(24px,2.23vw,32px); line-height:1.25; font-weight:600; }
-.timelineImage { position:relative; margin:0; height:345px; border-radius:24px; overflow:hidden; }
+.timelineCarousel .carouselRail { gap:0; padding-inline:var(--site-gutter-x,56px); scroll-padding-inline:var(--site-gutter-x,56px); }
+.timelineCarousel .carouselItem { position:relative; flex-basis:94%; padding-right:28px; }
+.timelineSlide { display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; min-height:410px; padding:32px 0; }
+.timelineCopy { position:relative; min-height:300px; display:flex; align-items:flex-end; padding:0 0 24px 28px; }
+.timelineYear { position:absolute; left:28px; top:0; font-size:clamp(160px,20vw,280px); line-height:1; color:#392d09; font-weight:700; }
+.timelineCopy h3 { position:relative; margin:0; font-size:clamp(22px,2.23vw,32px); line-height:1.25; font-weight:600; }
+.timelineImage { position:relative; margin:0; height:345px; border-radius:16px; overflow:hidden; }
 .timelineIntro { position:relative; display:flex; align-items:center; justify-content:center; text-align:center; min-height:410px; overflow:hidden; }
-.timelineIntro > div:nth-child(2) { width:60%; z-index:1; }
-.timelineIntro h2 { margin:0 0 20px; font-size:clamp(26px,2.23vw,32px); line-height:1.25; font-weight:600; }
-.timelineIntro p { font-size:20px; line-height:1.5; color:#aaa; }
-.timelineIntroPhoto { position:absolute; width:20%; height:280px; left:-4%; top:20px; transform:rotate(16deg); border-radius:20px; overflow:hidden; }
-.timelineIntroPhoto:last-child { left:auto; right:-4%; top:140px; transform:rotate(-18deg); }
-.timelineNavigation { display:flex; gap:16px; align-items:center; overflow:auto; padding:24px 0; border-bottom:1px solid #555; }
-.timelineNavigation button { flex:1 0 70px; padding:12px 16px; color:#aaa; background:transparent; border:1px solid #555; border-radius:32px; font:inherit; cursor:pointer; }
-.timelineNavigation button[aria-current] { background:#957322; border-color:#957322; color:white; }
+.timelineIntro > div:nth-child(2) { position:relative; z-index:1; width:58%; }
+.timelineIntro h2 { font-size:clamp(24px,2.23vw,32px); line-height:1.25; font-weight:600; margin:0; }
+.timelineIntro p { font-size:clamp(20px,2.23vw,32px); line-height:1.25; margin:0; font-weight:600; }
+.timelineIntroPhoto { position:absolute; width:17%; height:280px; left:-3%; top:35px; transform:rotate(16deg); border-radius:14px; overflow:hidden; }
+.timelineIntroPhoto:last-child { left:auto; right:-3%; top:100px; transform:rotate(-18deg); }
+.timelineDots { position:absolute; z-index:2; top:8px; left:28px; display:flex; gap:6px; }
+.timelineCarousel .carouselItem:first-child .timelineDots { left:50%; transform:translateX(-50%); }
+.timelineDots button { padding:0; width:7px; height:7px; border-radius:50%; background:#707070; border:0; cursor:pointer; }
+.timelineDots button[aria-current] { background:white; }
+.timelineMarker { display:flex; align-items:center; gap:18px; padding-top:24px; }
+.timelineMarker button { flex:none; border:0; border-radius:32px; background:#957322; color:white; font:inherit; font-size:16px; min-width:112px; min-height:52px; padding:12px 24px; cursor:pointer; }
+.timelineMarker span { flex:1; height:3px; background:#bdbdbd; }
+.timelineDots button:focus-visible,.timelineMarker button:focus-visible { outline:2px solid white; outline-offset:5px; }
+.timelineCarousel .carouselControls { padding-inline:var(--site-gutter-x,56px); justify-content:flex-end; }
 .leadershipHeading,.sectionHeadingRow { margin-bottom:96px; }
 .leadershipHeading p,.sectionHeadingRow p,.governmentHeading p { color:#969696; font-size:16px; line-height:24px; margin:20px 0 0; }
 .leadershipGrid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:32px; }
@@ -364,10 +373,14 @@
  .statItem dt { font-size:12px; }
  .carouselRail { gap:16px; }
  .missionCarousel .carouselItem,.notableCarousel .carouselItem { flex-basis:80%; }
- .timelineSlide { grid-template-columns:1fr; gap:16px; padding:0; }
- .timelineCopy { min-height:210px; }
- .timelineYear { font-size:200px; }
- .timelineImage { height:260px; }
+ .timelineSlide { grid-template-columns:1fr; gap:16px; padding:24px 0 0; min-height:490px; }
+ .timelineCarousel .carouselItem { flex-basis:100%; padding-right:20px; }
+ .timelineDots { left:0; }
+ .timelineMarker { padding-top:24px; gap:12px; }
+ .timelineMarker button { min-width:78px; min-height:44px; font-size:14px; }
+ .timelineCopy { min-height:200px; padding:0 0 8px; }
+ .timelineYear { font-size:180px; left:0; }
+ .timelineImage { height:250px; }
  .timelineIntro { min-height:490px; }
  .timelineIntro > div:nth-child(2) { width:78%; }
  .timelineIntroPhoto { opacity:.35; width:30%; height:180px; }

@@ -1,6 +1,7 @@
 "use client";
 
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -806,7 +807,6 @@ export function PartnerPageContent() {
   const impactRef = useRef<HTMLElement>(null);
   const ecosystemStackRef = useRef<HTMLDivElement>(null);
   const studioRef = useRef<HTMLElement>(null);
-  const finalCtaRef = useRef<HTMLElement>(null);
   const filmStripRef = useRef<HTMLDivElement>(null);
   const activeFilmIndexRef = useRef(0);
 
@@ -833,10 +833,6 @@ export function PartnerPageContent() {
     offset: ["start end", "end start"],
   });
 
-  const { scrollYProgress: ctaProgress } = useScroll({
-    target: finalCtaRef,
-    offset: ["start end", "end start"],
-  });
 
   const filmBackdropY = useTransform(
     filmFeatureProgress,
@@ -872,11 +868,6 @@ export function PartnerPageContent() {
     reduceMotion ? [0, 0] : [24, -24],
   );
 
-  const ctaScale = useTransform(
-    ctaProgress,
-    [0, 0.5, 1],
-    reduceMotion ? [1, 1, 1] : [1.08, 1.01, 1.08],
-  );
 
   const selectFilm = useCallback(
     (nextIndex: number, directionOverride?: 1 | -1) => {
@@ -1368,34 +1359,7 @@ export function PartnerPageContent() {
         </div>
       </section>
 
-      <section
-        ref={finalCtaRef}
-        className={styles.finalCta}
-        aria-labelledby="partner-final-cta-heading"
-      >
-        <motion.div
-          className={styles.finalCtaImageWrap}
-          style={{ scale: ctaScale }}
-          aria-hidden="true"
-        >
-          <Image
-            src="/images/join-as-partner-background.png"
-            alt=""
-            fill
-            loading="lazy"
-            sizes="100vw"
-            className={styles.finalCtaImage}
-          />
-        </motion.div>
-        <div className={styles.finalCtaShade} aria-hidden="true" />
-
-        <IntersectionReveal className={styles.finalCtaCopy}>
-          <h2 id="partner-final-cta-heading">
-            Have a story worth telling? Let&apos;s bring it to the world.
-          </h2>
-          <TextLink href="/contact?type=partnership">Join as a Partner</TextLink>
-        </IntersectionReveal>
-      </section>
+      <PreFooterBanner type={3} />
     </main>
   )}</LocalizedContent>;
 }

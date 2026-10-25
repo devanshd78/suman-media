@@ -1,4 +1,5 @@
 
+import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import Link from "next/link";
@@ -101,27 +102,6 @@ function resolveContactCardHref(href: string, index: number) {
   return href;
 }
 
-function SmallArrowRightIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      className="h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-    >
-      <path
-        d="M4.1665 9.99984H15.8332M9.99984 15.8332L15.8332 9.99984L9.99984 4.1665"
-        stroke="currentColor"
-        strokeWidth="1.66667"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function ArrowUpRightIcon() {
   return (
@@ -453,54 +433,7 @@ export function ContactPageContent({
         </div>
       </section>
 
-      <section
-        aria-labelledby="contact-careers-heading"
-        className="relative flex h-[30rem] w-full flex-col items-end justify-between overflow-hidden p-5 sm:p-8"
-      >
-        <Image
-          src={careersCtaImage}
-          alt={careersCtaImageAlt}
-          fill
-          sizes="100vw"
-          className="z-0 object-cover"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 z-10 bg-[radial-gradient(118.01%_73.86%_at_57.53%_72.82%,rgba(0,0,0,0)_42.15%,rgba(0,0,0,0.76)_85.74%)]"
-        />
-
-        <div className="relative z-20 flex w-full max-w-[35.9375rem] self-start flex-col items-start gap-7">
-          <h2
-            id="contact-careers-heading"
-            className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-white sm:text-[2.5rem] sm:leading-[3rem]`}
-            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-          >
-            {careersCtaHeading}
-          </h2>
-
-          <Link
-            href={careersCtaHref}
-            className={`${inter.className} group inline-flex items-center justify-center gap-1 rounded-[0.25rem] p-0 text-sm font-semibold leading-5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white`}
-          >
-            <span>{careersCtaButtonLabel}</span>
-            <SmallArrowRightIcon />
-          </Link>
-        </div>
-
-        <Link
-          href="/"
-          aria-label="Suman Media home"
-          className="relative z-20 inline-flex items-center transition-opacity hover:opacity-80"
-        >
-          <Image
-            src="/images/logo.png"
-            alt="Suman Entertainment & Media"
-            width={134}
-            height={39}
-            className="h-auto w-[8.375rem] opacity-50"
-          />
-        </Link>
-      </section>
+      <PreFooterBanner type={1} content={{ heading: careersCtaHeading, imageUrl: careersCtaImage, imageAlt: careersCtaImageAlt, cta: { label: careersCtaButtonLabel, href: careersCtaHref }, badgeUrl: "/images/logo.png", badgeAlt: "Suman Entertainment & Media" }} />
     </main>
   )}</LocalizedContent>;
 }
