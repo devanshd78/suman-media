@@ -9,9 +9,9 @@
 .heroTitle { position:absolute; inset:0; margin:0; display:flex; flex-direction:column; justify-content:space-between; padding-top:clamp(10rem,14vw,13rem); padding-bottom:5rem; color:white; font-size:clamp(6rem,12.5vw,12rem); line-height:1; font-weight:500; letter-spacing:-.055em; }
 .heroTitle span:last-child { align-self:flex-end; }
 .aboutIntro,.timelineSection,.leadershipSection,.notableSection,.governmentSection { padding-block:100px; }
-.eyebrow { margin:0 0 12px; font-size:12px; line-height:20px; font-weight:500; color:#555; }
-.eyebrow[data-dark="true"] { color:#aaa; }
-.aboutIntroHeading,.sectionHeading,.darkHeading { margin:0; font-size:clamp(28px,2.78vw,40px); line-height:1.2; font-weight:600; letter-spacing:-.025em; }
+.eyebrow { margin:0 0 12px; font-size:14px; line-height:20px; font-weight:600; color:var(--figma-secondary); }
+.eyebrow[data-dark="true"] { color:var(--figma-tertiary); }
+.aboutIntroHeading,.sectionHeading,.darkHeading { margin:0; font-size:clamp(28px,2.78vw,40px); line-height:1.2; font-weight:600; letter-spacing:-.5px; }
 .aboutIntroHeading { color:#969696; }
 .aboutIntroHeading strong { color:#111; font-weight:600; }
 .darkHeading { color:white; }

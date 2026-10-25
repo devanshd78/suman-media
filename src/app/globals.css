@@ -2,7 +2,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #18181b;
+  --foreground: #1a1a1a;
+  /* Design tokens sampled from Figma: Ready for devs (1440px desktop). */
+  --figma-ink: #1a1a1a;
+  --figma-secondary: #969696;
+  --figma-tertiary: #b8b8b8;
+  --figma-gold: #8f6c1a;
+  --figma-subtle-border: #e6e6e6;
+  --figma-display-size: 3.5rem;
+  --figma-display-line: 4rem;
+  --figma-section-size: 2.5rem;
+  --figma-section-line: 3rem;
+  --figma-card-size: 1.5rem;
+  --figma-card-line: 2rem;
+  --figma-lead-size: 1.25rem;
+  --figma-lead-line: 1.75rem;
   --site-header-offset: 64px;
   --site-action-radius: 4px;
   --site-gutter-x: 1.25rem;
@@ -168,7 +182,7 @@ select {
 }
 
 ::selection {
-  background: #18181b;
+  background: #1a1a1a;
   color: #ffffff;
 }
 

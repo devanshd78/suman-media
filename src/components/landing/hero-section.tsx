@@ -508,7 +508,7 @@ export function HeroSection({
             lg:tracking-[-0.0625rem]
 
             xl:max-w-[74%]
-            xl:text-[3.75rem]
+            xl:text-[3.5rem]
           `}
         />
 

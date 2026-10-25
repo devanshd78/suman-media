@@ -226,7 +226,7 @@
   opacity: 1;
   visibility: visible;
 
-  font-family: inherit;
+  font-family: var(--font-inter), Inter, sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25rem;
@@ -322,10 +322,10 @@
   background: #fff;
   color: #8f6c1a;
 
-  font-family: inherit;
-  font-size: 0.875rem;
+  font-family: var(--font-inter), Inter, sans-serif;
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
   white-space: nowrap;
 
   transition:
@@ -337,8 +337,8 @@
 }
 
 .header[data-surface="solid"] .contact {
-  border-color: #9b7417;
-  background: #9b7417;
+  border-color: #8f6c1a;
+  background: #8f6c1a;
   color: #fff;
 }
 

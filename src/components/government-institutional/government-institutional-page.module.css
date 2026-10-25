@@ -7,11 +7,11 @@
 .mosaicCard  { position:absolute; inset:0; background:url('/images/government-institutional/hero-mosaic.jpg') center/100% 100% no-repeat; animation:cardEnter .8s var(--delay) cubic-bezier(.22,1,.36,1) both; }
 .shade  { position:absolute; inset:0; z-index:-2; background:linear-gradient(180deg,#0009 0%,#0008 50%,#000 91%); }
 .heroHeading  { padding:128px var(--site-gutter-x) 0; }
-.eyebrow  { font-family:var(--font-inter),sans-serif; font-size:14px; line-height:21px; text-transform:uppercase; }
+.eyebrow  { font-family:var(--font-plus-jakarta-sans),sans-serif; font-size:14px; font-weight:600; line-height:20px; text-transform:uppercase; }
 .heroHeading h1  { margin-top:8px; font-size:56px; line-height:64px; max-width:1050px; }
 .heroIntro  { position:absolute; right:var(--site-gutter-x); bottom:96px; width:calc(50% - var(--site-gutter-x)); }
 .heroIntro p  { font-size:20px; line-height:28px; }
-.action  { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 16px; font-family:var(--font-inter),sans-serif; font-size:16px; font-weight:500; line-height:24px; text-decoration:none; color:#8f6c1a; }
+.action  { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 16px; font-family:var(--font-inter),sans-serif; font-size:16px; font-weight:600; line-height:24px; text-decoration:none; color:#8f6c1a; }
 .action svg  { flex-shrink:0; transition:transform .2s; }
 .action:hover svg  { transform:translateX(3px); }
 .action:focus-visible  { outline:3px solid #b89546; outline-offset:5px; border-radius:4px; }
@@ -20,16 +20,16 @@
 .entrance  { animation:textEnter .7s var(--delay) cubic-bezier(.22,1,.36,1) both; }
 .services  { padding:100px var(--site-gutter-x); }
 .sectionHeader  { text-align:center; margin-bottom:100px; }
-.sectionHeader .eyebrow  { color:#888; margin-bottom:8px; }
+.sectionHeader .eyebrow  { color:var(--figma-secondary); margin-bottom:8px; }
 .sectionHeader h2  { font-size:40px; line-height:48px; }
-.sectionHeader > p:last-child  { margin-top:16px; font-size:16px; line-height:24px; color:#888; }
+.sectionHeader > p:last-child  { margin-top:16px; font-size:16px; line-height:24px; color:var(--figma-secondary); }
 .serviceList  { display:grid; gap:56px; }
 .service  { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:56px; align-items:center; }
 .serviceImage  { width:100%; height:auto; aspect-ratio:636/368; object-fit:cover; border-radius:16px; }
 .service:nth-child(even) .serviceImage  { grid-column:2; grid-row:1; }
 .service:nth-child(even) .serviceCopy  { grid-column:1; grid-row:1; }
-.serviceCopy h3  { font-size:32px; font-weight:600; line-height:40px; color:#423514; letter-spacing:-.02em; }
-.serviceCopy p  { margin-top:8px; font-size:16px; line-height:24px; color:#888; }
+.serviceCopy h3  { font-size:32px; font-weight:700; line-height:40px; color:#372b0d; letter-spacing:-.02em; }
+.serviceCopy p  { margin-top:8px; font-size:16px; line-height:24px; color:var(--figma-secondary); }
 .serviceCopy .action  { margin-top:28px; }
 @keyframes cardEnter { from  { opacity:0; transform:translate3d(0,45px,0) scale(.98); } to  { opacity:1; transform:none; } }
 @keyframes finishMosaic { from  { opacity:0; } to  { opacity:1; } }
