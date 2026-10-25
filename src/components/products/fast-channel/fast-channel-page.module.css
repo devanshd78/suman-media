@@ -1,4 +1,4 @@
-.page {
+.page  {
   --fast-ink: #1a1a1a;
   --fast-muted: #969696;
   --fast-gold: #8f6c1a;
@@ -20,16 +20,16 @@
 
 .page *,
 .page *::before,
-.page *::after {
+.page *::after  {
   box-sizing: border-box;
 }
 
-.page a {
+.page a  {
   color: inherit;
   text-decoration: none;
 }
 
-.page svg {
+.page svg  {
   display: block;
   flex: 0 0 auto;
 }
@@ -38,11 +38,11 @@
    SHARED STAGGER TEXT
    ============================================================ */
 
-.staggerWords {
+.staggerWords  {
   display: inline;
 }
 
-.wordMask {
+.wordMask  {
   display: inline-block;
   overflow: hidden;
   margin-bottom: -0.08em;
@@ -50,7 +50,7 @@
   vertical-align: bottom;
 }
 
-.word {
+.word  {
   display: inline-block;
 }
 
@@ -58,7 +58,7 @@
    SECTION 01 - INTRO
    ============================================================ */
 
-.intro {
+.intro  {
   position: relative;
   z-index: 1;
   display: flex;
@@ -69,12 +69,12 @@
   background: #000;
 }
 
-.introInner {
+.introInner  {
   width: 100%;
   padding: clamp(7rem, 12vh, 9rem) var(--fast-pad) clamp(4rem, 7vh, 5.5rem);
 }
 
-.eyebrow {
+.eyebrow  {
   margin: 0 0 0.75rem;
   color: var(--fast-tertiary);
   font-family: var(--fast-heading);
@@ -86,7 +86,7 @@
   text-transform: none;
 }
 
-.introTitle {
+.introTitle  {
   width: min(100%, 64rem);
   margin: 0;
   color: #fff;
@@ -99,7 +99,7 @@
   text-wrap: balance;
 }
 
-.introDescription {
+.introDescription  {
   width: min(100%, 76rem);
   margin: 1.5rem 0 0;
   color: #969696;
@@ -123,14 +123,14 @@
      no transform/filter on the readable text HUD.
    ============================================================ */
 
-.deckTrack {
+.deckTrack  {
   position: relative;
   width: 100%;
   height: var(--deck-height-desktop);
   background: #000;
 }
 
-.deckSticky {
+.deckSticky  {
   position: sticky;
   top: 0;
   width: 100%;
@@ -143,7 +143,7 @@
   background: #000;
 }
 
-.deckBackdrop {
+.deckBackdrop  {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -155,7 +155,7 @@
    active image. This preserves the film-reel depth without coating the
    centred frame. */
 .deckTopFade,
-.deckBottomFade {
+.deckBottomFade  {
   position: absolute;
   right: 0;
   left: 0;
@@ -164,7 +164,7 @@
   pointer-events: none;
 }
 
-.deckTopFade {
+.deckTopFade  {
   top: 0;
   background: linear-gradient(
     0deg,
@@ -173,7 +173,7 @@
   );
 }
 
-.deckBottomFade {
+.deckBottomFade  {
   bottom: 0;
   background: linear-gradient(
     180deg,
@@ -185,7 +185,7 @@
 /* The slot is fixed at the centre of the viewport. The motion child moves by
    100% of its own card height + 2.5rem, giving a real continuous reel rather
    than a viewport-sized slide transition. */
-.channelSlideSlot {
+.channelSlideSlot  {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -195,7 +195,7 @@
   pointer-events: none;
 }
 
-.channelSlide {
+.channelSlide  {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -204,7 +204,7 @@
   will-change: transform, opacity;
 }
 
-.channelCard {
+.channelCard  {
   position: relative;
   width: 100%;
   height: 100%;
@@ -218,24 +218,24 @@
 .channelCardInner,
 .channelMedia,
 .channelMediaPlaceholder,
-.channelShade {
+.channelShade  {
   position: absolute;
   inset: 0;
 }
 
-.channelMedia {
+.channelMedia  {
   overflow: hidden;
   transform-origin: 50% 50%;
   will-change: transform;
 }
 
-.channelImage {
+.channelImage  {
   object-fit: cover;
   object-position: center;
   image-rendering: auto;
 }
 
-.channelMediaPlaceholder {
+.channelMediaPlaceholder  {
   background:
     radial-gradient(circle at 30% 40%, rgba(143, 108, 26, 0.22), transparent 30%),
     linear-gradient(135deg, #141414, #050505);
@@ -244,7 +244,7 @@
 /* IMPORTANT: the reference gradient stays, but backdrop-filter is deliberately
    removed. backdrop-filter: blur(2px) was literally blurring the active image
    and making all overlaid typography look as if it sat behind frosted glass. */
-.channelShade {
+.channelShade  {
   z-index: 1;
   border-radius: 0;
   background: linear-gradient(
@@ -260,14 +260,14 @@
 
 /* The HUD is a stationary layer aligned exactly over the centred card.
    It is never translated, scaled, blurred or filtered. */
-.deckHudShell {
+.deckHudShell  {
   position: absolute;
   inset: 0;
   z-index: 40;
   pointer-events: none;
 }
 
-.channelHud {
+.channelHud  {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -277,20 +277,20 @@
   pointer-events: none;
 }
 
-.channelTextLayer {
+.channelTextLayer  {
   position: absolute;
   inset: 0;
   z-index: 4;
   pointer-events: none;
 }
 
-.channelTextLayer .youtubeLink {
+.channelTextLayer .youtubeLink  {
   pointer-events: auto;
 }
 
 /* ----- RIGHT-SIDE METRICS: VERTICAL ----- */
 
-.channelStats {
+.channelStats  {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
@@ -303,7 +303,7 @@
   color: #f9f9f9;
 }
 
-.channelStat {
+.channelStat  {
   display: flex;
   width: 100%;
   min-width: 0;
@@ -311,7 +311,7 @@
   align-items: flex-start;
 }
 
-.channelStatValueRow {
+.channelStatValueRow  {
   display: flex;
   width: 100%;
   min-width: 0;
@@ -319,7 +319,7 @@
   gap: 0.55rem;
 }
 
-.channelStatIcon {
+.channelStatIcon  {
   display: inline-flex;
   width: 1.75rem;
   height: 1.75rem;
@@ -329,12 +329,12 @@
   color: #fff;
 }
 
-.channelStatIcon svg {
+.channelStatIcon svg  {
   width: 1.75rem;
   height: 1.75rem;
 }
 
-.channelStatValueRow strong {
+.channelStatValueRow strong  {
   display: block;
   min-width: 0;
   max-width: 12rem;
@@ -350,7 +350,7 @@
   white-space: normal;
 }
 
-.channelStatLabel {
+.channelStatLabel  {
   display: block;
   margin: 0.05rem 0 0 2.3rem;
   color: #f9f9f9;
@@ -364,7 +364,7 @@
 
 /* ----- BOTTOM-LEFT CHANNEL IDENTITY ----- */
 
-.channelCopy {
+.channelCopy  {
   position: absolute;
   right: 1.5rem;
   bottom: 1.5rem;
@@ -373,18 +373,18 @@
   width: min(58%, 47rem);
 }
 
-.channelIdentity {
+.channelIdentity  {
   display: flex;
   min-width: 0;
   align-items: center;
   gap: 1rem;
 }
 
-.channelIdentityCopy {
+.channelIdentityCopy  {
   min-width: 0;
 }
 
-.channelLogoFrame {
+.channelLogoFrame  {
   position: relative;
   display: inline-flex;
   width: 4rem;
@@ -398,19 +398,19 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.channelLogo {
+.channelLogo  {
   object-fit: contain;
   padding: 0.4rem;
 }
 
-.channelLogoFallback {
+.channelLogoFallback  {
   color: #f9f9f9;
   font-family: var(--fast-ui);
   font-size: 0.875rem;
   font-weight: 600;
 }
 
-.channelIdentity h2 {
+.channelIdentity h2  {
   display: flex;
   min-width: 0;
   margin: 0;
@@ -425,17 +425,17 @@
   letter-spacing: 0;
 }
 
-.channelIdentity h2 span {
+.channelIdentity h2 span  {
   min-width: 0;
 }
 
-.channelIdentity h2 svg {
+.channelIdentity h2 svg  {
   width: 1.75rem;
   height: 1.75rem;
   color: #fff;
 }
 
-.channelIdentity p {
+.channelIdentity p  {
   max-width: 100%;
   margin: 0;
   overflow: hidden;
@@ -449,7 +449,7 @@
   white-space: nowrap;
 }
 
-.channelDescription {
+.channelDescription  {
   display: -webkit-box;
   max-width: 45rem;
   margin: 0.75rem 0 0;
@@ -466,7 +466,7 @@
   line-clamp: 3;
 }
 
-.youtubeLink {
+.youtubeLink  {
   position: absolute;
   right: 1.5rem;
   bottom: 1.5rem;
@@ -487,13 +487,13 @@
     transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.youtubeLink svg {
+.youtubeLink svg  {
   width: 1.5rem;
   height: 1.5rem;
 }
 
 /* Reduced-motion fallback: a normal readable list. */
-.staticDeck {
+.staticDeck  {
   display: grid;
   width: 100%;
   gap: 2.5rem;
@@ -501,14 +501,14 @@
   background: #000;
 }
 
-.staticCard {
+.staticCard  {
   position: relative;
   width: min(100%, 90rem);
   aspect-ratio: 1.9 / 1;
   margin-inline: auto;
 }
 
-.staticCard .channelCard {
+.staticCard .channelCard  {
   position: absolute;
   inset: 0;
 }
@@ -517,14 +517,14 @@
    LATEST ANNOUNCEMENTS
    ============================================================ */
 
-.newsSection {
+.newsSection  {
   width: 100%;
   padding: clamp(4.5rem, 7vw, 7rem) var(--fast-pad) clamp(5rem, 8vw, 7.5rem);
   background: #fff;
   color: var(--fast-ink);
 }
 
-.newsHeadingRow {
+.newsHeadingRow  {
   display: flex;
   width: 100%;
   align-items: flex-end;
@@ -532,7 +532,7 @@
   gap: 2rem;
 }
 
-.sectionEyebrow {
+.sectionEyebrow  {
   margin: 0 0 0.55rem;
   color: #b8b8b8;
   font-family: var(--fast-ui);
@@ -543,7 +543,7 @@
   text-transform: uppercase;
 }
 
-.newsHeadingRow h2 {
+.newsHeadingRow h2  {
   margin: 0;
   color: var(--fast-ink);
   font-family: var(--fast-heading);
@@ -554,7 +554,7 @@
 }
 
 .viewAll,
-.readMore {
+.readMore  {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -566,12 +566,12 @@
 }
 
 .viewAll svg,
-.readMore svg {
+.readMore svg  {
   width: 1.125rem;
   height: 1.125rem;
 }
 
-.newsGrid {
+.newsGrid  {
   display: grid;
   width: 100%;
   margin-top: clamp(2.25rem, 4vw, 3rem);
@@ -579,15 +579,15 @@
   gap: clamp(1rem, 2vw, 1.75rem);
 }
 
-.newsCard {
+.newsCard  {
   min-width: 0;
 }
 
-.newsCardLink {
+.newsCardLink  {
   display: block;
 }
 
-.newsImageWrap {
+.newsImageWrap  {
   position: relative;
   width: 100%;
   aspect-ratio: 1.55 / 1;
@@ -595,12 +595,12 @@
   background: #ece8df;
 }
 
-.newsImage {
+.newsImage  {
   object-fit: cover;
   transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.newsMeta {
+.newsMeta  {
   display: flex;
   margin-top: 0.9rem;
   flex-wrap: wrap;
@@ -612,7 +612,7 @@
   line-height: 1.125rem;
 }
 
-.newsMeta span {
+.newsMeta span  {
   display: inline-flex;
   padding: 0.2rem 0.45rem;
   align-items: center;
@@ -621,7 +621,7 @@
   color: #828282;
 }
 
-.newsCard h3 {
+.newsCard h3  {
   margin: 0.75rem 0 0;
   color: #10100c;
   font-family: var(--fast-heading);
@@ -631,7 +631,7 @@
   letter-spacing: -0.025em;
 }
 
-.newsCard p {
+.newsCard p  {
   display: -webkit-box;
   margin: 0.45rem 0 0;
   overflow: hidden;
@@ -643,91 +643,10 @@
   line-clamp: 2;
 }
 
-.readMore {
+.readMore  {
   margin-top: 0.8rem;
   font-size: 0.75rem;
   line-height: 1.125rem;
-}
-
-/* ============================================================
-   PARTNER CTA
-   ============================================================ */
-
-.partnerCta {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  width: 100%;
-  min-height: clamp(22rem, 40vw, 32rem);
-  align-items: flex-start;
-  overflow: hidden;
-  background: #111;
-}
-
-.partnerCtaImage {
-  z-index: -3;
-  object-fit: cover;
-  object-position: center;
-}
-
-.partnerCtaShade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.86) 0%,
-    rgba(0, 0, 0, 0.56) 42%,
-    rgba(0, 0, 0, 0.08) 78%
-  );
-}
-
-.partnerCtaCopy {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: clamp(2rem, 4vw, 3.5rem) var(--fast-pad);
-}
-
-.partnerCtaCopy h2 {
-  width: 100%;
-  max-width: 40%;
-  margin: 0;
-  color: #fff;
-  font-family: var(--fast-heading);
-  font-size: clamp(2rem, 3.1vw, 2.85rem);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-
-.partnerCtaLink {
-  display: inline-flex;
-  min-height: 3rem;
-  margin-top: 1.35rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  border: 0;
-  background: transparent;
-  color: #fff !important;
-  box-shadow: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  font-family: var(--fast-ui);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.25rem;
-  text-decoration: underline !important;
-  text-decoration-thickness: 1px !important;
-  text-underline-offset: 0.28rem;
-}
-
-.partnerCtaLink svg {
-  width: 1.125rem;
-  height: 1.125rem;
 }
 
 /* ============================================================
@@ -736,8 +655,7 @@
 
 .youtubeLink:focus-visible,
 .viewAll:focus-visible,
-.newsCardLink:focus-visible,
-.partnerCtaLink:focus-visible {
+.newsCardLink:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
@@ -745,16 +663,15 @@
 @media (hover: hover) and (pointer: fine) {
   .youtubeLink:hover,
   .viewAll:hover,
-  .readMore:hover,
-  .partnerCtaLink:hover {
+  .readMore:hover {
     opacity: 0.72;
   }
 
-  .youtubeLink:hover {
+  .youtubeLink:hover  {
     transform: translateY(-2px);
   }
 
-  .newsCardLink:hover .newsImage {
+  .newsCardLink:hover .newsImage  {
     transform: scale(1.025);
   }
 }
@@ -764,13 +681,13 @@
    ============================================================ */
 
 @media (min-width: 640px) {
-  .page {
+  .page  {
     --fast-pad: 2rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .page {
+  .page  {
     --fast-pad: 3.5rem;
   }
 }
@@ -780,36 +697,32 @@
    ============================================================ */
 
 @media (max-width: 1023px) {
-  .intro {
+  .intro  {
     min-height: clamp(30rem, 62svh, 38rem);
   }
 
-  .introInner {
+  .introInner  {
     padding-top: 7rem;
   }
 
-  .deckTrack {
+  .deckTrack  {
     height: var(--deck-height-tablet);
   }
 
-  .channelStats {
+  .channelStats  {
     width: clamp(10rem, 27vw, 14rem);
   }
 
-  .channelCopy {
+  .channelCopy  {
     width: min(62%, 38rem);
   }
 
-  .newsGrid {
+  .newsGrid  {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .newsCard:last-child {
+  .newsCard:last-child  {
     display: none;
-  }
-
-  .partnerCtaCopy h2 {
-    max-width: 65%;
   }
 }
 
@@ -818,171 +731,154 @@
    ============================================================ */
 
 @media (max-width: 767px) {
-  .intro {
+  .intro  {
     min-height: 76svh;
     align-items: flex-end;
   }
 
-  .introInner {
+  .introInner  {
     padding-top: 7.5rem;
     padding-bottom: 4rem;
   }
 
   .introTitle,
-  .introDescription {
+  .introDescription  {
     font-size: 2.25rem;
     line-height: 2.75rem;
   }
 
-  .deckTrack {
+  .deckTrack  {
     height: var(--deck-height-mobile);
   }
 
   .channelSlideSlot,
-  .channelHud {
+  .channelHud  {
     width: calc(100vw - 2rem);
     height: min(72svh, 36rem);
     aspect-ratio: auto;
   }
 
   .deckTopFade,
-  .deckBottomFade {
+  .deckBottomFade  {
     height: 4.5rem;
   }
 
-  .channelStats {
+  .channelStats  {
     top: 1rem;
     right: 1rem;
     width: min(10.75rem, 46%);
     gap: 0.55rem;
   }
 
-  .channelStatValueRow {
+  .channelStatValueRow  {
     gap: 0.4rem;
   }
 
   .channelStatIcon,
-  .channelStatIcon svg {
+  .channelStatIcon svg  {
     width: 1.5rem;
     height: 1.5rem;
     flex-basis: 1.5rem;
   }
 
-  .channelStatValueRow strong {
+  .channelStatValueRow strong  {
     font-size: 1rem;
     line-height: 1.35rem;
   }
 
-  .channelStatLabel {
+  .channelStatLabel  {
     margin-left: 1.9rem;
     font-size: 0.75rem;
     line-height: 1rem;
   }
 
-  .channelCopy {
+  .channelCopy  {
     right: 1rem;
     bottom: 4rem;
     left: 1rem;
     width: min(68%, 27rem);
   }
 
-  .channelLogoFrame {
+  .channelLogoFrame  {
     width: 3.25rem;
     height: 3.25rem;
     flex-basis: 3.25rem;
   }
 
-  .channelIdentity {
+  .channelIdentity  {
     gap: 0.75rem;
   }
 
-  .channelIdentity h2 {
+  .channelIdentity h2  {
     font-size: 1.125rem;
     line-height: 1.5rem;
   }
 
-  .channelIdentity h2 svg {
+  .channelIdentity h2 svg  {
     width: 1.5rem;
     height: 1.5rem;
   }
 
   .channelIdentity p,
-  .channelDescription {
+  .channelDescription  {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
 
-  .channelDescription {
+  .channelDescription  {
     max-width: 100%;
     margin-top: 0.55rem;
     -webkit-line-clamp: 2;
     line-clamp: 2;
   }
 
-  .youtubeLink {
+  .youtubeLink  {
     right: 1rem;
     bottom: 0.9rem;
     font-size: 0.6875rem;
   }
 
-  .newsHeadingRow {
+  .newsHeadingRow  {
     align-items: flex-start;
   }
 
-  .newsGrid {
+  .newsGrid  {
     grid-template-columns: 1fr;
   }
 
-  .newsCard:last-child {
+  .newsCard:last-child  {
     display: block;
-  }
-
-  .partnerCta {
-    min-height: 24rem;
-  }
-
-  .partnerCtaShade {
-    background: linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.86) 0%,
-      rgba(0, 0, 0, 0.58) 62%,
-      rgba(0, 0, 0, 0.18) 100%
-    );
-  }
-
-  .partnerCtaCopy h2 {
-    max-width: 100%;
   }
 }
 
 @media (max-width: 479px) {
-  .intro {
+  .intro  {
     min-height: 72svh;
   }
 
   .introTitle,
-  .introDescription {
+  .introDescription  {
     font-size: 1.875rem;
     line-height: 2.375rem;
   }
 
   .channelSlideSlot,
-  .channelHud {
+  .channelHud  {
     width: calc(100vw - 2rem);
     height: min(70svh, 33rem);
   }
 
-  .channelLogoFrame {
+  .channelLogoFrame  {
     width: 2.75rem;
     height: 2.75rem;
     flex-basis: 2.75rem;
   }
 
-  .channelCopy {
+  .channelCopy  {
     width: 72%;
   }
 
-  .newsHeadingRow {
+  .newsHeadingRow  {
     flex-direction: column;
     gap: 1rem;
   }
@@ -993,16 +889,16 @@
    ============================================================ */
 
 @media (min-width: 768px) and (max-height: 720px) {
-  .intro {
+  .intro  {
     min-height: 34rem;
   }
 
   .channelSlideSlot,
-  .channelHud {
+  .channelHud  {
     width: min(calc(100vw - (var(--fast-pad) * 2)), 60rem);
   }
 
-  .channelDescription {
+  .channelDescription  {
     -webkit-line-clamp: 2;
     line-clamp: 2;
   }
@@ -1020,7 +916,7 @@
   .channelIdentity,
   .channelDescription,
   .youtubeLink,
-  .newsImage {
+  .newsImage  {
     transform: none !important;
     filter: none !important;
     transition: none !important;
@@ -1033,7 +929,7 @@
   .channelStats > div,
   .channelIdentity,
   .channelDescription,
-  .youtubeLink {
+  .youtubeLink  {
     opacity: 1 !important;
   }
 }

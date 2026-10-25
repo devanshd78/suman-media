@@ -1,8 +1,8 @@
 /* =========================================================
-   PARTNER PAGE — CONSOLIDATED FINAL STYLES
+   PARTNER PAGE â€” CONSOLIDATED FINAL STYLES
    ========================================================= */
 
-.page {
+.page  {
   --partner-gold: #8f6c1a;
   --partner-ink: #1a1a1a;
   --partner-muted: #969696;
@@ -38,15 +38,15 @@
 
 .page *,
 .page *::before,
-.page *::after {
+.page *::after  {
   box-sizing: border-box;
 }
 
-.page svg {
+.page svg  {
   flex: 0 0 auto;
 }
 
-.srOnly {
+.srOnly  {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -59,7 +59,7 @@
 }
 
 .textLink,
-.pillLink {
+.pillLink  {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +68,7 @@
 }
 
 .textLink svg,
-.pillLink svg {
+.pillLink svg  {
   width: 20px;
   height: 20px;
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -79,7 +79,7 @@
 .mediaRail:focus-visible,
 .filmThumb:focus-visible,
 .youtubeActivator:focus-visible,
-.ottRailButton:focus-visible {
+.ottRailButton:focus-visible  {
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
@@ -89,12 +89,12 @@
    Left aligned to the same website gutter.
    ========================================================= */
 
-.hero {
+.hero  {
   width: 100%;
   background: #fff;
 }
 
-.heroInner {
+.heroInner  {
   display: grid;
   width: 100%;
   min-height: clamp(22rem, 42svh, 30rem);
@@ -105,19 +105,19 @@
 }
 
 .heroTitleBlock,
-.heroIntro {
+.heroIntro  {
   min-width: 0;
   text-align: left;
 }
 
-.heroTitleBlock {
+.heroTitleBlock  {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .eyebrow,
-.hero .eyebrow {
+.hero .eyebrow  {
   margin: 0;
   color: var(--partner-ink);
   font-family: var(--Font-family-Heading);
@@ -128,7 +128,7 @@
   text-align: left;
 }
 
-.heroTitleBlock h1 {
+.heroTitleBlock h1  {
   width: 100%;
   max-width: 46rem;
   margin: 12px 0 0;
@@ -142,7 +142,7 @@
   text-align: left;
 }
 
-.heroIntro {
+.heroIntro  {
   display: flex;
   max-width: 42rem;
   flex-direction: column;
@@ -150,7 +150,7 @@
   justify-self: end;
 }
 
-.heroIntro>p {
+.heroIntro>p  {
   width: 100%;
   max-width: 38rem;
   margin: 0;
@@ -163,7 +163,7 @@
   text-align: left;
 }
 
-.heroIntro .textLink {
+.heroIntro .textLink  {
   min-width: 132px;
   min-height: 48px;
   margin-top: 24px;
@@ -180,7 +180,7 @@
    MAKE YOUR FILM / HERO MEDIA
    ========================================================= */
 
-.filmFeature {
+.filmFeature  {
   position: relative;
   isolation: isolate;
   min-height: clamp(42rem, 76svh, 54rem);
@@ -189,7 +189,7 @@
   color: #fff;
 }
 
-.filmBackdrop {
+.filmBackdrop  {
   position: absolute;
   inset: -4rem 0;
   z-index: -3;
@@ -197,19 +197,19 @@
   will-change: transform;
 }
 
-.filmSlide {
+.filmSlide  {
   position: absolute;
   inset: 0;
   will-change: transform;
 }
 
-.filmBackdropImage {
+.filmBackdropImage  {
   object-fit: cover;
   object-position: center 52%;
   filter: grayscale(1) contrast(1.08) brightness(0.9);
 }
 
-.filmShade {
+.filmShade  {
   position: absolute;
   inset: 0;
   z-index: -2;
@@ -218,7 +218,7 @@
     linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.05) 58%, rgba(0, 0, 0, 0.78) 100%);
 }
 
-.filmCopy {
+.filmCopy  {
   position: relative;
   z-index: 2;
   display: flex;
@@ -229,7 +229,7 @@
   padding: clamp(4rem, 6vw, 6rem) var(--partner-pad) clamp(11rem, 14vw, 14rem);
 }
 
-.filmEyebrow {
+.filmEyebrow  {
   margin: 0;
   color: #fff;
   font-family: var(--Font-family-Heading);
@@ -238,7 +238,7 @@
   line-height: var(--Line-height-Tiny);
 }
 
-.filmCopy h2 {
+.filmCopy h2  {
   max-width: 48rem;
   margin: 12px 0 0;
   color: #fff;
@@ -249,7 +249,7 @@
   letter-spacing: -1px;
 }
 
-.filmCopy>p:not(.filmEyebrow) {
+.filmCopy>p:not(.filmEyebrow)  {
   max-width: 43rem;
   margin: 16px 0 0;
   color: #f9f9f9;
@@ -259,8 +259,7 @@
   line-height: var(--Line-height-Heading-4);
 }
 
-.filmCopy .textLink,
-.finalCtaCopy .textLink {
+.filmCopy .textLink {
   width: fit-content;
   margin-top: 24px;
   gap: 6px;
@@ -274,7 +273,7 @@
   text-underline-offset: 4px;
 }
 
-.filmStrip {
+.filmStrip  {
   position: absolute;
   left: var(--partner-pad);
   right: 0;
@@ -291,11 +290,11 @@
 
 .filmStrip::-webkit-scrollbar,
 .mediaRail::-webkit-scrollbar,
-.partnerLogoStrip::-webkit-scrollbar {
+.partnerLogoStrip::-webkit-scrollbar  {
   display: none;
 }
 
-.filmThumb {
+.filmThumb  {
   position: relative;
   width: clamp(150px, 18vw, 260px);
   min-width: clamp(150px, 18vw, 260px);
@@ -316,19 +315,19 @@
     transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.filmThumb[data-active="true"] {
+.filmThumb[data-active="true"]  {
   border-color: #fff;
   opacity: 1;
   transform: translateY(-4px);
 }
 
-.filmThumbImage {
+.filmThumbImage  {
   object-fit: cover;
   transform: scale(1.001);
   transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.filmThumbIndex {
+.filmThumbIndex  {
   position: absolute;
   right: 8px;
   bottom: 6px;
@@ -345,7 +344,7 @@
    PARTNER LOGOS
    ========================================================= */
 
-.partnerLogoStrip {
+.partnerLogoStrip  {
   display: flex;
   width: 100%;
   min-height: 6rem;
@@ -358,7 +357,7 @@
   background: #fff;
 }
 
-.partnerLogo {
+.partnerLogo  {
   display: block;
   width: auto;
   max-width: 13.5rem;
@@ -373,7 +372,7 @@
    User requested pure white background.
    ========================================================= */
 
-.whoSection {
+.whoSection  {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -383,14 +382,14 @@
   background: #fff;
 }
 
-.centeredHeading {
+.centeredHeading  {
   width: 100%;
   max-width: 56rem;
   margin-inline: auto;
   text-align: center;
 }
 
-.whoEyebrow {
+.whoEyebrow  {
   margin: 0 0 12px;
   color: rgba(0, 9, 51, 0.65);
   font-family: var(--Font-family-Heading);
@@ -400,7 +399,7 @@
   text-align: center;
 }
 
-.centeredHeading h2 {
+.centeredHeading h2  {
   margin: 0;
   color: #000;
   font-family: var(--Font-family-Heading);
@@ -411,7 +410,7 @@
   text-align: center;
 }
 
-.whoDescription {
+.whoDescription  {
   max-width: 48rem;
   margin: 16px auto 0;
   color: var(--partner-muted);
@@ -422,7 +421,7 @@
   text-align: center;
 }
 
-.partnerTypeGrid {
+.partnerTypeGrid  {
   display: grid;
   width: 100%;
   max-width: 90rem;
@@ -431,11 +430,11 @@
   row-gap: clamp(2.5rem, 4vw, 4rem);
 }
 
-.partnerTypeReveal {
+.partnerTypeReveal  {
   min-width: 0;
 }
 
-.partnerTypeCard {
+.partnerTypeCard  {
   min-height: 9rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -444,7 +443,7 @@
     transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.partnerNumber {
+.partnerNumber  {
   display: inline-block;
   color: var(--partner-gold);
   font-family: var(--Font-family-Heading);
@@ -454,7 +453,7 @@
   letter-spacing: -1px;
 }
 
-.partnerTypeCard h3 {
+.partnerTypeCard h3  {
   margin: 16px 0 0;
   color: #000;
   font-family: var(--font-inter), Inter, sans-serif;
@@ -463,7 +462,7 @@
   line-height: var(--Line-height-Heading-4);
 }
 
-.partnerTypeCard p {
+.partnerTypeCard p  {
   max-width: 26rem;
   margin: 8px 0 0;
   color: var(--partner-muted);
@@ -479,12 +478,12 @@
    Separators are intentionally short, not full-height.
    ========================================================= */
 
-.impactSection {
+.impactSection  {
   width: 100%;
   background: var(--partner-cream);
 }
 
-.impactImageWrap {
+.impactImageWrap  {
   position: relative;
   width: 100%;
   min-height: clamp(20rem, 44vw, 42rem);
@@ -492,19 +491,19 @@
   background: #111;
 }
 
-.impactParallax {
+.impactParallax  {
   position: absolute;
   inset: -4%;
   will-change: transform;
 }
 
-.impactImage {
+.impactImage  {
   object-fit: cover;
   object-position: center;
   filter: grayscale(1) contrast(1.04);
 }
 
-.impactShade {
+.impactShade  {
   position: absolute;
   inset: 0;
   background:
@@ -512,7 +511,7 @@
     linear-gradient(90deg, rgba(143, 108, 26, 0.05), transparent 46%);
 }
 
-.statsBand {
+.statsBand  {
   display: flex;
   width: min(100%, 90rem);
   margin-inline: auto;
@@ -523,14 +522,14 @@
   background: var(--partner-cream);
 }
 
-.statsRow {
+.statsRow  {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
 }
 
-.statItem {
+.statItem  {
   position: relative;
   display: flex;
   min-width: 0;
@@ -543,7 +542,7 @@
   text-align: center;
 }
 
-.statItem+.statItem::before {
+.statItem+.statItem::before  {
   content: "";
   position: absolute;
   top: 50%;
@@ -554,7 +553,7 @@
   background: var(--partner-stroke);
 }
 
-.statItem strong {
+.statItem strong  {
   color: #000;
   font-family: var(--Font-family-Heading);
   font-size: var(--Font-size-Display);
@@ -563,13 +562,13 @@
   letter-spacing: -1px;
 }
 
-.statItem strong>span {
+.statItem strong>span  {
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
 }
 
-.statItem span:not(:first-child) {
+.statItem span:not(:first-child)  {
   color: #4e4e4e;
   font-family: var(--Font-family-Body);
   font-size: var(--Font-size-Small);
@@ -581,23 +580,23 @@
    ECOSYSTEM TITLE
    ========================================================= */
 
-.ecosystem {
+.ecosystem  {
   width: 100%;
   background: #fff;
 }
 
-.ecosystemTitle {
+.ecosystemTitle  {
   padding: clamp(3.5rem, 6vw, 6rem) var(--partner-pad) clamp(2.5rem, 4vw, 4rem);
   text-align: center;
 }
 
-.ecosystemTitle .eyebrow {
+.ecosystemTitle .eyebrow  {
   margin: 0 0 12px;
   color: var(--partner-tertiary);
   text-align: center;
 }
 
-.ecosystemTitle h2 {
+.ecosystemTitle h2  {
   margin: 0;
   color: var(--partner-ink);
   font-family: var(--Font-family-Heading);
@@ -608,22 +607,22 @@
   text-align: center;
 }
 
-.ecosystemBlock {
+.ecosystemBlock  {
   width: 100%;
   min-width: 0;
 }
 
-.ecosystemBlock[data-tone="light"] {
+.ecosystemBlock[data-tone="light"]  {
   background: var(--partner-cream);
   color: #161616;
 }
 
-.ecosystemBlock[data-tone="dark"] {
+.ecosystemBlock[data-tone="dark"]  {
   background: #000;
   color: #fff;
 }
 
-.ecosystemBlock[data-tone="warm"] {
+.ecosystemBlock[data-tone="warm"]  {
   background: var(--partner-warm);
   color: #161616;
 }
@@ -633,7 +632,7 @@
    Text uses the landing IntersectionReveal component.
    ========================================================= */
 
-.ecosystemHeader {
+.ecosystemHeader  {
   display: flex;
   width: 100%;
   min-height: 7rem;
@@ -644,11 +643,11 @@
   border-bottom: 1px solid rgba(26, 26, 26, 0.08);
 }
 
-.ecosystemHeader[data-tone="dark"] {
+.ecosystemHeader[data-tone="dark"]  {
   border-bottom-color: rgba(255, 255, 255, 0.16);
 }
 
-.ecosystemIdentity {
+.ecosystemIdentity  {
   display: flex;
   min-width: 0;
   flex: 1 1 auto;
@@ -656,14 +655,14 @@
   gap: 20px;
 }
 
-.ecosystemLogo {
+.ecosystemLogo  {
   width: 42px;
   height: auto;
   flex: 0 0 auto;
   object-fit: contain;
 }
 
-.ecosystemIdentity h3 {
+.ecosystemIdentity h3  {
   margin: 0;
   color: var(--partner-ink);
   font-family: var(--font-exo-2), "Exo 2", sans-serif;
@@ -672,11 +671,11 @@
   line-height: var(--Line-height-Heading-2);
 }
 
-.ecosystemHeader[data-tone="dark"] .ecosystemIdentity h3 {
+.ecosystemHeader[data-tone="dark"] .ecosystemIdentity h3  {
   color: #fff;
 }
 
-.ecosystemIntro {
+.ecosystemIntro  {
   display: flex;
   min-width: 0;
   flex: 0 1 55%;
@@ -685,7 +684,7 @@
   gap: 24px;
 }
 
-.ecosystemIntro p {
+.ecosystemIntro p  {
   width: min(100%, 500px);
   margin: 0;
   color: var(--partner-muted);
@@ -695,11 +694,11 @@
   line-height: var(--Line-height-Small);
 }
 
-.ecosystemHeader[data-tone="dark"] .ecosystemIntro p {
+.ecosystemHeader[data-tone="dark"] .ecosystemIntro p  {
   color: rgba(255, 255, 255, 0.68);
 }
 
-.pillLink {
+.pillLink  {
   width: auto;
   min-width: 104px;
   height: 48px;
@@ -715,7 +714,7 @@
   line-height: 20px;
 }
 
-.pillLink svg {
+.pillLink svg  {
   width: 16px;
   height: 16px;
 }
@@ -724,25 +723,25 @@
    OTT / FILMY DRAGGABLE YOUTUBE RAILS
    ========================================================= */
 
-.mediaRailWrap {
+.mediaRailWrap  {
   width: 100%;
 }
 
-.mediaRailWrap[data-ott-layout="true"] {
+.mediaRailWrap[data-ott-layout="true"]  {
   display: flex;
   min-height: 0;
   flex-direction: column;
   background: var(--partner-cream);
 }
 
-.mediaRailWrap[data-filmy-layout="true"] {
+.mediaRailWrap[data-filmy-layout="true"]  {
   display: flex;
   min-height: 0;
   flex-direction: column;
   background: var(--partner-warm);
 }
 
-.mediaRailStage {
+.mediaRailStage  {
   display: flex;
   width: 100%;
   min-height: 0;
@@ -751,7 +750,7 @@
   padding-block: clamp(2rem, 4vh, 3rem);
 }
 
-.mediaRail {
+.mediaRail  {
   display: flex;
   width: 100%;
   gap: clamp(16px, 2vw, 32px);
@@ -767,12 +766,12 @@
   touch-action: pan-y pinch-zoom;
 }
 
-.mediaRail[data-dragging="true"] {
+.mediaRail[data-dragging="true"]  {
   cursor: grabbing;
   scroll-snap-type: none;
 }
 
-.mediaCard {
+.mediaCard  {
   position: relative;
   --partner-youtube-height: clamp(238px, min(30vw, calc(100svh - 360px)), 420px);
   width: calc(var(--partner-youtube-height) * 1.7777778);
@@ -786,7 +785,7 @@
   scroll-snap-align: start;
 }
 
-.mediaCardImage {
+.mediaCardImage  {
   object-fit: cover;
   object-position: center;
   transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -795,21 +794,21 @@
 .youtubeEmbed,
 .youtubeActivator,
 .youtubeThumbnail,
-.youtubeShade {
+.youtubeShade  {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.youtubeEmbed {
+.youtubeEmbed  {
   z-index: 1;
   display: block;
   border: 0;
   background: #000;
 }
 
-.youtubeActivator {
+.youtubeActivator  {
   z-index: 2;
   display: block;
   overflow: hidden;
@@ -820,11 +819,11 @@
   appearance: none;
 }
 
-.mediaRail[data-dragging="true"] .youtubeActivator {
+.mediaRail[data-dragging="true"] .youtubeActivator  {
   cursor: grabbing;
 }
 
-.youtubeThumbnail {
+.youtubeThumbnail  {
   object-fit: cover;
   object-position: center;
   pointer-events: none;
@@ -832,13 +831,13 @@
   transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.youtubeShade {
+.youtubeShade  {
   z-index: 1;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.22));
   pointer-events: none;
 }
 
-.youtubePlay {
+.youtubePlay  {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -853,7 +852,7 @@
   transition: transform 220ms ease;
 }
 
-.youtubePlay svg {
+.youtubePlay svg  {
   width: 64px;
   height: 64px;
 }
@@ -862,7 +861,7 @@
    OTT CONTROLS
    ========================================================= */
 
-.ottMediaControls {
+.ottMediaControls  {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   width: 100%;
@@ -873,14 +872,14 @@
   background: var(--partner-cream);
 }
 
-.ottSocials {
+.ottSocials  {
   display: flex;
   align-items: center;
   justify-self: start;
   gap: 32px;
 }
 
-.ottSocialIcon {
+.ottSocialIcon  {
   display: inline-flex;
   width: 32px;
   height: 32px;
@@ -890,12 +889,12 @@
   color: #000;
 }
 
-.ottSocialIcon svg {
+.ottSocialIcon svg  {
   width: 32px;
   height: 32px;
 }
 
-.ottDownload {
+.ottDownload  {
   display: inline-flex;
   align-items: center;
   justify-self: center;
@@ -909,41 +908,41 @@
 }
 
 .googlePlayMark,
-.appleMark {
+.appleMark  {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
 }
 
-.googlePlayMark {
+.googlePlayMark  {
   width: 21px;
   height: 24px;
 }
 
-.appleMark {
+.appleMark  {
   width: 20px;
   height: 24px;
 }
 
 .googlePlayMark svg,
-.appleMark svg {
+.appleMark svg  {
   width: 100%;
   height: 100%;
 }
 
 .ottRailNav,
-.filmyRailNav {
+.filmyRailNav  {
   display: inline-flex;
   align-items: center;
   gap: 12px;
 }
 
-.ottRailNav {
+.ottRailNav  {
   justify-self: end;
 }
 
-.ottRailButton {
+.ottRailButton  {
   display: flex;
   width: 48px;
   height: 48px;
@@ -964,16 +963,16 @@
     transform 180ms ease;
 }
 
-.ottRailButton[data-direction="previous"] svg {
+.ottRailButton[data-direction="previous"] svg  {
   transform: rotate(180deg);
 }
 
-.ottRailButton svg {
+.ottRailButton svg  {
   width: 20px;
   height: 20px;
 }
 
-.ottRailButton:disabled {
+.ottRailButton:disabled  {
   background: rgba(143, 108, 26, 0.09);
   color: rgba(143, 108, 26, 0.24);
   cursor: default;
@@ -983,20 +982,20 @@
    FILMY CONTROLS
    ========================================================= */
 
-.ecosystemBlock[data-section="filmy"] {
+.ecosystemBlock[data-section="filmy"]  {
   background: var(--partner-warm);
   color: var(--partner-ink);
 }
 
-.ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+.ecosystemBlock[data-section="filmy"] .ecosystemHeader  {
   background: var(--partner-warm);
 }
 
-.ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+.ecosystemBlock[data-section="filmy"] .ecosystemIntro p  {
   color: var(--partner-ink);
 }
 
-.filmyMediaControls {
+.filmyMediaControls  {
   display: flex;
   width: 100%;
   min-height: 7rem;
@@ -1007,13 +1006,13 @@
   background: var(--partner-warm);
 }
 
-.filmySocials {
+.filmySocials  {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.filmySocialIcon {
+.filmySocialIcon  {
   display: inline-flex;
   width: 48px;
   height: 48px;
@@ -1025,7 +1024,7 @@
   color: #000;
 }
 
-.filmySocialIcon svg {
+.filmySocialIcon svg  {
   width: 24px;
   height: 24px;
 }
@@ -1035,19 +1034,19 @@
    Reference: film crew left, title centre, singer right.
    ========================================================= */
 
-.ecosystemBlock[data-section="studios"] {
+.ecosystemBlock[data-section="studios"]  {
   background: #000;
   color: #fff;
 }
 
-.studioShowcase {
+.studioShowcase  {
   position: relative;
   min-height: clamp(36rem, calc(100svh - 7rem), 50rem);
   overflow: hidden;
   background: #000;
 }
 
-.studioHeadingPosition {
+.studioHeadingPosition  {
   position: absolute;
   top: 48%;
   left: 50%;
@@ -1058,12 +1057,12 @@
   will-change: transform;
 }
 
-.studioHeadingParallax {
+.studioHeadingParallax  {
   width: 100%;
   will-change: transform;
 }
 
-.studioHeadingPosition h3 {
+.studioHeadingPosition h3  {
   width: 100%;
   margin: 0;
   color: #fff;
@@ -1076,7 +1075,7 @@
 }
 
 .studioPrimary,
-.studioSecondary {
+.studioSecondary  {
   position: absolute;
   margin: 0;
   overflow: hidden;
@@ -1084,21 +1083,21 @@
   will-change: transform;
 }
 
-.studioPrimary {
+.studioPrimary  {
   left: var(--partner-pad);
   bottom: clamp(2.5rem, 6vw, 5rem);
   width: clamp(20rem, 33vw, 32rem);
   aspect-ratio: 16 / 9;
 }
 
-.studioSecondary {
+.studioSecondary  {
   top: clamp(2rem, 4vw, 3.5rem);
   right: var(--partner-pad);
   width: clamp(12rem, 17vw, 18rem);
   aspect-ratio: 4 / 5;
 }
 
-.studioImage {
+.studioImage  {
   object-fit: cover;
   object-position: center;
   filter: grayscale(1) contrast(1.05);
@@ -1108,11 +1107,11 @@
    AI PARTNERS
    ========================================================= */
 
-.ecosystemBlock[data-section="ai"] {
+.ecosystemBlock[data-section="ai"]  {
   background: var(--partner-cream);
 }
 
-.aiPartners {
+.aiPartners  {
   display: flex;
   width: 100%;
   min-height: 0;
@@ -1122,7 +1121,7 @@
   background: var(--partner-cream);
 }
 
-.aiPartnerCard {
+.aiPartnerCard  {
   display: flex;
   min-width: 0;
   min-height: 19rem;
@@ -1134,7 +1133,7 @@
   padding: 1.5rem 1rem;
 }
 
-.aiBrandLockup {
+.aiBrandLockup  {
   display: flex;
   width: 100%;
   min-height: 7.5rem;
@@ -1146,7 +1145,7 @@
 .aiBrandLockup img,
 .aiAbhijatLogo,
 .aiZMarathiLogo,
-.aiLaminarLogo {
+.aiLaminarLogo  {
   display: block;
   width: auto !important;
   height: 7.5rem !important;
@@ -1156,18 +1155,18 @@
   flex: 0 1 auto;
 }
 
-.aiZMarathiLogo {
+.aiZMarathiLogo  {
   filter: brightness(0) saturate(100%);
 }
 
-.aiBrandDivider {
+.aiBrandDivider  {
   width: 1px;
   height: 4.5rem;
   flex: 0 0 1px;
   background: rgba(26, 26, 26, 0.14);
 }
 
-.aiPartnerCard p {
+.aiPartnerCard p  {
   width: 100%;
   max-width: 390px;
   margin: 0;
@@ -1180,121 +1179,41 @@
 }
 
 /* =========================================================
-   FINAL CTA
-   ========================================================= */
-
-.finalCta {
-  position: relative;
-  isolation: isolate;
-  min-height: 23rem;
-  overflow: hidden;
-  background: #111;
-  color: #fff;
-}
-
-.finalCtaImageWrap {
-  position: absolute;
-  inset: -2.5rem;
-  z-index: -3;
-  will-change: transform;
-}
-
-.finalCtaImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.finalCtaShade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.58) 42%, rgba(0, 0, 0, 0.1) 77%);
-}
-
-.finalCtaCopy {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  width: 100%;
-  min-height: inherit;
-  max-width: none;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 2rem var(--partner-pad);
-}
-
-.finalCtaCopy h2 {
-  width: 100%;
-  max-width: 40%;
-  margin: 0;
-  color: #fff;
-  font-family: var(--Font-family-Heading);
-  font-size: var(--Font-size-Heading-1);
-  font-weight: 600;
-  line-height: var(--Line-height-Heading-1);
-  letter-spacing: -0.03125rem;
-}
-
-.finalCtaCopy .textLink {
-  min-height: 48px;
-  padding-inline: 16px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent !important;
-  color: #fff;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
-  text-decoration: none;
-  font-size: var(--Font-size-Small);
-  line-height: var(--Line-height-Small);
-}
-
-/* =========================================================
    HOVER
    ========================================================= */
 
 @media (hover: hover) and (pointer: fine) {
 
-  .finalCtaCopy .textLink:hover {
-    background: transparent !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-    opacity: 0.76;
-  }
-
   .textLink:hover svg,
-  .pillLink:hover svg {
+  .pillLink:hover svg  {
     transform: translateX(3px);
   }
 
-  .filmThumb:hover {
+  .filmThumb:hover  {
     opacity: 1;
   }
 
   .filmThumb:hover .filmThumbImage,
   .mediaCard:hover .mediaCardImage,
-  .youtubeActivator:hover .youtubeThumbnail {
+  .youtubeActivator:hover .youtubeThumbnail  {
     transform: scale(1.035);
   }
 
-  .youtubeActivator:hover .youtubePlay {
+  .youtubeActivator:hover .youtubePlay  {
     transform: translate(-50%, -50%) scale(1.04);
   }
 
-  .partnerTypeCard:hover {
+  .partnerTypeCard:hover  {
     border-color: var(--partner-gold);
     transform: translateY(-0.35rem);
   }
 
   .pillLink:hover,
-  .ottRailButton:not(:disabled):hover {
+  .ottRailButton:not(:disabled):hover  {
     background: #785a13;
   }
 
-  .ottRailButton:not(:disabled):hover {
+  .ottRailButton:not(:disabled):hover  {
     transform: translateY(-1px);
   }
 }
@@ -1304,19 +1223,19 @@
    ========================================================= */
 
 @media (min-width: 640px) {
-  .page {
+  .page  {
     --partner-pad: 32px;
   }
 }
 
 @media (min-width: 1024px) {
-  .page {
+  .page  {
     --partner-pad: 56px;
   }
 }
 
 @media (max-width: 1023px) {
-  .heroInner {
+  .heroInner  {
     grid-template-columns: 1fr;
     min-height: 0;
     padding-top: 4.5rem;
@@ -1324,41 +1243,41 @@
     gap: 2rem;
   }
 
-  .heroIntro {
+  .heroIntro  {
     justify-self: start;
     max-width: 42rem;
   }
 
-  .filmFeature {
+  .filmFeature  {
     min-height: 44rem;
   }
 
-  .filmCopy {
+  .filmCopy  {
     padding-top: 4.5rem;
     padding-bottom: 12rem;
   }
 
-  .partnerLogoStrip {
+  .partnerLogoStrip  {
     justify-content: flex-start;
     gap: 2.5rem;
   }
 
-  .partnerTypeGrid {
+  .partnerTypeGrid  {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .statsBand {
+  .statsBand  {
     padding: 3rem 2rem;
   }
 
-  .ecosystemHeader {
+  .ecosystemHeader  {
     display: grid;
     grid-template-columns: 1fr;
     gap: 18px;
     padding-block: 1.25rem;
   }
 
-  .ecosystemIntro {
+  .ecosystemIntro  {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     width: 100%;
@@ -1366,60 +1285,56 @@
     gap: 20px;
   }
 
-  .ecosystemIntro p {
+  .ecosystemIntro p  {
     width: 100%;
     max-width: 40rem;
   }
 
-  .mediaCard {
+  .mediaCard  {
     --partner-youtube-height: clamp(220px, 38vw, 330px);
   }
 
-  .ottMediaControls {
+  .ottMediaControls  {
     min-height: 6.5rem;
     padding-block: 1rem;
   }
 
-  .filmyMediaControls {
+  .filmyMediaControls  {
     min-height: 6.5rem;
   }
 
-  .studioShowcase {
+  .studioShowcase  {
     min-height: 38rem;
   }
 
-  .studioHeadingPosition h3 {
+  .studioHeadingPosition h3  {
     font-size: clamp(3rem, 8vw, 4.5rem);
   }
 
-  .studioPrimary {
+  .studioPrimary  {
     width: min(56vw, 32rem);
   }
 
-  .studioSecondary {
+  .studioSecondary  {
     width: min(29vw, 16rem);
   }
 
-  .aiPartners {
+  .aiPartners  {
     padding-top: 2rem;
     padding-bottom: 2.5rem;
     gap: 1.5rem;
   }
 
-  .aiPartnerCard {
+  .aiPartnerCard  {
     min-height: 17rem;
   }
 
   .aiBrandLockup img,
   .aiAbhijatLogo,
   .aiZMarathiLogo,
-  .aiLaminarLogo {
+  .aiLaminarLogo  {
     height: 6.5rem !important;
     max-height: 6.5rem;
-  }
-
-  .finalCtaCopy h2 {
-    max-width: 65%;
   }
 }
 
@@ -1428,100 +1343,100 @@
    ========================================================= */
 
 @media (max-width: 767px) {
-  .heroInner {
+  .heroInner  {
     padding-top: 3.5rem;
     padding-bottom: 3.5rem;
     gap: 1.75rem;
   }
 
-  .heroTitleBlock h1 {
+  .heroTitleBlock h1  {
     max-width: 36rem;
   }
 
-  .heroIntro>p {
+  .heroIntro>p  {
     max-width: 34rem;
   }
 
-  .filmFeature {
+  .filmFeature  {
     min-height: 42rem;
   }
 
-  .filmBackdrop {
+  .filmBackdrop  {
     inset: -2rem 0;
   }
 
-  .filmCopy {
+  .filmCopy  {
     padding-top: 3.5rem;
     padding-bottom: 10.5rem;
   }
 
-  .filmCopy h2 {
+  .filmCopy h2  {
     font-size: clamp(2.5rem, 11vw, 3rem);
     line-height: 1.15;
     letter-spacing: -0.04rem;
   }
 
-  .filmCopy>p:not(.filmEyebrow) {
+  .filmCopy>p:not(.filmEyebrow)  {
     font-size: 1rem;
     line-height: 1.5rem;
   }
 
-  .filmStrip {
+  .filmStrip  {
     bottom: 20px;
   }
 
-  .filmThumb {
+  .filmThumb  {
     width: min(48vw, 220px);
     min-width: min(48vw, 220px);
     flex-basis: min(48vw, 220px);
   }
 
-  .partnerLogoStrip {
+  .partnerLogoStrip  {
     min-height: 5.5rem;
     gap: 2rem;
     padding-block: 1rem;
   }
 
-  .partnerLogo {
+  .partnerLogo  {
     height: 2.75rem;
     max-width: 9.5rem;
   }
 
-  .whoSection {
+  .whoSection  {
     padding-top: 3.5rem;
     padding-bottom: 4rem;
     gap: 2.25rem;
   }
 
-  .partnerTypeGrid {
+  .partnerTypeGrid  {
     grid-template-columns: 1fr;
     row-gap: 1.75rem;
   }
 
-  .partnerTypeCard {
+  .partnerTypeCard  {
     min-height: 0;
   }
 
-  .impactImageWrap {
+  .impactImageWrap  {
     min-height: 19rem;
   }
 
-  .statsBand {
+  .statsBand  {
     width: 100%;
     padding: 2rem var(--partner-pad);
     align-items: stretch;
   }
 
-  .statsRow {
+  .statsRow  {
     grid-template-columns: 1fr;
   }
 
-  .statItem {
+  .statItem  {
     min-height: 7rem;
     padding: 1.25rem 0;
   }
 
-  .statItem+.statItem::before {
+  .statItem+.statItem::before  {
     top: 0;
     left: 50%;
     width: 3.5rem;
@@ -1529,56 +1444,56 @@
     transform: translateX(-50%);
   }
 
-  .ecosystemTitle {
+  .ecosystemTitle  {
     padding-top: 3.5rem;
     padding-bottom: 2.5rem;
   }
 
-  .ecosystemIdentity {
+  .ecosystemIdentity  {
     gap: 14px;
   }
 
-  .ecosystemLogo {
+  .ecosystemLogo  {
     width: 36px;
   }
 
-  .ecosystemIdentity h3 {
+  .ecosystemIdentity h3  {
     font-size: 24px;
     line-height: 32px;
   }
 
-  .ecosystemIntro {
+  .ecosystemIntro  {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 14px;
   }
 
-  .ecosystemIntro p {
+  .ecosystemIntro p  {
     font-size: 14px;
     line-height: 20px;
   }
 
-  .mediaRailStage {
+  .mediaRailStage  {
     flex: 0 0 auto;
     padding-block: 24px;
   }
 
-  .mediaRail {
+  .mediaRail  {
     gap: 16px;
   }
 
-  .mediaCard {
+  .mediaCard  {
     width: min(84vw, 620px);
     height: auto;
     aspect-ratio: 16 / 9;
   }
 
   .youtubePlay,
-  .youtubePlay svg {
+  .youtubePlay svg  {
     width: 54px;
     height: 54px;
   }
 
-  .ottMediaControls {
+  .ottMediaControls  {
     grid-template-columns: 1fr auto;
     grid-template-areas:
       "social nav"
@@ -1589,22 +1504,22 @@
     column-gap: 1rem;
   }
 
-  .ottSocials {
+  .ottSocials  {
     grid-area: social;
     gap: 20px;
   }
 
   .ottSocialIcon,
-  .ottSocialIcon svg {
+  .ottSocialIcon svg  {
     width: 28px;
     height: 28px;
   }
 
-  .ottSocialIcon {
+  .ottSocialIcon  {
     flex-basis: 28px;
   }
 
-  .ottDownload {
+  .ottDownload  {
     grid-area: download;
     justify-self: start;
     gap: 12px;
@@ -1612,70 +1527,70 @@
     line-height: 24px;
   }
 
-  .ottRailNav {
+  .ottRailNav  {
     grid-area: nav;
   }
 
-  .ottRailButton {
+  .ottRailButton  {
     width: 44px;
     height: 44px;
     flex-basis: 44px;
   }
 
-  .filmyMediaControls {
+  .filmyMediaControls  {
     min-height: 0;
     padding: 1rem 0 1.25rem;
   }
 
-  .filmySocialIcon {
+  .filmySocialIcon  {
     width: 44px;
     height: 44px;
     flex-basis: 44px;
   }
 
-  .filmySocialIcon svg {
+  .filmySocialIcon svg  {
     width: 22px;
     height: 22px;
   }
 
-  .studioShowcase {
+  .studioShowcase  {
     min-height: 34rem;
   }
 
-  .studioHeadingPosition {
+  .studioHeadingPosition  {
     top: 49%;
     width: 92%;
   }
 
-  .studioHeadingPosition h3 {
+  .studioHeadingPosition h3  {
     font-size: clamp(2.75rem, 12vw, 3.5rem);
     line-height: 1.18;
   }
 
-  .studioPrimary {
+  .studioPrimary  {
     left: var(--partner-pad);
     bottom: 2rem;
     width: 72vw;
   }
 
-  .studioSecondary {
+  .studioSecondary  {
     top: 2rem;
     right: var(--partner-pad);
     width: 38vw;
   }
 
-  .aiPartners {
+  .aiPartners  {
     flex-direction: column;
     padding: 1.75rem var(--partner-pad) 2rem;
     gap: 1rem;
   }
 
-  .aiPartnerCard {
+  .aiPartnerCard  {
     min-height: 15rem;
     padding: 1.25rem 0;
   }
 
-  .aiBrandLockup {
+  .aiBrandLockup  {
     min-height: 6rem;
     gap: 1rem;
   }
@@ -1683,68 +1598,54 @@
   .aiBrandLockup img,
   .aiAbhijatLogo,
   .aiZMarathiLogo,
-  .aiLaminarLogo {
+  .aiLaminarLogo  {
     height: 5.75rem !important;
     max-height: 5.75rem;
     max-width: calc((100% - 2rem) / 2);
   }
 
-  .aiBrandDivider {
+  .aiBrandDivider  {
     height: 3.5rem;
-  }
-
-  .finalCta {
-    min-height: 21rem;
-  }
-
-  .finalCtaCopy {
-    width: 100%;
-    max-width: none;
-    padding: 1.5rem var(--partner-pad);
-  }
-
-  .finalCtaCopy h2 {
-    max-width: 100%;
   }
 }
 
 @media (max-width: 479px) {
-  .heroInner {
+  .heroInner  {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
 
-  .ecosystemIntro {
+  .ecosystemIntro  {
     grid-template-columns: 1fr;
   }
 
-  .pillLink {
+  .pillLink  {
     justify-self: start;
   }
 
-  .filmThumb {
+  .filmThumb  {
     width: 54vw;
     min-width: 54vw;
     flex-basis: 54vw;
   }
 
-  .studioShowcase {
+  .studioShowcase  {
     min-height: 31rem;
   }
 
-  .studioPrimary {
+  .studioPrimary  {
     width: 78vw;
   }
 
-  .studioSecondary {
+  .studioSecondary  {
     width: 42vw;
   }
 
-  .ottSocials {
+  .ottSocials  {
     gap: 16px;
   }
 
-  .ottDownload {
+  .ottDownload  {
     font-size: 15px;
     line-height: 22px;
   }
@@ -1759,23 +1660,23 @@
 @media (min-width: 1024px) and (min-height: 800px) {
 
   .ecosystemBlock[data-section="ott"],
-  .ecosystemBlock[data-section="filmy"] {
+  .ecosystemBlock[data-section="filmy"]  {
     display: flex;
     min-height: 100svh;
     flex-direction: column;
   }
 
   .ecosystemBlock[data-section="ott"]>.ecosystemHeader,
-  .ecosystemBlock[data-section="filmy"]>.ecosystemHeader {
+  .ecosystemBlock[data-section="filmy"]>.ecosystemHeader  {
     flex: 0 0 auto;
   }
 
   .mediaRailWrap[data-ott-layout="true"],
-  .mediaRailWrap[data-filmy-layout="true"] {
+  .mediaRailWrap[data-filmy-layout="true"]  {
     flex: 1 1 auto;
   }
 
-  .mediaRailStage {
+  .mediaRailStage  {
     flex: 1 1 auto;
     align-items: center;
   }
@@ -1783,24 +1684,24 @@
 
 /* Short laptops keep the media compact. */
 @media (min-width: 1024px) and (max-height: 700px) {
-  .filmFeature {
+  .filmFeature  {
     min-height: 39rem;
   }
 
-  .filmCopy {
+  .filmCopy  {
     padding-top: 3.5rem;
     padding-bottom: 11rem;
   }
 
-  .mediaRailStage {
+  .mediaRailStage  {
     padding-block: 20px;
   }
 
-  .mediaCard {
+  .mediaCard  {
     --partner-youtube-height: clamp(210px, calc(100svh - 350px), 310px);
   }
 
-  .studioShowcase {
+  .studioShowcase  {
     min-height: 34rem;
   }
 }
@@ -1816,8 +1717,7 @@
   .studioPrimary,
   .studioSecondary,
   .studioHeadingParallax,
-  .impactParallax,
-  .finalCtaImageWrap {
+  .impactParallax {
     transform: none !important;
   }
 
@@ -1829,17 +1729,17 @@
   .partnerTypeCard,
   .textLink svg,
   .pillLink svg,
-  .ottRailButton {
+  .ottRailButton  {
     transition: none !important;
   }
 
-  .filmThumb[data-active="true"] {
+  .filmThumb[data-active="true"]  {
     transform: none;
   }
 }
 
 /* =========================================================
-   ECOSYSTEM — SCROLL STACK DECK
+   ECOSYSTEM â€” SCROLL STACK DECK
    Reference behaviour: scrollstackdeck.framer.website
 
    The four ecosystem products share one sticky viewport stage.
@@ -1847,14 +1747,14 @@
    layered behind it with a subtle scale/depth treatment.
    ========================================================= */
 
-.ecosystemStack {
+.ecosystemStack  {
   position: relative;
   width: 100%;
   min-width: 0;
   background: #fff;
 }
 
-.ecosystemStackStage {
+.ecosystemStackStage  {
   position: sticky;
   top: 0;
   width: 100%;
@@ -1864,7 +1764,7 @@
   background: #fff;
 }
 
-.ecosystemStackLayer {
+.ecosystemStackLayer  {
   position: absolute;
   inset: 0;
   display: flex;
@@ -1876,7 +1776,7 @@
   pointer-events: none;
 }
 
-.ecosystemStackCard {
+.ecosystemStackCard  {
   position: relative;
   width: 100%;
   max-width: none;
@@ -1892,7 +1792,7 @@
   pointer-events: auto;
 }
 
-.ecosystemStackCard .ecosystemBlock {
+.ecosystemStackCard .ecosystemBlock  {
   display: flex;
   width: 100%;
   height: 100%;
@@ -1905,7 +1805,7 @@
 /* Keep the stack header fixed while the media/body fills the rest. */
 .ecosystemStackCard .ecosystemHeader,
 .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-.ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+.ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader  {
   flex: 0 0 auto;
   min-height: 7rem;
   padding: 1rem var(--partner-pad);
@@ -1913,7 +1813,7 @@
 
 /* OTT + Filmy occupy the available card body and remain vertically centered. */
 .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"],
-.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] {
+.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"]  {
   display: flex;
   min-height: 0;
   flex: 1 1 auto;
@@ -1922,7 +1822,7 @@
   padding: 0;
 }
 
-.ecosystemStackCard .mediaRailStage {
+.ecosystemStackCard .mediaRailStage  {
   min-height: 0;
   flex: 1 1 auto;
   padding-block: clamp(0.75rem, 2.2vh, 1.5rem);
@@ -1931,14 +1831,14 @@
 .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
 .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
 .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+.ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2)  {
   --partner-youtube-height: clamp(12.5rem,
       min(27vw, calc(100svh - 23rem)),
       24rem);
 }
 
 .ecosystemStackCard .ottMediaControls,
-.ecosystemStackCard .filmyMediaControls {
+.ecosystemStackCard .filmyMediaControls  {
   flex: 0 0 auto;
   min-height: 5.75rem;
   padding-top: 0.75rem;
@@ -1946,7 +1846,7 @@
 }
 
 /* Studios fill the deck card instead of forcing a viewport-sized block. */
-.ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase {
+.ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase  {
   width: 100%;
   min-height: 0;
   height: auto;
@@ -1954,33 +1854,33 @@
 }
 
 /* AI partnership content fills the card without creating blank height. */
-.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners {
+.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners  {
   min-height: 0;
   flex: 1 1 auto;
   padding-top: clamp(1rem, 3vh, 2.25rem);
   padding-bottom: clamp(1rem, 3vh, 2.25rem);
 }
 
-.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard {
+.ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard  {
   min-height: 0;
 }
 
 /* A slightly deeper shadow is useful on dark/warm cards while stacked. */
 .ecosystemStackLayer[data-stack-index="1"] .ecosystemStackCard,
-.ecosystemStackLayer[data-stack-index="3"] .ecosystemStackCard {
+.ecosystemStackLayer[data-stack-index="3"] .ecosystemStackCard  {
   box-shadow: none;
 }
 
 /* =========================================================
-   STACK RESPONSIVE — LAPTOP / TABLET
+   STACK RESPONSIVE â€” LAPTOP / TABLET
    ========================================================= */
 
 @media (max-width: 1199px) and (min-width: 768px) {
-  .ecosystemStackLayer {
+  .ecosystemStackLayer  {
     padding-inline: 0;
   }
 
-  .ecosystemStackCard {
+  .ecosystemStackCard  {
     width: 100%;
     max-width: none;
     height: min(89svh, 48rem);
@@ -1990,7 +1890,7 @@
 
   .ecosystemStackCard .ecosystemHeader,
   .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader  {
     min-height: 6.25rem;
     padding-block: 0.875rem;
   }
@@ -1998,13 +1898,13 @@
   .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
   .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
   .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2)  {
     --partner-youtube-height: clamp(12rem, min(36vw, calc(100svh - 21rem)), 20rem);
   }
 }
 
 /* =========================================================
-   MOBILE — STACK REMAINS ACTIVE
+   MOBILE â€” STACK REMAINS ACTIVE
 
    The reference interaction is responsive, so mobile keeps the
    same one-by-one stacked-card behaviour.  Internal sections are
@@ -2013,15 +1913,15 @@
    ========================================================= */
 
 @media (max-width: 767px) {
-  .ecosystemStackStage {
+  .ecosystemStackStage  {
     height: 100svh;
   }
 
-  .ecosystemStackLayer {
+  .ecosystemStackLayer  {
     padding: 1rem var(--partner-pad) 1.25rem;
   }
 
-  .ecosystemStackCard {
+  .ecosystemStackCard  {
     width: 100%;
     max-width: none;
     height: min(91svh, 46rem);
@@ -2032,7 +1932,7 @@
 
   .ecosystemStackCard .ecosystemHeader,
   .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemHeader,
-  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader {
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemHeader  {
     min-height: 0;
     padding: 0.875rem var(--partner-pad);
     gap: 0.875rem;
@@ -2040,88 +1940,88 @@
 
   .ecosystemStackCard .ecosystemIdentity h3,
   .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemIdentity h3,
-  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3 {
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIdentity h3  {
     font-size: clamp(1.25rem, 5.8vw, 1.5rem);
     line-height: 1.3;
   }
 
   .ecosystemStackCard .ecosystemIntro p,
   .ecosystemStackCard .ecosystemBlock[data-section="ott"] .ecosystemIntro p,
-  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIntro p {
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .ecosystemIntro p  {
     font-size: 0.8125rem;
     line-height: 1.25rem;
   }
 
   .ecosystemStackCard .pillLink,
   .ecosystemStackCard .ecosystemBlock[data-section="ott"] .pillLink,
-  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .pillLink {
+  .ecosystemStackCard .ecosystemBlock[data-section="filmy"] .pillLink  {
     min-width: 5.75rem;
     height: 2.625rem;
     padding-inline: 0.875rem;
     font-size: 0.8125rem;
   }
 
-  .ecosystemStackCard .mediaRailStage {
+  .ecosystemStackCard .mediaRailStage  {
     padding-block: 0.875rem;
   }
 
   .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard,
   .ecosystemStackCard .mediaRailWrap[data-ott-layout="true"] .mediaCard:nth-child(n + 2),
   .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard,
-  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2) {
+  .ecosystemStackCard .mediaRailWrap[data-filmy-layout="true"] .mediaCard:nth-child(n + 2)  {
     width: min(82vw, 34rem);
     height: auto;
     aspect-ratio: 16 / 9;
   }
 
-  .ecosystemStackCard .ottMediaControls {
+  .ecosystemStackCard .ottMediaControls  {
     min-height: 0;
     padding: 0.75rem var(--partner-pad);
     row-gap: 0.875rem;
   }
 
-  .ecosystemStackCard .filmyMediaControls {
+  .ecosystemStackCard .filmyMediaControls  {
     min-height: 0;
     padding: 0.75rem var(--partner-pad) 0.875rem;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase {
+  .ecosystemStackCard .ecosystemBlock[data-section="studios"] .studioShowcase  {
     min-height: 0;
     height: auto;
     flex: 1 1 auto;
   }
 
-  .ecosystemStackCard .studioPrimary {
+  .ecosystemStackCard .studioPrimary  {
     left: 1rem;
     bottom: 1.25rem;
     width: min(70vw, 23rem);
   }
 
-  .ecosystemStackCard .studioSecondary {
+  .ecosystemStackCard .studioSecondary  {
     top: 1.25rem;
     right: 1rem;
     width: min(37vw, 11rem);
   }
 
-  .ecosystemStackCard .studioHeadingPosition h3 {
+  .ecosystemStackCard .studioHeadingPosition h3  {
     font-size: clamp(2.5rem, 11vw, 3.75rem);
     line-height: 1.16;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartners  {
     min-height: 0;
     flex: 1 1 auto;
     padding: 0.75rem var(--partner-pad) 1rem;
     gap: 0.5rem;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard  {
     min-height: 0;
     padding: 0.75rem 0;
     gap: 0.75rem;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandLockup {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandLockup  {
     min-height: 4rem;
     gap: 0.75rem;
   }
@@ -2129,16 +2029,16 @@
   .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandLockup img,
   .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiAbhijatLogo,
   .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiZMarathiLogo,
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiLaminarLogo {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiLaminarLogo  {
     height: clamp(3rem, 11svh, 4.5rem) !important;
     max-height: 4.5rem;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandDivider {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiBrandDivider  {
     height: 2.75rem;
   }
 
-  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard p {
+  .ecosystemStackCard .ecosystemBlock[data-section="ai"] .aiPartnerCard p  {
     font-size: 0.8125rem;
     line-height: 1.2rem;
   }
@@ -2146,21 +2046,21 @@
 
 /* Very short touch screens: preserve the deck without clipping controls. */
 @media (max-width: 767px) and (max-height: 620px) {
-  .ecosystemStackLayer {
+  .ecosystemStackLayer  {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
 
-  .ecosystemStackCard {
+  .ecosystemStackCard  {
     height: 96svh;
   }
 
-  .ecosystemStackCard .mediaRailStage {
+  .ecosystemStackCard .mediaRailStage  {
     padding-block: 0.5rem;
   }
 
   .ecosystemStackCard .ottMediaControls,
-  .ecosystemStackCard .filmyMediaControls {
+  .ecosystemStackCard .filmyMediaControls  {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
@@ -2171,12 +2071,12 @@
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .ecosystemStack {
+  .ecosystemStack  {
     height: auto !important;
     padding: 0 var(--partner-pad) 3rem;
   }
 
-  .ecosystemStackStage {
+  .ecosystemStackStage  {
     position: relative;
     display: flex;
     height: auto;
@@ -2186,7 +2086,7 @@
     background: transparent;
   }
 
-  .ecosystemStackLayer {
+  .ecosystemStackLayer  {
     position: relative;
     inset: auto;
     display: block;
@@ -2195,7 +2095,7 @@
     pointer-events: auto;
   }
 
-  .ecosystemStackCard {
+  .ecosystemStackCard  {
     width: 100%;
     height: auto;
     min-height: 0;
@@ -2203,7 +2103,7 @@
     will-change: auto;
   }
 
-  .ecosystemStackCard .ecosystemBlock {
+  .ecosystemStackCard .ecosystemBlock  {
     height: auto;
     overflow: visible;
   }
@@ -2215,12 +2115,12 @@
    ========================================================= */
 
 /* Ecosystem deck stays edge-to-edge at every viewport width. */
-.ecosystemStackLayer {
+.ecosystemStackLayer  {
   padding-left: 0;
   padding-right: 0;
 }
 
-.ecosystemStackCard {
+.ecosystemStackCard  {
   width: 100%;
   max-width: none;
   border: 0;
@@ -2228,25 +2128,25 @@
   box-shadow: none;
 }
 
-.ecosystemStackCard .ecosystemBlock {
+.ecosystemStackCard .ecosystemBlock  {
   border-radius: 0;
 }
 
 /* Reduce only the Become a Partner hero's vertical whitespace. */
-.heroInner {
+.heroInner  {
   padding-top: clamp(2rem, 3vw, 3rem);
   padding-bottom: clamp(2rem, 3vw, 3rem);
 }
 
 @media (max-width: 1023px) {
-  .heroInner {
+  .heroInner  {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 }
 
 @media (max-width: 639px) {
-  .heroInner {
+  .heroInner  {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
   }

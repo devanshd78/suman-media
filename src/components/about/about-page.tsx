@@ -199,15 +199,15 @@ const GOVERNMENT_IMAGES: ImageSlide[] = [
     alt: "Abhijat Marathi event with Government of Maharashtra representatives",
   },
   {
-    src: "/images/about/government-02.webp",
+    src: "/images/about/global-reach-launch.webp",
     alt: "Abhijat Marathi launch ceremony",
   },
   {
-    src: "/images/about/government-03.webp",
+    src: "/images/about/global-reach-press.webp",
     alt: "Suman Entertainment at a public cultural event",
   },
   {
-    src: "/images/about/government-04.webp",
+    src: "/images/about/timeline-intro-left.webp",
     alt: "Suman Entertainment recognition moment",
   },
 ];
@@ -880,7 +880,7 @@ function TimelineSection() {
         <article className={styles.timelineIntro}>
           <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-intro-left.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
           <div><h2>From where we started to where we&apos;re going.</h2><p>Every milestone has shaped the organization we are today.</p></div>
-          <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-intro-right.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
+          <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-2026.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
         </article>
         {TIMELINE.map((item) => (
           <article className={styles.timelineSlide} key={item.year}>
@@ -921,11 +921,11 @@ function LeadershipSection() {
         <article className={styles.leaderCard}>
           <figure className={styles.leaderImage}>
             <Image
-              src="/images/fast-channel/news-kedar.webp"
+              src="/images/about/kedar-joshi.webp"
               alt="Kedar Joshi representing Suman Entertainment at an international media event"
               fill
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 52vw, 88vw"
-              className={styles.coverImage}
+              className={styles.leaderPortrait}
             />
           </figure>
           <div className={styles.leaderMeta}>
