@@ -153,7 +153,7 @@ export function PartnerSection({
             LEFT CONTENT
             ================================================= */}
 
-        <motion.div
+        <motion.div data-motion-managed
           data-landing-text-reveal-skip
           className="
             max-w-[31rem]
@@ -393,7 +393,7 @@ export function PartnerSection({
                 `;
 
                 return (
-                  <motion.div
+                  <motion.div data-motion-managed
                     key={
                       item._key ||
                       `${item.title}-${index}`

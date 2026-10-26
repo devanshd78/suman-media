@@ -584,7 +584,7 @@ export function CareersValuesSection({
           >
             {/* Full width — no max-width and no horizontal padding */}
             <div className="w-full overflow-hidden">
-              <motion.div
+              <motion.div data-motion-managed
                 className={
                   shouldReduceMotion
                     ? "flex w-full flex-col gap-6"

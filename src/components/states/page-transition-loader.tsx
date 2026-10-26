@@ -14,6 +14,7 @@ const MAX_NAVIGATION_MS = 9000;
  */
 export function PageTransitionLoader() {
   const pathname = usePathname();
+  const [requestedLocale, setRequestedLocale] = useState<string | undefined>(undefined);
   const previousPath = useRef(pathname);
   const pendingSince = useRef(0);
   const initialTimer = useRef<number | null>(null);
@@ -36,6 +37,7 @@ export function PageTransitionLoader() {
   useEffect(() => {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
+    setRequestedLocale(pathname?.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
     // Programmatic router.push/replace may not originate from an anchor click.
     // Show this same loader for those page changes, too.
     if (!pendingSince.current) {
@@ -89,11 +91,15 @@ export function PageTransitionLoader() {
       if (next.origin !== current.origin || !["http:", "https:"].includes(next.protocol)) return;
       if (next.pathname === current.pathname) return;
       if (link.getAttribute("rel")?.split(/\s+/).includes("external")) return;
+      setRequestedLocale(next.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
       startTransition();
     };
 
     // Popstate covers browser back/forward as well as normal anchor navigation.
-    const onPopState = () => startTransition();
+    const onPopState = () => {
+      setRequestedLocale(window.location.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
+      startTransition();
+    };
 
     document.addEventListener("click", onLinkClick, true);
     window.addEventListener("popstate", onPopState);
@@ -118,6 +124,7 @@ export function PageTransitionLoader() {
     <SiteLoadingScreen
       key={transitionKey}
       label="Loading page"
+      locale={requestedLocale}
       complete={complete}
       onFinish={finishOverlay}
     />

@@ -61,9 +61,9 @@ const SLIDES: Slide[] = [
     description:
       "A dedicated Marathi OTT platform bringing regional stories, films and content to audiences worldwide.",
     primaryLabel: "Explore Abhijat Marathi",
-    primaryHref: "/companies/abhijat-marathi",
+    primaryHref: "/products/ott-digital-platforms-streaming",
     secondaryLabel: "Learn more",
-    secondaryHref: "/companies/abhijat-marathi",
+    secondaryHref: "/products/ott-digital-platforms-streaming",
   },
   {
     id: 2,
@@ -222,7 +222,7 @@ function HeaderText() {
 
   return <LocalizedContent>{(
     <div className={styles.headerText}>
-      <motion.p
+      <motion.p data-motion-managed
         initial={
           reduceMotion
             ? false
@@ -255,7 +255,7 @@ function HeaderText() {
         BUSINESS ECOSYSTEM
       </motion.p>
 
-      <motion.h2
+      <motion.h2 data-motion-managed
         id="clients-heading"
         initial={
           reduceMotion

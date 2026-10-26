@@ -1,0 +1,15 @@
+{
+  "pages_checked": 106,
+  "failures": [
+    {
+      "path": "/en/companies/abhijat-marathi",
+      "wrong_canonical": "http://localhost:3000/en",
+      "final": "/en/companies/abhijat-marathi"
+    },
+    {
+      "path": "/mr/companies/abhijat-marathi",
+      "wrong_canonical": "http://localhost:3000/mr",
+      "final": "/mr/companies/abhijat-marathi"
+    }
+  ]
+}

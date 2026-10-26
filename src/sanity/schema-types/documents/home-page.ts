@@ -157,7 +157,7 @@ export const homePageType = defineType({
       group: "hero",
       initialValue: {
         label: "Learn more",
-        href: "/companies/abhijat-marathi",
+        href: "/products/ott-digital-platforms-streaming",
         style: "primary",
       },
     }),

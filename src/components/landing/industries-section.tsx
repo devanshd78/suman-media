@@ -413,7 +413,7 @@ export function IndustriesSection({
                 No React state is introduced for scrolling.
                 =============================================== */}
 
-            <motion.div
+            <motion.div data-motion-managed
               ref={track}
               className={styles.track}
               style={{

@@ -1,5 +1,6 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
+import { FOOTER_LINKS, type FooterLink } from "@/config/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -293,165 +294,11 @@ function LinkedinIcon() {
    TYPES
    ============================================================ */
 
-type FooterLink = {
-  label: string;
-  href: string;
-  arrow?: boolean;
-  soon?: boolean;
-};
+const { COMPANY, RESOURCES, PRODUCT, INVESTOR, SERVICES, CONTACT, SOLUTIONS } = FOOTER_LINKS;
 
-/* ============================================================
-   FOOTER LINKS
-   ============================================================ */
-
-const COMPANY: FooterLink[] = [
-  { label: "About us", href: "/about" },
-  { label: "Careers", href: "/careers" },
-  { label: "Leadership", href: "/leadership" },
-  { label: "Our Journey", href: "/about#journey" },
-  { label: "Contact us", href: "/contact" },
-  { label: "Become a Part", href: "/partners" },
-];
-
-const RESOURCES: FooterLink[] = [
-  { label: "News & Blogs", href: "/news-and-blogs" },
-  { label: "Case study", href: "/case-studies" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Terms and Condition", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-];
-
-const PRODUCT: FooterLink[] = [
-  {
-    label: "OTT, Digital Platforms & Streaming",
-    href: "/products/ott-digital-platforms-streaming",
-  },
-  {
-    label: "Monetization Modal",
-    href: "/products/monetization",
-  },
-  {
-    label: "Fast Channel",
-    href: "/products/fast-channel",
-  },
-  {
-    label: "AI & Emerging Technology",
-    href: "/products/ai-emerging-technology",
-  },
-  {
-    label: "Content and Music Library Management",
-    href: "/products/content-music-library",
-  },
-  {
-    label: "Publication & Knowledge Platforms",
-    href: "/products/publication-knowledge-platforms",
-  },
-  {
-    label: "Intellectual Property Development",
-    href: "/products/intellectual-property-development",
-  },
-];
-
-const INVESTOR: FooterLink[] = [
-  {
-    label: "Financials Data",
-    href: "/investors/financials",
-  },
-  {
-    label: "Roadmap",
-    href: "/investors/roadmap",
-  },
-  {
-    label: "Company Profile",
-    href: "/investors/company-profile",
-  },
-  {
-    label: "IPO 2027",
-    href: "/investors",
-    soon: true,
-  },
-];
-
-const SERVICES: FooterLink[] = [
-  { label: "Brand Solutions & Advertising", href: "/services/brand-solutions-advertising" },
-  {
-    label: "Media & Content Production",
-    href: "/services/media-content-production",
-  },
-  {
-    label: "Music & Audio Division",
-    href: "/services/music-audio-experiences",
-  },
-  {
-    label: "Events and Experiences",
-    href: "/services/live-experiences-events",
-  },
-  {
-    label: "Tech & Digital Transformation",
-    href: "/services/technology-digital-transformation",
-  },
-  {
-    label: "Content and Music Library Management",
-    href: "/products/content-music-library",
-  },
-  {
-    label: "Publication & Knowledge Platforms",
-    href: "/products/publication-knowledge-platforms",
-  },
-  {
-    label: "Intellectual Property Development",
-    href: "/products/intellectual-property-development",
-  },
-  {
-    label: "Talent and Creator Ecosystem",
-    href: "/services/talent-creator-ecosystem",
-  },
-];
-
-const CONTACT: FooterLink[] = [
-  {
-    label: "Contact Information",
-    href: "/contact",
-    arrow: true,
-  },
-  {
-    label: "Business Enquiry",
-    href: "/contact?type=business",
-    arrow: true,
-  },
-  {
-    label: "Partnership Enquiry",
-    href: "/contact?type=partnership",
-    arrow: true,
-  },
-];
-
-const SOLUTIONS: FooterLink[] = [
-  {
-    label: "Government, PSU & Institutional Services",
-    href: "/solutions/government-institutional",
-    arrow: true,
-  },
-  {
-    label: "Capital Markets & Investor Communications",
-    href: "/solutions/capital-markets-investor-communications",
-    arrow: true,
-  },
-  {
-    label: "International Business & Partnerships",
-    href: "/solutions/international-business-partnerships",
-    arrow: true,
-  },
-  {
-    label: "Content Acquisition & Distribution",
-    href: "/solutions/content-acquisition-distribution",
-    arrow: true,
-  },
-];
-
-/* ============================================================
-   FOOTER GROUP
-   ============================================================ */
+function FooterNavigationLink({ link, children, className }: { link: FooterLink; children: ReactNode; className?: string }) {
+  return link.href ? <Link href={link.href} className={className}>{children}</Link> : <span className={className} aria-disabled="true">{children}</span>;
+}
 
 function FooterGroup({
   title,
@@ -489,8 +336,8 @@ function FooterGroup({
             key={`${title}-${link.label}`}
             className="w-full"
           >
-            <Link
-              href={link.href}
+            <FooterNavigationLink
+              link={link}
               className={`
                 ${inter.className}
 
@@ -566,7 +413,7 @@ function FooterGroup({
                   Soon
                 </span>
               ) : null}
-            </Link>
+            </FooterNavigationLink>
           </li>
         ))}
       </ul>
@@ -1134,7 +981,7 @@ export function Footer({
             cta={footer?.growCta}
             fallbackCta={{
               label: "Explore Investment",
-              href: "/investors",
+              href: "/contact/form?type=investor",
               style: "text",
             }}
           />

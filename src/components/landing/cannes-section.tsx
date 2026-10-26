@@ -912,7 +912,7 @@ function GalleryRow({
           : undefined
       }
     >
-      <motion.div
+      <motion.div data-motion-managed
         data-cannes-row-track
         className={
           styles.track
@@ -1756,7 +1756,7 @@ export function CannesSection({
               HEADING
               ================================================= */}
 
-          <motion.h2
+          <motion.h2 data-motion-managed
             id="abhijat-marathi-cannes-heading"
             className={
               styles.heading
@@ -1803,7 +1803,7 @@ export function CannesSection({
               DESCRIPTION
               ================================================= */}
 
-          <motion.p
+          <motion.p data-motion-managed
             className={
               styles.description
             }
@@ -1960,7 +1960,7 @@ export function CannesSection({
               styles.stage
             }
           >
-            <motion.div
+            <motion.div data-motion-managed
               className={
                 styles.wall
               }

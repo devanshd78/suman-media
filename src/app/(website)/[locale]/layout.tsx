@@ -1,3 +1,4 @@
+import { SiteTextReveal } from "@/components/motion/site-text-reveal";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -26,7 +27,7 @@ export default async function WebsiteLayout({ children, params }: { children: Re
     <TranslationProvider locale={locale} translations={translations}>
     <SmoothScrollProvider>
       <Header />
-      {children}
+      <div data-website-content style={{ display: "contents" }}><SiteTextReveal />{children}</div>
       <Footer settings={settings} />
       <SanityLive />
       {isEnabled ? <VisualEditing /> : null}

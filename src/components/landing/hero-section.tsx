@@ -316,7 +316,7 @@ export function HeroSection({
     );
 
   const learnMoreHref =
-    "/abhijat-marathi";
+    "/products/ott-digital-platforms-streaming";
 
   const joinNowLabel =
     textOrFallback(
@@ -570,7 +570,7 @@ export function HeroSection({
             16px horizontal gap
             =================================================== */}
 
-        <motion.div
+        <motion.div data-motion-managed
           className="
             mt-6
 

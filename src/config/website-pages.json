@@ -1,0 +1,199 @@
+{
+  "home": {
+    "path": "/",
+    "label": "Home",
+    "category": "company",
+    "aliases": []
+  },
+  "about": {
+    "path": "/about",
+    "label": "About us",
+    "category": "company",
+    "aliases": []
+  },
+  "careers": {
+    "path": "/careers",
+    "label": "Careers",
+    "category": "company",
+    "aliases": []
+  },
+  "contact": {
+    "path": "/contact",
+    "label": "Contact us",
+    "category": "company",
+    "aliases": []
+  },
+  "contactForm": {
+    "path": "/contact/form",
+    "label": "Contact us",
+    "category": "company",
+    "aliases": []
+  },
+  "partners": {
+    "path": "/partners",
+    "label": "Become a Partner",
+    "category": "company",
+    "aliases": [
+      "/become-a-partner"
+    ]
+  },
+  "companies": {
+    "path": "/companies",
+    "label": "Companies",
+    "category": "company",
+    "aliases": []
+  },
+  "portfolio": {
+    "path": "/portfolio",
+    "label": "Portfolio",
+    "category": "company",
+    "aliases": [
+      "/case-studies"
+    ]
+  },
+  "news": {
+    "path": "/news-and-blogs",
+    "label": "News & Blogs",
+    "category": "resources",
+    "aliases": [
+      "/insights"
+    ]
+  },
+  "services": {
+    "path": "/services",
+    "label": "Services",
+    "category": "services",
+    "aliases": []
+  },
+  "ott": {
+    "path": "/products/ott-digital-platforms-streaming",
+    "label": "OTT, Digital Platforms & Streaming",
+    "category": "products",
+    "aliases": [
+      "/abhijat-marathi",
+      "/companies/abhijat-marathi"
+    ]
+  },
+  "monetization": {
+    "path": "/products/content-monetization",
+    "label": "Content Monetization",
+    "category": "products",
+    "aliases": [
+      "/monetization",
+      "/products/monetization"
+    ]
+  },
+  "ai": {
+    "path": "/products/ai-emerging-technology",
+    "label": "AI & Emerging Technology",
+    "category": "products",
+    "aliases": [
+      "/ai-capibilities"
+    ]
+  },
+  "fast": {
+    "path": "/products/fast-channel",
+    "label": "Fast Channel",
+    "category": "products",
+    "aliases": []
+  },
+  "library": {
+    "path": "/products/content-music-library",
+    "label": "Content and Music Library Management",
+    "category": "products",
+    "aliases": []
+  },
+  "publications": {
+    "path": "/products/publications-knowledge-platforms",
+    "label": "Publications & Knowledge Platforms",
+    "category": "products",
+    "aliases": [
+      "/products/publication-knowledge-platforms"
+    ]
+  },
+  "ip": {
+    "path": "/products/intellectual-property-development",
+    "label": "Intellectual Property Development",
+    "category": "products",
+    "aliases": []
+  },
+  "media": {
+    "path": "/services/media-content-syndication",
+    "label": "Media & Content Syndication",
+    "category": "services",
+    "aliases": [
+      "/media"
+    ]
+  },
+  "music": {
+    "path": "/services/music-audio-experiences",
+    "label": "Music & Audio Division",
+    "category": "services",
+    "aliases": [
+      "/music-audio"
+    ]
+  },
+  "events": {
+    "path": "/services/live-experiences-events",
+    "label": "Events and Experiences",
+    "category": "services",
+    "aliases": [
+      "/event-experience"
+    ]
+  },
+  "networks": {
+    "path": "/services/digital-media-networks",
+    "label": "Digital Media Networks",
+    "category": "services",
+    "aliases": [
+      "/degital-media-networks",
+      "/services/technology-digital-transformation"
+    ]
+  },
+  "creators": {
+    "path": "/services/talent-creator-ecosystem",
+    "label": "Talent and Creator Ecosystem",
+    "category": "services",
+    "aliases": [
+      "/creator-ecosystem"
+    ]
+  },
+  "brand": {
+    "path": "/services/brand-solutions-advertising",
+    "label": "Brand Solutions & Advertising",
+    "category": "services",
+    "aliases": []
+  },
+  "government": {
+    "path": "/solutions/government-institutional",
+    "label": "Government, PSU & Institutional Services",
+    "category": "solutions",
+    "aliases": []
+  },
+  "capital": {
+    "path": "/solutions/capital-markets-investor-communications",
+    "label": "Capital Markets & Investor Communications",
+    "category": "solutions",
+    "aliases": [
+      "/capital-market",
+      "/capitalmarket"
+    ]
+  },
+  "international": {
+    "path": "/solutions/international-business-partnerships",
+    "label": "International Business & Partnerships",
+    "category": "solutions",
+    "aliases": [
+      "/business"
+    ]
+  },
+  "distribution": {
+    "path": "/solutions/content-acquisition-distribution",
+    "label": "Content Acquisition & Distribution",
+    "category": "solutions",
+    "aliases": [
+      "/content-acquisition-and-distribution",
+      "/contentAcquisition&distribution"
+    ]
+  }
+}

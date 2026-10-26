@@ -48,7 +48,7 @@
 }
 
 /* ============================================================
-   HOME PAGE — TOP POSITION
+   HOME PAGE â€” TOP POSITION
 
    data-overlay=true is only supplied by header.tsx when:
 
@@ -937,3 +937,5 @@
     transition: none;
   }
 }
+.navControl[data-active="true"] { text-decoration:underline; text-underline-offset:6px; }
+.entryLink[aria-current="page"],.mobileEntry a[aria-current="page"] { color:#8f6c1a; text-decoration:underline; text-underline-offset:4px; }

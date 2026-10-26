@@ -79,7 +79,7 @@
   padding: clamp(1.75rem, 11.5dvh, 8rem) clamp(1.25rem, 6.9444vw, 9rem) 1.5rem;
 }
 
-/* Three digit progress: 000 → 100. Counter is immediately above Loading. */
+/* Three digit progress: 000 Ã¢â€ â€™ 100. Counter is immediately above Loading. */
 .counter {
   display: block;
   min-width: 3ch;
@@ -161,3 +161,8 @@
 @media (prefers-reduced-motion: reduce) {
   .quoteBody { animation: none; }
 }
+
+.screen[lang="mr"] { --Font-family-Body:var(--font-devanagari),sans-serif; --Font-family-Heading:var(--font-devanagari),sans-serif; font-feature-settings:normal; }
+.screen[lang="mr"] .year { font-family:var(--Font-family-Body); }
+.screen[lang="mr"] .quote { line-height:1.5; letter-spacing:0; font-feature-settings:normal; }
+.screen[lang="mr"] .counter { line-height:1.2; letter-spacing:0; }

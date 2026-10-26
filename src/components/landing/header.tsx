@@ -20,373 +20,11 @@ import {
 
 import { createPortal } from "react-dom";
 
+import { NAV_MENUS, NAV_LINKS, type NavMenu } from "@/config/navigation";
 import styles from "./header.module.css";
 
 /* ============================================================
    TYPES
-   ============================================================ */
-
-type MenuEntry = {
-  label: string;
-  href: string;
-
-  sublines?: string[];
-  subtext?: string;
-};
-
-type MenuColumn = {
-  heading: string;
-
-  entries: MenuEntry[];
-
-  image?: {
-    src: string;
-    alt: string;
-  };
-};
-
-type NavMenu = {
-  id: string;
-  label: string;
-
-  columns: MenuColumn[];
-
-  featured?: {
-    href: string;
-
-    imageSrc: string;
-    imageAlt: string;
-
-    tag: string;
-    title: string;
-  };
-
-  gridColumns: string;
-};
-
-/* ============================================================
-   NAVIGATION DATA
-   ============================================================ */
-
-const NAV_MENUS: NavMenu[] = [
-  {
-    id: "product",
-
-    label: "Product",
-
-    gridColumns:
-      "1fr 1fr 1.5fr",
-
-    columns: [
-      {
-        heading:
-          "Digital Platforms",
-
-        entries: [
-          {
-            label:
-              "OTT, Digital Platforms & Streaming",
-
-            href: "/abhijat-marathi",
-          },
-
-          {
-            label:
-              "Monetization Model",
-
-            href: "/monetization",
-          },
-
-          {
-            label:
-              "Fast Channel",
-
-            href: "/products/fast-channel",
-          },
-
-          {
-            label:
-              "AI & Emerging Technology",
-
-            href: "/companies",
-          },
-
-          {
-            label:
-              "Tech & Digital Transformation",
-
-            href: "/companies",
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Content Assets",
-
-        entries: [
-          {
-            label:
-              "Content and Music Library Management",
-
-            href: "/products/content-music-library",
-          },
-
-          {
-            label:
-              "Publication & Knowledge Platforms",
-
-            href: "/products/publication-knowledge-platforms",
-          },
-
-          {
-            label:
-              "Intellectual Property Development",
-
-            href: "/products/intellectual-property-development",
-          },
-        ],
-      },
-    ],
-
-    featured: {
-      href: "/companies",
-
-      imageSrc:
-        "/images/about/news-03.webp",
-
-      imageAlt:
-        "Raja Shivchhatrapati on Abhijat Marathi OTT",
-
-      tag: "OTT",
-
-      title:
-        "Abhijat Marathi OTT",
-    },
-  },
-
-  {
-    id: "services",
-
-    label: "Services",
-
-    gridColumns:
-      "1fr 1fr 1.1fr 0.7fr",
-
-    columns: [
-      {
-        heading:
-          "Media and Production",
-
-        entries: [
-          {
-            label:
-              "Media & Content Syndication",
-
-            href: "/services",
-          },
-
-          {
-            label:
-              "Music & Audio Division",
-
-            href: "/services",
-          },
-
-          {
-            label:
-              "Events and Experiences",
-
-            href: "/services",
-          },
-
-          {
-            label:
-              "AI & Emerging Technology",
-
-            href: "/services",
-          },
-
-          {
-            label:
-              "Tech & Digital Transformation",
-
-            href: "/services",
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Marketing and Brand Services",
-
-        entries: [
-          { label: "Brand Solutions & Advertising", href: "/services/brand-solutions-advertising" },
-          {
-            label:
-              "Content and Music Library Management",
-
-            href: "/products/content-music-library",
-          },
-
-          {
-            label:
-              "Publication & Knowledge Platforms",
-
-            href: "/products/publication-knowledge-platforms",
-          },
-
-          {
-            label:
-              "Intellectual Property Development",
-
-            href: "/products/intellectual-property-development",
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Creator Services",
-
-        entries: [
-          {
-            label:
-              "Talent and Creator Ecosystem",
-
-            href: "/services",
-
-            sublines: [
-              "Artist, Celebrity, Influencer Management",
-              "Speaker Bureau",
-              "Brand Endorsements",
-              "Content Creator Network",
-            ],
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Any Specific Need?",
-
-        entries: [
-          {
-            label:
-              "Call now?",
-
-            href: "/contact",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    id: "solutions",
-
-    label: "Solutions",
-
-    gridColumns:
-      "1.1fr 1.1fr 1fr",
-
-    columns: [
-      {
-        heading:
-          "Government & Institutional",
-
-        entries: [
-          {
-            label:
-              "Govt, PSU & Institutional Solutions",
-
-            href: "/solutions/government-institutional",
-
-            sublines: [
-              "State/Central Government Empanelment",
-              "Citizen Engagement Programs",
-              "Tourism Promotion",
-              "Heritage Promotion",
-              "IEC & Public Awareness Campaigns",
-              "Event Management",
-            ],
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Capital & Business Growth",
-
-        entries: [
-          {
-            label:
-              "IPO & Investor Ecosystem",
-
-            href: "/capital-market",
-
-            subtext:
-              "Investor Relations, Shareholder Communications, Digital Roadshow, Financial PR, Listed Company Communication",
-          },
-
-          {
-            label:
-              "International Business & Global Partnership",
-
-            href: "/capital-market",
-
-            subtext:
-              "Co-Productions, Film Festivals, International Markets, Global Distribution, Strategic Alliances, Market Representation",
-          },
-        ],
-      },
-
-      {
-        heading:
-          "Distribution & Licensing",
-
-        entries: [
-          {
-            label:
-              "Content Acquisition & Distribution",
-
-            href: "/services",
-
-            subtext:
-              "Film & Music Rights Acquisition, OTT Rights, Satellite Rights, FAST Channel Content Acquisition, International Distribution, Syndication",
-          },
-        ],
-
-        image: {
-          src:
-            "/images/about/news-01.webp",
-
-          alt:
-            "Live concert audience",
-        },
-      },
-    ],
-  },
-];
-
-const NAV_LINKS = [
-  {
-    label:
-      "Investors Relations",
-
-    href: "/about",
-  },
-
-  {
-    label:
-      "Careers",
-
-    href: "/careers",
-  },
-];
-
-/* ============================================================
-   CONFIG
    ============================================================ */
 
 const DESKTOP_QUERY =
@@ -406,12 +44,12 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/",
   "/about",
   "/news-and-blogs",
-  "/abhijat-marathi",
-  "/monetization",
+  "/products/ott-digital-platforms-streaming",
+  "/products/content-monetization",
   "/products/fast-channel",
-  "/products/publication-knowledge-platforms",
+  "/products/publications-knowledge-platforms",
   "/products/intellectual-property-development",
-  "/event-experience",
+  "/services/live-experiences-events",
   "/solutions/government-institutional",
 ]);
 
@@ -542,8 +180,9 @@ function DropdownPanel({
   onNavigate: () => void;
   reduceMotion: boolean;
 }) {
+  const currentPath = usePathname().replace(/^\/(en|mr)(?=\/|$)/, "") || "/";
   return <LocalizedContent>{(
-    <motion.div
+    <motion.div data-motion-managed
       id={`nav-menu-${menu.id}`}
       data-desktop-panel
       data-lenis-prevent
@@ -581,7 +220,7 @@ function DropdownPanel({
         backgroundColor: "#FFFFFF",
       }}
     >
-      <motion.div
+      <motion.div data-motion-managed
         className={styles.dropdownGrid}
         style={{
           gridTemplateColumns: menu.gridColumns,
@@ -635,6 +274,7 @@ function DropdownPanel({
                         href={
                           entry.href
                         }
+                        aria-current={currentPath === entry.href ? "page" : undefined}
                         onClick={
                           onNavigate
                         }
@@ -1759,7 +1399,7 @@ export function Header({
           >
             <SumanLogo
               inverse={
-                transparentAtTop && pathname !== "/monetization" && pathname !== "/products/publication-knowledge-platforms" && pathname !== "/products/intellectual-property-development" && pathname !== "/solutions/government-institutional"
+                transparentAtTop && pathname !== "/products/content-monetization" && pathname !== "/products/publications-knowledge-platforms" && pathname !== "/products/intellectual-property-development" && pathname !== "/solutions/government-institutional"
               }
             />
           </Link>
@@ -1807,6 +1447,7 @@ export function Header({
                       color:
                         topTextColor,
                     }}
+                    data-active={menu.columns.some(column => column.entries.some(entry => pathname === entry.href || pathname.startsWith(`${entry.href}/`)))}
                     aria-expanded={
                       openDropdown ===
                       menu.id
@@ -2190,6 +1831,7 @@ export function Header({
                                     href={
                                       entry.href
                                     }
+                                    aria-current={pathname === entry.href ? "page" : undefined}
                                     onClick={
                                       closeMobileMenu
                                     }

@@ -366,7 +366,7 @@ function EcosystemStackCard({
       data-stack-index={index}
       aria-label={label}
     >
-      <motion.div
+      <motion.div data-motion-managed
         className={styles.ecosystemStackCard}
         style={{ y, scale }}
         data-stack-card
@@ -944,15 +944,15 @@ export function PartnerPageContent() {
               Suman brings the ecosystem to help creators and partners turn ideas
               into opportunities.
             </p>
-            <TextLink href="/contact?type=partnership">Join us</TextLink>
+            <TextLink href="/contact/form?type=partnership">Join us</TextLink>
           </IntersectionReveal>
         </div>
       </section>
 
       <section ref={filmFeatureRef} className={styles.filmFeature} aria-labelledby="make-film-heading">
-        <motion.div className={styles.filmBackdrop} style={{ y: filmBackdropY }} aria-hidden="true">
+        <motion.div data-motion-managed className={styles.filmBackdrop} style={{ y: filmBackdropY }} aria-hidden="true">
           <AnimatePresence initial={false} mode="sync" custom={filmDirection}>
-            <motion.div
+            <motion.div data-motion-managed
               key={activeFilm.src}
               className={styles.filmSlide}
               custom={filmDirection}
@@ -995,7 +995,7 @@ export function PartnerPageContent() {
             Have a film idea or production you want to bring to screen? Partner
             with us to develop, produce and distribute it.
           </p>
-          <TextLink href="/contact?type=partnership">Let&apos;s create</TextLink>
+          <TextLink href="/contact/form?type=partnership">Let&apos;s create</TextLink>
         </IntersectionReveal>
 
         <div
@@ -1073,7 +1073,7 @@ export function PartnerPageContent() {
         aria-label="Suman partnership ecosystem in action"
       >
         <div className={styles.impactImageWrap}>
-          <motion.div
+          <motion.div data-motion-managed
             className={styles.impactParallax}
             style={{ y: impactImageY, scale: impactImageScale }}
             aria-hidden="true"
@@ -1207,11 +1207,11 @@ export function PartnerPageContent() {
                   </motion.figure>
 
                   <div className={styles.studioHeadingPosition}>
-                    <motion.div
+                    <motion.div data-motion-managed
                       className={styles.studioHeadingParallax}
                       style={{ y: studioHeadingY }}
                     >
-                      <motion.h3
+                      <motion.h3 data-motion-managed
                         id="connecting-dots-heading"
                         initial={reduceMotion ? false : { opacity: 0, y: 96 }}
                         whileInView={{ opacity: 1, y: 0 }}

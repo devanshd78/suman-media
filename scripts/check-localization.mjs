@@ -37,6 +37,14 @@ for (const [key, value] of Object.entries(mr)) {
   assert.ok(!value.includes('\uFFFD'), `Invalid Unicode: ${key}`);
 }
 const { translateText, graphemes } = load('src/i18n/translate.ts');
+const loadingSource = fs.readFileSync(path.join(root, 'src/components/states/site-loading-screen.tsx'), 'utf8');
+const loadingCopy = Array.from(loadingSource.matchAll(/(?:year|quote):\s*"([^"]+)"/g), match => match[1]);
+assert.equal(loadingCopy.length, 10, 'Every loading quote must have a historical heading');
+for (const phrase of [...loadingCopy, 'Loading', 'Loading page']) {
+  assert.notEqual(translateText(phrase, 'mr'), phrase, `Untranslated loading copy: ${phrase}`);
+  assert.equal(translateText(phrase, 'en'), phrase);
+}
+assert.equal(new Intl.NumberFormat('mr-IN', { useGrouping: false, minimumIntegerDigits: 3 }).format(94), '०९४');
 assert.equal(translateText('Contact us', 'en'), 'Contact us');
 assert.notEqual(translateText('Contact us', 'mr'), 'Contact us');
 assert.equal(translateText(' Unknown copy ', 'mr'), ' Unknown copy ');
@@ -47,6 +55,11 @@ assert.ok(graphemes('क्षेत्र').length < Array.from('क्षे�
 
 // Regression cases from the rendered-page audit: CMS copy and composed labels.
 for (const phrase of [
+  'Loading page',
+  'Loading',
+  '1913 — Indian Cinema Begins',
+  'Companies',
+  "Have Content? Let's Find Its Revenue Model.",
   'Enterprise technology partner.',
   'Concerts, cultural festivals, corporate events, launches, experiential marketing and public engagement.',
   'Film, web series, OTT originals, documentaries, branded content, corporate films and podcasts.',

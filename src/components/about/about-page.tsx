@@ -472,6 +472,7 @@ function DragCarousel({
     >
       <div
         ref={railRef}
+        data-motion-managed
         className={styles.carouselRail}
         role="region"
         aria-roledescription="carousel"
@@ -697,11 +698,12 @@ function StickyGlobalReach() {
   return <LocalizedContent>{(
     <section
       ref={stageRef}
+      data-motion-managed
       className={styles.globalStage}
       aria-label="Global reach sticky-scroll image story"
     >
       <div className={styles.globalSticky}>
-        <motion.div
+        <motion.div data-motion-managed
           className={styles.globalWhiteStage}
           style={
             reducedMotion
@@ -728,7 +730,7 @@ function StickyGlobalReach() {
           <div className={styles.globalGalleryArea}>
             <div className={`${styles.globalCardRow} site-gutter`}>
               <div className={styles.globalFixedCard} aria-label="Global reach image sequence one">
-                <motion.div
+                <motion.div data-motion-managed
                   className={`${styles.globalCardTrack} ${styles.globalCardTrackThree}`}
                   style={reducedMotion ? undefined : { y: leftTrackY }}
                 >
@@ -752,7 +754,7 @@ function StickyGlobalReach() {
                 className={`${styles.globalFixedCard} ${styles.globalFixedCardTall}`}
                 aria-label="Global reach image sequence two"
               >
-                <motion.div
+                <motion.div data-motion-managed
                   className={`${styles.globalCardTrack} ${styles.globalCardTrackTwo}`}
                   style={reducedMotion ? undefined : { y: rightTrackY }}
                 >
@@ -773,7 +775,7 @@ function StickyGlobalReach() {
           </div>
         </motion.div>
 
-        <motion.div
+        <motion.div data-motion-managed
           className={styles.globalVideoStage}
           style={
             reducedMotion
@@ -797,7 +799,7 @@ function StickyGlobalReach() {
           </video>
           <div className={styles.globalVideoShade} aria-hidden="true" />
 
-          <motion.div
+          <motion.div data-motion-managed
             className={`${styles.globalVideoTitleWrap} site-gutter`}
             style={
               reducedMotion
@@ -846,9 +848,9 @@ function MissionSection() {
           </span>
         </p>
 
-        <dl className={styles.statsGrid} aria-label="Suman Entertainment statistics">
+        <dl data-motion-managed className={styles.statsGrid} aria-label="Suman Entertainment statistics">
           {stats.map((stat, index) => (
-            <motion.div
+            <motion.div data-motion-managed
               className={styles.statItem}
               key={stat.label}
               initial={reducedMotion ? false : statRevealInitial()}

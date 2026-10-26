@@ -13,7 +13,7 @@ function FormatPill({ label, index, progress }: { label: string; index: number; 
   const y = useTransform(progress, [0.04 + stagger, 0.22 + stagger, 0.68 + stagger, 0.86 + stagger], [45, 0, 0, -40]);
   const scale = useTransform(progress, [0.04 + stagger, 0.22 + stagger, 0.68 + stagger, 0.86 + stagger], [0.95, 1, 1, 0.97]);
 
-  return <LocalizedContent>{<motion.li className={styles.scrollPill} style={reduceMotion ? undefined : { opacity, y, scale }}>{label}</motion.li>}</LocalizedContent>;
+  return <LocalizedContent>{<motion.li data-motion-managed className={styles.scrollPill} style={reduceMotion ? undefined : { opacity, y, scale }}>{label}</motion.li>}</LocalizedContent>;
 }
 
 export function ScrollFormats({ formats }: { formats: string[] }) {

@@ -1,3 +1,4 @@
+import { canonicalWebsitePath } from "../config/website-routes";
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
@@ -12,6 +13,6 @@ export type Locale = "en" | "mr";
 
 export function localizedPath(path: string, locale: string): string {
   if (!path.startsWith("/") || path.startsWith("//") || /^\/(api|studio|images|videos|cannes|_next)(\/|$)/.test(path) || /\.[a-z0-9]+(?:[?#]|$)/i.test(path)) return path;
-  const unprefixed = path.replace(/^\/(en|mr)(?=\/|[?#]|$)/, "") || "/";
+  const unprefixed = canonicalWebsitePath(path.replace(/^\/(en|mr)(?=\/|[?#]|$)/, "") || "/");
   return `/${locale}${unprefixed === "/" ? "" : unprefixed}`;
 }

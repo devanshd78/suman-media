@@ -14,7 +14,6 @@ import { FounderLetterSection } from "./founder-letter-section";
 import { HeroSection } from "./hero-section";
 import { IndustriesSection } from "./industries-section";
 import { NewsBlogsSection } from "./news-blogs-section";
-import { LandingTextReveal } from "./landing-text-reveal";
 import { MediaCoverageSection } from "./media-coverage-section";
 import { PartnerSection } from "./partner-section";
 import { ServicesSection } from "./services-section";
@@ -52,7 +51,6 @@ export function LandingPage({
           GLOBAL LANDING TEXT REVEAL
           ===================================================== */}
 
-      <LandingTextReveal />
 
       {/* =====================================================
           HERO

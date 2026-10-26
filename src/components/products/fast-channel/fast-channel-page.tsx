@@ -390,7 +390,7 @@ function ChannelArtwork({
 }) {
   return <LocalizedContent>{(
     <div className={styles.channelCardInner} aria-hidden="true">
-      <motion.div
+      <motion.div data-motion-managed
         className={styles.channelMedia}
         style={{ y: mediaY, scale: mediaScale }}
       >
@@ -423,7 +423,7 @@ function ChannelOverlay({
   interactive?: boolean;
 }) {
   return <LocalizedContent>{(
-    <motion.div
+    <motion.div data-motion-managed
       className={styles.channelTextLayer}
       variants={cardGroupVariants}
       initial="hidden"
@@ -434,7 +434,7 @@ function ChannelOverlay({
       }}
     >
       <div className={styles.channelStats}>
-        <motion.div className={styles.channelStat} variants={cardTextVariants}>
+        <motion.div data-motion-managed className={styles.channelStat} variants={cardTextVariants}>
           <div className={styles.channelStatValueRow}>
             <span className={styles.channelStatIcon}>
               <SubscribersIcon />
@@ -444,7 +444,7 @@ function ChannelOverlay({
           <span className={styles.channelStatLabel}>SUBSCRIBERS</span>
         </motion.div>
 
-        <motion.div className={styles.channelStat} variants={cardTextVariants}>
+        <motion.div data-motion-managed className={styles.channelStat} variants={cardTextVariants}>
           <div className={styles.channelStatValueRow}>
             <span className={styles.channelStatIcon}>
               <ViewsIcon />
@@ -454,7 +454,7 @@ function ChannelOverlay({
           <span className={styles.channelStatLabel}>TOTAL VIEWS</span>
         </motion.div>
 
-        <motion.div className={styles.channelStat} variants={cardTextVariants}>
+        <motion.div data-motion-managed className={styles.channelStat} variants={cardTextVariants}>
           <div className={styles.channelStatValueRow}>
             <span className={styles.channelStatIcon}>
               <CategoryIcon />
@@ -466,7 +466,7 @@ function ChannelOverlay({
       </div>
 
       <div className={styles.channelCopy}>
-        <motion.div className={styles.channelIdentity} variants={cardTextVariants}>
+        <motion.div data-motion-managed className={styles.channelIdentity} variants={cardTextVariants}>
           <ChannelBrand channel={channel} />
 
           <div className={styles.channelIdentityCopy}>
@@ -478,7 +478,7 @@ function ChannelOverlay({
           </div>
         </motion.div>
 
-        <motion.p className={styles.channelDescription} variants={cardTextVariants}>
+        <motion.p data-motion-managed className={styles.channelDescription} variants={cardTextVariants}>
           {channel.description}
         </motion.p>
       </div>
@@ -560,7 +560,7 @@ function ChannelSlide({
       aria-hidden="true"
       style={{ zIndex: count - index }}
     >
-      <motion.article
+      <motion.article data-motion-managed
         className={styles.channelSlide}
         style={{ y, opacity }}
       >
@@ -668,7 +668,7 @@ function ChannelDeck() {
 
 function NewsCard({ item }: { item: NewsItem }) {
   return <LocalizedContent>{(
-    <motion.article className={styles.newsCard} variants={childVariants}>
+    <motion.article data-motion-managed className={styles.newsCard} variants={childVariants}>
       <Link href={item.href} className={styles.newsCardLink}>
         <div className={styles.newsImageWrap}>
           <Image
@@ -701,19 +701,19 @@ function NewsCard({ item }: { item: NewsItem }) {
 function LatestAnnouncements() {
   return <LocalizedContent>{(
     <section className={styles.newsSection} aria-labelledby="fast-channel-news-heading">
-      <motion.div
+      <motion.div data-motion-managed
         className={styles.newsHeadingRow}
         variants={blockVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.45 }}
       >
-        <motion.div variants={childVariants}>
+        <motion.div data-motion-managed variants={childVariants}>
           <p className={styles.sectionEyebrow}>Latest Announcements</p>
           <h2 id="fast-channel-news-heading">News</h2>
         </motion.div>
 
-        <motion.div variants={childVariants}>
+        <motion.div data-motion-managed variants={childVariants}>
           <Link href="/news-and-blogs" className={styles.viewAll}>
             View all
             <ArrowIcon />
@@ -721,7 +721,7 @@ function LatestAnnouncements() {
         </motion.div>
       </motion.div>
 
-      <motion.div
+      <motion.div data-motion-managed
         className={styles.newsGrid}
         variants={{
           hidden: {},
@@ -752,7 +752,7 @@ export function FastChannelPage() {
     <main className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}>
       <section className={styles.intro} aria-labelledby="fast-channel-title">
         <div className={styles.introInner}>
-          <motion.p
+          <motion.p data-motion-managed
             className={styles.eyebrow}
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -765,7 +765,7 @@ export function FastChannelPage() {
             <StaggerWords text="Always On. Always Something to Watch." delay={0.14} />
           </h1>
 
-          <motion.p
+          <motion.p data-motion-managed
             className={styles.introDescription}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}

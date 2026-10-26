@@ -1,0 +1,55 @@
+{
+  "note": "Full source lint baseline: 10 existing React hook errors and 22 warnings. Eight duplicate diagnostics for two newly changed internal links were fixed; targeted lint for those links and new loading/motion/config code passes.",
+  "existing_errors": [
+    {
+      "file": "src/app/(website)/[locale]/services/talent-creator-ecosystem/page.tsx",
+      "line": 82,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/app/(website)/[locale]/services/talent-creator-ecosystem/page.tsx",
+      "line": 109,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/app/(website)/[locale]/services/talent-creator-ecosystem/page.tsx",
+      "line": 133,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/app/(website)/[locale]/services/talent-creator-ecosystem/page.tsx",
+      "line": 157,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/components/landing/client-section.tsx",
+      "line": 1131,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/components/landing/faq-section.tsx",
+      "line": 125,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/components/landing/header.tsx",
+      "line": 641,
+      "rule": "react-hooks/preserve-manual-memoization"
+    },
+    {
+      "file": "src/components/landing/header.tsx",
+      "line": 697,
+      "rule": "react-hooks/preserve-manual-memoization"
+    },
+    {
+      "file": "src/components/landing/header.tsx",
+      "line": 1051,
+      "rule": "react-hooks/set-state-in-effect"
+    },
+    {
+      "file": "src/components/products/content-monetization/content-capabilities-section.tsx",
+      "line": 132,
+      "rule": "react-hooks/set-state-in-effect"
+    }
+  ]
+}

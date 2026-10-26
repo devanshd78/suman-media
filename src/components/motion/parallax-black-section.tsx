@@ -103,7 +103,7 @@ export function ParallaxBlackSection({
         [perspective:1400px]
       "
     >
-      <motion.div
+      <motion.div data-motion-managed
         className={`
           relative
           z-20

@@ -23,7 +23,11 @@ export function proxy(request: NextRequest) {
   }
 
   const url = request.nextUrl.clone();
-  url.pathname = `${prefix}${destination}`;
+  const target = new URL(destination, url.origin);
+  const isAsset = /^\/(images|videos|cannes)\//.test(target.pathname);
+  url.pathname = `${isAsset ? "" : prefix || "/mr"}${target.pathname}`;
+  if (target.search) url.search = target.search;
+  if (target.hash) url.hash = target.hash;
   return NextResponse.redirect(url, 308);
 }
 

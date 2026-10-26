@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useWebsiteLocale } from "@/components/localization/localized-content";
+import { translateText } from "@/i18n/translate";
 import styles from "./site-loading-screen.module.css";
 
 /** Keep the year and quote in the SAME record so they cannot mismatch. */
@@ -53,13 +56,19 @@ export function SiteLoadingScreen({
   label = "Loading page",
   complete = false,
   onFinish,
+  locale: requestedLocale,
 }: {
+  locale?: string;
   label?: string;
   /** Only reach 100 once navigation/content is ready. */
   complete?: boolean;
   /** Called after the final 000–100 animation has visually completed. */
   onFinish?: () => void;
 }) {
+  const pathname = usePathname();
+  const websiteLocale = useWebsiteLocale();
+  const locale = requestedLocale || pathname?.match(/^\/(en|mr)(?:\/|$)/)?.[1] || websiteLocale;
+  const t = (text: string) => translateText(text, locale);
   // The server and first client render share the same markup (no hydration mismatch).
   const [quoteIndex, setQuoteIndex] = useState(0);
   const [dotCount, setDotCount] = useState(1);
@@ -106,7 +115,7 @@ export function SiteLoadingScreen({
       currentProgress.current = value;
       if (numberNode.current) {
         // Matches the existing AnimatedStatNumber cubic-ease counting style.
-        numberNode.current.textContent = String(next).padStart(3, "0");
+        numberNode.current.textContent = new Intl.NumberFormat(locale === "mr" ? "mr-IN" : "en-IN", { useGrouping: false, minimumIntegerDigits: 3 }).format(next);
       }
     };
 
@@ -132,22 +141,22 @@ export function SiteLoadingScreen({
 
     frame = window.requestAnimationFrame(animate);
     return () => window.cancelAnimationFrame(frame);
-  }, [complete]);
+  }, [complete, locale]);
 
   const activeQuote = LOADING_QUOTES[quoteIndex];
 
   return (
-    <div className={styles.screen} role="status" aria-label={label} aria-busy={!complete} aria-live="off">
+    <div className={styles.screen} role="status" lang={locale} aria-label={t(label)} aria-busy={!complete} aria-live="off">
       <div className={styles.quoteContainer}>
         <div className={styles.quoteBody} key={quoteIndex}>
-          <p className={styles.year}>{activeQuote.year}</p>
-          <blockquote className={styles.quote}>{activeQuote.quote}</blockquote>
+          <p className={styles.year}>{t(activeQuote.year)}</p>
+          <blockquote className={styles.quote}>{t(activeQuote.quote)}</blockquote>
         </div>
       </div>
 
       <div className={styles.progressArea}>
-        <span ref={numberNode} className={styles.counter} aria-hidden="true">000</span>
-        <p className={styles.loadingText} aria-hidden="true">Loading{".".repeat(dotCount)}</p>
+        <span ref={numberNode} className={styles.counter} aria-hidden="true">{locale === "mr" ? "०००" : "000"}</span>
+        <p className={styles.loadingText} aria-hidden="true">{t("Loading")}{".".repeat(dotCount)}</p>
       </div>
     </div>
   );

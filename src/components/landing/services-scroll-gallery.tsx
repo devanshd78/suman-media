@@ -729,7 +729,7 @@ function ServiceFrame({
           index,
       }}
     >
-      <motion.article
+      <motion.article data-motion-managed
         data-service-frame
         data-active={
           active
