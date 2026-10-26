@@ -1302,7 +1302,8 @@ export function NewsBlogsSection({
 
           flex
 
-          w-full
+          -mx-[var(--site-gutter-x)]
+          w-auto
 
           snap-x
           snap-mandatory
