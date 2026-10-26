@@ -34,7 +34,7 @@ export const NAV_MENUS: NavMenu[] = [
 ];
 
 export const NAV_LINKS = [
-  { label: "Investor enquiries", href: `${websitePages.contactForm.path}?type=investor` },
+  pageLink("partners"),
   pageLink("careers"),
 ];
 

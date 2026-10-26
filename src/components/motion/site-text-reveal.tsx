@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-const TEXT_SELECTOR = "h1,h2,h3,h4,h5,h6,p,blockquote,figcaption,dt,dd";
+const TEXT_SELECTOR = "h1,h2,h3,h4,h5,h6,p,blockquote,figcaption,dt,dd,[data-section-reveal]";
 const MANAGED_SELECTOR = "[data-motion-managed],[data-text-reveal],[data-landing-text-reveal-skip],header,nav,[role=dialog],[role=menu],[aria-hidden=true],[inert]";
 
 /** The homepage entrance system, shared by static and streamed website content.
@@ -17,6 +17,7 @@ export function SiteTextReveal() {
     if (preference.matches) return;
     const prepared = new Set<HTMLElement>();
     let frame = 0;
+    const entranceFrames = new Set<number>();
     const reveal = (element: HTMLElement) => {
       element.dataset.landingTextVisible = "true";
       observer.unobserve(element);
@@ -31,7 +32,7 @@ export function SiteTextReveal() {
       frame = 0;
       const sections = new Map<Element, number>();
       const additions = Array.from(root.querySelectorAll<HTMLElement>(TEXT_SELECTOR))
-        .filter(element => !prepared.has(element) && !element.closest(MANAGED_SELECTOR) && !element.querySelector('[data-motion-managed],[data-text-reveal]') && element.textContent?.trim())
+        .filter(element => !prepared.has(element) && !element.closest(MANAGED_SELECTOR) && (element.hasAttribute('data-section-reveal') || !element.querySelector('[data-motion-managed],[data-text-reveal]')) && (element.hasAttribute("data-section-reveal") || element.textContent?.trim()))
         .map(element => {
           const section = element.closest("section") ?? root;
           const index = sections.get(section) ?? 0;
@@ -42,7 +43,15 @@ export function SiteTextReveal() {
         prepared.add(element);
         element.classList.add("landing-text-reveal");
         element.style.setProperty("--landing-text-delay", `${delay}ms`);
-        if (top < innerHeight * .96) reveal(element);
+        if (top < innerHeight * .96) {
+          // Allow the initial hidden style to paint before the entrance starts.
+          const firstFrame = requestAnimationFrame(() => {
+            entranceFrames.delete(firstFrame);
+            const secondFrame = requestAnimationFrame(() => { entranceFrames.delete(secondFrame); reveal(element); });
+            entranceFrames.add(secondFrame);
+          });
+          entranceFrames.add(firstFrame);
+        }
         else observer.observe(element);
       }
     };
@@ -58,6 +67,7 @@ export function SiteTextReveal() {
     preference.addEventListener("change", showAll);
     return () => {
       cancelAnimationFrame(frame);
+      entranceFrames.forEach(cancelAnimationFrame);
       observer.disconnect();
       mutations.disconnect();
       preference.removeEventListener("change", showAll);

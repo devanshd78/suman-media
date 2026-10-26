@@ -3,7 +3,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -35,25 +35,6 @@ const CAREER_BENEFITS = [
   { label: "Growth Opportunities", Icon: ChartLineUpIcon },
   { label: "Creative Freedom", Icon: HandFistIcon },
 ] as const;
-
-const BENEFIT_CARD_HEIGHT_REM = 17.5;
-const BENEFIT_CARD_GAP_REM = 1;
-const BENEFITS_PANEL_HEIGHT_REM = 56.25;
-const BENEFITS_VERTICAL_PADDING_REM = 6.25;
-const BENEFITS_VIEWPORT_HEIGHT_REM =
-  BENEFITS_PANEL_HEIGHT_REM - BENEFITS_VERTICAL_PADDING_REM * 2;
-
-const BENEFITS_TRACK_HEIGHT_REM =
-  CAREER_BENEFITS.length * BENEFIT_CARD_HEIGHT_REM +
-  Math.max(CAREER_BENEFITS.length - 1, 0) * BENEFIT_CARD_GAP_REM;
-
-const BENEFITS_SCROLL_TRAVEL_REM = Math.max(
-  BENEFITS_TRACK_HEIGHT_REM - BENEFITS_VIEWPORT_HEIGHT_REM,
-  0,
-);
-
-const BENEFITS_SCROLL_SECTION_HEIGHT_REM =
-  BENEFITS_PANEL_HEIGHT_REM + BENEFITS_SCROLL_TRAVEL_REM;
 
 const FALLBACK_CULTURE_SLIDES = [
   {
@@ -164,6 +145,24 @@ export function CareersValuesSection({
 
   const benefitsScrollRef = useRef<HTMLDivElement>(null);
   const cultureScrollRef = useRef<HTMLDivElement>(null);
+  const benefitsViewportRef = useRef<HTMLDivElement>(null);
+  const benefitsTrackRef = useRef<HTMLUListElement>(null);
+  const [benefitsGeometry, setBenefitsGeometry] = useState({ travel: 0, height: 0 });
+  useEffect(() => {
+    const viewport = benefitsViewportRef.current;
+    const track = benefitsTrackRef.current;
+    if (!viewport || !track) return;
+    const measure = () => {
+      const travel = Math.max(0, track.scrollHeight - viewport.clientHeight);
+      const height = travel + window.innerHeight;
+      setBenefitsGeometry(previous => previous.travel === travel && previous.height === height ? previous : { travel, height });
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(viewport);
+    observer.observe(track);
+    window.addEventListener("resize", measure);
+    return () => { observer.disconnect(); window.removeEventListener("resize", measure); };
+  }, []);
   const shouldReduceMotion = useReducedMotion() ?? false;
 
   const cultureEyebrow = cmsCulture?.eyebrow?.trim() || "CULTURE";
@@ -193,8 +192,8 @@ export function CareersValuesSection({
     smoothBenefitsProgress,
     [0, 1],
     [
-      "0rem",
-      `-${BENEFITS_SCROLL_TRAVEL_REM}rem`,
+      0,
+      -benefitsGeometry.travel,
     ],
   );
 
@@ -357,9 +356,7 @@ export function CareersValuesSection({
         {/* =====================================================
             DESKTOP STICKY BENEFITS SCROLLER
 
-            Visible panel:
-            height: 56.25rem
-            padding: 6.25rem 3.5rem
+            Panel and travel are measured against the current viewport.
 
             Left column remains static.
             Only the right card track moves.
@@ -375,7 +372,7 @@ export function CareersValuesSection({
               ? undefined
               : {
                   height:
-                    `${BENEFITS_SCROLL_SECTION_HEIGHT_REM}rem`,
+                    benefitsGeometry.height || "100svh",
                 }
           }
         >
@@ -388,14 +385,15 @@ export function CareersValuesSection({
                     items-start
                     gap-[3.5rem]
                     px-[3.5rem]
-                    py-[6.25rem]
+                    pt-[calc(var(--site-header-offset,5rem)+2rem)]
+                    pb-8
                   `
                 : `
                     sticky
                     top-0
 
                     flex
-                    h-[56.25rem]
+                    h-[100svh]
                     w-full
 
                     items-start
@@ -404,7 +402,8 @@ export function CareersValuesSection({
                     overflow-hidden
 
                     px-[3.5rem]
-                    py-[6.25rem]
+                    pt-[calc(var(--site-header-offset,5rem)+2rem)]
+                    pb-8
                   `
             }
           >
@@ -445,11 +444,12 @@ export function CareersValuesSection({
             {/* RIGHT — CLIPPED CARD VIEWPORT */}
 
             <div
+              ref={benefitsViewportRef}
               className={
                 shouldReduceMotion
                   ? "min-w-0 flex-1"
                   : `
-                      h-[43.75rem]
+                      h-full
                       min-w-0
                       flex-1
                       overflow-hidden
@@ -458,6 +458,7 @@ export function CareersValuesSection({
               }
             >
               <motion.ul
+                ref={benefitsTrackRef}
                 className="
                   m-0
                   flex

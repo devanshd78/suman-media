@@ -360,7 +360,7 @@
 }
 
 .globalCardSlide .coverImage {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
 }
 
@@ -1192,4 +1192,15 @@
   object-fit: contain;
   object-position: center center;
   z-index: 1;
+}
+
+/* Give the gallery and timeline independent breathing room. */
+.missionSection { padding-bottom: clamp(2rem, 5vw, 5rem); }
+.timelineSection { padding-block: clamp(4rem, 7vw, 7rem); }
+.timelineSlide { padding: 3rem clamp(1rem, 2.5vw, 2.5rem); border: 1px solid #ffffff20; border-radius: 1rem; background: #0b0b0b; }
+.timelineImage .coverImage { object-fit: contain; }
+.timelineMarker { padding-top: 2rem; }
+.carouselRail { overscroll-behavior-x: contain; }
+@media (max-width: 767px) {
+  .timelineSlide { padding: 2rem 1rem; }
 }

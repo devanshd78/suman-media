@@ -14,6 +14,7 @@ const baseMetadata: Metadata = {
   title: { default: siteConfig.name, template: `%s | ${siteConfig.name}` },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  other: { google: "notranslate" },
   robots: siteConfig.allowIndexing
     ? { index: true, follow: true }
     : { index: false, follow: false, noarchive: true },
@@ -53,7 +54,8 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${plusJakartaSans.variable} ${inter.variable} ${notoSansDevanagari.variable} h-full antialiased`}
+      translate="no"
+      className={`${plusJakartaSans.variable} ${inter.variable} ${notoSansDevanagari.variable} notranslate h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-zinc-950">
         <TranslationProvider locale={locale}><PageTransitionLoader />{children}</TranslationProvider>

@@ -387,6 +387,9 @@ function DragCarousel({
     id: -1,
     startX: 0,
     startScrollLeft: 0,
+    lastX: 0,
+    lastTime: 0,
+    velocity: 0,
   });
 
   const scrollToIndex = useCallback(
@@ -428,6 +431,9 @@ function DragCarousel({
       id: event.pointerId,
       startX: event.clientX,
       startScrollLeft: rail.scrollLeft,
+      lastX: event.clientX,
+      lastTime: performance.now(),
+      velocity: 0,
     };
 
     rail.setPointerCapture(event.pointerId);
@@ -439,6 +445,11 @@ function DragCarousel({
     const pointer = pointerState.current;
     if (!rail || pointer.id !== event.pointerId) return;
 
+    const now = performance.now();
+    const elapsed = Math.max(1, now - pointer.lastTime);
+    pointer.velocity = (pointer.lastX - event.clientX) / elapsed;
+    pointer.lastX = event.clientX;
+    pointer.lastTime = now;
     const delta = event.clientX - pointer.startX;
     rail.scrollLeft = pointer.startScrollLeft - delta;
   };
@@ -454,10 +465,19 @@ function DragCarousel({
 
     pointerState.current.id = -1;
     setDragging(false);
+    // Carry a short release gesture into a smooth, aligned card position.
+    const velocity = performance.now() - pointer.lastTime < 100 ? pointer.velocity : 0;
+    const projected = rail.scrollLeft + Math.max(-rail.clientWidth * .45, Math.min(rail.clientWidth * .45, velocity * 180));
+    const cards = Array.from(rail.querySelectorAll<HTMLElement>("[data-carousel-item]"));
+    const origin = cards[0]?.offsetLeft ?? 0;
+    const nearest = cards.reduce((best, card, index) =>
+      Math.abs(card.offsetLeft - origin - projected) < Math.abs(cards[best].offsetLeft - origin - projected) ? index : best, 0);
+    if (cards.length) requestAnimationFrame(() => scrollToIndex(nearest));
   };
 
   return <LocalizedContent>{(
     <div
+      data-section-reveal
       className={`${styles.carousel} ${className}`}
       onMouseEnter={() => {
         setHovered(true);
@@ -879,7 +899,7 @@ function MissionSection() {
           ))}
         </dl>
       </div>
-      <div className={styles.missionMarquee} role="region" aria-label="Suman Entertainment moments, continuously scrolling photo gallery">
+      <div data-section-reveal className={styles.missionMarquee} role="region" aria-label="Suman Entertainment moments, continuously scrolling photo gallery">
         <div className={styles.missionMarqueeTrack}>
           {[0, 1].map((copy) => (
             <div
@@ -1122,7 +1142,7 @@ export function AboutPageContent({
         articles={home?.featuredNewsBlogs}
       />
       <ContactCardsSection />
-      <PreFooterBanner type={1} imagePosition="center top" />
+      <PreFooterBanner type={1} />
     </main>
   )}</LocalizedContent>;
 }

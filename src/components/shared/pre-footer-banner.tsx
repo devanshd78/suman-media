@@ -27,6 +27,7 @@ const partnerHeading = "Have a story worth telling? Let's bring it to the world.
 const partnerCta = { label: "Join as a Partner", href: "/contact/form?type=partnership" };
 const variants: Record<PreFooterBannerType, BannerContent> = {
   1: {
+    eyebrow: "CAREERS",
     heading: "Join us to start a New Chapter in Media and Entertainment",
     imageUrl: "/images/about/join-banner.webp",
     cta: { label: "View Open Roles", href: "/careers" },

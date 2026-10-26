@@ -5,17 +5,12 @@ import Image from "@/components/ui/image";
 import styles from "./contact-page.module.css";
 
 const PARTNER_LOGOS = [
-  { name: "Attentive", src: "/images/partners/partners-artwork-156.svg", width: 202 },
-  { name: "Calendly", src: "/images/partners/partners-artwork-183.svg", width: 224 },
-  { name: "Mailchimp", src: "/images/partners/partners-artwork-170.svg", width: 224 },
-  {
-    name: "Automation Anywhere",
-    src: "/images/partners/partners-artwork-161.svg",
-    width: 224,
-  },
-  { name: "Razorpay", src: "/images/partners/partners-artwork-204.svg", width: 224 },
-  { name: "Dropbox", src: "/images/partners/dropbox-com.svg", width: 122 },
-  { name: "Atlassian", src: "/images/partners/atlassian.png", width: 224 },
+  { name: "Laminar", src: "/images/landing/partners/laminar-logo.svg", width: 190 },
+  { name: "AWS", src: "/images/landing/partners/amazon-web-services-logo.svg", width: 112 },
+  { name: "Abhijat Marathi", src: "/images/abhijat-logo.png", width: 130 },
+  { name: "Zee Marathi", src: "/images/landing/partners/zee-marathi-logo.svg", width: 125 },
+  { name: "Festival de Cannes", src: "/images/landing/partners/festival-de-cannes-logo.svg", width: 168 },
+  { name: "Government of Maharashtra", src: "/images/landing/partners/government-of-maharashtra-logo.svg", width: 92 },
 ] as const;
 
 function PartnerLogoRow({ duplicate = false }: { duplicate?: boolean }) {
@@ -36,6 +31,7 @@ function PartnerLogoRow({ duplicate = false }: { duplicate?: boolean }) {
             fill
             sizes={`${logo.width}px`}
             className="pointer-events-none select-none object-contain"
+            style={logo.src.endsWith(".svg") ? { filter: "brightness(0.3)" } : undefined}
           />
         </div>
       ))}

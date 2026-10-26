@@ -57,7 +57,7 @@ The HTTP audits cover rendered HTML, internal links, fragment destinations, cano
 
 ## Content limitations
 
-Financial statements and legal documents have no implemented destination/content in this project. Their footer entries are marked Soon instead of sending users to unrelated pages. CMS content and social destinations are preserved. External video links open the existing channel or channel search; they do not imply an implemented subscription or checkout service.
+Financial statements have no implemented destination/content in this project and remain marked Soon. Terms & Conditions and Privacy Policy now have bilingual pages and footer destinations. CMS content and social destinations are preserved. External video links open the existing channel or channel search; they do not imply an implemented subscription or checkout service.
 
 ## Media and About Us
 
@@ -69,7 +69,7 @@ The production build and type checks pass. Targeted lint passes for the new load
 
 Desktop and mobile About Us timeline checks were performed earlier in this task. The final in-app browser session could not attach a working preview, so a final whole-site visual/responsive and interaction pass is not claimed. Form submissions were not sent to live endpoints. Figma design context could not be retrieved because the connector reported no selected layer; the supplied PDF and local implementation were used instead.
 
-## Final automated results — 26 October 2026
+## Earlier automated crawl — 26 October 2026
 
 - Production build and TypeScript: passed.
 - 104 English/Marathi page URLs: no broken internal links, missing anchors or canonical URL failures in the crawl.
@@ -78,3 +78,12 @@ Desktop and mobile About Us timeline checks were performed earlier in this task.
 - 344 HTTP redirect cases: passed with locale/query preservation.
 - 345 unique media assets and 269 source media references: passed.
 - Full evidence: `reports/website-verification.json` and `reports/website-route-audit.json`.
+
+## Screenshot follow-up — 26 October 2026
+
+- App panel closes completely and remembers dismissal for the current browser tab session; only QR and store links remain in the expanded panel. Store icons gain color on hover/focus.
+- Header partner destination, existing contact brand logos, browser no-translate hints, uncropped Global Reach photos, shared careers banner, timeline padding/card treatment and release snapping updated.
+- Careers benefits use measured viewport/track dimensions rather than a fixed 900px panel. Shared initial text entrances now wait for a painted starting frame.
+- Production build, TypeScript and scoped lint passed. Current source audits: 1,560 matching locale messages, 346 assets / 263 source URLs, 29 canonical pages / 303 aliases.
+- Browser checks: complete panel dismissal persists after navigation; all five Global Reach photos use contain; desktop careers panel matches 720px viewport with measured 592px card window; mobile gallery drag advances and releases at a card; desktop timeline keyboard navigation works. No real touch-device hardware test is claimed.
+- News & Blogs was left unchanged in this follow-up. The earlier full-site crawl counts above are historical, not a fresh full-site crawl.
