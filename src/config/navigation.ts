@@ -41,7 +41,7 @@ export const NAV_LINKS = [
 export type FooterLink = { label: string; href: string | null; arrow?: boolean; soon?: boolean };
 export const FOOTER_LINKS: Record<string, FooterLink[]> = {
   COMPANY: [pageLink("about"), pageLink("careers"), { label: "Leadership", href: "/about#leadership" }, { label: "Our Journey", href: "/about#our-journey" }, pageLink("companies"), pageLink("contact"), pageLink("partners")],
-  RESOURCES: [pageLink("news"), pageLink("portfolio"), { label: "FAQ", href: "/#faq" }, { label: "Terms and Condition", href: null, soon: true }, { label: "Privacy Policy", href: null, soon: true }],
+  RESOURCES: [pageLink("news"), pageLink("portfolio"), { label: "FAQ", href: "/#faq" }, pageLink("terms"), pageLink("privacy")],
   PRODUCT: [pageLink("ott"), pageLink("monetization"), pageLink("fast"), pageLink("ai"), pageLink("library"), pageLink("publications"), pageLink("ip")],
   SERVICES: [pageLink("brand"), pageLink("media"), pageLink("music"), pageLink("events"), pageLink("networks"), pageLink("creators"), pageLink("services")],
   SOLUTIONS: [pageLink("government"), pageLink("capital"), pageLink("international"), pageLink("distribution")].map(link => ({ ...link, arrow: true })),

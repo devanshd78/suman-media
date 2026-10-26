@@ -1280,6 +1280,9 @@ export function ClientsSection() {
             isReady
           }
           data-lenis-prevent-horizontal
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+          onTouchCancel={() => setIsHovered(false)}
           role="region"
           aria-label="Business ecosystem carousel"
           tabIndex={0}
@@ -1360,6 +1363,7 @@ export function ClientsSection() {
           onPointerDown={(
             event,
           ) => {
+            if (event.pointerType === "touch") return;
             if (
               event.pointerType ===
               "mouse" &&

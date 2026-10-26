@@ -1,5 +1,7 @@
 "use client";
 
+import { ABHIJAT_APP_LINKS } from "@/config/app-download";
+
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useNearViewport } from "@/hooks/use-near-viewport";
@@ -2711,19 +2713,21 @@ export default function StreamingContentSections() {
                 <div className="grid w-full grid-cols-1 gap-[3.5rem] lg:grid-cols-2">
                     {[
                         {
+                            href: ABHIJAT_APP_LINKS.android,
                             image: "/images/abhijat-marathi/playstore.png",
                             alt: "Google Play Store",
                             description:
                                 "Discover the essence of Maharashtra on your Android device. Stream classic films, new releases, and exclusive regional stories in high definition.",
                         },
                         {
+                            href: ABHIJAT_APP_LINKS.ios,
                             image: "/images/abhijat-marathi/app-store.png",
                             alt: "Apple App Store",
                             description:
                                 "Elevate your streaming experience on iPhone and iPad. Enjoy curated Marathi cinema, compelling web originals, and cultural gems designed for seamless entertainment on iOS.",
                         },
                     ].map((platform) => (
-                        <article
+                        <a href={platform.href} target="_blank" rel="noopener noreferrer"
                             key={platform.image}
                             className="flex min-h-[7.1875rem] items-center"
                         >
@@ -2754,7 +2758,7 @@ export default function StreamingContentSections() {
                                     {platform.description}
                                 </MaskedTextReveal>
                             </p>
-                        </article>
+                        </a>
                     ))}
                 </div>
             </section>

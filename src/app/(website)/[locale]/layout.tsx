@@ -1,4 +1,5 @@
 import { SiteTextReveal } from "@/components/motion/site-text-reveal";
+import { AppDownloadPanel } from "@/components/app-download/app-download-panel";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
@@ -29,6 +30,7 @@ export default async function WebsiteLayout({ children, params }: { children: Re
       <Header />
       <div data-website-content style={{ display: "contents" }}><SiteTextReveal />{children}</div>
       <Footer settings={settings} />
+      <AppDownloadPanel />
       <SanityLive />
       {isEnabled ? <VisualEditing /> : null}
     </SmoothScrollProvider>

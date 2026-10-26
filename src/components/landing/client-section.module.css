@@ -96,9 +96,9 @@
 
     /*
      * Vertical page scrolling remains available.
-     * Horizontal movement is handled by the carousel.
+     * Touch horizontal movement uses native scrolling; mouse dragging is handled by the carousel.
      */
-    touch-action: pan-y;
+    touch-action: pan-x pan-y pinch-zoom;
 }
 
 /*

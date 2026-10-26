@@ -253,7 +253,7 @@ export default function DigitalMediaNetworksPage() {
         .digital-media-page .digital-slide-card { height: auto !important; }
         html[lang="mr"] .digital-media-page :is(h1,h2,h3,p) { line-height: 1.5 !important; }
         @media (max-width: 900px) {
-          .digital-media-page > section { padding: 3.5rem 1.25rem !important; min-height: 0 !important; }
+          .digital-media-page > section:not(#news-blogs) { padding: 3.5rem 1.25rem !important; min-height: 0 !important; }
           .digital-media-page > section:first-of-type { padding-top: 7rem !important; }
           .digital-media-page :is(.digital-hero-row,.digital-capabilities-row,.digital-faq-row,.digital-contact-row) { flex-direction: column !important; gap: 2rem !important; width: 100% !important; }
           .digital-media-page :is(.digital-hero-row,.digital-capabilities-row,.digital-faq-row) > div { width: 100% !important; min-width: 0 !important; flex-basis: auto !important; }

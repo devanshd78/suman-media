@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
@@ -420,6 +422,7 @@ export default function ContactFormPage({
             </div>
 
             <div className="flex w-full flex-col gap-3">
+              <Link href="/privacy-policy" className="text-sm text-[#8F6C1A] underline underline-offset-4">Read our Privacy Policy</Link>
               <button
                 type="submit"
                 disabled={submitting}

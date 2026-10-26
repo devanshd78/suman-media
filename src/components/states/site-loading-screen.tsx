@@ -35,14 +35,15 @@ const LOADING_QUOTES = [
   },
 ] as const;
 
-const QUOTE_INTERVAL_MS = 2400;
 const APPROACH_DURATION_MS = 1800;
 const FINISH_DURATION_MS = 330;
 const APPROACH_TARGET = 94;
 // Avoid showing the same quote on two consecutive page transitions.
 let lastQuoteAcrossScreens = -1;
+let activeLoadingScreens = 0;
+let lastScreenClosedAt = 0;
 
-/** The first quote on every mount is random, and later quotes never repeat immediately. */
+/** Choose one quote for the entire load, avoiding the previous load's quote. */
 function nextRandomIndex(previous: number): number {
   const count = LOADING_QUOTES.length;
   if (previous < 0 || previous >= count) {
@@ -70,9 +71,8 @@ export function SiteLoadingScreen({
   const locale = requestedLocale || pathname?.match(/^\/(en|mr)(?:\/|$)/)?.[1] || websiteLocale;
   const t = (text: string) => translateText(text, locale);
   // The server and first client render share the same markup (no hydration mismatch).
-  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [quoteIndex, setQuoteIndex] = useState<number | null>(null);
   const [dotCount, setDotCount] = useState(1);
-  const lastIndex = useRef(-1);
   const numberNode = useRef<HTMLSpanElement>(null);
   const currentProgress = useRef(0);
   const onFinishRef = useRef(onFinish);
@@ -82,23 +82,20 @@ export function SiteLoadingScreen({
   }, [onFinish]);
 
   useEffect(() => {
-    const showRandomQuote = () => {
-      const index = nextRandomIndex(
-        lastIndex.current < 0 ? lastQuoteAcrossScreens : lastIndex.current,
-      );
-      lastIndex.current = index;
-      lastQuoteAcrossScreens = index;
-      setQuoteIndex(index);
-    };
-
-    showRandomQuote();
-    const quoteTimer = window.setInterval(showRandomQuote, QUOTE_INTERVAL_MS);
+    // Suspense and the transition overlay can overlap. They share one quote
+    // until the load finishes. The grace period also covers Strict Mode remounts.
+    if (lastQuoteAcrossScreens < 0 || (activeLoadingScreens === 0 && Date.now() - lastScreenClosedAt > 250)) {
+      lastQuoteAcrossScreens = nextRandomIndex(lastQuoteAcrossScreens);
+    }
+    activeLoadingScreens += 1;
+    setQuoteIndex(lastQuoteAcrossScreens);
     const dotsTimer = window.setInterval(() => {
       setDotCount((count) => (count % 4) + 1);
     }, 550);
 
     return () => {
-      window.clearInterval(quoteTimer);
+      activeLoadingScreens = Math.max(0, activeLoadingScreens - 1);
+      lastScreenClosedAt = Date.now();
       window.clearInterval(dotsTimer);
     };
   }, []);
@@ -143,15 +140,15 @@ export function SiteLoadingScreen({
     return () => window.cancelAnimationFrame(frame);
   }, [complete, locale]);
 
-  const activeQuote = LOADING_QUOTES[quoteIndex];
+  const activeQuote = quoteIndex === null ? null : LOADING_QUOTES[quoteIndex];
 
   return (
     <div className={styles.screen} role="status" lang={locale} aria-label={t(label)} aria-busy={!complete} aria-live="off">
       <div className={styles.quoteContainer}>
-        <div className={styles.quoteBody} key={quoteIndex}>
+        {activeQuote && <div className={styles.quoteBody} key={quoteIndex}>
           <p className={styles.year}>{t(activeQuote.year)}</p>
           <blockquote className={styles.quote}>{t(activeQuote.quote)}</blockquote>
-        </div>
+        </div>}
       </div>
 
       <div className={styles.progressArea}>

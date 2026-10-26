@@ -298,5 +298,8 @@
   "/business": "/solutions/international-business-partnerships",
   "/content-acquisition-and-distribution": "/solutions/content-acquisition-distribution",
   "/leadership": "/about#leadership",
-  "/companies/abhijat-marathi": "/products/ott-digital-platforms-streaming"
+  "/companies/abhijat-marathi": "/products/ott-digital-platforms-streaming",
+  "/terms": "/terms-and-conditions",
+  "/terms-and-condition": "/terms-and-conditions",
+  "/privacy": "/privacy-policy"
 }

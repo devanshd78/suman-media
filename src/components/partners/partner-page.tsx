@@ -1,5 +1,7 @@
 "use client";
 
+import { AppStoreLinks } from "@/components/app-download/app-download-panel";
+
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
@@ -486,7 +488,7 @@ function MediaRail({
     (event: ReactPointerEvent<HTMLDivElement>) => {
       const rail = railRef.current;
       if (!rail) return;
-      if (event.pointerType === "mouse" && event.button !== 0) return;
+      if (event.pointerType === "touch" || (event.pointerType === "mouse" && event.button !== 0)) return;
 
       const state = dragStateRef.current;
       state.pointerId = event.pointerId;
@@ -710,20 +712,7 @@ function MediaRail({
 
           <div className={styles.ottDownload} aria-label="Download Abhijat Marathi">
             <span>Download now</span>
-            <span className={styles.googlePlayMark} aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none">
-                <path d="M9.60507 11.228L0.0878906 21.5573C0.0887845 21.5591 0.0887844 21.5619 0.0896783 21.5637C0.381978 22.6853 1.38313 23.5107 2.57199 23.5107C3.04754 23.5107 3.49359 23.3791 3.87617 23.1488L3.90656 23.1305L14.6189 16.8095L9.60507 11.228Z" fill="#EA4335" />
-                <path d="M19.233 9.4693L19.2241 9.4629L14.5991 6.72152L9.38867 11.4629L14.6179 16.8086L19.2178 14.0946C20.0241 13.6486 20.572 12.7792 20.572 11.7774C20.572 10.781 20.0321 9.91629 19.233 9.4693Z" fill="#FBBC04" />
-                <path d="M0.0876006 1.95247C0.030392 2.16819 0 2.39489 0 2.6289V20.8816C0 21.1156 0.030392 21.3423 0.0884944 21.5571L9.93194 11.492L0.0876006 1.95247Z" fill="#4285F4" />
-                <path d="M9.67568 11.7554L14.601 6.7196L3.9012 0.375763C3.51236 0.137183 3.05826 6.96182e-05 2.57289 6.96182e-05C1.38402 6.96182e-05 0.381084 0.827328 0.088784 1.94984C0.088784 1.95075 0.0878906 1.95167 0.0878906 1.95258L9.67568 11.7554Z" fill="#34A853" />
-              </svg>
-            </span>
-            <span className={styles.appleMark} aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
-                <path d="M16.364 12.5031C16.3759 11.602 16.6211 10.7184 17.0767 9.93463C17.5324 9.15085 18.1837 8.49232 18.9701 8.02032C18.4705 7.32376 17.8114 6.75052 17.0453 6.34613C16.2791 5.94174 15.4269 5.71734 14.5563 5.69075C12.6993 5.50044 10.899 6.77563 9.95265 6.77563C8.98803 6.77563 7.53104 5.70965 5.9621 5.74116C4.94726 5.77317 3.95823 6.06128 3.09136 6.57742C2.22448 7.09357 1.50934 7.82014 1.0156 8.68634C-1.12311 12.3015 0.47218 17.6146 2.52092 20.5368C3.54596 21.9678 4.74393 23.5662 6.31146 23.5095C7.84538 23.4474 8.41827 22.5545 10.2698 22.5545C12.1042 22.5545 12.6417 23.5095 14.241 23.4735C15.887 23.4474 16.924 22.0362 17.9131 20.5917C18.6496 19.5721 19.2163 18.4452 19.5923 17.2528C18.636 16.8579 17.82 16.197 17.2459 15.3524C16.6718 14.5077 16.3651 13.5168 16.364 12.5031Z" fill="black" />
-                <path d="M13.3432 3.76871C14.2407 2.71689 14.6828 1.36495 14.5757 0C13.2046 0.140594 11.9381 0.780358 11.0286 1.79182C10.5838 2.28595 10.2432 2.8608 10.0262 3.48352C9.80918 4.10624 9.72 4.76461 9.76375 5.421C10.4495 5.42789 11.128 5.28277 11.748 4.99656C12.368 4.71036 12.9135 4.29054 13.3432 3.76871Z" fill="black" />
-              </svg>
-            </span>
+            <AppStoreLinks />
           </div>
 
           <div className={styles.ottRailNav} aria-label="OTT carousel controls">

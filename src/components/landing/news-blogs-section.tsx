@@ -1125,6 +1125,7 @@ export function NewsBlogsSection({
         onPointerDown={(
           event,
         ) => {
+          if (event.pointerType === "touch") return;
           /*
            * Mouse must use the primary button.
            */
@@ -1321,7 +1322,7 @@ export function NewsBlogsSection({
 
           select-none
 
-          [touch-action:pan-y]
+          [touch-action:pan-x_pan-y_pinch-zoom]
 
           pb-1
 

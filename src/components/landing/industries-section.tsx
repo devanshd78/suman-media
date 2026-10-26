@@ -296,10 +296,10 @@ export function IndustriesSection({
     viewport,
     track,
 
-    minViewportWidth: 320,
+    minViewportWidth: 1024,
     minViewportHeight: 420,
 
-    requireFinePointer: false,
+    requireFinePointer: true,
   });
 
   /* ==========================================================

@@ -519,7 +519,7 @@
 
 .newsSection  {
   width: 100%;
-  padding: clamp(4.5rem, 7vw, 7rem) var(--fast-pad) clamp(5rem, 8vw, 7.5rem);
+  padding: clamp(4.5rem, 7vw, 7rem) 0 clamp(5rem, 8vw, 7.5rem);
   background: #fff;
   color: var(--fast-ink);
 }

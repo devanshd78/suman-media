@@ -105,7 +105,7 @@ export default function ContentDistributionPage() {
   ) => {
     const slider = sliderRef.current;
 
-    if (!slider || !event.isPrimary || event.button !== 0) return;
+    if (!slider || !event.isPrimary || event.button !== 0 || event.pointerType === "touch") return;
 
     activePointer.current = event.pointerId;
     slider.scrollTo({ left: slider.scrollLeft, behavior: "instant" });
@@ -291,6 +291,10 @@ export default function ContentDistributionPage() {
           <div
             ref={sliderRef}
             className={`cards-slider ${dragging ? "dragging" : ""}`}
+            data-lenis-prevent-horizontal
+            onTouchStart={() => setPaused(true)}
+            onTouchEnd={() => setPaused(false)}
+            onTouchCancel={() => setPaused(false)}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={stopDragging}
@@ -618,7 +622,7 @@ export default function ContentDistributionPage() {
           scrollbar-width: none;
 
           user-select: none;
-          touch-action: pan-y;
+          touch-action: pan-x pan-y pinch-zoom;
           overscroll-behavior-x: contain;
         }
 

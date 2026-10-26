@@ -195,5 +195,22 @@
       "/content-acquisition-and-distribution",
       "/contentAcquisition&distribution"
     ]
+  },
+  "terms": {
+    "path": "/terms-and-conditions",
+    "label": "Terms & Conditions",
+    "category": "resources",
+    "aliases": [
+      "/terms",
+      "/terms-and-condition"
+    ]
+  },
+  "privacy": {
+    "path": "/privacy-policy",
+    "label": "Privacy Policy",
+    "category": "resources",
+    "aliases": [
+      "/privacy"
+    ]
   }
 }

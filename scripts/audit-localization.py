@@ -12,7 +12,7 @@ from html.parser import HTMLParser
 from urllib.parse import urlparse
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else 'http://localhost:3000').rstrip('/')
-ALLOWED = set('''Automation Anywhere ABP AWS BMW BS Facebook Festival de Cannes Google Instagram Laminar LinkedIn Messenger The print YouTube Zee Marathi abhijat-marathi apple brut he tribune lokmatfilmy sakath AntiMatter CSS React TypeScript Mac D Atlassian Attentive Calendly Dropbox Mailchimp Razorpay AVOD SVOD TVOD AI AdSense DOC DOCX JSON MCN NOWT PDF application json'''.lower().split())
+ALLOWED = set('''Google Play App Store Automation Anywhere ABP AWS BMW BS Facebook Festival de Cannes Google Instagram Laminar LinkedIn Messenger The print YouTube Zee Marathi abhijat-marathi apple brut he tribune lokmatfilmy sakath AntiMatter CSS React TypeScript Mac D Atlassian Attentive Calendly Dropbox Mailchimp Razorpay AVOD SVOD TVOD AI AdSense DOC DOCX JSON MCN NOWT PDF application json'''.lower().split())
 
 class Page(HTMLParser):
     def __init__(self):

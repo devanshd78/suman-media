@@ -539,6 +539,8 @@ export default function MusicAudioPage() {
                     {/* Draggable Horizontal Slider */}
                     <div
                         ref={sliderRef}
+                        data-lenis-prevent-horizontal
+                        onTouchStart={() => setHasDragged(false)}
                         onMouseDown={handleMouseDown}
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}

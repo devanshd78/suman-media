@@ -1,0 +1,81 @@
+{
+  "terms": [
+    {
+      "id": "using-the-website",
+      "heading": "Using this website",
+      "body": "These terms apply to the Suman Entertainment & Media website. By using it, you agree to use the website lawfully and respect these terms. If you do not agree, please stop using the website."
+    },
+    {
+      "id": "content-and-rights",
+      "heading": "Content and intellectual property",
+      "body": "Website text, images, videos, artwork, logos and other materials belong to their respective owners. Viewing this website does not grant a licence to reproduce, distribute, commercially exploit or use those materials in a way that infringes another person’s rights. Contact us for licensing enquiries."
+    },
+    {
+      "id": "responsible-use",
+      "heading": "Responsible use",
+      "body": "Do not interfere with the website, attempt unauthorised access, upload malicious files, impersonate someone else or submit unlawful or misleading information. Only share information and files that you are entitled to provide."
+    },
+    {
+      "id": "enquiries-and-applications",
+      "heading": "Enquiries and applications",
+      "body": "Submitting an enquiry, partnership proposal or job application does not create a contract, employment offer or commitment to provide services. Any commercial engagement, content licence or employment relationship requires a separate agreement. Please keep submissions accurate and relevant."
+    },
+    {
+      "id": "external-services",
+      "heading": "Apps and external services",
+      "body": "Links to Abhijat Marathi, app stores, social networks and other services take you to third-party platforms. Their own terms, privacy notices, availability and purchase conditions apply. This corporate website does not process app subscriptions or app-store purchases."
+    },
+    {
+      "id": "availability",
+      "heading": "Information and availability",
+      "body": "We may update website content and features. Information is provided for general reference and may change; contact our team to confirm current service details. We cannot guarantee uninterrupted access or the accuracy and availability of external content. Nothing in these terms excludes rights or responsibilities that cannot lawfully be excluded."
+    },
+    {
+      "id": "updates-and-questions",
+      "heading": "Updates and questions",
+      "body": "We may revise these terms as the website develops. The updated date identifies the current version. For questions about these terms, content permissions or use of the website, contact our team through the contact form."
+    }
+  ],
+  "privacy": [
+    {
+      "id": "scope",
+      "heading": "About this notice",
+      "body": "This notice describes information handled through the Suman Entertainment & Media corporate website. The Abhijat Marathi streaming service and app stores have their own privacy notices. Follow their notices when using those services."
+    },
+    {
+      "id": "information-you-share",
+      "heading": "Information you share",
+      "body": "Contact forms collect the name, email address, message and any optional phone number, company or subject you provide. Career applications also collect application details and an uploaded résumé. Newsletter registration collects your email address. Please avoid including unrelated sensitive information in messages or files."
+    },
+    {
+      "id": "technical-information",
+      "heading": "Technical information and preferences",
+      "body": "Website requests can include technical information such as IP address, browser details and the referring page. Security checks and rate limits help protect forms against abuse. Language preferences may be remembered using a cookie. Your browser controls let you manage cookies, although some preferences may then need to be selected again."
+    },
+    {
+      "id": "how-information-is-used",
+      "heading": "How information is used",
+      "body": "Information submitted through the website is used to respond to enquiries, assess proposals and applications, manage requested newsletter subscriptions, operate the website and protect it from misuse. A contact enquiry is separate from a newsletter subscription."
+    },
+    {
+      "id": "service-providers",
+      "heading": "Service providers and embedded content",
+      "body": "Hosting, database, file-storage and security providers support website operations. Embedded videos and external links may connect your browser to services such as YouTube or app stores, which process information under their own policies. Opening a store link takes you outside this website."
+    },
+    {
+      "id": "retention-and-security",
+      "heading": "Retention and security",
+      "body": "Information may need to be retained to handle your request, maintain relevant business records, resolve issues or meet applicable obligations. Retention depends on the purpose and record involved. Access controls and security measures help protect information, but no internet transmission or storage system is completely risk-free."
+    },
+    {
+      "id": "your-choices",
+      "heading": "Your choices and requests",
+      "body": "Contact us to ask about information you submitted, request a correction or deletion, or stop receiving a newsletter. Describe your request without sending passwords or identity documents in the initial message. We may need to verify a request before acting on it, and applicable record-keeping obligations may limit deletion."
+    },
+    {
+      "id": "contact-and-changes",
+      "heading": "Contact and changes",
+      "body": "Use the contact form for privacy questions or requests and include Privacy request as the subject. This notice may change when website features or information practices change; the updated date identifies the current version."
+    }
+  ]
+}

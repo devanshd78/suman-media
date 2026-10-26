@@ -449,6 +449,7 @@ export function NewsBlogsPage({ posts }: Props) {
             (
                 event: ReactPointerEvent<HTMLDivElement>,
             ) => {
+                if (event.pointerType === "touch") return;
                 if (
                     event.pointerType === "mouse" &&
                     event.button !== 0
@@ -800,6 +801,9 @@ export function NewsBlogsPage({ posts }: Props) {
                                 : "false"
                         }
                         data-lenis-prevent-horizontal
+                        onTouchStart={() => setPressPaused(true)}
+                        onTouchEnd={() => setPressPaused(false)}
+                        onTouchCancel={() => setPressPaused(false)}
                         role="region"
                         aria-label="Press carousel"
                         tabIndex={0}

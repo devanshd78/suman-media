@@ -1,0 +1,22 @@
+.page { background:#fff; color:#1a1a1a; padding-bottom:6rem; }
+.hero { padding-block:9rem 4rem; background:linear-gradient(125deg,#f9f7f0,#fff 75%); border-bottom:1px solid #e9e5da; }
+.eyebrow { color:#8f6c1a; font-size:.75rem; font-weight:600; letter-spacing:.08em; margin:0 0 1rem; }
+.hero h1 { font-family:var(--font-plus-jakarta-sans),sans-serif; font-size:clamp(2.5rem,5vw,4.5rem); font-weight:600; line-height:1.15; letter-spacing:-.04em; margin:0; }
+.lead { font-size:clamp(1.125rem,2vw,1.5rem); margin:1.5rem 0; color:#656565; }
+.updated { font-size:.875rem; color:#797979; margin:0; }
+.layout { display:grid; grid-template-columns:minmax(14rem,1fr) minmax(0,2.5fr); gap:clamp(2rem,6vw,6rem); padding-top:4rem; }
+.contents { position:sticky; top:6rem; align-self:start; display:flex; flex-direction:column; gap:.25rem; }
+.contents p { font-weight:600; margin:0 0 1rem; }
+.contents a { display:flex; align-items:baseline; gap:.75rem; padding:.65rem 0; color:#696969; font-size:.875rem; text-decoration:none; }
+.contents a span { font-size:.7rem; color:#8f6c1a; }
+.contents a:hover { color:#8f6c1a; }
+.body { max-width:54rem; }
+.section { scroll-margin-top:6rem; padding-bottom:2.5rem; margin-bottom:2.5rem; border-bottom:1px solid #e8e8e8; }
+.section h2,.contact h2 { font-family:var(--font-plus-jakarta-sans),sans-serif; font-size:clamp(1.35rem,2vw,1.75rem); font-weight:600; line-height:1.35; margin:0 0 1rem; }
+.section p { margin:0; font-size:1rem; line-height:1.85; color:#696969; }
+.contact { padding:2rem; background:#f8f6ef; border-radius:.75rem; display:flex; flex-direction:column; align-items:flex-start; gap:.75rem; }
+.contact a,.back { display:inline-flex; align-items:center; gap:.75rem; color:#8f6c1a; font-weight:600; text-decoration:none; }
+.contact a:hover span { transform:translateX(3px); }
+.back { margin-top:2rem; }
+.page a:focus-visible { outline:2px solid #8f6c1a; outline-offset:4px; }
+@media(max-width:767px) { .hero { padding-block:7rem 3rem; } .layout { grid-template-columns:1fr; padding-top:2rem; gap:2.5rem; } .contents { position:static; padding-bottom:1.5rem; border-bottom:1px solid #e8e8e8; } .contact { padding:1.5rem; } .page { padding-bottom:4rem; } }

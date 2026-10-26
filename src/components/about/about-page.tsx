@@ -479,6 +479,10 @@ function DragCarousel({
         aria-label={ariaLabel}
         tabIndex={0}
         data-dragging={dragging}
+        data-lenis-prevent-horizontal
+        onTouchStart={() => setHovered(true)}
+        onTouchEnd={() => setHovered(false)}
+        onTouchCancel={() => setHovered(false)}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={finishPointer}
