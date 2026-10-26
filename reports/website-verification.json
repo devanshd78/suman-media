@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-26",
+  "production_build": "passed",
+  "typescript": "passed",
+  "dictionary_entries_per_language": 1506,
+  "marathi_rendered_pages": {
+    "checked": 52,
+    "failures": 0
+  },
+  "english_and_marathi_route_crawl": {
+    "checked": 104,
+    "failures": 0
+  },
+  "http_redirect_cases": {
+    "checked": 344,
+    "failures": 0
+  },
+  "canonical_pages": 27,
+  "legacy_aliases": 300,
+  "unique_media_files": 345,
+  "source_media_urls_checked": 269,
+  "targeted_lint": "passed",
+  "full_lint": "10 existing React-hook errors and 22 warnings; see eslint-audit.json",
+  "final_browser_verification": "Incomplete: browser preview failed to attach. Earlier About Us desktop/mobile timeline checks completed."
+}

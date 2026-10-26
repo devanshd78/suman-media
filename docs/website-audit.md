@@ -68,3 +68,13 @@ Duplicate files are consolidated at their canonical public URLs with legacy asse
 The production build and type checks pass. Targeted lint passes for the new loader, shared reveal, navigation configuration, and corrected internal links. The full source lint run still reports 10 existing React-hook errors and 22 warnings; see `reports/eslint-audit.json`.
 
 Desktop and mobile About Us timeline checks were performed earlier in this task. The final in-app browser session could not attach a working preview, so a final whole-site visual/responsive and interaction pass is not claimed. Form submissions were not sent to live endpoints. Figma design context could not be retrieved because the connector reported no selected layer; the supplied PDF and local implementation were used instead.
+
+## Final automated results — 26 October 2026
+
+- Production build and TypeScript: passed.
+- 104 English/Marathi page URLs: no broken internal links, missing anchors or canonical URL failures in the crawl.
+- 52 Marathi pages: no untranslated public text detected by the rendered-HTML audit.
+- 1,506 matching dictionary entries, including every loading quote, heading and status label.
+- 344 HTTP redirect cases: passed with locale/query preservation.
+- 345 unique media assets and 269 source media references: passed.
+- Full evidence: `reports/website-verification.json` and `reports/website-route-audit.json`.
