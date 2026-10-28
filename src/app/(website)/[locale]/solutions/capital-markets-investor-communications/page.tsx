@@ -4,7 +4,7 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import CapitalMarketSections from "./capital-market-sections";
 import { useCallback, useEffect, useRef, useState } from "react";

@@ -176,7 +176,7 @@ export const homePageType = defineType({
     defineField({ name: "aboutEyebrow", title: "About eyebrow", type: "string", group: "content", initialValue: "ABOUT SUMAN ENTERTAINMENT", validation: (rule) => rule.max(80) }),
     defineField({ name: "aboutHeading", title: "About heading", type: "string", group: "content", initialValue: "We're a team of creatives, music lovers and audio obsessives, developing products building India's Next Generation Media Ecosystem", validation: (rule) => rule.max(180) }),
     defineField({ name: "aboutDescription", title: "About description", type: "text", rows: 6, group: "content", initialValue: "Suman Entertainment & Media Pvt. Ltd. brings together digital platforms, premium content, music, technology, strategic communications, and enterprise partnerships to create, distribute, and scale media experiences across industries. From one of India's dedicated Marathi OTT platforms to government communication initiatives, original content production, music publishing, AI-powered technologies, and global partnerships, we're building an integrated ecosystem designed for the future of media.", validation: (rule) => rule.max(900) }),
-    defineField({ name: "aboutCta", title: "About call to action", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
+    defineField({ name: "aboutCta", title: "About call to action", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/#capabilities", style: "text" } }),
 
     defineField({ name: "clientsEyebrow", title: "Clients eyebrow", type: "string", group: "content", initialValue: "OUR SERVICES", validation: (rule) => rule.max(80) }),
     defineField({ name: "clientsHeading", title: "Clients heading", type: "string", group: "content", initialValue: "Our Clients", validation: (rule) => rule.max(100) }),
@@ -260,7 +260,7 @@ export const homePageType = defineType({
     defineField({ name: "industriesEyebrow", title: "Industries eyebrow", type: "string", group: "content", initialValue: "INDUSTRIES WE WORK WITH", validation: (rule) => rule.max(80) }),
     defineField({ name: "industriesHeading", title: "Industries heading", type: "string", group: "content", initialValue: "The Industries we work with?", validation: (rule) => rule.max(120) }),
     defineField({ name: "industriesDescription", title: "Industries description", type: "text", rows: 4, group: "content", initialValue: "From creating original content and building digital platforms to strategic communications and global distribution, our integrated capabilities help businesses, creators, governments, and brands grow through media and technology.", validation: (rule) => rule.max(500) }),
-    defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/services", style: "text" } }),
+    defineField({ name: "industriesCta", title: "Industries button", type: "cta", group: "content", initialValue: { label: "Explore Capabilities", href: "/#capabilities", style: "text" } }),
 
     // Legacy storage keys are intentionally retained so existing Sanity documents
     // do not need a destructive migration. The GROQ query exposes them to the

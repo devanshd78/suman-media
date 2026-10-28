@@ -2,7 +2,7 @@
 
 
 import { LocalizedContent } from "@/components/localization/localized-content";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 import {
   plusJakartaSans as bodyFont,
@@ -217,7 +217,7 @@ export function AboutSection({
 
     href:
       cta?.href?.trim() ||
-      "/services",
+      "/#capabilities",
   };
 
   return <LocalizedContent>{(

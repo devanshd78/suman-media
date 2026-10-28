@@ -6,7 +6,7 @@ import { SiteLoadingScreen } from "./site-loading-screen";
 
 const INITIAL_SPLASH_MS = 1250;
 const MIN_NAVIGATION_MS = 950;
-const MAX_NAVIGATION_MS = 9000;
+const MAX_NAVIGATION_MS = 20000;
 
 /**
  * Next's app/loading.tsx handles suspense, while this persistent root overlay
@@ -17,6 +17,7 @@ export function PageTransitionLoader() {
   const [requestedLocale, setRequestedLocale] = useState<string | undefined>(undefined);
   const previousPath = useRef(pathname);
   const pendingSince = useRef(0);
+  const pendingDestination = useRef<string | null>(null);
   const initialTimer = useRef<number | null>(null);
   const [visible, setVisible] = useState(true);
   const [complete, setComplete] = useState(false);
@@ -37,6 +38,7 @@ export function PageTransitionLoader() {
   useEffect(() => {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
+    pendingDestination.current = null;
     setRequestedLocale(pathname?.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
     // Programmatic router.push/replace may not originate from an anchor click.
     // Show this same loader for those page changes, too.
@@ -70,51 +72,40 @@ export function PageTransitionLoader() {
       setVisible(true);
     };
 
-    const onLinkClick = (event: MouseEvent) => {
-      if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey || event.ctrlKey || event.altKey || event.shiftKey
-      ) return;
-
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const link = target.closest<HTMLAnchorElement>("a[href]");
-      if (!link || link.hasAttribute("download") || link.dataset.noGlobalLoader === "true") return;
-      if (link.target && link.target !== "_self") return;
-
-      let next: URL;
-      try { next = new URL(link.href, window.location.href); }
-      catch { return; }
-
-      const current = new URL(window.location.href);
-      if (next.origin !== current.origin || !["http:", "https:"].includes(next.protocol)) return;
-      if (next.pathname === current.pathname) return;
-      if (link.getAttribute("rel")?.split(/\s+/).includes("external")) return;
-      setRequestedLocale(next.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
+    const onNavigate = (event: Event) => {
+      const destination = new URL((event as CustomEvent<string>).detail);
+      pendingDestination.current = destination.href;
+      setRequestedLocale(destination.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
       startTransition();
     };
 
     // Popstate covers browser back/forward as well as normal anchor navigation.
     const onPopState = () => {
+      pendingDestination.current = null;
+      if (window.location.pathname === previousPath.current) return;
       setRequestedLocale(window.location.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
       startTransition();
     };
 
-    document.addEventListener("click", onLinkClick, true);
+    window.addEventListener("website:navigate", onNavigate);
     window.addEventListener("popstate", onPopState);
     return () => {
-      document.removeEventListener("click", onLinkClick, true);
+      window.removeEventListener("website:navigate", onNavigate);
       window.removeEventListener("popstate", onPopState);
     };
   }, []);
 
   useEffect(() => {
     if (!visible || complete) return;
-    // A broken or aborted route must never trap someone behind the overlay.
+    // Recover a stalled client transition with the actual requested document.
     const timer = window.setTimeout(() => {
       pendingSince.current = 0;
       setComplete(true);
+      const destination = pendingDestination.current;
+      pendingDestination.current = null;
+      if (destination && window.location.pathname === previousPath.current) {
+        window.location.assign(destination);
+      }
     }, MAX_NAVIGATION_MS);
     return () => window.clearTimeout(timer);
   }, [visible, complete, transitionKey]);

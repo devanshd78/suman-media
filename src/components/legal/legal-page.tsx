@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import content from "./legal-content.json";
 import styles from "./legal-page.module.css";

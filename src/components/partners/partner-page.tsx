@@ -6,7 +6,7 @@ import { AppStoreLinks } from "@/components/app-download/app-download-panel";
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
 import { IntersectionReveal } from "@/components/motion/intersection-reveal";
 import { inter, plusJakartaSans } from "@/lib/fonts";
@@ -1138,7 +1138,7 @@ export function PartnerPageContent() {
                 <EcosystemHeader
                   title="Abhijat Marathi OTT"
                   description="A dedicated Marathi OTT platform bringing 300+ films, original programming and regional stories to audiences in India and around the world."
-                  href="/companies"
+                  href="/products/ott-digital-platforms-streaming"
                 />
                 <MediaRail
                   items={OTT_IMAGES}
@@ -1165,7 +1165,7 @@ export function PartnerPageContent() {
                 <EcosystemHeader
                   title="Abhijat Marathi Studios"
                   description="Established Abhijat Marathi Distribution Studio as a Marathi-focused distribution initiative."
-                  href="/services"
+                  href="/solutions/content-acquisition-distribution"
                   tone="dark"
                 />
 
@@ -1260,7 +1260,7 @@ export function PartnerPageContent() {
                 <EcosystemHeader
                   title="Abhijat Marathi AI"
                   description="Exploring AI-powered technologies for Marathi content, including discovery, translation, metadata, archiving and next-generation digital experiences. Announced technology/content collaborations involving Zee and Laminar AI."
-                  href="/services"
+                  href="/products/ai-emerging-technology"
                 />
 
                 <div className={styles.aiPartners}>

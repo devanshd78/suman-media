@@ -4,7 +4,7 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import {
   AnimatePresence,
   motion,

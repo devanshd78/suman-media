@@ -1,6 +1,6 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 type ContentDetailPageProps = {
   eyebrow: string;

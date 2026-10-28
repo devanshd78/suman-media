@@ -2,7 +2,7 @@
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import type { CSSProperties } from "react";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import { CareersHeroTypewriter } from "@/components/careers/careers-hero-typewriter";
 import { TextReveal } from "@/components/motion/text-reveal";

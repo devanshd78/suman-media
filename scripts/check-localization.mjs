@@ -18,7 +18,7 @@ function load(relative) {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true, resolveJsonModule: true },
   }).outputText;
   vm.runInNewContext(code, {
-    exports, Intl,
+    exports, Intl, URL,
     require(specifier) {
       if (!specifier.startsWith('.')) return loadDependency(specifier);
       const resolved = path.resolve(path.dirname(filename), specifier);
@@ -119,3 +119,8 @@ for (const value of ['Digital Marketing Communication', 'Digital Marketing & Com
   assert.notEqual(translateText(value, 'mr'), value, `Untranslated marketing label: ${value}`);
 }
 console.log(`Localization checks passed: ${Object.keys(mr).length} matching English/Marathi messages, routes, glyphs and React props.`);
+
+const { industryDestination } = load('src/config/website-routes.ts');
+assert.equal(localizedPath('/services', 'en'), '/en#capabilities');
+assert.equal(localizedPath('/#capabilities', 'mr'), '/mr#capabilities');
+assert.equal(localizedPath('/services?industry=brands', 'en'), '/en' + industryDestination('brands'));

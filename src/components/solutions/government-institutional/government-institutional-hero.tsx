@@ -1,7 +1,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import type { CSSProperties } from "react";
 import styles from "./government-institutional-page.module.css";
 

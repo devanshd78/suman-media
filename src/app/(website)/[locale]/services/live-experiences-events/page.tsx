@@ -3,7 +3,7 @@
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-content";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import React, { useState } from "react";
 import Image from "next/image";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";

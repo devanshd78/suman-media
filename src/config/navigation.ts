@@ -27,10 +27,7 @@ export const NAV_MENUS: NavMenu[] = [
         entries: [
           pageLink("brand"),
           pageLink("networks"),
-          {
-            label: "Digital Marketing & Communication",
-            href: "/services/digital-marketing-communication",
-          },
+          pageLink("marketing"),
         ],
       },
       { heading: "Creator Services", entries: [{ ...pageLink("creators"), sublines: ["Artist, Celebrity, Influencer Management", "Speaker Bureau", "Brand Endorsements", "Content Creator Network"] }] },
@@ -72,12 +69,8 @@ export const FOOTER_LINKS: Record<string, FooterLink[]> = {
     pageLink("music"),
     pageLink("events"),
     pageLink("networks"),
-    {
-      label: "Digital Marketing & Communication",
-      href: "/services/digital-marketing-communication",
-    },
+    pageLink("marketing"),
     pageLink("creators"),
-    pageLink("services"),
   ],
   SOLUTIONS: [pageLink("government"), pageLink("capital"), pageLink("international"), pageLink("distribution")].map(link => ({ ...link, arrow: true })),
   INVESTOR: [{ label: "Investor enquiries", href: "/contact/form?type=investor" }, { label: "Roadmap", href: "/about#our-journey" }, { label: "Company Profile", href: "/about" }, { label: "Financials Data", href: null, soon: true }, { label: "IPO 2027", href: null, soon: true }],

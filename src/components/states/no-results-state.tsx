@@ -1,6 +1,6 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { EmptyState } from "@/components/states/empty-state";
 
 export function NoResultsState({ resetHref }: { resetHref: string }) {

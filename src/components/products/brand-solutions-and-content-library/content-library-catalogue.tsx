@@ -3,7 +3,7 @@
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import styles from "./brand-solutions-and-content-library-page.module.css";
 const categories = [
   ["Film Library", "Feature films and cinematic content collections.", "film-library"],

@@ -7,7 +7,7 @@ import {
   Fragment,
 } from "react";
 
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 import {
   motion,

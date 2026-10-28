@@ -2,7 +2,7 @@
 
 
 import { LocalizedContent } from "@/components/localization/localized-content";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { inter } from "@/lib/fonts";

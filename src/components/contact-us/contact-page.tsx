@@ -2,7 +2,7 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import type { CmsContactPage } from "@/types/cms";
 import { PartnerLogoMarquee } from "./partner-logo-marquee";

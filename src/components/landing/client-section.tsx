@@ -3,7 +3,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 import {
   inter,
@@ -73,10 +73,10 @@ const SLIDES: Slide[] = [
     title: "Experiences Beyond the Screen",
     description:
       "Delivering concerts, cultural festivals, corporate events, product launches, and large-scale public experiences that connect brands with audiences.",
-    primaryLabel: "Watch now",
-    primaryHref: "/services",
+    primaryLabel: "Explore",
+    primaryHref: "/services/live-experiences-events",
     secondaryLabel: "Learn more",
-    secondaryHref: "/services",
+    secondaryHref: "/services/live-experiences-events",
   },
   {
     id: 3,
@@ -87,9 +87,9 @@ const SLIDES: Slide[] = [
     description:
       "From original compositions and film soundtracks to digital publishing and royalty management, creating music that reaches audiences everywhere.",
     primaryLabel: "Explore library",
-    primaryHref: "/services",
+    primaryHref: "/products/content-music-library",
     secondaryLabel: "Learn more",
-    secondaryHref: "/services",
+    secondaryHref: "/services/music-audio-experiences",
   },
   {
     id: 4,
@@ -99,10 +99,10 @@ const SLIDES: Slide[] = [
     title: "Creating Stories That Inspire Millions",
     description:
       "Producing feature films, web series, documentaries, branded content, and corporate communications with end-to-end production capabilities.",
-    primaryLabel: "Watch now",
-    primaryHref: "/services",
+    primaryLabel: "Explore",
+    primaryHref: "/portfolio",
     secondaryLabel: "Learn more",
-    secondaryHref: "/services",
+    secondaryHref: "/services/media-content-syndication",
   },
   {
     id: 5,
@@ -112,10 +112,10 @@ const SLIDES: Slide[] = [
     title: "Empowering Public Communication at Scale",
     description:
       "Partnering with government institutions, public sector organizations, and enterprises to deliver impactful campaigns, citizen engagement, and strategic communication initiatives.",
-    primaryLabel: "Watch now",
-    primaryHref: "/services",
+    primaryLabel: "Explore",
+    primaryHref: "/solutions/government-institutional",
     secondaryLabel: "Learn more",
-    secondaryHref: "/services",
+    secondaryHref: "/solutions/government-institutional",
   },
 ];
 

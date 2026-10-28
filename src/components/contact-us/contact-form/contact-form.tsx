@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 
 import { LocalizedContent } from "@/components/localization/localized-content";

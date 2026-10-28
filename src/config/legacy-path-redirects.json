@@ -301,5 +301,12 @@
   "/companies/abhijat-marathi": "/products/ott-digital-platforms-streaming",
   "/terms": "/terms-and-conditions",
   "/terms-and-condition": "/terms-and-conditions",
-  "/privacy": "/privacy-policy"
+  "/privacy": "/privacy-policy",
+  "/services": "/#capabilities",
+  "/services/media-and-content-productionq": "/services/media-content-syndication",
+  "/services/media-and-content-production": "/services/media-content-syndication",
+  "/services/media-content-production": "/services/media-content-syndication",
+  "/services/events-and-experiences1": "/services/live-experiences-events",
+  "/services/events-and-experiences": "/services/live-experiences-events",
+  "/services/events-experiences": "/services/live-experiences-events"
 }

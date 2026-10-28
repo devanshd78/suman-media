@@ -1,7 +1,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import { FOOTER_LINKS, type FooterLink } from "@/config/navigation";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import Image from "next/image";
 
 import { IntersectionReveal } from "@/components/motion/intersection-reveal";

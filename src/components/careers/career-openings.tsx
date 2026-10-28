@@ -3,7 +3,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { CaretDownIcon, CaretRightIcon } from "@phosphor-icons/react";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import { TextReveal } from "@/components/motion/text-reveal";

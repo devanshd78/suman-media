@@ -8,7 +8,7 @@ export const locations = {
         ...(doc?.slug
           ? [{ title: doc.title || "Service", href: `/services/${doc.slug}` }]
           : []),
-        { title: "All services", href: "/services" },
+        { title: "All capabilities", href: "/#capabilities" },
       ],
     }),
   }),

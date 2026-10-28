@@ -2,7 +2,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { plusJakartaSans as inter } from "@/lib/fonts";
 
 import styles from "./contact-page.module.css";

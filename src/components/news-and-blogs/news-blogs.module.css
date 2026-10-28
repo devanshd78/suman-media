@@ -243,7 +243,7 @@
 
 .compactLink {
     display: grid;
-    grid-template-columns: minmax(9.25rem, 34%) minmax(0, 1fr);
+    grid-template-columns: minmax(8rem, 28%) minmax(0, 1fr);
     align-items: start;
     gap: 1rem;
 }
@@ -500,7 +500,7 @@
     }
 
     .compactLink {
-        grid-template-columns: minmax(8.5rem, 34%) minmax(0, 1fr);
+        grid-template-columns: minmax(7rem, 28%) minmax(0, 1fr);
     }
 
     .sectionHeadingRow {

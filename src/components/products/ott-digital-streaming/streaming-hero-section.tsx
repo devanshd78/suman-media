@@ -3,7 +3,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import {
   Children,
   cloneElement,

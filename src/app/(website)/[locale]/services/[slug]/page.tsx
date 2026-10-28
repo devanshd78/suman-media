@@ -28,7 +28,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
       eyebrow="Service"
       title={service.title}
       description={service.description}
-      backHref="/services"
+      backHref="/#capabilities"
       backLabel="View all services"
     />
   )}</LocalizedContent>;

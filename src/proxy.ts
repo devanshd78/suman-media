@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { canonicalWebsitePath } from "@/config/website-routes";
 import legacyPaths from "@/config/legacy-path-redirects.json";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
@@ -16,7 +17,7 @@ export function proxy(request: NextRequest) {
 
   const prefix = pathname.match(/^\/(en|mr)(?=\/|$)/)?.[0] ?? "";
   const original = prefix ? pathname.slice(prefix.length) : pathname;
-  const destination = legacyPaths[original as keyof typeof legacyPaths];
+  const destination = original === "/services" ? canonicalWebsitePath(original + request.nextUrl.search) : legacyPaths[original as keyof typeof legacyPaths];
   if (!destination) {
     if (/^\/(api|studio|images|videos|cannes|_next)(\/|$)/.test(pathname) || /\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next();
     return internationalize(request);
@@ -26,7 +27,7 @@ export function proxy(request: NextRequest) {
   const target = new URL(destination, url.origin);
   const isAsset = /^\/(images|videos|cannes)\//.test(target.pathname);
   url.pathname = `${isAsset ? "" : prefix || "/mr"}${target.pathname}`;
-  if (target.search) url.search = target.search;
+  if (target.search || original === "/services") url.search = target.search;
   if (target.hash) url.hash = target.hash;
   return NextResponse.redirect(url, 308);
 }

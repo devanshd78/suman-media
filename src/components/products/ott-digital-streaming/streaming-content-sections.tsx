@@ -6,7 +6,7 @@ import { ABHIJAT_APP_LINKS } from "@/config/app-download";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useNearViewport } from "@/hooks/use-near-viewport";
 
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import Image from "next/image";
 import {
     AnimatePresence,

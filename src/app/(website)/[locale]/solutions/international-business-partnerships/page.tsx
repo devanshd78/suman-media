@@ -4,7 +4,7 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent, useTextTranslation } from "@/components/localization/localized-content";
 import { useState } from "react";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { AnimatePresence, motion } from "framer-motion";
 
 /* =========================================================

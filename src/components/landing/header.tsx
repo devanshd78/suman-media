@@ -4,7 +4,7 @@
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { LanguageSwitcher } from "@/components/localization/language-switcher";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { usePathname } from "next/navigation";
 
 import { inter } from "@/lib/fonts";

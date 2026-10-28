@@ -136,6 +136,7 @@ export function SmoothScrollProvider({
       if (
         url.origin !== window.location.origin ||
         url.pathname !== window.location.pathname ||
+        url.search !== window.location.search ||
         !url.hash ||
         !getHashTarget(url.hash)
       ) {

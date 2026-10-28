@@ -1,5 +1,5 @@
 
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 // app/monetisation/page.tsx
 

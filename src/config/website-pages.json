@@ -59,12 +59,6 @@
       "/insights"
     ]
   },
-  "services": {
-    "path": "/services",
-    "label": "Services",
-    "category": "services",
-    "aliases": []
-  },
   "ott": {
     "path": "/products/ott-digital-platforms-streaming",
     "label": "OTT, Digital Platforms & Streaming",
@@ -122,7 +116,10 @@
     "label": "Media & Content Syndication",
     "category": "services",
     "aliases": [
-      "/media"
+      "/media",
+      "/services/media-and-content-productionq",
+      "/services/media-and-content-production",
+      "/services/media-content-production"
     ]
   },
   "music": {
@@ -138,7 +135,10 @@
     "label": "Events and Experiences",
     "category": "services",
     "aliases": [
-      "/event-experience"
+      "/event-experience",
+      "/services/events-and-experiences1",
+      "/services/events-and-experiences",
+      "/services/events-experiences"
     ]
   },
   "networks": {
@@ -212,5 +212,11 @@
     "aliases": [
       "/privacy"
     ]
+  },
+  "marketing": {
+    "path": "/services/digital-marketing-communication",
+    "label": "Digital Marketing & Communication",
+    "category": "services",
+    "aliases": []
   }
 }

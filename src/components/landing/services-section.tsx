@@ -1,3 +1,4 @@
+import { canonicalWebsitePath } from "@/config/website-routes";
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import {
@@ -150,11 +151,14 @@ export function ServicesSection({
   heading,
   services,
 }: ServicesSectionProps) {
-  const visibleServices =
-    services.slice(
-      0,
-      MAX_SERVICES,
-    );
+  const destinations = new Set<string>();
+  const visibleServices = services.filter(service => {
+    if (!service.slug) return false;
+    const destination = canonicalWebsitePath(`/services/${service.slug}`);
+    if (destinations.has(destination)) return false;
+    destinations.add(destination);
+    return true;
+  }).slice(0, MAX_SERVICES);
 
   if (
     visibleServices.length ===
@@ -176,6 +180,7 @@ export function ServicesSection({
         [overflow-x:clip]
       `}
     >
+      <span id="capabilities" className="absolute top-0 scroll-mt-24" aria-hidden="true" />
       <ServicesScrollGallery
         eyebrow={
           eyebrow?.trim() ||

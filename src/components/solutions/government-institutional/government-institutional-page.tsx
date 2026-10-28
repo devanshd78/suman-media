@@ -2,7 +2,7 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import { Chevron, GovernmentHero } from "./government-institutional-hero";
 import styles from "./government-institutional-page.module.css";

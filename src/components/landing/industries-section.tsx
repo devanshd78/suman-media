@@ -3,7 +3,8 @@
 
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
+import { industryDestination } from "@/config/website-routes";
 import { motion } from "framer-motion";
 import {
   memo,
@@ -173,9 +174,7 @@ const IndustryCard = memo(
   }) {
     return <LocalizedContent>{(
       <Link
-        href={`/services?industry=${encodeURIComponent(
-          industry.slug,
-        )}`}
+        href={industryDestination(industry.slug)}
         data-rail-card
         data-industry-card
         className={styles.card}
@@ -324,7 +323,7 @@ export function IndustriesSection({
 
   const resolvedCtaHref =
     cta?.href?.trim() ||
-    "/services";
+    "/#capabilities";
 
   /* ==========================================================
      RENDER

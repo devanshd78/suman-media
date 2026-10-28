@@ -7,7 +7,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import {
   inter as benefitFont,
   plusJakartaSans as body,

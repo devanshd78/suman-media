@@ -4,7 +4,7 @@
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { TextReveal } from "@/components/motion/text-reveal";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 
 import {
   motion,

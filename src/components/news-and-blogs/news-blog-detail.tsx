@@ -1,7 +1,7 @@
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
-import Link from "next/link";
+import Link from "@/components/navigation/website-link";
 import { Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 
