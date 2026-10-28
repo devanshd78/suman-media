@@ -28,7 +28,7 @@ export const NAV_MENUS: NavMenu[] = [
           pageLink("brand"),
           pageLink("networks"),
           {
-            label: "Digital Marketing Communication",
+            label: "Digital Marketing & Communication",
             href: "/services/digital-marketing-communication",
           },
         ],
@@ -73,7 +73,7 @@ export const FOOTER_LINKS: Record<string, FooterLink[]> = {
     pageLink("events"),
     pageLink("networks"),
     {
-      label: "Digital Marketing Communication",
+      label: "Digital Marketing & Communication",
       href: "/services/digital-marketing-communication",
     },
     pageLink("creators"),
