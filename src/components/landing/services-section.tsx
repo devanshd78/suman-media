@@ -1,4 +1,3 @@
-import { canonicalWebsitePath } from "@/config/website-routes";
 
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import {
@@ -17,7 +16,7 @@ import {
    CONFIG
    ============================================================ */
 
-const MAX_SERVICES = 8;
+const MAX_SERVICES = 6;
 
 /* ============================================================
    TYPES
@@ -151,14 +150,7 @@ export function ServicesSection({
   heading,
   services,
 }: ServicesSectionProps) {
-  const destinations = new Set<string>();
-  const visibleServices = services.filter(service => {
-    if (!service.slug) return false;
-    const destination = canonicalWebsitePath(`/services/${service.slug}`);
-    if (destinations.has(destination)) return false;
-    destinations.add(destination);
-    return true;
-  }).slice(0, MAX_SERVICES);
+  const visibleServices = services.slice(0, MAX_SERVICES);
 
   if (
     visibleServices.length ===

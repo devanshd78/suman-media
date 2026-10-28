@@ -73,6 +73,12 @@ export const FOOTER_LINKS: Record<string, FooterLink[]> = {
     pageLink("creators"),
   ],
   SOLUTIONS: [pageLink("government"), pageLink("capital"), pageLink("international"), pageLink("distribution")].map(link => ({ ...link, arrow: true })),
-  INVESTOR: [{ label: "Investor enquiries", href: "/contact/form?type=investor" }, { label: "Roadmap", href: "/about#our-journey" }, { label: "Company Profile", href: "/about" }, { label: "Financials Data", href: null, soon: true }, { label: "IPO 2027", href: null, soon: true }],
+  INVESTOR: [
+    { label: "Investor enquiries", href: "/contact/form?type=investor" },
+    { label: "Roadmap", href: "/about#our-journey" },
+    { label: "Company Profile", href: "/about" },
+    // { label: "Financials Data", href: null, soon: true },
+    // { label: "IPO 2027", href: null, soon: true },
+  ],
   CONTACT: [{ label: "Contact Information", href: "/contact", arrow: true }, { label: "Business Enquiry", href: "/contact/form?type=general", arrow: true }, { label: "Partnership Enquiry", href: "/contact/form?type=partnership", arrow: true }],
 };
