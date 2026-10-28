@@ -3,8 +3,6 @@
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import {
   LocalizedContent,
-  TranslationProvider,
-  useWebsiteLocale,
 } from "@/components/localization/localized-content";
 import Link from "next/link";
 import Image from "next/image";
@@ -285,158 +283,6 @@ const FAQ_ITEMS: FaqItem[] = [
 ];
 
 /* =========================================================
-   MARATHI LOCALIZATION TRANSLATIONS DICTIONARY
-   ========================================================= */
-
-const MARATHI_TRANSLATIONS: Record<string, string> = {
-  // Hero
-  "DIGITAL MARKETING & COMMUNICATIONS": "डिजिटल मार्केटिंग आणि कम्युनिकेशन्स",
-  "We partnered with X Company": "आम्ही एक्स कंपनीसोबत भागीदारी केली",
-  "From social media and content marketing to performance campaigns and strategic communications, we help organisations communicate clearly and connect with their audiences across digital platforms.":
-    "सोशल मीडिया आणि कन्टेन्ट मार्केटिंगपासून ते परफॉर्मन्स मोहिमा आणि धोरणात्मक संवादापर्यंत, आम्ही संस्थांना डिजिटल प्लॅटफॉर्मवर स्पष्ट संवाद साधण्यास आणि त्यांच्या प्रेक्षकांशी जोडण्यास मदत करतो.",
-  "Discuss a Campaign": "मोहिमेवर चर्चा करा",
-
-  // Philosophy Statement
-  "Suman Entertainment & Media brings together strategy, ": "सुमन एंटरटेनमेंट आणि मीडिया धोरण, ",
-  "creativity and digital channels to help brands and organisations communicate with the right audiences. From social media and performance marketing to content creation, public affairs and digital outreach, we focus on purposeful communication that builds connections and supports business objectives.":
-    "सर्जनशीलता आणि डिजिटल चॅनल्स एकत्र आणून ब्रँड आणि संस्थांना योग्य प्रेक्षकांशी संवाद साधण्यास मदत करते. सोशल मीडिया आणि परफॉर्मन्स मार्केटिंगपासून ते कन्टेन्ट निर्मिती, सार्वजनिक घडामोडी आणि डिजिटल पोहोचपर्यंत, आम्ही नातेसंबंध निर्माण करणाऱ्या आणि व्यावसायिक उद्दिष्टांना पाठिंबा देणाऱ्या उद्देशपूर्ण संवादावर लक्ष केंद्रित करतो.",
-  "At Suman, digital communication is about relevance, reach and measurable outcomes.":
-    "सुमनमध्ये, डिजिटल संवाद म्हणजे प्रासंगिकता, पोहोच आणि मोजता येण्याजोगे परिणाम.",
-  "Whether building long-term brand equity, managing public perception or driving targeted campaign performance, we align messaging, media channels and creative execution to ensure messages connect with audiences where they are.":
-    "दीर्घकालीन ब्रँड व्हॅल्यू निर्माण करणे असो, जनमानसातील प्रतिमा व्यवस्थापित करणे असो किंवा लक्ष्यित मोहिमेचे प्रदर्शन चालवणे असो, संदेश प्रेक्षकांपर्यंत पोहोचतील याची खात्री करण्यासाठी आम्ही मेसेजिंग, मीडिया चॅनल्स आणि सर्जनशील अंमलबजावणी एकत्रित करतो.",
-
-  // Capabilities
-  "Our Capabilities": "आमची क्षमता",
-  "Search Marketing": "सर्च मार्केटिंग",
-  "Improving visibility through search advertising and related strategies.":
-    "सर्च जाहिराती आणि संबंधित धोरणांद्वारे दृश्यमानता वाढवणे.",
-  "Social Media Management": "सोशल मीडिया व्यवस्थापन",
-  "Building community, engagement and organic presence across social platforms.":
-    "सोशल प्लॅटफॉर्मवर समुदाय, प्रतिबद्धता आणि सेंद्रिय उपस्थिती निर्माण करणे.",
-  "Performance Marketing": "परफॉर्मन्स मार्केटिंग",
-  "Driving measurable outcomes with targeted ad campaigns and clear attribution.":
-    "लक्ष्यित जाहिरात मोहिमा आणि स्पष्ट परिणामांसह मोजता येणारे परिणाम साध्य करणे.",
-  "Content Marketing": "कन्टेन्ट मार्केटिंग",
-  "Developing editorial, video and audio content designed to inform and engage.":
-    "माहिती देण्यासाठी आणि आकर्षित करण्यासाठी डिझाइन केलेले संपादकीय, व्हिडिओ आणि ऑडिओ कन्टेन्ट विकसित करणे.",
-  "Online Reputation Management": "ऑनलाइन प्रतिष्ठा व्यवस्थापन",
-  "Monitoring brand perception and proactively addressing digital conversations.":
-    "ब्रँडच्या प्रतिमेचे निरीक्षण करणे आणि डिजिटल संवादांना सक्रियपणे सामोरे जाणे.",
-  "Strategic Communications": "धोरणात्मक संवाद",
-  "Aligning narrative direction with business, public affairs or organizational goals.":
-    "व्यवसाय, सार्वजनिक घडामोडी किंवा संस्थात्मक उद्दिष्टांशी संवाद जोडणे.",
-  "Public Affairs Campaigns": "सार्वजनिक घडामोडी मोहिमा",
-  "Communicating civic programs, community initiatives and policy awareness.":
-    "नागरिक कार्यक्रम, सामुदायिक उपक्रम आणि धोरण विषयक जागरूकता प्रसारित करणे.",
-  "Political Communications": "राजकीय संवाद",
-  "Supporting political messaging and campaign communication.":
-    "राजकीय संदेश आणि निवडणूक मोहिमांचा संवाद समर्थित करणे.",
-
-  // Planning to Experience
-  "HOW WE BRING EVENTS TO THE LIFE": "आम्ही इव्हेंट्स कसे साकारतो",
-  "From Planning to Experience.": "नियोजनापासून प्रत्यक्ष अनुभवापर्यंत.",
-  "Purpose-Driven Strategy": "उद्दिष्ट-केंद्रित धोरण",
-  "Every campaign begins with clear objectives, audience understanding and a defined communication direction.":
-    "प्रत्येक मोहिमेची सुरुवात स्पष्ट उद्दिष्टे, प्रेक्षकांची समज आणि निश्चित संवाद दिशेने होते.",
-  "Creative Storytelling": "सर्जनशील कथाकथन",
-  "We shape messages and content that communicate ideas clearly and make brands more relatable.":
-    "आम्ही असे संदेश आणि कन्टेन्ट तयार करतो जे कल्पना स्पष्टपणे मांडतात आणि ब्रँडला अधिक जवळचे करतात.",
-  "Connected Communication": "संलग्न संवाद",
-  "We bring together relevant digital channels and communication formats to maintain a consistent message.":
-    "सातत्यपूर्ण संदेश राखण्यासाठी आम्ही संबंधित डिजिटल चॅनल्स आणि संवाद स्वरूप एकत्र आणतो.",
-  "Audience-First Thinking": "प्रेक्षक-केंद्रित विचार",
-  "We consider audience needs, interests and context when shaping campaign messaging and outreach.":
-    "मोहिमेचा संदेश आणि पोहोच ठरवताना आम्ही प्रेक्षकांच्या गरजा, आवडी आणि संदर्भ विचारात घेतो.",
-  "Performance Awareness": "कामगिरी जागरूकता",
-  "We value clear messaging, appropriate approvals and communication suited to the audience and context.":
-    "आम्ही स्पष्ट संदेश, योग्य मंजुरी आणि प्रेक्षक व संदर्भानुसार सुयोग्य संवादाला महत्त्व देतो.",
-  "Responsible Communication": "जबाबदार संवाद",
-
-  // Touchpoints
-  "WE HAVE NAILED IT": "आम्ही हे साध्य केले आहे",
-  "Communication Across Every Touchpoint.": "प्रत्येक टप्प्यावर प्रभावी संवाद.",
-  "Social media creatives": "सोशल मीडिया क्रिएटिव्ह्ज",
-  "Content series": "कन्टेन्ट मालिका",
-  "Digital advertisements": "डिजिटल जाहिराती",
-  "Search campaign examples": "सर्च मोहीम उदाहरणे",
-  "Public awareness communication": "जनजागृती संवाद",
-  "Brand storytelling and content": "ब्रँड कथाकथन आणि कन्टेन्ट",
-  "Digital outreach materials": "डिजिटल संपर्क साहित्य",
-
-  // Interactive Showcase
-  "Explore how strategy, creativity and digital communication come together to shape campaigns across social media, content marketing, performance advertising and public outreach.":
-    "सोशल मीडिया, कन्टेन्ट मार्केटिंग, परफॉर्मन्स जाहिराती आणि सार्वजनिक संपर्कामध्ये धोरण, सर्जनशीलता आणि डिजिटल संवाद कसे एकत्र येतात ते अनुभवा.",
-  "Explore how strategy, creativity and digital communication come":
-    "धोरण, सर्जनशीलता आणि डिजिटल संवाद एकत्र येऊन",
-  "Explore how strategy, creativity and digital communication come ":
-    "धोरण, सर्जनशीलता आणि डिजिटल संवाद एकत्र येऊन ",
-  "together to shape campaigns across social media, content marketing, performance advertising and public outreach.":
-    "सोशल मीडिया, कन्टेन्ट मार्केटिंग, जाहिराती आणि संपर्कामध्ये मोहिमा कशा साकारतात ते अनुभवा.",
-  "Partnered with Qualcomm": "क्वालकॉमसोबत भागीदारी",
-  "Community-Focused Campaign": "समुदाय-केंद्रित मोहीम",
-  "Digital Outreach": "डिजिटल पोहोच",
-  "Public Awareness Initiative": "जनजागृती उपक्रम",
-  "Institutional Communications": "संस्थात्मक संवाद",
-  "Social Media Narrative Series": "सोशल मीडिया कथा मालिका",
-  "Branded Content": "ब्रँडेड कन्टेन्ट",
-  "Regional Engagement Drive": "प्रादेशिक सहभाग मोहीम",
-  "Creative Outreach": "सर्जनशील पोहोच",
-
-  // CTA Banner
-  "Have a Message Worth Sharing?": "तुमच्याकडे शेअर करण्यासारखा संदेश आहे का?",
-  "Have a Message": "तुमच्याकडे शेअर करण्यासारखा",
-  "Worth Sharing?": "संदेश आहे का?",
-  "Let's explore how the right strategy, creative direction and digital channels can help your message reach its audience.":
-    "योग्य धोरण, सर्जनशील दिशा आणि डिजिटल माध्यमे तुमचा संदेश योग्य प्रेक्षकांपर्यंत पोहोचवण्यास कशी मदत करू शकतात ते पाहूया.",
-
-  // Testimonials
-  "Prajakta Mali": "प्राजक्ता माळी",
-  "Actress": "अभिनेत्री",
-  "The focus on storytelling and audience relevance made our conversations more meaningful. It was refreshing to explore content ideas with both creativity and purpose.":
-    "कथाकथन आणि प्रेक्षकांच्या सुसंगततेवर भर दिल्याने आमची चर्चा अधिक अर्थपूर्ण झाली. सर्जनशीलता आणि उद्देश या दोन्हीसह कन्टेन्टच्या कल्पना शोधणे ताजेतवाने करणारे होते.",
-  "Priya Sah": "प्रिया साह",
-  "Content and Marketing Expert": "कन्टेन्ट आणि मार्केटिंग तज्ज्ञ",
-  "The team approached our communication requirements with a practical mindset. Understanding the audience and choosing the right way to reach them were important parts of the discussion.":
-    "संघाने आमच्या संवाद विषयक गरजांकडे व्यावहारिक दृष्टिकोनातून पाहिले. प्रेक्षकांना समजून घेणे आणि त्यांच्यापर्यंत पोहोचण्याचा योग्य मार्ग निवडणे हे चर्चेचे महत्त्वाचे पैलू होते.",
-  "Jayant Wani": "जयंत वाणी",
-  "Marketing Head": "मार्केटिंग प्रमुख",
-  "Understanding what we wanted to communicate and finding a clear way to represent it was helpful. Rather than generic strategies, the discussions were practical, relevant and focused on what we wanted to achieve.":
-    "आम्हाला काय सांगायचे आहे हे समजून घेणे आणि ते मांडण्याचा स्पष्ट मार्ग शोधणे खूप उपयुक्त ठरले. सामान्य धोरणांऐवजी, चर्चा व्यावहारिक, सुसंगत आणि आमच्या उद्दिष्टांवर केंद्रित होत्या.",
-  "Nivedita Kulkarni": "निवेदिता कुलकर्णी",
-  "Entrepreneur": "उद्योजिका",
-  "What stood out was their willingness to understand the brief before suggesting solutions. The discussions were focused, creative and aligned with our campaign objectives. The focus on storytelling and audience relevance made our conversations more meaningful. It was refreshing to explore content ideas with both creativity and purpose.":
-    "उपाय सुचवण्यापूर्वी माहिती नीट समजून घेण्याची त्यांची तयारी विशेष उठून दिसली. चर्चा एकाग्र, सर्जनशील आणि आमच्या मोहिमेच्या उद्दिष्टांशी सुसंगत होत्या. कथाकथन आणि प्रेक्षकांशी प्रासंगिकतेवर लक्ष केंद्रित केल्याने संवाद अधिक अर्थपूर्ण बनला.",
-
-  // FAQ
-  "FAQ": "नेहमी विचारले जाणारे प्रश्न",
-  "Questions people asked?": "लोकांनी विचारलेले प्रश्न?",
-  "still have a quarry?": "अजूनही प्रश्न आहेत?",
-  "still have a quarry? ": "अजूनही प्रश्न आहेत? ",
-  "still have a query?": "अजूनही प्रश्न आहेत?",
-  "still have a query? ": "अजूनही प्रश्न आहेत? ",
-  "What types of digital marketing campaigns can you support?":
-    "तुम्ही कोणत्या प्रकारच्या डिजिटल मार्केटिंग मोहिमांना समर्थन देऊ शकता?",
-  "Potential campaign requirements include social media, performance marketing, search marketing, content marketing and digital outreach, subject to confirmed service availability.":
-    "संभाव्य मोहिमांच्या गरजांमध्ये सोशल मीडिया, परफॉर्मन्स मार्केटिंग, सर्च मार्केटिंग, कन्टेन्ट मार्केटिंग आणि डिजिटल संपर्क यांचा समावेश होतो.",
-  "Can campaigns be tailored to a specific audience?":
-    "मोहिमा विशिष्ट प्रेक्षकांनुसार सानुकूलित केल्या जाऊ शकतात का?",
-  "Yes. Every campaign strategy is custom-built around defined audience segments, geographic preferences, linguistic nuances and demographic behavioral patterns.":
-    "होय. प्रत्येक मोहीम धोरण निश्चित प्रेक्षक वर्ग, भौगोलिक प्राधान्ये, भाषिक बारकावे आणि वर्तणुकीवर आधारित सानुकूलित केले जाते.",
-  "Do you support public affairs and institutional communication?":
-    "तुम्ही सार्वजनिक घडामोडी आणि संस्थात्मक संवादाला समर्थन देता का?",
-  "Yes. We support government bodies, public sector enterprises and civic institutions with structured public awareness programs, citizen engagement and policy dissemination.":
-    "होय. आम्ही सरकारी संस्था, सार्वजनिक उपक्रम आणि नागरी संस्थांना जनप्रबोधन कार्यक्रम, नागरिक सहभाग आणि धोरण प्रसारासह सहकार्य करतो.",
-  "How do you evaluate campaign performance?":
-    "तुम्ही मोहिमेच्या कामगिरीचे मूल्यांकन कसे करता?",
-  "We analyze full-funnel metrics including reach, active engagement rates, brand sentiment, conversion efficiency and total ROI using robust analytics dashboards.":
-    "आम्ही मजबूत ॲनालिटिक्स डॅशबोर्ड वापरून पोहोच, सहभाग दर, ब्रँड भावना, रूपांतरण कार्यक्षमता आणि एकूण परतावा यांचे विश्लेषण करतो.",
-  "How can we discuss a campaign with Suman?":
-    "आम्ही सुमनसोबत मोहिमेवर कशी चर्चा करू शकतो?",
-  "You can connect directly with our strategic team by clicking 'Discuss a Campaign' or reaching out through our business inquiry portal to initiate a discovery session.":
-    "तुम्ही 'मोहिमेवर चर्चा करा' वर क्लिक करून किंवा आमच्या व्यवसाय चौकशी पोर्टलद्वारे आमच्या धोरणात्मक संघाशी थेट संपर्क साधू शकता.",
-};
-
-/* =========================================================
    ANIMATION VARIANTS (FRAMER MOTION)
    ========================================================= */
 
@@ -544,7 +390,6 @@ function ArrowUpRight({ className = "w-4 h-4" }: { className?: string }) {
    ========================================================= */
 
 export default function DigitalMarketingPage() {
-  const locale = useWebsiteLocale();
   // Not open by default as requested: "will not be default open"
   const [openCapability, setOpenCapability] = useState<string | null>(null);
   const [hoveredCapability, setHoveredCapability] = useState<string | null>(null);
@@ -641,7 +486,6 @@ export default function DigitalMarketingPage() {
   };
 
   return (
-    <TranslationProvider locale={locale} translations={MARATHI_TRANSLATIONS}>
       <LocalizedContent>
       <main className="w-full bg-white text-[#1A1A1A] overflow-x-hidden selection:bg-[#8F6C1A] selection:text-white">
         {/* Custom CSS overrides */}
@@ -2266,6 +2110,5 @@ export default function DigitalMarketingPage() {
         <PreFooterBanner type={1} />
       </main>
     </LocalizedContent>
-  </TranslationProvider>
   );
 }

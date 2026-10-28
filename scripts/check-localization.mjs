@@ -98,4 +98,24 @@ assert.equal(input.props.value, 'Contact us');
 assert.notEqual(input.props.placeholder, 'Your Name');
 const unchanged = React.createElement('span', { translate: 'no' }, 'English');
 assert.equal(localizeNode(unchanged, 'mr', {}), unchanged);
+// Cover conditional cards, testimonials and FAQ answers, including items not
+// present in the initial server-rendered HTML.
+const marketingFile = 'src/app/(website)/[locale]/services/digital-marketing-communication/page.tsx';
+const marketingSource = ts.createSourceFile(marketingFile, fs.readFileSync(path.join(root, marketingFile), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+const marketingFields = new Set(['title', 'description', 'quote', 'name', 'role', 'question', 'answer', 'category']);
+let marketingMessages = 0;
+function checkMarketingCopy(node) {
+  if (ts.isPropertyAssignment(node) && marketingFields.has(node.name.getText(marketingSource)) && ts.isStringLiteral(node.initializer)) {
+    const value = node.initializer.text;
+    assert.notEqual(translateText(value, 'mr'), value, `Untranslated marketing content: ${value}`);
+    assert.equal(translateText(value, 'en'), value);
+    marketingMessages++;
+  }
+  ts.forEachChild(node, checkMarketingCopy);
+}
+checkMarketingCopy(marketingSource);
+assert.ok(marketingMessages >= 60, 'Marketing page data must be included in the translation audit');
+for (const value of ['Digital Marketing Communication', 'Digital Marketing & Communications', 'Communication Across', 'Every Touchpoint.', 'Strategy & Communication Philosophy', 'Partner Brand Logos', 'Client Testimonials', 'Collapse Digital Outreach Programs']) {
+  assert.notEqual(translateText(value, 'mr'), value, `Untranslated marketing label: ${value}`);
+}
 console.log(`Localization checks passed: ${Object.keys(mr).length} matching English/Marathi messages, routes, glyphs and React props.`);
