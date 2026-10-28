@@ -34,7 +34,12 @@ export const NAV_MENUS: NavMenu[] = [
         ],
       },
       { heading: "Creator Services", entries: [{ ...pageLink("creators"), sublines: ["Artist, Celebrity, Influencer Management", "Speaker Bureau", "Brand Endorsements", "Content Creator Network"] }] },
-      { heading: "Any Specific Need?", entries: [pageLink("services"), { label: "Call now?", href: websitePages.contact.path }] },
+      {
+        heading: "Any Specific Need?",
+        entries: [
+          { label: "Call now?", href: websitePages.contact.path },
+        ],
+      },
     ]
   },
   {
