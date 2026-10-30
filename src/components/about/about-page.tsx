@@ -30,6 +30,8 @@ import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { MediaCoverageSection as LandingMediaCoverageSection } from "@/components/landing/media-coverage-section";
 import { ContactActionCards } from "@/components/contact-us/contact-action-cards";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 
 import styles from "./about-page.module.css";
 
@@ -599,12 +601,14 @@ function AboutIntro() {
     <section className={`${styles.aboutIntro} site-section`}>
       <div className={styles.aboutIntroContent}>
         <SectionEyebrow>ABOUT SUMAN ENTERTAINMENT</SectionEyebrow>
-        <h2 className={styles.aboutIntroHeading}>
-          <strong>Suman Entertainment &amp; Media</strong>{" "}
-          is building an integrated ecosystem across entertainment, content, digital platforms,
-          technology and communications — rooted in Marathi culture and designed for a global
-          audience.
-        </h2>
+        <TextReveal
+          as="h2"
+          className={styles.aboutIntroHeading}
+          text="Suman Entertainment & Media is building an integrated ecosystem across entertainment, content, digital platforms, technology and communications — rooted in Marathi culture and designed for a global audience."
+          effect="rise"
+          split="words"
+          stagger={0.018}
+        />
       </div>
 
       <div
@@ -739,15 +743,19 @@ function StickyGlobalReach() {
             <SectionEyebrow>GLOBAL REACH</SectionEyebrow>
 
             <div className={styles.globalHeaderCopy}>
-              <h2 className={styles.globalReachTitle}>
-                More than what we do.
-                <br />
-                It&apos;s why we do it.
-              </h2>
-              <p>
-                Our work sits at the intersection of media expertise, innovation and human
-                needs—helping us create solutions that are relevant today and built for tomorrow.
-              </p>
+              <TextReveal
+                as="h2"
+                className={styles.globalReachTitle}
+                text={"More than what we do.\nIt's why we do it."}
+                effect="mask"
+                split="words"
+              />
+              <ScrollTextReveal>
+                <p>
+                  Our work sits at the intersection of media expertise, innovation and human
+                  needs—helping us create solutions that are relevant today and built for tomorrow.
+                </p>
+              </ScrollTextReveal>
             </div>
           </div>
 
@@ -831,11 +839,13 @@ function StickyGlobalReach() {
                 : { opacity: videoTitleOpacity, y: videoTitleY }
             }
           >
-            <h2 className={styles.globalVideoTitle}>
-              More than what we do.
-              <br />
-              It&apos;s why we do it.
-            </h2>
+            <TextReveal
+              as="h2"
+              className={styles.globalVideoTitle}
+              text={"More than what we do.\nIt's why we do it."}
+              effect="mask"
+              split="words"
+            />
           </motion.div>
         </motion.div>
       </div>
@@ -862,15 +872,19 @@ function MissionSection() {
   return <LocalizedContent>{(
     <section className={styles.missionSection}>
       <div className={`${styles.missionCopy} site-gutter`}>
-        <p className={styles.missionStatement}>
-          <strong>At the heart of our mission is the vision</strong>{" "}
-          <span>
-            of taking the Marathi language to the world. We are dedicated to promoting,
-            preserving, and expanding the reach of Marathi through technology, innovation,
-            and meaningful digital experiences—connecting Marathi speakers globally and
-            introducing the richness of the language to a wider audience.
-          </span>
-        </p>
+        <div className={styles.missionStatement}>
+          <ScrollTextReveal>
+            <p>
+              <strong>At the heart of our mission is the vision</strong>{" "}
+              <span>
+                of taking the Marathi language to the world. We are dedicated to promoting,
+                preserving, and expanding the reach of Marathi through technology, innovation,
+                and meaningful digital experiences—connecting Marathi speakers globally and
+                introducing the richness of the language to a wider audience.
+              </span>
+            </p>
+          </ScrollTextReveal>
+        </div>
 
         <dl data-motion-managed className={styles.statsGrid} aria-label="Suman Entertainment statistics">
           {stats.map((stat, index) => (
@@ -939,7 +953,10 @@ function TimelineSection() {
       >
         <article className={styles.timelineIntro}>
           <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-intro-left.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
-          <div><h2>From where we started to where we&apos;re going.</h2><p>Every milestone has shaped the organization we are today.</p></div>
+          <div>
+            <TextReveal as="h2" text="From where we started to where we're going." effect="mask" split="words" />
+            <p>Every milestone has shaped the organization we are today.</p>
+          </div>
           <div className={styles.timelineIntroPhoto}><Image src="/images/about/timeline-2026.webp" alt="" fill sizes="20vw" className={styles.coverImage} /></div>
         </article>
         {TIMELINE.map((item) => (
@@ -969,7 +986,7 @@ function LeadershipSection() {
     <section id="leadership" className={`${styles.leadershipSection} site-section`}>
       <div className={styles.leadershipHeading}>
         <div>
-          <h2 className={styles.darkHeading}>The people shaping our next chapter.</h2>
+          <TextReveal as="h2" className={styles.darkHeading} text="The people shaping our next chapter." effect="mask" split="words" />
         </div>
         <p>
           Our leadership brings together experience, diverse perspectives and a shared
@@ -1011,7 +1028,7 @@ function NotablePersonalitiesSection() {
     <section className={`${styles.notableSection} site-section`}>
       <div className={styles.sectionHeadingRow}>
         <div>
-          <h2 className={styles.sectionHeading}>Notable personalities</h2>
+          <TextReveal as="h2" className={styles.sectionHeading} text="Notable personalities" effect="mask" split="words" />
         </div>
         <p>Selected moments from the Suman Entertainment archive.</p>
       </div>
@@ -1046,9 +1063,13 @@ function GovernmentSection() {
     <section className={`${styles.governmentSection} site-section`}>
       <div className={styles.governmentHeading}>
         <SectionEyebrow>AWARDS AND RECOGNITIONS</SectionEyebrow>
-        <h2 className={styles.sectionHeading}>
-          Empaneled with the<br /> Government of Maharashtra
-        </h2>
+        <TextReveal
+          as="h2"
+          className={styles.sectionHeading}
+          text={"Empaneled with the\nGovernment of Maharashtra"}
+          effect="mask"
+          split="words"
+        />
         <p>
           Abhijat Marathi OTT is Maharashtra&apos;s first dedicated regional streaming
           platform for Marathi cinema, theatre, and culture, launched officially by
@@ -1103,8 +1124,12 @@ function AboutHero() {
       <div className={styles.heroShade} aria-hidden="true" />
       <p className={`${styles.heroEyebrow} site-gutter`}>ABOUT US</p>
       <h1 id="about-hero-title" className={`${styles.heroTitle} site-gutter`}>
-        <span>About</span>
-        <span>us</span>
+        <span>
+          <TextReveal as="span" text="About" effect="mask" split="words" delay={0.12} />
+        </span>
+        <span>
+          <TextReveal as="span" text="us" effect="mask" split="words" delay={0.24} />
+        </span>
       </h1>
     </section>
   )}</LocalizedContent>;

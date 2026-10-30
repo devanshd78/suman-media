@@ -5,9 +5,11 @@ import { graphemes } from "@/i18n/translate";
 import {
   Fragment,
   createElement,
+  isValidElement,
   useMemo,
   useRef,
   type CSSProperties,
+  type ReactNode,
 } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
@@ -17,6 +19,8 @@ type TextRevealTag =
   | "h2"
   | "h3"
   | "h4"
+  | "h5"
+  | "h6"
   | "li"
   | "p"
   | "span";
@@ -32,6 +36,7 @@ type TextPiece = {
 type TextRevealProps = {
   amount?: number;
   as?: TextRevealTag;
+  children?: ReactNode;
   className?: string;
   delay?: number;
   distance?: number;
@@ -42,10 +47,21 @@ type TextRevealProps = {
   split?: TextRevealSplit;
   stagger?: number;
   style?: CSSProperties;
-  text: string;
+  text?: string;
 };
 
 const REVEAL_EASE = [0.22, 1, 0.36, 1] as const;
+
+function getTextContent(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(getTextContent).join("");
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    if (node.type === "br") return "\n";
+    return getTextContent(node.props.children);
+  }
+  return "";
+}
 
 function buildTextLines(text: string, split: TextRevealSplit) {
   let pieceIndex = 0;
@@ -79,13 +95,14 @@ function hiddenState(effect: TextRevealEffect, distance: number) {
 
   if (effect === "blur") {
     return {
-      filter: `blur(${Math.max(distance / 2, 4)}px)`,
+      filter: `blur(${Math.max(distance / 2, 6)}px)`,
       opacity: 0,
+      y: distance * 0.45,
     };
   }
 
   if (effect === "mask") {
-    return { opacity: 1, y: "110%" };
+    return { opacity: 1, y: "115%" };
   }
 
   return { opacity: 0, y: distance };
@@ -93,7 +110,7 @@ function hiddenState(effect: TextRevealEffect, distance: number) {
 
 function shownState(effect: TextRevealEffect) {
   if (effect === "blur") {
-    return { filter: "blur(0px)", opacity: 1 };
+    return { filter: "blur(0px)", opacity: 1, y: 0 };
   }
 
   if (effect === "fade") {
@@ -104,22 +121,24 @@ function shownState(effect: TextRevealEffect) {
 }
 
 export function TextReveal({
-  amount = 0.35,
+  amount = 0.2,
   as = "p",
+  children,
   className,
   delay = 0,
-  distance = 24,
-  duration = 0.7,
+  distance = 28,
+  duration = 0.72,
   effect = "mask",
   id,
   once = true,
   split = "words",
-  stagger = 0.024,
+  stagger = 0.035,
   style,
   text,
 }: TextRevealProps) {
   const t = useTextTranslation();
-  const translatedText = t(text);
+  const rawText = text ?? (children ? getTextContent(children) : "");
+  const translatedText = t(rawText);
   const textRef = useRef<HTMLSpanElement | null>(null);
   const isInView = useInView(textRef, { amount, once });
   const reduceMotion = useReducedMotion() ?? false;
@@ -182,7 +201,7 @@ export function TextReveal({
   return createElement(
     as,
     {
-      "aria-label": text,
+      "aria-label": rawText,
       "data-text-reveal": true,
       className,
       id,

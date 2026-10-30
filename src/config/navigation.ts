@@ -8,7 +8,14 @@ export type NavMenu = {
     entries: { label: string; href: string; sublines?: string[]; subtext?: string }[];
     image?: { src: string; alt: string };
   }[];
-  featured?: { href: string; imageSrc: string; imageAlt: string; tag: string; title: string };
+  featured?: {
+    href: string;
+    imageSrc: string;
+    images?: Array<{ src: string; alt: string }>;
+    imageAlt: string;
+    tag: string;
+    title: string;
+  };
   gridColumns: string;
 };
 
@@ -17,7 +24,21 @@ export const NAV_MENUS: NavMenu[] = [
     id: "product", label: "Product", gridColumns: "1fr 1fr 1.5fr", columns: [
       { heading: "Digital Platforms", entries: [pageLink("ott"), pageLink("monetization"), pageLink("fast"), pageLink("ai")] },
       { heading: "Content Assets", entries: [pageLink("library"), pageLink("publications"), pageLink("ip")] },
-    ], featured: { href: websitePages.ott.path, imageSrc: "/images/about/news-03.webp", imageAlt: "Raja Shivchhatrapati on Abhijat Marathi OTT", tag: "OTT", title: "Abhijat Marathi OTT" }
+    ], featured: {
+      href: websitePages.ott.path,
+      imageSrc: "/images/abhijat-marathi/curse-of-the-nun.png",
+      images: [
+        { src: "/images/abhijat-marathi/curse-of-the-nun.png", alt: "Abhijat Marathi OTT" },
+        { src: "/images/abhijat-marathi/ratri-cha-paus.png", alt: "Abhijat Marathi OTT" },
+        { src: "/images/abhijat-marathi/gupchup.png", alt: "Abhijat Marathi OTT" },
+        { src: "/images/abhijat-marathi/mumbai-te-mauritius.png", alt: "Abhijat Marathi OTT" },
+        { src: "/images/abhijat-marathi/govyachya.png", alt: "Abhijat Marathi OTT" },
+        { src: "/images/abhijat-marathi/na-sangatach-aaj.png", alt: "Abhijat Marathi OTT" },
+      ],
+      imageAlt: "Abhijat Marathi OTT",
+      tag: "OTT",
+      title: "Abhijat Marathi OTT",
+    }
   },
   {
     id: "services", label: "Services", gridColumns: "1fr 1fr 1.1fr 0.7fr", columns: [
@@ -60,8 +81,8 @@ export const NAV_LINKS = [
 
 export type FooterLink = { label: string; href: string | null; arrow?: boolean; soon?: boolean };
 export const FOOTER_LINKS: Record<string, FooterLink[]> = {
-  COMPANY: [pageLink("about"), pageLink("careers"), { label: "Leadership", href: "/about#leadership" }, { label: "Our Journey", href: "/about#our-journey" }, pageLink("companies"), pageLink("contact"), pageLink("partners")],
-  RESOURCES: [pageLink("news"), pageLink("portfolio"), { label: "FAQ", href: "/#faq" }, pageLink("terms"), pageLink("privacy")],
+  COMPANY: [pageLink("about"), pageLink("careers"), { label: "Leadership", href: "/about#leadership" }, { label: "Our Journey", href: "/about#our-journey" }, pageLink("contact"), pageLink("partners")],
+  RESOURCES: [pageLink("news"), { label: "FAQ", href: "/#faq" }, pageLink("terms"), pageLink("privacy")],
   PRODUCT: [pageLink("ott"), pageLink("monetization"), pageLink("fast"), pageLink("ai"), pageLink("library"), pageLink("publications"), pageLink("ip")],
   SERVICES: [
     pageLink("brand"),

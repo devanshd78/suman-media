@@ -16,6 +16,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 /* =========================================================
    TYPES & DATA
@@ -885,9 +886,12 @@ export default function DigitalMarketingPage() {
                   DIGITAL MARKETING &amp; COMMUNICATIONS
                 </motion.span>
 
-                <motion.h1
+                <TextReveal
+                  as="h1"
                   id="hero-heading"
-                  variants={itemVariants}
+                  text="We partnered with X Company"
+                  effect="mask"
+                  split="words"
                   style={{
                     color: "var(--Text-Inverse-strong-2, #FFF)",
                     fontFeatureSettings: "'liga' off, 'clig' off",
@@ -900,9 +904,7 @@ export default function DigitalMarketingPage() {
                     letterSpacing: "-0.03125rem",
                     margin: "0.25rem 0 0 0",
                   }}
-                >
-                  We partnered with X Company
-                </motion.h1>
+                />
 
                 <motion.p
                   variants={itemVariants}
@@ -1351,8 +1353,12 @@ export default function DigitalMarketingPage() {
               >
                 HOW WE BRING EVENTS TO THE LIFE
               </span>
-              <h2
+              <TextReveal
+                as="h2"
                 id="planning-heading"
+                text="From Planning to Experience."
+                effect="mask"
+                split="words"
                 style={{
                   color: "#000",
                   textAlign: "center",
@@ -1366,9 +1372,7 @@ export default function DigitalMarketingPage() {
                   letterSpacing: "-0.03125rem",
                   margin: 0,
                 }}
-              >
-                From Planning to Experience.
-              </h2>
+              />
             </motion.div>
 
             {/* 6 Feature Pillars (3x2 Grid) with stagger animation */}

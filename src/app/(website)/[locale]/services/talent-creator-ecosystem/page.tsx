@@ -2,6 +2,7 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { NewsBlogsSection } from '@/components/landing/news-blogs-section';
 import { useEffect, useRef, useState } from 'react';
@@ -78,9 +79,12 @@ export default function CreatorEcosystemPage() {
       return () => window.cancelAnimationFrame(loadFrame);
     }
 
-    if (!('IntersectionObserver' in window)) {
-      setImageIsVisible(true);
-      return () => window.cancelAnimationFrame(loadFrame);
+    if (typeof IntersectionObserver === "undefined") {
+      const fallbackFrame = requestAnimationFrame(() => setImageIsVisible(true));
+      return () => {
+        cancelAnimationFrame(loadFrame);
+        cancelAnimationFrame(fallbackFrame);
+      };
     }
 
     const observer = new IntersectionObserver(
@@ -105,9 +109,9 @@ export default function CreatorEcosystemPage() {
 
     if (!target) return;
 
-    if (!('IntersectionObserver' in window)) {
-      setPartnershipsAreVisible(true);
-      return;
+    if (typeof IntersectionObserver === "undefined") {
+      const fallbackFrame = requestAnimationFrame(() => setPartnershipsAreVisible(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     const observer = new IntersectionObserver(
@@ -129,9 +133,9 @@ export default function CreatorEcosystemPage() {
 
     if (!target) return;
 
-    if (!('IntersectionObserver' in window)) {
-      setVideoSectionIsVisible(true);
-      return;
+    if (typeof IntersectionObserver === "undefined") {
+      const fallbackFrame = requestAnimationFrame(() => setVideoSectionIsVisible(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     const observer = new IntersectionObserver(
@@ -153,9 +157,9 @@ export default function CreatorEcosystemPage() {
 
     if (!target) return;
 
-    if (!('IntersectionObserver' in window)) {
-      setTestimonialsAreVisible(true);
-      return;
+    if (typeof IntersectionObserver === "undefined") {
+      const fallbackFrame = requestAnimationFrame(() => setTestimonialsAreVisible(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     const observer = new IntersectionObserver(
@@ -184,14 +188,15 @@ export default function CreatorEcosystemPage() {
             TALENT &amp; CREATOR ECOSYSTEM
           </p>
 
-          <h1
-            className="intro-heading hero-reveal hero-reveal--2"
+          <TextReveal
+            as="h1"
             id="creator-ecosystem-heading"
-          >
-            Connecting artists, creators and brands through talent collaborations,
-            creator partnerships and opportunities that take Marathi entertainment
-            to wider audiences.
-          </h1>
+            className="intro-heading"
+            text="Connecting artists, creators and brands through talent collaborations, creator partnerships and opportunities that take Marathi entertainment to wider audiences."
+            effect="rise"
+            split="words"
+            delay={0.15}
+          />
         </div>
 
         <a className="partnership-link hero-reveal hero-reveal--3" href="#partnerships">
@@ -243,14 +248,14 @@ export default function CreatorEcosystemPage() {
           <p className="partnerships-eyebrow section-reveal section-reveal--1">
             WHAT WE DO
           </p>
-          <h2
-            className="partnerships-heading section-reveal section-reveal--2"
+          <TextReveal
+            as="h2"
             id="partnerships-heading"
-          >
-            Creating Connections
-            <br />
-            Between Talent &amp; Opportunity
-          </h2>
+            className="partnerships-heading"
+            text={"Creating Connections\nBetween Talent & Opportunity"}
+            effect="mask"
+            split="words"
+          />
         </header>
 
         <div className="partnerships-grid">

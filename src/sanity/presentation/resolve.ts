@@ -1,6 +1,10 @@
-import { defineDocuments, defineLocations } from "sanity/presentation";
+import {
+  defineDocuments,
+  defineLocations,
+  type DocumentLocationResolvers,
+} from "sanity/presentation";
 
-export const locations = {
+export const locations: DocumentLocationResolvers = {
   service: defineLocations({
     select: { title: "title", slug: "slug.current" },
     resolve: (doc) => ({
@@ -8,19 +12,14 @@ export const locations = {
         ...(doc?.slug
           ? [{ title: doc.title || "Service", href: `/services/${doc.slug}` }]
           : []),
-        { title: "All capabilities", href: "/#capabilities" },
+        { title: "Home", href: "/" },
       ],
     }),
   }),
   company: defineLocations({
     select: { title: "name", slug: "slug.current" },
-    resolve: (doc) => ({
-      locations: [
-        ...(doc?.slug
-          ? [{ title: doc.title || "Company", href: `/companies/${doc.slug}` }]
-          : []),
-        { title: "All companies", href: "/companies" },
-      ],
+    resolve: () => ({
+      locations: [{ title: "About us", href: "/about" }],
     }),
   }),
   post: defineLocations({
@@ -55,6 +54,5 @@ export const mainDocuments = defineDocuments([
   { route: "/careers", filter: `_type == "careersPage"` },
   { route: "/contact", filter: `_type == "contactPage"` },
   { route: "/services/:slug", filter: `_type == "service" && slug.current == $slug` },
-  { route: "/companies/:slug", filter: `_type == "company" && slug.current == $slug` },
   { route: "/news-and-blogs/:slug", filter: `_type == "post" && slug.current == $slug` },
 ]);

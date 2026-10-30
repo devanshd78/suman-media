@@ -100,7 +100,7 @@ const SLIDES: Slide[] = [
     description:
       "Producing feature films, web series, documentaries, branded content, and corporate communications with end-to-end production capabilities.",
     primaryLabel: "Explore",
-    primaryHref: "/portfolio",
+    primaryHref: "/services/media-content-syndication",
     secondaryLabel: "Learn more",
     secondaryHref: "/services/media-content-syndication",
   },
@@ -1128,7 +1128,11 @@ export function ClientsSection() {
       MIDDLE_START_INDEX,
     );
 
-    setIsReady(true);
+    const initFrame = window.requestAnimationFrame(() => {
+      setIsReady(true);
+    });
+
+    return () => window.cancelAnimationFrame(initFrame);
   }, [jumpToRenderedIndex]);
 
   /* ==========================================================

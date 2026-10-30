@@ -2,6 +2,8 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
 import { ContentMovement } from "./content-movement";
@@ -161,17 +163,16 @@ export default function ContentDistributionPage() {
               CONTENT ACQUISITION &amp; DISTRIBUTION
             </p>
 
-            <h1 className="hero-heading">
-              Turn valuable content
-              <br />
-              rights into scalable
-              <br />
-              distribution
-              <br />
-              opportunities.
-            </h1>
+            <TextReveal
+              as="h1"
+              className="hero-heading"
+              text={"Turn valuable content\nrights into scalable\ndistribution\nopportunities."}
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
 
-            <p className="hero-description">
+            <ScrollTextReveal><p className="hero-description">
               We acquire, manage, and distribute films, music, and
               premium content across OTT platforms, television, FAST
               channels, and international markets. From strategic
@@ -179,7 +180,7 @@ export default function ContentDistributionPage() {
               multi-platform distribution and audience expansion, we
               help valuable content reach the right audiences, across
               the right channels, in markets worldwide.
-            </p>
+            </p></ScrollTextReveal>
           </div>
 
           <a href="#acquire" className="partner-link">

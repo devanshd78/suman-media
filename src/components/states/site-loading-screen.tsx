@@ -35,8 +35,8 @@ const LOADING_QUOTES = [
   },
 ] as const;
 
-const APPROACH_DURATION_MS = 1800;
-const FINISH_DURATION_MS = 330;
+const APPROACH_DURATION_MS = 250;
+const FINISH_DURATION_MS = 60;
 const APPROACH_TARGET = 94;
 // Avoid showing the same quote on two consecutive page transitions.
 let lastQuoteAcrossScreens = -1;
@@ -88,7 +88,9 @@ export function SiteLoadingScreen({
       lastQuoteAcrossScreens = nextRandomIndex(lastQuoteAcrossScreens);
     }
     activeLoadingScreens += 1;
-    setQuoteIndex(lastQuoteAcrossScreens);
+    const initQuoteFrame = window.requestAnimationFrame(() => {
+      setQuoteIndex(lastQuoteAcrossScreens);
+    });
     const dotsTimer = window.setInterval(() => {
       setDotCount((count) => (count % 4) + 1);
     }, 550);
@@ -96,6 +98,7 @@ export function SiteLoadingScreen({
     return () => {
       activeLoadingScreens = Math.max(0, activeLoadingScreens - 1);
       lastScreenClosedAt = Date.now();
+      window.cancelAnimationFrame(initQuoteFrame);
       window.clearInterval(dotsTimer);
     };
   }, []);
@@ -143,7 +146,14 @@ export function SiteLoadingScreen({
   const activeQuote = quoteIndex === null ? null : LOADING_QUOTES[quoteIndex];
 
   return (
-    <div className={styles.screen} role="status" lang={locale} aria-label={t(label)} aria-busy={!complete} aria-live="off">
+    <div
+      className={`${styles.screen}${complete ? ` ${styles.screenComplete}` : ""}`}
+      role="status"
+      lang={locale}
+      aria-label={t(label)}
+      aria-busy={!complete}
+      aria-live="off"
+    >
       <div className={styles.quoteContainer}>
         {activeQuote && <div className={styles.quoteBody} key={quoteIndex}>
           <p className={styles.year}>{t(activeQuote.year)}</p>

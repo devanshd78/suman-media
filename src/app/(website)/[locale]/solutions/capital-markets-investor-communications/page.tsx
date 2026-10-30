@@ -2,6 +2,8 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Image from "next/image";
 import Link from "@/components/navigation/website-link";
@@ -161,19 +163,19 @@ export default function CapitalMarketsPage() {
               CAPITAL MARKETS &amp; INVESTOR COMMUNICATIONS
             </p>
 
-            <h1>
-              Communicating Value.
-              <br />
-              Building Market
-              <br />
-              Confidence.
-            </h1>
+            <TextReveal
+              as="h1"
+              text={"Communicating Value.\nBuilding Market\nConfidence."}
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
 
-            <p className="hero-description">
+            <ScrollTextReveal><p className="hero-description">
               Strategic communication solutions for companies navigating IPOs,
               investor engagement, shareholder communication and financial
               visibility.
-            </p>
+            </p></ScrollTextReveal>
 
             <Link href="/contact" className="text-link">
               <span>Partner with us</span>

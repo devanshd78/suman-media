@@ -21,6 +21,8 @@ import type {
 } from "@/types/news-and-blogs";
 
 import styles from "./news-blogs.module.css";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 
 type Props = {
     posts: InsightListItem[];
@@ -644,11 +646,16 @@ export function NewsBlogsPage({ posts }: Props) {
                     <div className={`${styles.heroCopy} ${styles.heroCopyEnter}`}>
                         <Meta post={hero} inverse />
 
-                        <h1 id="news-blogs-hero-title">
-                            {hero.title}
-                        </h1>
+                        <TextReveal
+                            as="h1"
+                            id="news-blogs-hero-title"
+                            text={hero.title}
+                            effect="mask"
+                            split="words"
+                            delay={0.15}
+                        />
 
-                        <p>{hero.excerpt}</p>
+                        <ScrollTextReveal><p>{hero.excerpt}</p></ScrollTextReveal>
                     </div>
                 </Link>
             </section>

@@ -116,7 +116,6 @@ function PartnersStrip() {
     >
       {PARTNER_LOGOS.map(
         (partner) => (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             key={partner.src}
             src={partner.src}

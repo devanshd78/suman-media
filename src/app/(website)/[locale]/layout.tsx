@@ -14,6 +14,10 @@ import { SmoothScrollProvider } from "@/components/layout/smooth-scroll-provider
 import { SanityLive } from "@/sanity/lib/live";
 import { getSiteSettings } from "@/sanity/lib/data";
 
+export function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "mr" }];
+}
+
 export default async function WebsiteLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (locale !== "en" && locale !== "mr") notFound();

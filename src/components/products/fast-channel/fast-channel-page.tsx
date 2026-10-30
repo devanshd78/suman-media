@@ -16,13 +16,13 @@ import {
   type Variants,
 } from "framer-motion";
 import {
-  useMemo,
   useRef,
   useState,
   type CSSProperties,
 } from "react";
 
 import { inter, plusJakartaSans } from "@/lib/fonts";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 import styles from "./fast-channel-page.module.css";
 
@@ -220,14 +220,6 @@ const childVariants: Variants = {
   },
 };
 
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: "112%" },
-  visible: {
-    opacity: 1,
-    y: "0%",
-    transition: { duration: 0.92, ease: EASE },
-  },
-};
 
 function ArrowIcon({ direction = "right" }: { direction?: "left" | "right" }) {
   return (
@@ -286,45 +278,6 @@ function CheckCircleIcon() {
       <path d="M14 2.625C11.7502 2.625 9.551 3.29213 7.68039 4.54203C5.80978 5.79193 4.35182 7.56847 3.49088 9.64698C2.62993 11.7255 2.40467 14.0126 2.84357 16.2192C3.28248 18.4257 4.36584 20.4525 5.95667 22.0433C7.54749 23.6342 9.57432 24.7175 11.7809 25.1564C13.9874 25.5953 16.2745 25.3701 18.353 24.5091C20.4315 23.6482 22.2081 22.1902 23.458 20.3196C24.7079 18.449 25.375 16.2498 25.375 14C25.3718 10.9841 24.1724 8.09271 22.0398 5.96018C19.9073 3.82764 17.0159 2.62818 14 2.625ZM18.9941 11.9941L12.8691 18.1191C12.7878 18.2004 12.6913 18.265 12.5851 18.309C12.4789 18.353 12.365 18.3757 12.25 18.3757C12.135 18.3757 12.0212 18.353 11.9149 18.309C11.8087 18.265 11.7122 18.2004 11.6309 18.1191L9.00594 15.4941C8.84176 15.3299 8.74952 15.1072 8.74952 14.875C8.74952 14.6428 8.84176 14.4201 9.00594 14.2559C9.17013 14.0918 9.39281 13.9995 9.625 13.9995C9.8572 13.9995 10.0799 14.0918 10.2441 14.2559L12.25 16.263L17.7559 10.7559C17.8372 10.6746 17.9338 10.6102 18.04 10.5662C18.1462 10.5222 18.26 10.4995 18.375 10.4995C18.49 10.4995 18.6038 10.5222 18.71 10.5662C18.8163 10.6102 18.9128 10.6746 18.9941 10.7559C19.0754 10.8372 19.1399 10.9337 19.1838 11.04C19.2278 11.1462 19.2505 11.26 19.2505 11.375C19.2505 11.49 19.2278 11.6038 19.1838 11.71C19.1399 11.8163 19.0754 11.9128 18.9941 11.9941Z" fill="currentColor" />
     </svg>
   );
-}
-
-function StaggerWords({
-  text,
-  delay = 0,
-  className = "",
-}: {
-  text: string;
-  delay?: number;
-  className?: string;
-}) {
-  const words = useMemo(() => text.trim().split(/\s+/), [text]);
-
-  return <LocalizedContent>{(
-    <motion.span
-      className={`${styles.staggerWords} ${className}`}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.72 }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: 0.085,
-            delayChildren: delay,
-          },
-        },
-      }}
-    >
-      {words.map((word, index) => (
-        <span className={styles.wordMask} key={`${word}-${index}`}>
-          <motion.span className={styles.word} variants={wordVariants}>
-            {word}
-          </motion.span>
-          {index < words.length - 1 ? " " : null}
-        </span>
-      ))}
-    </motion.span>
-  )}</LocalizedContent>;
 }
 
 function ChannelBrand({ channel }: { channel: Channel }) {
@@ -710,7 +663,7 @@ function LatestAnnouncements() {
       >
         <motion.div data-motion-managed variants={childVariants}>
           <p className={styles.sectionEyebrow}>Latest Announcements</p>
-          <h2 id="fast-channel-news-heading">News</h2>
+          <TextReveal as="h2" id="fast-channel-news-heading" text="News" effect="mask" split="words" />
         </motion.div>
 
         <motion.div data-motion-managed variants={childVariants}>
@@ -762,7 +715,7 @@ export function FastChannelPage() {
           </motion.p>
 
           <h1 id="fast-channel-title" className={styles.introTitle}>
-            <StaggerWords text="Always On. Always Something to Watch." delay={0.14} />
+            <TextReveal as="span" text="Always On. Always Something to Watch." effect="mask" split="words" delay={0.14} />
           </h1>
 
           <motion.p data-motion-managed

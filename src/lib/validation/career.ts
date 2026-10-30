@@ -18,7 +18,10 @@ export const careerApplicationSchema = z.object({
     .regex(/^resumes\/[0-9]{4}-[0-9]{2}-[0-9]{2}\/[a-f0-9-]+-[^/]+$/),
   resumeFileName: z.string().trim().min(1).max(255),
   coverLetter: optionalTrimmedString(5000),
-  turnstileToken: z.string().min(1).max(2048).optional(),
+  turnstileToken: z.preprocess(
+    (value: unknown) => (value === "" ? undefined : value),
+    z.string().min(1).max(2048).optional(),
+  ),
   website: honeypotSchema,
 });
 

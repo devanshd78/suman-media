@@ -1,6 +1,5 @@
 "use client";
 
-
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { lazy, Suspense, useSyncExternalStore, type ReactNode } from "react";
 import { useNearViewport } from "@/hooks/use-near-viewport";
@@ -37,3 +36,5 @@ export function TextReveal({ children, enabled = true }: { children: ReactNode; 
     </span>
   )}</LocalizedContent>;
 }
+
+export { TextReveal as ScrollTextReveal };

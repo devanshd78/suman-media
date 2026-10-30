@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "@/components/navigation/website-link";
 import type { ReactNode } from "react";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import styles from "./brand-solutions-and-content-library-page.module.css";
 import { Catalogue, LibraryGallery } from "./content-library-catalogue";
 
@@ -44,8 +46,15 @@ export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
     <section className={styles.hero} aria-labelledby="page-title">
       <div className={styles.heroContent}>
         <p className={styles.eyebrow}>{brand ? "Brand Solutions & Advertising" : "Content & Music Library Management"}</p>
-        <h1 id="page-title">{brand ? "Bringing Brands and\nAudiences Together." : "A library of films, music and cultural content—\norganised for discovery, rights management,\nlicensing and digital distribution."}</h1>
-        {brand && <p className={styles.intro}>We connect brands with relevant audiences through integrated campaigns,<br className={styles.desktopBreak}/> strategic partnerships, branded entertainment and media opportunities.</p>}
+        <TextReveal
+          as="h1"
+          id="page-title"
+          text={brand ? "Bringing Brands and\nAudiences Together." : "A library of films, music and cultural content—\norganised for discovery, rights management,\nlicensing and digital distribution."}
+          effect="mask"
+          split="words"
+          delay={0.15}
+        />
+        {brand && <ScrollTextReveal><p className={styles.intro}>We connect brands with relevant audiences through integrated campaigns,<br className={styles.desktopBreak}/> strategic partnerships, branded entertainment and media opportunities.</p></ScrollTextReveal>}
         <Action href={brand ? "/contact/form" : "/partners"}>{brand ? "Discuss a Campaign" : "Explore Partnerships"}</Action>
       </div>
     </section>
@@ -53,7 +62,13 @@ export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
     <section className={`${styles.section} ${brand ? styles.services : styles.library}`} aria-labelledby="capabilities-title">
       <header className={`${styles.sectionHeader} ${!brand ? styles.center : ""}`}>
         <p className={styles.eyebrow}>{brand ? "What We Do" : "Our Capabilities"}</p>
-        <h2 id="capabilities-title">{brand ? "Brand Solutions That\nCreate Connections." : "Knowledge Across Formats."}</h2>
+        <TextReveal
+          as="h2"
+          id="capabilities-title"
+          text={brand ? "Brand Solutions That\nCreate Connections." : "Knowledge Across Formats."}
+          effect="mask"
+          split="words"
+        />
       </header>
       {brand ? <ul className={styles.grid}>{brandServices.map(([title, description, asset], i) => <li key={title}>
         <Link href="/contact/form" className={styles.card} aria-label={`Discuss ${title}`}>
@@ -64,12 +79,12 @@ export function BrandLibraryPage({ kind }: { kind: "brand" | "library" }) {
     </section>
     {brand ? <>
       <section className={`${styles.section} ${styles.journey}`} aria-labelledby="journey-title">
-        <header className={`${styles.sectionHeader} ${styles.center}`}><p className={styles.eyebrow}>How Global Journey Starts</p><h2 id="journey-title">From Content to Audience.</h2></header>
+        <header className={`${styles.sectionHeader} ${styles.center}`}><p className={styles.eyebrow}>How Global Journey Starts</p><TextReveal as="h2" id="journey-title" text="From Content to Audience." effect="mask" split="words" /></header>
         <ol className={styles.steps}>{steps.map(([title, description], i) => <li key={i}><StepIcon index={i}/><h3>{title}</h3><p>{description}</p></li>)}</ol>
       </section>
-      <section className={styles.project} aria-labelledby="project-title"><div><h2 id="project-title">{"Have a Brand\nOpportunity in Mind?"}</h2><p>Let&apos;s explore campaign ideas, partnerships and advertising opportunities that align with your goals.</p></div><Action gold>Discuss a Campaign</Action></section>
+      <section className={styles.project} aria-labelledby="project-title"><div><TextReveal as="h2" id="project-title" text={"Have a Brand\nOpportunity in Mind?"} effect="mask" split="words" /><p>Let&apos;s explore campaign ideas, partnerships and advertising opportunities that align with your goals.</p></div><Action gold>Discuss a Campaign</Action></section>
     </> : <section className={`${styles.section} ${styles.rights}`} aria-labelledby="rights-title">
-      <div className={styles.rightsHeader}><div><p className={styles.eyebrow}>AI in Action</p><h2 id="rights-title">{"From Content\nto Intelligence"}</h2></div><div><p>Explore rights-related services and opportunities for content use, licensing and monetization.</p><Action>Discuss a Project</Action></div></div>
+      <div className={styles.rightsHeader}><div><p className={styles.eyebrow}>AI in Action</p><TextReveal as="h2" id="rights-title" text={"From Content\nto Intelligence"} effect="mask" split="words" /></div><div><p>Explore rights-related services and opportunities for content use, licensing and monetization.</p><Action>Discuss a Project</Action></div></div>
       <ul className={styles.grid}>{rights.map(([title, description], i) => <li key={title} className={styles.rightsCard}><h3>{String(i + 1).padStart(2, "0")}. {title}</h3><p>{description}</p><Action>Talk to an Expert</Action></li>)}</ul>
     </section>}
     <NewsBlogsSection eyebrow="Latest Announcements" heading="News" />

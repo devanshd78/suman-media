@@ -2,7 +2,7 @@
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "@/components/ui/image";
 import Link from "@/components/navigation/website-link";
-import { Manrope } from "next/font/google";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { ReactNode } from "react";
 
 import {
@@ -21,11 +21,6 @@ import type {
 
 import styles from "./news-blog-detail.module.css";
 
-const manrope = Manrope({
-    subsets: ["latin"],
-    variable: "--font-manrope",
-    display: "swap",
-});
 
 const DATE_FORMATTER =
     new Intl.DateTimeFormat("en-US", {
@@ -459,7 +454,7 @@ export function NewsBlogDetail({
 
     return <LocalizedContent>{(
         <main
-            className={`${plusJakartaSans.variable} ${inter.variable} ${manrope.variable} ${styles.page}`}
+            className={`${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}
         >
             <header
                 className={styles.articleHeader}
@@ -469,7 +464,7 @@ export function NewsBlogDetail({
                         styles.articleHeaderGrid
                     }
                 >
-                    <h1 className={styles.headerTitleReveal}>{article.title}</h1>
+                    <TextReveal as="h1" className={styles.headerTitleReveal} text={article.title} effect="mask" split="words" />
                     <p className={styles.headerExcerptReveal}>{article.excerpt}</p>
                 </div>
 

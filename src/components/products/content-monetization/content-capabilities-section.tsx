@@ -128,9 +128,9 @@ export default function ContentCapabilitiesSection() {
 
     if (!target) return;
 
-    if (!("IntersectionObserver" in window)) {
-      setEntered(true);
-      return;
+    if (typeof IntersectionObserver === "undefined") {
+      const fallbackFrame = requestAnimationFrame(() => setEntered(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     const observer = new IntersectionObserver(
@@ -138,6 +138,7 @@ export default function ContentCapabilitiesSection() {
         if (!entry.isIntersecting) return;
 
         setEntered(true);
+
         observer.disconnect();
       },
       {

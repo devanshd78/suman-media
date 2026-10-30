@@ -9,6 +9,8 @@ import Image from "@/components/ui/image";
 import Link from "@/components/navigation/website-link";
 import { AnimatedStatNumber } from "@/components/landing/animated-stat-number";
 import { IntersectionReveal } from "@/components/motion/intersection-reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import { inter, plusJakartaSans } from "@/lib/fonts";
 import {
   AnimatePresence,
@@ -18,7 +20,6 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { Exo_2 } from "next/font/google";
 import {
   useCallback,
   useEffect,
@@ -31,12 +32,6 @@ import {
 
 import styles from "./partner-page.module.css";
 
-const exo2 = Exo_2({
-  subsets: ["latin"],
-  weight: ["600"],
-  variable: "--font-exo-2",
-  display: "swap",
-});
 
 type PartnerType = {
   number: string;
@@ -246,7 +241,6 @@ function PartnerLogos() {
     >
       {PARTNER_LOGOS.map((logo) => (
         // Native img is appropriate for local SVG marks and preserves intrinsic aspect ratio.
-        // eslint-disable-next-line @next/next/no-img-element
         <img
           key={logo.src}
           src={logo.src}
@@ -633,7 +627,6 @@ function MediaRail({
                       onClick={() => activateYouTube(youtubeId)}
                     >
                       {/* Native img avoids requiring YouTube's thumbnail host in next/image config. */}
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={getYouTubeThumbnail(youtubeId)}
                         alt=""
@@ -916,23 +909,30 @@ export function PartnerPageContent() {
 
   return <LocalizedContent>{(
     <main
-      className={`${plusJakartaSans.className} ${plusJakartaSans.variable} ${inter.variable} ${exo2.variable} ${styles.page}`}
+      className={`${plusJakartaSans.className} ${plusJakartaSans.variable} ${inter.variable} ${styles.page}`}
     >
       <section className={styles.hero} aria-labelledby="partner-page-heading">
         <div className={styles.heroInner}>
           <IntersectionReveal className={styles.heroTitleBlock}>
             <p className={styles.eyebrow}>BECOME A PARTNER</p>
-            <h1 id="partner-page-heading">
-              Bring Your Vision. We&apos;ll Help Take It Further.
-            </h1>
+            <TextReveal
+              as="h1"
+              id="partner-page-heading"
+              text="Bring Your Vision. We'll Help Take It Further."
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
           </IntersectionReveal>
 
           <IntersectionReveal className={styles.heroIntro}>
-            <p>
+            <ScrollTextReveal>
+              <p>
               From stories and music to films, OTT, distribution and technology,
               Suman brings the ecosystem to help creators and partners turn ideas
               into opportunities.
             </p>
+            </ScrollTextReveal>
             <TextLink href="/contact/form?type=partnership">Join us</TextLink>
           </IntersectionReveal>
         </div>
@@ -979,7 +979,7 @@ export function PartnerPageContent() {
           <p className={styles.filmEyebrow}>
             01. MAKE THE IDEAS TO THE PEOPLES&apos;S HEART
           </p>
-          <h2 id="make-film-heading">Make Your Film</h2>
+          <TextReveal as="h2" id="make-film-heading" text="Make Your Film" effect="mask" split="words" />
           <p>
             Have a film idea or production you want to bring to screen? Partner
             with us to develop, produce and distribute it.
@@ -1033,7 +1033,7 @@ export function PartnerPageContent() {
       >
         <IntersectionReveal className={styles.centeredHeading}>
           <p className={styles.whoEyebrow}>PARTNERSHIP OPPORTUNITIES</p>
-          <h2 id="who-can-partner-heading">Who Can Partner?</h2>
+          <TextReveal as="h2" id="who-can-partner-heading" text="Who Can Partner?" effect="mask" split="words" />
           <p className={styles.whoDescription}>
             Join a growing media, entertainment and technology ecosystem where
             ideas become stories, products, experiences and businesses.
@@ -1109,7 +1109,7 @@ export function PartnerPageContent() {
       <section className={styles.ecosystem} aria-labelledby="ecosystem-heading">
         <IntersectionReveal className={styles.ecosystemTitle}>
           <p className={styles.eyebrow}>FILM · ENTERTAINMENT · CONTENT</p>
-          <h2 id="ecosystem-heading">Our Ecosystem</h2>
+          <TextReveal as="h2" id="ecosystem-heading" text="Our Ecosystem" effect="mask" split="words" />
         </IntersectionReveal>
 
         <div
@@ -1266,7 +1266,6 @@ export function PartnerPageContent() {
                 <div className={styles.aiPartners}>
                   <IntersectionReveal className={styles.aiPartnerCard}>
                     <div className={styles.aiBrandLockup}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/images/landing/partners/abhijaat-marathi.png"
                         alt="Abhijat Marathi"
@@ -1277,7 +1276,6 @@ export function PartnerPageContent() {
                         className={styles.aiBrandDivider}
                         aria-hidden="true"
                       />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/images/landing/partners/z-marathi.png"
                         alt="Z Marathi"
@@ -1290,7 +1288,6 @@ export function PartnerPageContent() {
 
                   <IntersectionReveal className={styles.aiPartnerCard}>
                     <div className={styles.aiBrandLockup}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/images/landing/partners/abhijaat-marathi.png"
                         alt="Abhijat Marathi"
@@ -1301,7 +1298,6 @@ export function PartnerPageContent() {
                         className={styles.aiBrandDivider}
                         aria-hidden="true"
                       />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/images/landing/partners/laminar.png"
                         alt="Laminar"
@@ -1332,7 +1328,7 @@ export function PartnerPageContent() {
                 <EcosystemHeader
                   title="Abhijat Marathi Filmy"
                   description="A dedicated film-focused initiative bringing Marathi cinema, Filmy thoughts, stories, Celebrity bytes, Real talks and more — made for hearts that feel cinema."
-                  href="/portfolio"
+                  href="/services/media-content-syndication"
                   tone="warm"
                   ctaLabel="Watch"
                 />

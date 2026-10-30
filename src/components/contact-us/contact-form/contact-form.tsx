@@ -13,6 +13,7 @@ import {
 } from "@/lib/country-calling-codes";
 import type { ApiResponse } from "@/types/api";
 import { PartnerLogoMarquee } from "../partner-logo-marquee";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 const FALLBACK_GENERAL_CATEGORIES = [
   "Services",
@@ -182,9 +183,9 @@ export default function ContactFormPage({
           subject: category ? `${enquiryType}: ${category}` : enquiryType,
           message: String(formData.get("message") ?? ""),
           sourceUrl: window.location.href,
-          turnstileToken: String(
-            formData.get("cf-turnstile-response") ?? "",
-          ),
+          turnstileToken:
+            (formData.get("cf-turnstile-response") as string)?.trim() ||
+            undefined,
           website: String(formData.get("website") ?? ""),
         }),
       });
@@ -226,13 +227,7 @@ export default function ContactFormPage({
         className="site-gutter flex w-full flex-col items-center gap-[3.5rem] bg-white py-16 lg:py-[6.25rem]"
       >
         <header className="flex w-full flex-col items-start gap-4">
-          <h1
-            id="contact-form-page-heading"
-            className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-[#1A1A1A] sm:text-[2.5rem] sm:leading-[3rem]`}
-            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-          >
-            Let&apos;s Start a Conversation.
-          </h1>
+          <TextReveal as="h1" id="contact-form-page-heading" text="Let's Start a Conversation." effect="mask" split="words" className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-[#1A1A1A] sm:text-[2.5rem] sm:leading-[3rem]`} style={{ fontFeatureSettings: '"liga" off, "clig" off' }} />
           <p
             className={`${inter.className} w-full text-base font-normal leading-6 text-[rgba(0,9,51,0.65)]`}
             style={{ fontFeatureSettings: '"liga" off, "clig" off' }}

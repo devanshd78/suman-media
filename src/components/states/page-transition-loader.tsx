@@ -4,13 +4,14 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SiteLoadingScreen } from "./site-loading-screen";
 
-const INITIAL_SPLASH_MS = 1250;
-const MIN_NAVIGATION_MS = 950;
-const MAX_NAVIGATION_MS = 20000;
+const INITIAL_SPLASH_MS = 250;
+const NAVIGATION_DEBOUNCE_MS = 260;
+const MAX_NAVIGATION_MS = 8000;
 
 /**
- * Next's app/loading.tsx handles suspense, while this persistent root overlay
- * also covers prefetched links and normal client-side transitions.
+ * High-performance page transition loader.
+ * Debounces instant/prefetched transitions so fast navigations never suffer
+ * full-screen blocking delay, while still providing feedback on slower network loads.
  */
 export function PageTransitionLoader() {
   const pathname = usePathname();
@@ -19,45 +20,60 @@ export function PageTransitionLoader() {
   const pendingSince = useRef(0);
   const pendingDestination = useRef<string | null>(null);
   const initialTimer = useRef<number | null>(null);
-  const [visible, setVisible] = useState(true);
+  const debounceTimer = useRef<number | null>(null);
+  const [visible, setVisible] = useState(false);
   const [complete, setComplete] = useState(false);
   const [transitionKey, setTransitionKey] = useState(0);
 
-  const finishOverlay = useCallback(() => setVisible(false), []);
+  const finishOverlay = useCallback(() => {
+    setVisible(false);
+  }, []);
 
+  // Initial visit splash
   useEffect(() => {
+    const hasSeenSplash = typeof sessionStorage !== "undefined" && sessionStorage.getItem("site_splash_seen");
+    if (hasSeenSplash) {
+      return;
+    }
+    try {
+      sessionStorage.setItem("site_splash_seen", "1");
+    } catch {
+      // Ignore storage errors in private browsing modes
+    }
+
+    const animFrame = window.requestAnimationFrame(() => {
+      setVisible(true);
+      setComplete(false);
+    });
+
     initialTimer.current = window.setTimeout(() => {
       initialTimer.current = null;
       setComplete(true);
+      setVisible(false);
     }, INITIAL_SPLASH_MS);
+
     return () => {
+      window.cancelAnimationFrame(animFrame);
       if (initialTimer.current !== null) window.clearTimeout(initialTimer.current);
     };
   }, []);
 
+  // Route change listener
   useEffect(() => {
     if (previousPath.current === pathname) return;
     previousPath.current = pathname;
     pendingDestination.current = null;
     setRequestedLocale(pathname?.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
-    // Programmatic router.push/replace may not originate from an anchor click.
-    // Show this same loader for those page changes, too.
-    if (!pendingSince.current) {
-      if (initialTimer.current !== null) {
-        window.clearTimeout(initialTimer.current);
-        initialTimer.current = null;
-      }
-      pendingSince.current = Date.now();
-      setTransitionKey((key) => key + 1);
-      setComplete(false);
-      setVisible(true);
+
+    if (debounceTimer.current !== null) {
+      window.clearTimeout(debounceTimer.current);
+      debounceTimer.current = null;
     }
-    const remaining = Math.max(0, MIN_NAVIGATION_MS - (Date.now() - pendingSince.current));
-    const timer = window.setTimeout(() => {
-      pendingSince.current = 0;
-      setComplete(true);
-    }, remaining);
-    return () => window.clearTimeout(timer);
+
+    pendingSince.current = 0;
+    // Route has mounted: immediately dismiss transition overlay
+    setComplete(true);
+    setVisible(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -66,10 +82,18 @@ export function PageTransitionLoader() {
         window.clearTimeout(initialTimer.current);
         initialTimer.current = null;
       }
+      if (debounceTimer.current !== null) {
+        window.clearTimeout(debounceTimer.current);
+      }
+
       pendingSince.current = Date.now();
-      setTransitionKey((key) => key + 1);
-      setComplete(false);
-      setVisible(true);
+      // Debounce: only show overlay if navigation takes longer than NAVIGATION_DEBOUNCE_MS
+      debounceTimer.current = window.setTimeout(() => {
+        debounceTimer.current = null;
+        setTransitionKey((key) => key + 1);
+        setComplete(false);
+        setVisible(true);
+      }, NAVIGATION_DEBOUNCE_MS);
     };
 
     const onNavigate = (event: Event) => {
@@ -79,7 +103,6 @@ export function PageTransitionLoader() {
       startTransition();
     };
 
-    // Popstate covers browser back/forward as well as normal anchor navigation.
     const onPopState = () => {
       pendingDestination.current = null;
       if (window.location.pathname === previousPath.current) return;
@@ -87,20 +110,52 @@ export function PageTransitionLoader() {
       startTransition();
     };
 
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest("a");
+      if (!anchor || !anchor.href) return;
+      if (
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download") ||
+        anchor.getAttribute("rel")?.includes("external") ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        event.button !== 0
+      ) {
+        return;
+      }
+      try {
+        const destination = new URL(anchor.href, window.location.href);
+        if (destination.origin !== window.location.origin) return;
+        if (destination.pathname === window.location.pathname && destination.search === window.location.search) return;
+        pendingDestination.current = destination.href;
+        setRequestedLocale(destination.pathname.match(/^\/(en|mr)(?:\/|$)/)?.[1]);
+        startTransition();
+      } catch {
+        // Ignore invalid URL parsing
+      }
+    };
+
+    document.addEventListener("click", onClick, { capture: true });
     window.addEventListener("website:navigate", onNavigate);
     window.addEventListener("popstate", onPopState);
     return () => {
+      document.removeEventListener("click", onClick, { capture: true });
       window.removeEventListener("website:navigate", onNavigate);
       window.removeEventListener("popstate", onPopState);
+      if (debounceTimer.current !== null) window.clearTimeout(debounceTimer.current);
     };
   }, []);
 
   useEffect(() => {
     if (!visible || complete) return;
-    // Recover a stalled client transition with the actual requested document.
+    // Safety recovery if a transition hangs
     const timer = window.setTimeout(() => {
       pendingSince.current = 0;
       setComplete(true);
+      setVisible(false);
       const destination = pendingDestination.current;
       pendingDestination.current = null;
       if (destination && window.location.pathname === previousPath.current) {

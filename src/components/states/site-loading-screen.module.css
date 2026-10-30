@@ -26,6 +26,12 @@
   background: #FFEABF;
   isolation: isolate;
   font-feature-settings: "liga" off, "clig" off;
+  transition: opacity 100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.screenComplete {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* 1440 x 1000 reference: quote starts at x=132, y=181. */
@@ -79,7 +85,7 @@
   padding: clamp(1.75rem, 11.5dvh, 8rem) clamp(1.25rem, 6.9444vw, 9rem) 1.5rem;
 }
 
-/* Three digit progress: 000 Ã¢â€ â€™ 100. Counter is immediately above Loading. */
+/* Three digit progress: 000 → 100. Counter is immediately above Loading. */
 .counter {
   display: block;
   min-width: 3ch;

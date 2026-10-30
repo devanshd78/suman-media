@@ -2,9 +2,10 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "@/components/navigation/website-link";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 
@@ -13,21 +14,6 @@ import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
    TYPES & DATA
    ========================================================= */
 
-type ExperienceCardProps = {
-    title: string;
-    subtext: string;
-    imageSrc: string;
-    className?: string;
-    extraDarkOverlay?: boolean;
-};
-
-type MomentItem = {
-    id: number;
-    title: string;
-    year: string;
-    category: string;
-    imageSrc: string;
-};
 
 type ProcessStep = {
     id: number;
@@ -35,44 +21,6 @@ type ProcessStep = {
     description: string;
     iconSrc: string;
 };
-
-const MOMENTS_DATA: MomentItem[] = [
-    {
-        id: 1,
-        title: "The GOAT | India Tour",
-        year: "2026",
-        category: "Event",
-        imageSrc: "/images/event-experience/goat-india-tour.jpg",
-    },
-    {
-        id: 2,
-        title: "Suman Cultural Utsav",
-        year: "2026",
-        category: "Culture",
-        imageSrc: "/images/event-experience/suman-cultural-utsav.png",
-    },
-    {
-        id: 3,
-        title: "Sonic Nights Live",
-        year: "2025",
-        category: "Music",
-        imageSrc: "/images/event-experience/sonic-nights-live.jpg",
-    },
-    {
-        id: 4,
-        title: "Global Leadership Summit",
-        year: "2025",
-        category: "Corporate",
-        imageSrc: "/images/media/rhythm-and-roots.png",
-    },
-    {
-        id: 5,
-        title: "National Heritage Conclave",
-        year: "2025",
-        category: "Public Engagement",
-        imageSrc: "/images/media/stories-unplugged.png",
-    },
-];
 
 const PROCESS_STEPS: ProcessStep[] = [
     {
@@ -106,96 +54,10 @@ const PROCESS_STEPS: ProcessStep[] = [
 ];
 
 /* =========================================================
-   BENTO CARD COMPONENT (SECTION 2)
-   ========================================================= */
-
-function ExperienceCard({
-    title,
-    subtext,
-    imageSrc,
-    className = "",
-    extraDarkOverlay = false,
-}: ExperienceCardProps) {
-    return <LocalizedContent>{(
-        <div
-            className={`group relative flex flex-col justify-between items-end p-[2rem] rounded-[1rem] overflow-hidden cursor-pointer select-none ${className}`}
-            style={{
-                backgroundImage: extraDarkOverlay
-                    ? `radial-gradient(101.5% 87.32% at 53.02% 2.59%, rgba(0, 0, 0, 0.00) 67.04%, rgba(0, 0, 0, 0.65) 88.52%), radial-gradient(101.5% 87.32% at 53.02% 2.59%, rgba(0, 0, 0, 0.00) 67.04%, rgba(0, 0, 0, 0.52) 88.52%), url('${imageSrc}')`
-                    : `radial-gradient(101.5% 87.32% at 53.02% 2.59%, rgba(0, 0, 0, 0.00) 67.04%, rgba(0, 0, 0, 0.65) 88.52%), url('${imageSrc}')`,
-                backgroundColor: "lightgray",
-                backgroundPosition: "50%",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
-            {/* Subtle bottom gradient boost on hover */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-            {/* Top Right Arrow Button */}
-            <div className="relative z-10 flex h-[3.75rem] w-[3.75rem] shrink-0 items-center justify-center rounded-[2.5rem] bg-white/50 p-[0.875rem] backdrop-blur-[2px] transition-all duration-300 group-hover:bg-white">
-                <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                >
-                    <path
-                        d="M7 17L17 7M17 7H8M17 7V16"
-                        stroke="#1A1A1A"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
-            </div>
-
-            {/* Bottom Left Heading & Hover Subtext */}
-            <div className="relative z-10 flex w-full flex-col items-start self-stretch text-left">
-                <h3
-                    className="text-white"
-                    style={{
-                        fontFamily:
-                            'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                        fontSize: "1.375rem",
-                        fontWeight: 600,
-                        lineHeight: "1.75rem",
-                        fontFeatureSettings: "'liga' off, 'clig' off",
-                    }}
-                >
-                    {title}
-                </h3>
-
-                <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-300 ease-out group-hover:mt-1.5 group-hover:grid-rows-[1fr] group-hover:opacity-100">
-                    <div className="overflow-hidden">
-                        <p
-                            className="text-white/90"
-                            style={{
-                                fontFamily:
-                                    'var(--Font-family-Body, "Plus Jakarta Sans", sans-serif)',
-                                fontSize: "0.9375rem",
-                                fontWeight: 400,
-                                lineHeight: "1.375rem",
-                                fontFeatureSettings: "'liga' off, 'clig' off",
-                            }}
-                        >
-                            {subtext}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )}</LocalizedContent>;
-}
-
-/* =========================================================
    MAIN PAGE COMPONENT
    ========================================================= */
 
 export default function EventPage() {
-    const [activeMomentIndex, setActiveMomentIndex] = useState<number>(0);
 
     return <LocalizedContent>{(
         <main className="relative min-h-screen w-full overflow-hidden bg-white">
@@ -247,21 +109,13 @@ export default function EventPage() {
               EVENT & EXPERIENCES
             </span>
 
-            <h1
-              style={{
-                color: "var(--Light-Border-Selected, #1A1A1A)",
-                fontFeatureSettings: "'liga' off, 'clig' off",
-                fontFamily:
-                  'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                fontStyle: "normal",
-                fontWeight: 600,
-                lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                letterSpacing: "-0.03125rem",
-              }}
-            >
-              Creating Experiences That Bring People Together.
-            </h1>
+            <TextReveal
+              as="h1"
+              text="Creating Experiences That Bring People Together."
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
           </div>
 
           {/* Right Side: Description + Button */}
@@ -368,251 +222,7 @@ export default function EventPage() {
                         THING WE DO ACROSS MUISC
                     </span>
 
-                    <h2
-                        style={{
-                            color: "#000",
-                            textAlign: "center",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                        }}
-                    >
-                        Experiences for Every Occasion.
-                    </h2>
-                </div>
-
-                {/* Full-Width Bento Grid Wrapper */}
-                <div className="flex w-full flex-col gap-[1.875rem]">
-                    {/* ROW 1 */}
-                    <div className="flex w-full flex-col gap-[1.875rem] lg:flex-row">
-                        <ExperienceCard
-                            title="Concerts"
-                            subtext="Live music and entertainment experiences for audiences."
-                            imageSrc="/images/event-experience/concerts.png"
-                            className="h-[22rem] w-full lg:h-[26.25rem] lg:w-[63.1%]"
-                        />
-                        <ExperienceCard
-                            title="Public Engagement Programs"
-                            subtext="Community-driven initiatives and large-scale public gatherings."
-                            imageSrc="/images/event-experience/public-engagement.png"
-                            className="h-[22rem] w-full lg:h-[26.25rem] lg:flex-1"
-                        />
-                    </div>
-
-                    {/* ROW 2 */}
-                    <div className="flex w-full flex-col gap-[1.875rem] lg:flex-row">
-                        <ExperienceCard
-                            title="Corporate Events"
-                            subtext="Conferences, summits, and tailored corporate experiences."
-                            imageSrc="/images/event-experience/corporate-events.png"
-                            className="h-[22rem] w-full lg:h-[26.25rem] lg:w-[34.8%]"
-                        />
-                        <ExperienceCard
-                            title="Government Events"
-                            subtext="Official conventions, institutional programs, and state summits."
-                            imageSrc="/images/event-experience/government-events.png"
-                            className="h-[22rem] w-full lg:h-[26.25rem] lg:flex-1"
-                        />
-                    </div>
-
-                    {/* ROW 3 & 4 COMBINED */}
-                    <div className="flex w-full flex-col gap-[1.875rem] lg:flex-row">
-                        <div className="flex w-full flex-col gap-[1.875rem] lg:flex-1">
-                            <div className="flex w-full flex-col gap-[1.875rem] md:flex-row">
-                                <ExperienceCard
-                                    title="Award Functions"
-                                    subtext="Grand gala nights celebrating excellence and achievements."
-                                    imageSrc="/images/event-experience/award-functions.png"
-                                    className="h-[22rem] w-full md:flex-1 lg:h-[26.25rem]"
-                                />
-                                <ExperienceCard
-                                    title="Product Launches"
-                                    subtext="High-impact brand reveals and immersive showcase events."
-                                    imageSrc="/images/event-experience/product-launches.png"
-                                    extraDarkOverlay
-                                    className="h-[22rem] w-full md:flex-1 lg:h-[26.25rem]"
-                                />
-                            </div>
-
-                            <ExperienceCard
-                                title="Experiential Marketing"
-                                subtext="Interactive brand activations that leave a lasting impression."
-                                imageSrc="/images/event-experience/experiential-marketing.png"
-                                className="h-[19.125rem] w-full self-stretch"
-                            />
-                        </div>
-
-                        <ExperienceCard
-                            title="Cultural Events"
-                            subtext="Vibrant festivals celebrating heritage, art, and traditions."
-                            imageSrc="/images/event-experience/cultural-events.png"
-                            className="h-[28rem] w-full shrink-0 lg:h-[47.25rem] lg:w-[34.8%]"
-                        />
-                    </div>
-                </div>
-            </section>
-
-            {/* =========================================================
-          SECTION 3: MOMENTS THAT MAKE AN IMPACT (ACCORDION GALLERY)
-          ========================================================= */}
-            <section className="relative z-10 flex w-full flex-col items-center gap-[3.5rem] self-stretch bg-black px-6 py-[4rem] md:px-10 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]">
-                {/* Top Split-Color Heading */}
-                <div className="w-full self-stretch text-left">
-                    <h2
-                        style={{
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                        }}
-                    >
-                        <span
-                            style={{
-                                color: "var(--Light-Border-Text-PrimaryInverse, #F9F9F9)",
-                            }}
-                        >
-                            Moments That Make an Impact, Explore selected events and{" "}
-                        </span>
-                        <span style={{ color: "#969696" }}>
-                            experiences across entertainment, culture, corporate gatherings and
-                            public engagement.
-                        </span>
-                    </h2>
-                </div>
-
-                {/* Interactive 5-Image Accordion Container */}
-                <div className="flex w-full flex-col gap-[1rem] self-stretch lg:h-[38.5rem] lg:flex-row lg:items-start lg:gap-[1.5rem]">
-                    {MOMENTS_DATA.map((item, index) => {
-                        const isActive = index === activeMomentIndex;
-
-                        return (
-                            <div
-                                key={item.id}
-                                onClick={() => setActiveMomentIndex(index)}
-                                role="button"
-                                tabIndex={0}
-                                aria-expanded={isActive}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                        e.preventDefault();
-                                        setActiveMomentIndex(index);
-                                    }
-                                }}
-                                className={`group flex cursor-pointer select-none flex-col transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${isActive
-                                        ? "w-full lg:flex-1"
-                                        : "w-full opacity-80 hover:opacity-100 lg:w-[2.75rem] lg:shrink-0"
-                                    }`}
-                            >
-                                {/* Image Strip / Expanded Panel */}
-                                <div
-                                    className={`relative w-full self-stretch overflow-hidden rounded-[0.5rem] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${isActive
-                                            ? "h-[22rem] sm:h-[28rem] lg:h-[35.75rem]"
-                                            : "h-[4.5rem] lg:h-[35.75rem]"
-                                        }`}
-                                    style={{
-                                        backgroundImage: `url('${item.imageSrc}')`,
-                                        backgroundColor: "lightgray",
-                                        backgroundPosition: "50%",
-                                        backgroundSize: "cover",
-                                        backgroundRepeat: "no-repeat",
-                                    }}
-                                >
-                                    <div
-                                        className={`pointer-events-none absolute inset-0 bg-black transition-opacity duration-500 ${isActive
-                                                ? "opacity-0"
-                                                : "opacity-25 group-hover:opacity-10"
-                                            }`}
-                                    />
-                                </div>
-
-                                {/* Bottom Caption Bar */}
-                                <div
-                                    className={`flex w-full items-center justify-between overflow-hidden transition-all duration-500 ${isActive
-                                            ? "mt-4 max-h-12 opacity-100"
-                                            : "pointer-events-none mt-0 max-h-0 opacity-0"
-                                        }`}
-                                >
-                                    <span
-                                        className="truncate pr-4 text-white"
-                                        style={{
-                                            fontFamily:
-                                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                                            fontSize: "1.25rem",
-                                            fontWeight: 600,
-                                            lineHeight: "1.75rem",
-                                            fontFeatureSettings: "'liga' off, 'clig' off",
-                                        }}
-                                    >
-                                        {item.title}
-                                    </span>
-
-                                    <div
-                                        className="flex shrink-0 items-center gap-3 text-[#969696]"
-                                        style={{
-                                            fontFamily:
-                                                'var(--Font-family-Body, "Plus Jakarta Sans", sans-serif)',
-                                            fontSize: "0.875rem",
-                                            fontWeight: 400,
-                                            lineHeight: "1.25rem",
-                                        }}
-                                    >
-                                        <span>{item.year}</span>
-                                        <span>{item.category}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </section>
-
-            {/* =========================================================
-          SECTION 4: FROM PLANNING TO EXPERIENCE (4-COLUMN PROCESS)
-          ========================================================= */}
-            <section className="relative z-10 flex w-full flex-col items-center gap-[3.5rem] bg-white px-6 py-[4rem] md:px-10 lg:gap-[6.25rem] lg:px-[3.5rem] lg:py-[6.25rem]">
-                {/* Section Heading */}
-                <div className="flex flex-col items-center gap-[0.25rem]">
-                    <span
-                        style={{
-                            color: "var(--Light-Border-Text-Secondary, #969696)",
-                            textAlign: "center",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Tiny, 0.875rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Tiny, 1.25rem)",
-                        }}
-                    >
-                        HOW WE BRING EVENTS TO THE LIFE
-                    </span>
-
-                    <h2
-                        style={{
-                            color: "#000",
-                            textAlign: "center",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                        }}
-                    >
-                        From Planning to Experience.
-                    </h2>
+                    <TextReveal as="h2" text="From Planning to Experience." effect="mask" split="words" />
                 </div>
 
                 {/* 4-Column Cards Grid (2rem gap between cards matching Figma) */}

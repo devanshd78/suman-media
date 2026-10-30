@@ -16,7 +16,10 @@ export const contactSchema = z.object({
     (value: unknown) => (value === "" ? undefined : value),
     z.string().url().max(2048).optional(),
   ),
-  turnstileToken: z.string().min(1).max(2048).optional(),
+  turnstileToken: z.preprocess(
+    (value: unknown) => (value === "" ? undefined : value),
+    z.string().min(1).max(2048).optional(),
+  ),
   website: honeypotSchema,
 });
 

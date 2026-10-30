@@ -33,20 +33,19 @@ import {
   SITEMAP_DOCUMENTS_QUERY,
 } from "@/sanity/queries/content";
 
+const HOME_REVALIDATE = process.env.NODE_ENV === "development" ? 60 : 3600;
+
 export async function getContactPageContent(): Promise<CmsContactPage | null> {
   try {
     return await sanityFetch<CmsContactPage>({
       query: CONTACT_PAGE_QUERY,
-      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+      revalidate: HOME_REVALIDATE,
     });
   } catch (error) {
     console.error("Failed to load Contact page content from Sanity", error);
     return null;
   }
 }
-
-
-const HOME_REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 3600;
 
 export const getHomePage = cache(async (): Promise<CmsHomePage | null> => {
   try {
@@ -92,7 +91,7 @@ export async function getCareersPartnerCta(): Promise<CmsCareersPartnerCta | nul
   try {
     return await sanityFetch<CmsCareersPartnerCta>({
       query: CAREERS_PARTNER_CTA_QUERY,
-      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+      revalidate: HOME_REVALIDATE,
     });
   } catch (error) {
     console.error("Failed to load Careers partner CTA from Sanity", error);
@@ -106,7 +105,7 @@ export async function getCareerOpenings(): Promise<CmsCareerOpening[]> {
       openings?: CmsCareerOpening[] | null;
     }>({
       query: CAREERS_OPENINGS_QUERY,
-      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+      revalidate: HOME_REVALIDATE,
     });
 
     return (
@@ -125,7 +124,7 @@ export async function getCareersCulture(): Promise<CmsCareersCulture | null> {
   try {
     return await sanityFetch<CmsCareersCulture>({
       query: CAREERS_CULTURE_QUERY,
-      revalidate: process.env.NODE_ENV === "development" ? 0 : 60,
+      revalidate: HOME_REVALIDATE,
     });
   } catch (error) {
     console.error("Failed to load Careers culture content from Sanity", error);
@@ -133,7 +132,7 @@ export async function getCareersCulture(): Promise<CmsCareersCulture | null> {
   }
 }
 
-const LIST_REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 3600;
+const LIST_REVALIDATE = process.env.NODE_ENV === "development" ? 60 : 3600;
 
 /*
  * Shared shape for the homepage's featured-content lists:

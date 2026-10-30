@@ -1,6 +1,7 @@
 "use client";
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "@/components/navigation/website-link";
 import React, { useState, useEffect } from "react";
@@ -338,23 +339,13 @@ export default function DigitalMediaNetworksPage() {
                             DIGITAL MEDIA NETWORKS
                         </span>
 
-                        <h1
-                            style={{
-                                color: "var(--Light-Border-Selected, #1A1A1A)",
-                                fontFeatureSettings: "'liga' off, 'clig' off",
-                                fontFamily:
-                                    'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                                fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                                lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                                letterSpacing: "-0.03125rem",
-                                margin: 0,
-                            }}
-                        >
-                            Building and growing digital media networks through channel,
-                            creator partnerships and monetisation.
-                        </h1>
+                        <TextReveal
+              as="h1"
+              text="Building and growing digital media networks through channel, creator partnerships and monetisation."
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
                     </div>
 
                     {/* Right Column */}
@@ -477,23 +468,7 @@ export default function DigitalMediaNetworksPage() {
                         gap: "4rem",
                     }}
                 >
-                    <h2
-                        style={{
-                            color: "var(--Light-Border-Text-Primary, #1A1A1A)",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                            margin: 0,
-                            maxWidth: "32rem",
-                        }}
-                    >
-                        Turning Digital Channels into Media Assets.
-                    </h2>
+                    <TextReveal as="h2" text="Turning Digital Channels into Media Assets." effect="mask" split="words" />
 
                     <p
                         style={{
@@ -799,22 +774,7 @@ export default function DigitalMediaNetworksPage() {
                         HOW WE BRING EVENTS TO THE LIFE
                     </span>
 
-                    <h2
-                        style={{
-                            color: "var(--Light-Border-Text-Primary, #1A1A1A)",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                            margin: 0,
-                        }}
-                    >
-                        From Planning to Experience.
-                    </h2>
+                    <TextReveal as="h2" text="From Planning to Experience." effect="mask" split="words" />
                 </div>
 
                 <div className="digital-process-grid"

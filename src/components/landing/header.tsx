@@ -54,11 +54,6 @@ const OVERLAY_HEADER_ROUTES = new Set([
   "/services/digital-marketing-communication",
 ]);
 
-const LIGHT_HERO_HEADER_ROUTES = new Set([
-  "/products/content-music-library",
-  "/services/brand-solutions-advertising",
-]);
-
 function routeUsesOverlayHeader(pathname: string) {
   return OVERLAY_HEADER_ROUTES.has(pathname);
 }
@@ -171,6 +166,97 @@ function ArrowRightIcon() {
 /* ============================================================
    DROPDOWN PANEL
    ============================================================ */
+
+/* ============================================================
+   DROPDOWN FEATURED CARD (SLIDESHOW)
+   ============================================================ */
+
+function DropdownFeaturedCard({
+  featured,
+  onNavigate,
+  reduceMotion,
+}: {
+  featured: NonNullable<NavMenu["featured"]>;
+  onNavigate: () => void;
+  reduceMotion: boolean;
+}) {
+  const images =
+    featured.images && featured.images.length > 0
+      ? featured.images
+      : [{ src: featured.imageSrc, alt: featured.imageAlt }];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (reduceMotion || images.length <= 1 || isPaused) return;
+
+    const timer = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 2800);
+
+    return () => window.clearInterval(timer);
+  }, [images.length, isPaused, reduceMotion]);
+
+  return (
+    <div className={styles.featured}>
+      <Link
+        href={featured.href}
+        onClick={onNavigate}
+        className={styles.featuredLink}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        aria-label={`${featured.tag}: ${featured.title}`}
+      >
+        <div className={styles.slideshowContainer}>
+          {images.map((img, idx) => (
+            <div
+              key={img.src}
+              className={`${styles.slideshowSlide} ${
+                idx === currentIndex ? styles.slideshowSlideActive : ""
+              }`}
+              aria-hidden={idx !== currentIndex}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt || featured.imageAlt}
+                fill
+                sizes="35vw"
+                priority={idx === 0}
+                className={styles.coverImage}
+              />
+            </div>
+          ))}
+        </div>
+
+        {images.length > 1 ? (
+          <div className={styles.slideshowIndicators} aria-hidden="true">
+            {images.map((img, idx) => (
+              <span
+                key={img.src}
+                className={`${styles.indicatorDot} ${
+                  idx === currentIndex ? styles.indicatorDotActive : ""
+                }`}
+              />
+            ))}
+          </div>
+        ) : null}
+
+        <div className={styles.featuredCaption}>
+          <span className={styles.featuredButton}>
+            Explore
+          </span>
+
+          <span>
+            <strong>{featured.tag}</strong>
+            {" · "}
+            {featured.title}
+          </span>
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 function DropdownPanel({
   menu,
@@ -363,70 +449,11 @@ function DropdownPanel({
         )}
 
         {menu.featured ? (
-          <div
-            className={
-              styles.featured
-            }
-          >
-            <Link
-              href={
-                menu.featured
-                  .href
-              }
-              onClick={
-                onNavigate
-              }
-              className={
-                styles.featuredLink
-              }
-            >
-              <Image
-                src={
-                  menu.featured
-                    .imageSrc
-                }
-                alt={
-                  menu.featured
-                    .imageAlt
-                }
-                fill
-                sizes="35vw"
-                className={
-                  styles.coverImage
-                }
-              />
-
-              <div
-                className={
-                  styles.featuredCaption
-                }
-              >
-                <span
-                  className={
-                    styles.featuredButton
-                  }
-                >
-                  Explore
-                </span>
-
-                <span>
-                  <strong>
-                    {
-                      menu.featured
-                        .tag
-                    }
-                  </strong>
-
-                  {" · "}
-
-                  {
-                    menu.featured
-                      .title
-                  }
-                </span>
-              </div>
-            </Link>
-          </div>
+          <DropdownFeaturedCard
+            featured={menu.featured}
+            onNavigate={onNavigate}
+            reduceMotion={reduceMotion}
+          />
         ) : null}
       </motion.div>
     </motion.div>
@@ -637,27 +664,11 @@ export function Header({
       );
     }, [cancelClose]);
 
-  const openMenu =
-    useCallback(
-      (
-        id: string,
-      ) => {
-        cancelClose();
-
-        /*
-         * Turn the white patch on in the same interaction that
-         * opens the dropdown.
-         */
-        setDropdownSurfaceVisible(
-          true,
-        );
-
-        setOpenDropdown(
-          id,
-        );
-      },
-      [cancelClose],
-    );
+  const openMenu = (id: string) => {
+    cancelClose();
+    setDropdownSurfaceVisible(true);
+    setOpenDropdown(id);
+  };
 
   const scheduleClose =
     useCallback(() => {
@@ -694,10 +705,9 @@ export function Header({
         }, CLOSE_DELAY_MS);
     }, [cancelClose]);
 
-  const closeMobileMenu =
-    useCallback(() => {
-      setMenuOpen(false);
-    }, []);
+  const closeMobileMenu = () => {
+    setMenuOpen(false);
+  };
 
   /* ==========================================================
      ROUTE CHANGE
@@ -1037,22 +1047,7 @@ export function Header({
     let frame = 0;
     let revealFrame = 0;
 
-    let previousScrolled =
-      previous >
-      TOP_THRESHOLD_PX;
-
-    setIsScrolled(
-      previousScrolled,
-    );
-
-    if (
-      usesOverlayHeader &&
-      previous <= TOP_THRESHOLD_PX
-    ) {
-      setScrollReturnSurfaceVisible(
-        false,
-      );
-    }
+    let previousScrolled = previous > TOP_THRESHOLD_PX;
 
     const showHeader = () => {
       header.dataset.hidden =

@@ -36,7 +36,7 @@ export async function localizeMetadata(metadata: Metadata): Promise<Metadata> {
   return {
     ...metadata, title,
     description: metadata.description ? t(metadata.description) : metadata.description,
-    alternates: { ...metadata.alternates, canonical: localizedPath(path, locale), languages: { en: localizedPath(path, "en"), mr: localizedPath(path, "mr"), "x-default": localizedPath(path, "mr") } },
+    alternates: { ...metadata.alternates, canonical: localizedPath(path, locale), languages: { en: localizedPath(path, "en"), mr: localizedPath(path, "mr"), "x-default": localizedPath(path, "en") } },
     openGraph: metadata.openGraph ? { ...metadata.openGraph, images: localizeImages(metadata.openGraph.images), siteName: metadata.openGraph.siteName ? t(metadata.openGraph.siteName) : undefined, title: typeof metadata.openGraph.title === "string" ? t(metadata.openGraph.title) : metadata.openGraph.title, description: metadata.openGraph.description ? t(metadata.openGraph.description) : undefined, url: localizedPath(path, locale), locale: locale === "mr" ? "mr_IN" : "en_IN", alternateLocale: locale === "mr" ? "en_IN" : "mr_IN" } : undefined,
     twitter: metadata.twitter ? { ...metadata.twitter, images: localizeImages(metadata.twitter.images), title: typeof metadata.twitter.title === "string" ? t(metadata.twitter.title) : metadata.twitter.title, description: metadata.twitter.description ? t(metadata.twitter.description) : undefined } : undefined,
   };

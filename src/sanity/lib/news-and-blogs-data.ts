@@ -12,7 +12,7 @@ import type {
     NewsBlogsSharedContent,
 } from "@/types/news-and-blogs";
 
-const REVALIDATE = process.env.NODE_ENV === "development" ? 0 : 900;
+const REVALIDATE = process.env.NODE_ENV === "development" ? 60 : 900;
 
 export const getNewsBlogs = cache(async (): Promise<InsightListItem[]> => {
     try {

@@ -6,6 +6,8 @@ import Link from "@/components/navigation/website-link";
 import { plusJakartaSans as exo2, plusJakartaSans as inter } from "@/lib/fonts";
 import type { CmsContactPage } from "@/types/cms";
 import { PartnerLogoMarquee } from "./partner-logo-marquee";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 import styles from "./contact-page.module.css";
 
 const FALLBACK_CONTACT_CARDS = [
@@ -194,13 +196,16 @@ export function ContactPageContent({
               CONTACT US
             </p>
 
-            <h1
+            <TextReveal
+              as="h1"
               id="contact-page-heading"
               className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-black sm:text-[2.5rem] sm:leading-[3rem]`}
               style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-            >
-              Let&apos;s Start a Conversation.
-            </h1>
+              text="Let's Start a Conversation."
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
           </div>
 
           <p
@@ -298,20 +303,24 @@ export function ContactPageContent({
           />
         </div>
 
-        <h2
-          id="connected-world-heading"
-          className={`${exo2.className} relative z-10 w-full text-[clamp(2rem,7vw,2.5rem)] font-semibold leading-[1.2] tracking-[-0.03125rem] text-white lg:w-[44%] lg:flex-none lg:self-stretch xl:w-[40.5rem]`}
-          style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-        >
-          {connectedWorldHeading}
-        </h2>
+        <TextReveal
+              as="h2"
+              id="connected-world-heading"
+              className={`${exo2.className} w-full text-[2rem] font-semibold leading-10 tracking-[-0.03125rem] text-[#121B3D] sm:text-[2.5rem] sm:leading-[3rem]`}
+              style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+              text={connectedWorldHeading}
+              effect="mask"
+              split="words"
+            />
 
-        <p
-          className={`${inter.className} relative z-10 w-full text-base font-normal leading-6 text-[#F9F9F9] lg:min-w-0 lg:flex-1`}
-          style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
-        >
-          {connectedWorldDescription}
-        </p>
+        <ScrollTextReveal>
+          <p
+            className={`${inter.className} relative z-10 w-full text-base font-normal leading-6 text-[#F9F9F9] lg:min-w-0 lg:flex-1`}
+            style={{ fontFeatureSettings: '"liga" off, "clig" off' }}
+          >
+            {connectedWorldDescription}
+          </p>
+        </ScrollTextReveal>
       </section>
 
       <section

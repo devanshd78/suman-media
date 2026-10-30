@@ -281,7 +281,7 @@
   "/images/about/government-04.webp": "/images/about/timeline-intro-left.webp",
   "/images/about/timeline-intro-right.webp": "/images/about/timeline-2026.webp",
   "/become-a-partner": "/partners",
-  "/case-studies": "/portfolio",
+  "/case-studies": "/services/media-content-syndication",
   "/insights": "/news-and-blogs",
   "/abhijat-marathi": "/products/ott-digital-platforms-streaming",
   "/monetization": "/products/content-monetization",
@@ -308,5 +308,7 @@
   "/services/media-content-production": "/services/media-content-syndication",
   "/services/events-and-experiences1": "/services/live-experiences-events",
   "/services/events-and-experiences": "/services/live-experiences-events",
-  "/services/events-experiences": "/services/live-experiences-events"
+  "/services/events-experiences": "/services/live-experiences-events",
+  "/companies": "/about",
+  "/portfolio": "/services/media-content-syndication"
 }

@@ -1147,6 +1147,9 @@ export function CannesSection({
      - scroll timing stays the same
      ========================================================== */
 
+  const topRowCount = galleryRows[0]?.length ?? 0;
+  const bottomRowCount = galleryRows[1]?.length ?? 0;
+
   useEffect(() => {
     if (
       reduceMotion
@@ -1594,15 +1597,7 @@ export function CannesSection({
         scheduleMeasure,
       );
     };
-  }, [
-    reduceMotion,
-
-    galleryRows[0]
-      .length,
-
-    galleryRows[1]
-      .length,
-  ]);
+  }, [reduceMotion, topRowCount, bottomRowCount]);
 
   /* ==========================================================
      SCROLL PROGRESS

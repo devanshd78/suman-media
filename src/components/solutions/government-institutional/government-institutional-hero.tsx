@@ -2,6 +2,7 @@
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "@/components/navigation/website-link";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { CSSProperties } from "react";
 import styles from "./government-institutional-page.module.css";
 
@@ -30,7 +31,14 @@ export function GovernmentHero() {
     <div className={styles.shade} aria-hidden="true" />
     <div className={styles.heroHeading}>
       <p className={`${styles.eyebrow} ${styles.entrance}`} style={{"--delay":"180ms"} as CSSProperties}>Government, PSU &amp; Institutional Services</p>
-      <h1 id="government-title" className={styles.entrance} style={{"--delay":"300ms"} as CSSProperties}>{"Communication That Connects\nInstitutions with People."}</h1>
+      <TextReveal
+        as="h1"
+        id="government-title"
+        text={"Communication That Connects\nInstitutions with People."}
+        effect="mask"
+        split="words"
+        delay={0.15}
+      />
     </div>
     <div className={styles.heroIntro}>
       <p className={styles.entrance} style={{"--delay":"500ms"} as CSSProperties}>Supporting government bodies and institutions through strategic communication, digital outreach and public-facing campaigns.</p>

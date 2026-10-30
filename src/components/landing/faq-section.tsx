@@ -122,21 +122,25 @@ export function FaqSection({
   );
 
   useEffect(() => {
-    setOpenItems((current) => {
-      if (items.length === 0) {
-        return new Set();
-      }
+    const frame = window.requestAnimationFrame(() => {
+      setOpenItems((current) => {
+        if (items.length === 0) {
+          return new Set();
+        }
 
-      const valid = new Set(
-        [...current].filter((index) => index >= 0 && index < items.length),
-      );
+        const valid = new Set(
+          [...current].filter((index) => index >= 0 && index < items.length),
+        );
 
-      if (valid.size === 0) {
-        valid.add(0);
-      }
+        if (valid.size === 0) {
+          valid.add(0);
+        }
 
-      return valid;
+        return valid;
+      });
     });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [items.length]);
 
   const toggleItem = useCallback((index: number) => {
@@ -157,7 +161,7 @@ export function FaqSection({
     return null;
   }
 
-  const newsAndBlogsVariant = variant === "newsAndBlogs";
+
   const classes = getVariantClasses(variant);
 
   return <LocalizedContent>{(

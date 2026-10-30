@@ -37,20 +37,6 @@
       "/become-a-partner"
     ]
   },
-  "companies": {
-    "path": "/companies",
-    "label": "Companies",
-    "category": "company",
-    "aliases": []
-  },
-  "portfolio": {
-    "path": "/portfolio",
-    "label": "Portfolio",
-    "category": "company",
-    "aliases": [
-      "/case-studies"
-    ]
-  },
   "news": {
     "path": "/news-and-blogs",
     "label": "News & Blogs",

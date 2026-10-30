@@ -7,6 +7,8 @@ import Link from "@/components/navigation/website-link";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import { useState } from "react";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 
 /* =========================================
    ASSET PATHS
@@ -184,16 +186,13 @@ export default function Page() {
           />
 
           <div className="hero-copy">
-            <h1>AI Built Around Content</h1>
+            <TextReveal as="h1" text="AI Built Around Content" effect="mask" split="words" delay={0.15} />
 
-            <p>
-              Exploring AI-driven solutions for
-              content discovery, recommendations,
-              <br className="desktop-break" />
-              {" "}
-              translation, publishing, archiving
-              and digital knowledge.
-            </p>
+            <ScrollTextReveal>
+              <p>
+                Exploring AI-driven solutions for content discovery, recommendations, translation, publishing, archiving and digital knowledge.
+              </p>
+            </ScrollTextReveal>
 
             <a
               className="hero-link"
@@ -219,7 +218,7 @@ export default function Page() {
             AI CAPABILITIES
           </span>
 
-          <h2>Our Areas of Exploration</h2>
+          <TextReveal as="h2" text="Our Areas of Exploration" effect="mask" split="words" />
         </div>
 
         <div className="capabilities-grid">
@@ -274,9 +273,7 @@ export default function Page() {
             HOW GLOBAL JOURNEY STARTS
           </span>
 
-          <h2 id="ai-value-title">
-            Where AI Creates Value
-          </h2>
+          <TextReveal as="h2" id="ai-value-title" text="Where AI Creates Value" effect="mask" split="words" />
         </div>
 
         <div className="ai-value-grid">

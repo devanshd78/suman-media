@@ -3,27 +3,13 @@ import Link from "@/components/navigation/website-link";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 // app/monetisation/page.tsx
 
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { TextReveal } from "@/components/motion/text-reveal";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 export default function MonetizationHeroSection() {
   return <LocalizedContent>{(
     <main
-      className={`
-        ${plusJakartaSans.variable}
-        ${inter.variable}
-        w-full
-        bg-white
-      `}
+      className="w-full bg-white"
     >
       <section
         className="
@@ -117,28 +103,14 @@ export default function MonetizationHeroSection() {
             </p>
 
             {/* Main heading */}
-            <h1
-              className="
-                mt-2
-                w-full
-                max-w-[36.375rem]
-
-                font-[family-name:var(--font-plus-jakarta)]
-                text-[clamp(2rem,7vw,3.5rem)]
-                font-semibold
-                leading-[1.15]
-                tracking-[-0.04rem]
-                text-white
-
-                [font-feature-settings:'liga'_off,'clig'_off]
-
-                lg:tracking-[-0.0625rem]
-              "
-            >
-              Turn Content Into
-              <br />
-              Sustainable Revenue.
-            </h1>
+            <TextReveal
+              as="h1"
+              className="mt-2 w-full max-w-[36.375rem] font-[family-name:var(--font-plus-jakarta)] text-[clamp(2rem,7vw,3.5rem)] font-semibold leading-[1.15] tracking-[-0.04rem] text-white [font-feature-settings:'liga'_off,'clig'_off] lg:tracking-[-0.0625rem]"
+              text={"Turn Content Into\nSustainable Revenue."}
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
 
             {/* Join now */}
             <Link

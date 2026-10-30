@@ -6,6 +6,8 @@ import { LocalizedContent } from "@/components/localization/localized-content";
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
 
 interface FormatCard {
   id: string;
@@ -429,22 +431,23 @@ export default function MediaContentPage() {
               MEDIA &amp; CONTENT SYNDICATION
             </p>
 
-            <h1
+            <TextReveal
+              as="h1"
               id="media-hero-heading"
               className="media-hero-heading"
-            >
-              Stories Made to
-              <br />
-              Reach Further.
-            </h1>
+              text={"Stories Made to\nReach Further."}
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
           </div>
 
           <div className="media-hero-details">
-            <p className="media-hero-description">
+            <ScrollTextReveal><p className="media-hero-description">
               Exploring AI-driven solutions for content discovery,
               recommendations, translation, publishing, archiving and
               digital knowledge.
-            </p>
+            </p></ScrollTextReveal>
 
             <Link className="media-project-link" href="/contact">
               <span className="media-project-label">
@@ -484,14 +487,14 @@ export default function MediaContentPage() {
               THING WE DO ACROSS MUISC
             </p>
 
-            <h2
+            <TextReveal
+              as="h2"
               id="media-formats-heading"
               className="media-formats-heading"
-            >
-              Content Across Formats.
-              <br />
-              Opportunities Across Platforms.
-            </h2>
+              text={"Content Across Formats.\nOpportunities Across Platforms."}
+              effect="mask"
+              split="words"
+            />
           </header>
 
           <div className="media-formats-grid">
@@ -639,9 +642,7 @@ export default function MediaContentPage() {
         <div className="journey-container">
           <header className="journey-header">
             <p className="journey-eyebrow">HOW GLOBAL JOURNEY STARTS</p>
-            <h2 id="journey-heading" className="journey-heading">
-              From Content to Audience.
-            </h2>
+            <TextReveal as="h2" id="journey-heading" className="journey-heading" text="From Content to Audience." effect="mask" split="words" />
           </header>
 
           <div className="journey-cards-grid">
@@ -673,11 +674,7 @@ export default function MediaContentPage() {
 
         <div className="cta-banner-container">
           <div className="cta-banner-left">
-            <h2 id="cta-banner-heading" className="cta-banner-heading">
-              Have a Story to Share
-              <br />
-              With the World?
-            </h2>
+            <TextReveal as="h2" id="cta-banner-heading" className="cta-banner-heading" text={"Have a Story to Share\nWith the World?"} effect="mask" split="words" />
             <p className="cta-banner-subtext">
               Let&apos;s explore opportunities across content, production and distribution.
             </p>

@@ -2,6 +2,7 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { LocalizedContent } from "@/components/localization/localized-content";
 import Link from "@/components/navigation/website-link";
 import React, { useState, useRef } from "react";
@@ -287,22 +288,13 @@ export default function MusicAudioPage() {
                             MUSIC & AUDIO DIVISION
                         </span>
 
-                        <h1
-                            style={{
-                                color: "var(--Light-Border-Selected, #1A1A1A)",
-                                fontFeatureSettings: "'liga' off, 'clig' off",
-                                fontFamily:
-                                    'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                                fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                                fontStyle: "normal",
-                                fontWeight: 600,
-                                lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                                letterSpacing: "-0.03125rem",
-                            }}
-                        >
-                            Creating Sounds That <br />
-                            Stay With You.
-                        </h1>
+                        <TextReveal
+              as="h1"
+              text={"Creating Sounds That\nStay With You."}
+              effect="mask"
+              split="words"
+              delay={0.15}
+            />
                     </div>
 
                     <div
@@ -401,23 +393,12 @@ export default function MusicAudioPage() {
                         THING WE DO ACROSS MUSIC
                     </span>
 
-                    <h2
-                        style={{
-                            color: "#000",
-                            textAlign: "center",
-                            fontFeatureSettings: "'liga' off, 'clig' off",
-                            fontFamily:
-                                'var(--Font-family-Heading, "Plus Jakarta Sans", sans-serif)',
-                            fontSize: "var(--Font-size-Heading-1, 2.5rem)",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "var(--Line-height-Heading-1, 3rem)",
-                            letterSpacing: "-0.03125rem",
-                        }}
-                    >
-                        Content Across Formats. <br />
-                        Opportunities Across Platforms.
-                    </h2>
+                    <TextReveal
+              as="h2"
+              text={"Content Across Formats.\nOpportunities Across Platforms."}
+              effect="mask"
+              split="words"
+            />
                 </div>
 
                 <div className="flex flex-col w-full" style={{ gap: "2rem" }}>

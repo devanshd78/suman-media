@@ -23,6 +23,10 @@
   --site-section-y: 4rem;
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --Font-family-Heading: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", sans-serif;
+  --Font-family-Body: var(--font-inter), "Inter", sans-serif;
+  --font-plus-jakarta: var(--font-plus-jakarta-sans);
+  --font-manrope: var(--font-plus-jakarta-sans);
 }
 
 
@@ -207,10 +211,10 @@ select {
 @media (prefers-reduced-motion: no-preference) {
   html.landing-text-motion-ready .landing-text-reveal {
     opacity: 0;
-    transform: translate3d(0, 0.85rem, 0);
+    transform: translate3d(0, 1.25rem, 0);
     transition:
-      opacity 520ms var(--motion-ease-out),
-      transform 640ms var(--motion-ease-out);
+      opacity 600ms var(--motion-ease-out),
+      transform 720ms var(--motion-ease-out);
     transition-delay: var(--landing-text-delay, 0ms);
     will-change: opacity, transform;
   }
@@ -225,8 +229,8 @@ select {
 
 @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   html.landing-text-motion-ready .landing-text-reveal {
-    transform: translate3d(0, 1.35rem, 0);
-    transition-duration: 620ms, 760ms;
+    transform: translate3d(0, 1.65rem, 0);
+    transition-duration: 680ms, 820ms;
   }
 }
 

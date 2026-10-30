@@ -1,20 +1,80 @@
-
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
 import { LocalizedContent } from "@/components/localization/localized-server-content";
 import Image from "next/image";
 import Link from "@/components/navigation/website-link";
 import { NewsBlogsSection } from "@/components/landing/news-blogs-section";
 import { ScrollFormats } from "./idea-formats-scroll-section";
+import { TextReveal } from "@/components/motion/text-reveal";
+import { ScrollTextReveal } from "@/components/ui/scroll-text-reveal";
+import { InteractiveCapabilities, type CapabilityItem } from "./interactive-capabilities";
 import styles from "./publications-and-intellectual-property-page.module.css";
 
-const publicationCapabilities = [
-  "AI Publications Backend Support", "Digital Publishing Platforms", "Research Reports",
-  "Knowledge Portals", "Industry Indices", "Editorial Services", "Thought Leadership Programs",
+const publicationCapabilities: CapabilityItem[] = [
+  {
+    title: "AI Publications Backend Support",
+    description: "Supporting publishing workflows and backend requirements for AI-enabled publications.",
+  },
+  {
+    title: "Digital Publishing Platforms",
+    description: "Digital platforms for presenting, organising and distributing published content.",
+  },
+  {
+    title: "Research Reports",
+    description: "Structured reports that present research, findings and relevant insights.",
+  },
+  {
+    title: "Knowledge Portals",
+    description: "Organised digital destinations for accessing information and resources.",
+  },
+  {
+    title: "Industry Indices",
+    description: "Structured indices designed to present industry information and trends.",
+  },
+  {
+    title: "Editorial Services",
+    description: "Content editing, refinement and preparation for publication.",
+  },
+  {
+    title: "Thought Leadership Programs",
+    description: "Developing expert-led content and perspectives around relevant subjects.",
+  },
 ];
-const ipCapabilities = [
-  "Original Show Formats", "Entertainment Franchises", "Character IPs", "Documentary Properties",
-  "Digital Assets", "Licensing", "Rights Monetisation", "Syndication",
+
+const ipCapabilities: CapabilityItem[] = [
+  {
+    title: "Original Show Formats",
+    description: "Developing concepts and formats for original entertainment programming.",
+  },
+  {
+    title: "Entertainment Franchises",
+    description: "Exploring entertainment properties that can extend across multiple instalments or formats.",
+  },
+  {
+    title: "Character IPs",
+    description: "Creating distinctive characters with storytelling and licensing potential.",
+  },
+  {
+    title: "Documentary Properties",
+    description: "Developing documentary concepts and properties around real stories and subjects.",
+  },
+  {
+    title: "Digital Assets",
+    description: "Developing creative digital properties and content assets.",
+  },
+  {
+    title: "Licensing",
+    description: "Exploring opportunities to license intellectual property for approved uses.",
+  },
+  {
+    title: "Rights Monetisation",
+    description: "Identifying potential commercial opportunities from intellectual property rights.",
+  },
+  {
+    title: "Syndication",
+    description: "Exploring opportunities to distribute content and formats across platforms or markets.",
+  },
 ];
+
 const ipFormats = ["Shows & Films", "Documentaries", "Characters", "Franchises", "Digital Assets", "Licensing", "Rights Monetization", "Syndication and platforms"];
 const publicationFormats = ["Research reports", "White papers", "Digital articles", "Industry insights", "Knowledge portals"];
 
@@ -34,13 +94,25 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
   return <LocalizedContent>{(
     <main className={`${styles.page} ${isIp ? "" : styles.publicationPage}`}>
       <section className={`${styles.hero} ${isIp ? styles.ipHero : styles.publicationHero} site-gutter`} aria-labelledby="product-heading">
-        <Image src={`/images/publications-and-intellectual-property/${isIp ? "intellectual-property" : "publication"}-hero.png`} alt="" fill sizes="100vw" preload unoptimized className={styles.heroImage} />
+        <div className={styles.heroBackdrop} aria-hidden="true" />
         <div className={styles.heroContent}>
           <p className={styles.eyebrow}>{name}</p>
-          <h1 id="product-heading" className={styles.heroTitle}>{isIp ? "From Original Ideas\nto Lasting IP." : "Turning Information\nInto Knowledge."}</h1>
-          <p className={styles.intro}>{isIp
-            ? "Developing entertainment concepts, original formats and creative properties with potential to grow across content, platforms, licensing and distribution."
-            : "From digital publishing and research reports to industry insights and knowledge platforms, we support the creation and dissemination of useful, accessible information."}</p>
+          <TextReveal
+            as="h1"
+            id="product-heading"
+            className={styles.heroTitle}
+            text={isIp ? "From Original Ideas\nto Lasting IP." : "Turning Information\nInto Knowledge."}
+            effect="mask"
+            split="words"
+            delay={0.15}
+          />
+          <ScrollTextReveal>
+            <p className={styles.intro}>
+              {isIp
+                ? "Developing entertainment concepts, original formats and creative properties with potential to grow across content, platforms, licensing and distribution."
+                : "From digital publishing and research reports to industry insights and knowledge platforms, we support the creation and dissemination of useful, accessible information."}
+            </p>
+          </ScrollTextReveal>
           <Link className={`${styles.action} ${styles.heroAction}`} href="/contact/form">{cta}<ChevronRight /></Link>
         </div>
       </section>
@@ -54,7 +126,7 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
           <div className={styles.potentialHeading}>
             <p className={styles.eyebrow}>The potential of an idea</p>
             <div>
-              <h2 id="potential-heading" className={styles.subheading}>Creative Ideas Can Travel Beyond One Format.</h2>
+              <TextReveal as="h2" id="potential-heading" className={styles.subheading} text="Creative Ideas Can Travel Beyond One Format." effect="mask" split="words" />
               <p className={styles.intro}>Explore the types of creative properties and commercial opportunities within intellectual property development.</p>
             </div>
           </div>
@@ -66,26 +138,17 @@ export function ProductPage({ kind }: { kind: "publication" | "ip" }) {
 
       <section className={`${styles.capabilities} site-section`} aria-labelledby="capabilities-heading">
         <header className={styles.sectionHeader}>
-          <p className={styles.eyebrow}>{isIp ? "Explore our IP capabilities" : name}</p>
-          <h2 id="capabilities-heading" className={styles.heading}>{isIp ? "One Idea. Multiple Possibilities." : "Knowledge Across Formats."}</h2>
+          <p className={styles.eyebrow}>{isIp ? "EXPLORE OUR IP CAPABILITIES" : name}</p>
+          <TextReveal as="h2" id="capabilities-heading" className={styles.heading} text={isIp ? "One Idea. Multiple Possibilities." : "Knowledge Across Formats."} effect="mask" split="words" />
         </header>
-        <ul className={styles.cards}>
-          {(isIp ? ipCapabilities : publicationCapabilities).map((title, index) => (
-            <li key={title}>
-              <Link href="/contact/form" aria-label={`Discuss ${title}`} className={styles.capabilityCard} data-tone={!isIp && index === 6 ? 7 : index}>
-                <span>{title}</span>
-                <ChevronRight className={styles.cardArrow} />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <InteractiveCapabilities items={isIp ? ipCapabilities : publicationCapabilities} isIp={isIp} />
       </section>
 
       {!isIp && <ScrollFormats formats={publicationFormats} />}
 
       <section className={`${styles.projectCta} site-section`} aria-labelledby="project-cta-heading">
         <div>
-          <h2 id="project-cta-heading" className={styles.subheading}>{isIp ? "Have an Idea Worth\nDeveloping?" : "Have Knowledge\nWorth Publishing?"}</h2>
+          <TextReveal as="h2" id="project-cta-heading" className={styles.subheading} text={isIp ? "Have an Idea Worth\nDeveloping?" : "Have Knowledge\nWorth Publishing?"} effect="mask" split="words" />
           <p className={styles.ctaDescription}>{isIp
             ? "Let's explore opportunities to develop, extend and commercialise creative properties through suitable content and licensing partnerships."
             : "Let's explore opportunities across research, editorial development, digital publishing and knowledge platforms."}</p>

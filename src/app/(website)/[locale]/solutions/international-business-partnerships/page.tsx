@@ -2,10 +2,11 @@
 
 
 import { PreFooterBanner } from "@/components/shared/pre-footer-banner";
-import { LocalizedContent, useTextTranslation } from "@/components/localization/localized-content";
+import { LocalizedContent } from "@/components/localization/localized-content";
 import { useState } from "react";
 import Link from "@/components/navigation/website-link";
 import { AnimatePresence, motion } from "framer-motion";
+import { TextReveal } from "@/components/motion/text-reveal";
 
 /* =========================================================
    DATA
@@ -109,32 +110,7 @@ const connectSlides = [
    ANIMATION
 ========================================================= */
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.035,
-      delayChildren: 0.15,
-    },
-  },
-};
 
-const wordVariants = {
-  hidden: {
-    opacity: 0,
-    y: 32,
-    filter: "blur(8px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.65,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  },
-};
 
 const journeyContainerVariants = {
   hidden: {},
@@ -165,7 +141,6 @@ const journeyItemVariants = {
 ========================================================= */
 
 export default function InternationalBusinessPage() {
-  const t = useTextTranslation();
   const [activeConnectSlide, setActiveConnectSlide] = useState(0);
   const [slideDirection, setSlideDirection] = useState(1);
 
@@ -223,45 +198,13 @@ export default function InternationalBusinessPage() {
             INTERNATIONAL BUSINESS &amp; PARTNERSHIPS
           </motion.p>
 
-          <motion.h1 data-motion-managed
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-            aria-label={heading}
-            className="
-              flex
-              w-full
-              flex-wrap
-              justify-center
-              text-center
-              text-[2.15rem]
-              font-semibold
-              leading-[1.08]
-              tracking-[-0.04rem]
-              text-black
-              sm:text-[2.75rem]
-              sm:leading-[3.25rem]
-              lg:text-[3.5rem]
-              lg:leading-[4rem]
-              lg:tracking-[-0.0625rem]
-            "
-            style={{
-              fontFamily:
-                'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            {t(heading).split(" ").map((word, index) => (
-              <motion.span
-                key={`${word}-${index}`}
-                variants={wordVariants}
-                className="mr-[0.27em] inline-block will-change-transform"
-              >
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
+          <TextReveal
+            as="h1"
+            text={heading}
+            effect="rise"
+            split="words"
+            className="w-full text-center text-[2.15rem] font-semibold leading-[1.08] tracking-[-0.04rem] text-black sm:text-[2.75rem] sm:leading-[3.25rem] lg:text-[3.5rem] lg:leading-[4rem] lg:tracking-[-0.0625rem]"
+          />
 
           <motion.div data-motion-managed
             initial={{ opacity: 0, y: 12 }}
@@ -403,35 +346,13 @@ export default function InternationalBusinessPage() {
             lg:justify-between
           "
         >
-          <motion.h2 data-motion-managed
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              w-full
-              text-[2rem]
-              font-semibold
-              leading-[2.5rem]
-              tracking-[-0.03125rem]
-              text-[#1A1A1A]
-              lg:w-[26.625rem]
-              lg:text-[2.5rem]
-              lg:leading-[3rem]
-            "
-            style={{
-              fontFamily:
-                'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            Building Bridges
-            <br />
-            Across Markets
-          </motion.h2>
+          <TextReveal
+            as="h2"
+            text={"Building Bridges\nAcross Markets"}
+            effect="mask"
+            split="words"
+            className="w-full text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-[#1A1A1A] lg:w-[26.625rem] lg:text-[2.5rem] lg:leading-[3rem]"
+          />
 
           <motion.p data-motion-managed
             initial={{ opacity: 0, y: 25 }}
@@ -635,38 +556,13 @@ export default function InternationalBusinessPage() {
             HOW GLOBAL JOURNEY STARTS
           </motion.p>
 
-          <motion.h2 data-motion-managed
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              delay: 0.08,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="
-              mt-1
-              w-full
-              text-center
-              text-[2rem]
-              font-semibold
-              leading-[2.5rem]
-              tracking-[-0.03125rem]
-              text-black
-              sm:w-[28rem]
-              lg:text-[2.5rem]
-              lg:leading-[3rem]
-            "
-            style={{
-              fontFamily:
-                'var(--Font-family-Heading, "Plus Jakarta Sans")',
-              fontFeatureSettings: "'liga' off, 'clig' off",
-            }}
-          >
-            From Local Stories to
-            <br />
-            Global Opportunities
-          </motion.h2>
+          <TextReveal
+            as="h2"
+            text={"From Local Stories to\nGlobal Opportunities"}
+            effect="mask"
+            split="words"
+            className="mt-1 w-full text-center text-[2rem] font-semibold leading-[2.5rem] tracking-[-0.03125rem] text-black sm:w-[28rem] lg:text-[2.5rem] lg:leading-[3rem]"
+          />
         </div>
 
         {/* Journey grid */}

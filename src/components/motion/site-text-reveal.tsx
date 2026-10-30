@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 const TEXT_SELECTOR = "h1,h2,h3,h4,h5,h6,p,blockquote,figcaption,dt,dd,[data-section-reveal]";
 const MANAGED_SELECTOR = "[data-motion-managed],[data-text-reveal],[data-landing-text-reveal-skip],header,nav,[role=dialog],[role=menu],[aria-hidden=true],[inert]";
 
-/** The homepage entrance system, shared by static and streamed website content.
- * Text is never split/mutated; React, Marathi shaping and custom motion retain ownership. */
+/** The global entrance text reveal system, shared by static and dynamic website content.
+ * Text is never mutated; React, Marathi shaping and custom motion retain ownership. */
 export function SiteTextReveal() {
   const pathname = usePathname();
   useEffect(() => {
@@ -27,44 +27,54 @@ export function SiteTextReveal() {
         // A fast jump past an element also reveals it, so reverse scrolling is safe.
         if (entry.isIntersecting || entry.boundingClientRect.bottom < 0) reveal(entry.target as HTMLElement);
       }
-    }, { threshold: 0, rootMargin: "0px 0px -4% 0px" });
+    }, { threshold: 0.05, rootMargin: "0px 0px -4% 0px" });
+
     const prepare = () => {
       frame = 0;
       const sections = new Map<Element, number>();
       const additions = Array.from(root.querySelectorAll<HTMLElement>(TEXT_SELECTOR))
         .filter(element => !prepared.has(element) && !element.closest(MANAGED_SELECTOR) && (element.hasAttribute('data-section-reveal') || !element.querySelector('[data-motion-managed],[data-text-reveal]')) && (element.hasAttribute("data-section-reveal") || element.textContent?.trim()))
         .map(element => {
-          const section = element.closest("section") ?? root;
+          const section = element.closest("section, article, [data-section-reveal], main > div") ?? root;
           const index = sections.get(section) ?? 0;
           sections.set(section, index + 1);
-          return { element, delay: Math.min(index, 4) * 55, top: element.getBoundingClientRect().top };
+          return { element, delay: Math.min(index, 6) * 75, top: element.getBoundingClientRect().top };
         });
+
       for (const { element, delay, top } of additions) {
         prepared.add(element);
         element.classList.add("landing-text-reveal");
         element.style.setProperty("--landing-text-delay", `${delay}ms`);
-        if (top < innerHeight * .96) {
+        if (top < innerHeight * 0.94) {
           // Allow the initial hidden style to paint before the entrance starts.
           const firstFrame = requestAnimationFrame(() => {
             entranceFrames.delete(firstFrame);
-            const secondFrame = requestAnimationFrame(() => { entranceFrames.delete(secondFrame); reveal(element); });
+            const secondFrame = requestAnimationFrame(() => {
+              entranceFrames.delete(secondFrame);
+              reveal(element);
+            });
             entranceFrames.add(secondFrame);
           });
           entranceFrames.add(firstFrame);
+        } else {
+          observer.observe(element);
         }
-        else observer.observe(element);
       }
     };
+
     document.documentElement.classList.add("landing-text-motion-ready");
     prepare();
+
     const mutations = new MutationObserver(records => {
       if (!frame && records.some(record => Array.from(record.addedNodes).some(node => node.nodeType === Node.ELEMENT_NODE))) {
         frame = requestAnimationFrame(prepare);
       }
     });
     mutations.observe(root, { childList: true, subtree: true });
+
     const showAll = () => { if (preference.matches) prepared.forEach(reveal); };
     preference.addEventListener("change", showAll);
+
     return () => {
       cancelAnimationFrame(frame);
       entranceFrames.forEach(cancelAnimationFrame);
@@ -79,5 +89,6 @@ export function SiteTextReveal() {
       }
     };
   }, [pathname]);
+
   return null;
 }

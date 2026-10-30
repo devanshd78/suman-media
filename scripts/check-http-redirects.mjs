@@ -11,7 +11,7 @@ for (const [source, destination] of Object.entries(aliases)) {
     assert.equal(response.status, 308, `Expected permanent redirect: ${locale}${source}`);
     const target = new URL(destination, base);
     const location = new URL(response.headers.get('location'), base);
-    const expected = `${asset ? '' : locale || '/mr'}${target.pathname}`;
+    const expected = `${asset ? '' : locale || '/en'}${target.pathname}`;
     // Older next.config redirects run before the locale proxy.
     if (!asset && !locale && location.pathname === target.pathname) {
       const localized = await fetch(location, { redirect: 'manual' });
