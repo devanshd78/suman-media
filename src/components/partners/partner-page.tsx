@@ -794,6 +794,7 @@ export function PartnerPageContent() {
 
   const [activeFilmIndex, setActiveFilmIndex] = useState(0);
   const [filmDirection, setFilmDirection] = useState(1);
+  const [isFilmPaused, setIsFilmPaused] = useState(false);
 
   const { scrollYProgress: filmFeatureProgress } = useScroll({
     target: filmFeatureRef,
@@ -870,14 +871,14 @@ export function PartnerPageContent() {
   );
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || isFilmPaused) return;
 
     const timer = window.setTimeout(() => {
       selectFilm(activeFilmIndexRef.current + 1, 1);
     }, 5000);
 
     return () => window.clearTimeout(timer);
-  }, [activeFilmIndex, reduceMotion, selectFilm]);
+  }, [activeFilmIndex, isFilmPaused, reduceMotion, selectFilm]);
 
   useEffect(() => {
     const strip = filmStripRef.current;
@@ -938,7 +939,15 @@ export function PartnerPageContent() {
         </div>
       </section>
 
-      <section ref={filmFeatureRef} className={styles.filmFeature} aria-labelledby="make-film-heading">
+      <section
+        ref={filmFeatureRef}
+        className={styles.filmFeature}
+        aria-labelledby="make-film-heading"
+        onMouseEnter={() => setIsFilmPaused(true)}
+        onMouseLeave={() => setIsFilmPaused(false)}
+        onFocus={() => setIsFilmPaused(true)}
+        onBlur={() => setIsFilmPaused(false)}
+      >
         <motion.div data-motion-managed className={styles.filmBackdrop} style={{ y: filmBackdropY }} aria-hidden="true">
           <AnimatePresence initial={false} mode="sync" custom={filmDirection}>
             <motion.div data-motion-managed

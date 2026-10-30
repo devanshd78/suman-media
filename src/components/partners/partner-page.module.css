@@ -192,7 +192,7 @@
 .filmBackdrop  {
   position: absolute;
   inset: -4rem 0;
-  z-index: -3;
+  z-index: 1;
   overflow: hidden;
   will-change: transform;
 }
@@ -200,27 +200,29 @@
 .filmSlide  {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   will-change: transform;
 }
 
 .filmBackdropImage  {
   object-fit: cover;
   object-position: center 52%;
-  filter: grayscale(1) contrast(1.08) brightness(0.9);
 }
 
 .filmShade  {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 2;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.84) 0%, rgba(0, 0, 0, 0.60) 38%, rgba(0, 0, 0, 0.24) 72%, rgba(0, 0, 0, 0.38) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.05) 58%, rgba(0, 0, 0, 0.78) 100%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.45) 45%, rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.3) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
 }
 
 .filmCopy  {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   width: 100%;
   max-width: 54rem;
@@ -278,7 +280,7 @@
   left: var(--partner-pad);
   right: 0;
   bottom: 28px;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   gap: clamp(10px, 1vw, 14px);
   overflow-x: auto;
@@ -500,7 +502,6 @@
 .impactImage  {
   object-fit: cover;
   object-position: center;
-  filter: grayscale(1) contrast(1.04);
 }
 
 .impactShade  {
@@ -1101,7 +1102,6 @@
 .studioImage  {
   object-fit: cover;
   object-position: center;
-  filter: grayscale(1) contrast(1.05);
 }
 
 /* =========================================================
